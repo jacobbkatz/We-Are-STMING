@@ -8,7 +8,7 @@ This project combines two open-source lineages:
 Mech Panda's red-panda-stm — 3D-printed mechanics, firmware, and controller PCB design
 Dan Berard's home-built STM — scan head, tip preparation, and preamplifier design
 
-The goal is a fully open, reproducible STM that anyone with a 3D printer and basic tools can build, verify, and understand end to end.
+The goal my friend Nuh Shaheer and I is a reproducible STM that anyone with a 3D printer and basic tools can build, verify, and understand end to end.
 
 Status
 
