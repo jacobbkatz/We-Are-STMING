@@ -97,7 +97,28 @@ That is the whole thing.
 
 ---
 
-## 6. When something goes wrong
+## 6. Do we have to stay in one chat forever?
+
+**No. Start a new chat whenever you like** — that is the whole point of keeping everything in
+GitHub rather than in a conversation.
+
+Every new Claude Code session automatically pulls from GitHub and reads `CLAUDE.md`, so a fresh
+chat already knows the safety rules, which documents supersede which, and where the build stands.
+You do not need to explain anything or ask it to pull.
+
+Fresh chats are usually better — long ones get slow, and a new one starts from the repository,
+which is the accurate picture.
+
+**The rule that makes this safe: the repository is the memory, the chat is not.** Anything worked
+out in a conversation that never made it into a file is gone when that conversation ends. So type
+`/wrap` before closing a chat.
+
+The only reason to stay in one chat is if you are mid-task and the reasoning so far only exists in
+the conversation. Either finish it, or `/wrap` first.
+
+---
+
+## 7. When something goes wrong
 
 **"I forgot to push last time."** Nothing is lost. Say to Claude: *"I have unpushed work from
 last session, please push it."* It will handle the ordering.
@@ -115,7 +136,7 @@ still work; just don't assume your copy is current, and push once you're back on
 
 ---
 
-## 7. What not to do
+## 8. What not to do
 
 - **Do not edit files on the GitHub website** while someone is working locally. It creates the
   one situation that needs manual untangling.
