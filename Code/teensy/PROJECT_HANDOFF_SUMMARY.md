@@ -5,7 +5,7 @@ and exactly where things stand right now.
 
 > ## READ `SESSION_2026-08-31_RESULTS.md` FIRST
 >
-> Session 3 (2026-08-31) contradicts **six** claims in this document, all backed by
+> Session 3 (2026-08-31) contradicts **seven** claims in this document, all backed by
 > measurements. Where the two disagree, that file is newer and correct. In particular:
 >
 > - **Stage 6 is NOT an open feedback loop.** It is 37 nA of input leakage from cyanoacrylate
@@ -16,7 +16,10 @@ and exactly where things stand right now.
 >   it.** Check LED1-4 before AND after every measurement. This cost an hour on 2026-08-31
 > - **The bias path to the sample holder PASSES**, tested for the first time
 > - **The mounted piezo has no usable resonance.** `TONE 8600` is retired as a check
-> - **One JP1 ground pin really is open.** The retraction in A.5.8 over-corrected
+> - **JP1 pin 4 is `GND` in the netlist but UNROUTED on the PCB.** Confirmed from the preamp
+>   Gerber net attributes. The pinout in this document was right and the numbering is NOT
+>   mirrored, so A.5.8 and A.8.2 are both wrong about that. Green lands on pin 4 per A.3.6, so
+>   the preamp ground may have been returning through the coax shield alone
 
 ---
 
