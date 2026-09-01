@@ -1,0 +1,10 @@
+# Upstream clone that lives inside this tree. Has its own .git, must never be
+# committed into this repo. Noted in the handoff under A.8.4.
+red-panda-stm/
+
+# Large media. IMG_7846.mov is 23 MB and could not be processed anyway.
+*.mov
+*.mp4
+
+# Editor state
+.vscode/

@@ -145,6 +145,39 @@ public: // Access specifier
         stm_status.bias = value;
         stm_status.time_millis = millis();
     }
+    // Drive Z as a square wave at a given frequency. Added 2026-08-30.
+    //
+    // More useful than test_piezo() for checking the scanner disc, because that
+    // is hardwired to 1 kHz while the fitted 18 mm element resonates at
+    // 8.6 kHz. Off resonance it barely moves air, which made "did you hear it?"
+    // a useless test during bring-up. Sweep near 8.6 kHz and it is unmistakable.
+    //
+    // Swing is symmetric about midscale so the piezo sees no DC offset, and Z is
+    // parked back at 0 V on exit rather than left at a rail the way test_piezo()
+    // leaves it.
+    void play_tone(int freq_hz, int duration_ms)
+    {
+        if (freq_hz < 20 || freq_hz > 20000 || duration_ms <= 0)
+        {
+            return;
+        }
+        // Half period, minus rough SPI write time. At 1 MHz a 3-byte DAC write
+        // is about 24 us, which matters once the half period gets short.
+        long half_us = (500000L / freq_hz) - 25;
+        if (half_us < 1)
+        {
+            half_us = 1;
+        }
+        long cycles = ((long)duration_ms * 1000L) / (half_us * 2);
+        for (long i = 0; i < cycles; i++)
+        {
+            set_dac_z(50000);
+            delayMicroseconds(half_us);
+            set_dac_z(15536); // same distance below midscale as 50000 is above
+            delayMicroseconds(half_us);
+        }
+        set_dac_z(32768); // park at 0 V, never leave Z sitting at a rail
+    }
     // ADC
     int read_adc_raw()
     {

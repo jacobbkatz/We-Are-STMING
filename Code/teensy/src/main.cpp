@@ -112,6 +112,13 @@ void serialCommand(String command, STM &stm)
     {
       stm.test_piezo();
     }
+    // TONE <freq_hz> <duration_ms> - square wave on Z, parks at 0 V afterwards
+    if (command == "TONE")
+    {
+      int freq = Serial.parseInt();
+      int ms = Serial.parseInt();
+      stm.play_tone(freq, ms);
+    }
     if (command == "STOP")
     {
       stm.stm_status.is_approaching = false;

@@ -49,7 +49,15 @@ public:
 private:
   byte _cs;
   uint16_t _mode;
-  SPISettings _spi_settings = SPISettings(40000000, MSBFIRST, SPI_MODE2);
+  // Was 40 MHz. Dropped to 1 MHz on 2026-08-30 while diagnosing all four DACs
+  // being dead. 40 MHz across the 26-pin ribbon, through hand-soldered bridges
+  // and a hand-wired protoboard, is aggressive: continuity proves a DC path
+  // exists but says nothing about whether a 40 MHz edge arrives with its timing
+  // intact. Power, VREF, ground and ribbon continuity all tested good, so
+  // signal integrity is the remaining suspect.
+  // 1 MHz is also slow enough for a 1 MHz-bandwidth scope to observe.
+  // If this turns out not to be the cause, raising it back is harmless.
+  SPISettings _spi_settings = SPISettings(1000000, MSBFIRST, SPI_MODE2);
   byte _spi_buffer[3];
 };
 

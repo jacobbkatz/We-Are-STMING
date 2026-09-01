@@ -1,0 +1,442 @@
+# Session 3 results, 2026-08-31
+
+Bench session. Firmware, ADC, bias path and preamp characterisation.
+
+**Read this alongside `PROJECT_HANDOFF_SUMMARY.md`. Six things in that document are wrong and
+are corrected here.** Where the two disagree, this document is newer and is backed by
+measurements taken today.
+
+---
+
+# 1. HEADLINE
+
+| | |
+|---|---|
+| **The preamp fault is now characterised** | Not an open feedback loop. **37 nA of input leakage** from cyanoacrylate contamination. Decision taken: rebuild on the spare board |
+| **The bias path was tested for the first time and PASSES** | −3 V measured at the sample holder for +3 V commanded |
+| **The ADC was running at 40 MHz, not the library default** | The handoff records this wrongly. Changed to 1 MHz and flashed |
+| **NEW FAULT: the DACs lose configuration roughly hourly** | All four at once. **Software cannot detect it.** Cost about an hour today |
+| **NEW FAULT: one JP1 ground pin is genuinely open** | The handoff retracted this finding. The retraction was wrong |
+| **The mounted piezo has no usable resonance** | Retires the `TONE 8600` recommendation |
+
+Nothing regressed. Stages 1 through 5 all still pass. The two new faults were always present,
+they had simply never been tested for.
+
+---
+
+# 2. STATE AT A GLANCE
+
+| Stage | Status | Change today |
+|---|---|---|
+| 0 Continuity | PASS | - |
+| 1 Serial, `GSTS` | PASS | re-confirmed |
+| 2 Motor | PASS | not touched |
+| 3 Analog rails | PASS | re-confirmed, LED5 and LED6 lit |
+| 4 DACs and ADC | PASS | re-confirmed |
+| 5 Piezo drive | **PASS** | re-measured, −10 V at the scan head |
+| **Bias path to sample** | **PASS** | **NEW. Never tested before today** |
+| 6 Preamp | **FAIL** | **Cause identified. Rebuild decided** |
+| **DAC configuration stability** | **FAIL** | **NEW FAULT** |
+| **JP1 grounds** | **FAIL** | **NEW FAULT** |
+
+---
+
+# 3. MEASUREMENTS
+
+Everything below was measured today. Nothing is inferred unless it says so.
+
+## 3.1 Preamp, the decisive capture
+
+Ten minutes undisturbed, nobody within a metre of the bench, no DAC commands sent.
+
+```
+50 samples over 451.5 s
+start    30349 counts
+end      30211 counts
+mean     29873
+stdev      623
+range    28356 to 31011, no trend
+```
+
+**It settles. It does not ramp.** That is the whole diagnosis, because an amplifier whose
+feedback resistor is not working behaves as an integrator and would have pinned against 32767
+within two minutes from that starting point.
+
+Derived, taking ADC full scale as 4.096 V:
+
+| Quantity | Counts | Volts | Current |
+|---|---|---|---|
+| Settled output | 29873 | **3.73 V** | **37 nA input leakage** |
+| Noise, bench clear | 623 stdev | 0.078 V | **0.78 nA RMS** |
+| Headroom to saturation | 2894 | 0.36 V | 3.6 nA |
+| Reference: a tunneling current | ~800 | 0.1 V | 1 nA |
+
+**The offset is the problem, not the noise.** 37 nA of leakage has consumed 91% of the ADC
+range, leaving 3.6 nA of headroom. Any drift or disturbance saturates the reading.
+
+The noise at 0.78 nA RMS is better than feared and does not block an approach, since a threshold
+would sit well above it.
+
+## 3.2 Preamp, human proximity
+
+Same board, same everything, only the position of a person changed.
+
+| Conditions | Noise range, counts | Implied current |
+|---|---|---|
+| Fingers on the preamp board | ~17000 | **20 to 50 nA** |
+| Bench clear | ~3200 | ~4 nA |
+| Bench clear and settled | 2655 | ~3 nA |
+
+**A person standing near this preamp injects twenty to fifty times a tunneling current.** The
+input node is unshielded bare wire on a plastic post with 100 MOhm of feedback, so a nearby body
+is a large moving electric field to it.
+
+Two consequences, both now operating rules:
+
+1. **No preamp measurement is valid while anyone is leaning over the board.**
+2. **Shielding is a build requirement before first imaging**, not an optional refinement. Dan
+   Berard's original puts the preamp in a metal box at the scan head. This is why.
+
+## 3.3 Bias path, PASS, first test in the project's history
+
+| Commanded | DAC output | Measured at the sample holder |
+|---|---|---|
+| `BIAS 65535` | +3.000 V | **−3 V** |
+
+**Confirms the path and confirms it inverts with gain −1**, matching the schematic. Traced today:
+
+```
+U4 pin 7 --SAMPLE--> R30 (3k) --> U13 (OPA2227P) --> R32 (220R) --BIAS--> DSUB2 pin 1
+                                    ^                                          |
+                              R31 (3k) || C48 (4.7nF)              black wire, sample holder
+```
+
+U13 supplies confirmed: pin 8 = +15 V, pin 4 = −15 V.
+
+**Without bias there is no tunneling current at all**, and a dead bias path would have looked
+exactly like a blunt tip during an approach. This path is now proven.
+
+## 3.4 Stage 5 regression, PASS
+
+`DACZ 65535` gave **−10 V** at the scan head end of the DSUB1 cable, on the row-of-4 signal
+wires. Unchanged from yesterday.
+
+## 3.5 ADC SPI clock
+
+The handoff's A.3.11 records the ADC bus as running at the "library default". **That is wrong.**
+
+```
+lib/LTC2326/LTC2326_16.hpp:58   (before)
+const SPISettings _spi_settings = SPISettings(40000000, MSBFIRST, SPI_MODE2);
+```
+
+It was at the same 40 MHz that the ribbon could not carry to the DACs. The difference is only in
+how the two devices fail: **a DAC that misses a write asserts ALERT and lights an LED, an ADC
+that misses a bit returns a plausible number and says nothing.**
+
+Observed before the change: reads returning **exactly 0** while the signal was thousands of
+counts away from zero.
+
+| Run | Clock | Conditions | Exact zeros / 61 |
+|---|---|---|---|
+| 1 | 40 MHz | people moving | 1 |
+| 2 | 40 MHz | fingers on preamp | **3** |
+| 3 | 40 MHz | bench clear | 0 |
+| 4 | **1 MHz** | **fingers on preamp** | **0** |
+
+Runs 2 and 4 are the controlled pair. **3 versus 0 out of 61 is suggestive, not proof**, and it
+is recorded that way deliberately. The change was made anyway because there is no benefit to
+reading this chip at 40 MHz and it removes a variable permanently.
+
+Changed to 1 MHz and flashed. Upload took 5.6 s with **no PROGRAM button press**, confirming the
+session 1 diagnosis of the button-press loop remains fixed.
+
+## 3.6 Piezo resonance sweep, closes A.8.2
+
+`TONE` at 1000, 4000, 6000, 8000, 8600, 9200 and 11000 Hz, 600 ms each.
+
+**Result: pitch tracked the command across the whole range. No loudness peak anywhere.** The
+first few may have been slightly quieter, consistent with acoustic radiation efficiency rising
+with frequency at constant drive, not with a resonance.
+
+**The 8.6 kHz figure is a free-air buzzer specification.** This disc is clamped at the rim into
+the scan head and mass-loaded by the tip holder, which damps and shifts that resonance out of
+existence. A Q of even 10 would have made 8600 obviously louder than 8000 and 9200. It did not.
+
+Consequences:
+
+- **A.6.2's "recommended standard piezo check: `TONE 8600 500`" is retired.** There is no
+  resonance to exploit
+- **Operating rule 9 needs rewriting.** The honest version is *do not judge this piezo by ear at
+  any frequency, use a meter*
+- `TONE` is still preferable to `TEST` because it parks Z at 0 V instead of leaving it at a rail,
+  but not for the resonance reason
+
+For an STM this is good news. A sharp mechanical resonance inside the scan band would be a
+problem, not a feature.
+
+**Caveat on the frequency numbers.** `play_tone()` computes `half_us = 500000/freq - 25`,
+subtracting a fixed 25 us guess for the SPI write time. At 8600 Hz the half period is 58 us, so
+that correction is 43% of it. The actual output frequency at the top of the sweep may be off by
+some percent. A peak would still have been a peak, but do not treat the commanded numbers as
+measured frequencies. The DST-201 has a frequency mode if this ever matters.
+
+## 3.7 JP1 pinout, measured empirically at last
+
+Requested by A.8.2. Measured against controller board ground.
+
+| Reading | Expected count | **Actual count** |
+|---|---|---|
+| +15 V | 1 | 1 |
+| −15 V | 1 | 1 |
+| 0.000 V solid | **2** | **1** |
+| Wandering | 1 (the output) | **2** |
+
+**One JP1 ground pin is genuinely not connected.** One of the two wandering pins is the output,
+which is expected. The second is not accounted for.
+
+**This reverses A.5.8.** The handoff records "the preamp's ground is open" as WRONG and
+attributes the original observation to mirrored pin numbering. The original observation was
+right. The retraction over-corrected.
+
+**Do not act on this by running a wire.** If the numbering really is mirrored, the pin being
+called a ground could physically be the −15 V pin, and bonding it to ground would short a supply
+rail. Since the board is being rebuilt anyway, this resolves itself.
+
+## 3.8 R23, the preamp output at the controller board
+
+Probed at R23, both pads, which is PREAMP+ arriving from the cable.
+
+**About +2.5 V, drifting upward** at the time of measurement, which was mid-settle.
+
+Two things follow:
+
+1. **The offset originates in the preamp, not in the controller's ADC input stage.** This was a
+   real open question and it is now closed
+2. **Rough scale check.** 2.5 V against roughly 15000 to 18000 counts at the time implies a full
+   scale near 4 to 5 V. That favours the driver's **4.096** and disfavours the **10.24** used in
+   both Python tools. Not a calibration, the readings were not simultaneous and the value was
+   drifting, but a clear lean
+
+Both R23 pads reading the same also confirms R23 is not open and no current flows into the ADC
+stage, as intended.
+
+---
+
+# 4. THE NEW FAULT: DACs LOSE CONFIGURATION
+
+**This is the most operationally dangerous thing found today.**
+
+## What happens
+
+All four DACs drop their configuration simultaneously. LED1 through LED4 light. Every DAC output
+goes dead. `RSET` restores it.
+
+Confirmed twice today, in windows of roughly 30 to 60 minutes. Both times, everything measured
+in between was worthless.
+
+## Why it is dangerous
+
+**Software cannot detect it.** The AD5761 ALERT pins go to LED1-4 and nowhere else. They are not
+wired to the Teensy. No firmware change can sense this condition, and there is no DAC readback
+either because H1 carries no MISO for the DAC bus.
+
+`GSTS` will happily report `dac_z = 65535` while the chip outputs nothing. **The status fields
+are firmware bookkeeping, not measurements.**
+
+## What it cost today
+
+About an hour. With LED1-4 lit and nobody checking, the following were all measured as 0 V and
+interpreted as a dead bias path:
+
+- sample holder
+- R32, both pads
+- R30, both pads
+- DSUB1 signal wires with Z at full scale
+
+A "U4 output stage is dead, order a replacement AD5761" conclusion was one step away when the
+control measurement on Z also read 0 V and gave the game away. **The whole bias investigation
+was measuring an unconfigured DAC bank.** Redone properly afterwards, everything passed.
+
+This is the identical trap to A.1.14, where DSUB1 read 0 V at both Z extremes and was recorded as
+a dead output stage.
+
+## What is known and not known
+
+| Established | Not established |
+|---|---|
+| All four go together, so it is one shared cause | What the cause is |
+| Roughly once per 30 to 60 minutes | Whether it correlates with any specific activity |
+| LED1-4 are the only indicator | Whether it is the 3.3 V rail, the SPI bus, or something else |
+
+**U16 was checked and is not hot**, which weakens the thermal-shutdown theory for the 3.3 V
+regulator. Note that LED1-4 being able to light proves 3.3 V is present at the time you observe
+it, so any rail explanation has to be a brief dip that recovered.
+
+## The rule that follows
+
+> **Check LED1 to LED4 immediately before and immediately after every measurement.**
+> A reading taken with any of them lit is void. There is no software substitute.
+
+---
+
+# 5. CORRECTIONS TO PROJECT_HANDOFF_SUMMARY.md
+
+| Where | The handoff says | Correct |
+|---|---|---|
+| A.3.11 | ADC clock is the "library default" | It was **explicitly 40 MHz**. Now 1 MHz |
+| A.0, A.3.22, A.8.1 | Stage 6 is an **open feedback loop** | **Loop is closed.** It settles. The fault is 37 nA of input leakage |
+| A.6.2, rule 9 | Use `TONE 8600` as the standard piezo check | **No usable resonance when mounted.** Do not judge the piezo by ear at all |
+| Rule 3 | Re-park after `TEST` | Re-park after **`RSET` too**. `AD5761::reset()` writes PV=00, zero scale, so every RSET slams Z to a rail |
+| A.5.8 | "Preamp ground is open" was WRONG | **One JP1 ground really is open.** The retraction over-corrected |
+| A.8.3, DAC_BOOT_STATE | Power-on Z at −10 V is a tip hazard | That is the **DAC** output. The inverting stage puts **+10 V** on DSUB1. Direction relative to the sample is still unproven. Park Z at midscale when the motor moves, which is safe either way |
+
+Also worth recording, not contradictions:
+
+- **`GSTS` field 5 is a raw ADC sample. `ADCR` is a 5-sample average.** Use `GSTS` for noise work,
+  `ADCR` for a settled value
+- **`APRH`'s second argument is the step interval, not a step count.** Max travel is hardcoded at
+  10000 steps, about 4.9 motor revolutions
+- **`approach()` tests `read_adc() > target` on a baseline that has been negative all project.**
+  If tunneling drives the reading more negative it will never trigger. **Do not run `APRH` until
+  the current sign is known**
+- Two different ADC full-scale constants exist: `4.096` in
+  `lib/LTC2326/LTC2326_16.hpp:59` and `10.24` in `stm_control.py:37` and `stm_console.py`.
+  Today's R23 reading favours 4.096
+- `logTable[abs(adc)]` is **safe**, the table is `[32769]`. Do not "fix" it
+
+---
+
+# 6. THE PREAMP REBUILD
+
+## Root cause
+
+**Cyanoacrylate contamination.** Residue is present across the whole board.
+
+The mechanism matters, because it was not caused by gluing near the input node. **CA blooms.** It
+outgasses while curing and deposits a haze on every nearby surface. The board was glued into a
+closed plastic container, so the vapour had nowhere to go and settled over everything, input node
+included.
+
+Cured CA is hygroscopic and conducts at exactly the level measured: 37 nA where the OPA627's own
+contribution should be a few picoamps, roughly ten thousand times smaller.
+
+**Isopropyl does not remove cured cyanoacrylate.** An IPA clean would have failed and sent the
+diagnosis off in the wrong direction again. Acetone or a nitromethane CA debonder would be needed,
+and neither is attractive around a fragile air-wired node.
+
+**Decision: rebuild on the spare board.**
+
+## Rules for the rebuild
+
+1. **No cyanoacrylate anywhere in the same enclosure, ever.** Not near the node, not on the far
+   side of the board, not in the box. The vapour does not respect distance
+2. **Mounting the board in the container:** screws or nylon standoffs first, **2-part epoxy**
+   second (cures by reaction, no vapour bloom), foam tape third
+3. **The standoff that does not fit:** wrap it in **PTFE plumber's tape** until it is a press fit
+   in the 2.108 mm hole. PTFE shimmed with more PTFE, no adhesive, no residue, reversible. If it
+   still will not hold, 2-part epoxy from underneath, fully cured, then clean the top face, then
+   build the input node
+4. **Solder: the existing rosin-core is fine.** The alloy was never the issue, the residue is. If
+   buying: **Sn63Pb37, 0.8 mm, rosin core**, for example Kester 44 63/37 0.031". Eutectic at
+   183 °C and far more forgiving than lead-free SAC305 at 217 °C. **Do not use bismuth low-temp
+   solder**, it is brittle and mixing bismuth with existing lead forms a eutectic near 96 °C that
+   is worse still
+5. **Clean the input node after soldering.** Fresh IPA and a soft brush, a second rinse with clean
+   IPA, then dry thoroughly. Rosin residue is itself a picoamp-level leakage path
+6. **Tweezers only.** Never touch the standoff, the 100 MOhm resistor or the coax centre with bare
+   fingers. Skin salts leak at exactly the level measured today
+7. **Consider shielding provisions now**, while it is apart. Section 3.2 is the argument
+
+## Acceptance test for the new board
+
+Run the identical capture and compare against today's benchmark. This is why the number matters.
+
+```
+python adc_stats.py -n 50 -i 9.0 --tag "new preamp, undisturbed"
+```
+
+Conditions must match: bench clear, nobody within a metre, no DAC commands, ten minutes.
+
+| Result | Meaning |
+|---|---|
+| **Settles near 0 counts** | Fixed. Stage 6 passes |
+| Settles at a few thousand counts | Large improvement. Usable. Some residual leakage |
+| **Settles near 29873 again** | Not contamination. Rethink from scratch |
+| **Ramps to a rail** | Genuinely open feedback path on the new board. A build error |
+
+---
+
+# 7. CODE AND TOOL CHANGES
+
+| File | Change |
+|---|---|
+| `lib/LTC2326/LTC2326_16.hpp` | **ADC SPI clock 40 MHz to 1 MHz**, with a comment block explaining why. Flashed and running |
+| `Code/pc/adc_stats.py` | **New.** Holds the port open for a whole run, samples raw ADC from `GSTS` field 5, reports mean, stdev, min, max, range. Warns when every sample is identical, since a railed analog input and a stuck read path look the same |
+| `Code/pc/stm_console.py` | Taught that `TONE` blocks, duration parsed from the argument. Added `TONE` to the interactive help |
+| `SESSION_PLAN_2026-08-31.md` | The plan this session ran against |
+
+**Not changed, deliberately:**
+
+- `approach()`'s signed comparison. Route around it with a PC-side approach loop instead. Fix it
+  once the current sign is known
+- The `10.24` constant in the Python tools. Today's evidence favours 4.096 but it is not a
+  calibration yet
+- The duplicate `LTC2326_16` object in `stm_firmware.hpp` (file scope and class member, same pins)
+- `AD5761::write()`'s missing `SPI.endTransaction()`
+
+---
+
+# 8. NEXT SESSION
+
+## In order
+
+1. **Finish the preamp rebuild** and run the acceptance test in section 6. This is the gate on
+   everything else
+2. **Characterise the DAC configuration loss.** Suggested experiment: `RSET`, confirm LED1-4 dark,
+   then leave the board completely alone with no commands sent for 30 minutes and check the LEDs.
+   That separates "activity triggers it" from "time or the rail triggers it", which is the fork
+   that decides where to look next
+3. **Calibrate counts to amps properly.** Simultaneous meter reading at R23 and `ADCR`, bench
+   clear, two well-separated points. Settles the 4.096 versus 10.24 question and makes every
+   current reading meaningful
+4. **Dummy junction test.** A resistor between 1 MOhm and 100 MOhm clipped between the sample
+   holder and the tip holder. Proves the whole current path with no tip and no crash risk, gives
+   counts per amp directly, and **tells you the sign of the current**, which is what makes `APRH`
+   safe to think about
+5. **Write `Code/pc/stm_approach.py`.** A PC-side stepping loop, abortable with Ctrl-C, threshold
+   on absolute deviation from baseline rather than a signed comparison
+
+## Still unanswered
+
+| Question | Why it matters |
+|---|---|
+| **Is there a sample material?** HOPG, gold on mica, anything | You cannot image without one. Nothing in the project mentions one |
+| **How far does one motor step move the tip, in nm?** | One step must move less than the Z piezo range or an approach is a crash regardless of the electronics. Needs the screw pitch and any lever reduction from the CAD |
+| Which Z direction is toward the sample | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile |
+| DST-201 DC input impedance | Needed to finish some of the high-impedance arithmetic |
+
+## Do not do
+
+- **Do not run `APRH`** until the current sign is known
+- **Do not raise either SPI clock** back above 1 MHz
+- **Do not run a wire between JP1 pins** on the old board
+- **Do not use cyanoacrylate** anywhere near the new preamp
+
+---
+
+# 9. PROCESS LESSONS
+
+1. **Check LED1-4 before and after every measurement.** An hour went into a fault that did not
+   exist because a two second glance was skipped. The plan document even said "nothing below is
+   valid with a lit ALERT LED", and it was checked once at the start and then never again
+2. **Always take a control measurement.** The bias fault evaporated the moment a known-good
+   channel was tested with the identical method. Without that control the session would have ended
+   with a wrong conclusion and an unnecessary part order
+3. **Match the test to the physics.** The bias step test could never have worked: the transient it
+   was looking for decays in tens of microseconds and the sampling interval was 1.7 seconds
+4. **A person near the bench is part of the circuit.** Two captures were ruined before this was
+   understood, and understanding it turned into one of the day's real findings
+5. **Zoom out before concluding a trend.** The preamp looked settled in one two-minute window and
+   looked like a ramp across the session. Only a ten minute undisturbed capture with nothing else
+   happening actually answered it

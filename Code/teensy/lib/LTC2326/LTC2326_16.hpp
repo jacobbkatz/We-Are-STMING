@@ -55,7 +55,25 @@ private:
   byte _cs;
   byte _cnv;
   byte _busy;
-  const SPISettings _spi_settings = SPISettings(40000000, MSBFIRST, SPI_MODE2);
+  // Was 40 MHz. Dropped to 1 MHz on 2026-08-31, matching the fix already made
+  // to the DAC bus in AD5761.hpp on 2026-08-30.
+  //
+  // The handoff recorded this bus as running at the library default and used
+  // that to explain why the ADC worked while the DACs did not. That was wrong:
+  // it was explicitly set to the same 40 MHz that the ribbon could not carry to
+  // the DACs. The ADC just fails differently. A DAC that misses a write asserts
+  // ALERT and lights an LED; an ADC that misses a bit hands back a plausible
+  // number and says nothing.
+  //
+  // Observed before the change: reads returning exactly 0 in the middle of a
+  // signal thousands of counts away from zero, 4 times in 122 samples, and only
+  // while a hand was near the board. Consistent with a marginal link that noise
+  // coupling is enough to break.
+  //
+  // There is no reason to want 40 MHz here. The ADC is read a few thousand
+  // times a second at most, and scan speed is limited by the mechanics and the
+  // PID loop, not by conversion readout.
+  const SPISettings _spi_settings = SPISettings(1000000, MSBFIRST, SPI_MODE2);
   const float _ref_buffer_volts = 4.096f;
 };
 
