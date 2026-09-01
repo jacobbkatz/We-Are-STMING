@@ -34,6 +34,9 @@ of every work session. Read that rather than this paragraph, which will go stale
 | Build one yourself | [`docs/START_HERE_gotchas.md`](docs/START_HERE_gotchas.md), then [`docs/BOM.md`](docs/BOM.md) |
 | Set up a computer to work on this | [`SETUP.md`](SETUP.md) |
 | Follow the bring-up tests | [`docs/soft_launch_test_procedure.md`](docs/soft_launch_test_procedure.md) |
+| Wire something up, or check a pinout | [`docs/WIRING.md`](docs/WIRING.md) |
+| Send a command to the board | [`docs/COMMANDS.md`](docs/COMMANDS.md) |
+| Help us close a gap | [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md) |
 | See what happened in past work sessions | [`sessions/`](sessions/) |
 
 **`docs/START_HERE_gotchas.md` is not optional if you are building one.** Several of the things in
@@ -51,7 +54,7 @@ connector is a power input rather than an output.
 | Coarse approach | 28BYJ-48 stepper motor through a ULN2003 driver board, wired directly to the Teensy |
 | Scanner | Piezoelectric disc actuator with a cut tungsten tip, 0.25 mm wire cut at 45° |
 | Preamplifier | OPA627-based transimpedance amplifier with a 100 MΩ feedback resistor, mounted close to the tip to preserve the picoamp-level tunneling signal |
-| Controller | Teensy 4.1 driving four AD5761 DACs (X, Y, Z, sample bias) over SPI, reading tunneling current via an LTC2326-16 ADC on a second SPI bus |
+| Controller | Teensy 4.1 driving four AD5761 DACs over SPI — X, Y and sample bias at ±3 V, Z at ±10 V — and reading tunneling current via an LTC2326-16 ADC on a second SPI bus |
 | Power | ±18 V in to the controller board, which generates the ±15 V rails it sends out to the preamplifier |
 
 ---
@@ -63,7 +66,7 @@ STATUS.md      Live state of the build. Read this first
 CLAUDE.md      Working protocol, followed automatically by Claude Code
 SETUP.md       How to set up a computer to work on this project
 sessions/      One log per work session, newest supersedes older
-docs/          Gotchas, BOM, bring-up procedure, and project history
+docs/          Gotchas, BOM, wiring, commands, and project history
 Code/teensy/   Teensy 4.1 firmware (PlatformIO)
 Code/pc/       Python tools that talk to the board over serial
 CAD/           Fusion 360 source

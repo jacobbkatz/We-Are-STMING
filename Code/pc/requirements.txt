@@ -1,0 +1,9 @@
+# Python packages for the PC-side STM tools.
+#   pip install -r Code/pc/requirements.txt
+#
+# tkinter is NOT here - it ships with Python on Windows and macOS.
+# On Linux install it with:  sudo apt install python3-tk
+
+pyserial>=3.5
+numpy>=1.20
+matplotlib>=3.5

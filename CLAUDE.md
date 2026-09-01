@@ -86,6 +86,11 @@ them or pick one silently.
 | Power-on Z at −10 V is a tip hazard | That is the DAC output; the inverting stage puts +10 V on DSUB1. Direction is unproven |
 | Re-park after `TEST` | Re-park after **`RSET` too** — it also slams Z to a rail |
 
+The **firmware source comments are also wrong** about the DAC ranges. `stm_firmware.hpp:497-498`
+says X and Y are −5 to +5 V. They are **±3 V**: X, Y and bias all use identical mode bits
+(`0b101`), so they cannot differ, and bias measures ±3 V. `docs/WIRING.md` has the verified table.
+Trust the range bits and the measurement, not the comment.
+
 ---
 
 ## 4. Hardware safety rules — never violate these
@@ -157,6 +162,9 @@ close the laptop.
 | `STATUS.md` | Live state. Read first, update last |
 | `sessions/` | One log per work session, newest wins |
 | `sessions/TEMPLATE.md` | Copy this to start a new log |
+| `docs/WIRING.md` | **Verified pinouts, cable colours, LEDs, power tree.** The bench reference |
+| `docs/COMMANDS.md` | **Every firmware command**, what blocks, what replies |
+| `docs/OPEN_QUESTIONS.md` | Every UNKNOWN and VERIFY in the project, in one place |
 | `docs/START_HERE_gotchas.md` | Things that mislead you. Read before touching hardware |
 | `docs/BOM.md` | Every part, with CONFIRMED / CHOICE / UNKNOWN status |
 | `docs/PROJECT_HANDOFF_SUMMARY.md` | Deep history. **Partly superseded** — see section 3 |
@@ -169,7 +177,7 @@ close the laptop.
 
 ### The hardware, briefly
 
-Teensy 4.1 → four AD5761 DACs (X and Y ±5 V, Z ±10 V, bias ±3 V) over SPI, and an LTC2326-16 ADC
+Teensy 4.1 → four AD5761 DACs (X, Y and bias ±3 V, Z ±10 V) over SPI, and an LTC2326-16 ADC
 on SPI1. A 26-pin ribbon connects the Teensy to the controller PCB. An OPA627 transimpedance
 preamp with a 100 MΩ feedback resistor sits at the scan head. A 28BYJ-48 stepper through a
 ULN2003 handles coarse approach, wired **directly to the Teensy**, not through the ribbon.
@@ -177,7 +185,9 @@ ULN2003 handles coarse approach, wired **directly to the Teensy**, not through t
 Firmware commands are exactly four characters: `GSTS`, `ADCR`, `RSET`, `DACX/Y/Z`, `BIAS`,
 `MTMV`, `APRH`, `TEST`, `TONE`, `CCON`, `CCOF`, `PIDS`, `SCST`, `IVME`, `IVGE`, `STOP`.
 Talk to the board with `Code/pc/stm_console.py` — it sends each command as a single write,
-which the firmware's serial parser requires.
+which the firmware's serial parser requires. **`docs/COMMANDS.md` documents every command**,
+including which ones block and which reply. **`docs/WIRING.md` has every verified pinout** — use
+it rather than re-deriving one from the handoff.
 
 ---
 

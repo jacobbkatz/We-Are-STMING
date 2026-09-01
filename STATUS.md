@@ -181,5 +181,6 @@ by establishing the pin numbering first, not by running a speculative wire.
 | `stm_control.py:37`, `stm_console.py` | ADC full scale hardcoded as `10.24`. Evidence favours 4.096 but it is not a calibration yet |
 | `stm_firmware.hpp` | Duplicate `LTC2326_16` object at file scope and as a class member, same pins |
 | `AD5761.cpp` `write()` | Missing `SPI.endTransaction()` |
+| `stm_firmware.hpp:497-498` | Comments say X and Y are ±5 V. They are **±3 V** — same mode bits as bias, which measures ±3 V. Comment only, the behaviour is correct |
 
 `logTable[abs(adc)]` is **safe** — the table is `[32769]`. Do not "fix" it.
