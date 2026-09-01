@@ -1,7 +1,7 @@
 # Current status
 
 **Last updated:** 2026-09-01
-**Updated by:** Jacob
+**Updated by:** Jacob (documentation and repository session, no bench work)
 
 > This file is the single source of truth for where the build is right now.
 > It is rewritten at the end of every work session. If anything else in the repo
@@ -107,6 +107,18 @@ firmware bookkeeping, not measurements.
 
 Cause unknown. U16 was checked and is not hot, which weakens the thermal-shutdown theory.
 
+> **Do not "fix" this with a periodic `RSET` on a timer.** `AD5761::reset()` sends a full software
+> reset, and `STM::reset()` rebuilds the status struct, so a timed `RSET` also **slams Z to a
+> rail**, zeroes the bias, and zeroes the step counter. With the tip engaged that is a scheduled
+> tip crash.
+>
+> The safer stopgap, if one is wanted, is to **re-arm rather than reset**: write `CMD_WR_CTRL_REG`
+> with the channel's range, then re-send the last commanded value from `stm_status`. That restores
+> state instead of destroying it. **Not yet written.**
+>
+> Neither approach **detects** anything, and neither helps mid-scan. The real fix is wiring the
+> AD5761 ALERT pins to spare Teensy GPIOs so the firmware can see the fault at all.
+
 ### 3. One JP1 ground pin is open
 
 Measured empirically on 2026-08-31: two pins wander when only one should. The handoff document
@@ -160,6 +172,9 @@ by establishing the pin numbering first, not by running a speculative wire.
 ---
 
 ## Open questions
+
+The full register, including the undocumented hardware and process items, is in
+[`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md). The ones blocking work right now:
 
 | Question | Why it matters |
 |---|---|
