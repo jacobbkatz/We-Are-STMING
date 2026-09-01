@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# PlatformIO
+.pio/
+
+# Editors and OS
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+
+# Local Claude settings - per-computer, not shared
+.claude/settings.local.json

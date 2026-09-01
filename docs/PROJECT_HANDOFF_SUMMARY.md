@@ -3,7 +3,7 @@
 For briefing a fresh Claude instance. This covers what the project is, what's been verified,
 and exactly where things stand right now.
 
-> ## READ `SESSION_2026-08-31_RESULTS.md` FIRST
+> ## READ `sessions/2026-08-31-results.md` FIRST
 >
 > Session 3 (2026-08-31) contradicts **seven** claims in this document, all backed by
 > measurements. Where the two disagree, that file is newer and correct. In particular:
@@ -856,7 +856,7 @@ was lost to the items in those two sections than to any real fault.
 | 4 - DACs and ADC | **PASS** | Readback correct, ADC returns real varying data |
 | 5 - Piezo drive | **PASS** | All three axes measured at the scan head end. Re-confirmed 2026-08-31 |
 | **Bias to sample holder** | **PASS** | **NEW 2026-08-31.** -3 V measured for +3 V commanded, inverts |
-| 6 - Preamp | **FAIL** | ~~Feedback loop open~~ **SUPERSEDED. Loop is CLOSED.** 37 nA input leakage from CA contamination. Rebuilding. See `SESSION_2026-08-31_RESULTS.md` s3.1 |
+| 6 - Preamp | **FAIL** | ~~Feedback loop open~~ **SUPERSEDED. Loop is CLOSED.** 37 nA input leakage from CA contamination. Rebuilding. See `sessions/2026-08-31-results.md` s3.1 |
 | **DAC config stability** | **FAIL** | **NEW FAULT 2026-08-31.** All four drop config ~hourly. Invisible to software |
 | **JP1 grounds** | **FAIL** | **NEW 2026-08-31.** One ground pin genuinely open. A.5.8's retraction was wrong |
 
