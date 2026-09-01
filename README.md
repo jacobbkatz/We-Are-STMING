@@ -32,6 +32,7 @@ of every work session. Read that rather than this paragraph, which will go stale
 |---|---|
 | Know where the build is right now | [`STATUS.md`](STATUS.md) |
 | Build one yourself | [`docs/START_HERE_gotchas.md`](docs/START_HERE_gotchas.md), then [`docs/BOM.md`](docs/BOM.md) |
+| Print the parts | [`CAD/prints/`](CAD/prints/) |
 | Set up a computer to work on this | [`SETUP.md`](SETUP.md) |
 | Follow the bring-up tests | [`docs/soft_launch_test_procedure.md`](docs/soft_launch_test_procedure.md) |
 | Wire something up, or check a pinout | [`docs/WIRING.md`](docs/WIRING.md) |
@@ -69,10 +70,11 @@ sessions/      One log per work session, newest supersedes older
 docs/          Gotchas, BOM, wiring, commands, and project history
 Code/teensy/   Teensy 4.1 firmware (PlatformIO)
 Code/pc/       Python tools that talk to the board over serial
+CAD/prints/    Every printable part as STL - GitHub previews these in the browser
 CAD/           Fusion 360 source
 PCB/           Controller board design files
 gerbers/       Manufacturing files for the controller and preamp boards
-our_preamp_cad_files/   Our preamp enclosure
+our_preamp_cad_files/   Our own modified preamp enclosure
 ```
 
 ---

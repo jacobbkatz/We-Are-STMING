@@ -74,7 +74,20 @@ if [ -f STATUS.md ]; then
     echo ""
     sed -n '3,4p' STATUS.md
     LATEST=$(ls -1 sessions/2*.md 2>/dev/null | sort | tail -1)
-    [ -n "$LATEST" ] && echo "Latest session log: $LATEST"
+    if [ -n "$LATEST" ]; then
+        echo "Latest session log: $LATEST"
+        # A session log newer than STATUS.md means someone wrote up their work
+        # but never updated the live-state file the other computer reads first.
+        LOG_DATE=$(basename "$LATEST" .md | cut -c1-10)
+        STATUS_DATE=$(sed -n 's/^\*\*Last updated:\*\* \([0-9-]\{10\}\).*/\1/p' STATUS.md | head -1)
+        if [ -n "$STATUS_DATE" ] && [ "$LOG_DATE" \> "$STATUS_DATE" ]; then
+            echo ""
+            echo "WARNING: STATUS.md says $STATUS_DATE but there is a session log from $LOG_DATE."
+            echo "STATUS.md was probably not updated at the end of that session, so it may not"
+            echo "describe reality. ACTION FOR CLAUDE: read $LATEST, tell the user what is"
+            echo "missing from STATUS.md, and offer to bring it up to date before starting work."
+        fi
+    fi
 fi
 
 echo "=== Read STATUS.md before starting work. See CLAUDE.md for the full protocol. ==="
