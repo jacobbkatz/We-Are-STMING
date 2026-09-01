@@ -174,6 +174,16 @@ strips may not connect to each other at all.
 
 Use copper anywhere that needs a ground connection.
 
+**There is a second reason not to mix them, added 2026-09-01.** Copper and aluminium in contact,
+with atmospheric humidity as the electrolyte, form a **galvanic cell** — a few hundred millivolts
+of DC sitting on your shield. Into a 100 MOhm transimpedance input that is not a trivial amount.
+
+And **ground the shield.** An ungrounded conductive enclosure floats, couples capacitively to
+everything near it, and can be **worse than no shield at all**. Bond it to circuit ground at one
+point only — several bonds around an enclosure make a ground loop. We shielded our preamp box and
+never grounded it, and it is currently a leading suspect for the offset that is blocking the
+build.
+
 ### Get a USB data cable
 
 A charge-only cable connects the Teensy to nothing. This wastes more first-day hours than anything
