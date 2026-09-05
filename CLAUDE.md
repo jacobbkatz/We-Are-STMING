@@ -111,6 +111,9 @@ These are in `STATUS.md` too. They are repeated here because breaking one can co
    contaminates the input node — this is the current blocker.
 6. **Preamp measurements are invalid if anyone is within a metre of the board.** A human body
    injects 20 to 50 nA; a tunneling current is about 1 nA.
+7. **Never tell the user to send `CCON` with a tip in tunneling range.** `control_current()`
+   hardcodes midscale, so engaging the loop snaps Z to 32768 from wherever it was — up to a
+   ~180 nm lurch. Unfixed. See `STATUS.md` fault 2.
 
 ---
 
@@ -165,6 +168,7 @@ close the laptop.
 | `docs/WIRING.md` | **Verified pinouts, cable colours, LEDs, power tree.** The bench reference |
 | `docs/COMMANDS.md` | **Every firmware command**, what blocks, what replies |
 | `docs/OPEN_QUESTIONS.md` | Every UNKNOWN and VERIFY in the project, in one place |
+| `docs/UPSTREAM_BERARD.md` | Reading notes from Dan Berard's build. **Context, not our design** — ours is Mech Panda's apart from the preamp. Says which of his numbers apply to us and which do not |
 | `docs/START_HERE_gotchas.md` | Things that mislead you. Read before touching hardware |
 | `docs/BOM.md` | Every part, with CONFIRMED / CHOICE / UNKNOWN status |
 | `docs/PROJECT_HANDOFF_SUMMARY.md` | Deep history. **Partly superseded** — see section 3 |

@@ -38,6 +38,7 @@ of every work session. Read that rather than this paragraph, which will go stale
 | Wire something up, or check a pinout | [`docs/WIRING.md`](docs/WIRING.md) |
 | Send a command to the board | [`docs/COMMANDS.md`](docs/COMMANDS.md) |
 | Help us close a gap | [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md) |
+| See how this compares to Berard's build | [`docs/UPSTREAM_BERARD.md`](docs/UPSTREAM_BERARD.md) |
 | See what happened in past work sessions | [`sessions/`](sessions/) |
 
 **`docs/START_HERE_gotchas.md` is not optional if you are building one.** Several of the things in
@@ -53,7 +54,9 @@ connector is a power input rather than an output.
 | Frame | 3D-printed in PETG-CF for stiffness and dimensional stability. PA-CF was tried first for its lower thermal expansion but proved too difficult to print reliably at these tolerances. **Not PLA** — it creeps, and that shows up directly as drift |
 | Vibration isolation | Platform suspended on tension springs, with eddy-current damping — an aluminium plate moving through fixed magnets, no contact |
 | Coarse approach | 28BYJ-48 stepper motor through a ULN2003 driver board, wired directly to the Teensy |
-| Scanner | Piezoelectric disc actuator with a cut tungsten tip, 0.25 mm wire cut at 45° |
+| Scanner | Piezoelectric disc actuator with a cut tungsten tip, 0.25 mm wire cut at 45°. Roughly 680 nm of Z travel and 500 nm in X/Y, inferred from Berard's calibration of a similar disc |
+| Coarse approach step | About **7.8 nm** per motor step — 1/4"-80 screw, 2048 steps/rev, ~20x lever reduction. Lever ratio still to be verified on our geometry |
+| Sample | Gold foil, mounted on a magnetic disc with a conductive path to the bias magnet |
 | Preamplifier | OPA627-based transimpedance amplifier with a 100 MΩ feedback resistor, mounted close to the tip to preserve the picoamp-level tunneling signal |
 | Controller | Teensy 4.1 driving four AD5761 DACs over SPI — X, Y and sample bias at ±3 V, Z at ±10 V — and reading tunneling current via an LTC2326-16 ADC on a second SPI bus |
 | Power | ±18 V in to the controller board, which generates the ±15 V rails it sends out to the preamplifier |

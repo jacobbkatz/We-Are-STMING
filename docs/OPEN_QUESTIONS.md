@@ -23,7 +23,7 @@ These stop progress right now.
 | **What causes the DAC configuration loss at all?** | Root cause unknown. U16 is not hot, which weakens the thermal-shutdown theory. LED1–4 lighting proves 3.3 V is present when you look, so any rail explanation needs a brief dip that recovered. A video of the LEDs flickering was recorded and is preserved in git history at `Code/teensy/IMG_7846.mov`, commit `4819a31` — recover it with `git show 4819a31:Code/teensy/IMG_7846.mov > flicker.mov` if it ever becomes useful | `sessions/2026-08-31-results.md` §4 |
 | **Is the ADC full scale 4.096 V or 10.24 V?** | `LTC2326_16.hpp` says 4.096; `stm_control.py:37` and `stm_console.py` say 10.24. **Every current figure in the project depends on this.** The R23 reading favours 4.096 but is not a calibration | `STATUS.md` |
 | **What is the sign of the tunneling current?** | Makes `APRH` safe to think about. Until it is known, an automated approach can drive the tip into the sample without ever triggering. The dummy junction test answers it | `STATUS.md` |
-| **Do we have a sample material?** HOPG, gold on mica, anything | You cannot image without one. `BOM.md` lists a mounted HOPG part number as CONFIRMED from a photographed label, but whether we actually have it is unconfirmed | `BOM.md` §5 |
+| **How do we mount the gold foil?** | Decided 2026-09-05 to use gold foil. It needs to be flat and electrically continuous with the bias magnet, or it moves under the tip and looks like drift | `docs/UPSTREAM_BERARD.md` §5 |
 
 ---
 
@@ -31,7 +31,7 @@ These stop progress right now.
 
 | Question | Why it matters |
 |---|---|
-| **How far does one motor step move the tip, in nm?** | One step must move less than the Z piezo range, or an approach is a crash regardless of the electronics. Needs the screw pitch and any lever reduction from the CAD |
+| **What is our scan head's lever reduction ratio?** VERIFY | The last unknown in the step-size calculation. Berard's is ~20x, giving us ~7.8 nm/step. Measurable from `CAD/prints/scan-head/`: (front-screw-line to tip) ÷ (front-screw-line to rear screw) |
 | **Which Z direction is toward the sample?** | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile, which is safe either way |
 | **Which piezo quadrant is which?** | The four wires are identical bare enamelled copper with no colour code. Not recoverable from any file or photo — label them as you solder, or work it out empirically. A rotated or mirrored first image is this, and it is fixable in software |
 | **Is the preamp case shield continuous?** VERIFY | Aluminium tape adhesive is usually non-conductive, so overlapping strips may not connect to each other at all. Meter check |
@@ -53,8 +53,8 @@ Nobody has ever written these down, in Mech Panda's files, Dan Berard's, or ours
 | **Aluminium damping plate** | Eddy-current damping | Thickness |
 | **Heat-set inserts** | Brass, about 10, for PETG-CF | Sizes |
 | **Piezo disc** | 25–27 mm brass, 15–17 mm ceramic, 15000 pF ±30% | **Part number and supplier** |
-| **Piezo-to-plate adhesive** | — | What it is |
-| **Miniature coax** | RG-178 or RG-316 was our choice | Never specified upstream. Length also unspecified |
+| **Piezo-to-plate adhesive** | — | What it is. Not stated on Berard's site either |
+| **Tip lead: coax or fine wire?** | We chose RG-178. **Berard uses plain 40 AWG wire** deliberately — stiff cable transmits vibration | Which is better here. Untested either way |
 
 ---
 
@@ -79,6 +79,10 @@ Nobody has ever written these down, in Mech Panda's files, Dan Berard's, or ours
 | What plugs into the power input? | **JST XH 3-pin.** Pin 1 V--, pin 2 ground, pin 3 V++. Feed it ±18 V | `BOM.md` |
 | Does ribbon pin 6 get connected? | **Yes.** Labelled ADC_SDI but it is RDL, a read-enable. Wire it to Teensy pin 38 | `docs/WIRING.md` |
 | Is `logTable[abs(adc)]` an out-of-bounds bug? | **No, it is safe.** The table is `[32769]`. Do not "fix" it | 2026-08-31 |
+| What sample will we image? | **Gold foil.** Expect atomic terraces, not individual atoms — Berard could not resolve single atoms on metals, attributing it to acoustic noise | 2026-09-05 |
+| Which PTFE standoff? | **Keystone Electronics 11301**, the part Berard names | 2026-09-05 |
+| Roughly how far does one motor step move the tip? | **~7.8 nm**, from 1/4"-80 pitch ÷ 2048 steps ÷ ~20x lever. Comfortable against a ~700 nm Z range. Lever ratio still VERIFY | 2026-09-05 |
+| Why do `SERIAL_LED 0` and `TUNNEL_LED 1` exist if nothing uses them? | Berard drives an LED on pin 0 for serial activity and pin 1 for tunneling. Inherited definitions | 2026-09-05 |
 
 ---
 

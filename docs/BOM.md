@@ -97,10 +97,10 @@ keep soldering heat off the chip, and they let you swap a dead op-amp without de
 | Item | Spec | Qty | Status |
 |---|---|---|---|
 | PCB | 20.625 x 15.23 mm, 2-layer | 1 | CONFIRMED, Gerbers included |
-| **Op-amp** | **OPA627AU**, SOIC-8 | 1 | CONFIRMED, Berard's design |
+| **Op-amp** | **OPA627AU**, SOIC-8 | 1 | CONFIRMED on our board. **Berard's own design uses an OPA124**; he names OPA627 as a good substitute, so "Berard's design" overstated it. Corrected 2026-09-05 |
 | **Feedback resistor** | **100 Mohm** | 1 | CONFIRMED value |
 | Tantalum capacitor | 4.7 uF 35 V | 1 to 2 | CONFIRMED from a label we could read |
-| **PTFE standoff terminal** | for a 2.1 mm hole | 1 | CHOICE, see below |
+| **PTFE standoff terminal** | **Keystone Electronics 11301** | 1 | **CONFIRMED 2026-09-05** — the exact part Berard names |
 | 5-pin header | 2.54 mm pitch | 1 | for JP1 |
 
 ### About the 100 Mohm resistor
@@ -114,9 +114,9 @@ You'll need:
 - a **100 Mohm resistor**. Search DigiKey or Mouser for "100 Mohm resistor". Through-hole axial is
   easiest to air-wire. Berard's library caches an `HMC0603JT100M` (0603 chip) as a lead, but the
   through-hole version is much easier to work with here.
-- a **PTFE standoff terminal**. Search "PTFE standoff terminal" or "Teflon insulated turret". It's
+- a **PTFE standoff terminal**. Berard names the exact part: **Keystone Electronics 11301**. It's
   a metal post in an insulating body that press-fits the bare hole and holds the junction off the
-  board. Keystone make them. Buy two or three.
+  board. Buy two or three. He also bends the op-amp's input pin up off the board surface.
 
 **PAD1 is the amplifier output, not the tip input.** The tip wire goes to the standoff.
 
@@ -149,8 +149,10 @@ You'll need:
 | **Tungsten wire** | **0.25 mm high purity**, 1 m | 1 | CONFIRMED from packaging |
 | **Magnet wire** | enamelled, ultra-fine, 0.05 to 0.1 mm | 1 spool | CONFIRMED as "ultra-fine" |
 | **Low-temp solder paste** | **Sn42/Bi58, about 138 C** | 1 syringe | CONFIRMED as low-temp |
-| Miniature coax | **RG-178** or RG-316 | about 1 m | CHOICE, never specified |
-| **Sample, mounted HOPG** | **PACS-0200 / 00-601-0104** | 1 | CONFIRMED from a photographed label |
+| Miniature coax | **RG-178** or RG-316 | about 1 m | CHOICE. **Berard does not use coax** — he runs plain **40 AWG** wire from tip to preamp, deliberately, because stiff cable transmits vibration. A genuine fork, see `UPSTREAM_BERARD.md` §4 |
+| **40 AWG magnet wire** | for tip, scanner and bias leads | 1 spool | Berard's choice, for vibration isolation as much as electrical reasons |
+| **Sample: gold foil** | — | 1 | **CHOICE, decided 2026-09-05.** Mount flat on a magnetic disc with a conductive path (conductive ink, silver paint or copper tape) to the bias magnet |
+| ~~Sample, mounted HOPG~~ | ~~PACS-0200 / 00-601-0104~~ | — | Superseded by gold foil. HOPG is easier to image; gold gives atomic terraces rather than individual atoms |
 
 > **Buy at least five piezo discs.** The original designer destroyed 4 or 5 by overheating them
 > before he got one working. They cost cents. The low-temp paste plus ultra-fine wire is what
@@ -256,7 +258,8 @@ worse than admitting it:
 - Individual magnet dimensions, though we know there are 18
 - Piezo disc part number and supplier
 - The adhesive bonding the piezo disc to its plate
-- Coax type and length
+- **Our scan head's lever reduction ratio.** Berard's is ~20x. Measurable from `CAD/prints/scan-head/`
+- Coax versus fine wire for the tip lead. Berard uses 40 AWG wire, we chose coax. Untested either way
 - Iron temperature and dwell time for the piezo joints
 
 If you work any of these out while building, please open an issue. Closing those gaps is most of

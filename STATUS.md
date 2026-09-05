@@ -1,7 +1,7 @@
 # Current status
 
-**Last updated:** 2026-09-01
-**Updated by:** Jacob (documentation and repository session, no bench work)
+**Last updated:** 2026-09-05
+**Updated by:** Jacob (remote, no bench work)
 
 > This file is the single source of truth for where the build is right now.
 > It is rewritten at the end of every work session. If anything else in the repo
@@ -12,9 +12,12 @@
 ## Where we are in one line
 
 Stages 0 through 5 pass and the bias path passes. **The preamplifier is the blocker.** There are
-now **two candidate causes** for its 37 nA offset, and the cheaper one has not been tested yet:
-the preamp case shielding was never grounded. **Ground the shield and retest before rebuilding
-the board.**
+now **three candidate causes** for its 37 nA offset — cyanoacrylate contamination, an ungrounded
+case shield, and flux residue — and all three are surface conduction into the input node. The
+cheapest test has not been run yet: **ground the shield and retest before rebuilding the board.**
+
+Two unfixed firmware faults were found on 2026-09-05 that will damage a tip if hit: **`CCON` snaps
+Z to midscale**, and **the motor is left energised** and heats the scan head.
 
 ---
 
@@ -54,6 +57,7 @@ pinned against 32767 within two minutes. Do not let any older document tell you 
 |---|---|---|
 | **A. Cyanoacrylate contamination.** CA blooms while curing and deposited a conductive haze over the whole board, input node included | 2026-08-31 | Live. Fix is a rebuild on the spare board |
 | **B. The case shield is floating.** Copper and aluminium tape on the preamp box, never bonded to ground | 2026-09-01 | Live, and **untested** |
+| **C. Flux residue.** Berard independently reports "huge leakage currents" from flux left on this exact circuit | 2026-09-05 | Live. Addressed by the existing rebuild clean, but not excluded on the current board |
 
 **Test B first.** Grounding the shield is one wire and is reversible; the rebuild consumes the
 spare board and is not. And critically: **if B is the cause, a rebuild will not fix it**, because
@@ -93,7 +97,42 @@ Two mechanisms, both **inference and needing test**, not established fact:
 4. Aluminium tape adhesive is usually non-conductive, so **overlapping strips may not connect at
    all.** Check continuity across the shield with a meter rather than assuming it.
 
-### 2. DACs lose configuration roughly hourly
+### 2. `CCON` jumps Z to midscale and will crash a tip
+
+**Found 2026-09-05 by cross-referencing Dan Berard's write-up against our source. Not yet fixed.**
+
+`turn_on_const_current()` assigns `dac_z_control_value = stm_status.dac_z` and **nothing ever reads
+it.** `control_current()` computes `int z = (pTerm + iTerm) + 32768` with midscale hardcoded, so
+the first call after `CCON` drives Z to roughly 32768 **wherever Z actually was.**
+
+From Z = 15000 that is a ~17000-count step, roughly **180 nm toward the sample** using Berard's
+34 nm/V disc figure. Tunneling happens under 1 nm. Berard documents this exact failure on his own
+build: *"the feedback will cause a small jump in the Z-piezo when it's switched on, which crashes
+the tip!"*
+
+> **Rule until fixed: never send `CCON` with a tip in tunneling range.** Expect Z to snap to
+> midscale on engage.
+
+**Fix, not applied and not bench-tested:** seed `iTerm = stm_status.dac_z - 32768` in
+`turn_on_const_current()`, so the loop's first output equals the current Z. See
+`docs/UPSTREAM_BERARD.md` §1.1.
+
+### 3. The stepper motor is left energised, which heats the scan head
+
+**Found 2026-09-05, same source. Not yet fixed.**
+
+`EfficientStepper::step()` calls `enable()` and never disables afterwards. `disable()` is called in
+exactly one place — inside `approach()`, on success only. After any `MTMV` the motor sits powered
+and warming.
+
+Berard: *"The motor produces a substantial amount of heat, which can cause the scanner to drift out
+of range within minutes."* The 28BYJ-48 is geared and holds position without holding current, which
+is why a geared motor was chosen in the first place.
+
+**Prime suspect if drift ever appears minutes into a session.** Fix is to call `disable()` at the
+end of `step()`. Not applied, needs bench testing.
+
+### 4. DACs lose configuration roughly hourly
 
 All four go at once. LED1–LED4 light. Every DAC output goes dead. `RSET` restores it.
 
@@ -119,7 +158,7 @@ Cause unknown. U16 was checked and is not hot, which weakens the thermal-shutdow
 > Neither approach **detects** anything, and neither helps mid-scan. The real fix is wiring the
 > AD5761 ALERT pins to spare Teensy GPIOs so the firmware can see the fault at all.
 
-### 3. One JP1 ground pin is open
+### 5. One JP1 ground pin is open
 
 Measured empirically on 2026-08-31: two pins wander when only one should. The handoff document
 retracted this finding once; **the retraction was wrong.**
@@ -166,7 +205,9 @@ by establishing the pin numbering first, not by running a speculative wire.
    Mount with screws or nylon standoffs first, 2-part epoxy second, foam tape third.
 6. **Park Z at midscale (32768) before moving the motor.** `RSET` and `TEST` both slam Z to a
    rail, so re-park after either.
-7. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
+7. **Never send `CCON` with a tip in tunneling range** until the integral-init bug in fault 2 is
+   fixed. Engaging the loop snaps Z to midscale.
+8. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
    metre injects 20 to 50 nA, which is twenty to fifty times a tunneling current.
 
 ---
@@ -180,8 +221,8 @@ The full register, including the undocumented hardware and process items, is in
 |---|---|
 | Is the 37 nA the CA contamination or the floating shield? | Decides whether the spare board gets consumed |
 | Is the DAC configuration loss startup-only, or does it recur mid-session? | 2026-08-31 recorded it recurring every 30 to 60 minutes, which requires checking LED1–LED4 around every measurement. If it is startup-only, one `RSET` at the start is enough. **Currently ambiguous, needs settling at the bench** |
-| Is there a sample material? HOPG, gold on mica, anything | You cannot image without one. Nothing in the project has confirmed we have one |
-| How far does one motor step move the tip, in nm? | One step must move less than the Z piezo range or an approach is a crash regardless of the electronics |
+| ~~Is there a sample material?~~ | **Answered 2026-09-05: gold foil.** It must be mounted flat on a magnetic disc with a conductive path to the bias magnet — see `docs/UPSTREAM_BERARD.md` §5. Expect atomic terraces, not individual atoms; Berard could not resolve single atoms on metals |
+| How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05: about 7.8 nm**, from the 1/4"-80 pitch, 2048 steps/rev, and a ~20x lever reduction. **VERIFY our lever ratio** — 20 is Berard's geometry, ours is Mech Panda's. Even with no lever, 155 nm/step against a ~700 nm Z range works. This replaces the old 244 nm estimate and removes the crash-margin worry. See `docs/UPSTREAM_BERARD.md` §2 |
 | Which Z direction is toward the sample | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile |
 | ADC full scale: 4.096 or 10.24 V? | `LTC2326_16.hpp` says 4.096, `stm_control.py:37` and `stm_console.py` say 10.24. The R23 reading favours 4.096. Every current figure depends on this |
 | DST-201 DC input impedance | Needed to finish some of the high-impedance arithmetic |
