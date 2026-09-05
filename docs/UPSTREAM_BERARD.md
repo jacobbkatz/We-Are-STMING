@@ -132,6 +132,99 @@ screw or a rounding. We use the pitch arithmetic rather than his figure.
 
 ---
 
+## 2b. Scan head construction, and the lever ratio contradiction
+
+From his **Scan Head** page.
+
+### Berard contradicts himself on the lever ratio: 20 or 30
+
+Scan head page:
+
+> The position of the scanner is offset by ~1 mm from the line connecting the two front screws, so
+> the motion of the rear screw is **reduced by a factor of about 30**.
+
+Coarse approach page, and again in a comment reply:
+
+> the STM body's lever reduction reduces the motion by a factor of **about 20** ... The rear
+> approach screw is 20 mm away from the scanner, and the two front screws are ~1 mm away.
+
+**Both are his, and they disagree.** The pages describe the same tripod at different times — the
+scan head page is the manual-approach design, the coarse approach post is the later motorised one.
+Nothing says which geometry we inherited.
+
+**Consequence for our step size**, using our 1/4"-80 pitch and 2048 steps/rev:
+
+| Lever ratio | Step size at the tip |
+|---|---|
+| 20 | **7.8 nm** |
+| 30 | **5.2 nm** |
+
+So the honest figure is **roughly 5 to 8 nm per motor step**. Against a ~700 nm Z range that is
+90–130 steps per range either way, so **nothing depends on resolving it.** Recorded so nobody
+later "corrects" one number to the other believing it settled.
+
+**Our own ratio is still VERIFY** — this is Berard's geometry, ours is Mech Panda's.
+
+### The tripod is a kinematic mount
+
+> The screws have ball tips that are kinematically coupled to the aluminium base. One ball tip
+> mates with a **cone** (made with the point of a drill), one with a **V-groove** (made with a
+> file) and one with a **flat** (I used a sapphire disk, but just using the flat surface of the
+> aluminium would be fine).
+
+Cone, V-groove, flat — the standard three-point kinematic coupling, which locates the plate exactly
+without over-constraining it. Two front screws are the coarse approach; the rear screw is the fine
+one and is the one that gets motorised.
+
+His body is two 2" x 2" x 1/2" aluminium blocks. Ours is printed, so this is architecture rather
+than dimensions.
+
+### The tip mount, and a leakage path we should check
+
+> The STM tip mounts in a **pin socket** for quick and easy exchanging. The socket is glued into a
+> hole drilled in an **aluminium standoff**. The standoff is glued to a small **sapphire disk**,
+> which is glued to the buzzer's brass electrode for electrical insulation. It's important to make
+> sure that **no glue connects the aluminium tube (which is electrically connected to the STM tip)
+> directly to the brass electrode (which is grounded)**, in order to prevent current leakage from
+> the tip to ground. Sapphire is a much better insulator than the glue... Glass or ceramic would
+> also be good materials to use here, but **I would avoid plastics in the scanner construction.**
+
+Three things worth taking from this:
+
+1. **A pin socket for the tip** makes tips swappable without rebuilding the scanner. We have no
+   documented tip mounting method at all.
+2. **A sapphire, glass or ceramic disk insulates the tip standoff from the grounded brass
+   electrode**, and the glue must not bridge them.
+3. **Avoid plastics in the scanner** — worth noting given ours is printed, though this concerns the
+   standoff stack rather than the body.
+
+> **Be precise about what this leakage is.** A glue bridge from tip standoff to the grounded brass
+> plate puts a resistance across the preamp input. The preamp's input is a **virtual ground**, so
+> such a path carries little current and does **not** produce a DC offset — it costs signal and
+> adds noise. **It is not a fourth candidate for our 37 nA.** It is a build requirement, and worth
+> a meter check between the tip holder and the brass plate before first imaging.
+
+### Sample mounting, the simple version
+
+> I just mount the sample to a **penny with copper tape** and stick it to a magnet mounted on the
+> STM base. The sample bias wire is soldered to the **nickel-plated magnet** and is electrically
+> insulated from the grounded base by a piece of **microscope cover glass**.
+
+Simpler than the conductive-ink method he describes elsewhere, and directly usable for gold foil:
+foil on a penny with copper tape, penny on the magnet.
+
+### Thermal behaviour to expect
+
+> Thermal drift can sometimes be an issue after coarse approach, but **after several minutes it
+> tends to stabilize**, and can usually operate for **over 2 hours** without drifting out of the
+> scanner's vertical travel range.
+
+So: after approach, wait several minutes before judging drift. Aluminium is not ideal (Macor would
+be), but he calls thermal expansion tolerable because it shows up as a slope that post-processing
+removes.
+
+---
+
 ## 3. Scanner travel, for sizing scans
 
 Berard calibrated his disc scanner against known atomic spacings:
@@ -141,7 +234,34 @@ Berard calibrated his disc scanner against known atomic spacings:
 | Z | **~670 nm**, or **34 nm/V** | ~20 V |
 | XY | **~1670 nm**, or **83 nm/V** | ~20 V |
 
-Resonance ~3.4 kHz for his disc.
+Resonance **3.4 kHz measured for the assembled scanner**, from a buzzer whose free-air resonance
+is 6.3 kHz. Mounting and mass-loading roughly halved it — the same effect that killed the 8.6 kHz
+figure for our own disc.
+
+**His buzzer is a Murata 7BB-20-6**, 20 mm diameter, 6.3 kHz free-air, bought from Digi-Key
+(490-7711-ND). **That is his disc, not ours** — ours is 25–27 mm brass with a 15–17 mm ceramic and
+an 8.6 kHz free-air figure. Recorded as a known-good reference part, not as our part number.
+
+### Why he quotes 3 um in one place and 700 nm in another
+
+The scan head page says the Z range is "about 3 um"; the coarse approach page says "about 700 nm".
+Both are his. The difference is **expectation versus measurement**:
+
+- John Alexander's buzzer scanner is quoted at **~160 nm/V**. Over ±10 V that predicts ~3.2 um.
+- Berard then **measured his own** at **34 nm/V** in Z, giving ~670 nm, and wrote that this was
+  "quite a bit less than I had expected".
+
+**The measured figure wins.** Our documents already use ~700 nm, which is correct. Do not "fix"
+them to 3 um.
+
+### One reassuring number
+
+Berard notes that Z resolution should ideally be ~0.01 nm, and that a 16-bit converter over a
+±10 V range gives 305 uV per count. At his measured 34 nm/V that is **0.0104 nm per count** — right
+at the target. His reason for adding sigma-delta modulation was the 160 nm/V expectation, not the
+34 nm/V reality.
+
+**Our firmware has no sigma-delta**, and on these numbers it does not obviously need it for Z.
 
 **What that implies for us**, treating his nm/V as a rough guide for a similar buzzer disc —
 **inference, not measurement**:

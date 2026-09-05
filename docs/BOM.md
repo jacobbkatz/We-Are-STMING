@@ -146,7 +146,9 @@ You'll need:
 | Item | Spec | Qty | Status |
 |---|---|---|---|
 | **Piezo buzzer disc** | about 25 to 27 mm brass, 15 to 17 mm ceramic | 5+ | CONFIRMED size, part number UNKNOWN |
-| **Tungsten wire** | **0.25 mm high purity**, 1 m | 1 | CONFIRMED from packaging |
+| **Tungsten wire** | **0.25 mm high purity**, 1 m | 1 | CONFIRMED from packaging. 30 AWG in Berard's build, which is 0.255 mm — consistent |
+| **Sapphire, glass or ceramic disk** | small, insulates the tip standoff from the brass electrode | 1–2 | CHOICE, from Berard's scan head. **Not plastic** — it must insulate better than the glue |
+| **Pin socket for the tip** | single machined socket | 1–2 | CHOICE, from Berard. Makes tips swappable without rebuilding the scanner |
 | **Magnet wire** | enamelled, ultra-fine, 0.05 to 0.1 mm | 1 spool | CONFIRMED as "ultra-fine" |
 | **Low-temp solder paste** | **Sn42/Bi58, about 138 C** | 1 syringe | CONFIRMED as low-temp |
 | *Alternative:* conductive epoxy | **MG Chemicals 9410** | 1 | CHOICE, **untested by us.** Removes soldering heat entirely. Depolarisation starts above ~210 C. See `OTHER_BUILDERS.md` |

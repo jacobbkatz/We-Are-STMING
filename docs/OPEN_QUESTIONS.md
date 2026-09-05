@@ -32,7 +32,8 @@ These stop progress right now.
 
 | Question | Why it matters |
 |---|---|
-| **What is our scan head's lever reduction ratio?** VERIFY | The last unknown in the step-size calculation. Berard's is ~20x, giving us ~7.8 nm/step. Measurable from `CAD/prints/scan-head/`: (front-screw-line to tip) ÷ (front-screw-line to rear screw) |
+| **What is our scan head's lever reduction ratio?** VERIFY | Berard quotes **20 on one page and 30 on another**, giving 7.8 or 5.2 nm/step. Both are comfortable, so this is no longer urgent. Measurable from `CAD/prints/scan-head/`: (front-screw-line to tip) ÷ (front-screw-line to rear screw) |
+| **How does the tip mount, and is it insulated from the brass electrode?** | Berard uses a pin socket in an aluminium standoff on a **sapphire disk**, and warns that glue must not bridge standoff to the grounded brass plate. We have no documented tip mounting at all. Meter-check before imaging |
 | **Which Z direction is toward the sample?** | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile, which is safe either way |
 | **Which piezo quadrant is which?** | The four wires are identical bare enamelled copper with no colour code. Not recoverable from any file or photo — label them as you solder, or work it out empirically. A rotated or mirrored first image is this, and it is fixable in software |
 | **Is the preamp case shield continuous?** VERIFY | Aluminium tape adhesive is usually non-conductive, so overlapping strips may not connect to each other at all. Meter check |
@@ -53,8 +54,8 @@ Nobody has ever written these down, in Mech Panda's files, Dan Berard's, or ours
 | **Sample pocket magnets** | Small discs, 4 of them | Dimensions |
 | **Aluminium damping plate** | Eddy-current damping | Thickness |
 | **Heat-set inserts** | Brass, about 10, for PETG-CF | Sizes |
-| **Piezo disc** | 25–27 mm brass, 15–17 mm ceramic, 15000 pF ±30% | **Part number and supplier** |
-| **Piezo-to-plate adhesive** | — | What it is. Not stated on Berard's site either |
+| **Piezo disc** | 25–27 mm brass, 15–17 mm ceramic, 15000 pF ±30%. **Berard uses a Murata 7BB-20-6** (20 mm, 6.3 kHz, Digi-Key 490-7711-ND) — a known-good reference part, but **not ours**, ours is larger | Our part number and supplier |
+| **Piezo-to-plate adhesive** | Berard glues an aluminium standoff to a **sapphire disk**, and that to the brass electrode. He names no adhesive but says the insulator must be sapphire, glass or ceramic — **not plastic** — because it is a better insulator than the glue | The adhesive itself, still unnamed anywhere |
 | **Tip lead: coax or fine wire?** | We chose RG-178. **Berard uses plain 40 AWG wire** deliberately — stiff cable transmits vibration | Which is better here. Untested either way |
 
 ---

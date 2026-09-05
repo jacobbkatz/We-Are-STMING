@@ -211,9 +211,13 @@ by establishing the pin numbering first, not by running a speculative wire.
    Mount with screws or nylon standoffs first, 2-part epoxy second, foam tape third.
 6. **Park Z at midscale (32768) before moving the motor.** `RSET` and `TEST` both slam Z to a
    rail, so re-park after either.
-7. **Never send `CCON` with a tip in tunneling range** until the integral-init bug in fault 2 is
+7. **Before first imaging, meter-check the tip holder against the brass piezo electrode.** Berard
+   warns that glue must not bridge the tip standoff to the grounded brass plate. That path is a
+   shunt across the preamp input — it costs signal and adds noise. It is **not** an offset source,
+   so it is not a candidate for the 37 nA, but it must be open before imaging.
+8. **Never send `CCON` with a tip in tunneling range** until the integral-init bug in fault 2 is
    fixed. Engaging the loop snaps Z to midscale.
-8. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
+9. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
    metre injects 20 to 50 nA, which is twenty to fifty times a tunneling current.
 
 ---
@@ -228,7 +232,7 @@ The full register, including the undocumented hardware and process items, is in
 | Is the 37 nA the CA contamination or the floating shield? | Decides whether the spare board gets consumed |
 | Is the DAC configuration loss startup-only, or does it recur mid-session? | 2026-08-31 recorded it recurring every 30 to 60 minutes, which requires checking LED1–LED4 around every measurement. If it is startup-only, one `RSET` at the start is enough. **Currently ambiguous, needs settling at the bench** |
 | ~~Is there a sample material?~~ | **Answered 2026-09-05: gold foil.** It must be mounted flat on a magnetic disc with a conductive path to the bias magnet — see `docs/UPSTREAM_BERARD.md` §5. Expect atomic terraces, not individual atoms; Berard could not resolve single atoms on metals |
-| How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05: about 7.8 nm**, from the 1/4"-80 pitch, 2048 steps/rev, and a ~20x lever reduction. **VERIFY our lever ratio** — 20 is Berard's geometry, ours is Mech Panda's. Even with no lever, 155 nm/step against a ~700 nm Z range works. This replaces the old 244 nm estimate and removes the crash-margin worry. See `docs/UPSTREAM_BERARD.md` §2 |
+| How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05: roughly 5 to 8 nm.** From the 1/4"-80 pitch and 2048 steps/rev, with a lever reduction Berard quotes as **either 20 or 30 on different pages** — 7.8 nm at 20, 5.2 nm at 30. **Nothing depends on resolving it**: both give 90–130 steps per Z range. **VERIFY our own ratio** — ours is Mech Panda's geometry. Replaces the old 244 nm estimate. See `docs/UPSTREAM_BERARD.md` §2b |
 | Which Z direction is toward the sample | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile. **`stm_approach.py` requires this answer before it will run** |
 | Which sign of `MTMV` advances toward the sample | Determinable by eye with the tip removed. **`stm_approach.py` requires this too** |
 | ADC full scale: 4.096 or 10.24 V? | `LTC2326_16.hpp` says 4.096, `stm_control.py:37` and `stm_console.py` say 10.24. The R23 reading favours 4.096. Every current figure depends on this |
