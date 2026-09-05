@@ -38,7 +38,9 @@ of every work session. Read that rather than this paragraph, which will go stale
 | Wire something up, or check a pinout | [`docs/WIRING.md`](docs/WIRING.md) |
 | Send a command to the board | [`docs/COMMANDS.md`](docs/COMMANDS.md) |
 | Help us close a gap | [`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md) |
+| Understand the controller circuit | [`docs/UPSTREAM_MECHPANDA.md`](docs/UPSTREAM_MECHPANDA.md) |
 | See how this compares to Berard's build | [`docs/UPSTREAM_BERARD.md`](docs/UPSTREAM_BERARD.md) |
+| See what other DIY STM builders do | [`docs/OTHER_BUILDERS.md`](docs/OTHER_BUILDERS.md) |
 | See what happened in past work sessions | [`sessions/`](sessions/) |
 
 **`docs/START_HERE_gotchas.md` is not optional if you are building one.** Several of the things in

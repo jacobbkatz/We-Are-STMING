@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-05
+**Last updated:** 2026-09-05 (second session)
 **Updated by:** Jacob (remote, no bench work)
 
 > This file is the single source of truth for where the build is right now.
@@ -145,6 +145,9 @@ firmware bookkeeping, not measurements.
 > Any reading taken with one lit is void.** This cost an hour on 2026-08-31.
 
 Cause unknown. U16 was checked and is not hot, which weakens the thermal-shutdown theory.
+**Confirmed from the schematic 2026-09-05:** the H1 ribbon carries only ADC_CNV, ADC_BUSY,
+ADC_SDI, ADC_SCK, ADC_SDO, SCLK, SDI and SYNC1-4. There is no ALERT line. The LEDs really are the
+only indication, and this is now documented rather than inferred.
 
 > **Do not "fix" this with a periodic `RSET` on a timer.** `AD5761::reset()` sends a full software
 > reset, and `STM::reset()` rebuilds the status struct, so a timed `RSET` also **slams Z to a
@@ -238,7 +241,8 @@ The full register, including the undocumented hardware and process items, is in
 | Where | Issue |
 |---|---|
 | `stm_firmware.hpp` `approach()` | Signed `>` comparison against a negative baseline. **Routed around** — use `Code/pc/stm_approach.py`, which never sends `APRH`. Left unfixed deliberately |
-| `stm_control.py:37`, `stm_console.py` | ADC full scale hardcoded as `10.24`. Evidence favours 4.096 but it is not a calibration yet |
+| `stm_control.py:37`, `stm_console.py` | ADC full scale hardcoded as `10.24`. **Now known to be wrong — it is 4.096.** Deliberately not changed yet: it would silently alter every number these tools print, so it should land together with the calibration that proves it |
+| `LTC2326_16.cpp` `read_volts()` | **Broken upstream**: multiplies raw counts by 4.096 instead of scaling by full scale. Returns "134213 volts" at full scale. Never called, so harmless. Do not use it |
 | `stm_firmware.hpp` | Duplicate `LTC2326_16` object at file scope and as a class member, same pins |
 | `AD5761.cpp` `write()` | Missing `SPI.endTransaction()` |
 | `stm_firmware.hpp:497-498` | Comments say X and Y are ±5 V. They are **±3 V** — same mode bits as bias, which measures ±3 V. Comment only, the behaviour is correct |

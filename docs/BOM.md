@@ -149,6 +149,7 @@ You'll need:
 | **Tungsten wire** | **0.25 mm high purity**, 1 m | 1 | CONFIRMED from packaging |
 | **Magnet wire** | enamelled, ultra-fine, 0.05 to 0.1 mm | 1 spool | CONFIRMED as "ultra-fine" |
 | **Low-temp solder paste** | **Sn42/Bi58, about 138 C** | 1 syringe | CONFIRMED as low-temp |
+| *Alternative:* conductive epoxy | **MG Chemicals 9410** | 1 | CHOICE, **untested by us.** Removes soldering heat entirely. Depolarisation starts above ~210 C. See `OTHER_BUILDERS.md` |
 | Miniature coax | **RG-178** or RG-316 | about 1 m | CHOICE. **Berard does not use coax** — he runs plain **40 AWG** wire from tip to preamp, deliberately, because stiff cable transmits vibration. A genuine fork, see `UPSTREAM_BERARD.md` §4 |
 | **40 AWG magnet wire** | for tip, scanner and bias leads | 1 spool | Berard's choice, for vibration isolation as much as electrical reasons |
 | **Sample: gold foil** | — | 1 | **CHOICE, decided 2026-09-05.** Mount flat on a magnetic disc with a conductive path (conductive ink, silver paint or copper tape) to the bias magnet |

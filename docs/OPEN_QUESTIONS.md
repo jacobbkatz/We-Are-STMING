@@ -21,7 +21,7 @@ These stop progress right now.
 | **Is the 37 nA offset the cyanoacrylate contamination or the ungrounded case shield?** | Decides whether the spare preamp board gets consumed. Grounding the shield is one reversible wire; the rebuild is not reversible | `STATUS.md` §1, §1b |
 | **Is the DAC configuration loss startup-only, or does it recur mid-session?** | 2026-08-31 recorded it recurring every 30–60 min, which means checking LED1–LED4 around every single measurement. If it is startup-only, one `RSET` at the start is enough | `sessions/2026-08-31-results.md` §4 |
 | **What causes the DAC configuration loss at all?** | Root cause unknown. U16 is not hot, which weakens the thermal-shutdown theory. LED1–4 lighting proves 3.3 V is present when you look, so any rail explanation needs a brief dip that recovered. A video of the LEDs flickering was recorded and is preserved in git history at `Code/teensy/IMG_7846.mov`, commit `4819a31` — recover it with `git show 4819a31:Code/teensy/IMG_7846.mov > flicker.mov` if it ever becomes useful | `sessions/2026-08-31-results.md` §4 |
-| **Is the ADC full scale 4.096 V or 10.24 V?** | `LTC2326_16.hpp` says 4.096; `stm_control.py:37` and `stm_console.py` say 10.24. **Every current figure in the project depends on this.** The R23 reading favours 4.096 but is not a calibration | `STATUS.md` |
+| **Confirm the 4.096 V full scale with one meter reading** | The schematic settles that the ADC uses its internal reference, so 4.096 is right and 10.24 is wrong. What remains is a simultaneous R23-vs-`ADCR` reading, and checking the datasheet's full-scale-to-REFBUF relationship, before the Python constant is changed | `docs/UPSTREAM_MECHPANDA.md` §1 |
 | **What is the sign of the tunneling current?** | **No longer blocks the approach** — `Code/pc/stm_approach.py` thresholds on absolute deviation and does not care about the sign. Still needed to make the firmware's `APRH` safe, and still worth knowing. The dummy junction test answers it | `STATUS.md` |
 | **Which sign of `MTMV` advances the tip toward the sample?** | `stm_approach.py` refuses to run without it. Determinable by eye with the tip removed | `Code/pc/stm_approach.py` |
 | **How do we mount the gold foil?** | Decided 2026-09-05 to use gold foil. It needs to be flat and electrically continuous with the bias magnet, or it moves under the tip and looks like drift | `docs/UPSTREAM_BERARD.md` §5 |
@@ -63,7 +63,7 @@ Nobody has ever written these down, in Mech Panda's files, Dan Berard's, or ours
 
 | Item | What we know | What we don't |
 |---|---|---|
-| **Soldering iron temperature and dwell for the piezo joints** | Low-temp Sn42/Bi58 paste at ~138 °C, ultra-fine wire | Actual iron temperature and how long to dwell. The original designer destroyed 4 or 5 discs learning this |
+| **Soldering iron temperature and dwell for the piezo joints** | Low-temp Sn42/Bi58 paste at ~138 °C, ultra-fine wire. **Depolarisation happens above about 210 °C** internal temperature. An independent builder avoids heat entirely with **conductive epoxy (MG Chemicals 9410)** | Actual iron temperature and dwell for our discs. The epoxy alternative is untested by us. See `docs/OTHER_BUILDERS.md` §2 |
 | **DST-201 DC input impedance** | — | Needed to finish some of the high-impedance arithmetic |
 
 ---
@@ -84,6 +84,10 @@ Nobody has ever written these down, in Mech Panda's files, Dan Berard's, or ours
 | Which PTFE standoff? | **Keystone Electronics 11301**, the part Berard names | 2026-09-05 |
 | Roughly how far does one motor step move the tip? | **~7.8 nm**, from 1/4"-80 pitch ÷ 2048 steps ÷ ~20x lever. Comfortable against a ~700 nm Z range. Lever ratio still VERIFY | 2026-09-05 |
 | Why do `SERIAL_LED 0` and `TUNNEL_LED 1` exist if nothing uses them? | Berard drives an LED on pin 0 for serial activity and pin 1 for tunneling. Inherited definitions | 2026-09-05 |
+| Is the ADC full scale 4.096 or 10.24 V? | **4.096.** The LTC2326 runs on its internal reference; no external reference reaches it. One meter check still outstanding | 2026-09-05 |
+| Do the DAC ALERT pins reach the Teensy? | **No.** The schematic's H1 net list has no ALERT line. LEDs are the only indication — documented now, not inferred | 2026-09-05 |
+| Is `logTable` correct? | **Yes, by construction.** The generating MATLAB is in the file header: 0-32768 in, 0-524287 out | 2026-09-05 |
+| Has anyone else built Mech Panda's STM? | **No public replication found.** No build logs, forum threads or repos. We may be first | 2026-09-05 |
 
 ---
 
