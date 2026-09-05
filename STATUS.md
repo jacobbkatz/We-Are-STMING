@@ -187,8 +187,11 @@ by establishing the pin numbering first, not by running a speculative wire.
 5. **Dummy junction test.** A resistor between 1 MΩ and 100 MΩ clipped between the sample holder
    and the tip holder. Proves the whole current path with no tip and no crash risk, gives counts
    per amp directly, and **tells us the sign of the current**.
-6. **Write `Code/pc/stm_approach.py`.** A PC-side stepping loop, abortable with Ctrl-C, with the
-   threshold on absolute deviation from baseline rather than a signed comparison. Not yet written.
+6. ~~**Write `Code/pc/stm_approach.py`.**~~ **Written 2026-09-05.** PC-side woodpecker loop,
+   Ctrl-C abortable, thresholds on absolute deviation so the current's sign does not matter. Never
+   sends `APRH`. 40 tests pass against a simulated microscope. **Never run on hardware yet**, and
+   it refuses to start while the preamp is railed. It also requires the two direction answers
+   below before it will run at all.
 
 ---
 
@@ -223,7 +226,8 @@ The full register, including the undocumented hardware and process items, is in
 | Is the DAC configuration loss startup-only, or does it recur mid-session? | 2026-08-31 recorded it recurring every 30 to 60 minutes, which requires checking LED1–LED4 around every measurement. If it is startup-only, one `RSET` at the start is enough. **Currently ambiguous, needs settling at the bench** |
 | ~~Is there a sample material?~~ | **Answered 2026-09-05: gold foil.** It must be mounted flat on a magnetic disc with a conductive path to the bias magnet — see `docs/UPSTREAM_BERARD.md` §5. Expect atomic terraces, not individual atoms; Berard could not resolve single atoms on metals |
 | How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05: about 7.8 nm**, from the 1/4"-80 pitch, 2048 steps/rev, and a ~20x lever reduction. **VERIFY our lever ratio** — 20 is Berard's geometry, ours is Mech Panda's. Even with no lever, 155 nm/step against a ~700 nm Z range works. This replaces the old 244 nm estimate and removes the crash-margin worry. See `docs/UPSTREAM_BERARD.md` §2 |
-| Which Z direction is toward the sample | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile |
+| Which Z direction is toward the sample | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile. **`stm_approach.py` requires this answer before it will run** |
+| Which sign of `MTMV` advances toward the sample | Determinable by eye with the tip removed. **`stm_approach.py` requires this too** |
 | ADC full scale: 4.096 or 10.24 V? | `LTC2326_16.hpp` says 4.096, `stm_control.py:37` and `stm_console.py` say 10.24. The R23 reading favours 4.096. Every current figure depends on this |
 | DST-201 DC input impedance | Needed to finish some of the high-impedance arithmetic |
 
@@ -233,7 +237,7 @@ The full register, including the undocumented hardware and process items, is in
 
 | Where | Issue |
 |---|---|
-| `stm_firmware.hpp` `approach()` | Signed `>` comparison against a negative baseline. Route around it with a PC-side loop instead. Fix once the current sign is known |
+| `stm_firmware.hpp` `approach()` | Signed `>` comparison against a negative baseline. **Routed around** — use `Code/pc/stm_approach.py`, which never sends `APRH`. Left unfixed deliberately |
 | `stm_control.py:37`, `stm_console.py` | ADC full scale hardcoded as `10.24`. Evidence favours 4.096 but it is not a calibration yet |
 | `stm_firmware.hpp` | Duplicate `LTC2326_16` object at file scope and as a class member, same pins |
 | `AD5761.cpp` `write()` | Missing `SPI.endTransaction()` |
