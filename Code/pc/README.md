@@ -76,6 +76,22 @@ python Code/pc/stm_approach_test.py
 
 40 tests against a simulated microscope. **If any fails, do not use the script.**
 
+## stm_control.py has four verified bugs
+
+Checked against the live source 2026-09-06. All four are also present in Mech Panda's copy — they
+are upstream, not ours. **None is fixed.**
+
+| Line | Bug | Effect |
+|---|---|---|
+| `stm_control.py:127` | `self.send_cmd('MTMV {steps}')` — **missing the `f` prefix** | It sends the literal text `MTMV {steps}`. The firmware reads `MTMV`, finds no digits, and moves **zero steps**. **This is why the GUI's motor control does nothing** |
+| `stm_control.py:88` | `set_buffer_size()` is called unconditionally | That method is **Windows-only** in pyserial. On macOS or Linux, opening the port raises AttributeError and the GUI cannot connect at all |
+| `stm_control.py:40-49` | `dac_to_dacz/x/y_volts` all use `10.0 / 2.0`, i.e. ±5 V | **All three are wrong.** Z is ±10 V; X and Y are ±3 V. Every voltage the GUI displays is incorrect |
+| `stm_control.py:37` | `adc_to_amp` uses `10.24` V full scale | Wrong — it is **4.096**. Every current is 2.5x too large. See `docs/UPSTREAM_MECHPANDA.md` §1 |
+
+A fifth item reported in the old handoff — `get_status()` returning `self.history[-1]` on an empty
+list — is **unreachable dead code**, not a live bug: the method already returns at line 92 when
+busy, so the branch at line 95 can never run. Recorded so nobody hunts for it.
+
 ## Do not use stm_app.py
 
 The Tkinter GUI has buttons wired directly to the two most dangerous paths in the firmware:
