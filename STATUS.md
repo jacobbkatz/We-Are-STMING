@@ -232,9 +232,12 @@ silkscreen.
 > one is electrically correct. See `docs/WIRING.md` §10.
 
 This was previously filed as "resolves itself when the board is rebuilt". **That is no longer
-safe to assume**, since the rebuild is now deferred behind the shield test. If the shield fix
-solves the offset and the old board stays in service, this open ground still needs resolving —
-by establishing the pin numbering first, not by running a speculative wire.
+safe to assume**, since the rebuild is deferred behind the shield test. If the shield fix solves
+the offset and the old board stays in service, this open ground still needs resolving — and it is
+now a straightforward job rather than a blocked one.
+
+**Next step:** block A2b of [`sessions/2026-09-06-plan.md`](sessions/2026-09-06-plan.md) —
+identify the pins with a meter, record which ground wanders, then bond it.
 
 ---
 
@@ -315,6 +318,9 @@ The full register, including the undocumented hardware and process items, is in
 | `LTC2326_16.cpp` `read_volts()` | **Broken upstream**: multiplies raw counts by 4.096 instead of scaling by full scale. Returns "134213 volts" at full scale. Never called, so harmless. Do not use it |
 | `stm_firmware.hpp` | Duplicate `LTC2326_16` object at file scope and as a class member, same pins |
 | `AD5761.cpp` `write()` | Missing `SPI.endTransaction()` |
+| `stm_control.py:127` | `send_cmd('MTMV {steps}')` — **missing the `f` prefix**, so it sends the literal text and the motor moves **zero steps**. This is why the GUI's motor control does nothing. Upstream bug, verified 2026-09-06 |
+| `stm_control.py:88` | `set_buffer_size()` is **Windows-only** in pyserial. On macOS or Linux the GUI cannot open the port at all |
+| `stm_control.py:40-49` | All three axis voltage conversions use ±5 V. Z is **±10 V**, X and Y are **±3 V**. Every voltage the GUI displays is wrong |
 | `stm_firmware.hpp:497-498` | Comments say X and Y are ±5 V. They are **±3 V** — same mode bits as bias, which measures ±3 V. Comment only, the behaviour is correct |
 
 `logTable[abs(adc)]` is **safe** — the table is `[32769]`. Do not "fix" it.
