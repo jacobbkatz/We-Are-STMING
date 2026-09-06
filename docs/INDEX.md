@@ -118,6 +118,26 @@ been extracted** — that is still VERIFY.
 
 ---
 
+### `CAD/prints/*.stl` — the printed parts
+
+**STL files are binary meshes, so they are not greppable — but they are trivially measurable.**
+Every part's real dimensions are tabulated in `CAD/prints/README.md`. **Read that table before
+asking what a part is.** It settled the two-shields question in one look:
+
+| | |
+|---|---|
+| `6_shield_cover` | **142 × 128 × 112 mm** — over the whole scanning module |
+| `1_preamp_box` | **35 × 29 × 21 mm** — around one small PCB |
+
+To measure any mesh yourself, bounding box from the facet vertices:
+
+```python
+import struct
+d = open('part.stl','rb').read()
+n = struct.unpack('<I', d[80:84])[0]          # binary STL: facet count at byte 80
+# each facet is 50 bytes: 12 floats (normal + 3 vertices) + 2 byte attribute
+```
+
 ## Not archives, but easy to overlook
 
 | File | What is in it |

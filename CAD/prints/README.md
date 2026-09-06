@@ -10,6 +10,47 @@ temperature, and that shows up directly as drift in your images. Budget roughly 
 
 ---
 
+## The enclosures, measured from the STLs
+
+Bounding boxes read directly off the mesh files. **There are two shielded enclosures and they are
+very different sizes** — this table exists so nobody has to ask again.
+
+| Part | X × Y × Z (mm) | What it actually is |
+|---|---|---|
+| **`6_shield_cover`** | **142.00 × 128.00 × 112.40** | **The shield over the WHOLE scanning module.** Drops over the entire scan head |
+| `box_mount` | 142.00 × 128.00 × 5.00 | **Same footprint as the shield cover** — the frame the cover sits on. Opening 131 × 101 |
+| `5_intermediate_baseplate` | 130.00 × 100.00 × 5.00 | Fits the 131 × 101 opening above |
+| **`1_preamp_box_base`** | **34.83 × 29.43 × 20.80** | **The small box holding the PREAMP BOARD only.** The board is 20.6 × 15.2 mm |
+| `1_preamp_box_lid` | 34.83 × 29.43 × 3.60 | its lid |
+| `2_controller_box_base` | 129.18 × 113.88 × 39.80 | controller PCB |
+| `3_teensy_protoboard_box_base` | 89.80 × 109.80 × 41.80 | Teensy and protoboard |
+| `4_scanhead_box_base` | 130.00 × 134.00 × 88.20 | the rejected alternative, see below |
+
+**Both shielded enclosures get the same treatment — copper tape, grounded at one point — which is
+exactly why they get confused in conversation. They are not the same object:**
+
+- **Scan head shield cover**, 142 × 128 × 112 mm, over the whole module.
+- **Preamp box**, 35 × 29 × 21 mm, around one small PCB.
+
+### The scan head parts it has to cover
+
+| Part | X × Y × Z (mm) |
+|---|---|
+| `BasePlate` | 100.00 × 70.00 × 10.00 |
+| `PiezoPlate` | 55.00 × 70.00 × 15.00 |
+| `SamplePlate` | 12.00 × 70.00 × 49.00 |
+| `MotorSupport` | 10.00 × 52.33 × 30.00 |
+| `ThreadAdaptor` | 21.91 × 22.00 × 17.00 |
+
+Stacked, the tallest column is roughly 59 mm against the cover's 112 mm of height. It fits with
+room to spare.
+
+### Why `4_scanhead_box` cannot be used instead
+
+`docs/START_HERE_gotchas.md` says its corner ears are **142.8 mm** wide and so it will not fit
+inside the shield cover. The measurements confirm it exactly: the shield cover's outside is
+**142.00 mm**. It misses by 0.8 mm.
+
 ## Choose one scan head enclosure
 
 `4_scanhead_box_*` and `6_shield_cover` do the same job different ways. **They are alternatives,

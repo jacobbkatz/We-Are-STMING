@@ -106,12 +106,15 @@ a meter first.**
 >
 > | | What it is | Status |
 > |---|---|---|
-> | **Preamp box shield** | The small enclosure around the **preamp board only**. Copper tape on the outside | **Rebuilt 2026-09-06.** All copper, seams soldered, one ground wire. **Continuity NOT yet metered** |
-> | **Scan head shield cover** | `6_shield_cover.stl`, a printed cover that drops over the **whole scanning module**. Also wants copper tape and one ground bond | **Status unknown.** Printed? Wrapped? Grounded? Nobody has recorded it |
+> | **Preamp box shield** | `1_preamp_box` — **35 × 29 × 21 mm**, around the **preamp board only** (the board is 20.6 × 15.2 mm) | **Rebuilt 2026-09-06.** All copper, seams soldered, one ground wire. **Continuity NOT yet metered** |
+> | **Scan head shield cover** | `6_shield_cover.stl` — **142 × 128 × 112 mm**, drops over the **whole scanning module**. Also wants copper tape and one ground bond | **Status unknown.** Printed? Wrapped? Grounded? Nobody has recorded it |
 >
 > **Everywhere in this file, "the shield" means the PREAMP BOX** unless it says otherwise. The two
 > carry the identical instruction — copper tape, grounded at one point — which is exactly why they
 > get mixed up.
+>
+> **The sizes settle it:** 142 × 128 × 112 mm versus 35 × 29 × 21 mm. Measured from the STLs, in
+> `CAD/prints/README.md`.
 >
 > Berard uses both: the preamp sits in its own box on the head, **and** a metal can goes over the
 > whole instrument during scanning. He is explicit that without the outer one, *"the images
