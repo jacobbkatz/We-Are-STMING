@@ -91,6 +91,25 @@ Eleven signals, no ALERT among them. U1–U4 pin 1 (ALERT#) goes to R1–R4 and 
 
 **LED1–LED4 are the only indication of the DAC configuration loss, confirmed from the schematic.**
 
+## 4b. CLEAR#, RESET# and LDAC# are marked no-connect on all four DACs
+
+Read off the schematic symbols on page 1. Every AD5761 carries a green no-connect cross on:
+
+| Pin | Name | |
+|---|---|---|
+| 2 | **CLEAR#** | active-low, floating |
+| 3 | **RESET#** | active-low, floating |
+| 10 | SDO | confirms there is no DAC readback, consistent with H1 having no MISO |
+| 11 | LDAC# | active-low, floating. The firmware uses `CMD_WR_UPDATE_DAC_REG`, which updates directly, so LDAC is not needed |
+| 9 | DNC | correct, this pin is do-not-connect |
+
+**This is the leading hypothesis for the DAC configuration loss.** A floating active-low CMOS
+input can be pulled low by coupled noise, and four of them in the same environment would glitch
+together — which is precisely the observed symptom. See `STATUS.md` fault 4.
+
+**Unverified:** whether the AD5761R has internal pull-ups on CLEAR# and RESET#. Nobody has read
+the datasheet on this point, and if it does, the hypothesis weakens considerably.
+
 ## 5. The ADC input stage, newly documented
 
 ```

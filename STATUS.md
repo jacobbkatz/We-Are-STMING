@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-05 (second session)
+**Last updated:** 2026-09-06
 **Updated by:** Jacob (remote, no bench work)
 
 > This file is the single source of truth for where the build is right now.
@@ -59,8 +59,26 @@ pinned against 32767 within two minutes. Do not let any older document tell you 
 | **B. The case shield is floating.** Copper and aluminium tape on the preamp box, never bonded to ground | 2026-09-01 | Live, and **untested** |
 | **C. Flux residue.** Berard independently reports "huge leakage currents" from flux left on this exact circuit | 2026-09-05 | Live. Addressed by the existing rebuild clean, but not excluded on the current board |
 
-**Test B first.** Grounding the shield is one wire and is reversible; the rebuild consumes the
-spare board and is not. And critically: **if B is the cause, a rebuild will not fix it**, because
+**Ranking them by impedance, added 2026-09-06.** For surface leakage to push current into the
+preamp's input, that input is a **virtual ground**, so the current is set by whatever voltage sits
+at the far end of the leakage path divided by its resistance:
+
+| Source at the far end | Path resistance needed for 37 nA | Plausible for a surface path? |
+|---|---|---|
+| A ±15 V supply rail | **405 MOhm** | **Yes** — very typical of a contaminated surface |
+| A 0.5 V galvanic cell on the shield | **13 MOhm** | Low. That is a poor insulator, not a contaminated one |
+
+**This favours the contamination hypotheses (A and C) over the shield (B) as the DC offset
+source.** It does not clear the shield — a floating shield is still a real noise problem and still
+needs grounding — but the arithmetic says the offset more likely comes from a rail leaking to the
+input node across a dirty surface.
+
+**A cheap discriminating test follows:** if the offset is rail-to-input leakage, it should **scale
+with the rail voltage**. Drop the supply from ±15 V to ±10 V and the offset should fall by about a
+third. If it does not move, the source is not the rails.
+
+**Still test B first.** Grounding the shield is one wire and is reversible; the rebuild consumes
+the spare board and is not. And critically: **if B is the cause, a rebuild will not fix it**, because
 the new board goes back into the same ungrounded box.
 
 - **IPA will not remove cured CA.** It needs acetone or a nitromethane debonder, neither
@@ -144,7 +162,31 @@ firmware bookkeeping, not measurements.
 > **Rule: look at LED1–LED4 immediately before and immediately after every measurement.
 > Any reading taken with one lit is void.** This cost an hour on 2026-08-31.
 
-Cause unknown. U16 was checked and is not hot, which weakens the thermal-shutdown theory.
+### Leading hypothesis, found 2026-09-06: CLEAR# and RESET# are floating
+
+**The schematic marks pin 2 (CLEAR#) and pin 3 (RESET#) as no-connect on all four DACs.** Also
+pin 11 (LDAC#) and pin 10 (SDO). Read off the symbols on schematic page 1 — every AD5761 carries
+a green no-connect cross on those pins.
+
+Those are **active-low control inputs**. Left floating, a CMOS input sits at an undefined
+potential and can be driven low by nothing more than coupled noise. **Four floating RESET# pins in
+the same noise environment would glitch together** — which is exactly the symptom: all four DACs
+drop configuration simultaneously, ALERT lights, and `RSET` restores them.
+
+This fits better than the rail-dip and thermal theories, neither of which explains why all four go
+at once and nothing else on the 3.3 V rail is affected.
+
+**Two things must be checked before believing it:**
+
+1. **Does the AD5761R have internal pull-ups on CLEAR# and RESET#?** If it does, floating is far
+   less dangerous and this hypothesis weakens a lot. **Datasheet question, nobody has looked.**
+2. **Are they actually open on our board?** Meter continuity from U1 pin 2 and pin 3 to 3.3 V.
+   Thirty seconds with a beeper. Open confirms floating.
+
+**If confirmed, the fix is four short wires**: tie CLEAR# and RESET# to 3.3 V on each DAC. That is
+also a permanent fix rather than a workaround, unlike the periodic re-arm discussed below.
+
+Cause otherwise unknown. U16 was checked and is not hot, which weakens the thermal-shutdown theory.
 **Confirmed from the schematic 2026-09-05:** the H1 ribbon carries only ADC_CNV, ADC_BUSY,
 ADC_SDI, ADC_SCK, ADC_SDO, SCLK, SDI and SYNC1-4. There is no ALERT line. The LEDs really are the
 only indication, and this is now documented rather than inferred.
