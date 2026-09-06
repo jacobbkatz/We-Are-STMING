@@ -41,7 +41,7 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 | 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535` |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
 | 6 Preamp | **FAIL** | 37 nA input leakage. Two candidate causes, see below |
-| Preamp case shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
+| **Preamp box** shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
 | DAC config stability | **FAIL** | All four DACs drop config roughly hourly |
 | JP1 grounds | **FAIL** | One ground pin genuinely open on the old board |
 
@@ -100,7 +100,22 @@ a meter first.**
   improvement with some residual leakage. Settling near 29873 again means that candidate was not
   the cause. Ramping to a rail means a genuinely open feedback path, which would be a build error.
 
-### 1b. Preamp case shielding — rebuilt 2026-09-06, not yet verified
+### 1b. Preamp BOX shield — rebuilt 2026-09-06, continuity not yet verified
+
+> ## THERE ARE TWO SEPARATE SHIELDS. DO NOT CONFUSE THEM.
+>
+> | | What it is | Status |
+> |---|---|---|
+> | **Preamp box shield** | The small enclosure around the **preamp board only**. Copper tape on the outside | **Rebuilt 2026-09-06.** All copper, seams soldered, one ground wire. **Continuity NOT yet metered** |
+> | **Scan head shield cover** | `6_shield_cover.stl`, a printed cover that drops over the **whole scanning module**. Also wants copper tape and one ground bond | **Status unknown.** Printed? Wrapped? Grounded? Nobody has recorded it |
+>
+> **Everywhere in this file, "the shield" means the PREAMP BOX** unless it says otherwise. The two
+> carry the identical instruction — copper tape, grounded at one point — which is exactly why they
+> get mixed up.
+>
+> Berard uses both: the preamp sits in its own box on the head, **and** a metal can goes over the
+> whole instrument during scanning. He is explicit that without the outer one, *"the images
+> produced by the STM are dominated by 60 Hz noise pickup"*.
 
 **Metered on 2026-09-06. Both earlier descriptions of this were wrong.**
 
@@ -356,7 +371,7 @@ The full register, including the undocumented hardware and process items, is in
 
 | Question | Why it matters |
 |---|---|
-| **Does the rebuilt shield actually conduct end to end?** | **VERIFY, two minutes with a meter.** Every preamp conclusion next session depends on it |
+| **Does the rebuilt **preamp box** shield actually conduct end to end?** | **VERIFY, two minutes with a meter.** Every preamp conclusion next session depends on it |
 | **Does the AD5761R have internal pull-ups on CLEAR#/RESET#?** | Everything else about the floating-pin hypothesis is now confirmed. This is the only fact left that decides whether the four-wire fix is worth doing. **Datasheet question, still nobody has looked** |
 | Is the 37 nA the CA contamination or the shield? | Decides whether the spare board gets consumed |
 | Is the DAC configuration loss startup-only, or does it recur mid-session? | 2026-08-31 recorded it recurring every 30 to 60 minutes, which requires checking LED1–LED4 around every measurement. If it is startup-only, one `RSET` at the start is enough. **Currently ambiguous, needs settling at the bench** |
