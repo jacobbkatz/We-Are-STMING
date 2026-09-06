@@ -19,7 +19,8 @@ Do not re-derive these. They are done, and where they live now:
 | Is the ADC full scale 4.096 V or 10.24 V? | **4.096.** The LTC2326 runs on its internal reference; no external reference reaches it | Controller schematic PDF | `docs/UPSTREAM_MECHPANDA.md` §1 |
 | What is the JP1 pinout? | 1=GND, 2=+supply, 3=OUTPUT, 4=GND, 5=−supply | Preamp gerber X2 attributes | `docs/WIRING.md` §10 |
 | Why does JP1 pin 4 wander? | **No copper track lands on it.** A routing defect, not a build fault | Preamp gerber copper layers | `docs/WIRING.md` §10 |
-| Are CLEAR#/RESET# really floating? | **Yes** — 25 single-pad nets, 20 of them the DAC control pins | `FlyingProbeTesting.json` | `STATUS.md` fault 4 |
+| Are CLEAR#/RESET# really floating? | **Yes** — **34** single-pad nets, 20 of them the DAC control pins (recounted 2026-09-06; it was recorded as 25) | `FlyingProbeTesting.json` | `STATUS.md` fault 4 |
+| What are the other unconnected pads? | 4 = both **D-sub shells**, 2 = **spare ribbon pins H1-24/26**, 5 = U5 reference trim pins, 3 = **U13's unused op-amp channel** | `FlyingProbeTesting.json` | `STATUS.md` fault 4 |
 | Which scan head enclosure do we use? | `6_shield_cover`. **Wrap in copper tape and ground at one point** | `WHICH_SCANHEAD_PART.txt`, inside a zip | `CAD/prints/README.md` |
 | What is the coarse approach screw? | 1/4"-80, and it is a scan head part | `CAD/STM.f3z` → `DesignDescription.json` | `docs/UPSTREAM_BERARD.md` §2 |
 | Every net on the controller board | 96 nets, 893 pins, all named | `FlyingProbeTesting.json` | `docs/WIRING.md` |
@@ -103,6 +104,42 @@ including `LICENSE_MIT.txt`), the controller EasyEDA project, and the schematic 
 > **It also contains stale copies of `START_HERE_gotchas.md`, `README.md` and `BOM.md`.**
 > Those are older than the live versions in `docs/`. **Do not read them.** They were deliberately
 > not extracted on 2026-09-01 for this reason.
+
+### `CAD/prints/print-plates/*.3mf` — the slicer project files
+
+**Five Bambu Studio project files. A 3MF is a zip.** They were never opened until 2026-09-06, and
+they are the only record of how the printed parts were actually made.
+
+```bash
+unzip -o -q Masterplate_1.1.3mf -d plate1
+python3 -c "import json;c=json.load(open('plate1/Metadata/project_settings.config'));print(c['filament_type'], c['layer_height'], c['sparse_infill_density'])"
+grep -o 'key="name" value="[^"]*"' plate1/Metadata/model_settings.config    # what is on the plate
+```
+
+| Inside | What it tells you |
+|---|---|
+| `Metadata/project_settings.config` | 61 KB of slicer settings: **material, temperatures, layer height, infill, walls, supports** |
+| `Metadata/model_settings.config` | **Which parts are on the plate**, and how many of each |
+| `Metadata/plate_1.png` | A render of the plate — quickest way to see what it is |
+| `3D/Objects/*.model` | The geometry, as XML |
+
+**Read `CAD/prints/README.md` before trusting the material field.** These files select PA-CF;
+`docs/BOM.md` says PETG-CF was used in the end. That conflict is unresolved.
+
+### `CAD/stm_cad.png` — the assembly render
+
+**Not an archive, but the single most informative file about how this instrument goes together**,
+and it went unopened until 2026-09-06. It shows the isolation tower, the three rods, the platform
+hanging inside it, the scan head on top with the stepper and the three fine screws, a coin weight,
+and one spring-hanger stack drawn separately. **Look at it before reasoning about the assembly
+from meshes** — individual STL coordinates are print layout, not assembly position.
+
+### `Images/*.bmp` and `.jpg` — reference scans, verified
+
+Opened and checked 2026-09-06: they **are** atomic-resolution images, showing the hexagonal HOPG
+lattice, with visible creep at the start of each scan line and a shear across the frame. Their
+filenames carry epoch-millisecond timestamps that decode to **2023-08-11**, well before this
+build, confirming they are Mech Panda's own reference images and not our data.
 
 ### `CAD/STM.f3z` — Fusion 360 archive
 

@@ -203,6 +203,33 @@ Piezo displacement
 > **Our X/Y range is a third of Berard's** because he drives ±10 V. That is a resistor-and-range
 > choice, not a limit of the disc.
 
+### Op-amp headroom — why X and Y are ±3 V and cannot simply be raised
+
+**Added 2026-09-06.** The summing stage adds Z and X into one output, so the worst case at
+DSUB1 is the sum of both full scales:
+
+| | |
+|---|---|
+| Z full scale | ±10 V CONFIRMED |
+| X (or Y) full scale | ±3 V CONFIRMED |
+| **Worst-case summed output** | **±13 V** DERIVED |
+| U9 / U10 supply rails | **±15 V** CONFIRMED |
+| OPA2227 output swing on ±15 V | about ±13 V | **TENTATIVE — from general knowledge of the part, not from a datasheet in this repository. VERIFY.** |
+
+So at simultaneous full-scale Z and X the summing amplifier is **at the edge of its output swing,
+with essentially no margin.** Two consequences worth knowing:
+
+1. **This is probably why X and Y are ±3 V.** At ±5 V the sum would be 15 V and would certainly
+   clip. The ±3 V range is not an arbitrary upstream choice — it is what keeps Z + X inside the
+   rails. **Raising the X/Y range means checking this first.**
+2. **Closed-loop scanning is safe; manual commands are the exposure.** `control_current()` clamps
+   Z to counts 10000–50000, which is **−6.95 V to +5.26 V**, so during constant-current scanning
+   the worst sum is about 9.95 V — comfortably inside. Only a hand-typed `DACZ` can reach ±10 V
+   and put the summer near its limit. DERIVED from the clamp in the source.
+
+**Symptom if it does clip:** the scan flattens or folds at the extremes of X while Z is large, and
+it will look like a scanner or sample problem rather than an electronics one.
+
 ---
 
 ## 5. Value chain: tunneling current to a displayed number
@@ -219,8 +246,10 @@ tunneling current, order 1 nA
 preamp output → JP1 pin 3 → DSUB2 pin 3 (PREAMP+) and pin 2 (PREAMP-)
    │  differential pair back to the controller
    ▼
-R23-R26 470 R + C27-C30 3.3 nF  ->  RC corner ~100 kHz                        CONFIRMED
-   │  U21 LT1469 dual op-amp buffers the pair
+R23+R24 (plus), R25+R26 (minus), all 470 R, with C27-C30 3.3 nF            CONFIRMED
+   │  2nd-order Sallen-Key per side: f0 = 103 kHz, Q = 0.5, 40 dB/decade
+   │  U21 LT1469 buffers, output tied to -IN, so gain is exactly 1           CONFIRMED
+   │  -> the ONLY gain in this whole chain is the preamp's 100 MOhm
    ▼
 U15 LTC2326-16, internal reference                                            CONFIRMED
    │  0.125 mV per count  ->  1 nA = 800 counts
@@ -251,6 +280,29 @@ PC tools — and here the number goes wrong
   That makes the healthy baseline higher than the faulty one, which is backwards.
 
 **Still worth confirming from the datasheet**, but the physical coherence argument is strong.
+
+### What the 37 nA offset actually costs, in range
+
+This is the sharpest way to say why the preamp fault blocks everything, and it had not been
+written down:
+
+| | |
+|---|---|
+| ADC full scale | **4.096 V** CONFIRMED |
+| Preamp transimpedance | **100 MΩ** CONFIRMED |
+| **Largest current the instrument can measure at all** | **4.096 V / 100 MΩ = 40.96 nA** DERIVED |
+| Present input offset | **37 nA** — 3.73 V CONFIRMED |
+| **Fraction of the ADC's range the fault consumes** | **91%** DERIVED |
+| Headroom left for an actual signal | **about 4 nA** DERIVED |
+
+So the 37 nA is not merely "37 times a tunneling current". It has eaten **nine tenths of the
+measurement range**, and a further 4 nA of drift in the same direction saturates the converter
+outright. A 1 nA tunneling signal would have to be resolved as a 2.4% wiggle on top of a nearly
+full-scale offset.
+
+It also sets a hard number on the leakage that would be acceptable: to keep, say, 90% of range
+for signal, the input offset has to come down to **under about 4 nA** — a factor of nine, not a
+trim.
 
 ---
 
@@ -342,6 +394,37 @@ narrower pillar and the screw **cuts its own thread into the plastic**. No nuts,
 > a bore — and prints a fit-error column. The lesson generalises: **a measured diameter that is
 > not a round number is a warning, not a dimension.**
 
+### Scan head lever geometry, and a disc that may not fit
+
+Measured 2026-09-06 from `PiezoPlate.stl`, all fits 0.0001 mm or better. **CONFIRMED as
+measurements; the readings under them are marked separately.**
+
+| Feature | Measured | Reading |
+|---|---|---|
+| 3 × dia **8.100** through-holes, isosceles triangle | base **35.000 mm**, sides 43.661 mm | The three 1/4"-80 brass inserts. **INFERRED** — the count and a sensible bore for a 0.438" insert |
+| Front-screw line to the rear screw | **40.000 mm** | The lever arm |
+| Piezo pocket centre, from the front-screw line | **1.000 mm** | The short arm |
+| Disc seat | **dia 20.500, 3.00 mm deep** on the Z = 15 face | |
+| Free-flex clearance beneath it | **dia 18.000**, the remaining 12.00 mm | Textbook unimorph mounting: clamp the brass rim, let the ceramic centre flex |
+
+> **Possible answer to the lever-ratio question.** 40.000 / 1.000 = **40**, which would give
+> **3.88 nm per motor step** instead of Berard's 7.8 (ratio 20) or 5.2 (ratio 30). The exact round
+> numbers make this look like design intent rather than coincidence. **It assumes the tip is at the
+> disc centre and the rear screw is the driven one — both readable off the assembled instrument
+> with a ruler in about a minute.** Recorded as a lead. TENTATIVE.
+
+> **CONFLICT — the disc in the BOM does not fit the pocket in the CAD.**
+> `docs/BOM.md` specifies a piezo disc of **"about 25 to 27 mm brass"**. The seat measures
+> **20.500 mm**. A 25–27 mm disc cannot go in it. Berard's reference part, the Murata 7BB-20-6, is
+> **20 mm** and fits with 0.25 mm all round.
+>
+> Either the BOM is wrong, or the pocket is for something else, or the plate was modelled for
+> Berard's disc and never updated. **The repository cannot choose.** Two caliper measurements —
+> the disc in hand, the pocket in the printed plate — settle it.
+>
+> **It is not only a fit question.** A larger disc gives more displacement per volt, so every
+> nm/V and travel figure in §4 depends on which disc is actually mounted.
+
 ### The BasePlate hole grid — the gotchas document is exactly right
 
 Measured offsets from the part centre: **X = −37.5, −7.5, +22.5** and **Y = −27, 0, +27**.
@@ -366,6 +449,86 @@ cover's **112.40 mm** of internal height. Fits with room. DERIVED.
 **`4_scanhead_box` cannot substitute for the shield cover.** Its corner ears are 142.8 mm; the
 cover's outside is **142.00 mm**. Misses by **0.8 mm** — the gotchas document says exactly this,
 and the measurement confirms it. CONFIRMED.
+
+---
+
+## 7b. Vibration isolation — the design, and the one measurement that would confirm it
+
+**Added 2026-09-06.** This subsystem had been listed in the BOM and never connected to the
+geometry. `CAD/stm_cad.png` (a render nobody in this repository had opened) plus the meshes give
+the whole picture.
+
+### What it physically is
+
+```
+   new_topframe   215 x 245 x 55 mm, triangular       3 x dia 8.200 bores  = the M8 rods
+        |  |  |
+        |  |  |   three M8 threaded rods, ~350 mm long between the frames   DERIVED from the
+        |  |  |                                                             render + bore sizes
+     3 spring hangers, each a stack of printed Ø25 mm tubes:
+        3 x  8 mm caps   (Ø14.7 recess, Ø4.3 bore)
+        3 x 50 mm tubes  (Ø18.222 bore over the top ~25 mm)
+        3 x 85 mm tubes  (Ø17.334 bore over the top ~25 mm)
+        |  |  |          all nine are ONE STL, split into 9 solids           CONFIRMED
+     3 extension springs, about 300 mm                                       BOM, rate UNKNOWN
+        |  |  |
+     Platform   200.00 mm disc x 6.00 mm, 24 x dia 4.300 on a 30/45/60/90 grid  CONFIRMED
+        |
+     scan head sits on top; 3 coin-weight cups (Ø24 x 15 mm) bolt on with M3   CONFIRMED
+        |
+     magnet_mount  139.95 x 158.54 x 5.00 mm  +  18 magnets  +  an aluminium
+     plate  ->  eddy-current damping                                          BOM, sizes UNKNOWN
+   new_body       215 x 245 x 60 mm, triangular
+```
+
+**Everything is in threes** — three rods, three hangers of each of three types, three springs,
+three coin weights. That is a three-point suspension, and it is why the STL solid counts come out
+at 9 and 3.
+
+### The coin weights are a tuning control, not ballast
+
+Three Ø24 × 15 mm cups that bolt to the platform. You add coins to change the suspended mass.
+**That is the adjustment that moves the resonance**, and it is worth knowing before anyone
+"tidies them away" as decorative.
+
+### The one measurement that closes this
+
+The BOM records the spring rate as UNKNOWN and the platform mass has never been weighed. **Neither
+is needed.** A mass hanging on a spring has
+
+```
+f0 = (1 / 2π) sqrt( g / x )        x = the STATIC EXTENSION of the spring under the load
+```
+
+The mass and the rate both cancel. So: **hang the platform, let it settle, and measure how far the
+springs stretched.** That single ruler measurement gives the vertical resonance directly.
+
+| Static droop | Vertical f₀ |
+|---|---|
+| 50 mm | 2.2 Hz |
+| 100 mm | 1.6 Hz |
+| **200 mm** | **1.1 Hz** |
+| 300 mm | 0.9 Hz |
+
+**Lower is better**, and the ~300 mm springs are chosen to allow a large droop. Anything at or
+below about 1 Hz is doing its job against building vibration, which lives around 10–30 Hz.
+**DERIVED from standard pendulum/spring mechanics; nothing here is measured yet.**
+
+> **Why this matters for the images, not just the mechanics.** Berard's stated failure mode for
+> poor isolation is visible periodic ripple in the scan. The two reference images in `Images/`
+> show what a working instrument produces — and even those show creep at the start of each line.
+> **UNKNOWN whether our isolation is assembled and hanging, or whether the platform is currently
+> resting on the base frame.** In the render it appears to sit low in the tower. One look settles it.
+
+### What is still unmeasured here
+
+| Item | What would settle it |
+|---|---|
+| Static droop, hence f₀ | **A ruler.** See above |
+| Suspended mass | Kitchen scale, platform plus everything on it |
+| Spring rate | Not needed if droop is measured |
+| Magnet dimensions, aluminium plate thickness | Calipers on the parts in hand |
+| Whether cable stiffness short-circuits the isolation | Look at how the ribbon and coax leave the platform — a taut cable to the bench defeats the springs entirely. **This is the most common way a good isolation stage is ruined and nothing in this repository records how the cables are routed.** UNKNOWN |
 
 ---
 
@@ -400,9 +563,17 @@ and the measurement confirms it. CONFIRMED.
 - fastener length: the counterbore depth sets how much screw is left for engagement
 - the 0.8 mm interference that already rules out `4_scanhead_box`
 
+### A DAC full-scale range (raising X/Y, or Z)
+- **the summing amplifier's headroom first** — Z + X must stay inside about ±13 V on ±15 V rails
+- the `control_current()` Z clamp (10000–50000), which currently keeps the sum safe by accident
+- every nm/V and travel figure in §4
+- `stm_control.py:40-49`, which already has all three axis ranges wrong
+
 ### The preamp feedback resistor (100 MΩ)
 - volts per nA at the ADC — 1 nA = 0.1 V = 800 counts
-- the maximum measurable current, about 100 nA before the rails clip
+- **the maximum measurable current is 41 nA, set by the ADC and not by the preamp rails.**
+  4.096 V full scale / 100 MOhm = **40.96 nA**. The preamp itself would not clip until about
+  100 nA, so the ADC is the binding limit and the earlier "about 100 nA" figure here was wrong
 - the dummy-junction resistor choice (must be ≥ 100 MΩ, **not** the 1 MΩ the 08-31 plan suggests)
 - the leakage budget: 37 nA of offset is 37× a tunneling current
 
@@ -433,6 +604,39 @@ and the measurement confirms it. CONFIRMED.
 
 **Constant-current mode does nothing until `PIDS` is sent**, because the gains initialise to zero.
 That is easy to mistake for a dead loop.
+
+### Mechanical and electrical constants, with how each is known
+
+**M** = measured at the bench · **F** = measured from a CAD mesh or netlist file · **S** = specified
+in a datasheet or a part number · **C** = calculated from the above · **I** = inferred
+
+| Constant | Value | How known | Source |
+|---|---|---|---|
+| Preamp transimpedance | 100 MΩ | S | `docs/BOM.md`, preamp gerber |
+| **Max measurable current** | **40.96 nA** | **C** | 4.096 V ÷ 100 MΩ |
+| Current per ADC count | 1.25 pA | C | 0.125 mV ÷ 100 MΩ |
+| ADC front-end corner | 103 kHz, Q = 0.5, 2nd order | C | R23–R26 470 R, C27–C30 3.3 nF, from the netlist |
+| ADC front-end gain | exactly 1 | F | U21 output tied to −IN, netlist |
+| Summing-stage gain | exactly −1 per input | F | +IN at AGND, netlist + `docs/WIRING.md` §8 |
+| Worst-case summed output | ±13 V on ±15 V rails | C | Z ±10 V + X ±3 V |
+| Bias path gain | −1, verified | **M** | `BIAS 65535` → +3.000 V DAC, −3 V at the holder |
+| Fine screw pitch | 1/4"-80 = 0.31750 mm/turn | S | McMaster 97424A590 |
+| **Lever arm, front line to rear screw** | **40.000 mm** | **F** | `PiezoPlate.stl` |
+| **Front screw pair spacing** | **35.000 mm** | **F** | `PiezoPlate.stl` |
+| **Piezo pocket offset from pivot line** | **1.000 mm** | **F** | `PiezoPlate.stl` |
+| **Piezo disc seat** | **Ø20.500 × 3.00 mm deep** | **F** | `PiezoPlate.stl` — conflicts with the BOM, see §7 |
+| **Piezo free-flex bore** | **Ø18.000 × 12.00 mm** | **F** | `PiezoPlate.stl` |
+| BasePlate grid | 30.0 × 27.0 mm, offset −7.5 in X | F | `BasePlate.stl` |
+| Plate-to-plate screws | M3, Ø3.200 clear into Ø2.500 self-tap | F | `BasePlate` + `5_intermediate_baseplate` |
+| Preamp box screws | M2, Ø2.300 clear into Ø1.600 self-tap | F | `1_preamp_box_*.stl` |
+| Tower rods | M8, 3 off | F | Ø8.200 bores in `new_body` / `new_topframe` |
+| Platform | Ø200.00 × 6.00 mm disc | F | `Platform.stl` |
+| Suspension | 3 springs, ~300 mm | S | `docs/BOM.md` — rate UNKNOWN |
+| Spring hanger tubes | 9 solids: 3 × 8 mm, 3 × 50 mm, 3 × 85 mm, all Ø25.00 | F | `Spring_hangers_and_extentions.stl` |
+| Coin weights | 3 cups, Ø24.00 × 15.00 mm | F | `coin_weights.stl` |
+| Print layer height | 0.08 mm, 2 walls, 40% / 15% infill | F | the `.3mf` project files |
+| **Print material** | **CONFLICTING — PA-CF in the plates, PETG-CF in the BOM** | — | see §11 |
+| Nominal displacement | ~34 nm/V in Z, ~83 nm/V in XY | **I** | Berard's *different* disc. Not ours |
 
 ---
 
@@ -467,6 +671,76 @@ Ranked by what they block. Full list in `docs/OPEN_QUESTIONS.md`.
 | PAD1 upstream or downstream of R1 | Handoff A.8.1 vs the gerber netlist | **Resolved: upstream.** PAD1 and IC1 pin 6 are one net |
 | Shield "never grounded" vs "grounded" | 2026-09-01 verbal report vs 2026-09-06 meter | **Resolved.** It was partly grounded and discontinuous — neither document was right |
 | DAC loss startup-only vs recurring | Jacob's recollection vs the 2026-08-31 log | **Unresolved.** The 30-minute idle test settles it |
+| **Print material: PA-CF vs PETG-CF** | The five `.3mf` plates (2026-07-03) select PA-CF at 290 °C; `docs/BOM.md` §10 (2026-08-14) says in the first person "we used PETG-CF" | **Unresolved, BOM provisionally wins on recency.** The plates most likely record an abandoned PA-CF attempt. One question to whoever ran the printer. Affects stiffness, creep and moisture uptake — all of which are drift |
+| **Piezo disc 20 mm vs 25–27 mm** | `PiezoPlate` seat measures dia 20.500; `docs/BOM.md` §5 says 25–27 mm brass | **Unresolved.** Two caliper readings settle it. Changes both fit and every nm/V figure |
+| ADC front end: one RC vs Sallen-Key | `docs/UPSTREAM_MECHPANDA.md` §5 as written vs the gerber netlist | **Resolved from the netlist: second-order Sallen-Key, 103 kHz, Q = 0.5.** The corner frequency was right, the order and one resistor label were not. Document corrected 2026-09-06 |
+| Max measurable current 100 nA vs 41 nA | This document's own impact map vs the ADC full scale | **Resolved: 40.96 nA.** The ADC saturates long before the preamp rails. Corrected 2026-09-06 |
+| Single-pad net count 25 vs 34 | `docs/INDEX.md` / `STATUS.md` fault 4 vs a full recount | **Resolved: 34.** The earlier count covered the 20 DAC control pins and missed the 4 connector shells, 2 spare ribbon pins, 5 unused reference pins and 3 unused op-amp pins. Corrected 2026-09-06 |
+
+---
+
+## 11b. Straight answers to the questions people actually ask
+
+Added 2026-09-06 as a self-test of this document. Every answer below is traceable to a section
+above or to a named file; where the honest answer is "we don't know", it says so.
+
+**Is the sample grounded? Through what path?**
+**No. The sample is a driven electrode, not a ground.** U4 (SAMPLE) → R30 3 k → U13 channel A
+(OPA2227P) → R32 220 R → BIAS → DSUB2 pin 1 → black wire → sample holder. Gain −1, **measured**:
+`BIAS 65535` commands +3.000 V at the DAC and reads −3 V at the holder. The *tip* is the one at
+(virtual) ground, held there by the OPA627's inverting input. Anyone who "grounds the sample to be
+safe" has shorted out the bias.
+
+**Which DAC controls physical Z?**
+**U3.** Chip select SYNC3, **Teensy pin 8**, ribbon H1 pin 20, firmware `dac_z` = `DAC_3`.
+**Watch the `#define` order**: they are listed 7, 8, 9, 10 but named DAC_1, DAC_**3**, DAC_**2**,
+DAC_4. Pin 8 is Z and pin 9 is Y, not the other way round.
+
+**What voltage reaches the piezo?**
+The DAC's ±10 V, summed with X (or Y) at gain −1, so DSUB1 sees **−(Z ± X)** through 220 R.
+**Measured**: `DACZ 65535` gives −10 V at the scan-head end. Worst case ±13 V — see the headroom
+note in §4.
+
+**What displacement should that produce?**
+About 34 nm/V in Z, so roughly 680 nm of travel. **INFERRED from Berard's disc, not ours**, and now
+doubly uncertain because our disc size is in conflict (§7). Nobody has measured our scanner.
+
+**What is the narrowest clearance in the head?**
+Of what has actually been measured: the **0.25 mm radial gap** between a 20 mm disc and its
+Ø20.500 seat, and the **1.25 mm annular ledge** the disc rim clamps onto (Ø20.5 seat over an Ø18.0
+bore). Also the **0.8 mm interference** that rules out `4_scanhead_box` as a shield. **A real
+clearance study needs the assembly, and the `.f3d` files this repository cannot open.** UNKNOWN
+beyond the above.
+
+**What limits coarse approach travel?**
+In firmware, `APRH` is hardcoded to **10000 steps** maximum. At 3.9–7.8 nm/step that is only
+**39–78 µm**, so the firmware cap, not the mechanics, is the practical limit. The mechanical limit
+is the 1" screw against its 0.438" insert, divided by the lever ratio. **Do not use `APRH` anyway
+— safety rule 2.**
+
+**How far does one motor step move the tip?**
+0.31750 mm per turn ÷ 2048 steps ÷ lever ratio = **7.75 nm** at ratio 20, **5.17 nm** at 30,
+**3.88 nm** at 40. The `PiezoPlate` geometry suggests 40; Berard's pages say 20 or 30. **Unresolved,
+and nothing depends on it** — all three give 90–130 steps across the Z range.
+
+**How does a current become a displayed number?**
+I × 100 MΩ = volts; volts ÷ 0.125 mV = counts. **1 nA = 0.1 V = 800 counts.** Ceiling 40.96 nA.
+**The PC tools print every current 2.5× too large** because they use 10.24 V full scale.
+
+**If a printed dimension changed by 2 mm, what breaks?**
+See the impact map in §8. Short answer: `box_mount` and `6_shield_cover` share a footprint;
+`5_intermediate_baseplate` must fit `box_mount`'s opening; the BasePlate grid is mirrored in the
+plate it bolts to; and counterbore depth sets screw length.
+
+**Which calibration values are measured, and which are theoretical?**
+The provenance column in §9. **Measured at the bench: the bias gain, the −10 V at the scan head,
+the DAC reference, the 37 nA offset, the ADC counts.** Everything about displacement is inferred
+from someone else's scanner.
+
+**What still cannot be answered?**
+Our nm/V. Our lever ratio. Which Z direction approaches the sample. The sign of the tunnelling
+current. Whether the isolation stage is even hanging. How the cables leave the platform. The disc
+diameter actually fitted. The print material actually used.
 
 ---
 

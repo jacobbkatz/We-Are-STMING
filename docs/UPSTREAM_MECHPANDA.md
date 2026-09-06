@@ -112,15 +112,48 @@ the datasheet on this point, and if it does, the hypothesis weakens considerably
 
 ## 5. The ADC input stage, newly documented
 
+**Corrected 2026-09-06 against the netlist.** The earlier sketch below had R24 on the minus line
+and drew one RC per side. Both are wrong. The real topology, pad by pad from
+`FlyingProbeTesting.json`:
+
 ```
-PREAMP+ --R23 470--+-- C27/C28 3.3nF --> U21.1 (LT1469) --> IN+ (pin 4)
-PREAMP- --R24 470--+-- C29/C30 3.3nF --> U21.2 (LT1469) --> IN- (pin 5)
+                      C27 3.3nF
+                  +-------||-------+
+                  |                |
+PREAMP+ --R23 470--+--R24 470--+---+--> U21 pin 3 (+IN A)
+                              |    |
+                        C28 3.3nF  +--> U21 pins 1,2 tied  = follower out = ADC IN+ (U15 pin 4)
+                              |
+                             AGND
+
+                      C29 3.3nF
+                  +-------||-------+
+                  |                |
+PREAMP- --R25 470--+--R26 470--+---+--> U21 pin 5 (+IN B)
+                              |    |
+                        C30 3.3nF  +--> U21 pins 6,7 tied  = follower out = ADC IN- (U15 pin 5)
+                              |
+                             AGND
 ```
 
-- **R23–R26 are 470 R**, C27–C30 are **3.3 nF**. An RC corner around **100 kHz**
-  (470 Ω × 3.3 nF = 1.55 µs). Anything faster than that is filtered away before the ADC sees it.
+- **R23 and R24 are both on the plus line; R25 and R26 are both on the minus line.** All four are
+  470 R, C27–C30 are 3.3 nF.
+- **C27 and C29 do not go to ground.** They return to the op-amp *output*. With the follower
+  (U21 pins 1–2 tied, and 6–7 tied) that makes each side a **second-order Sallen-Key low-pass**,
+  not a single RC.
+- **f₀ = 1 / (2π × 470 Ω × 3.3 nF) = 103 kHz**, and with equal Rs and Cs **Q = 0.5** — overdamped,
+  no peaking, rolling off at **40 dB per decade** above the corner rather than 20. The corner
+  frequency is what the older note said; the rolloff is twice as steep as it claimed, which is
+  what actually matters for aliasing.
+- **The buffers have gain exactly 1** (output tied to the inverting input). Confirmed from the
+  netlist, and it matters: it means the only gain in the current chain is the preamp's 100 MΩ.
 - **U21 is an LT1469IN8**, a dual op-amp buffering the differential pair. This matches Berard's
   description of taking a differential measurement to reject noise picked up in the preamp cable.
+- **U21 runs on ±15 V while the ADC runs on 5 V and 3.3 V.** The buffer can therefore present far
+  more than the ADC's ±4.096 V input span if the preamp output ever swings hard. Nothing in
+  between limits it. **VERIFY the LTC2326-16's absolute-maximum input against the datasheet
+  before deliberately driving the preamp to its rails** — a railed preamp is a real state here,
+  it is what the 2026-08-31 session saw.
 - **R29 is a 10 k pull-up to 3.3 V on ADC_SDI**, which is the LTC2326's **RDL/SDI** pin.
 - **R28 is 100 R in series on ADC_SDO.**
 

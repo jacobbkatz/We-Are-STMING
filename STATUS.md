@@ -27,6 +27,14 @@ preamp board for nothing. It was stripped and rebuilt in all copper with soldere
 Two unfixed firmware faults were found on 2026-09-05 that will damage a tip if hit: **`CCON` snaps
 Z to midscale**, and **the motor is left energised** and heats the scan head.
 
+> **New on 2026-09-06, second pass.** A verification audit found the first pass had stopped early.
+> The five `.3mf` slicer files, the CAD render and the reference images had never been opened; two
+> numbers in the reference were wrong. Highlights, all detailed below or in the reference:
+> **safety rule 10** (an out-of-range DAC command silently jumps to the opposite rail),
+> **fault 4b** (U13's unused op-amp channel floats next to the bias buffer),
+> **the measurable-current ceiling is 41 nA, so the 37 nA fault is eating 91% of the ADC's range**,
+> and **H1 pins 24 and 26 are spare ribbon conductors** — exactly the two wires the DAC fix needs.
+>
 > **New on 2026-09-06: `docs/ENGINEERING_REFERENCE.md`.** A repository-wide audit that pulls the
 > cross-subsystem picture into one place — the grounding map, **the copper-vs-aluminium tape
 > rule**, what a scan command becomes in nanometres, what a tunneling current becomes on screen,
@@ -225,11 +233,21 @@ firmware bookkeeping, not measurements.
 
 **CONFIRMED from the manufacturing data.** The JLCPCB flying-probe test file
 (`gerbers/Gerber_PCB1_all_red.zip`, `FlyingProbeTesting.json`) carries the full board netlist. Of
-96 nets, **25 have only a single pad on them** — and twenty of those are U1–U4 pins 2, 3, 9, 10 and
+96 nets, **34 have only a single pad on them** — and twenty of those are U1–U4 pins 2, 3, 9, 10 and
 11. CLEAR# and RESET# are connected to nothing at all, by design, on every DAC.
 
-(The other five single-pad nets are U5's test-point, trim and not-internally-connected pins, which
-are correctly unused.) Also
+**Recounted 2026-09-06: it is 34, not 25.** The full breakdown, because the other fourteen turn out
+to matter:
+
+| Pads | What they are |
+|---|---|
+| 20 | **U1–U4 pins 2, 3, 9, 10, 11** — the DAC control pins. This fault |
+| 5 | U5 (ADR421 reference) pins 1, 3, 5, 7, 8 — trim and not-internally-connected. Correctly unused |
+| **4** | **DSUB1 and DSUB2 shell / mounting posts.** Both D-sub shells float; nothing bonds them to AGND on the board. Any cable shield landed on a backshell is floating |
+| **2** | **H1 ribbon pins 24 and 26 — spare conductors.** Two unused wires already run from the Teensy to the board. If the four-wire fix for this fault goes ahead, CLEAR# and RESET# can be commoned across all four DACs onto exactly these two spare pins. **No new cable is needed** |
+| **3** | **U13 pins 5, 6, 7 — the entire unused second channel of the OPA2227P** whose first channel is the bias buffer. Floating inputs on an unused op-amp half. See the note below |
+
+Also
 pin 11 (LDAC#) and pin 10 (SDO). Read off the symbols on schematic page 1 — every AD5761 carries
 a green no-connect cross on those pins.
 
@@ -274,6 +292,30 @@ only indication, and this is now documented rather than inferred.
 >
 > Neither approach **detects** anything, and neither helps mid-scan. The real fix is wiring the
 > AD5761 ALERT pins to spare Teensy GPIOs so the firmware can see the fault at all.
+
+### 4b. U13's unused op-amp channel is left floating — a new lead, not a confirmed fault
+
+**Found 2026-09-06 in the same netlist recount.** U13 is an **OPA2227P dual op-amp**. Channel A is
+the **bias buffer that drives the sample**. Channel B — pins 5 (+IN), 6 (−IN) and 7 (OUT) — is
+connected to **nothing at all**.
+
+That is a recognised design defect rather than a normal spare. An op-amp channel with floating
+inputs can drift to a rail or oscillate, and it shares a die and both supply pins with the channel
+next to it. Whatever it does couples into the bias line, and the bias line goes straight to the
+tunnel junction.
+
+**The same package is wired correctly elsewhere on this board**, which is the evidence that this is
+an oversight: on U9 and U10, channel B's non-inverting input is tied to AGND. On U13 it is open.
+
+| | |
+|---|---|
+| **Confidence** | The pins are open: **CONFIRMED** from the netlist. That it is *causing* a problem: **UNKNOWN** |
+| **Predicted symptom** | Noise or slow drift on the bias line that does not track the commanded bias |
+| **Test** | Scope U13 pin 7 with the board powered. A quiet DC level is fine; a rail or an oscillation is not |
+| **Fix** | Two short wires: **pin 6 to pin 7**, and **pin 5 to AGND**. That makes it a unity-gain follower on 0 V, which is the standard treatment. Low risk, no track cutting |
+
+Not on the critical path — the preamp is — but it is cheap, and bias noise is the kind of thing
+that would otherwise be blamed on the preamp.
 
 ### 5. One JP1 ground pin is open
 
@@ -376,6 +418,22 @@ identify the pins with a meter, record which ground wanders, then bond it.
    fixed. Engaging the loop snaps Z to midscale.
 9. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
    metre injects 20 to 50 nA, which is twenty to fifty times a tunneling current.
+10. **Type DAC commands carefully. An out-of-range value does not error — it silently jumps the
+    axis to the opposite rail.** Found 2026-09-06 by reading the driver. `set_dac_z(int)` hands its
+    value to `AD5761::write(uint8_t, uint16_t)`, so anything outside 0–65535 wraps modulo 65536
+    with no warning:
+
+    | You type | Firmware actually sends | DAC output |
+    |---|---|---|
+    | `DACZ 65535` | 65535 | +10 V, as expected |
+    | **`DACZ 70000`** | **4464** | **−8.6 V.** You asked for the top rail and got most of the way to the bottom one |
+    | **`DACZ -1`** | **65535** | **+10 V.** You asked for below zero and got the top rail |
+    | **`DACZ`** with no number | **0** | **−10 V.** `parseInt()` times out and returns zero |
+
+    From midscale, each of those is a jump of roughly 8 to 10 V — **hundreds of nanometres**, far
+    more than a tunneling gap. **Keep every DAC argument between 0 and 65535, and never send a
+    bare `DACZ` / `DACX` / `DACY`.** There is no clamp anywhere in the path: not in `main.cpp`, not
+    in `set_dac_*`, not in the driver.
 
 ---
 
@@ -412,5 +470,10 @@ The full register, including the undocumented hardware and process items, is in
 | `stm_control.py:88` | `set_buffer_size()` is **Windows-only** in pyserial. On macOS or Linux the GUI cannot open the port at all |
 | `stm_control.py:40-49` | All three axis voltage conversions use ±5 V. Z is **±10 V**, X and Y are **±3 V**. Every voltage the GUI displays is wrong |
 | `stm_firmware.hpp:497-498` | Comments say X and Y are ±5 V. They are **±3 V** — same mode bits as bias, which measures ±3 V. Comment only, the behaviour is correct |
+| `AD5761.cpp` `write()` | **`reg_data` is `uint16_t`, so every DAC command wraps modulo 65536 with no error.** See safety rule 10 — this is a tip hazard, not a cosmetic issue. Found 2026-09-06 |
+| `main.cpp` `SCST` handler | **Seven integers parsed straight from serial with no bounds check.** `y_resolution` indexes `scan_image_adc[2048]` and `scan_image_z[2048]`, so **`y_resolution > 2048` writes past the end of both arrays.** `sample_per_pixel = 0` divides by zero. Keep y_resolution ≤ 2048. Found 2026-09-06 |
+| `AD5761.cpp` `write_volt()` | **Never called, and wrong if it were.** `(voltage/2.5 + 4)/8 * 65536` assumes the ±10 V range, so it is wrong for X, Y and bias (±3 V); and at exactly +10 V it computes 65536, which wraps to 0 and outputs −10 V. Same class of trap as `read_volts()`. Do not use it. Found 2026-09-06 |
+| `AD5761.hpp` header comments | Document the mode words as `0b0000000101000` (±10 V) and `0b0000000101101` (±3 V). The firmware actually writes `0b0…000` and `0b0…101`. **Only the low three bits agree.** The firmware's words are the ones measured to work; the header's comments are stale. Found 2026-09-06 |
+| `checkSerial()` in `main.cpp` | Fires on **one** available byte then reads four without waiting, and leaves the terminator in the buffer after an argument-less command. `stm_console.py` already works around both — it sends one write, and a newline **only when there is an argument**. **Anything else (Arduino Serial Monitor, a hand-typed terminal) will desynchronise**: after `RSET` or `ADCR` the stray newline eats the first character of your next command |
 
 `logTable[abs(adc)]` is **safe** — the table is `[32769]`. Do not "fix" it.

@@ -145,6 +145,83 @@ nothing holds the lid at all.
 > assemblies flip parts freely. Look at the physical plate before deciding which side the screw
 > heads go in. VERIFY.
 
+### Bores that are not vertical
+
+**Added 2026-09-06.** The first pass only looked for holes running along Z and therefore reported
+`SamplePlate` and `ThreadAdaptor` as having no features at all. That was a limitation of the tool,
+not of the parts. It now scans all three axes.
+
+| Part | Bore | Measured | Reading |
+|---|---|---|---|
+| **`PiezoPlate`** | 3 along **X** | **Ø4.200**, 5 mm deep, at Y = −27, 0, +27 from centre, Z = 7.50 | **The same −27 / 0 / +27 spacing as the BasePlate hole grid.** Not a coincidence |
+| **`PiezoPlate`** | 4 along **Y** | **Ø4.200**, 5 mm deep, at X = ±15, Z = 7.50 | Blind pockets from both faces |
+| **`SamplePlate`** | 4 along **Y** | **Ø4.200**, 6 mm deep, at X centre, Z = 9.50 and 39.50 | **Four blind pockets, and the BOM lists exactly four disc magnets.** INFERRED, worth one look at the real part |
+| **`SamplePlate`** | 1 along **X** | **Ø2.000**, X 171.02–181.53 | A single small cross-hole low on the plate. **Purpose UNKNOWN** — a wire feed-through and a set screw are both plausible |
+| **`ThreadAdaptor`** | 2 along **Y** | **Ø4.199**, ~5 mm deep, at Z = 12.00 | Grub-screw or pin holes into the coupling |
+
+`Ø4.2` recurs across three parts and is distinct from the `Ø4.3` used throughout the isolation
+tower, where it is M4 clearance. **Ø4.2 is something else and it is consistent.** Not resolved.
+
+---
+
+### The scan head lever geometry — measured
+
+The `PiezoPlate` carries **three Ø8.100 mm through-holes** in an isosceles triangle. The BOM lists
+three 1/4"-80 fine-adjust screws and three brass inserts, and 8.1 mm is a sensible bore for a
+0.438"-long insert. **That the counts match is the evidence; it is not independently confirmed.**
+
+| Measurement | Value | Tag |
+|---|---|---|
+| Front pair spacing (the two screws on one line) | **35.000 mm** | CONFIRMED |
+| Front-screw line to the third (rear) screw | **40.000 mm** | CONFIRMED |
+| Other two triangle sides | 43.661 mm each | CONFIRMED |
+| Piezo disc pocket centre, relative to the front-screw line | **1.000 mm in front of it** | CONFIRMED |
+
+Those are exact round numbers — 35.000, 40.000, 1.000 — which is what design intent looks like.
+
+> **This may answer the lever-ratio question that has been open all project.** If the front two
+> screws are the pivot and the rear screw is the one the motor drives, the geometric reduction at
+> the disc is **40.00 / 1.00 = 40**, giving **3.88 nm per motor step** rather than the 7.8 (ratio
+> 20) or 5.2 (ratio 30) taken from Berard.
+>
+> **Do not treat that as settled.** It assumes the tip sits at the disc centre and that the rear
+> screw is the driven one. Both are readable off the assembled instrument in about a minute with
+> a ruler, and that is the check worth doing. Recorded as a lead, not a result.
+
+---
+
+### The piezo disc pocket does not match the disc in the BOM
+
+**This is the most consequential thing found in the mechanical audit.**
+
+Measured on `PiezoPlate`, fit error 0.0000 and 0.0001:
+
+```
+Ø20.500 recess, 3.00 mm deep, on the Z = 15 face
+    over
+Ø18.000 through-bore, the remaining 12.00 mm
+```
+
+That is the textbook mounting for a unimorph disc scanner: the brass rim is clamped in the shallow
+recess and the ceramic centre flexes freely into the clearance below.
+
+**But `docs/BOM.md` specifies a disc of "about 25 to 27 mm brass".** A 25–27 mm disc does not go
+into a 20.5 mm pocket. Meanwhile Berard's reference part, the Murata 7BB-20-6, is **20 mm** — which
+fits Ø20.5 with 0.25 mm of clearance all round.
+
+Three possibilities, and the repository cannot choose between them:
+
+1. **The BOM is wrong** and this design was always dimensioned for a 20 mm disc.
+2. **The pocket is not for the disc at all** and the disc mounts elsewhere.
+3. **The pocket was modelled for Berard's 20 mm part and never updated** when a larger disc was chosen.
+
+**Resolve it with a caliper.** Measure the disc actually in hand and the actual pocket in the
+printed plate. If the disc is 25–27 mm, it cannot use this pocket and something has to change —
+and it matters beyond fit, because **a larger disc gives more displacement per volt**, so every
+nm/V figure in `docs/ENGINEERING_REFERENCE.md` §4 depends on which disc is really mounted.
+
+---
+
 ### Not measured
 
 `SamplePlate` and `ThreadAdaptor` have **no vertical round holes at all**, so this method reports
@@ -164,6 +241,87 @@ To re-run any of this:
 python3 Code/pc/stl_features.py                                  # every part
 python3 Code/pc/stl_features.py CAD/prints/scan-head/BasePlate.stl
 ```
+
+---
+
+## How these parts were actually printed
+
+**From the five `.3mf` project files in `CAD/prints/print-plates/`, opened 2026-09-06.** A 3MF is a
+zip; each of these carries the slicer's complete settings and the list of objects on the plate.
+Nobody had opened them. They are the only record of what the physical parts are made of.
+
+| Setting | Value |
+|---|---|
+| Printer | **Bambu Lab X1 Carbon**, 0.4 mm nozzle |
+| Material **selected in these files** | Bambu **PA-CF**, nozzle 290 °C, bed 100 °C — **but see the warning below** |
+| Layer height | **0.08 mm** ("Extra Fine"), 0.2 mm first layer |
+| Walls | 2 |
+| Top / bottom shells | 9 / 7 |
+| Infill | **40% zig-zag on the scan-head plate; 15% grid on the isolation parts** |
+| Supports | **off** on every plate |
+| Brim | auto |
+| Bed | textured PEI |
+
+Every object on every plate is assigned to extruder 1, and slot 1 holds the PA-CF. PLA sits in
+slot 2 and is never used.
+
+> ### The material in these files CONFLICTS with the BOM. Do not trust the plates on this.
+>
+> These project files were saved by the slicer on **2026-07-03** with **PA-CF** selected.
+> `docs/BOM.md` §10, written later on **2026-08-14**, says in the first person: *"We used PETG-CF.
+> Mech Panda used PA-CF, but we tried it first and couldn't print it reliably at these tolerances."*
+>
+> **The BOM is the newer statement and it is first-hand, so it wins.** The most likely story is that
+> these plates record the earlier PA-CF attempt, the switch to PETG-CF happened at the printer, and
+> the project files were never re-saved. That fits: 290 °C and a 100 °C bed would be badly wrong for
+> PETG-CF, which wants roughly 250 °C and 70 °C — so whatever was actually printed did **not** use
+> the temperatures in these files.
+>
+> **Treat the plates as reliable for geometry, layout and infill, and unreliable for material and
+> temperature.** UNKNOWN which material the parts in hand actually are — and it is a one-question
+> answer from whoever ran the printer. It matters: PA-CF and PETG-CF differ in stiffness, creep and
+> moisture uptake, and all three show up as drift in an STM image.
+>
+> If PA-CF is ever used, **dry the filament first** — nylon is hygroscopic and wet nylon prints
+> weak and dimensionally off.
+
+**The 40% / 15% infill split is a deliberate, sensible choice** and worth preserving if anything is
+reprinted: the stiffness-critical scan-head plates got more than twice the infill of the big
+isolation parts, where mass matters more than stiffness.
+
+### What is on which plate
+
+| Plate file | Contents |
+|---|---|
+| `Masterplate_1.1.3mf` | **The whole scan head**: BasePlate, MotorSupport, PiezoPlate, SamplePlate, ThreadAdaptor, box mount — plus 9 spring-hanger pieces and 2 coin weights |
+| `Masterplate2.3mf` | `Platform` |
+| `masterplate3.3mf` | `new_topframe` |
+| `Masterplate4.3mf` | `new_body` |
+| `masterplate5.3mf` | `magnet mount` |
+
+**No plate contains any of the six enclosures** (`1_preamp_box` … `6_shield_cover`). They were
+printed some other way, or from a project file that was never saved here. Not a problem — they
+exist physically — but if one needs reprinting there is **no saved plate for it**, and the settings
+above are the best guide.
+
+---
+
+## Multi-part STLs — two files are not one part each
+
+Two of the isolation STLs contain **several separate solids**, which is why the slicer shows more
+objects than files. Counted by splitting the meshes into connected components:
+
+| File | Solids | What they are |
+|---|---|---|
+| **`Spring_hangers_and_extentions.stl`** | **9** | Three of each of three designs, all Ø25.00 mm: **3 × 8 mm tall** (a cap, Ø14.7 recess, Ø4.3 bore), **3 × 50 mm tall**, **3 × 85 mm tall** |
+| **`coin_weights.stl`** | **3** | Three identical Ø24.00 × 15.00 mm cups, each with an M3 clearance hole (Ø3.400) counterbored Ø8.000 |
+
+**Three of each is the signature of the three-point suspension**, and it matches the BOM's three
+springs, three rods and three top caps. The two tall pieces each carry a ~25 mm section of larger
+bore at one end (Ø18.222 on the 50 mm piece, Ø17.334 on the 85 mm piece) which is consistent with
+the BOM's **M20 × 2 spring top caps** screwing into them — INFERRED from the diameters, not
+confirmed, and note the bores are plain cylinders in the mesh, so any thread is cut or printed
+separately rather than modelled.
 
 ---
 

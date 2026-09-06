@@ -154,8 +154,11 @@ def max_angular_gap(points, cx, cy):
     return max(gaps)
 
 
-def wall_surfaces(tris, places=4):
-    """Split the side-facing triangles into surfaces that touch each other.
+def wall_surfaces(tris, places=4, axis=2):
+    """Split the triangles that stand parallel to `axis` into touching surfaces.
+
+    axis is 0, 1 or 2 for X, Y or Z. A hole bored along that axis has walls
+    whose normals have no component along it, so those are the triangles kept.
 
     Union-find over shared vertices. Two triangles join the same surface only
     if they share a corner, so a bore's wall and the outside of the part never
@@ -178,7 +181,7 @@ def wall_surfaces(tris, places=4):
     walls = []
     for t in tris:
         n = facet_normal(t)
-        if n is None or abs(n[2]) > WALL_NZ:
+        if n is None or abs(n[axis]) > WALL_NZ:
             continue
         keys = [(round(v[0], places), round(v[1], places), round(v[2], places))
                 for v in t]
@@ -194,12 +197,22 @@ def wall_surfaces(tris, places=4):
     return list(groups.values())
 
 
-def find_holes(source, min_pts=6):
-    """Vertical circular features. Returns (cx, cy, dia, z_lo, z_hi, fit_err).
+AXIS_NAME = ('X', 'Y', 'Z')
+
+
+def find_holes(source, min_pts=6, axis=2):
+    """Circular features bored along `axis` (0=X, 1=Y, 2=Z; default Z).
+
+    Returns (c1, c2, dia, lo, hi, fit_err), where c1/c2 are the centre in the
+    two axes that are not `axis`, and lo/hi are the span along `axis`. For the
+    default Z axis that reads as (cx, cy, dia, z_lo, z_hi, err).
 
     Takes a path, or the triangles from read_facets(). It needs triangles, not
     loose vertices, so a bare vertex list is refused rather than silently
     measured wrong.
+
+    **Run all three axes before saying a part has no holes.** SamplePlate looks
+    featureless on Z and has four bores on Y.
     """
     if isinstance(source, str):
         tris = read_facets(source)
@@ -210,23 +223,24 @@ def find_holes(source, min_pts=6):
             raise TypeError("find_holes needs triangles from read_facets(), "
                             "not a flat vertex list")
 
+    a, b = [i for i in (0, 1, 2) if i != axis]
     holes = []
-    for pts in wall_surfaces(tris):
-        uniq = sorted(set((round(p[0], 4), round(p[1], 4)) for p in pts))
+    for pts in wall_surfaces(tris, axis=axis):
+        uniq = sorted(set((round(p[a], 4), round(p[b], 4)) for p in pts))
         if len(uniq) < min_pts:
             continue
         fit = lsq_circle(uniq)
         if fit is None:
             continue
-        cx, cy, r, resid = fit
+        ca, cb, r, resid = fit
         if r < 0.3 or r > 60:
             continue
         if resid > 0.02 * r + 0.02:
             continue                                   # not round
-        if max_angular_gap(uniq, cx, cy) > math.pi / 2:
+        if max_angular_gap(uniq, ca, cb) > math.pi / 2:
             continue                                   # an arc, not a bore
-        zs = [p[2] for p in pts]
-        holes.append((cx, cy, 2 * r, min(zs), max(zs), resid))
+        along = [p[axis] for p in pts]
+        holes.append((ca, cb, 2 * r, min(along), max(along), resid))
     holes.sort(key=lambda h: (-h[1], h[0], h[2]))
     return holes
 
@@ -241,25 +255,33 @@ def report(path):
           % (x1 - x0, y1 - y0, z1 - z0, len(tris)))
     print("  origin corner  X %.2f..%.2f   Y %.2f..%.2f   Z %.2f..%.2f"
           % (x0, x1, y0, y1, z0, z1))
-    holes = find_holes(tris)
-    if not holes:
-        print("  no vertical circular features detected -- NOT MEASURED, which")
-        print("  is not the same as 'no holes'. Sideways holes and non-round")
-        print("  pockets are invisible to this method.")
-        return
-    print("  %d vertical circular features (a stepped hole appears as two rows,"
-          % len(holes))
-    print("  same X/Y, different diameter and Z span -- that is a counterbore):")
-    print("    %9s %9s %9s   %-14s %s" % ("X", "Y", "dia mm", "Z span", "fit err"))
-    for cx, cy, dia, zlo, zhi, resid in holes:
-        print("    %9.2f %9.2f %9.3f   %-14s %.4f"
-              % (cx, cy, dia, "%.2f..%.2f" % (zlo, zhi), resid))
-    # Offsets from the part centre, which is how the gotchas document
-    # describes the BasePlate grid.
-    mx, my = (x0 + x1) / 2, (y0 + y1) / 2
-    print("  same features as offsets from the part centre (%.2f, %.2f):" % (mx, my))
-    print("    X offsets: %s" % sorted({round(h[0] - mx, 1) for h in holes}))
-    print("    Y offsets: %s" % sorted({round(h[1] - my, 1) for h in holes}))
+    centre = ((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2)
+    found_any = False
+    for axis in (2, 0, 1):
+        holes = find_holes(tris, axis=axis)
+        if not holes:
+            continue
+        found_any = True
+        a, b = [i for i in (0, 1, 2) if i != axis]
+        an, bn, cn = AXIS_NAME[a], AXIS_NAME[b], AXIS_NAME[axis]
+        print("  %d bores along %s (a stepped hole appears as two rows: same"
+              % (len(holes), cn))
+        print("  %s/%s, different diameter and span -- that is a counterbore):"
+              % (an, bn))
+        print("    %9s %9s %9s   %-14s %s"
+              % (an, bn, "dia mm", cn + " span", "fit err"))
+        for ca, cb, dia, lo, hi, resid in holes:
+            print("    %9.2f %9.2f %9.3f   %-14s %.4f"
+                  % (ca, cb, dia, "%.2f..%.2f" % (lo, hi), resid))
+        # Offsets from the part centre, which is how the gotchas document
+        # describes the BasePlate grid.
+        print("    offsets from the part centre (%s %.2f, %s %.2f):"
+              % (an, centre[a], bn, centre[b]))
+        print("      %s: %s" % (an, sorted({round(h[0] - centre[a], 1) for h in holes})))
+        print("      %s: %s" % (bn, sorted({round(h[1] - centre[b], 1) for h in holes})))
+    if not found_any:
+        print("  no circular features on any axis -- NOT MEASURED, which is not")
+        print("  the same as 'no holes'. Non-round pockets are invisible here.")
 
 
 def main(argv):
