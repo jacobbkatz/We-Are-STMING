@@ -34,7 +34,7 @@ These stop progress right now.
 
 | Question | Why it matters |
 |---|---|
-| **Is the scan head shield cover wrapped in copper and grounded?** | **A different shield from the preamp box.** `6_shield_cover.stl` drops over the whole scanning module. **It is printed and it fits** (Jacob, 2026-09-06 — the parts have all been assembled before). Whether it is *wrapped and grounded* is still unrecorded. Berard: without that, images are dominated by 60 Hz pickup |
+| ~~Is the scan head shield cover wrapped and grounded?~~ | **Answered 2026-09-06.** Printed, wrapped in copper, grounded. Reported by Jacob, not independently metered. Distinct from the preamp box shield |
 | **Is the rebuilt preamp box shield continuous?** VERIFY | Every preamp conclusion next session depends on it. Two minutes with a meter |
 | **What is our scan head's lever reduction ratio?** VERIFY | Berard quotes **20 on one page and 30 on another**, giving 7.8 or 5.2 nm/step. Both are comfortable, so this is no longer urgent. Measurable from `CAD/prints/scan-head/`: (front-screw-line to tip) ÷ (front-screw-line to rear screw) |
 | **How does the tip mount, and is it insulated from the brass electrode?** | Berard uses a pin socket in an aluminium standoff on a **sapphire disk**, and warns that glue must not bridge standoff to the grounded brass plate. We have no documented tip mounting at all. Meter-check before imaging |
