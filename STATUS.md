@@ -3,6 +3,9 @@
 **Last updated:** 2026-09-06
 **Updated by:** Nuh (bench, meter only — nothing was powered), then Jacob (remote, documentation)
 
+> **Before recording anything here as unknown, read `CLAUDE.md` §3b and check `docs/INDEX.md`.**
+> Four items in this file's history were marked unknown while the answer sat in a repository file.
+
 > This file is the single source of truth for where the build is right now.
 > It is rewritten at the end of every work session. If anything else in the repo
 > disagrees with this file, **this file wins** — see `CLAUDE.md` for the full rule.

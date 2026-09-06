@@ -106,5 +106,8 @@ Its motor control is broken independently of both. Use `stm_console.py` and `stm
 ## Known issue
 
 `stm_control.py` and `stm_console.py` hardcode the ADC full scale as **10.24 V**, while the
-firmware driver uses **4.096**. That disagreement is unresolved — see the open questions in
-`STATUS.md`. Any current figure printed by these tools depends on it.
+firmware driver uses **4.096**. **That is resolved: 4.096 is correct** — the controller schematic
+shows the LTC2326 running on its own internal reference. See `docs/UPSTREAM_MECHPANDA.md` §1.
+
+**Every current these tools print is therefore 2.5x too large.** The constant is deliberately not
+changed yet, because it should land with the meter calibration that proves it.

@@ -3,6 +3,12 @@
 For briefing a fresh Claude instance. This covers what the project is, what's been verified,
 and exactly where things stand right now.
 
+> ## THIS BANNER IS A LIVE CORRECTION LOG — READ IT EVEN THOUGH THIS FILE IS RANKED LAST
+>
+> The **body** of this document is superseded in places. **This banner is not.** Corrections get
+> written here the moment they are found, which can make it the newest text in the repository.
+> A day was lost on 2026-09-06 re-deriving something already recorded four lines below.
+>
 > ## READ `sessions/2026-08-31-results.md` FIRST
 >
 > Session 3 (2026-08-31) contradicts **seven** claims in this document, all backed by

@@ -61,30 +61,101 @@ problem, deal with it before starting work.
 ## 3. Which document to believe
 
 This project has accumulated documents that **contradict each other**, because findings were
-corrected as we learned more. This is the most common way to get things wrong here.
+corrected as we learned more. This is the most common way to get a fact wrong here.
 
 **The precedence order, highest first:**
 
 1. **`STATUS.md`** — the live state. Rewritten every session.
 2. **The newest file in `sessions/`** — newer sessions correct older ones.
 3. **Older files in `sessions/`.**
-4. **`docs/PROJECT_HANDOFF_SUMMARY.md`** — large and useful, but **six things in it are known
-   to be wrong**, corrected in `sessions/2026-08-31-results.md` section 5. Never cite the handoff
+4. **`docs/PROJECT_HANDOFF_SUMMARY.md`** — large and useful, but parts of it are known to be
+   wrong, corrected in `sessions/2026-08-31-results.md` section 5. Never cite the handoff's **body**
    against a newer document.
 
 If two documents disagree and you cannot tell which is newer, **say so and ask.** Do not average
 them or pick one silently.
 
+### Precedence is about conflicts. It is NOT about what to read.
+
+**A low-ranked document is still read. It is only outranked when it disagrees with a higher one.**
+
+This distinction has cost this project real time. On 2026-09-06 a remote session spent a day
+re-deriving the JP1 pinout from the preamp gerbers — **an answer that had been sitting on `main`
+for six days**, in the header of the handoff, put there by the person who did the work. It was
+skipped because the handoff is ranked last, and "ranked last" was read as "not worth opening".
+
+The result was worse than duplication: the re-derivation was **shallower** and missed that pin 4
+has no copper routed to it at all.
+
+> **Freshness is not a property of a document. It is a property of a passage.**
+> A correction banner at the top of an old file is newer than the file it sits in — often newer
+> than anything else in the repository, because that is where someone wrote it the moment they
+> found it.
+
+**So: `docs/PROJECT_HANDOFF_SUMMARY.md`'s body is superseded. Its header banner is a live
+correction log and is read FIRST, not last.** Check the top of any document before dismissing it
+on rank.
+
+---
+
+## 3b. Before you record anything as unknown, search for it
+
+**Four times in four days, something recorded as unknown or blocked was already answered by a file
+in this repository.** This is now the single most common failure mode in this project — more than
+wrong measurements, more than bad reasoning.
+
+| Recorded as | Where the answer already was |
+|---|---|
+| "ADC full scale unresolvable without a bench calibration" | The controller schematic, in our own `PCB/` directory |
+| "JP1 numbering unknown, do not run a wire" | The handoff's header banner, from Nuh's own commit |
+| Copper tape and grounding advice, missing | `WHICH_SCANHEAD_PART.txt`, inside a zip |
+| Both boards' netlists, "would need tracing" | Inside both gerber archives all along |
+
+**Before writing UNKNOWN, VERIFY, "needs a bench test", or "we would have to derive this" — and
+before starting any derivation from scratch — run these:**
+
+```bash
+grep -rin "<the thing>" --include=*.md . | head -30      # every prose document
+grep -rin "<the thing>" Code/ | head -20                 # source and comments
+head -40 docs/PROJECT_HANDOFF_SUMMARY.md                 # the live correction banner
+```
+
+**Then check `docs/INDEX.md`**, which lists what is inside every archive and binary in this
+repository. Zips, PDFs and CAD files are not greppable; that index exists so their contents are.
+
+### A hard-to-read file is not an empty one
+
+**"I could not open it" is never the same as "it does not contain the answer."** Try a second
+tool before concluding anything:
+
+| File type | What worked here |
+|---|---|
+| Schematic PDF with vector-outlined text | `pip install pymupdf`, then `page.get_text()`. Three other tools returned nothing |
+| Gerbers | They are plain text. KiCad's carry `%TO.N` / `%TO.P` net and pin attributes — a full netlist |
+| JLCPCB gerber archive | Contains `FlyingProbeTesting.json`, the complete board netlist |
+| Fusion `.f3z` | A zip. `DesignDescription.json` names every referenced component |
+| Any `.zip` | `unzip -l` first. Contents are often documents, not just data |
+
+### If you find the answer was already there, say so
+
+Do not quietly present it as new. Say where it was, why it was missed, and **credit whoever wrote
+it down.** Jacob and Nuh cannot read the code or the files themselves — if a finding is presented
+as fresh when it was already recorded, they lose the ability to tell what is actually new.
+
 ### Specific corrections already in force
 
 | The handoff says | Actually |
 |---|---|
-| Stage 6 is an open feedback loop | Loop is **closed**. 37 nA of input leakage from CA contamination |
+| Stage 6 is an open feedback loop | Loop is **closed**. 37 nA of input leakage |
 | ADC clock is the "library default" | It was explicitly 40 MHz. Now 1 MHz |
 | Use `TONE 8600` as the standard piezo check | No usable resonance when mounted. Do not judge the piezo by ear at all |
-| "Preamp ground is open" was wrong | One JP1 ground really **is** open. The retraction over-corrected |
+| PAD1 is "downstream of R1" (A.8.1) | **Upstream.** PAD1 and IC1 pin 6 are the same net; R1 feeds JP1 pin 3 |
 | Power-on Z at −10 V is a tip hazard | That is the DAC output; the inverting stage puts +10 V on DSUB1. Direction is unproven |
 | Re-park after `TEST` | Re-park after **`RSET` too** — it also slams Z to a rail |
+
+**JP1**, which the handoff's own header already corrects: pin 4 is `GND` in the netlist but
+**unrouted on the PCB** — no copper track lands on it on either layer. A routing defect, not a
+build fault. See `docs/WIRING.md` §10.
 
 The **firmware source comments are also wrong** about the DAC ranges. `stm_firmware.hpp:497-498`
 says X and Y are −5 to +5 V. They are **±3 V**: X, Y and bias all use identical mode bits
@@ -167,6 +238,7 @@ close the laptop.
 | `sessions/TEMPLATE.md` | Copy this to start a new log |
 | `docs/WIRING.md` | **Verified pinouts, cable colours, LEDs, power tree.** The bench reference |
 | `docs/COMMANDS.md` | **Every firmware command**, what blocks, what replies |
+| `docs/INDEX.md` | **What is inside every archive and binary.** Check before deriving anything |
 | `docs/OPEN_QUESTIONS.md` | Every UNKNOWN and VERIFY in the project, in one place |
 | `docs/UPSTREAM_MECHPANDA.md` | **The design we are actually building.** Schematic-derived facts, what differs from upstream, and the ADC reference answer |
 | `docs/UPSTREAM_BERARD.md` | Reading notes from Dan Berard's build. **Context, not our design** — ours is Mech Panda's apart from the preamp. Says which of his numbers apply to us and which do not |
