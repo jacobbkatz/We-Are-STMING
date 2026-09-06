@@ -1,7 +1,7 @@
 # Current status
 
 **Last updated:** 2026-09-06
-**Updated by:** Nuh (bench, meter only — nothing was powered), then Jacob (remote, documentation and a repository-wide engineering audit)
+**Updated by:** Nuh (bench, meter only — nothing was powered), then Jacob (remote: a repository-wide engineering audit, then a verification pass over that audit)
 
 > **Before recording anything here as unknown, read `CLAUDE.md` §3b and check `docs/INDEX.md`.**
 > Four items in this file's history were marked unknown while the answer sat in a repository file.
@@ -371,6 +371,10 @@ identify the pins with a meter, record which ground wanders, then bond it.
 1. **Answer the two datasheet questions.** Neither needs the bench, and one of them gates a fix
    that is otherwise ready to go. (a) Does the AD5761R have internal pull-ups on CLEAR#/RESET#?
    (b) Is the LTC2326-16 output signed two's complement or straight binary?
+   > **If the answer to (a) means the fix goes ahead, it is cheaper than it looked.** CLEAR# and
+   > RESET# can be commoned across all four DACs, which is two wires — and **H1 pins 24 and 26 are
+   > spare ribbon conductors already running from the Teensy to the board** (found 2026-09-06,
+   > fault 4). No new cable is needed.
 2. **Run the shield test properly: D1, D2, D3.** Baseline with the shield wire disconnected, then
    the rail-scaling test, then with the shield connected. **Then rebuild the preamp if it is still
    bad**, and run the same acceptance test.
@@ -382,9 +386,25 @@ identify the pins with a meter, record which ground wanders, then bond it.
 5. **Dummy junction test.** A **100 MΩ resistor or larger** clipped between the sample holder and
    the tip holder. Proves the whole current path with no tip and no crash risk, gives counts per
    amp directly, and **tells us the sign of the current**.
-   > **Do not use 1 MΩ.** An earlier version of this list said "between 1 MΩ and 100 MΩ". The
-   > preamp reads to about 100 nA; 1 MΩ at 3 V of bias pushes 3 µA, thirty times over range and
-   > instantly saturated. Corrected in `sessions/2026-09-06.md` §11.
+   > **Do not use 1 MΩ.** An earlier version of this list said "between 1 MΩ and 100 MΩ".
+   > **The instrument reads to 40.96 nA** (4.096 V ADC full scale ÷ 100 MΩ — corrected from
+   > "about 100 nA" on 2026-09-06; the ADC saturates well before the preamp rails do). 1 MΩ at
+   > 3 V of bias pushes **3 µA, which is seventy times over range** and instantly saturated.
+   > Corrected in `sessions/2026-09-06.md` §11 and again §57.
+5b. **Four quick checks added 2026-09-06, none of which need the analog chain working.**
+   Do them whenever there is a spare five minutes — each closes something currently unknown.
+   - **Calipers on the piezo disc and on the `PiezoPlate` pocket.** The pocket measures
+     **Ø20.500 mm**; `docs/BOM.md` says the disc is **25–27 mm**. They cannot both be right, and
+     the answer changes every nm/V figure. See `CAD/prints/README.md`.
+   - **A ruler on the suspension.** Measure how far the springs stretch under the hanging
+     platform. That single number gives the resonant frequency — 200 mm of droop is 1.1 Hz —
+     with no need for the spring rate or the mass. See `docs/ENGINEERING_REFERENCE.md` §7b.
+   - **A scope on U13 pin 7.** The unused half of the bias buffer's op-amp is floating. A quiet
+     DC level is fine; a rail or an oscillation is fault 4b and is two wires to fix.
+   - **A ruler on the scan head lever.** Which screw does the motor drive, and where is the tip
+     relative to the front screw line? The CAD says 40.000 mm and 1.000 mm, which would make the
+     ratio 40 and one step 3.88 nm. One minute settles a question open all project.
+
 6. ~~**Write `Code/pc/stm_approach.py`.**~~ **Written 2026-09-05.** PC-side woodpecker loop,
    Ctrl-C abortable, thresholds on absolute deviation so the current's sign does not matter. Never
    sends `APRH`. 40 tests pass against a simulated microscope. **Never run on hardware yet**, and
