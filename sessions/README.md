@@ -20,5 +20,26 @@ logs are the reasoning behind it and the record of what was ruled out.
 | [2026-08-31](2026-08-31-results.md) | Preamp fault characterised: 37 nA leakage, loop closed not open. Bias path passes, first test ever. **Two new faults:** DACs lose configuration hourly, one JP1 ground open. ADC clock 40 MHz to 1 MHz. Piezo has no usable resonance when mounted |
 | [2026-08-31 plan](2026-08-31-plan.md) | The plan that session ran against, including its Part 0 corrections to the handoff |
 
+## A stray branch on the remote
+
+`origin/session-2026-08-31` holds two commits by Nuh from 31 August, on a **separate history**
+(it descends from Mech Panda's original repository, not from ours):
+
+| | |
+|---|---|
+| `d8069d5` | Session 3: ADC clock fix, bias path verified, preamp fault identified |
+| `0f9515d` | **Resolve JP1 pinout from the preamp Gerbers: pin 4 is unrouted** |
+
+**All of its content is already on `main`**, verified file by file on 2026-09-06 — it arrived via
+Jacob's manual upload on 1 September, at the reorganised paths. The only differences are those path
+updates and line endings.
+
+**It is safe to delete, but has been left alone** because it is Nuh's branch and both of us were
+not present. Delete it together, or leave it as an archive — but **do not push to it**, or work
+will diverge onto a history `main` cannot see. That is how the JP1 finding nearly went unnoticed:
+it was on `main` all along, in the handoff's header, and a later session re-derived it from scratch.
+
+---
+
 Sessions 1 and 2, on 2026-08-29 and 2026-08-30, predate this directory. They are written up as
 Appendix A of `docs/PROJECT_HANDOFF_SUMMARY.md`.

@@ -1,7 +1,7 @@
 # Current status
 
 **Last updated:** 2026-09-06
-**Updated by:** Nuh (bench, meter only — nothing was powered). Earlier the same day: Jacob, remote
+**Updated by:** Nuh (bench, meter only — nothing was powered), then Jacob (remote, documentation)
 
 > This file is the single source of truth for where the build is right now.
 > It is rewritten at the end of every work session. If anything else in the repo

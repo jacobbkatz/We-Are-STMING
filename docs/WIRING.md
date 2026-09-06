@@ -267,6 +267,25 @@ component, pin and net names — so this is the actual netlist, not an inference
 | **4** | **GND** | |
 | **5** | **- supply** (our -15 V) | **the far end** |
 
+### Pin 4 is GND in the netlist but UNROUTED on the board
+
+**Found by Nuh on 2026-08-31**, from the same gerbers, and re-derived independently on 2026-09-06.
+Recorded here because the second pass missed it.
+
+The netlist assigns JP1 pin 4 to `GND` — but **no copper track lands on it, on either layer.**
+Every segment on both layers was enumerated and none touches (18.733, 5.080), and there are no
+copper pours (zero `G36` regions on both layers). **It is a PCB routing defect, not a build fault
+and not a bad solder joint.**
+
+That explains the 2026-08-31 measurement exactly: one pin at a solid 0.000 V (pin 1), and **two**
+wandering — pin 3, which is the output and is supposed to wander, and pin 4, which is unrouted.
+
+**Consequence.** Handoff A.3.6 records the green wire landing on **JP1 pin 4**. If that is how it
+is wired, **the preamp's ground return may have been going through the tip coax shield alone.**
+
+**Fix:** land ground on **pin 1**, and jumper pin 4 to pin 1. Both are GND in the netlist, so this
+is electrically correct.
+
 ### How to tell which end is pin 1, with a meter and no ambiguity
 
 The layout is **asymmetric**, which makes this unambiguous:
@@ -279,7 +298,8 @@ pin 1 is the outermost pin next to the positive supply.
 
 The **middle pin is always pin 3, the output**, whichever way round the board sits.
 
-**This retires the "do not run a wire between JP1 pins" rule** from 2026-08-31. That rule existed
+**This retires the "do not run a wire between JP1 pins" rule** from 2026-08-31, which was correct
+only while the pinout was unknown. That rule existed
 because the numbering might have been mirrored, and bonding a supposed ground to what was really
 -15 V would short a rail. The numbering is now known, and the two grounds can be identified by
 position relative to the supplies without trusting any silkscreen.
