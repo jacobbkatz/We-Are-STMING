@@ -10,6 +10,10 @@ temperature, and that shows up directly as drift in your images. Budget roughly 
 
 ---
 
+> **These parts have all been printed and assembled together before** — reported by Jacob,
+> 2026-09-06. So the fits below are not just nominal dimensions; the stack-up is known to work in
+> practice. **Reported, not re-measured on an assembled unit.**
+
 ## The enclosures, measured from the STLs
 
 Bounding boxes read directly off the mesh files. **There are two shielded enclosures and they are

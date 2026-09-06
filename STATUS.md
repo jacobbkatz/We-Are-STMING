@@ -107,7 +107,7 @@ a meter first.**
 > | | What it is | Status |
 > |---|---|---|
 > | **Preamp box shield** | `1_preamp_box` — **35 × 29 × 21 mm**, around the **preamp board only** (the board is 20.6 × 15.2 mm) | **Rebuilt 2026-09-06.** All copper, seams soldered, one ground wire. **Continuity NOT yet metered** |
-> | **Scan head shield cover** | `6_shield_cover.stl` — **142 × 128 × 112 mm**, drops over the **whole scanning module**. Also wants copper tape and one ground bond | **Status unknown.** Printed? Wrapped? Grounded? Nobody has recorded it |
+> | **Scan head shield cover** | `6_shield_cover.stl` — **142 × 128 × 112 mm**, drops over the **whole scanning module**. Also wants copper tape and one ground bond | **Printed, and it fits.** Reported by Jacob 2026-09-06: the printed parts have all been assembled together in the past. **Whether it is wrapped in copper and grounded is still not recorded** |
 >
 > **Everywhere in this file, "the shield" means the PREAMP BOX** unless it says otherwise. The two
 > carry the identical instruction — copper tape, grounded at one point — which is exactly why they
