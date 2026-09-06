@@ -23,6 +23,8 @@ Do not re-derive these. They are done, and where they live now:
 | Which scan head enclosure do we use? | `6_shield_cover`. **Wrap in copper tape and ground at one point** | `WHICH_SCANHEAD_PART.txt`, inside a zip | `CAD/prints/README.md` |
 | What is the coarse approach screw? | 1/4"-80, and it is a scan head part | `CAD/STM.f3z` → `DesignDescription.json` | `docs/UPSTREAM_BERARD.md` §2 |
 | Every net on the controller board | 96 nets, 893 pins, all named | `FlyingProbeTesting.json` | `docs/WIRING.md` |
+| What screws hold the printed parts together? | **M3 everywhere except the preamp box (M2) and the tower (M4, M8).** Lids clear, bases self-tap | The STL meshes, via `Code/pc/stl_features.py` | `CAD/prints/README.md`, `docs/BOM.md` §6 |
+| What does the `BasePlate` bolt to? | **`5_intermediate_baseplate`** — same nine-hole grid, dia 2.5 against the plate's dia 3.2 | The STL meshes | `CAD/prints/README.md` |
 
 ---
 
@@ -129,7 +131,25 @@ asking what a part is.** It settled the two-shields question in one look:
 | `6_shield_cover` | **142 × 128 × 112 mm** — over the whole scanning module |
 | `1_preamp_box` | **35 × 29 × 21 mm** — around one small PCB |
 
-To measure any mesh yourself, bounding box from the facet vertices:
+**`Code/pc/stl_features.py` measures them.** It prints each part's bounding box and every vertical
+round feature — position, diameter, Z span — which is where the fastener sizes in
+`CAD/prints/README.md` and `docs/BOM.md` came from.
+
+```bash
+python3 Code/pc/stl_features.py                                  # every part
+python3 Code/pc/stl_features.py CAD/prints/scan-head/BasePlate.stl
+```
+
+**Read the fit-error column before quoting a diameter.** A real bore fits a circle to 0.0000; a
+number above about 0.01 means two features were measured as one. The script's first version had no
+such column and reported six holes in the `ThreadAdaptor` that do not exist — it was fitting
+circles to arcs of the part's own outside wall. **A diameter that is not a round number is a
+warning, not a dimension.**
+
+It only sees features whose axis is vertical and round. `SamplePlate` and `ThreadAdaptor` come back
+with nothing, which means **not measured**, not "no holes".
+
+To do it by hand instead, the bounding box comes straight from the facet vertices:
 
 ```python
 import struct

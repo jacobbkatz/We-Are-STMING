@@ -178,9 +178,31 @@ You'll need:
 | Disc magnets | small, for the sample pocket | 4 | CONFIRMED count, size UNKNOWN |
 | Aluminium plate | for eddy-current damping | 1 | thickness UNKNOWN |
 | Heat-set inserts | brass, for PA-CF or PETG-CF | about 10 | sizes UNKNOWN |
-| M3 screws | assorted 8 to 16 mm | about 30 | enclosures and plates |
-| M2 screws | 6 to 8 mm | about 8 | **preamp box only** |
+| M3 screws | assorted 8 to 16 mm | about 30 | enclosures and plates. **Self-tapping into printed pillars** |
+| M2 screws | 6 to 8 mm | about 8 | **preamp box only.** Also self-tapping |
+| M4 screws | assorted | about 12 | isolation tower and `Platform` |
 | M3 nuts and washers | | about 20 | |
+
+### Screw sizes, measured 2026-09-06
+
+These were listed below as unknown. They are now measured off the STL meshes with
+`Code/pc/stl_features.py`; every figure fitted a circle to within 0.0001 mm. The full table and
+the method are in `CAD/prints/README.md`.
+
+| Joint | Clearance side | Threaded side | Screw |
+|---|---|---|---|
+| **Every printed box lid to its base** | Ø3.400 | **Ø2.500 pillar, self-tapped** | **M3** |
+| **Preamp box lid to base** | Ø2.300 | **Ø1.600 pillar, self-tapped** | **M2** |
+| **`BasePlate` to `5_intermediate_baseplate`** | Ø3.200 + Ø7.0 counterbore | **Ø2.500, self-tapped** | **M3** |
+| `5_intermediate_baseplate` to the frame | Ø3.400 + Ø6.5 counterbore | -- | M3 |
+| **`MotorSupport`** | **Ø3.400**, 21.2 mm pitch | -- | **M3** |
+| `box_mount` | Ø3.300, 120 mm apart | -- | M3 |
+| Isolation tower and `Platform` | Ø4.300 | -- | M4 |
+| Tower rods | Ø8.200 | -- | **M8**, confirming the row above |
+
+> **Ø2.5 and Ø1.6 are tap sizes, not clearance.** The screw cuts its own thread into the printed
+> pillar. Drive slowly and stop at snug, or you strip the plastic and the lid stops clamping onto
+> its shield. Do not drill them out.
 
 > The 1/4"-80 thread is the whole trick behind the approach mechanism. **80 threads per inch means
 > one full turn advances only 0.0125 inches**, which is what lets you approach by hand without
@@ -192,8 +214,8 @@ You'll need:
 
 | Item | Spec | Notes |
 |---|---|---|
-| **Copper tape** | about 50 mm wide, **conductive adhesive** | use this anywhere you need to solder a ground wire |
-| Aluminium tape | about 50 mm wide | cheaper for covering area, **can't be soldered** |
+| **Copper tape** | about 50 mm wide, **conductive adhesive** | **Use this for all shielding.** Solder the seams and bond to ground at one point |
+| ~~Aluminium tape~~ | — | **Do not buy it for this instrument.** It cannot be soldered, its adhesive usually does not conduct so overlaps stay open, and against copper it forms a galvanic cell. On 2026-09-06 a box wrapped in both was found discontinuous and only partly grounded, and had to be stripped and rebuilt. The full rule is in `docs/ENGINEERING_REFERENCE.md` §3 |
 | Solder | 63/37 rosin core, 0.6 to 0.8 mm | everything except the piezo |
 | Flux | no-clean, pen or tub | |
 | Isopropyl alcohol | 99% | cleaning before building the preamp input |
@@ -256,7 +278,8 @@ Budget roughly 500 to 800 g of filament for the full set of parts.
 These aren't oversights. They aren't stated in any source we could find, and guessing would be
 worse than admitting it:
 
-- Plate-to-plate and motor-mount screw sizes
+- ~~Plate-to-plate and motor-mount screw sizes~~ **Closed 2026-09-06** -- measured from the STLs,
+  see section 6 above. All M3, self-tapping into Ø2.5 mm printed pillars
 - Spring rate, though we know the length is 300 mm
 - Individual magnet dimensions, though we know there are 18
 - Piezo disc part number and supplier

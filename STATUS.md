@@ -1,7 +1,7 @@
 # Current status
 
 **Last updated:** 2026-09-06
-**Updated by:** Nuh (bench, meter only — nothing was powered), then Jacob (remote, documentation)
+**Updated by:** Nuh (bench, meter only — nothing was powered), then Jacob (remote, documentation and a repository-wide engineering audit)
 
 > **Before recording anything here as unknown, read `CLAUDE.md` §3b and check `docs/INDEX.md`.**
 > Four items in this file's history were marked unknown while the answer sat in a repository file.
@@ -26,6 +26,18 @@ preamp board for nothing. It was stripped and rebuilt in all copper with soldere
 
 Two unfixed firmware faults were found on 2026-09-05 that will damage a tip if hit: **`CCON` snaps
 Z to midscale**, and **the motor is left energised** and heats the scan head.
+
+> **New on 2026-09-06: `docs/ENGINEERING_REFERENCE.md`.** A repository-wide audit that pulls the
+> cross-subsystem picture into one place — the grounding map, **the copper-vs-aluminium tape
+> rule**, what a scan command becomes in nanometres, what a tunneling current becomes on screen,
+> and an impact map for "if I change this, what else has to be rechecked". Every value in it
+> carries a confidence tag. It does not replace this file; it explains how the pieces relate.
+>
+> The same audit **measured the printed parts** and closed two long-standing unknowns: all
+> plate-to-plate and motor-mount screws are **M3**, and every printed box is held by a screw that
+> **self-taps into a bare printed pillar** (dia 2.5 for M3, dia 1.6 on the preamp box for M2).
+> Drive those slowly and stop at snug — over-tightening strips the pillar and the lid stops
+> clamping onto its shield. `CAD/prints/README.md` has the table.
 
 ---
 

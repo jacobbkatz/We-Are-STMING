@@ -238,6 +238,7 @@ close the laptop.
 | `sessions/TEMPLATE.md` | Copy this to start a new log |
 | `docs/WIRING.md` | **Verified pinouts, cable colours, LEDs, power tree.** The bench reference |
 | `docs/COMMANDS.md` | **Every firmware command**, what blocks, what replies |
+| `docs/ENGINEERING_REFERENCE.md` | **The cross-subsystem layer.** Grounding map, the copper-vs-aluminium tape rule, value chains from a command to a displacement and from a current to a number, the impact map for "if I change X, what else has to be rechecked", and every constant with a confidence tag |
 | `docs/INDEX.md` | **What is inside every archive and binary.** Check before deriving anything |
 | `docs/OPEN_QUESTIONS.md` | Every UNKNOWN and VERIFY in the project, in one place |
 | `docs/UPSTREAM_MECHPANDA.md` | **The design we are actually building.** Schematic-derived facts, what differs from upstream, and the ADC reference answer |
@@ -251,6 +252,8 @@ close the laptop.
 | `docs/FIND_THE_15V_BREAK.md` | Bench procedure for tracing the −15 V rail |
 | `Code/teensy/` | Teensy 4.1 firmware, PlatformIO |
 | `Code/pc/` | Python tools that talk to the Teensy over serial |
+| `Code/pc/stl_features.py` | Measures the printed parts straight out of the STL meshes. **Run this instead of guessing a hole size** |
+| `CAD/prints/README.md` | Every printed part, measured: sizes, hole grids, **which screw goes where** |
 | `CAD/`, `PCB/`, `gerbers/`, `our_preamp_cad_files/` | Design files |
 
 ### The hardware, briefly

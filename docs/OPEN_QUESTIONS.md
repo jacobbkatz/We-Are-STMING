@@ -40,8 +40,8 @@ These stop progress right now.
 | **How does the tip mount, and is it insulated from the brass electrode?** | Berard uses a pin socket in an aluminium standoff on a **sapphire disk**, and warns that glue must not bridge standoff to the grounded brass plate. We have no documented tip mounting at all. Meter-check before imaging |
 | **Which Z direction is toward the sample?** | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile, which is safe either way |
 | **Which piezo quadrant is which?** | The four wires are identical bare enamelled copper with no colour code. Not recoverable from any file or photo — label them as you solder, or work it out empirically. A rotated or mirrored first image is this, and it is fixable in software |
-| **Is the preamp case shield continuous?** VERIFY | Aluminium tape adhesive is usually non-conductive, so overlapping strips may not connect to each other at all. Meter check |
-| **Are the copper and aluminium tape in contact anywhere?** VERIFY | In contact with humidity they form a galvanic cell. Meter check while the box is open |
+| **Is the rebuilt preamp case shield continuous?** VERIFY | The old wrap was aluminium and copper mixed, and it was **found discontinuous on 2026-09-06** — aluminium's adhesive does not conduct, so the overlaps were open. It was stripped and rebuilt in copper with soldered seams. **The rebuild has not been metered.** Every point on it must beep to the ground wire: near the wire, the far corner, across every seam |
+| ~~**Are the copper and aluminium tape in contact anywhere?**~~ | **Resolved by removing the aluminium.** The rule now is copper only, everywhere — `docs/ENGINEERING_REFERENCE.md` §3. If aluminium ever goes back on, this question comes back with it |
 
 ---
 
@@ -49,15 +49,18 @@ These stop progress right now.
 
 Nobody has ever written these down, in Mech Panda's files, Dan Berard's, or ours.
 
+> **Screw sizes are no longer unknown.** Measured from the STL meshes on 2026-09-06;
+> `CAD/prints/README.md` has the full table and `Code/pc/stl_features.py` is the tool.
+
 | Item | What we know | What we don't |
 |---|---|---|
-| **Plate-to-plate screws** | M3 elsewhere in the build | Exact sizes |
-| **Motor-mount screws** | — | Sizes |
+| ~~**Plate-to-plate screws**~~ **CLOSED 2026-09-06** | **M3.** `BasePlate` dia 3.200 clearance with a dia 7.000 × 4.0 counterbore, into `5_intermediate_baseplate`'s dia 2.500 self-tapping holes on the same grid. Measured from the meshes | nothing |
+| ~~**Motor-mount screws**~~ **CLOSED 2026-09-06** | **M3.** `MotorSupport` has 3 × dia 3.400 full-height holes at 21.2 mm pitch | nothing |
 | **Extension springs** | About 300 mm long, 3 of them | **Spring rate** |
 | **Damping magnets** | Rectangular, **18** of them | Individual dimensions |
 | **Sample pocket magnets** | Small discs, 4 of them | Dimensions |
 | **Aluminium damping plate** | Eddy-current damping | Thickness |
-| **Heat-set inserts** | Brass, about 10, for PETG-CF | Sizes |
+| **Heat-set inserts** | Brass, about 10, for PETG-CF. **But no measured part has a hole that fits a standard M3 insert** (those need about dia 4.0–4.6). Every printed joint measured so far is a screw self-tapping into a dia 2.5 or dia 1.6 pillar | Sizes, and **whether they are needed at all**. Do not buy until a part is found that wants one |
 | **Piezo disc** | 25–27 mm brass, 15–17 mm ceramic, 15000 pF ±30%. **Berard uses a Murata 7BB-20-6** (20 mm, 6.3 kHz, Digi-Key 490-7711-ND) — a known-good reference part, but **not ours**, ours is larger | Our part number and supplier |
 | **Piezo-to-plate adhesive** | Berard glues an aluminium standoff to a **sapphire disk**, and that to the brass electrode. He names no adhesive but says the insulator must be sapphire, glass or ceramic — **not plastic** — because it is a better insulator than the glue | The adhesive itself, still unnamed anywhere |
 | **Tip lead: coax or fine wire?** | We chose RG-178. **Berard uses plain 40 AWG wire** deliberately — stiff cable transmits vibration | Which is better here. Untested either way |
