@@ -1,7 +1,7 @@
 # Current status
 
 **Last updated:** 2026-09-06
-**Updated by:** Jacob (remote, no bench work)
+**Updated by:** Nuh (bench, meter only — nothing was powered). Earlier the same day: Jacob, remote
 
 > This file is the single source of truth for where the build is right now.
 > It is rewritten at the end of every work session. If anything else in the repo
@@ -11,10 +11,15 @@
 
 ## Where we are in one line
 
-Stages 0 through 5 pass and the bias path passes. **The preamplifier is the blocker.** There are
-now **three candidate causes** for its 37 nA offset — cyanoacrylate contamination, an ungrounded
-case shield, and flux residue — and all three are surface conduction into the input node. The
-cheapest test has not been run yet: **ground the shield and retest before rebuilding the board.**
+Stages 0 through 5 pass and the bias path passes. **The preamplifier is the blocker.** Its 37 nA
+offset has **two remaining candidate causes** — cyanoacrylate contamination and flux residue, both
+surface conduction into the input node. The third, the case shield, has been **rebuilt** and is
+about to be tested properly for the first time.
+
+**On 2026-09-06 the shield was found to be discontinuous and only partly grounded**, which would
+have made the planned shield test return a false negative and pushed us into consuming the spare
+preamp board for nothing. It was stripped and rebuilt in all copper with soldered seams.
+**The rebuild has not been verified with a meter yet — do that first.**
 
 Two unfixed firmware faults were found on 2026-09-05 that will damage a tip if hit: **`CCON` snaps
 Z to midscale**, and **the motor is left energised** and heats the scan head.
@@ -33,7 +38,7 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 | 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535` |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
 | 6 Preamp | **FAIL** | 37 nA input leakage. Two candidate causes, see below |
-| Preamp case shielding | **FAIL** | Copper and aluminium tape, never bonded to ground |
+| Preamp case shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
 | DAC config stability | **FAIL** | All four DACs drop config roughly hourly |
 | JP1 grounds | **FAIL** | One ground pin genuinely open on the old board |
 
@@ -51,12 +56,12 @@ pinned against 32767 within two minutes. Do not let any older document tell you 
 1 nA, so there is nowhere to put it. **The offset is the problem, not the noise** — noise measured
 0.78 nA RMS with the bench clear, which would not block an approach.
 
-**Two candidate causes. Nothing measured so far distinguishes them.**
+**Candidate causes. Nothing measured so far distinguishes them.**
 
 | Candidate | Found | Status |
 |---|---|---|
 | **A. Cyanoacrylate contamination.** CA blooms while curing and deposited a conductive haze over the whole board, input node included | 2026-08-31 | Live. Fix is a rebuild on the spare board |
-| **B. The case shield is floating.** Copper and aluminium tape on the preamp box, never bonded to ground | 2026-09-01 | Live, and **untested** |
+| **B. The case shield is floating.** | 2026-09-01 | **Shield rebuilt 2026-09-06**, all copper, seams soldered, one ground bond. Still **untested electrically** — the D1/D2/D3 captures have never been run |
 | **C. Flux residue.** Berard independently reports "huge leakage currents" from flux left on this exact circuit | 2026-09-05 | Live. Addressed by the existing rebuild clean, but not excluded on the current board |
 
 **Ranking them by impedance, added 2026-09-06.** For surface leakage to push current into the
@@ -77,9 +82,11 @@ input node across a dirty surface.
 with the rail voltage**. Drop the supply from ±15 V to ±10 V and the offset should fall by about a
 third. If it does not move, the source is not the rails.
 
-**Still test B first.** Grounding the shield is one wire and is reversible; the rebuild consumes
-the spare board and is not. And critically: **if B is the cause, a rebuild will not fix it**, because
-the new board goes back into the same ungrounded box.
+**Still test B first.** The shield work is done and reversible; the rebuild consumes the spare
+board and is not. And critically: **if B is the cause, a rebuild would not have fixed it**, because
+the new board would have gone back into the same bad box. That box has now been rebuilt, so this
+is at last a test that can give a clean answer — **provided the shield continuity is verified with
+a meter first.**
 
 - **IPA will not remove cured CA.** It needs acetone or a nitromethane debonder, neither
   attractive around an air-wired node.
@@ -90,30 +97,49 @@ the new board goes back into the same ungrounded box.
   improvement with some residual leakage. Settling near 29873 again means that candidate was not
   the cause. Ramping to a rail means a genuinely open feedback path, which would be a build error.
 
-### 1b. Preamp case shielding was never grounded
+### 1b. Preamp case shielding — rebuilt 2026-09-06, not yet verified
 
-The preamp enclosure is shielded with copper tape and aluminium tape, and **the shielding was
-never bonded to ground.**
+**Metered on 2026-09-06. Both earlier descriptions of this were wrong.**
 
-Two mechanisms, both **inference and needing test**, not established fact:
+The shield was neither "floating" (as `sessions/2026-09-01.md` recorded from a verbal report and
+never measured) nor grounded. It was **discontinuous and partially grounded**:
 
-- **Galvanic cell.** Copper and aluminium in contact, with humidity as the electrolyte, form a
-  real galvanic couple — a few hundred millivolts of DC sitting on the enclosure at no defined
-  potential. To drive 37 nA, 0.5 to 1 V needs a path of roughly 13 to 27 MΩ, which is entirely
-  plausible for a contaminated surface. That is arithmetic, not a measurement.
-- **Floating shield.** An ungrounded conductive enclosure couples capacitively to everything
-  around it with no fixed reference. **A floating shield can be worse than no shield.**
+| Check, as found | Result |
+|---|---|
+| Continuity across the shield tape | **Beeps in places, open in others.** Not one conductor |
+| Copper tape touching aluminium tape | **Yes, in many places** |
+| Shield to circuit ground | **Beeps in places, not others** |
 
-**Rules for fixing it:**
+A ground wire had been added to the **outside** of the box **after 31 August** — late in a session,
+to see whether the preamp might not need rebuilding — and was never written down. It grounded
+whichever tape patches it reached; the rest stayed floating. Aluminium tape adhesive is an
+insulator, which is the likely reason the overlaps did not conduct.
 
-1. Bond the shield to circuit ground **at one point only.** Multiple bonds around an enclosure
-   create a ground loop and trade one noise problem for another.
-2. **Solder the ground wire to the copper tape.** Aluminium tape cannot be soldered.
-3. **Do not leave copper and aluminium tape in contact.** `docs/START_HERE_gotchas.md` already
-   says they are not interchangeable because of solderability; this is a second, independent
-   reason.
-4. Aluminium tape adhesive is usually non-conductive, so **overlapping strips may not connect at
-   all.** Check continuity across the shield with a meter rather than assuming it.
+> **This would have produced a false negative.** Block D3 tests "ground the shield and re-measure",
+> and a null result sends the project into consuming the only spare preamp board. With a
+> discontinuous shield that test would really have been "one patch grounded", and could have read
+> "no improvement" even if the floating shield were genuinely the cause.
+
+**What was done, 2026-09-06:** aluminium tape stripped completely, box re-covered in **copper only**,
+**seams soldered**, one ground wire attached. All on the outside of the box, so the air-wired
+100 MOhm resistor and the IC1 pin 2 input node were never approached.
+
+**The galvanic cell is now eliminated by construction** — there is no dissimilar metal left in the
+assembly. It was never disproved; it was removed.
+
+> **VERIFY BEFORE ANY OTHER PREAMP WORK.** The acceptance test was not run:
+> **every point on the shield must beep to the ground wire** — near the wire, the far corner, and
+> across every seam. Until that passes, a D3 result still means nothing.
+
+**Rules that still apply:**
+
+1. Bond the shield to circuit ground **at one point only.** Multiple bonds create a ground loop.
+2. **Solder to copper.** Aluminium cannot be soldered, and a pressure contact on aluminium grows
+   an insulating oxide skin and fails later.
+3. **Do not reintroduce aluminium tape.** `docs/START_HERE_gotchas.md` says the two are not
+   interchangeable because of solderability; the galvanic couple and the non-conducting overlaps
+   are two further independent reasons.
+4. **Never assume tape conducts to itself.** Check continuity across every seam with a meter.
 
 ### 2. `CCON` jumps Z to midscale and will crash a tip
 
@@ -182,15 +208,22 @@ drop configuration simultaneously, ALERT lights, and `RSET` restores them.
 This fits better than the rail-dip and thermal theories, neither of which explains why all four go
 at once and nothing else on the 3.3 V rail is affected.
 
-**Two things must be checked before believing it:**
+**Two things had to be checked before believing it. One is now done.**
 
 1. **Does the AD5761R have internal pull-ups on CLEAR# and RESET#?** If it does, floating is far
-   less dangerous and this hypothesis weakens a lot. **Datasheet question, nobody has looked.**
-2. **Are they actually open on our board?** Meter continuity from U1 pin 2 and pin 3 to 3.3 V.
-   Thirty seconds with a beeper. Open confirms floating.
+   less dangerous and this hypothesis weakens a lot. **Datasheet question. STILL NOBODY HAS
+   LOOKED. This is now the only thing gating the fix.**
+2. ~~**Are they actually open on our board?**~~ **CONFIRMED AT THE BENCH 2026-09-06.** Continuity
+   from each chip's own pin 15 (3.3 V) to pins 2 and 3: **all eight open, on all four DACs.** Two
+   control measurements (U1 pin 15 to U3 pin 15, and U1 pin 5 to U1 pin 16) both beeped first, so
+   these are genuine opens and not eight failed probe contacts. Three independent sources now
+   agree: the schematic symbols, the manufacturing netlist, and the meter.
 
-**If confirmed, the fix is four short wires**: tie CLEAR# and RESET# to 3.3 V on each DAC. That is
-also a permanent fix rather than a workaround, unlike the periodic re-arm discussed below.
+**If the datasheet answer is "no internal pull-ups", the fix is four short wires**: tie CLEAR# and
+RESET# to 3.3 V on each DAC. Permanent, rather than the periodic re-arm workaround discussed below.
+
+> **Do not solder those wires until the datasheet question is answered.** Everything about this
+> hypothesis is now confirmed except the one fact that decides whether it matters.
 
 Cause otherwise unknown. U16 was checked and is not hot, which weakens the thermal-shutdown theory.
 **Confirmed from the schematic 2026-09-05:** the H1 ribbon carries only ADC_CNV, ADC_BUSY,
@@ -246,19 +279,37 @@ identify the pins with a meter, record which ground wanders, then bond it.
 > **A bench plan for these is written up step by step in
 > [`sessions/2026-09-06-plan.md`](sessions/2026-09-06-plan.md)**, written to be run by one person
 > alone. Start there rather than from this list.
+>
+> **Two known errors in that plan, found while running it on 2026-09-06.** Read
+> `sessions/2026-09-06.md` §18 before following it:
+> - **Block A** says "board unpowered for all of Block A", but **A2b needs power** to identify the
+>   supply pins by voltage. Do A2b unpowered with continuity instead — the two GND pins beep to
+>   each other and to controller ground, the middle pin is the output, and the asymmetry rule
+>   names the supplies. The fault being hunted is an open ground, so continuity is the better
+>   instrument anyway.
+> - **Block C** assumes no ground wire exists and that the shield is continuous. **Both were
+>   false.** The shield has since been rebuilt; Block C is now just the verification step.
 
-1. **Ground the preamp case shield and retest, before rebuilding anything.** One wire, reversible,
-   and it tells the two candidate causes apart without consuming the spare board. Meter-check the
-   shield's continuity and whether copper and aluminium are in contact anywhere while you are there.
-2. **Then rebuild the preamp if it is still bad**, and run the same acceptance test.
+0. **Verify the rebuilt shield with a meter.** Every point on the shield must beep to the ground
+   wire — near the wire, the far corner, **and across every soldered seam**. This takes two minutes
+   and **everything below depends on it.** A D3 result taken on an unverified shield is worthless.
+1. **Answer the two datasheet questions.** Neither needs the bench, and one of them gates a fix
+   that is otherwise ready to go. (a) Does the AD5761R have internal pull-ups on CLEAR#/RESET#?
+   (b) Is the LTC2326-16 output signed two's complement or straight binary?
+2. **Run the shield test properly: D1, D2, D3.** Baseline with the shield wire disconnected, then
+   the rail-scaling test, then with the shield connected. **Then rebuild the preamp if it is still
+   bad**, and run the same acceptance test.
 3. **Characterise the DAC config loss.** Suggested experiment: `RSET`, confirm LED1–4 dark, then
    leave the board completely alone for 30 minutes with no commands sent and check the LEDs again.
    That separates "activity triggers it" from "time or the rail triggers it".
 4. **Calibrate counts to amps.** Simultaneous meter reading at R23 and `ADCR`, bench clear, two
    well-separated points. Settles the 4.096 vs 10.24 question below.
-5. **Dummy junction test.** A resistor between 1 MΩ and 100 MΩ clipped between the sample holder
-   and the tip holder. Proves the whole current path with no tip and no crash risk, gives counts
-   per amp directly, and **tells us the sign of the current**.
+5. **Dummy junction test.** A **100 MΩ resistor or larger** clipped between the sample holder and
+   the tip holder. Proves the whole current path with no tip and no crash risk, gives counts per
+   amp directly, and **tells us the sign of the current**.
+   > **Do not use 1 MΩ.** An earlier version of this list said "between 1 MΩ and 100 MΩ". The
+   > preamp reads to about 100 nA; 1 MΩ at 3 V of bias pushes 3 µA, thirty times over range and
+   > instantly saturated. Corrected in `sessions/2026-09-06.md` §11.
 6. ~~**Write `Code/pc/stm_approach.py`.**~~ **Written 2026-09-05.** PC-side woodpecker loop,
    Ctrl-C abortable, thresholds on absolute deviation so the current's sign does not matter. Never
    sends `APRH`. 40 tests pass against a simulated microscope. **Never run on hardware yet**, and
@@ -275,7 +326,11 @@ identify the pins with a meter, record which ground wanders, then bond it.
    drives the reading more negative it will never trigger and the tip will drive into the sample.
 3. **Do not raise either SPI clock above 1 MHz.** Both buses were at 40 MHz and the ribbon cannot
    carry it.
-4. **Do not run a wire between JP1 pins** on the old board.
+4. ~~**Do not run a wire between JP1 pins** on the old board.~~ **RETIRED 2026-09-06.** This rule
+   existed only because a mirrored pin numbering could make a supposed ground actually −15 V. The
+   numbering is now known from the preamp gerber netlist and is identifiable with a meter — see
+   fault 5. **This rule and fault 5 contradicted each other inside this file for a day; fault 5 is
+   the correct one.**
 5. **Do not use cyanoacrylate** anywhere near the preamp, or in the same enclosure, ever.
    Mount with screws or nylon standoffs first, 2-part epoxy second, foam tape third.
 6. **Park Z at midscale (32768) before moving the motor.** `RSET` and `TEST` both slam Z to a
@@ -298,7 +353,9 @@ The full register, including the undocumented hardware and process items, is in
 
 | Question | Why it matters |
 |---|---|
-| Is the 37 nA the CA contamination or the floating shield? | Decides whether the spare board gets consumed |
+| **Does the rebuilt shield actually conduct end to end?** | **VERIFY, two minutes with a meter.** Every preamp conclusion next session depends on it |
+| **Does the AD5761R have internal pull-ups on CLEAR#/RESET#?** | Everything else about the floating-pin hypothesis is now confirmed. This is the only fact left that decides whether the four-wire fix is worth doing. **Datasheet question, still nobody has looked** |
+| Is the 37 nA the CA contamination or the shield? | Decides whether the spare board gets consumed |
 | Is the DAC configuration loss startup-only, or does it recur mid-session? | 2026-08-31 recorded it recurring every 30 to 60 minutes, which requires checking LED1–LED4 around every measurement. If it is startup-only, one `RSET` at the start is enough. **Currently ambiguous, needs settling at the bench** |
 | ~~Is there a sample material?~~ | **Answered 2026-09-05: gold foil.** It must be mounted flat on a magnetic disc with a conductive path to the bias magnet — see `docs/UPSTREAM_BERARD.md` §5. Expect atomic terraces, not individual atoms; Berard could not resolve single atoms on metals |
 | How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05: roughly 5 to 8 nm.** From the 1/4"-80 pitch and 2048 steps/rev, with a lever reduction Berard quotes as **either 20 or 30 on different pages** — 7.8 nm at 20, 5.2 nm at 30. **Nothing depends on resolving it**: both give 90–130 steps per Z range. **VERIFY our own ratio** — ours is Mech Panda's geometry. Replaces the old 244 nm estimate. See `docs/UPSTREAM_BERARD.md` §2b |
