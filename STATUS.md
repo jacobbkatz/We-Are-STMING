@@ -164,7 +164,13 @@ firmware bookkeeping, not measurements.
 
 ### Leading hypothesis, found 2026-09-06: CLEAR# and RESET# are floating
 
-**The schematic marks pin 2 (CLEAR#) and pin 3 (RESET#) as no-connect on all four DACs.** Also
+**CONFIRMED from the manufacturing data.** The JLCPCB flying-probe test file
+(`gerbers/Gerber_PCB1_all_red.zip`, `FlyingProbeTesting.json`) carries the full board netlist. Of
+96 nets, **25 have only a single pad on them** — and twenty of those are U1–U4 pins 2, 3, 9, 10 and
+11. CLEAR# and RESET# are connected to nothing at all, by design, on every DAC.
+
+(The other five single-pad nets are U5's test-point, trim and not-internally-connected pins, which
+are correctly unused.) Also
 pin 11 (LDAC#) and pin 10 (SDO). Read off the symbols on schematic page 1 — every AD5761 carries
 a green no-connect cross on those pins.
 
@@ -208,8 +214,22 @@ only indication, and this is now documented rather than inferred.
 Measured empirically on 2026-08-31: two pins wander when only one should. The handoff document
 retracted this finding once; **the retraction was wrong.**
 
-**Do not run a wire to fix it.** If the pin numbering is mirrored, the pin we are calling ground
-could physically be −15 V, and bonding it to ground shorts a supply rail.
+**The numbering is now known**, extracted from the preamp gerber's embedded netlist on
+2026-09-06:
+
+| Pin | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|
+| Net | GND | **+supply** | **OUTPUT** | GND | **−supply** |
+
+**Orientation rule, unambiguous because the layout is asymmetric:** the **negative supply sits at
+the very end** of the row; the **positive supply is one in from the other end**. The middle pin is
+always the output. So measure the two supplies and the numbering follows, with no reliance on
+silkscreen.
+
+> **This retires the earlier "do not run a wire between JP1 pins" rule.** That existed only because
+> the numbering might be mirrored, making a supposed ground actually −15 V. Pins 1 and 4 are both
+> GND on the board, so once they are identified by the rule above, bonding the open one to the good
+> one is electrically correct. See `docs/WIRING.md` §10.
 
 This was previously filed as "resolves itself when the board is rebuilt". **That is no longer
 safe to assume**, since the rebuild is now deferred behind the shield test. If the shield fix

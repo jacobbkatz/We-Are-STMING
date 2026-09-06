@@ -78,7 +78,7 @@ software. Swap the wires too and the two swaps cancel; the motor buzzes instead 
 | 8 | 20 | SYNC3 | U3, Z |
 | 7 | 22 | SYNC1 | U1, X |
 | — | 1, 3, 5 … 23, 25 | AGND | all 13 odd pins |
-| — | **24, 26** | — | **unconnected by design** |
+| — | **24, 26** | — | **unconnected by design.** Confirmed: each sits alone on its own net in the manufacturing netlist |
 
 **Pin 6 does get connected.** It is labelled ADC_SDI, which sounds like a data input a read-only
 ADC would not need. On this chip it is **RDL**, a read-enable. It was left disconnected at first
@@ -123,6 +123,11 @@ DAC codes run 0 to 65535, with **32768 = 0 V**.
 | LED5 | V++ | R27 | AGND | positive input rail present |
 | LED6 | AGND | R33 | V-- | negative input rail present |
 
+> **ALERT is reachable without touching the chip.** Each ALERT net contains the DAC's pin 1, the
+> LED cathode, and the resistor pad — all accessible top-layer SMD pads. **If ALERT is ever wired
+> to spare Teensy pins so that software can finally detect the DAC configuration loss, solder to
+> the LED pad, not to the TSSOP-16 leg.**
+
 > **LED1–4 dark means the DACs are configured and working. Lit means they are dead.**
 > This is the single most useful indicator on the board, and the only way to detect a
 > configuration loss. **Check them before and after every measurement** — a reading taken with
@@ -164,6 +169,11 @@ Standard JUXINICE DB9-male-to-bare-wire cable:
 
 **Row rule, avoids pin counting:** on DSUB1 the row of 5 is all ground and the row of 4 carries
 signal. On DSUB2 it is the opposite — the row of 5 carries signal and the row of 4 is all ground.
+
+> **Both DB9 connector shells are unconnected.** `DSUB1` and `DSUB2` shell pins each sit alone on
+> their own net — there is no ground path from a metal backshell to the board. If you use metal
+> hoods on these cables, their shields float. Worth knowing on a build that is fighting noise.
+> Found in the manufacturing netlist, 2026-09-06.
 
 ---
 
@@ -240,6 +250,103 @@ middle. The −15 V rail crosses about 90 mm to reach U1.
 ---
 
 ## 10. Preamp board
+
+**Everything in this section is extracted from the manufacturing files** in
+`gerbers/STM_Preamp_OPA627_Gerbers(1).zip`. The KiCad gerbers carry X2 attributes, which embed the
+component, pin and net names — so this is the actual netlist, not an inference.
+
+**Board: 20.625 x 15.23 mm, 2 layer.**
+
+### JP1 pinout — definitive
+
+| Pin | Net | Position along the row |
+|---|---|---|
+| **1** | **GND** | one end |
+| **2** | **+ supply** (our +15 V) | second in from that end |
+| **3** | **OUTPUT** | **middle** |
+| **4** | **GND** | |
+| **5** | **- supply** (our -15 V) | **the far end** |
+
+### How to tell which end is pin 1, with a meter and no ambiguity
+
+The layout is **asymmetric**, which makes this unambiguous:
+
+> **The negative supply is at the very END of the row. The positive supply is one in from the
+> other end.**
+
+So: find the two supply pins. The one **at an end** is pin 5. Count back from the other end and
+pin 1 is the outermost pin next to the positive supply.
+
+The **middle pin is always pin 3, the output**, whichever way round the board sits.
+
+**This retires the "do not run a wire between JP1 pins" rule** from 2026-08-31. That rule existed
+because the numbering might have been mirrored, and bonding a supposed ground to what was really
+-15 V would short a rail. The numbering is now known, and the two grounds can be identified by
+position relative to the supplies without trusting any silkscreen.
+
+### Signal chain
+
+```
+IC1 pin 6 (output) --N$1--+-- PAD1  (bare test pad, the output)
+                          |
+                          +-- R1 --N$2--> JP1 pin 3 --> cable
+```
+
+- **PAD1 sits directly on the op-amp output**, on the same net as IC1 pin 6.
+- **R1 is a series resistor between that output and JP1 pin 3.**
+
+> **Correction to `docs/PROJECT_HANDOFF_SUMMARY.md` A.8.1**, which says PAD1 is "downstream of R1".
+> It is **upstream** — PAD1 and IC1 pin 6 are the same net, and R1 comes after. Verified from the
+> gerber netlist.
+
+**PAD1 is still the output, not the tip input.** That warning stands.
+
+### The input node is unconnected by design
+
+`IC1 pin 2` (the inverting input) sits on a net with **exactly one pad on it**. Nothing in copper
+touches it.
+
+That is the whole point: the 100 MOhm feedback resistor, the tip wire and the link to pin 2 meet
+**in the air** on the PTFE standoff, because copper would leak at picoamp levels.
+
+**There is no R2 component on this board.** The netlist contains only R1. Whatever the R2
+silkscreen marks, no pads were ever placed there — the feedback path is entirely air-wired.
+
+### Holes
+
+| Tool | Size | Plating | Count | What |
+|---|---|---|---|---|
+| T1 | 0.600 mm | plated | 6 | vias |
+| T2 | 0.914 mm | plated | 1 | **PAD1** |
+| T3 | 1.016 mm | plated | 5 | **JP1**, 2.54 mm pitch |
+| T4 | **2.108 mm** | **non-plated** | 1 | **the standoff hole.** No copper anywhere near it |
+| T5 | 2.261 mm | non-plated | 2 | mounting holes |
+
+All three non-plated holes were confirmed to have **no copper pad** — checked against both copper
+layers, not assumed.
+
+### One oddity worth knowing
+
+**The supply nets on this board are named `+9V` and `-9V`, not ±15 V.** We feed it ±15 V from the
+controller, which the OPA627 handles fine (it is rated to ±18 V), and the tantalum capacitors in
+our BOM are 35 V parts. Nothing is wrong — but if you ever read the net names and wonder, that is
+why.
+
+### Full preamp netlist
+
+| Net | Pads on it |
+|---|---|
+| `+9V` | C1.+, C3.1, IC1.7, JP1.2 |
+| `-9V` | C2.+, C4.1, IC1.4, JP1.5 |
+| `GND` | C1.-, C2.-, C3.2, C4.2, IC1.3, IC1.8, JP1.1, JP1.4 |
+| `N$1` | IC1.6, PAD1.1, R1.1 |
+| `N$2` | JP1.3, R1.2 |
+| `N$4` | **IC1.2 only** — the air-wired input node |
+| `N/C` | IC1.1, IC1.5 — offset trim, correctly unused |
+
+---
+
+## 10b. Old preamp notes
 
 **PAD1 is the amplifier output, not the tip input.** It is wired to the op-amp's pin 6. It is the
 only obvious pad, it sits near the edge, and it looks exactly like where you would attach the tip.
