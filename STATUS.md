@@ -220,6 +220,10 @@ by establishing the pin numbering first, not by running a speculative wire.
 
 ## Next actions, in order
 
+> **A bench plan for these is written up step by step in
+> [`sessions/2026-09-06-plan.md`](sessions/2026-09-06-plan.md)**, written to be run by one person
+> alone. Start there rather than from this list.
+
 1. **Ground the preamp case shield and retest, before rebuilding anything.** One wire, reversible,
    and it tells the two candidate causes apart without consuming the spare board. Meter-check the
    shield's continuity and whether copper and aluminium are in contact anywhere while you are there.
