@@ -635,7 +635,7 @@ in a datasheet or a part number · **C** = calculated from the above · **I** = 
 | Spring hanger tubes | 9 solids: 3 × 8 mm, 3 × 50 mm, 3 × 85 mm, all Ø25.00 | F | `Spring_hangers_and_extentions.stl` |
 | Coin weights | 3 cups, Ø24.00 × 15.00 mm | F | `coin_weights.stl` |
 | Print layer height | 0.08 mm, 2 walls, 40% / 15% infill | F | the `.3mf` project files |
-| **Print material** | **CONFLICTING — PA-CF in the plates, PETG-CF in the BOM** | — | see §11 |
+| **Print material** | **PETG-CF** | **M** (first-hand, 2026-09-07) | Jacob. The `.3mf` plates say PA-CF and are wrong |
 | Nominal displacement | ~34 nm/V in Z, ~83 nm/V in XY | **I** | Berard's *different* disc. Not ours |
 
 ---
@@ -671,7 +671,7 @@ Ranked by what they block. Full list in `docs/OPEN_QUESTIONS.md`.
 | PAD1 upstream or downstream of R1 | Handoff A.8.1 vs the gerber netlist | **Resolved: upstream.** PAD1 and IC1 pin 6 are one net |
 | Shield "never grounded" vs "grounded" | 2026-09-01 verbal report vs 2026-09-06 meter | **Resolved.** It was partly grounded and discontinuous — neither document was right |
 | DAC loss startup-only vs recurring | Jacob's recollection vs the 2026-08-31 log | **Unresolved.** The 30-minute idle test settles it |
-| **Print material: PA-CF vs PETG-CF** | The five `.3mf` plates (2026-07-03) select PA-CF at 290 °C; `docs/BOM.md` §10 (2026-08-14) says in the first person "we used PETG-CF" | **Unresolved, BOM provisionally wins on recency.** The plates most likely record an abandoned PA-CF attempt. One question to whoever ran the printer. Affects stiffness, creep and moisture uptake — all of which are drift |
+| ~~Print material: PA-CF vs PETG-CF~~ | The five `.3mf` plates select PA-CF at 290 °C; `docs/BOM.md` §10 says "we used PETG-CF" | **RESOLVED 2026-09-07: PETG-CF**, confirmed directly by Jacob. The plates record an abandoned attempt, as suspected |
 | **Piezo disc 20 mm vs 25–27 mm** | `PiezoPlate` seat measures dia 20.500; `docs/BOM.md` §5 says 25–27 mm brass | **Unresolved.** Two caliper readings settle it. Changes both fit and every nm/V figure |
 | ADC front end: one RC vs Sallen-Key | `docs/UPSTREAM_MECHPANDA.md` §5 as written vs the gerber netlist | **Resolved from the netlist: second-order Sallen-Key, 103 kHz, Q = 0.5.** The corner frequency was right, the order and one resistor label were not. Document corrected 2026-09-06 |
 | Max measurable current 100 nA vs 41 nA | This document's own impact map vs the ADC full scale | **Resolved: 40.96 nA.** The ADC saturates long before the preamp rails. Corrected 2026-09-06 |

@@ -1,7 +1,7 @@
 # Current status
 
-**Last updated:** 2026-09-06
-**Updated by:** Nuh (bench, meter only — nothing was powered), then Jacob (remote: a repository-wide engineering audit, then a verification pass over that audit)
+**Last updated:** 2026-09-07
+**Updated by:** Jacob (remote, from a photo of the rebuilt preamp box — nothing was powered and nothing was measured on hardware)
 
 > **Before recording anything here as unknown, read `CLAUDE.md` §3b and check `docs/INDEX.md`.**
 > Four items in this file's history were marked unknown while the answer sat in a repository file.
@@ -26,6 +26,20 @@ preamp board for nothing. It was stripped and rebuilt in all copper with soldere
 
 Two unfixed firmware faults were found on 2026-09-05 that will damage a tip if hit: **`CCON` snaps
 Z to midscale**, and **the motor is left energised** and heats the scan head.
+
+> ### Physical state of the preamp right now — read before planning any measurement
+>
+> Established 2026-09-07 from a photograph and Jacob's description.
+>
+> | | |
+> |---|---|
+> | **The box is OPEN** | Lid off, and the back cut away for probe access. **An open box is not a shield** |
+> | **The tip coax is CUT** | Severed to get the module out. The input node no longer includes the cable, tip holder or tip — **which makes a bisection test possible for the first time** |
+> | **The board is glued in and cannot be removed** | Heavily superglued to three standoffs printed as part of the box |
+> | **The PTFE standoff is also glued to the board** | With cyanoacrylate. **This is the new leading candidate for the 37 nA** — see fault 1, candidate A0 |
+> | **No bias, no sample plate** | The sample plate has never been connected. Every measurement so far is the tip in air with no bias. This is a *good* control and should be left alone for now |
+> | **The spare board is bare** | Not assembled. **Do not glue it in** — see safety rule 10 |
+> | **3D prints are PETG-CF** | Confirmed by Jacob 2026-09-07. Closes the PA-CF/PETG-CF conflict opened by the slicer files |
 
 > **New on 2026-09-06, second pass.** A verification audit found the first pass had stopped early.
 > The five `.3mf` slicer files, the CAD render and the reference images had never been opened; two
@@ -83,9 +97,54 @@ pinned against 32767 within two minutes. Do not let any older document tell you 
 
 | Candidate | Found | Status |
 |---|---|---|
-| **A. Cyanoacrylate contamination.** CA blooms while curing and deposited a conductive haze over the whole board, input node included | 2026-08-31 | Live. Fix is a rebuild on the spare board |
-| **B. The case shield is floating.** | 2026-09-01 | **Shield rebuilt 2026-09-06**, all copper, seams soldered, one ground bond. Still **untested electrically** — the D1/D2/D3 captures have never been run |
+| **A0. Cyanoacrylate AT THE BASE OF THE PTFE STANDOFF.** The standoff would not fit through the board hole, so it was glued down. That standoff's only job is to hold the input node off the board on the best insulator available — **and CA bonds straight across it** | **2026-09-07** | **LEADING.** A solid contact path at **0 mm** from the node, not a vapour path at a distance. See below |
+| **A. Cyanoacrylate contamination / bloom.** CA blooms while curing and deposited a conductive haze over the board, input node included. The board is also **heavily** glued to three printed standoffs, the nearest **4.8 mm** from the input pad | 2026-08-31 | Live |
+| **B. The case shield is floating.** | 2026-09-01 | **Shield rebuilt 2026-09-06**, all copper, seams soldered, one ground bond. Still **untested electrically**. Now the leading suspect for the **noise** rather than the offset — see the noise note below |
 | **C. Flux residue.** Berard independently reports "huge leakage currents" from flux left on this exact circuit | 2026-09-05 | Live. Addressed by the existing rebuild clean, but not excluded on the current board |
+| **D. The coax or the tip holder.** Never separated from the board until now | **2026-09-07** | **Now testable in one reading** — the coax has been cut, so the input node no longer includes it |
+
+> ### A0: the glue at the PTFE standoff, and what the output SIGN says
+>
+> **Superglue was used twice on this build, and the first use is the serious one.** A small amount
+> bonds the PTFE standoff to the board; a large amount bonds the board into the box. The standoff
+> exists to insulate the input node from the board surface. Cured CA is hygroscopic and
+> `sessions/2026-08-31-results.md` already says it "conducts at exactly the level measured".
+>
+> **The sign of the output points somewhere specific.** For a transimpedance amplifier, a leak to
+> the **negative** rail pulls current out of the virtual-ground node, so the op-amp must supply it
+> back through the feedback resistor — which drives the output **positive**. **The measured output
+> is +3.73 V, positive.** About **402 MΩ** would produce 37 nA from −15 V, and `IC1` pin 4 is the
+> −15 V rail sitting **2.54 mm** from the input pad.
+>
+> **Caveats, stated plainly.** This rests on the ADC being signed two's complement, which is still
+> INFERRED — though if the rail test agrees, that independently settles the signed question.
+> And `IC1` pin 3 is GND, directly between pins 2 and 4, which guards a straight-line surface path.
+> So the leak more likely goes over or around the pins, which is what a blob of glue and a standoff
+> would do.
+>
+> **The test: scale the rails independently, not together.** If the offset follows the negative
+> rail and ignores the positive one, this candidate is confirmed.
+
+> ### The noise is several hundred times the theoretical floor
+>
+> The 100 MΩ feedback resistor's own Johnson noise is about **12.9 fA/√Hz**, which over the
+> transimpedance bandwidth gives roughly **1 pA RMS**. The measured noise was **780 pA RMS**.
+>
+> That is far too much to be the resistor, and it points at **pickup** — and the shield was
+> discontinuous when that capture was taken. **So the offset and the noise may have different
+> causes:** contamination for the DC, the broken shield for the noise.
+>
+> **Consequence for the shield test: record the standard deviation, not just the mean.** The old
+> plan only compares offsets against 29873 counts. The shield should show up most clearly in the
+> noise, and there is a lot of room to demonstrate an improvement even if the DC offset does not
+> move at all.
+
+> ### The board cannot be removed, and cleaning is therefore partial
+>
+> It is heavily glued to three standoffs that are printed as part of the box. The top surface can
+> be cleaned — worth doing, since the input pad is a top-side SMD pad and bloom is a surface
+> deposit. **Underneath cannot.** So a clean-and-remeasure that shows no improvement **does not
+> clear the superglue.** Replacing the board also means a new box print.
 
 **Ranking them by impedance, added 2026-09-06.** For surface leakage to push current into the
 preamp's input, that input is a **virtual ground**, so the current is set by whatever voltage sits
@@ -105,11 +164,15 @@ input node across a dirty surface.
 with the rail voltage**. Drop the supply from ±15 V to ±10 V and the offset should fall by about a
 third. If it does not move, the source is not the rails.
 
-**Still test B first.** The shield work is done and reversible; the rebuild consumes the spare
-board and is not. And critically: **if B is the cause, a rebuild would not have fixed it**, because
-the new board would have gone back into the same bad box. That box has now been rebuilt, so this
-is at last a test that can give a clean answer — **provided the shield continuity is verified with
-a meter first.**
+**Test order revised 2026-09-07.** Two cheaper and more decisive tests now come before the shield
+work: **the coax bisection** (candidate D, one reading, made possible by the cut) and **independent
+rail scaling** (candidate A0). Both are reversible, neither consumes the spare board. The shield
+test follows — and it still requires the continuity check first, **and a closed box.**
+
+> **The preamp box is currently OPEN. The lid is off and the back has been cut away for probe
+> access.** An open box is not a shield. Offset numbers taken in that state are measurements of an
+> **unshielded** preamp and must be labelled as such. A D3 result taken with the box open would
+> understate the shield and could wrongly send us to consume the spare board.
 
 - **IPA will not remove cured CA.** It needs acetone or a nitromethane debonder, neither
   attractive around an air-wired node.
@@ -365,9 +428,30 @@ identify the pins with a meter, record which ground wanders, then bond it.
 > - **Block C** assumes no ground wire exists and that the shield is continuous. **Both were
 >   false.** The shield has since been rebuilt; Block C is now just the verification step.
 
+> **The order below was revised on 2026-09-07.** Two cheaper, more decisive tests now come first.
+> See `sessions/2026-09-07.md` §8 for the reasoning.
+
+-2. **Trim the cut coax stub short and clean, leave the input open, and measure.** The tip coax was
+   cut to remove the preamp module, so **for the first time the input node does not include the
+   cable, the tip holder or the tip.** One reading bisects the fault:
+   **still ~37 nA** → the leak is on the board, and the cable and tip holder are cleared;
+   **drops substantially** → the leak was never on the board and the whole rebuild plan changes.
+   > Do not measure with the frayed end left as it is. At 100 MΩ that stub is an antenna and a
+   > contamination magnet. Trim it short and clean first.
+
+-1. **Scale the two supply rails independently.** The old D2 halves both together. If the offset
+   follows the **negative** rail and ignores the positive one, candidate A0 is confirmed and the
+   fault is named. If neither moves it, the rails are not the source. **This also settles the
+   signed-versus-unsigned ADC question as a by-product.**
+
 0. **Verify the rebuilt shield with a meter.** Every point on the shield must beep to the ground
    wire — near the wire, the far corner, **and across every soldered seam**. This takes two minutes
    and **everything below depends on it.** A D3 result taken on an unverified shield is worthless.
+   The box being open makes this *easier*, not harder.
+
+0b. **Close the box — lid AND back — before any D1/D2/D3 offset numbers**, and record the
+   **standard deviation** as well as the mean. The shield should show up most clearly in the noise;
+   see the noise note in fault 1.
 1. **Answer the two datasheet questions.** Neither needs the bench, and one of them gates a fix
    that is otherwise ready to go. (a) Does the AD5761R have internal pull-ups on CLEAR#/RESET#?
    (b) Is the LTC2326-16 output signed two's complement or straight binary?
@@ -438,7 +522,27 @@ identify the pins with a meter, record which ground wanders, then bond it.
    fixed. Engaging the loop snaps Z to midscale.
 9. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
    metre injects 20 to 50 nA, which is twenty to fifty times a tunneling current.
-10. **Type DAC commands carefully. An out-of-range value does not error — it silently jumps the
+10. **Do not glue the spare preamp board to anything — not the box, and not the PTFE standoff.**
+    Added 2026-09-07. Superglue was used twice on the current board: a little to stick the PTFE
+    standoff down, and a lot to bond the board into the box. **Both are now suspects**, and the
+    first sits directly across the insulator that holds the input node. Gluing the spare the same
+    way reproduces the fault and makes the rebuild untestable.
+    - **Measure the spare bare first** — on nylon or PTFE standoffs, no box, nothing glued. There
+      has never been a measurement of this preamp outside its box, so **the project has no
+      baseline.** That single reading is worth more than the whole D1/D2/D3 sequence.
+    - **The box print needs fixing before anything is mounted in it.** Its two threaded standoffs
+      are 11.43 mm apart; the board's two mounting holes are **5.93 mm** apart. Only one of the two
+      screw positions is usable, which is why it got glued. Move the standoffs to match the board
+      and keep the Ø1.600 mm pilots.
+11. **Do not connect the sample plate or turn on the bias** until the offset is understood. It adds
+    a second voltage source near the input node and makes the rail-scaling test ambiguous. Every
+    measurement so far has been taken with the tip in air and no bias, which is *why* the rail test
+    will be interpretable.
+12. **A multimeter cannot clear a suspect leakage path in this project.** What matters here is
+    100 MΩ to 10 GΩ. A typical DMM tops out around 20–60 MΩ, so **"OL" only proves ">60 MΩ"** and
+    leaves the entire dangerous range unmeasured. **Never read OL as "ruled out."** The instrument
+    that reaches into that range is the rail-scaling test.
+13. **Type DAC commands carefully. An out-of-range value does not error — it silently jumps the
     axis to the opposite rail.** Found 2026-09-06 by reading the driver. `set_dac_z(int)` hands its
     value to `AD5761::write(uint8_t, uint16_t)`, so anything outside 0–65535 wraps modulo 65536
     with no warning:

@@ -265,22 +265,20 @@ Nobody had opened them. They are the only record of what the physical parts are 
 Every object on every plate is assigned to extruder 1, and slot 1 holds the PA-CF. PLA sits in
 slot 2 and is never used.
 
-> ### The material in these files CONFLICTS with the BOM. Do not trust the plates on this.
+> ### RESOLVED 2026-09-07: the parts are PETG-CF. The plates are wrong on material.
 >
 > These project files were saved by the slicer on **2026-07-03** with **PA-CF** selected.
 > `docs/BOM.md` §10, written later on **2026-08-14**, says in the first person: *"We used PETG-CF.
 > Mech Panda used PA-CF, but we tried it first and couldn't print it reliably at these tolerances."*
 >
-> **The BOM is the newer statement and it is first-hand, so it wins.** The most likely story is that
-> these plates record the earlier PA-CF attempt, the switch to PETG-CF happened at the printer, and
-> the project files were never re-saved. That fits: 290 °C and a 100 °C bed would be badly wrong for
-> PETG-CF, which wants roughly 250 °C and 70 °C — so whatever was actually printed did **not** use
-> the temperatures in these files.
+> **Jacob confirmed on 2026-09-07: every printed part is PETG-CF.** The plates record the earlier
+> PA-CF attempt; the switch happened at the printer and the project files were never re-saved. That
+> fits — 290 °C and a 100 °C bed would be badly wrong for PETG-CF, which wants roughly 250 °C and
+> 70 °C, so whatever was actually printed did **not** use the temperatures in these files.
 >
-> **Treat the plates as reliable for geometry, layout and infill, and unreliable for material and
-> temperature.** UNKNOWN which material the parts in hand actually are — and it is a one-question
-> answer from whoever ran the printer. It matters: PA-CF and PETG-CF differ in stiffness, creep and
-> moisture uptake, and all three show up as drift in an STM image.
+> **Treat the plates as reliable for geometry, layout and infill, and wrong on material and
+> temperature.** The practical upside: PETG-CF takes up far less moisture than nylon, so the parts
+> in hand are more dimensionally stable than the plates imply.
 >
 > If PA-CF is ever used, **dry the filament first** — nylon is hygroscopic and wet nylon prints
 > weak and dimensionally off.

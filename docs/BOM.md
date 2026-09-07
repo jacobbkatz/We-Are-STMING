@@ -262,7 +262,10 @@ separate supplies stacked in series with the junction as ground.
 
 ## 10. 3D printing
 
-**We used PETG-CF.** Mech Panda used PA-CF, but we tried it first and couldn't print it reliably at
+**We used PETG-CF. CONFIRMED by Jacob 2026-09-07**, closing the conflict with the `.3mf` slicer
+files, which select PA-CF and record the abandoned attempt.
+
+Mech Panda used PA-CF, but we tried it first and couldn't print it reliably at
 these tolerances, so we settled on PETG-CF as the practical middle ground. It's stiff and
 dimensionally stable and prints without a hardened chamber.
 
