@@ -323,6 +323,55 @@ separately rather than modelled.
 
 ---
 
+## `1_preamp_box_base_v2_screwmount.stl` — print this one, not the original
+
+**Made 2026-09-07. This is the box for the rebuilt preamp.**
+
+**Why the original cannot be reused.** Two reasons, and either alone is enough:
+
+1. **Its standoffs do not match the board.** The box has two threaded standoffs **11.43 mm apart**;
+   the preamp board's two mounting holes are **5.93 mm apart**. Only one of the two lines up. One
+   screw will not hold a board, which is why the board ended up **superglued** in — and that glue
+   is now the leading candidate for the 119 nA leak.
+2. **The original box is contaminated.** Cured cyanoacrylate, three joints' worth, inside a 6 cm³
+   volume. Putting a clean board into it would reproduce the fault.
+
+**What changed, and nothing else did.** One boss was added. Every other dimension is byte-identical
+to the original mesh — walls, corner radii, lid interface, the Ø4.000 cable hole, both existing
+standoffs. Verified with `Code/pc/stl_features.py`:
+
+| Feature | Original | v2 |
+|---|---|---|
+| Bounding box | 34.83 × 29.43 × 20.80 | **identical** |
+| Threaded standoff at (5.63, 14.83) | Ø6.000 boss, Ø1.600 pilot | **unchanged** — this one already matched a board hole to 0.1 mm |
+| Threaded standoff at (5.63, 3.40) | Ø6.000 boss, Ø1.600 pilot | **unchanged** — now an unthreaded support under the board |
+| Plain post at (17.70, 9.12) | Ø3.600 | **unchanged** |
+| **NEW at (4.04, 9.12)** | — | **Ø5.000 boss, 4.00 mm tall, Ø1.600 pilot 4 mm deep** |
+| Cable hole | Ø4.000 through the Y wall | **unchanged** |
+
+**Where the new boss came from.** Board mounting hole (4.127, 13.335) lands within 0.1 mm of the
+existing standoff at (5.63, 14.83), which fixes the board's position in the box: offset
+**(1.503, 1.495)**. The board's other hole, (2.540, 7.620), therefore lands at box **(4.043,
+9.115)** — and that is exactly where the new boss is. It sits on the box centreline, 5.93 mm from
+each existing standoff, with **0.43 mm of clearance** to both.
+
+**So the board now takes two M2 screws** into Ø1.600 mm pilots — the same self-tapping scheme as
+the lid — and rests on the other two posts. **No glue anywhere.**
+
+### Printing it
+
+- **Same settings as the rest of the build**: PETG-CF, 0.08 mm layers, 2 walls. Infill is not
+  critical on a part this small; 40% is fine.
+- **No supports.** The added boss is a plain vertical cylinder.
+- **Reprint the lid too**, from the unmodified `1_preamp_box_lid.stl`. It shared an enclosure with
+  cured CA and there is no reason to carry that across.
+- **Bambu Studio may offer to "repair" the model.** Accept it. The new boss is a separate closed
+  solid that overlaps the floor — a normal union — and the repair is a no-op on the geometry.
+- **Drive the M2 screws slowly and stop at snug.** Ø1.6 is the tap size; the screw cuts its own
+  thread in bare plastic and there is nothing to bottom out against.
+
+---
+
 ## Hardware note
 
 **The preamp box is the only part using M2 screws.** Every other box and plate is M3. The
