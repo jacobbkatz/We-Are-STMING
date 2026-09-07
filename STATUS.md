@@ -37,7 +37,9 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 > | **The tip coax is CUT** | Severed to get the module out. The input node no longer includes the cable, tip holder or tip — **which makes a bisection test possible for the first time** |
 > | **The board is glued in and cannot be removed** | Heavily superglued to three standoffs printed as part of the box |
 > | **The PTFE standoff is also glued to the board** | With cyanoacrylate. **This is the new leading candidate for the 37 nA** — see fault 1, candidate A0 |
-> | **No bias, no sample plate** | The sample plate has never been connected. Every measurement so far is the tip in air with no bias. This is a *good* control and should be left alone for now |
+> | **The bias HAS been on the whole time** | **Corrected 2026-09-07.** An earlier version of this box said there was no bias. Wrong. The sample plate is wired and biased; it is simply parked away from the tip holder, not near it |
+> | **No tip is fitted** | Only the tip holder. **Nothing can be crashed**, so bias sweeps, Z sweeps and rail scaling are all zero-risk right now |
+> | **The piezo is superglued into its socket** | **A third CA site**, and this one is at the scan head, next to the tip holder — which is part of the input node |
 > | **The spare board is bare** | Not assembled. **Do not glue it in** — see safety rule 10 |
 > | **3D prints are PETG-CF** | Confirmed by Jacob 2026-09-07. Closes the PA-CF/PETG-CF conflict opened by the slicer files |
 
@@ -102,6 +104,7 @@ pinned against 32767 within two minutes. Do not let any older document tell you 
 | **B. The case shield is floating.** | 2026-09-01 | **Shield rebuilt 2026-09-06**, all copper, seams soldered, one ground bond. Still **untested electrically**. Now the leading suspect for the **noise** rather than the offset — see the noise note below |
 | **C. Flux residue.** Berard independently reports "huge leakage currents" from flux left on this exact circuit | 2026-09-05 | Live. Addressed by the existing rebuild clean, but not excluded on the current board |
 | **D. The coax or the tip holder.** Never separated from the board until now | **2026-09-07** | **Now testable in one reading** — the coax has been cut, so the input node no longer includes it |
+| **E. Cyanoacrylate at the piezo socket.** The disc was glued into its socket — a **third** CA site, at the scan head and right next to the tip holder, which is part of the input node | **2026-09-07** | Live. Berard's warning in safety rule 7 was already that glue must not bridge the tip standoff to the grounded brass electrode. **We now know glue was used exactly there.** Meter-check it |
 
 > ### A0: the glue at the PTFE standoff, and what the output SIGN says
 >
@@ -124,6 +127,39 @@ pinned against 32767 within two minutes. Do not let any older document tell you 
 >
 > **The test: scale the rails independently, not together.** If the offset follows the negative
 > rail and ignores the positive one, this candidate is confirmed.
+
+> ### Every other voltage in the instrument has the WRONG SIGN — added 2026-09-07
+>
+> This is the sharpest argument the project has, and it came out of correcting a mistake: the bias
+> has been on the whole time, not off. Working out what that implies narrowed things rather than
+> widening them.
+>
+> Nothing had commanded a DAC before the 2026-08-31 capture, so by `docs/DAC_BOOT_STATE.md` every
+> DAC sat at **zero scale**, and the inverting output stages flip each one:
+>
+> | Source | Where it sits | Would drive the preamp output | Matches the measured **+3.73 V**? |
+> |---|---|---|---|
+> | Sample holder, via bias | DAC −3 V → holder **+3 V** | negative | **No** |
+> | Piezo electrodes, DSUB1 | DAC −10 V → DSUB1 **+10 V** | negative | **No** |
+> | Preamp **+15 V** rail | **+15 V** | negative | **No** |
+> | **Preamp −15 V rail** | **−15 V** | **positive** | **YES** |
+>
+> **A leak from any positive source pushes current INTO the virtual-ground input, which drives the
+> output negative. The output is positive. So the source must be negative — and the only negative
+> voltage anywhere near the input node is the preamp's own −15 V rail.**
+>
+> That is on the preamp board, which is exactly where the glued PTFE standoff sits, 2.54 mm from
+> `IC1` pin 4.
+>
+> **Caveats, and they matter.** This rests on the ADC being signed two's complement (INFERRED, not
+> confirmed) — if it were unsigned every row flips. It assumes no DAC was commanded earlier in that
+> session, which is not recorded. And the hourly DAC configuration loss means the real outputs are
+> never certain.
+>
+> **But every caveat is cheap to close, and with no tip fitted all three tests are zero-risk:**
+> sweep the bias and watch the offset; sweep Z and watch the offset; scale each rail separately.
+> **If the offset ignores bias and Z but follows the negative rail, the diagnosis is complete —
+> and the signed-ADC question is settled at the same time.**
 
 > ### The noise is several hundred times the theoretical floor
 >
@@ -439,10 +475,22 @@ identify the pins with a meter, record which ground wanders, then bond it.
    > Do not measure with the frayed end left as it is. At 100 MΩ that stub is an antenna and a
    > contamination magnet. Trim it short and clean first.
 
+-1b. **Sweep the bias and watch the offset. Then sweep Z.** Zero risk — no tip is fitted, so
+   nothing can be crashed. Each is a falsifiable prediction from the sign table in fault 1:
+   **the offset should ignore both.** If it moves with bias, the sample-plate path is implicated
+   and the slope gives the leakage resistance directly. If it moves with Z, the glue at the piezo
+   socket (candidate E) is implicated. **Park Z back at 32768 afterwards** — safety rule 6.
+
 -1. **Scale the two supply rails independently.** The old D2 halves both together. If the offset
    follows the **negative** rail and ignores the positive one, candidate A0 is confirmed and the
    fault is named. If neither moves it, the rails are not the source. **This also settles the
    signed-versus-unsigned ADC question as a by-product.**
+
+-0b. **Meter the tip holder against the piezo's brass electrode.** Safety rule 7 has always said to
+   do this before imaging, on Berard's warning that glue must not bridge the two. **We now know the
+   piezo was superglued into its socket**, so this stopped being a precaution and became a test of a
+   live candidate. It must read open — and remember rule 12: a DMM reading OL only proves >60 MΩ,
+   which does not clear it. Pair it with the Z sweep above.
 
 0. **Verify the rebuilt shield with a meter.** Every point on the shield must beep to the ground
    wire — near the wire, the far corner, **and across every soldered seam**. This takes two minutes
@@ -534,10 +582,13 @@ identify the pins with a meter, record which ground wanders, then bond it.
       are 11.43 mm apart; the board's two mounting holes are **5.93 mm** apart. Only one of the two
       screw positions is usable, which is why it got glued. Move the standoffs to match the board
       and keep the Ø1.600 mm pilots.
-11. **Do not connect the sample plate or turn on the bias** until the offset is understood. It adds
-    a second voltage source near the input node and makes the rail-scaling test ambiguous. Every
-    measurement so far has been taken with the tip in air and no bias, which is *why* the rail test
-    will be interpretable.
+11. **Do not bring the sample plate near the tip holder** until the offset is understood.
+    **Corrected 2026-09-07** — an earlier version of this rule said the bias was off. It is not;
+    it has been on throughout, with the plate simply parked away from the tip. The rule that
+    matters is the physical separation, not the bias.
+    - **Do not fit a tip either.** Without one, nothing can be crashed, and every test below —
+      bias sweep, Z sweep, rail scaling — is zero-risk. That is worth preserving until the offset
+      is understood.
 12. **A multimeter cannot clear a suspect leakage path in this project.** What matters here is
     100 MΩ to 10 GΩ. A typical DMM tops out around 20–60 MΩ, so **"OL" only proves ">60 MΩ"** and
     leaves the entire dangerous range unmeasured. **Never read OL as "ruled out."** The instrument
