@@ -467,6 +467,13 @@ identify the pins with a meter, record which ground wanders, then bond it.
 > **The order below was revised on 2026-09-07.** Two cheaper, more decisive tests now come first.
 > See `sessions/2026-09-07.md` §8 for the reasoning.
 
+> **When the tip lead is rebuilt, do NOT put the coax back.** Decided 2026-09-07: replace it with
+> plain fine wire, 40 AWG magnet wire for preference. It was shielding a fraction of the exposed
+> node, probably loading the piezo disc, doubling the solder joints on the input node, and it was
+> hard to strip and solder — and awkward soldering on the highest-impedance node in a build whose
+> blocker is contamination there is not a neutral cost. Reasoning and method in
+> `docs/UPSTREAM_BERARD.md` §4. **But take the open-input reading below first.**
+
 -2. **Trim the cut coax stub short and clean, leave the input open, and measure.** The tip coax was
    cut to remove the preamp module, so **for the first time the input node does not include the
    cable, the tip holder or the tip.** One reading bisects the fault:

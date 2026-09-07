@@ -276,10 +276,11 @@ it rather than re-deriving one from the handoff.
 
 Carried forward from the existing documents, because it has served this project well:
 
-- **Never name one of our wires by its colour.** Our jumper leads are **not** colour-matched to
-  the connector wiring described in `docs/WIRING.md`. Jacob and Nuh translate by pin number and
-  want to keep doing that. **Always say "DSUB2 pin 4", never "the blue wire".** A colour-based
-  instruction here could put −15 V somewhere it should not go.
+- **Use wire colours, and use the J1 / J2 ones from `docs/WIRING.md`.** Jacob and Nuh prefer
+  colours to pin numbers, and they translate to their own jumpers themselves. **Do not read
+  colours off a photograph** — the jumper leads at the preamp end are different colours from the
+  J1/J2 wiring, and quoting a photo's colours back is what would cause a mistake. Say "the J2
+  −15 V wire" using the documented colour, and let them do the translation.
 - **Measurements over inference.** If a number was measured, say so. If it was derived or
   assumed, say that instead.
 - **Record what was ruled out**, not just what was found.

@@ -378,6 +378,42 @@ is how Berard's design gets away with plain wire.
 **One thing to check whichever way this goes:** the coax braid should be grounded at the **preamp
 end only**. Both ends makes a loop; neither end makes it useless. Not currently recorded.
 
+### Decision 2026-09-07: replace the coax with plain fine wire
+
+Jacob also reports the coax was **difficult to strip and solder**. That turns out to be the
+strongest argument of the lot, and it is one Berard never had to make.
+
+**Recommendation: yes, replace it.** Four independent reasons, none of which depend on the others:
+
+1. **It is buying almost nothing electrically** — see the assessment above.
+2. **It is probably loading the piezo disc** — bending stiffness goes as diameter⁴, and the link
+   lands on a unimorph that has to flex freely.
+3. **It halves the number of solder joints on the input node.** Coax needs the centre conductor
+   *and* the braid terminated, then a second joint to the bare copper link. A single wire needs
+   two joints total, one of them at the preamp end.
+4. **Difficulty at the input node is itself a fault source, and this project already has the
+   evidence.** The blocker is contamination at exactly that node. Every awkward, repeated, hot,
+   flux-heavy solder attempt there is a chance to deposit the thing we are trying to remove.
+   **A fiddly joint on the highest-impedance node in the instrument is not a neutral cost.**
+
+**What to use:** 40 AWG magnet wire — Berard's choice, and already in `docs/BOM.md` §7. It is
+0.08 mm and limp enough not to load the scanner. It is also fragile, so leave a small service loop
+rather than pulling it taut, and expect to redo it occasionally. Anything comparably fine works;
+the point is limp and short.
+
+**How to do it well:**
+
+- **Keep it as short as possible.** Losing the shield means the exposed length sets the pickup, so
+  short directly buys back some of what the shield was doing.
+- **Solder the preamp end first**, away from the tip holder, then the tip-holder end.
+- **Clean the flux properly afterwards.** Berard's own warning, and it is candidate C for the 37 nA.
+- **Do not let it touch anything** on its way — at 100 MΩ, every contact point is a leakage path.
+- **Do not pull it taut across the disc.** A taut wire loads the scanner as surely as a stiff one.
+
+**Sequencing matters: do this AFTER the open-input measurement, not before.** The coax is already
+cut, so the input is nearly open — which is the state needed for the bisection test at the top of
+`STATUS.md`'s action list. Take that reading first, then rebuild the tip lead.
+
 ---
 
 ## 5. Sample mounting — relevant now that we are using gold foil

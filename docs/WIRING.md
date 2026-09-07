@@ -1,18 +1,19 @@
 # Wiring and pinout reference
 
-> # WIRE COLOURS IN THIS DOCUMENT ARE THE CONNECTOR'S, NOT OUR JUMPERS'
+> # USE THE J1 / J2 COLOURS FROM THIS FILE — NOT THE COLOURS IN PHOTOGRAPHS
 >
-> **Recorded 2026-09-07 at Jacob's request, because getting this wrong could destroy the preamp.**
+> **Recorded 2026-09-07 at Jacob's request.**
 >
-> **Our jumper leads from J2 / DSUB2 to the preamp are NOT colour-matched to the wires described
-> here.** Jacob and Nuh translate between the two by pin number, and want to keep working that way.
+> **Colours are the preferred way to refer to wires here.** Use the **J1 and J2 colours documented
+> in this file.** Jacob and Nuh translate those to their own jumper leads themselves, and want to
+> keep working that way.
 >
-> So when this document — or anything else in the repository — says "the red wire", it means
-> **the wire on that pin of the connector**, not the colour of the jumper you are holding.
+> **The trap:** the jumper leads at the preamp end are **not** the same colours as the J1/J2
+> wiring. So a colour read off a photograph of the bench is not the colour in this document.
+> **Never quote a colour taken from a photo** — quote the J1/J2 colour and let them translate.
 >
-> **Never identify one of our leads by its colour. Identify it by the pin it lands on, then
-> meter it.** DSUB2 carries **+15 V on pin 5 and −15 V on pin 4**, right next to the preamp
-> signals — a swap there feeds the rails backwards into an OPA627.
+> Worth remembering why this matters: DSUB2 carries **+15 V on pin 5 and −15 V on pin 4**, right
+> next to the preamp signal pins. A wrong colour there feeds the rails backwards into an OPA627.
 
 
 Everything here is **verified** — cross-checked against the firmware source, the PCB netlist, or
