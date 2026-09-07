@@ -10,7 +10,43 @@ to 1 MHz, and the `TONE` command in `main.cpp`. `stm_control.py`, `stm_app.py` a
 
 ---
 
-## 1. The ADC full scale is 4.096 V, not 10.24 V
+## 1. RESOLVED 2026-09-07: the ADC full scale IS 10.24 V. This section was wrong.
+
+> **The datasheet was read on 2026-09-07 and it settles this. The section below argued for 4.096 V
+> and it is wrong. The PC tools were right all along.**
+>
+> | Fact | Source |
+> |---|---|
+> | **Analog input range: ±10.24 V true bipolar** | LTC2326-16 datasheet |
+> | **REFBUF is 4.096 V** — an onboard buffer gains the 2.048 V bandgap reference by 2 | same |
+> | **The input span is 2.5 × REFBUF** = 2.5 × 4.096 = **10.24 V** | same |
+> | **Output format: two's complement** for bipolar | same. Closes a second open question |
+> | Inputs are **pseudo-differential**, not fully differential | same. Matters for `PREAMP−` |
+>
+> **`_ref_buffer_volts = 4.096f` in the driver is the REFBUF voltage, exactly as its name says.**
+> It is not the input span. This section confused the two.
+>
+> **This section's own closing paragraph named the missing step** — "confirm from the LTC2326-16
+> datasheet how the full-scale input range relates to REFBUF" — and it was closed on inference
+> instead of by doing it. The correct scale is **0.3125 mV per count** (10.24 / 32768), not
+> 0.125 mV.
+>
+> **What this changes, everywhere:**
+>
+> | | Was recorded | Actually |
+> |---|---|---|
+> | Volts per count | 0.125 mV | **0.3125 mV** |
+> | 1 nA in counts | 800 | **320** |
+> | Maximum measurable current | 40.96 nA | **102.4 nA** |
+> | 31 August offset, 29873 counts | "37 nA" | **93 nA differential** — and against a floating reference at ~2.7 V, **about 119 nA at the op-amp**, matching today's meter reading |
+> | `stm_control.py:37`, `stm_console.py` using 10.24 | "wrong, 2.5x too large" | **correct. Do not change them** |
+>
+> **The offset never changed.** It has been about 119 nA since 31 August. The "37 nA" figure was
+> the wrong scale, not a different fault.
+
+### The superseded argument, kept for the record
+
+
 
 **This closes the question that made every current figure in the project ambiguous.**
 

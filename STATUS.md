@@ -10,12 +10,41 @@ Earlier the same day: Jacob, remote, from a photo.
 > were found that invalidate a great deal of what follows:**
 >
 > 1. **The preamp output is +11.905 V, not 3.73 V.** The input current is about **119 nA**, not
->    37 nA. Every "37 nA" below is wrong by a factor of 3.2.
+>    37 nA. Every "37 nA" below is wrong.
 > 2. **`PREAMP-`, the ADC's differential reference, is FLOATING.** Every ADC reading this project
 >    has ever taken was measured against an undefined, drifting node.
 >
 > **Do not trust any current figure derived from ADC counts until the reference is fixed.**
 > Meter readings are still good. See `sessions/2026-09-07.md` §17-27.
+>
+> ### 3. THE ADC FULL SCALE IS 10.24 V. The 4.096 V correction was WRONG.
+>
+> **Datasheet read 2026-09-07.** The LTC2326-16 has a **±10.24 V true bipolar input range**.
+> REFBUF is 4.096 V, and **the input span is 2.5 × REFBUF**. The driver constant
+> `_ref_buffer_volts = 4.096f` is the REFBUF voltage, exactly as its name says — not the input
+> span. **`stm_control.py` and `stm_console.py` were right. Do not change them.**
+>
+> | | Was recorded | Actually |
+> |---|---|---|
+> | Volts per count | 0.125 mV | **0.3125 mV** |
+> | 1 nA in counts | 800 | **320** |
+> | Maximum measurable current | 40.96 nA | **102.4 nA** |
+>
+> **This resolves the contradiction in `sessions/2026-09-07.md` §21 completely.** At 0.3125 mV per
+> count, the settled ~29,500 counts is **9.22 V** differential. PAD1 measures 11.905 V. So
+> `PREAMP-` sits at about **2.7 V** — and Nuh's meter read it as "2 V and dropping". Everything
+> reconciles, and **the ADC is not saturated and not over range.**
+>
+> **It also means the offset never changed.** 31 August's 29,873 counts is ~9.33 V differential,
+> about 12 V at the op-amp, about **119 nA** — the same as today. The "37 nA" was a scale error,
+> not a smaller fault.
+>
+> **Also confirmed from the same datasheet:** output format is **two's complement** (closes that
+> open question), and the inputs are **pseudo-differential**, so `PREAMP-` is not a wide-range
+> input and should sit near ground.
+>
+> **Still NOT known: the absolute maximum input rating.** Every datasheet host is blocked from this
+> session. **See the revised action order below — the plan no longer depends on it.**
 
 > **Before recording anything here as unknown, read `CLAUDE.md` §3b and check `docs/INDEX.md`.**
 > Four items in this file's history were marked unknown while the answer sat in a repository file.
@@ -91,7 +120,7 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 | 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535` |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
 | 6 Preamp | **FAIL** | **~119 nA input leakage**, measured at PAD1 on 2026-09-07. Was recorded as 37 nA |
-| **Measurement chain** | **NEW FAIL** | **`PREAMP-` floating** — the ADC's reference is undefined. **ADC driven ~3x past its ±4.096 V span** |
+| **Measurement chain** | **NEW FAIL** | **`PREAMP-` floating** — the ADC's reference is undefined. **Not over range after all:** span is ±10.24 V and the differential is ~9.2 V |
 | **Preamp box** shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
 | DAC config stability | **FAIL** | All four DACs drop config roughly hourly |
 | JP1 grounds | **FAIL** | One ground pin genuinely open on the old board |
@@ -120,24 +149,35 @@ this project has been referenced to a drifting, undefined node.**
 > and filed as a loose end for a future rebuild. It is not a loose end. It is the reference the
 > whole instrument measures against. **And it is repairable without a rebuild.**
 
-**0b. The ADC is driven roughly 3x past its input span.** 11.9 V into a ±4.096 V converter. PAD1
+**0b. RESOLVED 2026-09-07 — the ADC is NOT over range.** Span is **±10.24 V**, and with `PREAMP-` floating near 2.7 V the differential is about 9.2 V, inside it. **It only goes over range if `PREAMP-` is bonded while PAD1 is still at 11.9 V** — which is why that step is now last. PAD1
 and R23 differ by 9 mV, so there is **no attenuation anywhere** — confirming the netlist finding
 that the buffers have gain exactly 1. `docs/UPSTREAM_MECHPANDA.md` §5 warned this could happen and
 said to check the absolute-maximum rating first. **Nobody did, and it has been in this state for
 weeks.** Whether the converter is damaged is UNKNOWN.
 
-**0c. An unresolved contradiction, recorded rather than guessed at.** With 11.9 V on its input the
-ADC should be pinned at 32767. It reads ~30,000 and wanders by a thousand counts, which a
-saturated converter does not do. It behaves as though full scale were about **13 V** — matching
-neither 4.096 nor 10.24. The floating reference is the likely explanation but is untested.
+**0c. RESOLVED 2026-09-07 — the contradiction was a wrong constant, not a mystery.**
+It was recorded as: with 11.9 V on its input the ADC should be pinned at 32767, yet it reads
+~30,000 and wanders, behaving as though full scale were about 13 V.
+
+**Full scale is ±10.24 V.** So ~29,500 counts is **9.22 V**, PAD1 is 11.905 V, and `PREAMP-` sits
+at about **2.7 V** — which is what the meter read. **Nothing is saturated and nothing is over
+range.** The "about 13 V" estimate was the right instinct pointing at a constant that was wrong.
 
 ---
 
 ### 1. Preamp — ~119 nA input leakage (the blocker)
 
-> **Corrected 2026-09-07.** This fault was recorded all project as **37 nA / 3.73 V**, derived
-> from ADC counts. A meter on PAD1 reads **11.905 V**, which through the 100 MΩ feedback resistor
-> is **about 119 nA**. Every "37 nA" in older documents is low by 3.2x.
+> **Corrected 2026-09-07, twice.** This fault was recorded all project as **37 nA / 3.73 V**,
+> derived from ADC counts using a full-scale constant that was wrong. A meter on PAD1 reads
+> **11.905 V**, which through the 100 MΩ feedback resistor is **about 119 nA**.
+>
+> **The offset never actually changed.** Rescaling 31 August's 29,873 counts at the correct
+> 0.3125 mV per count gives 9.33 V differential, about 12 V at the op-amp — **the same ~119 nA**.
+> The "37 nA" was an arithmetic error carried for a week, not a smaller fault that grew.
+>
+> **119 nA is above the instrument's own ceiling of 102.4 nA.** Even with a perfect reference the
+> ADC cannot measure the present offset; it would simply pin. The leak has to fall by **more than
+> 100x** to leave room for a 1 nA tunnelling signal.
 
 **The feedback loop is closed, not open.** It settles rather than ramping, and that is the whole
 diagnosis — an amplifier with an open feedback resistor behaves as an integrator and would have
@@ -567,121 +607,81 @@ over** — it is the measurement reference, and it is repairable without a rebui
 
 ## Next actions, in order
 
-> **Renumbered 2026-09-07.** The list had grown into `-2, -1b, -1, -0b, 0, 0b, 1...` as tests were
-> inserted ahead of others. That is not something to read at a bench. It is now a plain 1..12, in
-> the order to actually do them.
+> **Reordered 2026-09-07 (late).** The previous order had "bond the open ground" ahead of "check
+> the ADC's absolute maximum". **That was backwards and it put the converter at risk** — see
+> `CLAUDE.md` §3c, which exists because of it.
 >
-> **The bench plan `sessions/2026-09-06-plan.md` is superseded in part** — it carries a banner
-> saying which parts. This list is the current one.
+> **The order below does not depend on the absolute-maximum rating at all**, because the preamp
+> rebuild can be validated with a meter at PAD1, which does not involve the ADC.
 
-### Group 0 — FIX THE INSTRUMENT FIRST. Added 2026-09-07
+### Do these first — none of them touch the ADC
 
-**Nothing else on this list can be trusted until these are done.** All unpowered meter work,
-costing nothing but a few minutes.
+1. **Measure PAD1 with a meter at 10 minutes and again at 60 minutes after power-on.**
+   Five minutes of work, and it settles what the hour-long warm-up actually is.
+   - **PAD1 steady while the ADC counts climb** → the drift is the floating `PREAMP-` charging,
+     not the preamp. The preamp is fine to measure early, and the "wait an hour" rule only applies
+     to ADC readings.
+   - **PAD1 climbing too** → the drift is real and in the preamp, and every future measurement must
+     wait it out.
 
-0a. **Find the open ground.** Continuity from **JP1 pin 1 to ground**, then **JP1 pin 4 to
-   ground**. One will be open. That names fault 0a.
+2. **Start the new preamp box print NOW.** This is the long-lead item and it carries no risk.
+   The current box **cannot be reused**: its standoffs are 11.43 mm apart and the board's mounting
+   holes are **5.93 mm** apart, which is why the board was superglued in. **Move the two threaded
+   standoffs under the board's real hole positions and keep the Ø1.600 mm pilots** so M2 screws
+   self-tap. Nothing else about the box changes.
 
-0b. **Locate the break.** Continuity from the **brown DSUB2 wire** to JP1 pins 1 and 4. Tells you
-   whether it is on the preamp board or in the cable.
+3. **Rebuild the preamp on the spare board.** The leak is on the board — measured, not inferred,
+   by the coax bisection. Rules in `sessions/2026-08-31-results.md` §6, plus:
+   - **No cyanoacrylate anywhere.** Screws into the new box's pilots.
+   - **Do not glue the PTFE standoff.** Keystone 11301, per `docs/UPSTREAM_BERARD.md` §4.
+   - **Clean the flux thoroughly** — Berard's own warning, and still a live candidate.
+   - **Tip lead in fine wire, not coax** — decided 2026-09-07.
 
-0c. **Bond the open ground.** Pins 1 and 4 are both GND on the board, so this is electrically
-   correct. Possibly a one-wire fix for a fault that has invalidated every ADC reading in the
-   project.
+4. **Validate the rebuild with a meter at PAD1, before it goes in any box.**
+   **This is a complete acceptance test and it does not involve the ADC**, so the floating
+   reference does not block it.
 
-0d. **Re-measure PAD1 with a meter**, then **repeat the bias, Z and rail sweeps** — all three are
-   in doubt, see fault 1c.
+   | PAD1 reading | Input current | Verdict |
+   |---|---|---|
+   | 11.9 V | 119 nA | unchanged — the fault is not what we think |
+   | ~1 V | 10 nA | large improvement, still unusable |
+   | **< 0.1 V** | **< 1 nA** | **target.** Leaves the full range for signal |
+   | a few mV | tens of pA | what a clean build should actually give |
 
-0e. **Verify the LTC2326-16 absolute-maximum input rating** against the datasheet. It has been
-   driven roughly 3x past its span for weeks and may be damaged. No bench access needed.
+   **Then box it and measure again.** That isolates the box's own contribution — a number this
+   project has never had.
 
----
+### Then, and only once PAD1 is small
 
-### Group A — zero risk, no tip fitted
+5. **Find and bond the open ground.** Continuity from JP1 pin 1 to ground and JP1 pin 4 to ground;
+   one will be open. Then continuity from the DSUB2 `PREAMP-` wire to each, to tell whether the
+   break is on the board or in the cable. Both pins are GND on the board, so bonding is correct.
+   > **Why this waits.** With PAD1 at 11.9 V, bonding `PREAMP-` to ground puts the full 11.9 V
+   > across a ±10.24 V input — **16% over range**, and **the absolute maximum rating is still
+   > unverified.** Once PAD1 is under 0.1 V there is no question to answer. **Do it in that order
+   > and the risk disappears rather than being managed.**
 
-**No tip is installed, so nothing can be crashed.** That will not be true later. Use the window.
+6. **Repeat the bias, Z and rail sweeps with a meter on PAD1**, not through the ADC. All three are
+   in doubt (`sessions/2026-09-07.md` §22) because they were taken through an instrument with a
+   floating reference.
 
-1. ~~**Trim the cut coax stub, leave the input open, and measure.**~~ **DONE 2026-09-07. ANSWERED.**
-   With the coax centre, tip holder and tip all removed from the input node, the offset returned to
-   its full settled value. **The leak is on the preamp board.** Candidate D eliminated.
-   > **Still do not rebuild the tip lead.** The measurements in Group 0d need the input open.
+7. **Verify the rebuilt shield's continuity** — every point to the ground wire, near the wire, the
+   far corner, across every soldered seam.
 
-2. ~~**Sweep the bias, then sweep Z.**~~ **DONE 2026-09-07 — but the result is IN DOUBT.**
-   Neither showed a response: bias spread 266 counts across a 6 V swing with 97 counts of drift;
-   Z spread 315 counts, exactly equal to the drift. **Redo with a meter on PAD1 after Group 0**
-   — see fault 1c.
-   > **The Z sweep did not test candidate E.** The tip holder is currently disconnected from the
-   > input node, so glue at the piezo socket has no path to show up. That candidate needs the tip
-   > lead rebuilt before it can be tested at all.
+8. **The AD5761R internal pull-up question.** The one datasheet question still open — but see
+   fault 4: the handoff already explains the power-on symptom without needing it.
 
-3. ~~**Scale the two supply rails independently.**~~ **DONE for the negative rail, 2026-09-07.
-   THE PREDICTION FAILED.** Rail cut 39% (−15.237 V to −9.264 V); predicted ~19,000 counts,
-   measured **30,175**. No proportional response. **The rail-leak model is not supported** — but
-   see fault 1c, this result is also in doubt.
-   **The positive rail has still not been scaled.** Do it after Group 0, and keep the dial above
-   +10 V so the 5 V and 3.3 V regulators stay in range.
+9. **The four five-minute checks:** calipers on the piezo disc and its Ø20.500 pocket; a ruler on
+   the spring droop; a scope on U13 pin 7; a ruler on the scan head lever.
 
-4. **Meter the tip holder against the piezo's brass electrode.** Safety rule 7 always said to do
-   this before imaging, on Berard's warning that glue must not bridge the two. **We now know the
-   piezo was superglued into its socket**, so it is a test of a live candidate, not a precaution.
-   It must read open — and remember rule 12: OL on a DMM only proves >60 MΩ, which does not clear it.
-
-5. **Verify the rebuilt shield with a meter.** Every point on the shield must beep to the ground
-   wire — near the wire, the far corner, **and across every soldered seam**. Two minutes.
-   **The box being open makes this easier, not harder.**
-
-6. **The four five-minute checks**, any of which can be done whenever there is a gap:
-   - **Calipers on the piezo disc and on the `PiezoPlate` pocket.** The pocket measures
-     **Ø20.500 mm**; `docs/BOM.md` says the disc is **25–27 mm**. They cannot both be right, and
-     the answer changes every nm/V figure. See `CAD/prints/README.md`.
-   - **A ruler on the suspension.** How far do the springs stretch under the hanging platform?
-     That one number gives the resonant frequency — 200 mm of droop is 1.1 Hz — with no need for
-     the spring rate or the mass. See `docs/ENGINEERING_REFERENCE.md` §7b.
-   - **A scope on U13 pin 7.** The unused half of the bias buffer's op-amp is floating. A quiet DC
-     level is fine; a rail or an oscillation is fault 4b, and two wires to fix.
-   - **A ruler on the scan head lever.** Which screw does the motor drive, and where is the tip
-     relative to the front-screw line? The CAD says 40.000 mm and 1.000 mm, which would make the
-     ratio 40 and one step 3.88 nm. One minute settles a question open all project.
-
-7. **Answer the two datasheet questions.** Neither needs the bench.
-   (a) Does the AD5761R have internal pull-ups on CLEAR#/RESET#?
-   (b) Is the LTC2326-16 output signed two's complement or straight binary?
-   > **If (a) means the fix goes ahead, it is cheaper than it looked.** CLEAR# and RESET# can be
-   > commoned across all four DACs — two wires — and **H1 pins 24 and 26 are spare ribbon
-   > conductors already running from the Teensy to the board.** No new cable needed.
-
-### Group B — after Group A, and only with the box closed
-
-8. **Close the box — lid AND back — before any D1/D2/D3 offset numbers.**
-   **An open box is not a shield.** Record the **standard deviation** as well as the mean: the
-   noise is several hundred times the Johnson floor, and that is where a working shield should show
-   up most clearly.
-
-9. **Run the shield test properly: D1, D2, D3.** Baseline with the shield wire disconnected, then
-   rail scaling, then with the shield connected.
-
-10. **Characterise the DAC config loss.** `RSET`, confirm LED1–4 dark, then leave the board
-    completely alone for 30 minutes with no commands sent and check the LEDs again. Separates
-    "activity triggers it" from "time or the rail triggers it".
-
-11. **Calibrate counts to amps.** Simultaneous meter reading at R23 and `ADCR`, bench clear, two
-    well-separated points. Settles the 4.096 vs 10.24 question.
-
-12. **Dummy junction test.** A **100 MΩ resistor or larger** clipped between the sample holder and
-    the tip holder. Proves the whole current path with no tip and no crash risk, gives counts per
-    amp directly, and **tells us the sign of the current**.
-    > **Do not use 1 MΩ.** An earlier version of this list said "between 1 MΩ and 100 MΩ".
-    > **The instrument reads to 40.96 nA** (4.096 V ÷ 100 MΩ). 1 MΩ at 3 V of bias pushes
-    > **3 µA, seventy times over range** and instantly saturated.
+10. **Then the rest:** the DAC config characterisation, counts-to-amps calibration against the now
+    known 10.24 V scale, and the ≥100 MΩ dummy junction.
 
 ### Only when the preamp is working
 
-- **Rebuild the tip lead in plain fine wire, not coax.** Decided 2026-09-07 — see
-  `docs/UPSTREAM_BERARD.md` §4 for the reasoning and the method.
-- **`Code/pc/stm_approach.py` is written and tested** (2026-09-05, 40 tests against a simulated
-  microscope) but has **never been run on hardware**. It refuses to start while the preamp is
-  railed, and it needs both direction answers first: which Z direction approaches the sample, and
-  which sign of `MTMV` advances.
+**`Code/pc/stm_approach.py`** is written and tested (40 tests, 2026-09-05) but has **never run on
+hardware**. It needs both direction answers first: which Z direction approaches the sample, and
+which sign of `MTMV` advances.
 
 ---
 
@@ -776,8 +776,8 @@ The full register, including the undocumented hardware and process items, is in
 | Question | Why it matters |
 |---|---|
 | **Where is the break in the `PREAMP-` return — board, cable, or connector?** | **The top question.** It is the ADC's reference and it is floating. Three continuity checks, unpowered. See Group 0 |
-| **Is the ADC damaged?** | It has been driven ~3x past its ±4.096 V span for weeks. **Check the LTC2326-16 absolute-maximum input rating.** Datasheet question, no bench needed |
-| **Why does the ADC read ~30,000 counts when 11.9 V should pin it at 32767?** | It behaves as if full scale were ~13 V, matching neither 4.096 nor 10.24. The floating reference is the likely explanation. **Unresolved — see fault 0c** |
+| ~~**Is the ADC damaged?**~~ **Very unlikely** | It was never over range: span ±10.24 V, differential ~9.2 V. **The absolute maximum is still unverified** (every datasheet host is blocked from the remote session) but it no longer gates anything — the action order avoids the over-range case entirely |
+| ~~**Why does the ADC read ~30,000 counts?**~~ **RESOLVED 2026-09-07** | Full scale is **±10.24 V**, so ~29,500 counts is **9.22 V**. PAD1 is 11.905 V, so `PREAMP-` sits at about **2.7 V** — and the meter read it as "2 V and dropping". Everything reconciles |
 | **Is the OPA627 saturated at +11.905 V?** | If it is pinned, the bias, Z and rail sweeps of 2026-09-07 measured nothing. Decides whether three results stand or are discarded |
 | **What causes the 45-minute warm-up drift?** | ~30 nA of climb after power-on. Thermal, moisture in the CA, charge in the PTFE, or the floating node charging. **Untested** |
 | **Does the rebuilt preamp box shield actually conduct end to end?** | **VERIFY, two minutes with a meter.** Still not done |
@@ -788,7 +788,7 @@ The full register, including the undocumented hardware and process items, is in
 | How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05: roughly 5 to 8 nm.** From the 1/4"-80 pitch and 2048 steps/rev, with a lever reduction Berard quotes as **either 20 or 30 on different pages** — 7.8 nm at 20, 5.2 nm at 30. **Nothing depends on resolving it**: both give 90–130 steps per Z range. **VERIFY our own ratio** — ours is Mech Panda's geometry. Replaces the old 244 nm estimate. See `docs/UPSTREAM_BERARD.md` §2b |
 | Which Z direction is toward the sample | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile. **`stm_approach.py` requires this answer before it will run** |
 | Which sign of `MTMV` advances toward the sample | Determinable by eye with the tip removed. **`stm_approach.py` requires this too** |
-| ADC full scale: 4.096 or 10.24 V? | `LTC2326_16.hpp` says 4.096, `stm_control.py:37` and `stm_console.py` say 10.24. The R23 reading favours 4.096. Every current figure depends on this |
+| ~~ADC full scale: 4.096 or 10.24 V?~~ **CLOSED 2026-09-07** | **±10.24 V**, from the datasheet. REFBUF is 4.096 V and the input span is 2.5 × REFBUF. The PC tools were right. **Two's complement also confirmed from the same page** |
 | DST-201 DC input impedance | Needed to finish some of the high-impedance arithmetic |
 
 ---
@@ -798,8 +798,8 @@ The full register, including the undocumented hardware and process items, is in
 | Where | Issue |
 |---|---|
 | `stm_firmware.hpp` `approach()` | Signed `>` comparison against a negative baseline. **Routed around** — use `Code/pc/stm_approach.py`, which never sends `APRH`. Left unfixed deliberately |
-| `stm_control.py:37`, `stm_console.py` | ADC full scale hardcoded as `10.24`. **Now known to be wrong — it is 4.096.** Deliberately not changed yet: it would silently alter every number these tools print, so it should land together with the calibration that proves it |
-| `LTC2326_16.cpp` `read_volts()` | **Broken upstream**: multiplies raw counts by 4.096 instead of scaling by full scale. Returns "134213 volts" at full scale. Never called, so harmless. Do not use it |
+| ~~`stm_control.py:37`, `stm_console.py`~~ | ~~ADC full scale hardcoded as `10.24`, "wrong"~~ **NOT A BUG. Corrected 2026-09-07: the datasheet gives ±10.24 V. These tools were right and must NOT be changed.** The 4.096 figure is REFBUF, not the input span |
+| `LTC2326_16.cpp` `read_volts()` | **Broken upstream**: multiplies raw counts by the REFBUF constant instead of scaling by full scale. Returns nonsense. Never called, so harmless. Do not use it |
 | `stm_firmware.hpp` | Duplicate `LTC2326_16` object at file scope and as a class member, same pins |
 | `AD5761.cpp` `write()` | Missing `SPI.endTransaction()` |
 | `stm_control.py:127` | `send_cmd('MTMV {steps}')` — **missing the `f` prefix**, so it sends the literal text and the motor moves **zero steps**. This is why the GUI's motor control does nothing. Upstream bug, verified 2026-09-06 |

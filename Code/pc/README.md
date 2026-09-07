@@ -86,7 +86,7 @@ are upstream, not ours. **None is fixed.**
 | `stm_control.py:127` | `self.send_cmd('MTMV {steps}')` — **missing the `f` prefix** | It sends the literal text `MTMV {steps}`. The firmware reads `MTMV`, finds no digits, and moves **zero steps**. **This is why the GUI's motor control does nothing** |
 | `stm_control.py:88` | `set_buffer_size()` is called unconditionally | That method is **Windows-only** in pyserial. On macOS or Linux, opening the port raises AttributeError and the GUI cannot connect at all |
 | `stm_control.py:40-49` | `dac_to_dacz/x/y_volts` all use `10.0 / 2.0`, i.e. ±5 V | **All three are wrong.** Z is ±10 V; X and Y are ±3 V. Every voltage the GUI displays is incorrect |
-| `stm_control.py:37` | `adc_to_amp` uses `10.24` V full scale | Wrong — it is **4.096**. Every current is 2.5x too large. See `docs/UPSTREAM_MECHPANDA.md` §1 |
+| ~~`stm_control.py:37`~~ | `adc_to_amp` uses `10.24` V full scale | **NOT A BUG — corrected 2026-09-07. The datasheet gives ±10.24 V. Leave it alone.** 4.096 V is REFBUF; the input span is 2.5 × REFBUF |
 
 A fifth item reported in the old handoff — `get_status()` returning `self.history[-1]` on an empty
 list — is **unreachable dead code**, not a live bug: the method already returns at line 92 when
@@ -106,7 +106,9 @@ Its motor control is broken independently of both. Use `stm_console.py` and `stm
 ## Known issue
 
 `stm_control.py` and `stm_console.py` hardcode the ADC full scale as **10.24 V**, while the
-firmware driver uses **4.096**. **That is resolved: 4.096 is correct** — the controller schematic
+firmware driver's `_ref_buffer_volts` is **4.096**, which is the **REFBUF** voltage, not the input
+span. **Resolved 2026-09-07 from the datasheet: the input full scale is ±10.24 V = 2.5 × REFBUF, so
+the PC tools are correct.** The older text below argued for 4.096 and was wrong — the schematic
 shows the LTC2326 running on its own internal reference. See `docs/UPSTREAM_MECHPANDA.md` §1.
 
 **Every current these tools print is therefore 2.5x too large.** The constant is deliberately not

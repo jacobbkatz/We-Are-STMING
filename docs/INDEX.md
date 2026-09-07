@@ -16,7 +16,7 @@ Do not re-derive these. They are done, and where they live now:
 
 | Question | Answer | Came from | Now written up in |
 |---|---|---|---|
-| Is the ADC full scale 4.096 V or 10.24 V? | **4.096.** The LTC2326 runs on its internal reference; no external reference reaches it | Controller schematic PDF | `docs/UPSTREAM_MECHPANDA.md` §1 |
+| Is the ADC full scale 4.096 V or 10.24 V? | **10.24 V.** REFBUF is 4.096 V and the input span is 2.5 × REFBUF. **This row said 4.096 until 2026-09-07 and was wrong** — the schematic settled where the reference comes from, not what the input span is | LTC2326-16 **datasheet** | `docs/UPSTREAM_MECHPANDA.md` §1 |
 | What is the JP1 pinout? | 1=GND, 2=+supply, 3=OUTPUT, 4=GND, 5=−supply | Preamp gerber X2 attributes | `docs/WIRING.md` §10 |
 | Why does JP1 pin 4 wander? | **No copper track lands on it.** A routing defect, not a build fault | Preamp gerber copper layers | `docs/WIRING.md` §10 |
 | Are CLEAR#/RESET# really floating? | **Yes** — **34** single-pad nets, 20 of them the DAC control pins (recounted 2026-09-06; it was recorded as 25) | `FlyingProbeTesting.json` | `STATUS.md` fault 4 |
@@ -200,7 +200,7 @@ n = struct.unpack('<I', d[80:84])[0]          # binary STL: facet count at byte 
 | File | What is in it |
 |---|---|
 | `Code/teensy/src/logTable.hpp` | 393 KB. The header carries **the MATLAB that generated it** and Berard's MIT copyright |
-| `Code/teensy/lib/LTC2326/LTC2326_16.hpp` | Full **MIT licence text** in the header, and the `4.096` reference constant |
+| `Code/teensy/lib/LTC2326/LTC2326_16.hpp` | Full **MIT licence text** in the header, and the `4.096` **REFBUF** constant — **not** the input span, which is 2.5x it |
 | `docs/PROJECT_HANDOFF_SUMMARY.md` | 1918 lines. **Its header banner is a live correction log** — the newest corrections get written there. Read the top even though the body is ranked last |
 | `Images/*.bmp` | Mech Panda's own atomic-resolution HOPG scans. Reference images, not our data |
 

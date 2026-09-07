@@ -164,6 +164,32 @@ Trust the range bits and the measurement, not the comment.
 
 ---
 
+## 3c. Before you tell them to do anything, work out what it will do
+
+**Added 2026-09-07, after this failed.** A session told Nuh to bond a floating ground, and only
+afterwards said "check the datasheet absolute maximum first". **That is backwards, and it put the
+ADC at risk.** Jacob's words: *"you have the data, not us. 100% should never happen again."*
+
+He is right. **You have the repository, the netlists, the datasheets and the arithmetic. They have
+a meter and a bench.** Checking is your job, not theirs.
+
+**Before any instruction that changes a connection, a supply voltage, or sends a command:**
+
+1. **Compute the resulting state at every node the action touches.** Write the number down. If
+   bonding a node changes what an amplifier or converter sees, say what it will now see.
+2. **If any part could be taken past a limit, get the limit FIRST.** Search the repository, then
+   the web. `WebSearch` and `WebFetch` are available — use them.
+3. **If you cannot get the number, say so plainly and do not order the action.** Give a route that
+   does not depend on it. "Check the datasheet" is not an instruction to hand to them; it is work
+   you have not done.
+4. **Never order steps so that a protective check comes after the risky one.**
+5. **State the expected reading.** If they see something else, that is information rather than
+   alarm.
+
+**A test you have not thought through is not a test. It is an experiment on their hardware.**
+
+---
+
 ## 4. Hardware safety rules — never violate these
 
 These are in `STATUS.md` too. They are repeated here because breaking one can cost hardware.

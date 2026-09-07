@@ -252,25 +252,30 @@ R23+R24 (plus), R25+R26 (minus), all 470 R, with C27-C30 3.3 nF            CONFI
    │  -> the ONLY gain in this whole chain is the preamp's 100 MOhm
    ▼
 U15 LTC2326-16, internal reference                                            CONFIRMED
-   │  0.125 mV per count  ->  1 nA = 800 counts
+   │  0.3125 mV per count  ->  1 nA = 320 counts     CORRECTED 2026-09-07
    ▼
 firmware  stm_status.adc  (raw single conversion, set by update() each loop)
    │  GSTS field 5 = RAW.  ADCR = 5-sample rolling average                    CONFIRMED
    ▼
-PC tools — and here the number goes wrong
+PC tools — and they were RIGHT all along
       stm_control.py:37 and stm_console.py use 10.24 V full scale.
-      It is 4.096. Every current these tools print is 2.5x too large.         CONFIRMED
+      The datasheet confirms +/-10.24 V. DO NOT CHANGE THEM.               CONFIRMED
+      (This document previously said 4.096 and was wrong. 4.096 is REFBUF.)
 ```
 
 ### The ADC scale, and why the signed reading is right
 
-**0.125 mV per count**, from 4.096 V over 32768 counts. Three independent checks agree:
+**0.3125 mV per count**, from **10.24 V** over 32768 counts (corrected 2026-09-07 from 4.096 V, which is REFBUF, not the input span). Three independent checks agree:
 
 | Check | Result |
 |---|---|
-| 1 nA × 100 MOhm = 0.1 V ÷ 0.125 mV | **800 counts** — session 3 recorded "~800 counts for 1 nA" |
-| 29873 counts × 0.125 mV | **3.734 V** — session 3 recorded 3.73 V |
-| 3.734 V ÷ 100 MOhm | **37.3 nA** — session 3 recorded 37 nA |
+| 1 nA × 100 MOhm = 0.1 V ÷ 0.3125 mV | **320 counts** |
+| 29873 counts × 0.3125 mV | **9.33 V** differential |
+| plus a `PREAMP-` floating at ~2.7 V | **~12 V at the op-amp — about 119 nA**, matching the meter |
+
+> **The three "independent checks" that used to sit here all agreed with each other because they
+> all used the same wrong constant.** Internal consistency is not evidence. A meter on PAD1 and one
+> datasheet page settled it, and both were available the whole time.
 
 **The output is signed two's complement, not straight binary.** INFERRED, by contradiction:
 
@@ -288,12 +293,12 @@ written down:
 
 | | |
 |---|---|
-| ADC full scale | **4.096 V** CONFIRMED |
+| ADC full scale | **±10.24 V** — datasheet, 2026-09-07. **Corrected from 4.096, which was REFBUF** |
 | Preamp transimpedance | **100 MΩ** CONFIRMED |
-| **Largest current the instrument can measure at all** | **4.096 V / 100 MΩ = 40.96 nA** DERIVED |
-| Present input offset | **37 nA** — 3.73 V CONFIRMED |
-| **Fraction of the ADC's range the fault consumes** | **91%** DERIVED |
-| Headroom left for an actual signal | **about 4 nA** DERIVED |
+| **Largest current the instrument can measure at all** | **10.24 V / 100 MΩ = 102.4 nA** DERIVED |
+| Present input offset | **119 nA** — 11.905 V measured at PAD1 with a meter, 2026-09-07 |
+| **Fraction of the ADC's range the fault consumes** | **116% — it is off the top of the scale** |
+| Headroom left for an actual signal | **none** DERIVED |
 
 So the 37 nA is not merely "37 times a tunneling current". It has eaten **nine tenths of the
 measurement range**, and a further 4 nA of drift in the same direction saturates the converter
@@ -536,7 +541,7 @@ below about 1 Hz is doing its job against building vibration, which lives around
 
 **If this changes, check these.**
 
-### The ADC full-scale constant (4.096)
+### The ADC full-scale constant (10.24 V — corrected 2026-09-07)
 - `Code/pc/stm_control.py:37` and `stm_console.py` — currently 10.24, **wrong by 2.5×**
 - every current figure in `STATUS.md` and every session log
 - `stm_approach.py --full-scale` default
@@ -571,8 +576,8 @@ below about 1 Hz is doing its job against building vibration, which lives around
 
 ### The preamp feedback resistor (100 MΩ)
 - volts per nA at the ADC — 1 nA = 0.1 V = 800 counts
-- **the maximum measurable current is 41 nA, set by the ADC and not by the preamp rails.**
-  4.096 V full scale / 100 MOhm = **40.96 nA**. The preamp itself would not clip until about
+- **the maximum measurable current is 102 nA, set by the ADC.**
+  10.24 V full scale / 100 MOhm = **102.4 nA** (corrected 2026-09-07 from a wrong 4.096 V scale). The preamp itself would not clip until about
   100 nA, so the ADC is the binding limit and the earlier "about 100 nA" figure here was wrong
 - the dummy-junction resistor choice (must be ≥ 100 MΩ, **not** the 1 MΩ the 08-31 plan suggests)
 - the leakage budget: 37 nA of offset is 37× a tunneling current
@@ -592,7 +597,9 @@ below about 1 Hz is doing its job against building vibration, which lives around
 | Command length | exactly 4 chars, sent as one write | `main.cpp` `CMD_LENGTH` | CONFIRMED |
 | DAC SPI clock | 1 MHz (was 40 MHz) | `AD5761.hpp` | CONFIRMED |
 | ADC SPI clock | 1 MHz (was 40 MHz) | `LTC2326_16.hpp` | CONFIRMED |
-| ADC reference | 4.096 V, internal | `LTC2326_16.hpp` + schematic | CONFIRMED |
+| ADC **REFBUF** | 4.096 V, internal (2 x the 2.048 V bandgap) | datasheet | CONFIRMED |
+| **ADC input full scale** | **±10.24 V = 2.5 x REFBUF** | **datasheet, 2026-09-07** | **CONFIRMED — corrected from 4.096** |
+| ADC output format | **two's complement** | datasheet, 2026-09-07 | **CONFIRMED — closes an open question** |
 | DAC reference | 2.5 V, ADR421, measured across C54 | schematic + bench | CONFIRMED |
 | Steps per revolution | 2048 | `STEPS_PER_REVOLUTION` | CONFIRMED |
 | Motor speed | `setSpeed(2)` = 68.27 steps/s | `reset()` | CONFIRMED |
@@ -613,8 +620,8 @@ in a datasheet or a part number · **C** = calculated from the above · **I** = 
 | Constant | Value | How known | Source |
 |---|---|---|---|
 | Preamp transimpedance | 100 MΩ | S | `docs/BOM.md`, preamp gerber |
-| **Max measurable current** | **40.96 nA** | **C** | 4.096 V ÷ 100 MΩ |
-| Current per ADC count | 1.25 pA | C | 0.125 mV ÷ 100 MΩ |
+| **Max measurable current** | **102.4 nA** | **C** | 10.24 V ÷ 100 MΩ |
+| Current per ADC count | **3.125 pA** | C | 0.3125 mV ÷ 100 MΩ |
 | ADC front-end corner | 103 kHz, Q = 0.5, 2nd order | C | R23–R26 470 R, C27–C30 3.3 nF, from the netlist |
 | ADC front-end gain | exactly 1 | F | U21 output tied to −IN, netlist |
 | Summing-stage gain | exactly −1 per input | F | +IN at AGND, netlist + `docs/WIRING.md` §8 |
