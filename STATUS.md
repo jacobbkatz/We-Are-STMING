@@ -1,7 +1,21 @@
 # Current status
 
-**Last updated:** 2026-09-07
-**Updated by:** Jacob (remote, from a photo of the rebuilt preamp box — nothing was powered and nothing was measured on hardware)
+**Last updated:** 2026-09-07 (evening)
+**Updated by:** Nuh, at the bench, board powered. **First hardware measurements since 31 August.**
+Earlier the same day: Jacob, remote, from a photo.
+
+> ## READ THIS BEFORE ANY NUMBER IN THIS FILE
+>
+> **On 2026-09-07 a meter was put directly on the preamp output for the first time. Two things
+> were found that invalidate a great deal of what follows:**
+>
+> 1. **The preamp output is +11.905 V, not 3.73 V.** The input current is about **119 nA**, not
+>    37 nA. Every "37 nA" below is wrong by a factor of 3.2.
+> 2. **`PREAMP-`, the ADC's differential reference, is FLOATING.** Every ADC reading this project
+>    has ever taken was measured against an undefined, drifting node.
+>
+> **Do not trust any current figure derived from ADC counts until the reference is fixed.**
+> Meter readings are still good. See `sessions/2026-09-07.md` §17-27.
 
 > **Before recording anything here as unknown, read `CLAUDE.md` §3b and check `docs/INDEX.md`.**
 > Four items in this file's history were marked unknown while the answer sat in a repository file.
@@ -76,7 +90,8 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 | 4 DACs and ADC | PASS | |
 | 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535` |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
-| 6 Preamp | **FAIL** | 37 nA input leakage. Two candidate causes, see below |
+| 6 Preamp | **FAIL** | **~119 nA input leakage**, measured at PAD1 on 2026-09-07. Was recorded as 37 nA |
+| **Measurement chain** | **NEW FAIL** | **`PREAMP-` floating** — the ADC's reference is undefined. **ADC driven ~3x past its ±4.096 V span** |
 | **Preamp box** shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
 | DAC config stability | **FAIL** | All four DACs drop config roughly hourly |
 | JP1 grounds | **FAIL** | One ground pin genuinely open on the old board |
@@ -85,25 +100,62 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 
 ## Open faults
 
-### 1. Preamp — 37 nA input leakage (the blocker)
+### 0. THE MEASUREMENT CHAIN IS BROKEN — fix this before anything else
+
+**Found 2026-09-07 with a meter. This outranks every other fault in this file, because it is the
+instrument all the others were diagnosed with.**
+
+| Point | What it is | Measured |
+|---|---|---|
+| **PAD1** | Preamp op-amp output | **+11.905 V** |
+| **R23** | ADC input path, controller | **+11.914 V** |
+| **DSUB2 pin 2 (brown)** | **`PREAMP-`, the ADC's negative reference** | **"2 V and dropping" — FLOATING** |
+
+**0a. `PREAMP-` is floating.** The LTC2326-16 measures `PREAMP+` **minus** `PREAMP-`. It does not
+measure against ground. `PREAMP-` should carry the preamp's own ground back on its own wire —
+Berard's method for rejecting cable noise. It is connected to nothing, so **every ADC reading in
+this project has been referenced to a drifting, undefined node.**
+
+> **This is the same fault as fault 5 below** — "one JP1 ground pin is open", recorded 2026-08-31
+> and filed as a loose end for a future rebuild. It is not a loose end. It is the reference the
+> whole instrument measures against. **And it is repairable without a rebuild.**
+
+**0b. The ADC is driven roughly 3x past its input span.** 11.9 V into a ±4.096 V converter. PAD1
+and R23 differ by 9 mV, so there is **no attenuation anywhere** — confirming the netlist finding
+that the buffers have gain exactly 1. `docs/UPSTREAM_MECHPANDA.md` §5 warned this could happen and
+said to check the absolute-maximum rating first. **Nobody did, and it has been in this state for
+weeks.** Whether the converter is damaged is UNKNOWN.
+
+**0c. An unresolved contradiction, recorded rather than guessed at.** With 11.9 V on its input the
+ADC should be pinned at 32767. It reads ~30,000 and wanders by a thousand counts, which a
+saturated converter does not do. It behaves as though full scale were about **13 V** — matching
+neither 4.096 nor 10.24. The floating reference is the likely explanation but is untested.
+
+---
+
+### 1. Preamp — ~119 nA input leakage (the blocker)
+
+> **Corrected 2026-09-07.** This fault was recorded all project as **37 nA / 3.73 V**, derived
+> from ADC counts. A meter on PAD1 reads **11.905 V**, which through the 100 MΩ feedback resistor
+> is **about 119 nA**. Every "37 nA" in older documents is low by 3.2x.
 
 **The feedback loop is closed, not open.** It settles rather than ramping, and that is the whole
 diagnosis — an amplifier with an open feedback resistor behaves as an integrator and would have
-pinned against 32767 within two minutes. Do not let any older document tell you otherwise.
+pinned within two minutes. Do not let any older document tell you otherwise.
 
-37 nA has eaten 91% of the ADC range, leaving 3.6 nA of headroom. A tunneling current is about
-1 nA, so there is nowhere to put it. **The offset is the problem, not the noise** — noise measured
-0.78 nA RMS with the bench clear, which would not block an approach.
+**11.905 V on a +15 V supply is close to an OPA627's output limit, so the amplifier may be
+saturated.** If it is pinned it cannot respond to anything — which would make the three null
+results of 2026-09-07 artefacts rather than evidence. See fault 1c.
 
-**Candidate causes. Nothing measured so far distinguishes them.**
+**Candidate causes.**
 
 | Candidate | Found | Status |
 |---|---|---|
 | **A0. Cyanoacrylate AT THE BASE OF THE PTFE STANDOFF.** The standoff would not fit through the board hole, so it was glued down. That standoff's only job is to hold the input node off the board on the best insulator available — **and CA bonds straight across it** | **2026-09-07** | **LEADING.** A solid contact path at **0 mm** from the node, not a vapour path at a distance. See below |
 | **A. Cyanoacrylate contamination / bloom.** CA blooms while curing and deposited a conductive haze over the board, input node included. The board is also **heavily** glued to three printed standoffs, the nearest **4.8 mm** from the input pad | 2026-08-31 | Live |
-| **B. The case shield is floating.** | 2026-09-01 | **Shield rebuilt 2026-09-06**, all copper, seams soldered, one ground bond. Still **untested electrically**. Now the leading suspect for the **noise** rather than the offset — see the noise note below |
+| **B. The case shield is floating.** | 2026-09-01 | **ELIMINATED as an offset source, 2026-09-07, by measurement.** The rebuilt shield did not move the mean. Still a plausible **noise** contributor; continuity still unverified |
 | **C. Flux residue.** Berard independently reports "huge leakage currents" from flux left on this exact circuit | 2026-09-05 | Live. Addressed by the existing rebuild clean, but not excluded on the current board |
-| **D. The coax or the tip holder.** Never separated from the board until now | **2026-09-07** | **Now testable in one reading** — the coax has been cut, so the input node no longer includes it |
+| **D. The coax or the tip holder.** | **2026-09-07** | **ELIMINATED, by measurement.** With the coax centre, tip holder and tip all removed from the input node, the offset returned to its full settled value. **The leak is on the preamp board** |
 | **E. Cyanoacrylate at the piezo socket.** The disc was glued into its socket — a **third** CA site, at the scan head and right next to the tip holder, which is part of the input node | **2026-09-07** | Live. Berard's warning in safety rule 7 was already that glue must not bridge the tip standoff to the grounded brass electrode. **We now know glue was used exactly there.** Meter-check it |
 
 > ### A0: the glue at the PTFE standoff, and what the output SIGN says
@@ -115,12 +167,45 @@ pinned against 32767 within two minutes. Do not let any older document tell you 
 >
 > **The sign of the output points somewhere specific.** For a transimpedance amplifier, a leak to
 > the **negative** rail pulls current out of the virtual-ground node, so the op-amp must supply it
-> back through the feedback resistor — which drives the output **positive**. **The measured output
-> is +3.73 V, positive.** About **402 MΩ** would produce 37 nA from −15 V, and `IC1` pin 4 is the
-> −15 V rail sitting **2.54 mm** from the input pad.
+> back through the feedback resistor — which drives the output **positive**. The measured output is
+> positive, and `IC1` pin 4 is the −15 V rail sitting **2.54 mm** from the input pad.
 >
-> **Caveats, stated plainly.** This rests on the ADC being signed two's complement, which is still
-> INFERRED — though if the rail test agrees, that independently settles the signed question.
+> ### THE RAIL-LEAK MODEL FAILED ITS OWN TEST, 2026-09-07
+>
+> The prediction was explicit: reduce the −15 V rail and the leak must fall in proportion.
+>
+> | | |
+> |---|---|
+> | Rail reduced from −15.237 V to **−9.264 V** | a 39% cut |
+> | Predicted ADC reading | **~19,000 counts** |
+> | **Measured** | **30,175 counts** |
+>
+> **No proportional response.** A resistor obeys Ohm's law immediately; this did not. There was a
+> slow ~8% downward drift over minutes, more consistent with a thermal side effect than a leakage
+> path.
+>
+> **This undermines the mechanism that A0, A and C all depend on.** Every one of them is surface
+> conduction, and surface conduction needs a voltage at the far end. Bias, Z and the negative rail
+> have all now been swept with no proportional response, and a path to ground cannot drive current
+> into a virtual ground. **There may be no voltage left to drive a surface leak.**
+>
+> **But see fault 1c before acting on that.** The instrument those sweeps were taken with has a
+> floating reference.
+
+### 1c. Three results from 2026-09-07 are IN DOUBT
+
+Recorded prominently so nobody treats them as settled.
+
+| Result | Why it is in doubt |
+|---|---|
+| **Bias sweep: no response** | The ADC's reference floats (fault 0a). The reading may be dominated by the reference rather than the preamp |
+| **Z sweep: no response** | Same |
+| **Rail scaling: no proportional response** | Same, **and** the amplifier may be saturated at +11.9 V and unable to respond to anything |
+
+**All three must be repeated with a meter on PAD1, after the reference is fixed.**
+
+**What is NOT in doubt** is anything taken with a meter: PAD1 at 11.905 V, R23 at 11.914 V, the
+floating `PREAMP-`, and the rail voltages.
 > And `IC1` pin 3 is GND, directly between pins 2 and 4, which guards a straight-line surface path.
 > So the leak more likely goes over or around the pins, which is what a blob of glue and a standoff
 > would do.
@@ -316,9 +401,26 @@ is why a geared motor was chosen in the first place.
 **Prime suspect if drift ever appears minutes into a session.** Fix is to call `disable()` at the
 end of `step()`. Not applied, needs bench testing.
 
-### 4. DACs lose configuration roughly hourly
+### 4. DACs lose configuration — NOT time-triggered, and lit at every power-on
 
 All four go at once. LED1–LED4 light. Every DAC output goes dead. `RSET` restores it.
+
+> **Two things measured at the bench on 2026-09-07:**
+>
+> **The idle test passed.** 30 minutes powered with **no commands sent at all**, then LED1–LED4
+> checked: **still dark.** Idle time alone does not trigger it. Something we *do* provokes it.
+> This question has been ambiguous since 31 August and is now settled.
+>
+> **They are lit at EVERY power-on, before any command is sent.** Nuh reports this happens without
+> exception. That matters because `main.cpp` `setup()` calls `stm.reset()`, which calls `.reset()`
+> on all four DACs — **the firmware does configure them at boot, and that configuration fails every
+> single time.**
+>
+> **Untested hypothesis for the power-on half:** the Teensy is powered by USB and boots within
+> milliseconds, while the DACs' 3.3 V comes from U16 off the bench supply. Plug USB in first and
+> the firmware writes its configuration to chips that are barely powered. **The two-minute test:
+> bench supply ON first, wait, then plug in USB. If LED1–4 come up dark, that is the answer and the
+> fix is free.** These may be two separate faults with two separate causes.
 
 **Software cannot detect this.** The ALERT pins go to the LEDs and nowhere else, they are not
 wired to the Teensy, and there is no DAC readback because H1 carries no MISO for the DAC bus.
@@ -416,7 +518,18 @@ an oversight: on U9 and U10, channel B's non-inverting input is tied to AGND. On
 Not on the critical path — the preamp is — but it is cheap, and bias noise is the kind of thing
 that would otherwise be blamed on the preamp.
 
-### 5. One JP1 ground pin is open
+### 5. One JP1 ground pin is open — PROMOTED 2026-09-07, this is fault 0a
+
+> **This is no longer a loose end. It is `PREAMP-`, the ADC's differential reference.**
+>
+> On 2026-09-07 DSUB2 pin 2 (brown, `PREAMP-`) measured **"2 V and dropping"** — the signature of
+> a node connected to nothing. That is the negative input of the differential pair the ADC
+> measures against. **Every ADC reading in this project has been referenced to it.**
+>
+> The 2026-08-31 observation of "two pins wander" was correct and complete. The two are the output
+> (legitimately at 11.9 V) and this floating ground return. Only the ranking was wrong.
+>
+> **Fix it first, before anything else.** See "Next actions".
 
 Measured empirically on 2026-08-31: two pins wander when only one should. The handoff document
 retracted this finding once; **the retraction was wrong.**
@@ -438,13 +551,17 @@ silkscreen.
 > GND on the board, so once they are identified by the rule above, bonding the open one to the good
 > one is electrically correct. See `docs/WIRING.md` §10.
 
-This was previously filed as "resolves itself when the board is rebuilt". **That is no longer
-safe to assume**, since the rebuild is deferred behind the shield test. If the shield fix solves
-the offset and the old board stays in service, this open ground still needs resolving — and it is
-now a straightforward job rather than a blocked one.
+This was previously filed as "resolves itself when the board is rebuilt". **That was wrong twice
+over** — it is the measurement reference, and it is repairable without a rebuild.
 
-**Next step:** block A2b of [`sessions/2026-09-06-plan.md`](sessions/2026-09-06-plan.md) —
-identify the pins with a meter, record which ground wanders, then bond it.
+**Next step, and it is the top of the whole list:**
+
+1. Continuity, unpowered: **JP1 pin 1 → ground**, and **JP1 pin 4 → ground**. One will be open.
+2. Continuity: **the brown DSUB2 wire → JP1 pins 1 and 4.** That says whether the break is on the
+   board or in the cable.
+3. **Bond the open ground.** Pins 1 and 4 are both GND on the board, so this is electrically
+   correct — the old prohibition was retired on 2026-09-06.
+4. Re-measure everything.
 
 ---
 
@@ -457,29 +574,52 @@ identify the pins with a meter, record which ground wanders, then bond it.
 > **The bench plan `sessions/2026-09-06-plan.md` is superseded in part** — it carries a banner
 > saying which parts. This list is the current one.
 
-### Group A — zero risk, no tip fitted, do these first
+### Group 0 — FIX THE INSTRUMENT FIRST. Added 2026-09-07
+
+**Nothing else on this list can be trusted until these are done.** All unpowered meter work,
+costing nothing but a few minutes.
+
+0a. **Find the open ground.** Continuity from **JP1 pin 1 to ground**, then **JP1 pin 4 to
+   ground**. One will be open. That names fault 0a.
+
+0b. **Locate the break.** Continuity from the **brown DSUB2 wire** to JP1 pins 1 and 4. Tells you
+   whether it is on the preamp board or in the cable.
+
+0c. **Bond the open ground.** Pins 1 and 4 are both GND on the board, so this is electrically
+   correct. Possibly a one-wire fix for a fault that has invalidated every ADC reading in the
+   project.
+
+0d. **Re-measure PAD1 with a meter**, then **repeat the bias, Z and rail sweeps** — all three are
+   in doubt, see fault 1c.
+
+0e. **Verify the LTC2326-16 absolute-maximum input rating** against the datasheet. It has been
+   driven roughly 3x past its span for weeks and may be damaged. No bench access needed.
+
+---
+
+### Group A — zero risk, no tip fitted
 
 **No tip is installed, so nothing can be crashed.** That will not be true later. Use the window.
 
-1. **Trim the cut coax stub short and clean, leave the input open, and measure.**
-   The tip coax was cut to remove the preamp module, so **for the first time the input node does
-   not include the cable, the tip holder or the tip.** One reading bisects the fault:
-   **still ~37 nA** → the leak is on the board, and the cable and tip holder are cleared;
-   **drops substantially** → the leak was never on the board and the rebuild plan changes.
-   > Do not measure with the frayed end as it is. At 100 MΩ that stub is an antenna and a
-   > contamination magnet. Trim it short and clean first.
-   > **And do not rebuild the tip lead until after this reading** — the cut is what makes it possible.
+1. ~~**Trim the cut coax stub, leave the input open, and measure.**~~ **DONE 2026-09-07. ANSWERED.**
+   With the coax centre, tip holder and tip all removed from the input node, the offset returned to
+   its full settled value. **The leak is on the preamp board.** Candidate D eliminated.
+   > **Still do not rebuild the tip lead.** The measurements in Group 0d need the input open.
 
-2. **Sweep the bias and watch the offset. Then sweep Z.**
-   Both are falsifiable predictions from the sign table in fault 1: **the offset should ignore
-   both.** If it moves with bias, the sample-plate path is implicated and the slope gives the
-   leakage resistance directly. If it moves with Z, the glue at the piezo socket (candidate E) is
-   implicated. **Park Z back at 32768 afterwards** — safety rule 6.
+2. ~~**Sweep the bias, then sweep Z.**~~ **DONE 2026-09-07 — but the result is IN DOUBT.**
+   Neither showed a response: bias spread 266 counts across a 6 V swing with 97 counts of drift;
+   Z spread 315 counts, exactly equal to the drift. **Redo with a meter on PAD1 after Group 0**
+   — see fault 1c.
+   > **The Z sweep did not test candidate E.** The tip holder is currently disconnected from the
+   > input node, so glue at the piezo socket has no path to show up. That candidate needs the tip
+   > lead rebuilt before it can be tested at all.
 
-3. **Scale the two supply rails independently.** Not together, which is what the old D2 did.
-   If the offset follows the **negative** rail and ignores the positive one, candidate A0 is
-   confirmed and the fault is named. If neither moves it, the rails are not the source.
-   **This settles the signed-versus-unsigned ADC question as a by-product.**
+3. ~~**Scale the two supply rails independently.**~~ **DONE for the negative rail, 2026-09-07.
+   THE PREDICTION FAILED.** Rail cut 39% (−15.237 V to −9.264 V); predicted ~19,000 counts,
+   measured **30,175**. No proportional response. **The rail-leak model is not supported** — but
+   see fault 1c, this result is also in doubt.
+   **The positive rail has still not been scaled.** Do it after Group 0, and keep the dial above
+   +10 V so the 5 V and 3.3 V regulators stay in range.
 
 4. **Meter the tip holder against the piezo's brass electrode.** Safety rule 7 always said to do
    this before imaging, on Berard's warning that glue must not bridge the two. **We now know the
@@ -546,6 +686,22 @@ identify the pins with a meter, record which ground wanders, then bond it.
 ---
 
 ## Standing safety rules — do not violate these
+
+0. **Added 2026-09-07. No preamp measurement is valid until the board has been powered for at
+   least 45 minutes.** The offset climbs about **25,000 counts — roughly 30 nA — over more than an
+   hour** after power-on, decelerating throughout. Measured at 10 minutes it reads 3,969 counts;
+   at 75 minutes, ~29,500. **No procedure in this project has ever mentioned this**, so every
+   historical figure sits at an unknown point on that curve. A reading taken early will look like a
+   spectacular improvement and is worthless.
+
+0b. **Added 2026-09-07. Do not rebuild the preamp board, and do not rebuild the tip lead.** The
+   instrument that would tell you whether a rebuild helped has a floating reference — see fault 0.
+   Rebuilding into that consumes the only spare board and teaches nothing. **Fix the measurement
+   chain first.**
+
+0c. **Added 2026-09-07. Do not trust any current derived from ADC counts.** Use a meter on PAD1
+   until fault 0 is fixed. Meter readings are sound; ADC readings are referenced to a floating node
+   and the converter is being driven past its input span.
 
 1. **Check LED1–LED4 before and after every measurement.** No software substitute exists.
 2. **Do not run `APRH`** until the sign of the tunneling current is known. `approach()` tests
@@ -619,9 +775,14 @@ The full register, including the undocumented hardware and process items, is in
 
 | Question | Why it matters |
 |---|---|
-| **Does the rebuilt **preamp box** shield actually conduct end to end?** | **VERIFY, two minutes with a meter.** Every preamp conclusion next session depends on it |
-| **Does the AD5761R have internal pull-ups on CLEAR#/RESET#?** | Everything else about the floating-pin hypothesis is now confirmed. This is the only fact left that decides whether the four-wire fix is worth doing. **Datasheet question, still nobody has looked** |
-| Is the 37 nA the CA contamination or the shield? | Decides whether the spare board gets consumed |
+| **Where is the break in the `PREAMP-` return — board, cable, or connector?** | **The top question.** It is the ADC's reference and it is floating. Three continuity checks, unpowered. See Group 0 |
+| **Is the ADC damaged?** | It has been driven ~3x past its ±4.096 V span for weeks. **Check the LTC2326-16 absolute-maximum input rating.** Datasheet question, no bench needed |
+| **Why does the ADC read ~30,000 counts when 11.9 V should pin it at 32767?** | It behaves as if full scale were ~13 V, matching neither 4.096 nor 10.24. The floating reference is the likely explanation. **Unresolved — see fault 0c** |
+| **Is the OPA627 saturated at +11.905 V?** | If it is pinned, the bias, Z and rail sweeps of 2026-09-07 measured nothing. Decides whether three results stand or are discarded |
+| **What causes the 45-minute warm-up drift?** | ~30 nA of climb after power-on. Thermal, moisture in the CA, charge in the PTFE, or the floating node charging. **Untested** |
+| **Does the rebuilt preamp box shield actually conduct end to end?** | **VERIFY, two minutes with a meter.** Still not done |
+| **Does the AD5761R have internal pull-ups on CLEAR#/RESET#?** | The only fact left that decides whether the four-wire DAC fix is worth doing. **Datasheet question, still nobody has looked** |
+| Is the ~119 nA the CA contamination, or something else entirely? | **The rail-leak mechanism failed its own test**, and bias and Z show nothing. There may be no voltage left to drive a surface leak. Decides whether the spare board gets consumed |
 | Is the DAC configuration loss startup-only, or does it recur mid-session? | 2026-08-31 recorded it recurring every 30 to 60 minutes, which requires checking LED1–LED4 around every measurement. If it is startup-only, one `RSET` at the start is enough. **Currently ambiguous, needs settling at the bench** |
 | ~~Is there a sample material?~~ | **Answered 2026-09-05: gold foil.** It must be mounted flat on a magnetic disc with a conductive path to the bias magnet — see `docs/UPSTREAM_BERARD.md` §5. Expect atomic terraces, not individual atoms; Berard could not resolve single atoms on metals |
 | How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05: roughly 5 to 8 nm.** From the 1/4"-80 pitch and 2048 steps/rev, with a lever reduction Berard quotes as **either 20 or 30 on different pages** — 7.8 nm at 20, 5.2 nm at 30. **Nothing depends on resolving it**: both give 90–130 steps per Z range. **VERIFY our own ratio** — ours is Mech Panda's geometry. Replaces the old 244 nm estimate. See `docs/UPSTREAM_BERARD.md` §2b |
