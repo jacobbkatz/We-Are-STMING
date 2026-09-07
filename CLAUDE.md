@@ -194,8 +194,8 @@ a meter and a bench.** Checking is your job, not theirs.
 
 These are in `STATUS.md` too. They are repeated here because breaking one can cost hardware.
 
-1. **Check LED1–LED4 before and after every measurement.** The DACs silently lose configuration
-   roughly once an hour. Any reading taken with one of those LEDs lit is void. **There is no
+1. **Check LED1–LED4 before and after every measurement.** They are lit at **every** power-on and
+   `RSET` clears them — this is power sequencing, not a random fault, see `STATUS.md` fault 4. Any reading taken with one of those LEDs lit is void. **There is no
    software way to detect this** — the ALERT pins are not wired to the Teensy, and `GSTS` reports
    firmware bookkeeping, not measurements.
 2. **Never tell the user to run `APRH`** until the sign of the tunneling current is known.
@@ -265,6 +265,8 @@ close the laptop.
 | `docs/WIRING.md` | **Verified pinouts, cable colours, LEDs, power tree.** The bench reference |
 | `docs/COMMANDS.md` | **Every firmware command**, what blocks, what replies |
 | `docs/ENGINEERING_REFERENCE.md` | **The cross-subsystem layer.** Grounding map, the copper-vs-aluminium tape rule, value chains from a command to a displacement and from a current to a number, the impact map for "if I change X, what else has to be rechecked", and every constant with a confidence tag |
+| `docs/COMPONENTS.md` | **Every electronic part, with the specs that matter and the design cross-checked against them.** Voltage limits, stability, noise, pinouts, what the Teensy can and cannot drive. **Check here before looking up any datasheet** |
+| `docs/NEXT_SESSION_PLAN.md` | **The prioritised plan for the next bench session**, written to be executed with no memory of any conversation |
 | `docs/INDEX.md` | **What is inside every archive and binary.** Check before deriving anything |
 | `docs/OPEN_QUESTIONS.md` | Every UNKNOWN and VERIFY in the project, in one place |
 | `docs/UPSTREAM_MECHPANDA.md` | **The design we are actually building.** Schematic-derived facts, what differs from upstream, and the ADC reference answer |

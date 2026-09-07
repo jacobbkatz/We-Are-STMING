@@ -2,6 +2,14 @@
 
 **Last updated:** 2026-09-07 (evening)
 **Updated by:** Nuh, at the bench, board powered. **First hardware measurements since 31 August.**
+Then Jacob, remote: a component-level datasheet pass and a second-pass audit.
+
+> **Two new documents. Read them before planning any bench work.**
+> - **`docs/COMPONENTS.md`** — every part with the specs that matter, cross-checked against the
+>   actual design. Answers "what voltage can this pin take", "is this op-amp stable", "could the
+>   Teensy damage this input" without searching.
+> - **`docs/NEXT_SESSION_PLAN.md`** — the prioritised procedure for the next session, written to be
+>   executed with no memory of any conversation.
 Earlier the same day: Jacob, remote, from a photo.
 
 > ## READ THIS BEFORE ANY NUMBER IN THIS FILE
@@ -13,6 +21,11 @@ Earlier the same day: Jacob, remote, from a photo.
 >    37 nA. Every "37 nA" below is wrong.
 > 2. **`PREAMP-`, the ADC's differential reference, is FLOATING.** Every ADC reading this project
 >    has ever taken was measured against an undefined, drifting node.
+>    **Worse than that, established 2026-09-07 from the datasheet: the LTC2326-16 is
+>    pseudo-differential and requires IN− to stay within ±500 mV of GND. Ours sits near 2.7 V —
+>    five times outside the allowed range. The converter has been operated outside its specified
+>    input conditions for the life of the project.** No pre-bond ADC number can be rehabilitated by
+>    rescaling.
 >
 > **Do not trust any current figure derived from ADC counts until the reference is fixed.**
 > Meter readings are still good. See `sessions/2026-09-07.md` §17-27.
@@ -286,6 +299,19 @@ floating `PREAMP-`, and the rail voltages.
 > **If the offset ignores bias and Z but follows the negative rail, the diagnosis is complete —
 > and the signed-ADC question is settled at the same time.**
 
+> ### WARNING added 2026-09-07 (late): the noise figures may be void entirely
+>
+> Computed against the datasheets for the first time: the measured **195 mV RMS** (623 counts at
+> the corrected 0.3125 mV) is about **1,700x** the 100 MΩ resistor's Johnson noise and roughly
+> **10,000x** the OPA627's own contribution. **Neither device explains it.**
+>
+> **The prime suspect is the floating `PREAMP−` wandering — that is, the "noise" may not be the
+> preamp at all.** It also fits the hour-long warm-up. **If so, every noise figure in this project
+> is void, including "the shield nearly halved the noise".**
+>
+> **Two-minute test:** watch PAD1 on a meter while the ADC scatters. See
+> `docs/NEXT_SESSION_PLAN.md` M2.
+
 > ### The noise is several hundred times the theoretical floor
 >
 > The 100 MΩ feedback resistor's own Johnson noise is about **12.9 fA/√Hz**, which over the
@@ -470,7 +496,29 @@ firmware bookkeeping, not measurements.
 > **Rule: look at LED1–LED4 immediately before and immediately after every measurement.
 > Any reading taken with one lit is void.** This cost an hour on 2026-08-31.
 
-### Leading hypothesis, found 2026-09-06: CLEAR# and RESET# are floating
+> ## RE-RANKED 2026-09-07 (late): the floating-pin hypothesis is very likely WRONG
+>
+> **The AD5761R's `RESET` pin has an internal pull-up and may be left floating. So does `LDAC`.**
+> Read from the datasheet 2026-09-07. The 20 unconnected pads found in the netlist are **by design
+> and permitted**. The hypothesis below required those pins to be genuinely undriven. They are not.
+>
+> **The correct explanation was already in this repository.** `docs/PROJECT_HANDOFF_SUMMARY.md`
+> lines 476–495, under "THE OPERATING RULE THAT MATTERS MOST", explains it completely as **power
+> sequencing**: USB boots the Teensy in milliseconds, `setup()` writes DAC config into chips whose
+> analog supply is not up, and the writes go nowhere. `setup()` never runs again because USB keeps
+> the Teensy alive.
+>
+> **Nuh's 2026-09-07 data fits it exactly** — lit at **every** power-on without exception, cleared
+> by `RSET`, and **not** triggered by 30 minutes of idle.
+>
+> **So: do not solder the two-wire fix.** It is very likely unnecessary. **The fix is operational
+> and already written down: send `RSET` after powering the analog supply, every time**, or power the
+> analog supply before connecting USB.
+>
+> Still **[UNVERIFIED]**: whether `CLR` specifically also has an internal pull-up. One datasheet
+> page. It does not change the conclusion, which rests on the power-on evidence.
+
+### Superseded hypothesis, 2026-09-06: CLEAR# and RESET# are floating
 
 **CONFIRMED from the manufacturing data.** The JLCPCB flying-probe test file
 (`gerbers/Gerber_PCB1_all_red.zip`, `FlyingProbeTesting.json`) carries the full board netlist. Of
