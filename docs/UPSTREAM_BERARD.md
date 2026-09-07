@@ -337,6 +337,47 @@ isolation somewhat. Stiff cables are like mechanical antennas."*
 Coax buys shielding on the input line; fine wire buys mechanical isolation and lower capacitance.
 Recorded as a genuine design fork, not corrected in our BOM, since we have not tested either.
 
+### How much is OUR coax actually buying? Very little — assessed 2026-09-07
+
+Jacob described the real construction: **the coax runs only about 1–2 cm, and then becomes a single
+piece of bare copper that wraps and solders to the tip holder.** That changes the answer.
+
+**A shield only shields the part it covers.** Capacitively coupled pickup is proportional to the
+exposed length of the high-impedance conductor, so the *unshielded* remainder sets the pickup — and
+here that remainder is the bare copper link **plus the tip holder itself**, which is a bare metal
+object sitting in open air. Shielding 1–2 cm of a node whose exposed portion is comparable or larger
+buys a fraction of the benefit, not most of it.
+
+The cost side is small too. RG-178 is roughly 100 pF/m, so **2 cm adds only about 2 pF** — a minor
+addition to the input capacitance, and not the reason for anything.
+
+**So electrically it is close to a wash.** Not harmful, not doing much.
+
+**Mechanically it may be doing real harm, and for a reason that is not the usual one.** The
+vibration argument normally aimed at cables is about long runs to the bench. This is a 2 cm internal
+link — but it lands on the **tip holder, which sits on the piezo disc**. That disc is a unimorph
+whose centre has to flex freely by hundreds of nanometres. RG-178 is about 1.8 mm across with a
+solid dielectric; 40 AWG is 0.08 mm of bare copper. **Bending stiffness scales as the fourth power
+of diameter**, so the coax is stiffer by an enormous factor. Anything stiff bonded to a flexing
+piezo loads it and reduces its travel — the same class of problem as the superglue at the piezo
+socket. DERIVED, not measured.
+
+**That is probably the real reason Berard uses 40 AWG**, and it is a stronger argument than the
+bench-vibration one usually given.
+
+> **None of this is on the critical path for the 37 nA.** Coax versus wire affects *noise* and
+> *mechanics*. It cannot produce a DC offset: the coax shield sits at ground, the input node sits at
+> virtual ground, and two things at 0 V do not push current through a leakage path between them.
+> **Do not let this become a distraction from the blocker.**
+
+**What would actually improve the shielding**, if that is the goal: not better coax, but getting the
+*whole* high-impedance region — tip holder, bare link and preamp box — inside the grounded scan-head
+shield cover. Then the unshielded wire is not really unshielded; it is inside a Faraday cage. That
+is how Berard's design gets away with plain wire.
+
+**One thing to check whichever way this goes:** the coax braid should be grounded at the **preamp
+end only**. Both ends makes a loop; neither end makes it useless. Not currently recorded.
+
 ---
 
 ## 5. Sample mounting — relevant now that we are using gold foil

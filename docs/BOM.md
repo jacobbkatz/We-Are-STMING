@@ -168,7 +168,7 @@ You'll need:
 
 | Item | Spec | Qty | Status |
 |---|---|---|---|
-| **Fine-adjust screws** | **McMaster 97424A590**, 1/4"-80, 1" long | 3 | CONFIRMED from CAD metadata |
+| **Fine-adjust screws** | 1/4"-80, **and about 30 mm LONGER than the CAD part** | 3 | **Thread CONFIRMED. Length and part number are NOT ours** — see below |
 | **Brass inserts** | **McMaster 98625A960**, 0.438" long, for 1/4"-80 | 3 | CONFIRMED from CAD metadata |
 | **Threaded rod** | **M8 x 1.25** | 3 | CONFIRMED from CAD part name |
 | **Spring top caps** | **M20 x 2** thread | 3 | CONFIRMED from CAD part name |
@@ -207,6 +207,29 @@ the method are in `CAD/prints/README.md`.
 > The 1/4"-80 thread is the whole trick behind the approach mechanism. **80 threads per inch means
 > one full turn advances only 0.0125 inches**, which is what lets you approach by hand without
 > crashing the tip.
+
+> ### Our screws are NOT McMaster 97424A590 — corrected 2026-09-07
+>
+> That part number and its 1" length came from `CAD/STM.f3z`, which is **Mech Panda's** CAD, so it
+> describes **upstream's** screw, not ours. Jacob: **ours are the same thread and precision but
+> about 30 mm longer**, which is why our `MotorSupport` is taller than Mech Panda's.
+>
+> **The thread is what sets the physics, and it is unchanged**, so every nm-per-step figure in this
+> repository still holds — 0.3175 mm per turn, 2048 steps per revolution.
+>
+> **What does change is stiffness and drift, and both matter more here than almost anywhere else.**
+>
+> - **Thermal drift.** Steel expands about 11 ppm/K. An extra 30 mm in the mechanical loop between
+>   tip and sample is **0.33 µm per °C** of extra expansion — 330 nm, against a tunnelling gap of
+>   about 1 nm. Only the *mismatch* between the two arms of the loop actually moves the gap, so this
+>   is not 330 nm of real drift, but a longer loop makes the mismatch larger. DERIVED.
+> - **Stiffness.** A longer screw column is a softer spring, so the head's mechanical resonance
+>   drops and it becomes more sensitive to vibration. Berard's whole design argument is stiffness.
+>
+> **Neither is measured, and neither blocks anything today.** Recorded so that if drift or vibration
+> turns out to be a problem later, nobody spends a session rediscovering that our screws are not the
+> ones the upstream CAD describes. **The part number still needs finding** — it should be a McMaster
+> 1/4"-80 thumb screw in a longer length.
 
 ---
 
@@ -288,7 +311,10 @@ worse than admitting it:
 - Piezo disc part number and supplier
 - The adhesive bonding the piezo disc to its plate
 - **Our scan head's lever reduction ratio.** Berard's is ~20x. Measurable from `CAD/prints/scan-head/`
-- Coax versus fine wire for the tip lead. Berard uses 40 AWG wire, we chose coax. Untested either way
+- Coax versus fine wire for the tip lead. Berard uses 40 AWG wire, we chose coax. Untested either
+  way — **but see `docs/UPSTREAM_BERARD.md` §4: our coax only runs 1–2 cm before becoming bare
+  copper, so it is buying very little**
+- **The part number for our longer 1/4"-80 fine screws.** The one in the CAD is upstream's
 - Iron temperature and dwell time for the piezo joints
 
 If you work any of these out while building, please open an issue. Closing those gaps is most of

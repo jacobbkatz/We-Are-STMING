@@ -276,6 +276,10 @@ it rather than re-deriving one from the handoff.
 
 Carried forward from the existing documents, because it has served this project well:
 
+- **Never name one of our wires by its colour.** Our jumper leads are **not** colour-matched to
+  the connector wiring described in `docs/WIRING.md`. Jacob and Nuh translate by pin number and
+  want to keep doing that. **Always say "DSUB2 pin 4", never "the blue wire".** A colour-based
+  instruction here could put −15 V somewhere it should not go.
 - **Measurements over inference.** If a number was measured, say so. If it was derived or
   assumed, say that instead.
 - **Record what was ruled out**, not just what was found.
