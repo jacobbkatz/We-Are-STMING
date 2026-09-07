@@ -450,105 +450,98 @@ identify the pins with a meter, record which ground wanders, then bond it.
 
 ## Next actions, in order
 
-> **A bench plan for these is written up step by step in
-> [`sessions/2026-09-06-plan.md`](sessions/2026-09-06-plan.md)**, written to be run by one person
-> alone. Start there rather than from this list.
+> **Renumbered 2026-09-07.** The list had grown into `-2, -1b, -1, -0b, 0, 0b, 1...` as tests were
+> inserted ahead of others. That is not something to read at a bench. It is now a plain 1..12, in
+> the order to actually do them.
 >
-> **Two known errors in that plan, found while running it on 2026-09-06.** Read
-> `sessions/2026-09-06.md` §18 before following it:
-> - **Block A** says "board unpowered for all of Block A", but **A2b needs power** to identify the
->   supply pins by voltage. Do A2b unpowered with continuity instead — the two GND pins beep to
->   each other and to controller ground, the middle pin is the output, and the asymmetry rule
->   names the supplies. The fault being hunted is an open ground, so continuity is the better
->   instrument anyway.
-> - **Block C** assumes no ground wire exists and that the shield is continuous. **Both were
->   false.** The shield has since been rebuilt; Block C is now just the verification step.
+> **The bench plan `sessions/2026-09-06-plan.md` is superseded in part** — it carries a banner
+> saying which parts. This list is the current one.
 
-> **The order below was revised on 2026-09-07.** Two cheaper, more decisive tests now come first.
-> See `sessions/2026-09-07.md` §8 for the reasoning.
+### Group A — zero risk, no tip fitted, do these first
 
-> **When the tip lead is rebuilt, do NOT put the coax back.** Decided 2026-09-07: replace it with
-> plain fine wire, 40 AWG magnet wire for preference. It was shielding a fraction of the exposed
-> node, probably loading the piezo disc, doubling the solder joints on the input node, and it was
-> hard to strip and solder — and awkward soldering on the highest-impedance node in a build whose
-> blocker is contamination there is not a neutral cost. Reasoning and method in
-> `docs/UPSTREAM_BERARD.md` §4. **But take the open-input reading below first.**
+**No tip is installed, so nothing can be crashed.** That will not be true later. Use the window.
 
--2. **Trim the cut coax stub short and clean, leave the input open, and measure.** The tip coax was
-   cut to remove the preamp module, so **for the first time the input node does not include the
-   cable, the tip holder or the tip.** One reading bisects the fault:
+1. **Trim the cut coax stub short and clean, leave the input open, and measure.**
+   The tip coax was cut to remove the preamp module, so **for the first time the input node does
+   not include the cable, the tip holder or the tip.** One reading bisects the fault:
    **still ~37 nA** → the leak is on the board, and the cable and tip holder are cleared;
-   **drops substantially** → the leak was never on the board and the whole rebuild plan changes.
-   > Do not measure with the frayed end left as it is. At 100 MΩ that stub is an antenna and a
+   **drops substantially** → the leak was never on the board and the rebuild plan changes.
+   > Do not measure with the frayed end as it is. At 100 MΩ that stub is an antenna and a
    > contamination magnet. Trim it short and clean first.
+   > **And do not rebuild the tip lead until after this reading** — the cut is what makes it possible.
 
--1b. **Sweep the bias and watch the offset. Then sweep Z.** Zero risk — no tip is fitted, so
-   nothing can be crashed. Each is a falsifiable prediction from the sign table in fault 1:
-   **the offset should ignore both.** If it moves with bias, the sample-plate path is implicated
-   and the slope gives the leakage resistance directly. If it moves with Z, the glue at the piezo
-   socket (candidate E) is implicated. **Park Z back at 32768 afterwards** — safety rule 6.
+2. **Sweep the bias and watch the offset. Then sweep Z.**
+   Both are falsifiable predictions from the sign table in fault 1: **the offset should ignore
+   both.** If it moves with bias, the sample-plate path is implicated and the slope gives the
+   leakage resistance directly. If it moves with Z, the glue at the piezo socket (candidate E) is
+   implicated. **Park Z back at 32768 afterwards** — safety rule 6.
 
--1. **Scale the two supply rails independently.** The old D2 halves both together. If the offset
-   follows the **negative** rail and ignores the positive one, candidate A0 is confirmed and the
-   fault is named. If neither moves it, the rails are not the source. **This also settles the
-   signed-versus-unsigned ADC question as a by-product.**
+3. **Scale the two supply rails independently.** Not together, which is what the old D2 did.
+   If the offset follows the **negative** rail and ignores the positive one, candidate A0 is
+   confirmed and the fault is named. If neither moves it, the rails are not the source.
+   **This settles the signed-versus-unsigned ADC question as a by-product.**
 
--0b. **Meter the tip holder against the piezo's brass electrode.** Safety rule 7 has always said to
-   do this before imaging, on Berard's warning that glue must not bridge the two. **We now know the
-   piezo was superglued into its socket**, so this stopped being a precaution and became a test of a
-   live candidate. It must read open — and remember rule 12: a DMM reading OL only proves >60 MΩ,
-   which does not clear it. Pair it with the Z sweep above.
+4. **Meter the tip holder against the piezo's brass electrode.** Safety rule 7 always said to do
+   this before imaging, on Berard's warning that glue must not bridge the two. **We now know the
+   piezo was superglued into its socket**, so it is a test of a live candidate, not a precaution.
+   It must read open — and remember rule 12: OL on a DMM only proves >60 MΩ, which does not clear it.
 
-0. **Verify the rebuilt shield with a meter.** Every point on the shield must beep to the ground
-   wire — near the wire, the far corner, **and across every soldered seam**. This takes two minutes
-   and **everything below depends on it.** A D3 result taken on an unverified shield is worthless.
-   The box being open makes this *easier*, not harder.
+5. **Verify the rebuilt shield with a meter.** Every point on the shield must beep to the ground
+   wire — near the wire, the far corner, **and across every soldered seam**. Two minutes.
+   **The box being open makes this easier, not harder.**
 
-0b. **Close the box — lid AND back — before any D1/D2/D3 offset numbers**, and record the
-   **standard deviation** as well as the mean. The shield should show up most clearly in the noise;
-   see the noise note in fault 1.
-1. **Answer the two datasheet questions.** Neither needs the bench, and one of them gates a fix
-   that is otherwise ready to go. (a) Does the AD5761R have internal pull-ups on CLEAR#/RESET#?
-   (b) Is the LTC2326-16 output signed two's complement or straight binary?
-   > **If the answer to (a) means the fix goes ahead, it is cheaper than it looked.** CLEAR# and
-   > RESET# can be commoned across all four DACs, which is two wires — and **H1 pins 24 and 26 are
-   > spare ribbon conductors already running from the Teensy to the board** (found 2026-09-06,
-   > fault 4). No new cable is needed.
-2. **Run the shield test properly: D1, D2, D3.** Baseline with the shield wire disconnected, then
-   the rail-scaling test, then with the shield connected. **Then rebuild the preamp if it is still
-   bad**, and run the same acceptance test.
-3. **Characterise the DAC config loss.** Suggested experiment: `RSET`, confirm LED1–4 dark, then
-   leave the board completely alone for 30 minutes with no commands sent and check the LEDs again.
-   That separates "activity triggers it" from "time or the rail triggers it".
-4. **Calibrate counts to amps.** Simultaneous meter reading at R23 and `ADCR`, bench clear, two
-   well-separated points. Settles the 4.096 vs 10.24 question below.
-5. **Dummy junction test.** A **100 MΩ resistor or larger** clipped between the sample holder and
-   the tip holder. Proves the whole current path with no tip and no crash risk, gives counts per
-   amp directly, and **tells us the sign of the current**.
-   > **Do not use 1 MΩ.** An earlier version of this list said "between 1 MΩ and 100 MΩ".
-   > **The instrument reads to 40.96 nA** (4.096 V ADC full scale ÷ 100 MΩ — corrected from
-   > "about 100 nA" on 2026-09-06; the ADC saturates well before the preamp rails do). 1 MΩ at
-   > 3 V of bias pushes **3 µA, which is seventy times over range** and instantly saturated.
-   > Corrected in `sessions/2026-09-06.md` §11 and again §57.
-5b. **Four quick checks added 2026-09-06, none of which need the analog chain working.**
-   Do them whenever there is a spare five minutes — each closes something currently unknown.
+6. **The four five-minute checks**, any of which can be done whenever there is a gap:
    - **Calipers on the piezo disc and on the `PiezoPlate` pocket.** The pocket measures
      **Ø20.500 mm**; `docs/BOM.md` says the disc is **25–27 mm**. They cannot both be right, and
      the answer changes every nm/V figure. See `CAD/prints/README.md`.
-   - **A ruler on the suspension.** Measure how far the springs stretch under the hanging
-     platform. That single number gives the resonant frequency — 200 mm of droop is 1.1 Hz —
-     with no need for the spring rate or the mass. See `docs/ENGINEERING_REFERENCE.md` §7b.
-   - **A scope on U13 pin 7.** The unused half of the bias buffer's op-amp is floating. A quiet
-     DC level is fine; a rail or an oscillation is fault 4b and is two wires to fix.
+   - **A ruler on the suspension.** How far do the springs stretch under the hanging platform?
+     That one number gives the resonant frequency — 200 mm of droop is 1.1 Hz — with no need for
+     the spring rate or the mass. See `docs/ENGINEERING_REFERENCE.md` §7b.
+   - **A scope on U13 pin 7.** The unused half of the bias buffer's op-amp is floating. A quiet DC
+     level is fine; a rail or an oscillation is fault 4b, and two wires to fix.
    - **A ruler on the scan head lever.** Which screw does the motor drive, and where is the tip
-     relative to the front screw line? The CAD says 40.000 mm and 1.000 mm, which would make the
+     relative to the front-screw line? The CAD says 40.000 mm and 1.000 mm, which would make the
      ratio 40 and one step 3.88 nm. One minute settles a question open all project.
 
-6. ~~**Write `Code/pc/stm_approach.py`.**~~ **Written 2026-09-05.** PC-side woodpecker loop,
-   Ctrl-C abortable, thresholds on absolute deviation so the current's sign does not matter. Never
-   sends `APRH`. 40 tests pass against a simulated microscope. **Never run on hardware yet**, and
-   it refuses to start while the preamp is railed. It also requires the two direction answers
-   below before it will run at all.
+7. **Answer the two datasheet questions.** Neither needs the bench.
+   (a) Does the AD5761R have internal pull-ups on CLEAR#/RESET#?
+   (b) Is the LTC2326-16 output signed two's complement or straight binary?
+   > **If (a) means the fix goes ahead, it is cheaper than it looked.** CLEAR# and RESET# can be
+   > commoned across all four DACs — two wires — and **H1 pins 24 and 26 are spare ribbon
+   > conductors already running from the Teensy to the board.** No new cable needed.
+
+### Group B — after Group A, and only with the box closed
+
+8. **Close the box — lid AND back — before any D1/D2/D3 offset numbers.**
+   **An open box is not a shield.** Record the **standard deviation** as well as the mean: the
+   noise is several hundred times the Johnson floor, and that is where a working shield should show
+   up most clearly.
+
+9. **Run the shield test properly: D1, D2, D3.** Baseline with the shield wire disconnected, then
+   rail scaling, then with the shield connected.
+
+10. **Characterise the DAC config loss.** `RSET`, confirm LED1–4 dark, then leave the board
+    completely alone for 30 minutes with no commands sent and check the LEDs again. Separates
+    "activity triggers it" from "time or the rail triggers it".
+
+11. **Calibrate counts to amps.** Simultaneous meter reading at R23 and `ADCR`, bench clear, two
+    well-separated points. Settles the 4.096 vs 10.24 question.
+
+12. **Dummy junction test.** A **100 MΩ resistor or larger** clipped between the sample holder and
+    the tip holder. Proves the whole current path with no tip and no crash risk, gives counts per
+    amp directly, and **tells us the sign of the current**.
+    > **Do not use 1 MΩ.** An earlier version of this list said "between 1 MΩ and 100 MΩ".
+    > **The instrument reads to 40.96 nA** (4.096 V ÷ 100 MΩ). 1 MΩ at 3 V of bias pushes
+    > **3 µA, seventy times over range** and instantly saturated.
+
+### Only when the preamp is working
+
+- **Rebuild the tip lead in plain fine wire, not coax.** Decided 2026-09-07 — see
+  `docs/UPSTREAM_BERARD.md` §4 for the reasoning and the method.
+- **`Code/pc/stm_approach.py` is written and tested** (2026-09-05, 40 tests against a simulated
+  microscope) but has **never been run on hardware**. It refuses to start while the preamp is
+  railed, and it needs both direction answers first: which Z direction approaches the sample, and
+  which sign of `MTMV` advances.
 
 ---
 
