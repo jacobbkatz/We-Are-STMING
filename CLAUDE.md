@@ -146,7 +146,7 @@ as fresh when it was already recorded, they lose the ability to tell what is act
 
 | The handoff says | Actually |
 |---|---|
-| Stage 6 is an open feedback loop | Loop is **closed**. 37 nA of input leakage |
+| Stage 6 is an open feedback loop | Loop is **closed**. 119 nA of input leakage |
 | ADC clock is the "library default" | It was explicitly 40 MHz. Now 1 MHz |
 | Use `TONE 8600` as the standard piezo check | No usable resonance when mounted. Do not judge the piezo by ear at all |
 | PAD1 is "downstream of R1" (A.8.1) | **Upstream.** PAD1 and IC1 pin 6 are the same net; R1 feeds JP1 pin 3 |
@@ -161,6 +161,30 @@ The **firmware source comments are also wrong** about the DAC ranges. `stm_firmw
 says X and Y are −5 to +5 V. They are **±3 V**: X, Y and bias all use identical mode bits
 (`0b101`), so they cannot differ, and bias measures ±3 V. `docs/WIRING.md` has the verified table.
 Trust the range bits and the measurement, not the comment.
+
+---
+
+## 3bb. One value per fact — `docs/FACTS.md`
+
+**This repository's most expensive failure mode is a corrected number that only got corrected in
+some places.** On 2026-09-07 the ADC full scale went from 4.096 V to 10.24 V and the preamp offset
+from 37 nA to 119 nA. Both had been written into more than a dozen documents. **Correcting the ones
+anybody thought of still left stale copies in six files**, where the next session would have
+believed them.
+
+**So:**
+
+1. **`docs/FACTS.md` holds the canonical value of every number that matters.** Value, units,
+   provenance, date.
+2. **Do not restate one of those numbers in another document. Link to it.** A number written in two
+   places is a number that will disagree with itself.
+3. **When a value changes, change it in `docs/FACTS.md` first**, add the old one to its RETIRED
+   table, then run `python3 Code/pc/check_facts.py` and fix what it finds.
+4. **Session logs are history and keep their original numbers.** The checker skips them. Never
+   rewrite a past measurement.
+
+The checker runs automatically at session start. **If it reports something, fix it before starting
+work** — it means a number known to be wrong is sitting where it will be believed.
 
 ---
 
@@ -265,6 +289,7 @@ close the laptop.
 | `docs/WIRING.md` | **Verified pinouts, cable colours, LEDs, power tree.** The bench reference |
 | `docs/COMMANDS.md` | **Every firmware command**, what blocks, what replies |
 | `docs/ENGINEERING_REFERENCE.md` | **The cross-subsystem layer.** Grounding map, the copper-vs-aluminium tape rule, value chains from a command to a displacement and from a current to a number, the impact map for "if I change X, what else has to be rechecked", and every constant with a confidence tag |
+| **`docs/FACTS.md`** | **The canonical value of every number that matters, with provenance — and a list of RETIRED values.** One value per fact. **Do not restate a number from here elsewhere; link to it.** When a value changes, change it here first |
 | `docs/COMPONENTS.md` | **Every electronic part, with the specs that matter and the design cross-checked against them.** Voltage limits, stability, noise, pinouts, what the Teensy can and cannot drive. **Check here before looking up any datasheet** |
 | `docs/NEXT_SESSION_PLAN.md` | **The prioritised plan for the next bench session**, written to be executed with no memory of any conversation |
 | `docs/INDEX.md` | **What is inside every archive and binary.** Check before deriving anything |
@@ -281,6 +306,7 @@ close the laptop.
 | `Code/teensy/` | Teensy 4.1 firmware, PlatformIO |
 | `Code/pc/` | Python tools that talk to the Teensy over serial |
 | `Code/pc/stl_features.py` | Measures the printed parts straight out of the STL meshes. **Run this instead of guessing a hole size** |
+| `Code/pc/check_facts.py` | Reports anywhere a value `docs/FACTS.md` lists as retired still sits in a live document. **Runs automatically at session start** |
 | `CAD/prints/README.md` | Every printed part, measured: sizes, hole grids, **which screw goes where** |
 | `CAD/`, `PCB/`, `gerbers/`, `our_preamp_cad_files/` | Design files |
 

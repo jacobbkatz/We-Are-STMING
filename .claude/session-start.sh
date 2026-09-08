@@ -90,5 +90,21 @@ if [ -f STATUS.md ]; then
     fi
 fi
 
+# Catch numbers a correction left behind. docs/FACTS.md holds the canonical value
+# of everything that matters plus a list of retired ones; this reports anywhere a
+# retired value still sits in a live document. It over-reports rather than
+# under-reports, which is the right bias for this.
+if [ -f Code/pc/check_facts.py ]; then
+    FACTS_OUT=$(python3 Code/pc/check_facts.py 2>/dev/null)
+    if [ $? -ne 0 ]; then
+        echo ""
+        echo "$FACTS_OUT" | head -30
+        echo ""
+        echo "ACTION FOR CLAUDE: a value docs/FACTS.md lists as RETIRED is still in a live"
+        echo "document. Fix it, or if the line is deliberately quoting the old value, say so"
+        echo "in the line. Full output: python3 Code/pc/check_facts.py"
+    fi
+fi
+
 echo "=== Read STATUS.md before starting work. See CLAUDE.md for the full protocol. ==="
 exit 0

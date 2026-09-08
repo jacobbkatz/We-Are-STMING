@@ -29,7 +29,7 @@ to 1 MHz, and the `TONE` command in `main.cpp`. `stm_control.py`, `stm_app.py` a
 > **This section's own closing paragraph named the missing step** — "confirm from the LTC2326-16
 > datasheet how the full-scale input range relates to REFBUF" — and it was closed on inference
 > instead of by doing it. The correct scale is **0.3125 mV per count** (10.24 / 32768), not
-> 0.125 mV.
+> 0.125 mV. **Superseded: it is 0.3125 mV — see `docs/FACTS.md`.**
 >
 > **What this changes, everywhere:**
 >
@@ -58,7 +58,7 @@ Page 2 is the ADC sheet. What it shows:
 | U15 is an **LTC2326HMS-16** with pins **REFIN (8)** and **REFBUF (7)** | Schematic page 2 |
 | **No external voltage reference is connected to the ADC.** The strings "VREF1" and "ADR421" appear **zero times** on the ADC sheet | Searched the extracted page text |
 | The board's only reference IC, **U5 ADR421**, drives net **VREF1**, which goes to pin 4 (VREFIN) of the four AD5761 DACs and nowhere else | Schematic page 1 |
-| Berard's driver declares `const float _ref_buffer_volts = 4.096f` — named after the **REFBUF pin** on this exact chip | `lib/LTC2326/LTC2326_16.hpp` |
+| Berard's driver declares `const float _ref_buffer_volts = 4.096f` — named after the **REFBUF pin**, which is not the input span | `lib/LTC2326/LTC2326_16.hpp` |
 | Probing R23 on 2026-08-31 gave ~2.5 V against ~15000–18000 counts, implying a full scale near 4–5 V | `sessions/2026-08-31-results.md` §3.8 |
 
 So the ADC runs on its **own internal reference**, and 4.096 V is the figure the original author

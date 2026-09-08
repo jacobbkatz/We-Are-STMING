@@ -103,7 +103,8 @@ def stats(values):
 
 
 def adc_to_nanoamps(counts, full_scale_volts, feedback_ohms=100e6):
-    """Counts to nA. full_scale_volts is the unresolved 4.096 vs 10.24 question."""
+    """Counts to nA. Full scale is 10.24 V -- see docs/FACTS.md. It was
+    recorded as 4.096 V until 2026-09-07; that figure is REFBUF, not the span."""
     volts = counts / float(ADC_FULL_SCALE) * full_scale_volts
     return volts / feedback_ohms * 1e9
 
@@ -329,9 +330,11 @@ def build_parser():
                     help="Total motor steps allowed in one run (default %d, "
                          "about %.1f um at 7.8 nm/step)"
                          % (DEFAULT_MAX_STEPS, DEFAULT_MAX_STEPS * 7.8 / 1000.0))
-    ap.add_argument("--full-scale", type=float, default=4.096,
+    ap.add_argument("--full-scale", type=float, default=10.24,
                     help="ADC full scale in volts, for reporting currents only. "
-                         "4.096 vs 10.24 is unresolved -- see OPEN_QUESTIONS.md")
+                         "ADC full scale in volts. RESOLVED 2026-09-07 from the "
+                         "LTC2326-16 datasheet: it is 10.24 V. 4.096 V is REFBUF, "
+                         "and the input span is 2.5x REFBUF. See docs/FACTS.md")
     ap.add_argument("-p", "--port")
     ap.add_argument("--dry-run", action="store_true",
                     help="Do everything except actually move the motor.")

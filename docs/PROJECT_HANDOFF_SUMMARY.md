@@ -14,7 +14,7 @@ and exactly where things stand right now.
 > Session 3 (2026-08-31) contradicts **seven** claims in this document, all backed by
 > measurements. Where the two disagree, that file is newer and correct. In particular:
 >
-> - **Stage 6 is NOT an open feedback loop.** It is 37 nA of input leakage from cyanoacrylate
+> - **Stage 6 is NOT an open feedback loop.** It is 119 nA of input leakage from cyanoacrylate
 >   contamination. The preamp is being rebuilt
 > - **The ADC bus was running at 40 MHz**, not the "library default" this document records.
 >   Now 1 MHz

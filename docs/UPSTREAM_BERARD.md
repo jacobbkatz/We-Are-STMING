@@ -201,7 +201,7 @@ Three things worth taking from this:
 > **Be precise about what this leakage is.** A glue bridge from tip standoff to the grounded brass
 > plate puts a resistance across the preamp input. The preamp's input is a **virtual ground**, so
 > such a path carries little current and does **not** produce a DC offset — it costs signal and
-> adds noise. **It is not a fourth candidate for our 37 nA.** It is a build requirement, and worth
+> adds noise. **It is not a fourth candidate for our 119 nA.** It is a build requirement, and worth
 > a meter check between the tip holder and the brass plate before first imaging.
 
 ### Sample mounting, the simple version
@@ -290,7 +290,7 @@ So our OPA627 is a substitution Berard explicitly endorses, but `BOM.md` describ
 "Berard's design" overstates it. Corrected there.
 
 Input bias current on the OPA124 is around **1 pA**. That is the scale the input node has to beat.
-Our measured 37 nA offset is roughly **thirty thousand times** that.
+Our measured 119 nA offset is roughly **119,000 times** that.
 
 ### The PTFE standoff — now a real part number
 
@@ -300,7 +300,7 @@ Our measured 37 nA offset is roughly **thirty thousand times** that.
 That closes a `CHOICE` item in our BOM, which previously said only "search for a PTFE standoff
 terminal".
 
-### A third candidate for our 37 nA
+### A third candidate for our 119 nA
 
 > I'm also using a guard ring on my preamp now, just **make sure to clean all the flux off the
 > board after soldering or you might get huge leakage currents!**
@@ -365,7 +365,7 @@ socket. DERIVED, not measured.
 **That is probably the real reason Berard uses 40 AWG**, and it is a stronger argument than the
 bench-vibration one usually given.
 
-> **None of this is on the critical path for the 37 nA.** Coax versus wire affects *noise* and
+> **None of this is on the critical path for the 119 nA.** Coax versus wire affects *noise* and
 > *mechanics*. It cannot produce a DC offset: the coax shield sits at ground, the input node sits at
 > virtual ground, and two things at 0 V do not push current through a leakage path between them.
 > **Do not let this become a distraction from the blocker.**
@@ -406,7 +406,7 @@ the point is limp and short.
 - **Keep it as short as possible.** Losing the shield means the exposed length sets the pickup, so
   short directly buys back some of what the shield was doing.
 - **Solder the preamp end first**, away from the tip holder, then the tip-holder end.
-- **Clean the flux properly afterwards.** Berard's own warning, and it is candidate C for the 37 nA.
+- **Clean the flux properly afterwards.** Berard's own warning, and it is candidate C for the 119 nA.
 - **Do not let it touch anything** on its way — at 100 MΩ, every contact point is a leakage path.
 - **Do not pull it taut across the disc.** A taut wire loads the scanner as surely as a stiff one.
 

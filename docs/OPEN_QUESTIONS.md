@@ -18,7 +18,7 @@ These stop progress right now.
 
 | Question | Why it matters | Where |
 |---|---|---|
-| **Is the 37 nA offset the cyanoacrylate contamination or the ungrounded case shield?** | Decides whether the spare preamp board gets consumed. Grounding the shield is one reversible wire; the rebuild is not reversible | `STATUS.md` §1, §1b |
+| **Is the 119 nA offset the cyanoacrylate contamination or the ungrounded case shield?** | Decides whether the spare preamp board gets consumed. Grounding the shield is one reversible wire; the rebuild is not reversible | `STATUS.md` §1, §1b |
 | **Is the DAC configuration loss startup-only, or does it recur mid-session?** | 2026-08-31 recorded it recurring every 30–60 min, which means checking LED1–LED4 around every single measurement. If it is startup-only, one `RSET` at the start is enough | `sessions/2026-08-31-results.md` §4 |
 | ~~**Does the AD5761R have internal pull-ups on CLEAR# and RESET#?**~~ **ANSWERED 2026-09-07** | **Yes. `RESET` and `LDAC` both have internal pull-ups and may be left floating** — read from the datasheet. **So the floating-pin hypothesis is very likely wrong and the wire fix is unnecessary.** The symptom is power sequencing, explained in full in `docs/PROJECT_HANDOFF_SUMMARY.md` lines 476–495. Still open only for `CLR` specifically, which does not change the conclusion | `docs/COMPONENTS.md` §2 |
 | **Is the LTC2326-16 output signed or straight binary?** | The firmware reads `int16_t`. If the part is unipolar straight-binary, every reading above 32767 appears negative, and the "-400 count baseline" would really be 65136 — near full scale. **This changes the meaning of every ADC number in the project.** Datasheet question | `Code/teensy/lib/LTC2326/` |

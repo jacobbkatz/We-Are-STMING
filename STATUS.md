@@ -70,7 +70,7 @@ Earlier the same day: Jacob, remote, from a photo.
 
 ## Where we are in one line
 
-Stages 0 through 5 pass and the bias path passes. **The preamplifier is the blocker.** Its 37 nA
+Stages 0 through 5 pass and the bias path passes. **The preamplifier is the blocker.** Its 119 nA
 offset has **two remaining candidate causes** — cyanoacrylate contamination and flux residue, both
 surface conduction into the input node. The third, the case shield, has been **rebuilt** and is
 about to be tested properly for the first time.
@@ -92,7 +92,7 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 > | **The box is OPEN** | Lid off, and the back cut away for probe access. **An open box is not a shield** |
 > | **The tip coax is CUT** | Severed to get the module out. The input node no longer includes the cable, tip holder or tip — **which makes a bisection test possible for the first time** |
 > | **The board is glued in and cannot be removed** | Heavily superglued to three standoffs printed as part of the box |
-> | **The PTFE standoff is also glued to the board** | With cyanoacrylate. **This is the new leading candidate for the 37 nA** — see fault 1, candidate A0 |
+> | **The PTFE standoff is also glued to the board** | With cyanoacrylate. **This is the new leading candidate for the 119 nA** — see fault 1, candidate A0 |
 > | **The bias HAS been on the whole time** | **Corrected 2026-09-07.** An earlier version of this box said there was no bias. Wrong. The sample plate is wired and biased; it is simply parked away from the tip holder, not near it |
 > | **No tip is fitted** | Only the tip holder. **Nothing can be crashed**, so bias sweeps, Z sweeps and rail scaling are all zero-risk right now |
 > | **The piezo is superglued into its socket** | **A third CA site**, and this one is at the scan head, next to the tip holder — which is part of the input node |
@@ -104,7 +104,7 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 > numbers in the reference were wrong. Highlights, all detailed below or in the reference:
 > **safety rule 10** (an out-of-range DAC command silently jumps to the opposite rail),
 > **fault 4b** (U13's unused op-amp channel floats next to the bias buffer),
-> **the measurable-current ceiling is 41 nA, so the 37 nA fault is eating 91% of the ADC's range**,
+> **the measurable-current ceiling is 41 nA, so the 119 nA fault is eating 91% of the ADC's range**,
 > and **H1 pins 24 and 26 are spare ribbon conductors** — exactly the two wires the DAC fix needs.
 >
 > **New on 2026-09-06: `docs/ENGINEERING_REFERENCE.md`.** A repository-wide audit that pulls the
@@ -275,7 +275,7 @@ floating `PREAMP-`, and the rail voltages.
 > Nothing had commanded a DAC before the 2026-08-31 capture, so by `docs/DAC_BOOT_STATE.md` every
 > DAC sat at **zero scale**, and the inverting output stages flip each one:
 >
-> | Source | Where it sits | Would drive the preamp output | Matches the measured **+3.73 V**? |
+> | Source | Where it sits | Would drive the preamp output | Matches the measured **+11.905 V**? |
 > |---|---|---|---|
 > | Sample holder, via bias | DAC −3 V → holder **+3 V** | negative | **No** |
 > | Piezo electrodes, DSUB1 | DAC −10 V → DSUB1 **+10 V** | negative | **No** |
@@ -337,7 +337,7 @@ floating `PREAMP-`, and the rail voltages.
 preamp's input, that input is a **virtual ground**, so the current is set by whatever voltage sits
 at the far end of the leakage path divided by its resistance:
 
-| Source at the far end | Path resistance needed for 37 nA | Plausible for a surface path? |
+| Source at the far end | Path resistance needed for 119 nA | Plausible for a surface path? |
 |---|---|---|
 | A ±15 V supply rail | **405 MOhm** | **Yes** — very typical of a contaminated surface |
 | A 0.5 V galvanic cell on the shield | **13 MOhm** | Low. That is a poor insulator, not a contaminated one |
@@ -769,7 +769,7 @@ which sign of `MTMV` advances.
 7. **Before first imaging, meter-check the tip holder against the brass piezo electrode.** Berard
    warns that glue must not bridge the tip standoff to the grounded brass plate. That path is a
    shunt across the preamp input — it costs signal and adds noise. It is **not** an offset source,
-   so it is not a candidate for the 37 nA, but it must be open before imaging.
+   so it is not a candidate for the 119 nA, but it must be open before imaging.
 8. **Never send `CCON` with a tip in tunneling range** until the integral-init bug in fault 2 is
    fixed. Engaging the loop snaps Z to midscale.
 9. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
@@ -833,7 +833,7 @@ The full register, including the undocumented hardware and process items, is in
 | Is the ~119 nA the CA contamination, or something else entirely? | **The rail-leak mechanism failed its own test**, and bias and Z show nothing. There may be no voltage left to drive a surface leak. Decides whether the spare board gets consumed |
 | Is the DAC configuration loss startup-only, or does it recur mid-session? | 2026-08-31 recorded it recurring every 30 to 60 minutes, which requires checking LED1–LED4 around every measurement. If it is startup-only, one `RSET` at the start is enough. **Currently ambiguous, needs settling at the bench** |
 | ~~Is there a sample material?~~ | **Answered 2026-09-05: gold foil.** It must be mounted flat on a magnetic disc with a conductive path to the bias magnet — see `docs/UPSTREAM_BERARD.md` §5. Expect atomic terraces, not individual atoms; Berard could not resolve single atoms on metals |
-| How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05: roughly 5 to 8 nm.** From the 1/4"-80 pitch and 2048 steps/rev, with a lever reduction Berard quotes as **either 20 or 30 on different pages** — 7.8 nm at 20, 5.2 nm at 30. **Nothing depends on resolving it**: both give 90–130 steps per Z range. **VERIFY our own ratio** — ours is Mech Panda's geometry. Replaces the old 244 nm estimate. See `docs/UPSTREAM_BERARD.md` §2b |
+| How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05, superseded estimate was 244 nm: roughly 4 to 8 nm.** From the 1/4"-80 pitch and 2048 steps/rev, with a lever reduction Berard quotes as **either 20 or 30 on different pages** — 7.8 nm at 20, 5.2 nm at 30. **Nothing depends on resolving it**: both give 90–130 steps per Z range. **VERIFY our own ratio** — ours is Mech Panda's geometry. Replaces the old 244 nm estimate. See `docs/UPSTREAM_BERARD.md` §2b |
 | Which Z direction is toward the sample | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile. **`stm_approach.py` requires this answer before it will run** |
 | Which sign of `MTMV` advances toward the sample | Determinable by eye with the tip removed. **`stm_approach.py` requires this too** |
 | ~~ADC full scale: 4.096 or 10.24 V?~~ **CLOSED 2026-09-07** | **±10.24 V**, from the datasheet. REFBUF is 4.096 V and the input span is 2.5 × REFBUF. The PC tools were right. **Two's complement also confirmed from the same page** |

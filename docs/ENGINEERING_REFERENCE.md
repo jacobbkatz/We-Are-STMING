@@ -197,7 +197,7 @@ Piezo displacement
 | Z resolution vs target | 0.0104 nm against Berard's ~0.01 nm goal | DERIVED — **16 bits is just adequate; the absence of sigma-delta is probably fine** |
 
 > **X and Y are ±3 V, not ±5 V.** Range bits `101`. The firmware comments say ±5 V and are wrong.
-> `docs/soft_launch_test_procedure.md` §2 has the full RA[2:0] decode: `000` = ±10 V, `010` = ±5 V,
+> `docs/soft_launch_test_procedure.md` §2 has the full RA[2:0] decode: `000` = ±10 V, `010` = ±5 V (a range option, not used),
 > `101` = ±3 V. CONFIRMED.
 >
 > **Our X/Y range is a third of Berard's** because he drives ±10 V. That is a resistor-and-range
@@ -280,13 +280,14 @@ PC tools — and they were RIGHT all along
 **The output is signed two's complement, not straight binary.** INFERRED, by contradiction:
 
 - As **signed**, a −400 baseline is −0.050 V — a healthy preamp sitting near zero, and the faulty
-  one at +3.73 V. Coherent: the fault is a positive offset.
+  one at **+9.33 V** differential. Coherent: the fault is a positive offset.
+  (This read +3.73 V until 2026-09-07, on the superseded 4.096 V scale.)
 - As **unsigned**, −400 reads 65136 counts = 4.07 V, and the *faulty* 29873 reads only 1.87 V.
   That makes the healthy baseline higher than the faulty one, which is backwards.
 
 **Still worth confirming from the datasheet**, but the physical coherence argument is strong.
 
-### What the 37 nA offset actually costs, in range
+### What the 119 nA offset actually costs, in range
 
 This is the sharpest way to say why the preamp fault blocks everything, and it had not been
 written down:
@@ -300,7 +301,7 @@ written down:
 | **Fraction of the ADC's range the fault consumes** | **116% — it is off the top of the scale** |
 | Headroom left for an actual signal | **none** DERIVED |
 
-So the 37 nA is not merely "37 times a tunneling current". It has eaten **nine tenths of the
+So the 119 nA is not merely "37 times a tunneling current". It has eaten **nine tenths of the
 measurement range**, and a further 4 nA of drift in the same direction saturates the converter
 outright. A 1 nA tunneling signal would have to be resolved as a 2.4% wiggle on top of a nearly
 full-scale offset.
@@ -545,7 +546,7 @@ below about 1 Hz is doing its job against building vibration, which lives around
 - `Code/pc/stm_control.py:37` and `stm_console.py` — currently 10.24, **wrong by 2.5×**
 - every current figure in `STATUS.md` and every session log
 - `stm_approach.py --full-scale` default
-- the 37 nA figure, the 0.78 nA noise figure, the 800-counts-per-nA reference
+- the 119 nA figure, the 0.78 nA noise figure, the 800-counts-per-nA reference
 
 ### A DAC range (the mode word in `stm_firmware.hpp`)
 - the volts-per-count figure and therefore displacement per count
@@ -575,12 +576,12 @@ below about 1 Hz is doing its job against building vibration, which lives around
 - `stm_control.py:40-49`, which already has all three axis ranges wrong
 
 ### The preamp feedback resistor (100 MΩ)
-- volts per nA at the ADC — 1 nA = 0.1 V = 800 counts
+- volts per nA at the ADC — 1 nA = 0.1 V = **320 counts** (corrected 2026-09-07)
 - **the maximum measurable current is 102 nA, set by the ADC.**
   10.24 V full scale / 100 MOhm = **102.4 nA** (corrected 2026-09-07 from a wrong 4.096 V scale). The preamp itself would not clip until about
   100 nA, so the ADC is the binding limit and the earlier "about 100 nA" figure here was wrong
 - the dummy-junction resistor choice (must be ≥ 100 MΩ, **not** the 1 MΩ the 08-31 plan suggests)
-- the leakage budget: 37 nA of offset is 37× a tunneling current
+- the leakage budget: **119 nA** of offset is 119x a tunneling current, and **above the ADC's own 102.4 nA ceiling**
 
 ### Grounding anything
 - there is **one** ground net; a "ground" fix is a joint or route fix, never a plane split
@@ -597,7 +598,7 @@ below about 1 Hz is doing its job against building vibration, which lives around
 | Command length | exactly 4 chars, sent as one write | `main.cpp` `CMD_LENGTH` | CONFIRMED |
 | DAC SPI clock | 1 MHz (was 40 MHz) | `AD5761.hpp` | CONFIRMED |
 | ADC SPI clock | 1 MHz (was 40 MHz) | `LTC2326_16.hpp` | CONFIRMED |
-| ADC **REFBUF** | 4.096 V, internal (2 x the 2.048 V bandgap) | datasheet | CONFIRMED |
+| ADC **REFBUF** | 4.096 V, internal (2 x the 2.048 V bandgap). **This is not the input span** | datasheet | CONFIRMED |
 | **ADC input full scale** | **±10.24 V = 2.5 x REFBUF** | **datasheet, 2026-09-07** | **CONFIRMED — corrected from 4.096** |
 | ADC output format | **two's complement** | datasheet, 2026-09-07 | **CONFIRMED — closes an open question** |
 | DAC reference | 2.5 V, ADR421, measured across C54 | schematic + bench | CONFIRMED |
@@ -627,7 +628,7 @@ in a datasheet or a part number · **C** = calculated from the above · **I** = 
 | Summing-stage gain | exactly −1 per input | F | +IN at AGND, netlist + `docs/WIRING.md` §8 |
 | Worst-case summed output | ±13 V on ±15 V rails | C | Z ±10 V + X ±3 V |
 | Bias path gain | −1, verified | **M** | `BIAS 65535` → +3.000 V DAC, −3 V at the holder |
-| Fine screw pitch | 1/4"-80 = 0.31750 mm/turn | S | McMaster 97424A590 |
+| Fine screw pitch | 1/4"-80 = 0.31750 mm/turn | S | Mech Panda's CAD part McMaster 97424A590. **Ours are the same thread but ~30 mm longer** — corrected 2026-09-07 |
 | **Lever arm, front line to rear screw** | **40.000 mm** | **F** | `PiezoPlate.stl` |
 | **Front screw pair spacing** | **35.000 mm** | **F** | `PiezoPlate.stl` |
 | **Piezo pocket offset from pivot line** | **1.000 mm** | **F** | `PiezoPlate.stl` |
@@ -657,7 +658,7 @@ Ranked by what they block. Full list in `docs/OPEN_QUESTIONS.md`.
 | **Does the AD5761R have internal pull-ups on CLEAR#/RESET#?** | One datasheet page. Decides whether the four-wire fix cures the hourly DAC dropout |
 | **Is the LTC2326-16 output two's complement?** | One datasheet page. §5 argues strongly for signed, but from coherence, not documentation |
 | **Our scan head lever ratio** | Open `CAD/STM.f3z`'s `.f3d` files in Fusion and measure the rear-screw and tip distances from the front-screw line. This repository cannot read that format |
-| **Is the 37 nA contamination, the shield, or flux?** | D1/D2/D3, and the rail-scaling test — if it is rail-to-input leakage the offset scales with rail voltage |
+| **Is the 119 nA contamination, the shield, or flux?** | D1/D2/D3, and the rail-scaling test — if it is rail-to-input leakage the offset scales with rail voltage |
 | **Which Z direction is toward the sample** | First tunneling, or the CAD. `stm_approach.py` refuses to run without it |
 | **Which sign of `MTMV` advances** | Watch the head with the tip removed |
 | **Our disc's actual nm/V** | Every displacement figure in §4 rests on Berard's 20 mm disc; ours is 25–27 mm |
@@ -731,7 +732,7 @@ is the 1" screw against its 0.438" insert, divided by the lever ratio. **Do not 
 and nothing depends on it** — all three give 90–130 steps across the Z range.
 
 **How does a current become a displayed number?**
-I × 100 MΩ = volts; volts ÷ 0.125 mV = counts. **1 nA = 0.1 V = 800 counts.** Ceiling 40.96 nA.
+I × 100 MΩ = volts; volts ÷ 0.3125 mV = counts. **1 nA = 0.1 V = 320 counts.** Ceiling 102.4 nA.
 **The PC tools print every current 2.5× too large** because they use 10.24 V full scale.
 
 **If a printed dimension changed by 2 mm, what breaks?**
@@ -741,7 +742,7 @@ plate it bolts to; and counterbore depth sets screw length.
 
 **Which calibration values are measured, and which are theoretical?**
 The provenance column in §9. **Measured at the bench: the bias gain, the −10 V at the scan head,
-the DAC reference, the 37 nA offset, the ADC counts.** Everything about displacement is inferred
+the DAC reference, the 119 nA offset, the ADC counts.** Everything about displacement is inferred
 from someone else's scanner.
 
 **What still cannot be answered?**
