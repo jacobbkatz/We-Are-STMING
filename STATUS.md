@@ -1,16 +1,25 @@
 # Current status
 
-**Last updated:** 2026-09-07 (evening)
-**Updated by:** Nuh, at the bench, board powered. **First hardware measurements since 31 August.**
-Then Jacob, remote: a component-level datasheet pass and a second-pass audit.
+**Last updated:** 2026-09-08
+**Updated by:** Jacob, remote. **Documentation only — no hardware was powered and nothing was
+measured on 2026-09-08.** Repository audit and migration: `docs/FACTS.md` and
+`Code/pc/check_facts.py` added, superseded documents archived with banners. See
+[`sessions/2026-09-08.md`](sessions/2026-09-08.md).
+**The hardware state below is unchanged from 2026-09-07**, when Nuh was at the bench with the
+board powered — **the first hardware measurements since 31 August** — followed by Jacob, remote,
+with a component-level datasheet pass and a second-pass audit.
 
-> **Two new documents. Read them before planning any bench work.**
+> **Three documents to read before planning any bench work.**
+> - **`docs/FACTS.md`** — the canonical value of every number that matters, with provenance, and a
+>   RETIRED table of values that are now wrong. **If a number here and a number elsewhere disagree,
+>   this file wins.** `python3 Code/pc/check_facts.py` enforces it and runs at every session start.
 > - **`docs/COMPONENTS.md`** — every part with the specs that matter, cross-checked against the
 >   actual design. Answers "what voltage can this pin take", "is this op-amp stable", "could the
 >   Teensy damage this input" without searching.
 > - **`docs/NEXT_SESSION_PLAN.md`** — the prioritised procedure for the next session, written to be
 >   executed with no memory of any conversation.
-Earlier the same day: Jacob, remote, from a photo.
+
+Earlier on 2026-09-07: Jacob, remote, working from a photo of the rebuilt preamp box.
 
 > ## READ THIS BEFORE ANY NUMBER IN THIS FILE
 >
