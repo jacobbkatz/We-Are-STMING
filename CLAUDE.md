@@ -301,7 +301,7 @@ it anywhere else creates a copy that will drift.
 **`python3 Code/pc/check_facts.py` enforces the first row and checks for broken links and
 archived documents cited as current. It runs automatically at session start.**
 
-
+### Every file, and what it is for
 
 | Path | What it is |
 |---|---|
