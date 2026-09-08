@@ -1,5 +1,25 @@
 # Finding the −15 V break — bench procedure
 
+> # ARCHIVED 2026-09-08 — THE FAULT THIS HUNTS IS RESOLVED. DO NOT FOLLOW THIS AS A CURRENT TASK.
+>
+> **Its premise is contradicted by measurement.** This procedure exists because "the preamp end
+> (JP1 pin 5) has no −15 V". **On 2026-09-07 that exact pin measured −15.237 V**, with a regulator
+> dropout of 0.74 V — see `sessions/2026-09-07.md` §19.5. The rail is intact.
+>
+> **What was extracted before archiving, and where it now lives:**
+>
+> | Content | Now in |
+> |---|---|
+> | The board map (component positions in mm) | `docs/WIRING.md` §9 — it was already there |
+> | **The −15 V decoupling capacitors ordered by distance from U18** | **`docs/WIRING.md` §9** |
+> | The walk-outward method for locating a rail break | `docs/WIRING.md` §9, stated generally |
+>
+> **Kept rather than deleted** because the method generalises to any rail fault, and the DST-201
+> setup notes at the end are the only record of how that meter is configured.
+>
+> Current work is in `STATUS.md` and `docs/NEXT_SESSION_PLAN.md`.
+
+
 For the FNIRSI DST-201. Written to be followed at the bench, in order.
 
 **What we know going in:**

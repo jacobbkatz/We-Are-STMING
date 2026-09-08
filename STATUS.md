@@ -518,69 +518,16 @@ firmware bookkeeping, not measurements.
 > Still **[UNVERIFIED]**: whether `CLR` specifically also has an internal pull-up. One datasheet
 > page. It does not change the conclusion, which rests on the power-on evidence.
 
-### Superseded hypothesis, 2026-09-06: CLEAR# and RESET# are floating
+### 4a. The superseded floating-pin hypothesis — moved out 2026-09-08
 
-**CONFIRMED from the manufacturing data.** The JLCPCB flying-probe test file
-(`gerbers/Gerber_PCB1_all_red.zip`, `FlyingProbeTesting.json`) carries the full board netlist. Of
-96 nets, **34 have only a single pad on them** — and twenty of those are U1–U4 pins 2, 3, 9, 10 and
-11. CLEAR# and RESET# are connected to nothing at all, by design, on every DAC.
+For a week the leading explanation was that CLEAR# and RESET# float and glitch together. **The
+AD5761R datasheet removed its basis: `RESET` and `LDAC` have internal pull-ups and may be left
+floating.** The 20 unconnected pads are permitted by design.
 
-**Recounted 2026-09-06: it is 34, not 25.** The full breakdown, because the other fourteen turn out
-to matter:
-
-| Pads | What they are |
-|---|---|
-| 20 | **U1–U4 pins 2, 3, 9, 10, 11** — the DAC control pins. This fault |
-| 5 | U5 (ADR421 reference) pins 1, 3, 5, 7, 8 — trim and not-internally-connected. Correctly unused |
-| **4** | **DSUB1 and DSUB2 shell / mounting posts.** Both D-sub shells float; nothing bonds them to AGND on the board. Any cable shield landed on a backshell is floating |
-| **2** | **H1 ribbon pins 24 and 26 — spare conductors.** Two unused wires already run from the Teensy to the board. If the four-wire fix for this fault goes ahead, CLEAR# and RESET# can be commoned across all four DACs onto exactly these two spare pins. **No new cable is needed** |
-| **3** | **U13 pins 5, 6, 7 — the entire unused second channel of the OPA2227P** whose first channel is the bias buffer. Floating inputs on an unused op-amp half. See the note below |
-
-Also
-pin 11 (LDAC#) and pin 10 (SDO). Read off the symbols on schematic page 1 — every AD5761 carries
-a green no-connect cross on those pins.
-
-Those are **active-low control inputs**. Left floating, a CMOS input sits at an undefined
-potential and can be driven low by nothing more than coupled noise. **Four floating RESET# pins in
-the same noise environment would glitch together** — which is exactly the symptom: all four DACs
-drop configuration simultaneously, ALERT lights, and `RSET` restores them.
-
-This fits better than the rail-dip and thermal theories, neither of which explains why all four go
-at once and nothing else on the 3.3 V rail is affected.
-
-**Two things had to be checked before believing it. One is now done.**
-
-1. **Does the AD5761R have internal pull-ups on CLEAR# and RESET#?** If it does, floating is far
-   less dangerous and this hypothesis weakens a lot. **Datasheet question. STILL NOBODY HAS
-   LOOKED. This is now the only thing gating the fix.**
-2. ~~**Are they actually open on our board?**~~ **CONFIRMED AT THE BENCH 2026-09-06.** Continuity
-   from each chip's own pin 15 (3.3 V) to pins 2 and 3: **all eight open, on all four DACs.** Two
-   control measurements (U1 pin 15 to U3 pin 15, and U1 pin 5 to U1 pin 16) both beeped first, so
-   these are genuine opens and not eight failed probe contacts. Three independent sources now
-   agree: the schematic symbols, the manufacturing netlist, and the meter.
-
-**If the datasheet answer is "no internal pull-ups", the fix is four short wires**: tie CLEAR# and
-RESET# to 3.3 V on each DAC. Permanent, rather than the periodic re-arm workaround discussed below.
-
-> **Do not solder those wires until the datasheet question is answered.** Everything about this
-> hypothesis is now confirmed except the one fact that decides whether it matters.
-
-Cause otherwise unknown. U16 was checked and is not hot, which weakens the thermal-shutdown theory.
-**Confirmed from the schematic 2026-09-05:** the H1 ribbon carries only ADC_CNV, ADC_BUSY,
-ADC_SDI, ADC_SCK, ADC_SDO, SCLK, SDI and SYNC1-4. There is no ALERT line. The LEDs really are the
-only indication, and this is now documented rather than inferred.
-
-> **Do not "fix" this with a periodic `RSET` on a timer.** `AD5761::reset()` sends a full software
-> reset, and `STM::reset()` rebuilds the status struct, so a timed `RSET` also **slams Z to a
-> rail**, zeroes the bias, and zeroes the step counter. With the tip engaged that is a scheduled
-> tip crash.
->
-> The safer stopgap, if one is wanted, is to **re-arm rather than reset**: write `CMD_WR_CTRL_REG`
-> with the channel's range, then re-send the last commanded value from `stm_status`. That restores
-> state instead of destroying it. **Not yet written.**
->
-> Neither approach **detects** anything, and neither helps mid-scan. The real fix is wiring the
-> AD5761 ALERT pins to spare Teensy GPIOs so the firmware can see the fault at all.
+**The full text, with its netlist evidence and the three independent confirmations that the pins
+are physically open, is preserved verbatim in `sessions/2026-09-06.md`** under "Appendix, moved
+here 2026-09-08". It was moved out of this file because a live-state document should not carry a
+dead hypothesis inline.
 
 ### 4b. U13's unused op-amp channel is left floating — a new lead, not a confirmed fault
 
@@ -818,11 +765,28 @@ which sign of `MTMV` advances.
 
 ## Open questions
 
-The full register, including the undocumented hardware and process items, is in
-[`docs/OPEN_QUESTIONS.md`](docs/OPEN_QUESTIONS.md). The ones blocking work right now:
+**`docs/OPEN_QUESTIONS.md` is the single authoritative register.** This section lists only the
+handful that gate work right now, and is pruned every session. **Anything resolved is removed from
+here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log that closed it.
 
-| Question | Why it matters |
+| Question | Why it blocks |
 |---|---|
+| **Where is the break in the `PREAMP−` return — board, cable, or connector?** | **The top question.** Until it is bonded, the ADC is operated with IN− about 2.7 V outside its ±500 mV spec and no ADC reading means anything |
+| **Is the warm-up drift the preamp or the floating reference?** | ~25,000 counts over an hour. Decides whether every capture must wait an hour, and whether the noise figures are real at all. `docs/NEXT_SESSION_PLAN.md` B1 |
+| **Is the recorded noise real, or is it the reference?** | 195 mV RMS is ~1,700× the resistor's Johnson floor and ~10,000× the op-amp's. Neither explains it. If it is the reference, every noise figure is void |
+| **Is the OPA627 saturated at +11.905 V?** | If it is pinned, the bias, Z and rail sweeps of 2026-09-07 could not have responded to anything |
+| **Does the rebuilt preamp box shield conduct end to end?** | Two minutes with a meter, never done. Every shield conclusion rests on it |
+| **Is the ~119 nA the CA contamination, or something else?** | The rail-leak mechanism failed its own test. Drives whether the rebuild is the right fix |
+| **Which Z direction approaches the sample, and which sign of `MTMV` advances?** | `Code/pc/stm_approach.py` refuses to run without both |
+| **Does the piezo disc fit its Ø20.500 mm seat?** | The BOM says 25–27 mm. Changes every nm/V figure. Two calliper readings |
+
+> **Closed since this table was last pruned**, and now only in `docs/OPEN_QUESTIONS.md`:
+> the ADC full scale (±10.24 V), the output format (two's complement), whether the ADC is damaged
+> (very unlikely — it was never over range), why it reads ~30,000 counts (wrong constant), whether
+> the AD5761R has internal pull-ups (**yes**), the sample material (gold foil), and the motor step
+> size (~4–8 nm).
+
+---|---|
 | **Where is the break in the `PREAMP-` return — board, cable, or connector?** | **The top question.** It is the ADC's reference and it is floating. Three continuity checks, unpowered. See Group 0 |
 | ~~**Is the ADC damaged?**~~ **Very unlikely** | It was never over range: span ±10.24 V, differential ~9.2 V. **The absolute maximum is still unverified** (every datasheet host is blocked from the remote session) but it no longer gates anything — the action order avoids the over-range case entirely |
 | ~~**Why does the ADC read ~30,000 counts?**~~ **RESOLVED 2026-09-07** | Full scale is **±10.24 V**, so ~29,500 counts is **9.22 V**. PAD1 is 11.905 V, so `PREAMP-` sits at about **2.7 V** — and the meter read it as "2 V and dropping". Everything reconciles |

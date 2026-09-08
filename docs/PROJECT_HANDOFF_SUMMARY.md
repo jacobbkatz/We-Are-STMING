@@ -9,6 +9,11 @@ and exactly where things stand right now.
 > written here the moment they are found, which can make it the newest text in the repository.
 > A day was lost on 2026-09-06 re-deriving something already recorded four lines below.
 >
+> **The −15 V distribution fault described in this document's body is RESOLVED.** JP1 pin 5
+> measured **−15.237 V** on 2026-09-07 with a 0.74 V regulator dropout. The body still describes it
+> as present because the body is a record of what was believed at the time. The procedure written
+> to hunt it is archived at `docs/archive/FIND_THE_15V_BREAK.md`.
+>
 > ## READ `sessions/2026-08-31-results.md` FIRST
 >
 > Session 3 (2026-08-31) contradicts **seven** claims in this document, all backed by
@@ -852,6 +857,12 @@ was lost to the items in those two sections than to any real fault.
 ---
 
 ## A.0 STATE AT A GLANCE
+
+> **Paths in this appendix are as they were on the date of each entry.** Several documents have
+> since moved — `DAC_BOOT_STATE.md`, `soft_launch_test_procedure.md` and this file itself now live
+> in `docs/`, and `FIND_THE_15V_BREAK.md` was archived to `docs/archive/` on 2026-09-08 once the
+> fault it hunts was measured as resolved. **The entries are left exactly as written**, because a
+> change log that gets rewritten stops being a record. `CLAUDE.md` §6 has the current locations.
 
 | Stage | Status | Notes |
 |---|---|---|

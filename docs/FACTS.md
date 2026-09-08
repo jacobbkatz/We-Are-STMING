@@ -48,6 +48,7 @@ survived in a dozen files.**
 |---|---|---|---|---|
 | Z range | **±10 V** | DS+MEAS | — | Mode bits `000` |
 | X, Y, bias range | **±3 V** | DS+MEAS | — | Mode bits `101`. Firmware comments say ±5 V and are **wrong** |
+| **AD5761 range bits RA[2:0]** | **`000` = ±10 V · `010` = ±5 V · `101` = ±3 V** | DS | 2026-08-31 | The low 3 bits of the control word. Decode preserved from `docs/archive/`-era work; X, Y and bias all use `101`, so they **cannot** differ, and bias measures ±3 V |
 | Z volts per count | 0.305 mV | CALC | — | 20 V / 65536 |
 | X/Y volts per count | 0.0916 mV | CALC | — | 6 V / 65536 |
 | DAC power-on output | **zero scale**, not 0 V | DS | — | Z at −10 V, X/Y/bias at −3 V |
@@ -57,6 +58,38 @@ survived in a dozen files.**
 | SPI clock | **1 MHz** | — | — | The **ribbon** is the limit; the AD5761R accepts 50 MHz (DS) |
 | AD5761R RESET, LDAC | **internal pull-ups, may float** | DS | 2026-09-07 | Kills the floating-pin hypothesis |
 | Bias path gain | **−1**, verified | MEAS | 2026-08-31 | `BIAS 65535` → +3.000 V DAC, −3 V at the holder |
+
+## Firmware and software constants
+
+| Fact | Value | Prov | Where |
+|---|---|---|---|
+| Serial baud | **115200** | — | `main.cpp` |
+| Command length | **exactly 4 chars, sent as one write** | — | `main.cpp` `CMD_LENGTH` |
+| DAC reference | **2.5 V**, ADR421, measured across C54 | MEAS | schematic + bench |
+| Motor speed | `setSpeed(2)` = **68.27 steps/s** | CALC | `reset()` |
+| ADC averaging | 5-sample rolling, **`ADCR` only** | — | `_get_adc_avg()`. `GSTS` field 5 is raw |
+| PID gains at boot | **0.0, 0.0, 0.0** | — | Not the `INIT_K*` defines, which are in a commented-out line. **Const-current does nothing until `PIDS` is sent** |
+| `APRH` max travel | **10000 steps**, hardcoded | — | `main.cpp`. **Do not use `APRH`** — safety rule 2 |
+| logTable range | index 0–32768, output 0–524287 (20-bit) | — | The generating MATLAB is in the header |
+| Current per ADC count | **3.125 pA** | CALC | 0.3125 mV / 100 MΩ |
+
+## Scan head and isolation geometry
+
+All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001 mm or better.
+
+| Fact | Value | Prov |
+|---|---|---|
+| Lever arm, front screw line to rear screw | **40.000 mm** | MESH |
+| Front screw pair spacing | **35.000 mm** | MESH |
+| Piezo pocket offset from the pivot line | **1.000 mm** | MESH |
+| Piezo free-flex bore | **Ø18.000 × 12.00 mm** | MESH |
+| BasePlate hole grid | **30.0 × 27.0 mm**, offset −7.5 mm in X | MESH |
+| Tower rods | **M8**, 3 off (Ø8.200 bores) | MESH |
+| Platform | **Ø200.00 × 6.00 mm disc** | MESH |
+| Suspension springs | 3 off, ~300 mm. **Rate UNKNOWN** | BOM |
+| Spring hanger tubes | **9 solids**: 3 × 8 mm, 3 × 50 mm, 3 × 85 mm, all Ø25.00 | MESH |
+| Coin weights | **3 cups**, Ø24.00 × 15.00 mm | MESH |
+| Print settings | 0.08 mm layers, 2 walls, 40% scan head / 15% isolation infill | 3MF |
 
 ## Mechanical
 

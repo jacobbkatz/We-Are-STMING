@@ -1,5 +1,28 @@
 # Soft Launch — Verified Test Procedure
 
+> # SCOPE, set 2026-09-08. PARTLY SUPERSEDED — read this box before following anything below.
+>
+> **This is still the only staged bring-up procedure in the project, and Stages 0 to 6 remain the
+> reference for powering the instrument up from cold.** It has not been archived for that reason.
+>
+> **But the project has moved a long way past it, and two kinds of content here are stale:**
+>
+> | Section | Status |
+> |---|---|
+> | §1 serial framing | **Still true.** Also in `docs/COMMANDS.md` and `Code/pc/stm_console.py` |
+> | §2 X and Y are ±3 V | **Still true.** The RA[2:0] decode is now canonical in `docs/FACTS.md` |
+> | §3, §4 GUI bugs | **Still true.** Now listed in `STATUS.md` under "Known code issues" |
+> | §5 "`TEST` is the best piezo test available" | **SUPERSEDED.** There is no usable resonance when the piezo is mounted — do not judge it by ear. See `CLAUDE.md` §3b |
+> | §6 chip-select polarity | **Do not act on it.** The handoff says explicitly: do not change the RDL polarity, it is correct as written |
+> | Stage 6 "preamp sanity check" | **SUPERSEDED.** The preamp state is fault 1 in `STATUS.md`; the current procedure is `docs/NEXT_SESSION_PLAN.md` |
+>
+> **Any number in this document predates 2026-09-07 and may use the superseded ADC full scale.**
+> **`docs/FACTS.md` is canonical for every constant.**
+>
+> **Before following any stage: read `STATUS.md` for the live state and
+> `docs/NEXT_SESSION_PLAN.md` for what is actually next.**
+
+
 I re-read every source file and checked each claim from the earlier draft. **Two corrections and
 one critical new finding came out of it.** Everything below is now quoted from the code rather
 than remembered.

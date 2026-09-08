@@ -263,6 +263,36 @@ Millimetres from the lower-left of the component area. Board is roughly 103 × 8
 Both TO-220 regulators and the power input are on the **right edge**. The DACs run across the
 middle. The −15 V rail crosses about 90 mm to reach U1.
 
+### The −15 V decoupling capacitors, ordered by distance from U18
+
+Preserved from `docs/archive/FIND_THE_15V_BREAK.md` when that procedure was archived on
+2026-09-08. **The fault it was written for is resolved** — JP1 pin 5 measured −15.237 V on
+2026-09-07 — but this ordering is the reusable part: to find any break in a rail, walk outward
+from the regulator through its decoupling capacitors in distance order, and the break lies between
+the last good point and the first bad one.
+
+This ordering is the whole method. Walk outward until the rail disappears, and the break is
+between the last good point and the first bad one.
+
+| Order | Cap | Distance from U18 | Sits next to |
+|---|---|---|---|
+| 1 | **C62** | **6 mm** | U18 itself |
+| 2 | **C47** | 43 mm | J2 / DSUB2 |
+| 3 | **C20** | 47 mm | U4 |
+| 4 | C19 | 48 mm | U4 |
+| 5 | **C34** | 54 mm | U13 |
+| 6 | **C8** | 59 mm | U2 |
+| 7 | C7 | 60 mm | U2 |
+| 8 | **C45** | 73 mm | U10 |
+| 9 | **C14** | 73 mm | U3 |
+| 10 | C13 | 74 mm | U3 |
+| 11 | **C2** | 89 mm | U1 |
+| 12 | C1 | 90 mm | U1 |
+| 13 | **C44** | 92 mm | U9 |
+
+The bolded ones are enough. The others are the second capacitor of a pair on the same chip and
+add nothing unless you get an odd result.
+
 ---
 
 ## 10. Preamp board

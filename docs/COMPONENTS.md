@@ -449,16 +449,18 @@ Motor pins **33, 34, 35, 36 go directly to the ULN2003, not through the ribbon.*
 
 ---
 
-## 12. What is still UNVERIFIED, ranked by how much it matters
+## 12. What is still UNVERIFIED
 
-| # | Unknown | Why it matters | Fastest way to close |
-|---|---|---|---|
-| 1 | **LTC2326-16 absolute maximum input, verbatim** | Decides whether bonding `PREAMP−` while PAD1 is at 11.9 V is safe | One datasheet page from an unrestricted machine. **[DS-SIB] says ±16.5 V, which gives good margin** |
-| 2 | **OPA2227 output swing at ±15 V** | The Z+X headroom claim rests on ~±13 V | One datasheet page |
-| 3 | **Preamp input capacitance C_in** | Sets TIA stability margin and noise gain. Estimated at 20 pF | Hard to measure directly; bound it by observing the step response |
-| 4 | **Whether `CLR` has an internal pull-up** | Completeness only — the power-sequencing explanation already covers the symptom | One page of the AD5761R pin table |
-| 5 | **LTC2326-16 required SPI mode** | The driver uses MODE2 and works | One datasheet page |
-| 6 | **Per-IC decoupling audit** | Nothing suggests a problem | Cross-check the netlist against each IC's supply pins |
+**Moved 2026-09-08. `docs/OPEN_QUESTIONS.md` is the single authoritative list of every open
+question in this project** — hardware, firmware, mechanical and datasheet alike. Keeping a second
+list here meant maintaining two, and in practice only one got updated.
+
+**The six unverified items from this document are all there now**, with the fastest way to close
+each: the LTC2326-16 absolute maximum and required SPI mode, the OPA2227 output swing, the preamp
+input capacitance, whether `CLR` has an internal pull-up, and the per-IC decoupling audit.
+
+**When a datasheet gap is found while working in this file, record it in
+`docs/OPEN_QUESTIONS.md`, not here.**
 
 ---
 

@@ -590,80 +590,36 @@ below about 1 Hz is doing its job against building vibration, which lives around
 
 ---
 
-## 9. Firmware and software constants
+## 9. Constants
 
-| Constant | Value | Where | Confidence |
-|---|---|---|---|
-| Serial baud | 115200 | `main.cpp` | CONFIRMED |
-| Command length | exactly 4 chars, sent as one write | `main.cpp` `CMD_LENGTH` | CONFIRMED |
-| DAC SPI clock | 1 MHz (was 40 MHz) | `AD5761.hpp` | CONFIRMED |
-| ADC SPI clock | 1 MHz (was 40 MHz) | `LTC2326_16.hpp` | CONFIRMED |
-| ADC **REFBUF** | 4.096 V, internal (2 x the 2.048 V bandgap). **This is not the input span** | datasheet | CONFIRMED |
-| **ADC input full scale** | **±10.24 V = 2.5 x REFBUF** | **datasheet, 2026-09-07** | **CONFIRMED — corrected from 4.096** |
-| ADC output format | **two's complement** | datasheet, 2026-09-07 | **CONFIRMED — closes an open question** |
-| DAC reference | 2.5 V, ADR421, measured across C54 | schematic + bench | CONFIRMED |
-| Steps per revolution | 2048 | `STEPS_PER_REVOLUTION` | CONFIRMED |
-| Motor speed | `setSpeed(2)` = 68.27 steps/s | `reset()` | CONFIRMED |
-| ADC averaging | 5-sample rolling, `ADCR` only | `_get_adc_avg()` | CONFIRMED |
-| PID gains at boot | **0.0, 0.0, 0.0** | not the `INIT_K*` defines, which are only in a commented-out line | CONFIRMED |
-| Z clamp in const-current | 10000–50000 | `control_current()` | CONFIRMED |
-| `APRH` max travel | 10000 steps, hardcoded | `main.cpp` | CONFIRMED |
-| logTable range | index 0–32768, output 0–524287 (20-bit) | generating MATLAB in the header | CONFIRMED |
+**Moved 2026-09-08 to `docs/FACTS.md`, which is now the single canonical home for every constant
+in this project** — measurement chain, DACs, firmware, mechanical geometry, all of it, each with
+provenance and date.
 
-**Constant-current mode does nothing until `PIDS` is sent**, because the gains initialise to zero.
-That is easy to mistake for a dead loop.
+This section held two tables that overlapped `FACTS.md` heavily. **A number written in two places
+is a number that will disagree with itself** — which is exactly what happened when the ADC full
+scale was corrected and stale copies survived in six documents.
 
-### Mechanical and electrical constants, with how each is known
+**Nothing was lost.** The firmware constants that lived only here — serial baud, command length,
+motor speed, the boot PID gains, the `APRH` travel cap, the logTable range — are now in
+`docs/FACTS.md` under "Firmware and software constants", and the scan head and isolation geometry
+under its own heading there.
 
-**M** = measured at the bench · **F** = measured from a CAD mesh or netlist file · **S** = specified
-in a datasheet or a part number · **C** = calculated from the above · **I** = inferred
-
-| Constant | Value | How known | Source |
-|---|---|---|---|
-| Preamp transimpedance | 100 MΩ | S | `docs/BOM.md`, preamp gerber |
-| **Max measurable current** | **102.4 nA** | **C** | 10.24 V ÷ 100 MΩ |
-| Current per ADC count | **3.125 pA** | C | 0.3125 mV ÷ 100 MΩ |
-| ADC front-end corner | 103 kHz, Q = 0.5, 2nd order | C | R23–R26 470 R, C27–C30 3.3 nF, from the netlist |
-| ADC front-end gain | exactly 1 | F | U21 output tied to −IN, netlist |
-| Summing-stage gain | exactly −1 per input | F | +IN at AGND, netlist + `docs/WIRING.md` §8 |
-| Worst-case summed output | ±13 V on ±15 V rails | C | Z ±10 V + X ±3 V |
-| Bias path gain | −1, verified | **M** | `BIAS 65535` → +3.000 V DAC, −3 V at the holder |
-| Fine screw pitch | 1/4"-80 = 0.31750 mm/turn | S | Mech Panda's CAD part McMaster 97424A590. **Ours are the same thread but ~30 mm longer** — corrected 2026-09-07 |
-| **Lever arm, front line to rear screw** | **40.000 mm** | **F** | `PiezoPlate.stl` |
-| **Front screw pair spacing** | **35.000 mm** | **F** | `PiezoPlate.stl` |
-| **Piezo pocket offset from pivot line** | **1.000 mm** | **F** | `PiezoPlate.stl` |
-| **Piezo disc seat** | **Ø20.500 × 3.00 mm deep** | **F** | `PiezoPlate.stl` — conflicts with the BOM, see §7 |
-| **Piezo free-flex bore** | **Ø18.000 × 12.00 mm** | **F** | `PiezoPlate.stl` |
-| BasePlate grid | 30.0 × 27.0 mm, offset −7.5 in X | F | `BasePlate.stl` |
-| Plate-to-plate screws | M3, Ø3.200 clear into Ø2.500 self-tap | F | `BasePlate` + `5_intermediate_baseplate` |
-| Preamp box screws | M2, Ø2.300 clear into Ø1.600 self-tap | F | `1_preamp_box_*.stl` |
-| Tower rods | M8, 3 off | F | Ø8.200 bores in `new_body` / `new_topframe` |
-| Platform | Ø200.00 × 6.00 mm disc | F | `Platform.stl` |
-| Suspension | 3 springs, ~300 mm | S | `docs/BOM.md` — rate UNKNOWN |
-| Spring hanger tubes | 9 solids: 3 × 8 mm, 3 × 50 mm, 3 × 85 mm, all Ø25.00 | F | `Spring_hangers_and_extentions.stl` |
-| Coin weights | 3 cups, Ø24.00 × 15.00 mm | F | `coin_weights.stl` |
-| Print layer height | 0.08 mm, 2 walls, 40% / 15% infill | F | the `.3mf` project files |
-| **Print material** | **PETG-CF** | **M** (first-hand, 2026-09-07) | Jacob. The `.3mf` plates say PA-CF and are wrong |
-| Nominal displacement | ~34 nm/V in Z, ~83 nm/V in XY | **I** | Berard's *different* disc. Not ours |
+> **`Code/pc/check_facts.py` machine-checks `FACTS.md` against the rest of the repository.**
+> It cannot check a constant that is written somewhere else. That is the other reason for one home.
 
 ---
 
 ## 10. Open engineering questions
 
-Ranked by what they block. Full list in `docs/OPEN_QUESTIONS.md`.
+**Moved 2026-09-08 to `docs/OPEN_QUESTIONS.md`, which is now the single authoritative list.**
 
-| Question | What would settle it |
-|---|---|
-| **Does the rebuilt preamp box shield conduct end to end?** | Meter every point to the ground wire — near the wire, far corner, across each seam. **Two minutes, and every preamp conclusion depends on it** |
-| **Does the AD5761R have internal pull-ups on CLEAR#/RESET#?** | One datasheet page. Decides whether the four-wire fix cures the hourly DAC dropout |
-| **Is the LTC2326-16 output two's complement?** | One datasheet page. §5 argues strongly for signed, but from coherence, not documentation |
-| **Our scan head lever ratio** | Open `CAD/STM.f3z`'s `.f3d` files in Fusion and measure the rear-screw and tip distances from the front-screw line. This repository cannot read that format |
-| **Is the 119 nA contamination, the shield, or flux?** | D1/D2/D3, and the rail-scaling test — if it is rail-to-input leakage the offset scales with rail voltage |
-| **Which Z direction is toward the sample** | First tunneling, or the CAD. `stm_approach.py` refuses to run without it |
-| **Which sign of `MTMV` advances** | Watch the head with the tip removed |
-| **Our disc's actual nm/V** | Every displacement figure in §4 rests on Berard's 20 mm disc; ours is 25–27 mm |
-| **Piezo disc part number** | UNKNOWN for ours. Berard's is a Murata 7BB-20-6 |
-| **Spring rate and magnet dimensions** | Measure the parts in hand. **Screw sizes are no longer on this list — see §7.** Heat-set inserts may not be needed at all: every printed joint measured is a screw self-tapping into a bare pillar, and no measured hole fits a standard M3 insert |
+This section held a ranked subset of the same questions and had begun to drift from it — it still
+listed the AD5761R pull-up question after the datasheet answered it. **One list, one owner.**
+
+**Everything that was here is in `docs/OPEN_QUESTIONS.md`**, including the ones that gate current
+work: whether the rebuilt shield conducts, our lever ratio, our disc's actual nm/V, which Z
+direction approaches the sample, and which sign of `MTMV` advances.
 
 ---
 

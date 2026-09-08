@@ -281,6 +281,28 @@ close the laptop.
 
 ## 6. Where things live
 
+### Who owns what — check this before writing a fact down
+
+**Established 2026-09-08.** Every kind of information has exactly one authoritative home. Writing
+it anywhere else creates a copy that will drift.
+
+| Information | Canonical home | Everywhere else |
+|---|---|---|
+| **Any constant or measured number** | **`docs/FACTS.md`** | link to it, never restate |
+| **Any open question, UNKNOWN or VERIFY** | **`docs/OPEN_QUESTIONS.md`** | link to it |
+| **What to do next at the bench** | **`docs/NEXT_SESSION_PLAN.md`** | `STATUS.md` summarises, does not duplicate |
+| **Current state, faults, safety rules** | **`STATUS.md`** | — |
+| **Documented conflicts between sources** | **`docs/ENGINEERING_REFERENCE.md`** §11 | — |
+| **What happened on a given day** | **`sessions/YYYY-MM-DD.md`** | append-only, never rewritten |
+| **Pinouts and board layout** | **`docs/WIRING.md`** | — |
+| **Part specs and datasheet facts** | **`docs/COMPONENTS.md`** | — |
+| **What is inside a zip, PDF or mesh** | **`docs/INDEX.md`** | — |
+
+**`python3 Code/pc/check_facts.py` enforces the first row and checks for broken links and
+archived documents cited as current. It runs automatically at session start.**
+
+
+
 | Path | What it is |
 |---|---|
 | `STATUS.md` | Live state. Read first, update last |
@@ -300,9 +322,9 @@ close the laptop.
 | `docs/START_HERE_gotchas.md` | Things that mislead you. Read before touching hardware |
 | `docs/BOM.md` | Every part, with CONFIRMED / CHOICE / UNKNOWN status |
 | `docs/PROJECT_HANDOFF_SUMMARY.md` | Deep history. **Partly superseded** — see section 3 |
-| `docs/soft_launch_test_procedure.md` | The staged bring-up test procedure |
+| `docs/soft_launch_test_procedure.md` | The staged bring-up procedure. **Partly superseded — it carries a scope banner saying which parts.** Stages 0–6 are still the reference for powering up from cold |
 | `docs/DAC_BOOT_STATE.md` | DAC power-on behaviour, read before bringing up analog |
-| `docs/FIND_THE_15V_BREAK.md` | Bench procedure for tracing the −15 V rail |
+| `docs/archive/` | **Superseded procedures, kept with banners.** Not current instructions — each says what replaced it and where its unique content went |
 | `Code/teensy/` | Teensy 4.1 firmware, PlatformIO |
 | `Code/pc/` | Python tools that talk to the Teensy over serial |
 | `Code/pc/stl_features.py` | Measures the printed parts straight out of the STL meshes. **Run this instead of guessing a hole size** |

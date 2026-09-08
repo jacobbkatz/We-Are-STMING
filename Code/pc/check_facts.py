@@ -86,6 +86,66 @@ def live_files():
                 yield os.path.join(root, n)
 
 
+def check_links():
+    """Every `path/to/file.md` mentioned in prose should exist.
+
+    Added 2026-09-08 after files were archived into docs/archive/. A reference
+    that silently rots is worse than no reference: it sends a future session
+    looking for something and it comes back with nothing.
+    """
+    ref = re.compile(r'`((?:docs|sessions|Code|CAD|PCB|gerbers)/[A-Za-z0-9_./-]+\.(?:md|py|hpp|cpp|json|txt))`')
+    bad = []
+    for path in live_files():
+        if not path.endswith('.md'):
+            continue
+        rel = os.path.relpath(path, REPO)
+        hist = False
+        for i, line in enumerate(open(path, encoding='utf-8', errors='replace'), 1):
+            # The handoff's Appendix A is a dated change log. The paths in it were
+            # correct when written and several files have moved since. Rewriting
+            # them would falsify history, so stop checking from there on.
+            if rel.endswith('PROJECT_HANDOFF_SUMMARY.md') and re.match(r'#+ +A\b|#+ +Appendix', line):
+                hist = True
+            if hist:
+                continue
+            for target in ref.findall(line):
+                if 'YYYY' in target or 'MM-DD' in target:
+                    continue          # a filename template, not a reference
+                if not os.path.exists(os.path.join(REPO, target)):
+                    bad.append((rel, i, target))
+    return bad
+
+
+def check_archive_refs():
+    """An archived document must not be cited as if it were current.
+
+    docs/archive/ holds superseded procedures. Anything pointing at one should
+    say so, or a future session will follow instructions that no longer apply.
+    """
+    archive = os.path.join(REPO, 'docs', 'archive')
+    if not os.path.isdir(archive):
+        return []
+    names = [n for n in os.listdir(archive) if n.endswith('.md')]
+    ok = re.compile(r'archive|supersed|archiv|preserved|no longer|历史|was written|resolved', re.I)
+    bad = []
+    for path in live_files():
+        if not path.endswith('.md') or '/archive/' in path:
+            continue
+        rel = os.path.relpath(path, REPO)
+        if rel.startswith('sessions'):
+            continue
+        hist = False
+        for i, line in enumerate(open(path, encoding='utf-8', errors='replace'), 1):
+            if rel.endswith('PROJECT_HANDOFF_SUMMARY.md') and re.match(r'#+ +A\b|#+ +Appendix', line):
+                hist = True
+            if hist:
+                continue
+            for n in names:
+                if n in line and not ok.search(line):
+                    bad.append((rel, i, n))
+    return bad
+
+
 def main():
     pats = retired_patterns()
     if not pats:
@@ -119,9 +179,31 @@ def main():
                         continue
                 hits.append((rel, i, literal, replacement, line.strip()[:88]))
 
-    if not hits:
-        print("check_facts: clean. No retired value found in a live document.")
+    links = check_links()
+    arch = check_archive_refs()
+
+    if not hits and not links and not arch:
+        print("check_facts: clean.")
+        print("  - no retired value in a live document")
+        print("  - no broken file reference")
+        print("  - no archived document cited as current")
         return 0
+
+    if links:
+        print("check_facts: %d reference(s) to a file that does not exist:\n" % len(links))
+        for rel, ln, target in links:
+            print("    %s:%d  ->  %s" % (rel, ln, target))
+        print()
+
+    if arch:
+        print("check_facts: %d reference(s) to an ARCHIVED document that do not say so:\n"
+              % len(arch))
+        for rel, ln, name in arch:
+            print("    %s:%d  mentions %s" % (rel, ln, name))
+        print("  Say 'archived' or 'superseded' on the line, or point somewhere current.\n")
+
+    if not hits:
+        return 1
 
     print("check_facts: %d possible stale value(s).\n" % len(hits))
     print("Each line below still contains a number docs/FACTS.md lists as RETIRED.")
