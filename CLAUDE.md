@@ -476,6 +476,29 @@ seconds.** These four rules are what would have caught them, and they cost almos
    symptom, then test each one** — the first two passes each followed a single thread to a tidy
    ending and stopped there.
 
+### The one thing that actually limits the damage — added 2026-09-09
+
+**Errors are not the problem. Acting on them before Jacob or Nuh can see the reading is.** Every
+one of the nine failures on 2026-09-09 was caught by them — but only after the work was done,
+written into the repository, and committed. The cost was never the mistake; it was the twenty
+minutes and the commit that followed it.
+
+**So before spending effort on any of these three, say in one sentence which reading you took:**
+
+| Trigger | Why |
+|---|---|
+| **They are about to spend money** | A wrong reading costs a second order and shipping |
+| **An instruction that touches hardware** | §3c already covers the arithmetic; this covers the intent |
+| **Writing a claim about physical reality into the repository** | It is inherited as fact by the other computer |
+
+**"You mean the flux for the preamp, not the piezo paste — confirming before I write it up"** costs
+one line and would have saved the entire exchange that produced this rule. **They correct it in one
+word if it is wrong.**
+
+**This is prose, and prose has failed here before.** It is worth adding only because it differs
+from the rules above in kind: those ask for better judgement, which is the thing that failed. This
+one asks to **expose the judgement before acting on it**, which is checkable by someone else.
+
 > **What was NOT the cause.** `CLAUDE.md` roughly doubled in length over four days and that looked
 > like the obvious culprit. **It was not, and there is no evidence it was.** Every defect found was
 > a statement that had become **untrue** — a citation pointing at a renumbered rule, a list claiming
