@@ -6,6 +6,8 @@
 found that **the box already fits the board**, that **box v2 must not be printed**, and that
 **C2 is reverse-connected in the source design**. See [`sessions/2026-09-09.md`](sessions/2026-09-09.md)
 and the purchase list in [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
+**Nothing needs buying but consumables** — the flux (our no-clean one is the wrong type for a
+100 MΩ input), cleaning supplies and hook-up wire. The solder we own is fine.
 
 Before that, 2026-09-08: Jacob, remote. Repository audit and migration: `docs/FACTS.md` and
 `Code/pc/check_facts.py` added, superseded documents archived with banners. See
@@ -657,7 +659,7 @@ over** — it is the measurement reference, and it is repairable without a rebui
 > **The order below does not depend on the absolute-maximum rating at all**, because the preamp
 > rebuild can be validated with a meter at PAD1, which does not involve the ADC.
 
-### Two unpowered checks, added 2026-09-09 — do these before anything is switched on
+### One required unpowered check, added 2026-09-09 — do it before anything is switched on
 
 **A. Check C2's polarity.** Two minutes with the beeper, board unpowered. See fault 1d. A
 reverse-biased tantalum on the −15 V rail is a fire risk, and this one is reverse-connected in the
