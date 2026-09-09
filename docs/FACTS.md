@@ -136,9 +136,10 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | **C2 polarity in the source design** | **Reversed.** Anode on −15 V, cathode on GND | NETLIST | 2026-09-08 |
 | IC1 pin 8 | **No internal connection** on the OPA627; **amplifier substrate** on the OPA124, where the datasheet says to ground it when no guard is used. Tied to GND on our board, which is correct either way | DS | 2026-09-08 |
 | Copper pours on the preamp board | **None.** Zero filled regions — **there is no guard ring** | NETLIST | 2026-09-08 |
-| Keystone **11301** mounting hole | **Ø2.184 mm (0.086")** — our hole is **0.076 mm under**, so it is a **press fit**, tighter than Keystone specify | DS | 2026-09-08 |
+| Keystone **11301** mounting hole | **VERIFY — do not rely on this.** Recorded as Ø2.184 mm (0.086"), but 0.086" is also listed as this part's **turret head** diameter, and a PTFE-insulated terminal's hole must clear its insulator, so the two cannot both be right. **A 2026-09-09 attempt to reach Keystone, DigiKey, Mouser, RS and Octopart was blocked by the network**; distributor snippets contradict each other. **Measure the part with calipers when it arrives.** See `docs/OPEN_QUESTIONS.md` | DS, disputed | 2026-09-08, questioned 2026-09-09 |
 | Keystone **11301** height above board | **6.35 mm (0.250")**; overall 8.38 mm, below-flange 2.03 mm, flange Ø3.18 mm | DS | 2026-09-08 |
-| **Standoff-hole edge margin** | **1.486 mm** as drilled; **1.448 mm** if opened to the 11301's Ø2.184 spec | CALC | 2026-09-08 |
+| **Standoff-hole edge margin** | **1.486 mm** as drilled; **1.448 mm** if opened to Ø2.184; **0.815 mm** if opened to the 11311's Ø3.45 — **do not do that** | CALC | 2026-09-08 |
+| Keystone **11311** — **the part we actually own** | **2 off**, DigiKey order 100750867. Needs Ø3.45 mm, our hole is Ø2.108 mm, **1.34 mm undersize. Confirmed at the bench: it does not fit.** The 11301 is on order | ORDER + BENCH | 2026-09-09 |
 | Keystone **11311** mounting hole | **Ø3.45 mm (0.136")** — **does NOT fit our Ø2.108 hole.** Head is 2.03 mm; the flange needs the 3.45 | DS | 2026-09-08 |
 
 ---

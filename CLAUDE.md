@@ -214,6 +214,41 @@ a meter and a bench.** Checking is your job, not theirs.
 
 ---
 
+## 3d. What we physically own is not in any design file. Ask.
+
+**Added 2026-09-09, after getting this wrong four times in one session.**
+
+Sections 3b and 3c are both about work you can do yourself: search the repository, get the
+datasheet, do the arithmetic. **This section is the opposite case — the one where no amount of
+searching will help, because the answer was never written down.**
+
+| I inferred | From | Actually |
+|---|---|---|
+| The preamp board was hand-populated | `docs/BOM.md` listing its parts individually | **JLCPCB PCBA, 2 off.** Most of those parts arrived soldered down |
+| We already own the Keystone 11301 standoff | `docs/BOM.md` "CONFIRMED", and the shopping list's "already have" | **We own the 11311.** It needs a hole 1.34 mm bigger than ours and would not fit |
+| Nobody had checked C1/C2 polarity | Nothing said otherwise | **JLCPCB raised it at order time** and it was settled by email |
+
+**`docs/BOM.md` is a specification. It records what was chosen, not what arrived.** A netlist
+records what was drawn. A shopping list records what someone intended to buy. **None of them is
+an inventory**, and reading one as if it were is how all three errors above happened.
+
+**So, before stating anything about what is in the room — a part we own, a quantity, how a board
+was assembled, what a supplier did or asked:**
+
+1. **Check [`docs/INVENTORY.md`](docs/INVENTORY.md).** That is the only file that records physical
+   reality, and it carries provenance: an order number, a photo, a bench observation, or "Jacob
+   said so", with a date.
+2. **If it is not there, ask.** One question costs a sentence. A wrong assumption about what is on
+   the bench costs a purchase, a rework, or a part.
+3. **If you cannot ask, write UNKNOWN.** Never fill the gap by inferring from a design document.
+4. **When they tell you, write it into `docs/INVENTORY.md` in the same session.** These facts live
+   in Jacob and Nuh's heads and in their email. Anything that stays in the conversation is lost
+   the moment the context is compacted — which is exactly how this failure happened.
+
+> **An order confirmation outranks every document in this repository, including this one.**
+
+---
+
 ## 4. Hardware safety rules — never violate these
 
 These are in `STATUS.md` too. They are repeated here because breaking one can cost hardware.
@@ -297,6 +332,7 @@ it anywhere else creates a copy that will drift.
 | **Pinouts and board layout** | **`docs/WIRING.md`** | — |
 | **Part specs and datasheet facts** | **`docs/COMPONENTS.md`** | — |
 | **What is inside a zip, PDF or mesh** | **`docs/INDEX.md`** | — |
+| **What we physically own** | **`docs/INVENTORY.md`** | `docs/BOM.md` is a specification, never an inventory |
 
 **`python3 Code/pc/check_facts.py` enforces the first row and checks for broken links and
 archived documents cited as current. It runs automatically at session start.**
@@ -316,6 +352,7 @@ archived documents cited as current. It runs automatically at session start.**
 | `docs/NEXT_SESSION_PLAN.md` | **The prioritised plan for the next bench session**, written to be executed with no memory of any conversation |
 | `docs/INDEX.md` | **What is inside every archive and binary.** Check before deriving anything |
 | `docs/OPEN_QUESTIONS.md` | Every UNKNOWN and VERIFY in the project, in one place |
+| **`docs/INVENTORY.md`** | **What is physically in the room**, with provenance — order numbers, photos, bench observations. **Not the BOM.** The BOM says what was specified; this says what arrived. **Never infer what we own from a design file** — see section 3d |
 | `docs/UPSTREAM_MECHPANDA.md` | **The design we are actually building.** Schematic-derived facts, what differs from upstream, and the ADC reference answer |
 | `docs/UPSTREAM_BERARD.md` | Reading notes from Dan Berard's build. **Context, not our design** — ours is Mech Panda's apart from the preamp. Says which of his numbers apply to us and which do not |
 | `docs/OTHER_BUILDERS.md` | What independent DIY STM builders have done. Leads to test, not specifications |

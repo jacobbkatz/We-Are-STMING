@@ -1,7 +1,8 @@
 # Preamp rebuild — what to buy
 
-**2026-09-08.** The board is populated. Left to do: press in the standoff, air-mount the 100 MΩ,
-wire the five JP1 holes and the tip lead, clean it, mount it. We have the standoff and the resistor.
+**2026-09-08, revised 2026-09-09.** The board came **assembled (PCBA) from JLCPCB**, 2 off. Left to do: press in the standoff, air-mount the 100 MΩ,
+wire the five JP1 holes and the tip lead, clean it, mount it. **We have the resistor. We do NOT
+have a usable standoff** — see the standoff section below.
 
 ## Buy
 
@@ -39,12 +40,38 @@ wire the five JP1 holes and the tip lead, clean it, mount it. We have the stando
 > Use the **continuity tester** for opens and shorts and a **gentle tug on each wire** for cold
 > joints — a cold joint still conducts, so the meter alone will not catch it.
 
-## Only if the C2 check fails
+## Buy — the standoff. Corrected 2026-09-09.
 
-**4.7 µF 50 V X7R ceramic, 1206/1210, ×4.** Used to replace C2 if the polarity check shows it
-reverse-biased. C2 is a tantalum whose anode sits on −15 V in the source design; a reverse-biased
-tantalum leaks, heats and can fail short. **Ceramics are not polarized**, so the problem cannot come
-back. A few pounds of insurance.
+**Keystone 11301, ×4.** DigiKey part **36-11301-ND**, about $2.81 each.
+
+**We do not own this part, despite `docs/BOM.md` having said "CONFIRMED" and this list having said
+"already have".** Both were wrong. What we own is the **11311** (DigiKey order 100750867, 2 off,
+2026-08-02), which needs a Ø3.45 mm mounting hole against our board's Ø2.108 mm — **1.34 mm
+undersize, and confirmed at the bench that it will not go in.**
+
+**Do not open the hole to fit the 11311.** The hole is 2.540 mm from the board edge; at Ø3.45 mm
+only **0.815 mm** of material would remain, under the one component the instrument's sensitivity
+depends on.
+
+> **VERIFY before pressing.** The 11301's own mounting-hole spec is disputed — `docs/FACTS.md`
+> records Ø2.184 mm, but that figure is also listed as the part's turret-head diameter and the two
+> cannot both be right. Every distributor and manufacturer site was unreachable on 2026-09-09.
+> **Put calipers on the part and on the board hole when it arrives.**
+
+## Buy — the C2 replacement ceramics
+
+**4.7 µF 50 V X7R ceramic, 1812 package, ×4.** KEMET `C1812C475K5RACTU` or TDK
+`C4532X7R1H475K200KB`. Put these on the same DigiKey order as the standoff so shipping is paid once.
+
+**1812, not 1206/1210 — corrected 2026-09-09 from the gerber.** The C2 pads are **2.750 × 1.800 mm
+at 5.250 mm centres**, leaving a **2.500 mm gap**. A 1206 or 1210 is 3.2 mm long and would land only
+**0.35 mm on each pad**. An 1812 is 4.5 mm and lands a full 1 mm.
+
+**Why buy rather than just rotating the tantalum.** Rotating works and costs nothing, but if C2 is
+reversed it has been held at 15 V reverse for weeks and its dielectric is degraded. **Ceramics are
+not polarized**, so once fitted the problem cannot recur on either board.
+
+> **C1 is correctly connected. Do not rotate or replace C1.** Only C2 is in question.
 
 ## Do not buy
 
@@ -56,12 +83,18 @@ straight into the holes) · PTFE wire (the only high-impedance run is the tip le
 ## Already have
 
 FX-888DX and tips · solder wick · tip tinner · brass wool · fine tweezers · flush cutters ·
-magnifier · helping hands · calipers · safety glasses · nitrile gloves · Keystone 11301 standoff ·
+magnifier · helping hands · calipers · safety glasses · nitrile gloves ·
 100 MΩ resistor · multimeter · bench PSU · 40 AWG magnet wire (`docs/BOM.md` §5, for the tip lead)
+
+> **The Keystone 11301 was listed here in error until 2026-09-09.** We own the **11311**, which
+> does not fit. See the standoff section above and [`docs/INVENTORY.md`](INVENTORY.md).
+> **Check this list against `docs/INVENTORY.md`, not against `docs/BOM.md`** — the BOM is a
+> specification and says what was chosen, not what arrived.
 
 ## Only if needed
 
-**#44 drill (2.184 mm)** — only if the standoff will not press into the Ø2.108 mm hole. That is
-exactly Keystone's specified hole size, and it still leaves 1.45 mm of board to the edge.
+**#44 drill (2.184 mm)** — only if the 11301 will not press into the Ø2.108 mm hole. It leaves
+1.45 mm of board to the edge, which is safe. **It was recorded as exactly Keystone's specified hole
+size; that is now VERIFY** — measure the part first, and only open the hole if the part demands it.
 **A 60–70 °C oven or dehydrator** — drying the board after washing, to drive moisture out of the
 FR-4. **Board only, never the printed box**: PETG softens near 80 °C.

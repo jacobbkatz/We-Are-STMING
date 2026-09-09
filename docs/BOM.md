@@ -94,13 +94,19 @@ keep soldering heat off the chip, and they let you swap a dead op-amp without de
 
 ## 3. Preamplifier board
 
+> **This section is a SPECIFICATION, not a record of what we own.** Corrected 2026-09-09 after the
+> standoff row below was found to name a part we never bought. **The preamp boards came assembled
+> (PCBA) from JLCPCB, 2 off**, with IC1 and C1–C4 and R1 already fitted — so most of this section
+> describes parts that arrived soldered down, not parts to buy.
+> **For what is physically in the room, read [`docs/INVENTORY.md`](INVENTORY.md).**
+
 | Item | Spec | Qty | Status |
 |---|---|---|---|
 | PCB | 20.625 x 15.23 mm, 2-layer | 1 | CONFIRMED, Gerbers included |
 | **Op-amp** | **OPA627AU**, SOIC-8 | 1 | CONFIRMED on our board — **this is the part Mech Panda used, and our parts follow Mech Panda.** The PCB is Berard's design, so its Eagle source says `OPA124U`, his original part; he names the OPA627 as a good substitute. **Both work here** — ~1 pA bias current either way. Reading the marking would pin the stability margin (~7x vs ~2x) but blocks nothing |
 | **Feedback resistor** | **100 Mohm** | 1 | CONFIRMED value |
 | Tantalum capacitor | 4.7 uF 35 V | 1 to 2 | CONFIRMED from a label we could read |
-| **PTFE standoff terminal** | **Keystone Electronics 11301** | 1 | **CONFIRMED 2026-09-05** — the exact part Berard names |
+| **PTFE standoff terminal** | **Keystone Electronics 11301** | 1 | **SPECIFIED, NOT OWNED — corrected 2026-09-09.** The exact part Berard names, and the right one. **We do not have it.** What we bought is the **11311** (DigiKey order 100750867, 2 off), which needs a Ø3.45 mm hole against our Ø2.108 mm and **would not fit at the bench.** See `docs/INVENTORY.md` |
 | 5-pin header | 2.54 mm pitch | 1 | for JP1 |
 
 ### About the 100 Mohm resistor

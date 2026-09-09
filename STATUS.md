@@ -1,13 +1,22 @@
 # Current status
 
-**Last updated:** 2026-09-09
-**Updated by:** Nuh. **Documentation only — no hardware was powered and nothing was measured on
-2026-09-09.** Worked out the materials and technique for finishing the preamp, and in doing so
+**Last updated:** 2026-09-09 (later)
+**Updated by:** Jacob, remote. **Documentation only — nothing was powered or measured.** C2's
+reverse connection re-verified independently, and **established that it cannot cause the 119 nA**
+(fault 1d). **We do not own the Keystone 11301** — we own the 11311, which does not fit; `BOM.md`
+and the shopping list were both wrong. New **[`docs/INVENTORY.md`](docs/INVENTORY.md)** and
+**`CLAUDE.md` §3d**: what we physically own is not derivable from any design file — ask, never
+infer. See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md).
+
+Earlier on 2026-09-09: Nuh. **Documentation only — no hardware was powered and nothing was
+measured.** Worked out the materials and technique for finishing the preamp, and in doing so
 found that **the box already fits the board**, that **box v2 must not be printed**, and that
 **C2 is reverse-connected in the source design**. See [`sessions/2026-09-09.md`](sessions/2026-09-09.md)
 and the purchase list in [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
-**Nothing needs buying but consumables** — the flux (our no-clean one is the wrong type for a
-100 MΩ input), cleaning supplies and hook-up wire. The solder we own is fine.
+**Corrected 2026-09-09 (later): the standoff also has to be bought.** Otherwise consumables only —
+the flux (our no-clean one is the wrong type for a 100 MΩ input), cleaning supplies and hook-up
+wire. The solder we own is fine. **The Keystone 11301 is NOT in the drawer** — we own the 11311,
+which does not fit. See [`docs/INVENTORY.md`](docs/INVENTORY.md).
 
 Before that, 2026-09-08: Jacob, remote. Repository audit and migration: `docs/FACTS.md` and
 `Code/pc/check_facts.py` added, superseded documents archived with banners. See
@@ -462,8 +471,38 @@ short-and-ignite failure.
 
 **This is an upstream design error, in the board we fabricated from. Nobody here caused it.**
 
-> **UNKNOWN: how C2 is actually fitted on our physical board.** Nobody has looked. It is possible
-> whoever assembled it fitted the part against the silkscreen and got it right.
+> ### It cannot explain the 119 nA. Established 2026-09-09.
+>
+> **The input node is galvanically isolated.** `N$4` has exactly one connection in the whole
+> design — `IC1.-IN`. One pad, no track, no via. C2 connects the −15 V net to GND and touches
+> neither.
+>
+> **And C2's pads sit at −15 V and 0 V whichever way the part faces.** The copper, the soldermask
+> and any contamination on them see an identical voltage map either way, so the surface-leakage
+> picture toward the input pad is unchanged. The only thing polarity alters is leakage *inside*
+> the capacitor, anode to cathode, which flows −15 V to GND entirely within the supply loop.
+>
+> **Nor the other symptoms.** The 45-minute warm-up drift does not fit: C2 sits 7.1 mm from IC1,
+> a 6032 part on a 20 x 15 mm board settles thermally in a minute or two, and raising it 1 degree
+> would need roughly 10 mW, about 0.7 mA of leakage, which would be obvious on the supply. The
+> rail measured -15.237 V on 2026-09-07, healthy. The OPA627's PSRR is over 100 dB.
+>
+> **So this is a reliability item, not a lead.** Do not let it delay the rebuild, and do not
+> re-rank the 119 nA candidates because of it.
+
+> **UNKNOWN: how C2 is actually fitted on our physical board.** Nobody has looked.
+>
+> **Two things established 2026-09-09 that sharpen this, and one that de-escalates it:**
+>
+> - **There is no polarity marking on the silkscreen.** Both C1 and C2 pads carry an identical
+>   plain rectangle (aperture D16 in `tunnelAmp-F_Silkscreen.gbr`); the Eagle footprint's anode
+>   stripe sits on layer 51 (tDocu) and is never plotted. So "they fitted it against the
+>   silkscreen and got it right" **is not available as an explanation** — there was nothing to
+>   fit it against.
+> - **JLCPCB raised this at order time.** Jacob, 2026-09-09: they could not determine the polarity
+>   of C1 and C2 and asked. **How it was answered is UNKNOWN** — it is in the order email, not in
+>   this repository. See `docs/INVENTORY.md`.
+> - **It cannot be causing the 119 nA**, so it does not block the fault investigation. See below.
 
 **The check — two minutes, board unpowered.** On an SMD tantalum the printed stripe marks the
 **anode**. (On an aluminium electrolytic it marks the cathode. They are opposite.) Buzz each C2
@@ -474,8 +513,21 @@ terminal to JP1 pin 1:
 | **Striped end beeps to ground** | Correct. Nothing to do |
 | **Unstriped end beeps to ground** | **Reverse-biased. Fix before powering** |
 
-**If reversed:** replace C2 with a **4.7 µF 50 V X7R ceramic** — a two-pad rework, and a ceramic is
-not polarized so it cannot recur. Rotating the tantalum 180° also works.
+> **C1 IS CORRECT. DO NOT ROTATE OR REPLACE C1.** Its anode is on +15 V, which is right. Only C2
+> is in question. Rotating both would reverse-bias the good one and create the fault on the
+> positive rail.
+
+**If reversed:** replace C2 with a **4.7 µF 50 V X7R ceramic**, **1812 package** — a two-pad
+rework, and a ceramic is not polarized so it cannot recur. **1812, not 1206/1210:** the pads are
+2.750 x 1.800 mm at 5.250 mm centres, so the gap is 2.500 mm; a 3.2 mm part lands only 0.35 mm on
+each pad, an 1812 lands a full 1 mm.
+
+**Prefer replacing to rotating.** Rotating the tantalum works electrically and costs nothing, but
+if it has been reverse-biased it has sat at 15 V reverse for weeks, and a tantalum that survives
+that has a degraded dielectric. Rotating puts a stressed part back on the rail.
+
+**A 6032 tantalum has two large thermal pads.** Removing it wants hot air or two irons; one iron
+is how pads lift, on the small board that carries our input node. Clean thoroughly afterwards.
 
 **Worth checking on the old board too.** It has been powered for weeks, and a reverse-biased
 tantalum on the negative rail is a candidate for rail behaviour nobody has explained.
@@ -661,9 +713,11 @@ over** — it is the measurement reference, and it is repairable without a rebui
 
 ### One required unpowered check, added 2026-09-09 — do it before anything is switched on
 
-**A. Check C2's polarity.** Two minutes with the beeper, board unpowered. See fault 1d. A
-reverse-biased tantalum on the −15 V rail is a fire risk, and this one is reverse-connected in the
-design we fabricated from.
+**A. Check C2's polarity.** Two minutes with the beeper and a magnifier, board unpowered. See
+fault 1d. **Not a blocker** — established 2026-09-09 that it cannot cause the 119 nA, and the
+board has already run powered for weeks on a healthy rail. But a reverse-biased tantalum is a
+known degradation mode, JLCPCB flagged the polarity at order time, and there is **no polarity
+marking on the silkscreen** to have guided them. **C1 is correct — do not touch C1.**
 
 **B. While the magnifier is out, read the op-amp's package marking.** Optional, and it blocks
 nothing. **OPA627AU is expected** — that is Mech Panda's part and our parts follow Mech Panda; the
@@ -687,7 +741,7 @@ current either way. Reading it just pins the stability margin (~7x vs ~2x).
    > mounting holes are **11.430 mm apart** — Ø2.261 mm clearance over Ø1.600 mm M2 pilots.
    > The retired `5.93 mm` figure was wrong: it was measured between the Ø2.108 mm **PTFE standoff hole** and one
    > mounting hole; the board has **three** non-plated holes and the third, at (4.127, 1.905), was
-   > missed. See `docs/FACTS.md` and `docs/FACTS.md`.
+   > missed. See `docs/FACTS.md`.
    >
    > **Do not print `1_preamp_box_base_v2_screwmount.stl`.** Its added boss at (4.04, 9.12) lands
    > on the PTFE standoff hole — it would put a screw and a carbon-fibre-filled pillar at the
@@ -699,6 +753,10 @@ current either way. Reading it just pins the stability margin (~7x vs ~2x).
    by the coax bisection. Rules in `sessions/2026-08-31-results.md` §6, plus:
    - **No cyanoacrylate anywhere.** Screws into the new box's pilots.
    - **Do not glue the PTFE standoff.** Keystone 11301, per `docs/UPSTREAM_BERARD.md` §4.
+     **We do not own the 11301 — corrected 2026-09-09.** What we have is the **11311** (2 off),
+     which needs a Ø3.45 mm hole against our Ø2.108 mm and **would not fit at the bench.**
+     **Do not open the hole to suit it** — that leaves 0.815 mm of board to the edge. The 11301
+     is on order. See `docs/INVENTORY.md`.
    - **Clean the flux thoroughly** — Berard's own warning, and still a live candidate.
    - **Tip lead in fine wire, not coax** — decided 2026-09-07.
 
