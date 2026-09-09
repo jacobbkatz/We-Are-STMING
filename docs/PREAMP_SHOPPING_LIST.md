@@ -15,6 +15,14 @@ wire the five JP1 holes and the tip lead, clean it, mount it. We have the stando
 | **Foam or polyester swabs** | Cleaning into corners and around the standoff | Cotton buds shed and hold moisture — the two things we are trying to remove |
 | **Stranded silicone wire, 28–30 AWG** | The five JP1 holes, replacing the jumper wires | Not electrical — nothing on JP1 is high impedance. **Mechanical:** the preamp sits on the scan head, and stiff wire carries building vibration into the instrument. Silicone stays limp and will not shrink back when soldered |
 
+> **Why we clean even a flux sold as "no-clean".** "No-clean" means the residue is benign enough to
+> leave on a **normal** board. The pass mark is **IPC J-STD-004B's surface insulation resistance
+> requirement: 100 MΩ minimum.** Our feedback resistor is **100 MΩ** — so residue that *passes* the
+> standard is only guaranteed to be about as resistive as the thing we measure through. 100 MΩ from
+> the input node to a ±15 V rail injects **150 nA**, more than the instrument's whole measurable
+> range and larger than the offset we are already chasing. **On this board there is no flux you can
+> leave on.** So: clean whatever we use, and buy the one that comes off completely — rosin.
+
 ## Buy only if we do not already have it
 
 | Item | Used for | Why |
