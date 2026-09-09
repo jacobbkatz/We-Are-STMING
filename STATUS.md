@@ -1,21 +1,27 @@
 # Current status
 
 **Last updated:** 2026-09-09 (latest)
-**Updated by:** Jacob, remote. **Documentation only — nothing was powered or measured.** Answered
-"which solder do we buy": **two different solders, and the repository appeared to contradict itself
-because one rule was written without its scope.** The lead-free wire we own covers every electrical
-joint — do not buy solder wire. **The piezo quadrant wires, and nothing else, need Sn42/Bi58
-low-temp paste: Chip Quik `SMDLTLFPT4`, 5 cc / 15 g syringe.** Buy the small syringe, not a jar —
-**shelf life, not quantity, is the limit, so refrigerate it or buy it when the piezo work starts.**
-Also **largely closed the piezo iron-temperature question** open since 2026-09-05: set the station
-to **190 C** and dwell stops mattering, because nothing can get hotter than the tip.
-**And the flux, asked separately: the chosen Chip Quik RMA791 is JAR-ONLY — no syringe exists.**
-The syringe alternatives print `ROL0` (rosin) while their own vendors call them "synthetic", the
-same trap that produced the wrong flux we already own, and **no primary datasheet could be opened
-because chipquik, mouser and amazon are all blocked from this session.** So: **keep the jar, buy
-empty 10 cc Luer-lock syringes and load from it.** See
-[`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 10 and 11, and the new flux
-section in [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
+**Updated by:** Jacob, remote. **Documentation only — nothing was powered or measured here.**
+
+> **Two changes of state, both from Jacob rather than from any file.**
+>
+> **1. The piezo scanner is built.** `SAID` 2026-09-09. **How it was built has not been stated and
+> is not inferable** — four explicit UNKNOWNs are logged in
+> [`docs/INVENTORY.md`](docs/INVENTORY.md), including **whether the four quadrant wires were
+> labelled**, which is the one worth answering soon. The Sn42/Bi58 purchase is moot.
+>
+> **2. Four items ordered, arriving 2026-09-11:** the **Chip Quik RMA791 rosin flux jar** (ROL0 —
+> the correct flux), a **manual syringe dispenser** to load from it, an **800 pc M2 screw
+> assortment**, and **assorted heat shrink**. **Use the M2×6 — an M2×8 bottoms out** in the box's
+> 5.00 mm blind pilot (measured from the mesh, see [`docs/FACTS.md`](docs/FACTS.md)).
+>
+> **THE CLEANING SUPPLIES WERE NOT BOUGHT.** No 99% IPA, distilled water, brushes, lint-free wipes
+> or foam swabs. **Rosin flux left on this board is a leakage path at the node the project is
+> blocked on. Do not solder the preamp until the cleaning kit is in the room.**
+> **Copper tape is now the only other unbought item.**
+
+See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 11 and 12, and
+[`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
 
 Earlier on 2026-09-09 (later): Jacob, remote. C2's
 reverse connection re-verified independently, and **established that it cannot cause the 119 nA**

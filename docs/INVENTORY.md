@@ -61,7 +61,11 @@ fitted" line and by Jacob 2026-09-09.
 | **40 AWG magnet wire** | — | `SAID` | For the tip lead |
 | **Solder, Sn99.3/Ag0.3/Cu0.7 lead-free** | — | `SAID` | Correct for this work. **Do not buy more** |
 | **Low-temp solder paste, Sn42/Bi58** | **UNKNOWN** | — | **Nobody has said whether we own any.** Needed for the piezo quadrant wires and nothing else. `docs/BOM.md` §5 specifies it; a specification is not an inventory. **Ask before ordering** |
-| **Flux, non-rosin no-clean** | — | `SAID` | **Wrong type for this board.** Replacement on order |
+| **Flux, non-rosin no-clean** | — | `SAID` | **Wrong type for this board.** Superseded by the RMA791 below. **Do not use it on the preamp** |
+| **Chip Quik RMA791 rosin paste flux, 50 g jar** | 1 | `ORDER` Amazon, **arriving 2026-09-11** | **The correct flux.** ROL0 — rosin, low activity, halide-free. **Must still be cleaned off** — see `docs/PREAMP_SHOPPING_LIST.md` |
+| **Manual flux/glue syringe dispenser** + 10 cc syringe + blunt tips | 1 | `ORDER` Amazon, **arriving 2026-09-11** | Load it from the RMA791 jar. **Solves the jar-vs-syringe question** |
+| **M2 self-tapping pan-head screws, 800 pc assortment** | M2x4 to M2x20 | `ORDER` Amazon, **arriving 2026-09-11** | **Use the M2x6.** M2x8 bottoms out in the box pilot — see `docs/FACTS.md` |
+| **Heat shrink tubing, assorted kit** | — | `ORDER` Amazon, **arriving 2026-09-11** | **VERIFY whether it is adhesive-lined (dual-wall).** Either way, **none at the input node** — the adhesive lining outgases |
 | Hakko FX-888DX + tips · solder wick · tip tinner · brass wool · fine tweezers · flush cutters · magnifier · helping hands · calipers · safety glasses · nitrile gloves · multimeter · bench PSU | — | `SAID` | |
 
 ---
@@ -74,11 +78,25 @@ fitted" line and by Jacob 2026-09-09.
 |---|---|
 | **Which other parts did JLCPCB leave off the preamp PCBA?** | Decides what has to be hand-fitted on the spare board before it can be used |
 | **How was JLCPCB's C1/C2 polarity question answered?** | Would settle fault 1d from the order thread instead of needing the boards in hand |
-| **Do we own M2 screws, copper tape, heat shrink?** | Three items on the shopping list are "buy only if we do not have it" and nobody has checked |
-| **Do we own low-temp Sn42/Bi58 solder paste, and how many piezo discs?** | The paste is the only thing that makes a piezo joint survivable, and the BOM asks for five or more discs so one can be sacrificed to prove the iron temperature. Neither has ever been recorded |
+| ~~**Do we own M2 screws, copper tape, heat shrink?**~~ **M2 screws and heat shrink ORDERED 2026-09-09.** **Copper tape is still unchecked** | The shield rebuild needs copper tape with conductive adhesive. Aluminium will not do — `docs/ENGINEERING_REFERENCE.md` §3 |
+| ~~**Do we own low-temp Sn42/Bi58 solder paste?**~~ **MOOT — the piezo is built.** See below | Nothing to buy |
 | **The piezo disc part number and diameter** | Ø20.500 mm seat vs a 25–27 mm disc in the BOM — see `docs/OPEN_QUESTIONS.md` |
 
 ---
+
+## The piezo scanner — built
+
+**`SAID` 2026-09-09, Jacob: the piezo is finished.** Recorded here because it changes what is in the
+room. **Nothing about how it was built has been stated, and none of it is inferable** — see the
+questions below before anything in the docs is written as fact.
+
+| | |
+|---|---|
+| **Status** | **Built and complete.** `SAID`, 2026-09-09 |
+| How the quadrant wires were attached | **UNKNOWN.** Solder, and if so which alloy, or conductive epoxy |
+| Whether the disc still actuates | **UNKNOWN.** A depolarised disc still reads correctly on a meter — `docs/START_HERE_gotchas.md` |
+| Which disc was used | **UNKNOWN.** `docs/FACTS.md` records an unresolved conflict: a Ø20.500 mm seat against a 25-27 mm disc in the BOM |
+| **Were the four quadrant wires labelled?** | **UNKNOWN, and this is the time-critical one** — see `docs/OPEN_QUESTIONS.md` |
 
 ## How to keep this file honest
 

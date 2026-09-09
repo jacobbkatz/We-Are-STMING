@@ -24,70 +24,51 @@ have a usable standoff** — see the standoff section below.
 > range and larger than the offset we are already chasing. **On this board there is no flux you can
 > leave on.** So: clean whatever we use, and buy the one that comes off completely — rosin.
 
-## Buy — the flux applicator. Added 2026-09-09 (latest).
+## The flux and its applicator — SETTLED AND BOUGHT 2026-09-09
 
-**Question asked: is there a syringe of the chosen flux rather than a jar? Answer: no, and the
-substitutes are not safe to pick blind.**
+**Bought, arriving 2026-09-11: the Chip Quik RMA791 50 g jar, plus a manual syringe dispenser with
+blunt tips.** That is the right answer and it closes the question.
 
-**Chip Quik's RMA791 is sold in a 2 oz / 50 g flat jar only.** Its whole paste-flux family — RA691,
-RMA771, RMA791, RA891 — is jars. There is no syringe SKU. **That is why this list said "50 g jar";
-it was not a preference.**
+**Why it had to be done in two parts.** RMA791 is **jar-only** — Chip Quik's whole paste-flux family
+(RA691, RMA771, RMA791, RA891) is 2 oz jars, with no syringe SKU. This list's own item line asked for
+a "gel syringe" while its chosen product was a jar; the two had disagreed unnoticed.
 
-### Why not just buy a different flux in a syringe
+**Do not substitute a different flux to get a syringe.** Chip Quik's syringe products are a separate
+"tack flux" line whose J-STD-004 codes and vendor descriptions **contradict each other**: SMD491 and
+NC191 are classified `ROL0` (`RO` = rosin) yet titled "**Synthetic** No-Clean" by their own vendors;
+RMA591NL is `ROM1` and called "RMA **synthetic** paste"; SMD291 is **`REL0`** — `RE` is resin, **not
+rosin at all**. **That is exactly how the wrong no-clean flux we already own got bought.** No primary
+datasheet could be opened to settle it — chipquik.com, mouser.com and amazon.com are all blocked from
+the remote session that checked.
 
-Because Chip Quik's **syringe** products are a different line — "tack flux" — and **their J-STD-004
-codes and their own vendor descriptions disagree about whether they are rosin.**
+**Loading the syringe:** pull the plunger right out, spoon paste into the open back of the barrel,
+refit the plunger. Paste will not draw up through a tip. **Use the widest blunt tip supplied**, or
+none — rosin paste is stiff and a fine-gauge needle will simply not pass it.
 
-| Product | Code | How the vendor describes it | Verdict |
-|---|---|---|---|
-| **RMA791** (the chosen one) | **ROL0** | "**Rosin** Paste Flux (RMA)" | **Rosin, mild, halide-free. Jar only** |
-| SMD491-10M, 10 cc syringe | ROL0 | TestEquity: "Tack Flux, **Synthetic** No-Clean" | **RO says rosin, the vendor says synthetic. Unresolved** |
-| SMD291, 10 cc syringe | **REL0** | — | **RE = resin, not rosin. Fails our test** |
-| NC191, 10 cc syringe | ROL0 | "**synthetic** no-clean flux" | Same contradiction as SMD491 |
-| RMA591NL, 10 cc syringe | ROM1 | "low viscosity RMA **synthetic** paste" | Same contradiction, **and** moderate activity with halides |
+**Why a syringe is worth it here, beyond convenience.** A jar that a brush is repeatedly dipped into
+becomes a **contamination reservoir** — skin oils, board debris, spent flux, all returned to the
+supply. On a node where a human within a metre injects tens of nA, that matters. A syringe dispenses
+a fresh bead and the bulk is never touched. **If the jar is used directly, never dip twice** — scoop
+onto a clean surface with a clean tool.
 
-> **The trap, and it is the one we already fell into.** In J-STD-004 the first two letters are the
-> chemistry: **`RO` is rosin, `RE` is synthetic resin.** So the code should settle it. **It does
-> not** — several vendors print `ROL0` and then describe the same product as "synthetic" in the
-> product title. **The flux we already own is a non-rosin no-clean, bought the same way.**
+> **The flux pen is still not resolved.** This list originally asked for "gel syringe **and** a pen".
+> **Most flux pens are low-solids no-clean — the wrong chemistry.** None has been verified. Do not
+> buy one on the assumption it is fine.
+
+> ### The flux is only half of it. THE CLEANING SUPPLIES ARE NOT BOUGHT.
 >
-> **chipquik.com, mouser.com and amazon.com are all blocked by this session's network proxy, so not
-> one primary datasheet could be opened.** Every line above is from a search snippet.
-> **Do not buy any of the middle four on the strength of this table.**
-
-### What to do instead
-
-**Keep the RMA791 jar and buy empty syringes to load from it.** About $10 for ten, and the chemistry
-stays the one that was already reasoned through. **Back-load them:** pull the plunger right out,
-spoon paste into the open back of the barrel, refit the plunger. Do not try to draw paste up through
-the tip.
-
-**There is a second reason to want the syringe, and it is stronger than the "awkward for
-surface-mount" one this list gave.** A 50 g jar you dip a brush into repeatedly **becomes a
-contamination reservoir** — skin oils, board debris, spent flux, all going back into the supply. On
-a board whose blocking fault is surface conduction at a 100 MΩ node, that matters. **A syringe
-dispenses a fresh bead and the bulk is never touched.** If the jar is used directly, **never dip
-twice** — scoop onto a clean surface with a clean tool.
-
-**If one purchase is wanted instead:** **MG Chemicals 8342**, 10 mL / 9.5 g syringe. It is the only
-syringe flux found where the manufacturer's own **product name** says rosin — "RA Rosin Flux Paste"
-— rather than only a classification code. Its TDS states residue removal is **required** and that
-IPA removes it. **But it is RA, not RMA**, ROM1, with **0.5-2.0% halides by weight.**
-`sessions/2026-09-09.md` §10.2 chose RMA over RA precisely because the milder activator fails
-gracefully if a trace survives. **With this one the distilled-water rinse stops being a refinement
-and becomes the step that removes the halides.**
-
-> **Still open: the flux pen.** This list originally asked for "gel syringe **and a pen**". No rosin
-> pen has been verified — most flux pens are low-solids no-clean, which is the wrong chemistry.
-> **Nobody has checked. Do not buy one on the assumption it is fine.**
+> RMA791 is rosin, so it comes off — **but only if something takes it off.** As of 2026-09-09 none of
+> **99% IPA, distilled water, the four soft brushes, lint-free wipes or foam swabs** has been
+> ordered. **Rosin left on this board is a leakage path at the exact node we are chasing.**
+> **Do not solder the preamp until the cleaning kit is in the room.**
 
 ## Buy only if we do not already have it
 
 | Item | Used for | Why |
 |---|---|---|
-| **M2 screws**, 6–8 mm, ×6 | Screwing the board to the two box standoffs | The box standoffs already line up with the board holes, so **no glue is needed** — and glue is the leading suspect for the current fault |
-| **Copper tape**, conductive adhesive | Lining the preamp box as a shield | Solders, so the ground bond is a real joint. **Aluminium will not solder and its adhesive does not conduct** |
-| **Heat shrink**, assorted | Insulating each JP1 wire joint and the bundle | Stops bare conductor touching its neighbour at 2.54 mm pitch. **None at the input node** — the adhesive lining outgases |
+| ~~**M2 screws**~~ **BOUGHT 2026-09-09** — an 800 pc M2x4-M2x20 assortment | Screwing the board to the two box standoffs | **Use the M2x6. NOT the M2x8.** The pilot is **5.00 mm deep, blind** and the boss is 4.00 mm tall (measured from the mesh, `docs/FACTS.md`). Through a 1.6 mm board an M2x6 engages 4.4 mm of a 5.0 mm hole; **an M2x8 needs 6.4 mm and will bottom out**, cracking the boss or jacking the board off the standoff. **Put calipers on the board first** — 1.6 mm is JLCPCB's default, not a measured figure. **Drive slowly and stop at snug**; the thread is plastic |
+| **Copper tape**, conductive adhesive — **STILL NOT CHECKED, and now the only unbought item in this table** | Lining the preamp box as a shield | Solders, so the ground bond is a real joint. **Aluminium will not solder and its adhesive does not conduct** |
+| ~~**Heat shrink**, assorted~~ **BOUGHT 2026-09-09** | Insulating each JP1 wire joint and the bundle | Stops bare conductor touching its neighbour at 2.54 mm pitch. **None at the input node** — the adhesive lining outgases. **VERIFY on arrival whether the kit is adhesive-lined (dual-wall)**; plain polyolefin is what is wanted |
 
 > **Solder: the lead-free Sn99.3/Ag0.3/Cu0.7 we own is fine. Do not buy solder.**
 > It melts at 217–227 °C against 183 °C for leaded, so **run the iron at 340–360 °C**, not higher.

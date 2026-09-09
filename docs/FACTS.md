@@ -107,6 +107,9 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | **Preamp PTFE standoff hole** | **Ø2.108 NPTH, one only**, at (2.540, 7.620) — 2.540 mm from the board edge | NETLIST | 2026-09-08 |
 | **Preamp box standoff spacing** | **11.430 mm** — Ø1.600 M2 pilots at (5.63, 3.40) and (5.63, 14.83) | MESH | 2026-09-08 |
 | **Board-to-box fit** | **They match exactly.** M2 screws through Ø2.261 into Ø1.600. **No glue needed** | CALC | 2026-09-08 |
+| **Preamp box standoff boss** | **Ø6.000, 4.00 mm tall** (Z 0.00 to 4.00) | MESH | 2026-09-09 |
+| **Preamp box M2 pilot depth** | **5.00 mm blind** (Z −1.00 to 4.00), 1 mm of floor left under it | MESH | 2026-09-09 |
+| **Preamp box screw length** | **M2×6. NOT M2×8** | CALC | 2026-09-09 |
 | Piezo disc seat in `PiezoPlate` | **Ø20.500 × 3.00 mm deep** over Ø18.000 | MESH | 2026-09-06 |
 | Piezo disc in the BOM | **25–27 mm brass** | BOM | — |
 | **Disc vs seat** | **CONFLICT — a 25–27 mm disc does not fit a 20.5 mm seat** | — | 2026-09-06 |
