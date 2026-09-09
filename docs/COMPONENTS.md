@@ -150,11 +150,15 @@ outside its specified input conditions.
 
 Texas Instruments (Burr-Brown). SOIC-8. **The most important part in the instrument.**
 
-> **VERIFY which part is actually fitted — opened 2026-09-08.** `docs/BOM.md` says **OPA627AU**;
-> the Eagle source we build from says **OPA124U**. **Nobody has read the marking on our own board.**
-> It matters: the OPA124's gain-bandwidth is **1.5 MHz** against the OPA627's 16 MHz, which changes
-> the stability margin below from about 7x to about 2x. Input bias current is ~1 pA either way, so
-> **nothing about the 119 nA conclusion depends on this.** One minute with a magnifier settles it.
+> **Which part is fitted — settled enough, 2026-09-09.** **OPA627AU is what Mech Panda used, and
+> our parts follow Mech Panda**, which is what `docs/BOM.md`'s CONFIRMED rests on. The PCB is
+> Berard's design, so its Eagle source says `OPA124U` — that is his original part, not a
+> contradiction, and he explicitly endorses the OPA627 as a substitute.
+>
+> **Both parts work here.** Input bias current is ~1 pA either way, so **nothing about the 119 nA
+> depends on it**, and the TIA is stable either way — about **7x** margin on the OPA627's 16 MHz
+> gain-bandwidth, about **2x** on the OPA124's 1.5 MHz. The figures below are the OPA627's.
+> **Reading the package marking would pin the margin exactly**; it blocks nothing.
 > See `docs/OPEN_QUESTIONS.md`.
 
 | Spec | Value | Mark |

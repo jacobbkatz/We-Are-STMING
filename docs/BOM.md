@@ -97,7 +97,7 @@ keep soldering heat off the chip, and they let you swap a dead op-amp without de
 | Item | Spec | Qty | Status |
 |---|---|---|---|
 | PCB | 20.625 x 15.23 mm, 2-layer | 1 | CONFIRMED, Gerbers included |
-| **Op-amp** | **OPA627AU**, SOIC-8 | 1 | CONFIRMED on our board. **Berard's own design uses an OPA124**; he names OPA627 as a good substitute. **VERIFY under a magnifier** — the Eagle source we build from says `OPA124U`, so the two disagree and nobody has read our own package marking. See `docs/OPEN_QUESTIONS.md` |
+| **Op-amp** | **OPA627AU**, SOIC-8 | 1 | CONFIRMED on our board — **this is the part Mech Panda used, and our parts follow Mech Panda.** The PCB is Berard's design, so its Eagle source says `OPA124U`, his original part; he names the OPA627 as a good substitute. **Both work here** — ~1 pA bias current either way. Reading the marking would pin the stability margin (~7x vs ~2x) but blocks nothing |
 | **Feedback resistor** | **100 Mohm** | 1 | CONFIRMED value |
 | Tantalum capacitor | 4.7 uF 35 V | 1 to 2 | CONFIRMED from a label we could read |
 | **PTFE standoff terminal** | **Keystone Electronics 11301** | 1 | **CONFIRMED 2026-09-05** — the exact part Berard names |

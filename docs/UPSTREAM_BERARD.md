@@ -289,10 +289,10 @@ choice, not a limitation of the disc.
 So our OPA627 is a substitution Berard explicitly endorses, but `BOM.md` describing OPA627AU as
 "Berard's design" overstates it. Corrected there.
 
-> **Open question, 2026-09-08: is our part actually an OPA627?** `BOM.md` says OPA627AU. **The Eagle
-> source in `We-Are-STMING_PCB.zip` says `OPA124U`**, and so does Berard's own schematic. Nobody has
-> read the marking on our board. It changes the stability margin, not the leakage conclusion.
-> See `docs/OPEN_QUESTIONS.md`.
+> **Resolved enough, 2026-09-09.** The Eagle source in `We-Are-STMING_PCB.zip` says `OPA124U`
+> because **it is Berard's design file** — that is his original part, not evidence about our board.
+> **Our parts follow Mech Panda, who used the OPA627AU.** Both work: ~1 pA bias current either way,
+> and the TIA is stable either way. See `docs/OPEN_QUESTIONS.md`.
 
 Input bias current on the OPA124 is around **1 pA**. That is the scale the input node has to beat.
 Our measured 119 nA offset is roughly **119,000 times** that.

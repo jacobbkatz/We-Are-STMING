@@ -663,10 +663,10 @@ over** — it is the measurement reference, and it is repairable without a rebui
 reverse-biased tantalum on the −15 V rail is a fire risk, and this one is reverse-connected in the
 design we fabricated from.
 
-**B. Read the op-amp's package marking under the magnifier.** One minute. `docs/BOM.md` says
-**OPA627AU** and the Eagle source we build from says **OPA124U**, and nobody has looked. It changes
-the TIA stability margin (~7x vs ~2x) but **nothing about the 119 nA** — both parts are ~1 pA bias
-current. See `docs/OPEN_QUESTIONS.md`.
+**B. While the magnifier is out, read the op-amp's package marking.** Optional, and it blocks
+nothing. **OPA627AU is expected** — that is Mech Panda's part and our parts follow Mech Panda; the
+Eagle source says `OPA124U` only because the PCB is Berard's design. **Both work here**, ~1 pA bias
+current either way. Reading it just pins the stability margin (~7x vs ~2x).
 
 ### Then these — none of them touch the ADC
 
