@@ -248,6 +248,40 @@ def check_dead_qualifiers():
     return dead
 
 
+def check_plan_freshness():
+    """docs/NEXT_SESSION_PLAN.md must not be older than the newest session log.
+
+    Added 2026-09-09, at Jacob's request. The file existed from 2026-09-07 and was
+    the canonical home for "what to do next at the bench" (CLAUDE.md section 6),
+    but NOTHING kept it current -- neither /wrap nor /catchup mentioned it. It sat
+    unmaintained for two days while three sessions happened, and by then neither
+    Jacob nor Nuh knew it existed.
+
+    Its content had gone stale in ways that cost real work: it still scheduled the
+    board rebuild for "Sunday", still asked for callipers on a piezo that is now
+    built, and its H1 told you to print the ORIGINAL box while describing the
+    expected result as the v2 geometry it forbids two lines earlier.
+
+    A plan older than the last session is a plan that does not know what happened.
+    """
+    plan = os.path.join(REPO, 'docs', 'NEXT_SESSION_PLAN.md')
+    sess = os.path.join(REPO, 'sessions')
+    if not os.path.exists(plan) or not os.path.isdir(sess):
+        return None
+    m = re.search(r'^\*\*Last updated:\*\* +(\d{4}-\d{2}-\d{2})',
+                  open(plan, encoding='utf-8', errors='replace').read(), re.M)
+    if not m:
+        return ('MISSING', 'add a "**Last updated:** YYYY-MM-DD" line')
+    plan_date = m.group(1)
+    dates = sorted(m2.group(1) for m2 in
+                   (re.match(r'(\d{4}-\d{2}-\d{2})', n) for n in os.listdir(sess))
+                   if m2)
+    if not dates:
+        return None
+    newest = dates[-1]
+    return (plan_date, newest) if newest > plan_date else None
+
+
 def check_session_index():
     """Every session log on disk must be linked from sessions/README.md.
 
@@ -322,6 +356,12 @@ def check_safety_rule_refs():
                     # excused both real miscitations when it was tried.
                     if CITATION_TALK.search(' '.join(lines[max(0, i - 3):i + 2])):
                         continue
+                    # Compare against THIS LINE ONLY. Widening to a +/-1 line
+                    # window was tried on 2026-09-09 to clear a false positive and
+                    # was reverted: it silently lost one of the two known
+                    # miscitations and introduced a different false positive.
+                    # A citation belongs next to the claim it supports; if it does
+                    # not overlap, move the citation, do not widen the check.
                     cite = _words(line)
                     if len(cite) < 3:
                         continue          # "see safety rule 10" and nothing else
@@ -368,8 +408,9 @@ def main():
     rule_missing, rule_wrong = check_safety_rule_refs()
     unindexed = check_session_index()
     dead_quals = check_dead_qualifiers()
+    stale_plan = check_plan_freshness()
 
-    if not hits and not links and not arch and not rule_missing and not rule_wrong and not unindexed and not dead_quals:
+    if not hits and not links and not arch and not rule_missing and not rule_wrong and not unindexed and not dead_quals and not stale_plan:
         print("check_facts: clean.")
         print("  - no retired value in a live document")
         print("  - no broken file reference")
@@ -377,6 +418,7 @@ def main():
         print("  - every 'safety rule N' citation resolves, and matches its rule")
         print("  - every session log is listed in sessions/README.md")
         print("  - every RETIRED qualifier still matches real wording")
+        print("  - docs/NEXT_SESSION_PLAN.md is no older than the newest session log")
         return 0
 
     if links:
@@ -391,6 +433,15 @@ def main():
         for rel, ln, name in arch:
             print("    %s:%d  mentions %s" % (rel, ln, name))
         print("  Say 'archived' or 'superseded' on the line, or point somewhere current.\n")
+
+    if stale_plan:
+        print("check_facts: docs/NEXT_SESSION_PLAN.md is out of date.\n")
+        print("    plan says 'Last updated: %s', newest session log is %s"
+              % stale_plan)
+        print("  That file is the ONLY place that says what to do next at the bench, and")
+        print("  it is written to be executed with no memory of any conversation. A plan")
+        print("  older than the last session does not know what happened in it.")
+        print("  Update it and its 'Last updated' line -- /wrap step 3.\n")
 
     if dead_quals:
         print("check_facts: %d RETIRED row(s) whose qualifier matches NOTHING:\n"

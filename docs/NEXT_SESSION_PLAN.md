@@ -1,10 +1,34 @@
 # Next session plan
 
-**Written 2026-09-07 (late), for the next session before Sunday.**
-**Board rebuild is scheduled for Sunday when Jacob is home. This plan covers everything before it.**
+**Last updated:** 2026-09-09
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
+
+> **Written 2026-09-07. Refreshed at the end of every session from 2026-09-09 onward** — `/wrap`
+> step 3 updates it, and `check_facts.py` fails if a session log is newer than the date above.
+> **Before 2026-09-09 nothing kept it current**, so it sat unmaintained for two days and neither
+> Jacob nor Nuh knew it existed.
+
+---
+
+## BEFORE ANYTHING: two gates added 2026-09-09
+
+**1. Do not solder the preamp until the cleaning kit is in the room.** The Chip Quik RMA791 rosin
+flux arrives 2026-09-11, but **no 99% IPA, distilled water, soft brushes, lint-free wipes or foam
+swabs were ordered with it.** Rosin left on this board is a leakage path at the exact node the
+119 nA fault sits on. **Flux without cleaning makes the board worse, not better.**
+**Copper tape** with conductive adhesive, for H2, is also still unbought.
+
+**2. When the M2 screws arrive: use the M2x6. NOT the M2x8.** The box pilot is **5.00 mm deep and
+blind** and the boss is 4.00 mm tall (measured from the mesh — `docs/FACTS.md`). Through a 1.6 mm
+board an M2x6 engages 4.4 mm; **an M2x8 needs 6.4 mm and bottoms out, cracking the boss or jacking
+the board off the standoff.** **Put calipers on the board first** — 1.6 mm is JLCPCB's default, not
+a measured figure. Drive slowly, stop at snug; the thread is plastic and there is no metal insert.
+
+**Also arriving 2026-09-11:** a manual syringe dispenser (load it from the flux jar) and an assorted
+heat-shrink kit — **check whether it is adhesive-lined, and use none of it at the input node**
+either way.
 
 ---
 
@@ -131,7 +155,13 @@ candidate rather than a precaution.
 > **A DMM tops out around 20–60 MΩ. "OL" only proves >60 MΩ**, and the leakage that matters here is
 > 100 MΩ–10 GΩ. **A pass here does not clear the path** — it only rules out a gross short.
 
-## V3. Callipers on the piezo disc and its pocket
+## V3. ~~Callipers on the piezo disc and its pocket~~ CLOSED 2026-09-09 — skip it
+
+**The piezo scanner is built and working** (Jacob, 2026-09-09). Whatever disc went in fits, so the
+Ø20.500 mm seat versus 25-27 mm BOM conflict is a documentation artefact. **Do not spend bench time
+on it.** The section is kept below only because its method generalises to any pocket-and-part fit.
+
+## V3 (retained for method only). Callipers on the piezo disc and its pocket
 
 **Why it matters.** `PiezoPlate.stl`'s disc seat measures **Ø20.500 mm**; `docs/BOM.md` says the
 disc is **25–27 mm**. Both cannot be right, and **a larger disc moves further per volt**, so every
@@ -165,9 +195,18 @@ leading candidate for the 119 nA. That reason stands on its own.
 **Bambu Studio may offer to repair the model — accept.** The added boss is a separate closed solid
 overlapping the floor, an ordinary union.
 
-**Expected.** A base with **three** Ø1.600 mm pilots: at (5.63, 14.83), (5.63, 3.40) and the new one
-at (4.04, 9.12), plus the Ø3.60 support post.
+**Expected.** **TWO** Ø1.600 mm pilots, at **(5.63, 14.83)** and **(5.63, 3.40)**, each in a
+Ø6.000 boss 4.00 mm tall, plus one **Ø3.600 support post at (17.70, 9.12)**. Measured from the
+original mesh with `Code/pc/stl_features.py`, fit error 0.0001.
+
+> **Corrected 2026-09-09.** This said to expect **three** pilots "including the new one at
+> (4.04, 9.12)" — **that is the v2 boss this same section forbids.** Anyone printing the original
+> and checking it against that line would have judged a correct print faulty, or printed v2 and put
+> a carbon-fibre pillar under the input node. **The original has two pilots. There is no hole at
+> (4.04, 9.12).**
+
 **Failure.** Slicer reports non-manifold errors it cannot repair — report it, do not print.
+**Do not glue the board in.** Two M2x6 screws into those two pilots — see the gate at the top.
 
 ## H2. Wrap and ground the new box
 
@@ -291,7 +330,13 @@ noise is the reference, not the preamp.**
 
 # What is explicitly NOT in scope this session
 
-- **Do not rebuild the preamp board.** That is Sunday's work, when Jacob is home.
+- **Do not rebuild the preamp board or the tip lead** — safety rule 0b, because the instrument that
+  would tell you whether a rebuild helped has a floating reference.
+  **Updated 2026-09-09:** this said "that is Sunday's work, when Jacob is home", a stale calendar
+  reference. The gate is the floating `PREAMP−`, not the date.
+- **Do not solder anything on the preamp until the cleaning supplies arrive** — see the gate at the
+  top of this file.
+- **Do not re-open the piezo.** Built and working. Do not buy Sn42/Bi58 paste.
 - **Do not fit a tip.** The zero-risk window is worth keeping.
 - **Do not bring the sample plate near the tip holder.**
 - **Do not change any firmware constant**, especially the 10.24 V ADC full scale.

@@ -12,7 +12,11 @@ Bring the user up to date before work starts.
    often more than one for a date, because both people log the same day. `sessions/README.md`
    indexes them all.
 
-3. Check whether anything changed since this computer last saw the repo:
+3. Read [`docs/NEXT_SESSION_PLAN.md`](../../docs/NEXT_SESSION_PLAN.md) — **the prioritised
+   procedure for the next bench session**, written to be executed with no memory of any
+   conversation. It is refreshed at the end of every session.
+
+4. Check whether anything changed since this computer last saw the repo:
    `git log --oneline -10`
 
 Then tell the user, in plain language and in a few sentences:

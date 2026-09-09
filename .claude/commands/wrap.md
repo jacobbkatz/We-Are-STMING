@@ -2,7 +2,7 @@
 description: End the work session - write the log, update STATUS.md, commit and push
 ---
 
-End the work session. Do all four steps in order. Do not stop partway.
+End the work session. Do all five steps in order. Do not stop partway.
 
 **1. Write the session log.** Copy `sessions/TEMPLATE.md` to `sessions/YYYY-MM-DD.md` with
 today's real date.
@@ -30,14 +30,29 @@ not delete it.** This project has twice found that a retraction was itself wrong
 rule leaves nothing to check that against. Deleting is only right for something that was never
 true. Say what changed in the log either way.
 
-**3. Commit.**
+**3. Update `docs/NEXT_SESSION_PLAN.md`.**
+
+That file is the **only** place that says what to do next at the bench, and it is written to be
+executed with no memory of any conversation. Rewrite whatever this session changed: steps that are
+now done or moot, new gates, anything bought or arriving, any measurement that changes a procedure.
+**Update its `**Last updated:**` line** — `check_facts.py` fails if a session log is newer than it,
+which will block the commit in step 4.
+
+**Struck-through, not deleted**, same as `STATUS.md`: a step that is no longer needed says so and
+says why.
+
+> **Added 2026-09-09.** The file had existed since 2026-09-07 and **nothing ever updated it**.
+> Neither this command nor `/catchup` mentioned it, so it went stale for two days across three
+> sessions and neither Jacob nor Nuh knew it was there.
+
+**4. Commit.**
 
 ```
 git add -A
 git commit -m "Session YYYY-MM-DD: <one line on what changed>"
 ```
 
-**4. Push.**
+**5. Push.**
 
 ```
 git pull --rebase origin main && git push origin main

@@ -17,6 +17,14 @@ no hardware measurement taken.** The only measurement came from a mesh: the prea
 >
 > **The piezo scanner is built and working.** Closed — do not re-open it, do not buy Sn42/Bi58
 > paste, do not spend bench time on the seat-versus-disc question.
+>
+> **The bench procedure lives in [`docs/NEXT_SESSION_PLAN.md`](docs/NEXT_SESSION_PLAN.md).** It
+> already existed but **nothing had ever updated it** — it sat two days stale and neither of us knew
+> it was there. **`/wrap` now updates it as step 3, `/catchup` reads it, and `check_facts.py` fails
+> if it is older than the newest session log**, which blocks the commit. **One correction in it was
+> a hazard:** H1 said to print the ORIGINAL box base while describing the expected result as the v2
+> geometry it forbids — a good print would have looked faulty, and the obvious recovery is to print
+> the one that puts a pillar under the input node.
 
 > **Two changes of state, both from Jacob rather than from any file.**
 >

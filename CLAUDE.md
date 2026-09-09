@@ -330,7 +330,7 @@ Added here 2026-09-09 because this section had silently omitted them:**
 
 ## 5. End of every session — do this before stopping
 
-Work that isn't pushed doesn't exist as far as the other computer is concerned. **Do all four
+Work that isn't pushed doesn't exist as far as the other computer is concerned. **Do all five
 steps.** Do not stop after step 1.
 
 ### Step 1 — write the session log
@@ -356,14 +356,24 @@ Rewrite the parts that changed: the stage table, open faults, next actions, open
 Update the "Last updated" line at the top. **This is the file the other person's Claude will read
 first**, so it must reflect reality, not intentions.
 
-### Step 3 — commit
+### Step 3 — update `docs/NEXT_SESSION_PLAN.md`
+
+**The only place that says what to do next at the bench**, written to be executed with no memory of
+any conversation. Rewrite what this session changed, strike through what is now moot, and **update
+its `Last updated` line** — `check_facts.py` fails if a session log is newer than it, and the
+pre-commit hook will then block the commit.
+
+> **Added 2026-09-09.** Nothing had ever updated this file. It sat stale for two days across three
+> sessions because neither `/wrap` nor `/catchup` mentioned it.
+
+### Step 4 — commit
 
 ```bash
 git add -A
 git commit -m "Session YYYY-MM-DD: <one line on what changed>"
 ```
 
-### Step 4 — push
+### Step 5 — push
 
 ```bash
 git pull --rebase origin main && git push origin main
