@@ -156,7 +156,7 @@ You'll need:
 | **Sapphire, glass or ceramic disk** | small, insulates the tip standoff from the brass electrode | 1–2 | CHOICE, from Berard's scan head. **Not plastic** — it must insulate better than the glue |
 | **Pin socket for the tip** | single machined socket | 1–2 | CHOICE, from Berard. Makes tips swappable without rebuilding the scanner |
 | **Magnet wire** | enamelled, ultra-fine, 0.05 to 0.1 mm | 1 spool | CONFIRMED as "ultra-fine" |
-| **Low-temp solder paste** | **Sn42/Bi58, about 138 C** | 1 syringe | CONFIRMED as low-temp |
+| **Low-temp solder paste** | **Sn42/Bi58** or Sn42/Bi57.6/Ag0.4. **Chosen 2026-09-09: Chip Quik `SMDLTLFPT4`, 5 cc / 15 g syringe, T4.** Temperatures in [`FACTS.md`](FACTS.md) | 1 **syringe, the small one** — not a jar. Shelf life, not quantity, is the limit | CONFIRMED as low-temp. **Not in [`INVENTORY.md`](INVENTORY.md) — nobody has confirmed we own any** |
 | *Alternative:* conductive epoxy | **MG Chemicals 9410** | 1 | CHOICE, **untested by us.** Removes soldering heat entirely. Depolarisation starts above ~210 C. See `OTHER_BUILDERS.md` |
 | Miniature coax | **RG-178** or RG-316 | about 1 m | CHOICE. **Berard does not use coax** — he runs plain **40 AWG** wire from tip to preamp, deliberately, because stiff cable transmits vibration. A genuine fork, see `UPSTREAM_BERARD.md` §4 |
 | **40 AWG magnet wire** | for tip, scanner and bias leads | 1 spool | Berard's choice, for vibration isolation as much as electrical reasons |
@@ -245,7 +245,7 @@ the method are in `CAD/prints/README.md`.
 |---|---|---|
 | **Copper tape** | about 50 mm wide, **conductive adhesive** | **Use this for all shielding.** Solder the seams and bond to ground at one point |
 | ~~Aluminium tape~~ | — | **Do not buy it for this instrument.** It cannot be soldered, its adhesive usually does not conduct so overlaps stay open, and against copper it forms a galvanic cell. On 2026-09-06 a box wrapped in both was found discontinuous and only partly grounded, and had to be stripped and rebuilt. The full rule is in `docs/ENGINEERING_REFERENCE.md` §3 |
-| Solder | 63/37 rosin core, 0.6 to 0.8 mm | everything except the piezo |
+| Solder | 63/37 rosin core, 0.6 to 0.8 mm | everything except the piezo. **We already own a lead-free Sn99.3/Ag0.3/Cu0.7 that is fine — see [`INVENTORY.md`](INVENTORY.md). Do not buy solder wire** |
 | Flux | no-clean, pen or tub | |
 | Isopropyl alcohol | 99% | cleaning before building the preamp input |
 | Foam block | open-cell | supports the wire loops crossing to the isolated stage |

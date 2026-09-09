@@ -60,6 +60,7 @@ fitted" line and by Jacob 2026-09-09.
 | **Tantalum 4.7 µF 35 V** | 1–2 | `SAID`, from a label | Spares beyond the two JLCPCB fitted |
 | **40 AWG magnet wire** | — | `SAID` | For the tip lead |
 | **Solder, Sn99.3/Ag0.3/Cu0.7 lead-free** | — | `SAID` | Correct for this work. **Do not buy more** |
+| **Low-temp solder paste, Sn42/Bi58** | **UNKNOWN** | — | **Nobody has said whether we own any.** Needed for the piezo quadrant wires and nothing else. `docs/BOM.md` §5 specifies it; a specification is not an inventory. **Ask before ordering** |
 | **Flux, non-rosin no-clean** | — | `SAID` | **Wrong type for this board.** Replacement on order |
 | Hakko FX-888DX + tips · solder wick · tip tinner · brass wool · fine tweezers · flush cutters · magnifier · helping hands · calipers · safety glasses · nitrile gloves · multimeter · bench PSU | — | `SAID` | |
 
@@ -74,6 +75,7 @@ fitted" line and by Jacob 2026-09-09.
 | **Which other parts did JLCPCB leave off the preamp PCBA?** | Decides what has to be hand-fitted on the spare board before it can be used |
 | **How was JLCPCB's C1/C2 polarity question answered?** | Would settle fault 1d from the order thread instead of needing the boards in hand |
 | **Do we own M2 screws, copper tape, heat shrink?** | Three items on the shopping list are "buy only if we do not have it" and nobody has checked |
+| **Do we own low-temp Sn42/Bi58 solder paste, and how many piezo discs?** | The paste is the only thing that makes a piezo joint survivable, and the BOM asks for five or more discs so one can be sacrificed to prove the iron temperature. Neither has ever been recorded |
 | **The piezo disc part number and diameter** | Ø20.500 mm seat vs a 25–27 mm disc in the BOM — see `docs/OPEN_QUESTIONS.md` |
 
 ---

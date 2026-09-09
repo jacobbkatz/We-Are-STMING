@@ -113,6 +113,21 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | Print material | **PETG-CF** | Jacob | 2026-09-07 |
 | Scanner displacement | ~34 nm/V in Z, ~83 nm/V in XY | INFER | — | **Berard's disc, not ours** |
 
+## Piezo joining process
+
+**The disc is the one part in this build that is destroyed silently.** It still measures correctly
+on a meter after it is ruined; it simply stops moving. Every number here is a limit on how hot it
+may get.
+
+| Fact | Value | Prov | Date | Where it came from |
+|---|---|---|---|---|
+| **Piezo depolarisation threshold** | **~210 C** internal ceramic temperature | DS | 2026-09-05 | Piezo manufacturers' handling guidance, via `docs/OTHER_BUILDERS.md` |
+| **Piezo joint alloy** | **Sn42/Bi58**, or Sn42/Bi57.6/Ag0.4 | BOM | — | Low-temp paste. Ordinary solder destroys discs |
+| **Sn42/Bi58 melting point** | **138 C** | DS | 2026-09-09 | Eutectic. Same for the Ag0.4 variant |
+| **Iron setting for piezo joints** | **190 C, VERIFY** | CALC | 2026-09-09 | Below the 210 C ceiling, 52 C above the melt. Derivation and its caveat in `docs/OPEN_QUESTIONS.md` section 4 |
+| **Bismuth + lead eutectic** | **~96 C** | — | 2026-08-31 | Why Bi solder must never meet leaded solder. **We own no leaded solder** |
+| Iron working range, Hakko FX-888DX | **50 to 480 C** | DS | 2026-09-09 | So 190 C is a settable temperature on the station we own |
+
 ## Preamp board components
 
 **From the Eagle source `preamplifier/eagle/tunnelAmp.sch` inside `We-Are-STMING_PCB.zip`, opened

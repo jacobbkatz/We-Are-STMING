@@ -75,8 +75,8 @@ not polarized**, so once fitted the problem cannot recur on either board.
 
 ## Do not buy
 
-**Non-rosin flux** (a "no-clean" that is not rosin-based) · bismuth/low-temperature solder ·
-aluminium tape · solder of any kind · the op-amp, C1–C4, R1 (fitted) · a header for JP1 (wires go
+**Non-rosin flux** (a "no-clean" that is not rosin-based) · **bismuth/low-temperature solder — for THIS board.** It is brittle, and this list is the preamp only. **The piezo disc is the opposite case and does need it** — see `docs/BOM.md` §5 ·
+aluminium tape · **solder wire of any kind** (we own a lead-free that is fine) · the op-amp, C1–C4, R1 (fitted) · a header for JP1 (wires go
 straight into the holes) · PTFE wire (the only high-impedance run is the tip lead, and that is
 40 AWG magnet wire we already have).
 

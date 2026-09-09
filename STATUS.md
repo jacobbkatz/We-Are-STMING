@@ -1,7 +1,17 @@
 # Current status
 
-**Last updated:** 2026-09-09 (later)
-**Updated by:** Jacob, remote. **Documentation only — nothing was powered or measured.** C2's
+**Last updated:** 2026-09-09 (latest)
+**Updated by:** Jacob, remote. **Documentation only — nothing was powered or measured.** Answered
+"which solder do we buy": **two different solders, and the repository appeared to contradict itself
+because one rule was written without its scope.** The lead-free wire we own covers every electrical
+joint — do not buy solder wire. **The piezo quadrant wires, and nothing else, need Sn42/Bi58
+low-temp paste: Chip Quik `SMDLTLFPT4`, 5 cc / 15 g syringe.** Buy the small syringe, not a jar —
+**shelf life, not quantity, is the limit, so refrigerate it or buy it when the piezo work starts.**
+Also **largely closed the piezo iron-temperature question** open since 2026-09-05: set the station
+to **190 C** and dwell stops mattering, because nothing can get hotter than the tip. See
+[`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) section 10.
+
+Earlier on 2026-09-09 (later): Jacob, remote. C2's
 reverse connection re-verified independently, and **established that it cannot cause the 119 nA**
 (fault 1d). **We do not own the Keystone 11301** — we own the 11311, which does not fit; `BOM.md`
 and the shopping list were both wrong. New **[`docs/INVENTORY.md`](docs/INVENTORY.md)** and

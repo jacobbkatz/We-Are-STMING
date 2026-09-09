@@ -93,8 +93,40 @@ Nobody has ever written these down, in Mech Panda's files, Dan Berard's, or ours
 
 | Item | What we know | What we don't |
 |---|---|---|
-| **Soldering iron temperature and dwell for the piezo joints** | Low-temp Sn42/Bi58 paste at ~138 °C, ultra-fine wire. **Depolarisation happens above about 210 °C** internal temperature. An independent builder avoids heat entirely with **conductive epoxy (MG Chemicals 9410)** | Actual iron temperature and dwell for our discs. The epoxy alternative is untested by us. See `docs/OTHER_BUILDERS.md` §2 |
+| **Soldering iron temperature and dwell for the piezo joints** | **Largely closed 2026-09-09 by the argument below — the remaining unknown is narrow.** Alloy, melt point and the depolarisation ceiling are in [`docs/FACTS.md`](FACTS.md). An independent builder avoids heat entirely with **conductive epoxy (MG Chemicals 9410)** | **Only this: how far the FX-888DX's displayed temperature differs from the real tip temperature.** We own no tip thermometer. Dwell is no longer critical — see below. The epoxy alternative is untested by us. See `docs/OTHER_BUILDERS.md` §2 |
 | **DST-201 DC input impedance** | — | Needed to finish some of the high-impedance arithmetic |
+
+> ### Why the iron temperature is now mostly a settled question
+>
+> **Added 2026-09-09, remote, no hardware.** This had been open since 2026-09-05 as "actual iron
+> temperature and dwell for our discs". It is largely answerable from arithmetic we already had.
+>
+> **The argument.** The iron tip is the only source of heat in the assembly. Heat flows from hot to
+> cold, so in the steady state **no part of the disc can end up hotter than the tip**. Set the tip
+> below the depolarisation ceiling and the ceramic physically cannot reach it, **no matter how long
+> the iron is held there.** That converts the problem from "how long may I dwell" — which nobody
+> could answer without instrumenting a disc — into "what do I set the dial to", which is one number.
+>
+> The window is generous: the alloy melts at 138 C, the ceramic depolarises around 210 C, so
+> anything in between works. **Set the station to 190 C.** That is 52 C above the melt, which is
+> ample for wetting, and 20 C below the ceiling. Values in [`FACTS.md`](FACTS.md).
+>
+> **What is still VERIFY, and it is the whole of the remaining risk.** A soldering station's
+> **displayed** temperature is not its **tip** temperature. Tip geometry, wear, oxidation and
+> calibration drift all move the real figure, and the FX-888DX has no external calibration
+> reference unless you own a tip thermometer. **We do not.** A station reading 20 C low would put
+> the tip at 210 C — exactly on the ceiling.
+>
+> **So the 20 C margin is the thing to protect, and the way to protect it is a test disc.** Buy
+> spare discs (`docs/BOM.md` §5 already says five or more) and sacrifice one: make joints on it at
+> 190 C, then check it still moves. **A ruined disc still reads correctly on a meter** — see
+> `docs/START_HERE_gotchas.md` — so the test has to be mechanical or acoustic, not a resistance
+> check.
+>
+> **This replaces "low temperature and short dwell" as the technique.** Short dwell was a proxy for
+> keeping the ceramic cool, and it is a bad proxy: it puts a beginner under time pressure at a
+> joint that needs care. **Set the dial correctly and take your time instead.**
+
 
 ---
 
