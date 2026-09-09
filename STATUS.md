@@ -8,8 +8,14 @@ joint — do not buy solder wire. **The piezo quadrant wires, and nothing else, 
 low-temp paste: Chip Quik `SMDLTLFPT4`, 5 cc / 15 g syringe.** Buy the small syringe, not a jar —
 **shelf life, not quantity, is the limit, so refrigerate it or buy it when the piezo work starts.**
 Also **largely closed the piezo iron-temperature question** open since 2026-09-05: set the station
-to **190 C** and dwell stops mattering, because nothing can get hotter than the tip. See
-[`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) section 10.
+to **190 C** and dwell stops mattering, because nothing can get hotter than the tip.
+**And the flux, asked separately: the chosen Chip Quik RMA791 is JAR-ONLY — no syringe exists.**
+The syringe alternatives print `ROL0` (rosin) while their own vendors call them "synthetic", the
+same trap that produced the wrong flux we already own, and **no primary datasheet could be opened
+because chipquik, mouser and amazon are all blocked from this session.** So: **keep the jar, buy
+empty 10 cc Luer-lock syringes and load from it.** See
+[`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 10 and 11, and the new flux
+section in [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
 
 Earlier on 2026-09-09 (later): Jacob, remote. C2's
 reverse connection re-verified independently, and **established that it cannot cause the 119 nA**

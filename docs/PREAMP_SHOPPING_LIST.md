@@ -8,7 +8,7 @@ have a usable standoff** — see the standoff section below.
 
 | Item | Used for | Why it has to be this |
 |---|---|---|
-| **Rosin flux**, gel syringe + a pen | Every joint we make: the five JP1 holes, the turret, the tip lead. Cored flux is spent on the first melt, and lead-free needs extra to wet | **It must say ROSIN** (R / RMA / RA). Rosin residue dissolves completely in IPA; non-rosin synthetic low-solids flux does not, and half-removed flux smears activator over a wider area. **“No-clean” on the label is not disqualifying if the flux is rosin-based** — the two describe different things, chemistry vs intended handling. **The flux we own is a non-rosin no-clean, which is why we need a different one.** **Chosen: Chip Quik RMA791 rosin paste flux, 50 g jar.** RMA rather than RA — the milder activator fails gracefully if a trace survives somewhere the brush could not reach. A jar is fine for through-holes, the turret and the tip lead; only awkward for surface-mount rework |
+| **Rosin flux** — **see the flux section below before ordering. The chosen RMA791 is jar-only, and the syringe alternatives are not verifiable from here** | Every joint we make: the five JP1 holes, the turret, the tip lead. Cored flux is spent on the first melt, and lead-free needs extra to wet | **It must say ROSIN** (R / RMA / RA). Rosin residue dissolves completely in IPA; non-rosin synthetic low-solids flux does not, and half-removed flux smears activator over a wider area. **“No-clean” on the label is not disqualifying if the flux is rosin-based** — the two describe different things, chemistry vs intended handling. **The flux we own is a non-rosin no-clean, which is why we need a different one.** **Chosen: Chip Quik RMA791 rosin paste flux, 50 g jar.** RMA rather than RA — the milder activator fails gracefully if a trace survives somewhere the brush could not reach. A jar is fine for through-holes, the turret and the tip lead; only awkward for surface-mount rework |
 | **Isopropyl alcohol, 99%** | Washing all flux off the board after soldering, before the input node is built | 91% is 9% water. That water carries ionic contamination and leaves it as a conducting film exactly where we cannot afford one |
 | **Distilled water** | One final rinse after the IPA, then dry | IPA dissolves rosin but not ionic salts. Water takes those. Tap water leaves mineral deposits, which is the same problem again |
 | **Soft brushes ×4** | Scrubbing flux off the board under IPA | Horsehair or ESD-safe nylon — stiff bristles scratch soldermask. **Four so one stays clean**: a brush that has scrubbed dirty flux spreads it around when reused |
@@ -23,6 +23,63 @@ have a usable standoff** — see the standoff section below.
 > the input node to a ±15 V rail injects **150 nA**, more than the instrument's whole measurable
 > range and larger than the offset we are already chasing. **On this board there is no flux you can
 > leave on.** So: clean whatever we use, and buy the one that comes off completely — rosin.
+
+## Buy — the flux applicator. Added 2026-09-09 (latest).
+
+**Question asked: is there a syringe of the chosen flux rather than a jar? Answer: no, and the
+substitutes are not safe to pick blind.**
+
+**Chip Quik's RMA791 is sold in a 2 oz / 50 g flat jar only.** Its whole paste-flux family — RA691,
+RMA771, RMA791, RA891 — is jars. There is no syringe SKU. **That is why this list said "50 g jar";
+it was not a preference.**
+
+### Why not just buy a different flux in a syringe
+
+Because Chip Quik's **syringe** products are a different line — "tack flux" — and **their J-STD-004
+codes and their own vendor descriptions disagree about whether they are rosin.**
+
+| Product | Code | How the vendor describes it | Verdict |
+|---|---|---|---|
+| **RMA791** (the chosen one) | **ROL0** | "**Rosin** Paste Flux (RMA)" | **Rosin, mild, halide-free. Jar only** |
+| SMD491-10M, 10 cc syringe | ROL0 | TestEquity: "Tack Flux, **Synthetic** No-Clean" | **RO says rosin, the vendor says synthetic. Unresolved** |
+| SMD291, 10 cc syringe | **REL0** | — | **RE = resin, not rosin. Fails our test** |
+| NC191, 10 cc syringe | ROL0 | "**synthetic** no-clean flux" | Same contradiction as SMD491 |
+| RMA591NL, 10 cc syringe | ROM1 | "low viscosity RMA **synthetic** paste" | Same contradiction, **and** moderate activity with halides |
+
+> **The trap, and it is the one we already fell into.** In J-STD-004 the first two letters are the
+> chemistry: **`RO` is rosin, `RE` is synthetic resin.** So the code should settle it. **It does
+> not** — several vendors print `ROL0` and then describe the same product as "synthetic" in the
+> product title. **The flux we already own is a non-rosin no-clean, bought the same way.**
+>
+> **chipquik.com, mouser.com and amazon.com are all blocked by this session's network proxy, so not
+> one primary datasheet could be opened.** Every line above is from a search snippet.
+> **Do not buy any of the middle four on the strength of this table.**
+
+### What to do instead
+
+**Keep the RMA791 jar and buy empty syringes to load from it.** About $10 for ten, and the chemistry
+stays the one that was already reasoned through. **Back-load them:** pull the plunger right out,
+spoon paste into the open back of the barrel, refit the plunger. Do not try to draw paste up through
+the tip.
+
+**There is a second reason to want the syringe, and it is stronger than the "awkward for
+surface-mount" one this list gave.** A 50 g jar you dip a brush into repeatedly **becomes a
+contamination reservoir** — skin oils, board debris, spent flux, all going back into the supply. On
+a board whose blocking fault is surface conduction at a 100 MΩ node, that matters. **A syringe
+dispenses a fresh bead and the bulk is never touched.** If the jar is used directly, **never dip
+twice** — scoop onto a clean surface with a clean tool.
+
+**If one purchase is wanted instead:** **MG Chemicals 8342**, 10 mL / 9.5 g syringe. It is the only
+syringe flux found where the manufacturer's own **product name** says rosin — "RA Rosin Flux Paste"
+— rather than only a classification code. Its TDS states residue removal is **required** and that
+IPA removes it. **But it is RA, not RMA**, ROM1, with **0.5-2.0% halides by weight.**
+`sessions/2026-09-09.md` §10.2 chose RMA over RA precisely because the milder activator fails
+gracefully if a trace survives. **With this one the distilled-water rinse stops being a refinement
+and becomes the step that removes the halides.**
+
+> **Still open: the flux pen.** This list originally asked for "gel syringe **and a pen**". No rosin
+> pen has been verified — most flux pens are low-solids no-clean, which is the wrong chemistry.
+> **Nobody has checked. Do not buy one on the assumption it is fine.**
 
 ## Buy only if we do not already have it
 
