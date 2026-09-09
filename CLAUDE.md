@@ -39,12 +39,29 @@ git pull --ff-only origin main
 Then read, in this order:
 
 1. **`STATUS.md`** — where the build actually is right now. Always read this.
-2. **The newest file in `sessions/`** — what happened last session and why.
+2. **Every session log carrying the newest date in `sessions/`** — what happened last session and
+   why. **There is often more than one file for a date**, because both of us log the same day and
+   the second is written hours after the first. `2026-09-09.md` and `2026-09-09-jacob.md` are two
+   different sessions, and **neither supersedes the other.**
+
+   > **Corrected 2026-09-09.** This said "the newest **file**", singular, and the start-up hook
+   > implemented it as `ls sessions/*.md | sort | tail -1`. That is a lexical sort: `-` sorts before
+   > `.`, so **`2026-09-09-jacob.md` sorts BEFORE `2026-09-09.md`** and the later log of the day was
+   > never named. Every session since has been pointed at the older of the two. **Fixed in both
+   > places** — see `sessions/2026-09-09-jacob.md` §15.
 3. Anything else you need for the specific task.
 
 A `SessionStart` hook in `.claude/settings.json` tries to do the pull automatically and prints a
 summary. **Do not rely on it silently** — confirm you are up to date. If the hook reported a
 problem, deal with it before starting work.
+
+> **The hook is code and it has been wrong.** On 2026-09-09 an audit found four defects in it, all
+> of which fed a session bad information in the very first thing it reads: it named the wrong
+> session log, printed a STATUS.md header cut off mid-sentence, would have merged `origin/main`
+> into a feature branch unasked, and — when `check_facts.py` reported **any** of its four problem
+> types, or crashed outright — announced a retired value as the cause regardless. **All four are
+> fixed and each is commented at its site in `.claude/session-start.sh`.** Treat the hook's output
+> as evidence, not as gospel: if what it says does not match what you find, believe the repository.
 
 ### If the pull fails
 

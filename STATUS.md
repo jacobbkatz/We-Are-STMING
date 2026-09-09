@@ -37,8 +37,24 @@
 >
 > **`check_facts.py` now verifies every "safety rule N" citation resolves AND matches its rule's
 > wording**, and is regression-tested against both original miscitations. 40 approach tests pass.
+>
+> **4. A deeper pass then found four more defects in `.claude/session-start.sh`** — the script whose
+> output every session reads before it opens a single file. **All four were live.**
+>
+> - **It named the wrong session log.** `ls | sort | tail -1` is a lexical sort, and `-` sorts
+>   before `.`, so **`2026-09-09-jacob.md` sorts BEFORE `2026-09-09.md`**. Whenever two logs share a
+>   date the hook named the earlier one. **This is the likeliest single cause of sessions not
+>   knowing recent context.** Fixed here and in `CLAUDE.md` §2, which said "the newest file",
+>   singular.
+> - **It blamed a retired value for every checker failure** — including for the checker *crashing*,
+>   whose stderr it discarded. `check_facts.py` reports four different problems.
+> - **It was hardcoded to `main`** and would have merged `origin/main` into a feature branch unasked.
+> - **It printed this file's header by line number**, and had drifted to cutting off mid-sentence.
+>
+> **Each fix is commented at its site in the hook.** See
+> [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) §15.
 
-See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 11, 12 and 14, and
+See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 11, 12, 14 and 15, and
 [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
 
 Earlier on 2026-09-09 (later): Jacob, remote. C2's

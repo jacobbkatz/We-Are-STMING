@@ -154,6 +154,14 @@ until very were what when where which while will with would your rule rules safe
 """.split())
 
 
+# Words that mean "this sentence is discussing a citation" rather than making
+# one. Kept tight on purpose -- see check_safety_rule_refs.
+CITATION_TALK = re.compile(
+    r'miscit|citation|\bcited\b|renumber|meant rule|now rule|became rule|'
+    r'points at|pointing at|should (?:be|cite)|read as',
+    re.I)
+
+
 def status_rules():
     """STATUS.md's numbered safety rules, as {number: body text}.
 
@@ -200,6 +208,12 @@ def check_safety_rule_refs():
     shares at least one content word with rule N's own text. No overlap at all
     means the citation is almost certainly pointing at the wrong number.
 
+    Prose *about* a miscitation necessarily quotes the bad number, so a passage
+    matching CITATION_TALK within +/-2 lines is skipped. That regex is deliberately
+    narrow. The retired-value EXCUSES regex was tried first and is far too broad
+    here: it matches "wrong" and "error", both of which sit within two lines of the
+    two real miscitations, so it excused exactly the bug this exists to catch.
+
     STATUS.md's numbered list is the only citable one. Session logs are history
     and keep whatever numbering was current when they were written.
     """
@@ -214,13 +228,21 @@ def check_safety_rule_refs():
         rel = os.path.relpath(path, REPO)
         if rel.startswith('sessions'):
             continue
-        for i, line in enumerate(open(path, encoding='utf-8', errors='replace'), 1):
+        lines = open(path, encoding='utf-8', errors='replace').read().splitlines()
+        for i, line in enumerate(lines, 1):
             for m in ref.finditer(line):
                 for n in m.groups():
                     if not n:
                         continue
                     if n not in rules:
                         missing.append((rel, i, n))
+                        continue
+                    # A passage describing a past miscitation is not making one.
+                    # This needs its OWN narrow excuse, not the retired-value
+                    # EXCUSES: that regex matches "wrong" and "error", which occur
+                    # naturally in this repository's technical prose and silently
+                    # excused both real miscitations when it was tried.
+                    if CITATION_TALK.search(' '.join(lines[max(0, i - 3):i + 2])):
                         continue
                     cite = _words(line)
                     if len(cite) < 3:
