@@ -1,7 +1,22 @@
 # Current status
 
-**Last updated:** 2026-09-09 (latest)
-**Updated by:** Jacob, remote. **Documentation only — nothing was powered or measured here.**
+**Last updated:** 2026-09-09 (final)
+**Updated by:** Jacob, remote. **Documentation, tooling and diagnosis only — nothing was powered,
+no hardware measurement taken.** The only measurement came from a mesh: the preamp box M2 pilot.
+
+> ## IF YOU READ ONE THING BEFORE THE NEXT BENCH SESSION
+>
+> **The flux arrives 2026-09-11. The things that remove it were NOT ordered** — no 99% IPA, no
+> distilled water, no brushes, lint-free wipes or foam swabs. **Rosin left on the preamp board is a
+> leakage path at the exact node the 119 nA fault sits on. Do not solder the preamp until the
+> cleaning kit is in the room.** **Copper tape** for the shield is also still unbought.
+>
+> **When the screws arrive: M2×6, NOT M2×8.** The box pilot is 5.00 mm deep and blind; an M2×8
+> bottoms out and cracks the boss. **Calipers on the board first** — its thickness is assumed, not
+> measured. Drive slowly, stop at snug; the thread is plastic.
+>
+> **The piezo scanner is built and working.** Closed — do not re-open it, do not buy Sn42/Bi58
+> paste, do not spend bench time on the seat-versus-disc question.
 
 > **Two changes of state, both from Jacob rather than from any file.**
 >
