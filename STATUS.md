@@ -21,7 +21,24 @@
 > blocked on. Do not solder the preamp until the cleaning kit is in the room.**
 > **Copper tape is now the only other unbought item.**
 
-See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 11 and 12, and
+> **3. Three defects found in the instruction files themselves**, after Jacob reported the model
+> behaving worse since the 2026-09-08 audit. **He was right.** `CLAUDE.md` had nearly doubled in
+> four days, and:
+>
+> - **Two `safety rule 10` citations in this file meant rule 13** — the DAC modulo-wrap tip hazard.
+>   Rules were inserted above it and the citations never moved. **Both corrected.**
+> - **`CLAUDE.md` §4 was a second, shorter, differently-numbered safety list** claiming to be a copy
+>   of this one. Its 7 was `CCON`; ours is the tip-holder meter check. It also omitted four hazards,
+>   including the DAC wrap and the 45-minute warm-up. **It is now unnumbered and points here. This
+>   file's list is the only citable one.**
+> - **`CLAUDE.md` forbade restating any number outside `docs/FACTS.md`** — a rule the repository has
+>   never followed (`10.24 V` is in 11 live documents) and which the 2026-09-08 audit had already
+>   decided against in writing. **Rewritten to match the decision.**
+>
+> **`check_facts.py` now verifies every "safety rule N" citation resolves AND matches its rule's
+> wording**, and is regression-tested against both original miscitations. 40 approach tests pass.
+
+See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 11, 12 and 14, and
 [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
 
 Earlier on 2026-09-09 (later): Jacob, remote. C2's
@@ -150,7 +167,7 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 > **New on 2026-09-06, second pass.** A verification audit found the first pass had stopped early.
 > The five `.3mf` slicer files, the CAD render and the reference images had never been opened; two
 > numbers in the reference were wrong. Highlights, all detailed below or in the reference:
-> **safety rule 10** (an out-of-range DAC command silently jumps to the opposite rail),
+> **safety rule 13** (an out-of-range DAC command silently jumps to the opposite rail),
 > **fault 4b** (U13's unused op-amp channel floats next to the bias buffer),
 > **the measurable-current ceiling is 41 nA, so the 119 nA fault is eating 91% of the ADC's range**,
 > and **H1 pins 24 and 26 are spare ribbon conductors** — exactly the two wires the DAC fix needs.
@@ -983,7 +1000,7 @@ here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log 
 | `stm_control.py:88` | `set_buffer_size()` is **Windows-only** in pyserial. On macOS or Linux the GUI cannot open the port at all |
 | `stm_control.py:40-49` | All three axis voltage conversions use ±5 V. Z is **±10 V**, X and Y are **±3 V**. Every voltage the GUI displays is wrong |
 | `stm_firmware.hpp:497-498` | Comments say X and Y are ±5 V. They are **±3 V** — same mode bits as bias, which measures ±3 V. Comment only, the behaviour is correct |
-| `AD5761.cpp` `write()` | **`reg_data` is `uint16_t`, so every DAC command wraps modulo 65536 with no error.** See safety rule 10 — this is a tip hazard, not a cosmetic issue. Found 2026-09-06 |
+| `AD5761.cpp` `write()` | **`reg_data` is `uint16_t`, so every DAC command wraps modulo 65536 with no error.** See safety rule 13 — this is a tip hazard, not a cosmetic issue. Found 2026-09-06 |
 | `main.cpp` `SCST` handler | **Seven integers parsed straight from serial with no bounds check.** `y_resolution` indexes `scan_image_adc[2048]` and `scan_image_z[2048]`, so **`y_resolution > 2048` writes past the end of both arrays.** `sample_per_pixel = 0` divides by zero. Keep y_resolution ≤ 2048. Found 2026-09-06 |
 | `AD5761.cpp` `write_volt()` | **Never called, and wrong if it were.** `(voltage/2.5 + 4)/8 * 65536` assumes the ±10 V range, so it is wrong for X, Y and bias (±3 V); and at exactly +10 V it computes 65536, which wraps to 0 and outputs −10 V. Same class of trap as `read_volts()`. Do not use it. Found 2026-09-06 |
 | `AD5761.hpp` header comments | Document the mode words as `0b0000000101000` (±10 V) and `0b0000000101101` (±3 V). The firmware actually writes `0b0…000` and `0b0…101`. **Only the low three bits agree.** The firmware's words are the ones measured to work; the header's comments are stale. Found 2026-09-06 |

@@ -176,8 +176,19 @@ believed them.
 
 1. **`docs/FACTS.md` holds the canonical value of every number that matters.** Value, units,
    provenance, date.
-2. **Do not restate one of those numbers in another document. Link to it.** A number written in two
-   places is a number that will disagree with itself.
+2. **Do not build a second register.** A table, list or reference block of constants anywhere but
+   `docs/FACTS.md` is the thing that goes wrong — two registers drift apart and nobody can tell
+   which is current. **Citing a number inside an argument is different and is fine**, because prose
+   with the figures stripped out and replaced by links is unreadable. **The protection is the
+   checker, not a prohibition.**
+
+   > **Corrected 2026-09-09.** This rule read "do not restate one of those numbers in another
+   > document, link to it" — an absolute that **the repository has never followed and cannot**:
+   > `10.24 V` is in 11 live documents, `119 nA` in 10, **including this file.** The 2026-09-08
+   > audit had already decided against it in writing (`sessions/2026-09-08.md`, "One honest
+   > limitation") and `CLAUDE.md` was never updated to match. **A rule that every document breaks
+   > teaches the reader that the rules here are decorative**, which is worse than the duplication
+   > it was trying to prevent.
 3. **When a value changes, change it in `docs/FACTS.md` first**, add the old one to its RETIRED
    table, then run `python3 Code/pc/check_facts.py` and fix what it finds.
 4. **Session logs are history and keep their original numbers.** The checker skips them. Never
@@ -251,25 +262,51 @@ was assembled, what a supplier did or asked:**
 
 ## 4. Hardware safety rules — never violate these
 
-These are in `STATUS.md` too. They are repeated here because breaking one can cost hardware.
+> **`STATUS.md`'s numbered list is the authority and the only one that may be cited.** It runs
+> **0, 0b, 0c, then 1 to 13**, and it grows. **The rules below are deliberately UNNUMBERED.**
+>
+> **Why.** Until 2026-09-09 this section was a numbered list of seven, and `STATUS.md` had a
+> different list of sixteen. **The same number meant different rules in the two files** — this
+> section's 7 was `CCON`, `STATUS.md`'s 7 was the tip-holder meter check — while this file claimed
+> "these are in `STATUS.md` too". **Never cite "safety rule N" against this section.** When you see
+> "safety rule N" anywhere in the repository it means `STATUS.md`, always.
 
-1. **Check LED1–LED4 before and after every measurement.** They are lit at **every** power-on and
-   `RSET` clears them — this is power sequencing, not a random fault, see `STATUS.md` fault 4. Any reading taken with one of those LEDs lit is void. **There is no
-   software way to detect this** — the ALERT pins are not wired to the Teensy, and `GSTS` reports
-   firmware bookkeeping, not measurements.
-2. **Never tell the user to run `APRH`** until the sign of the tunneling current is known.
-   `approach()` compares `read_adc() > target` against a baseline that has been negative all
-   project. If tunneling drives the reading more negative, it never triggers and the tip drives
-   into the sample.
-3. **Never raise either SPI clock above 1 MHz.** The ribbon cannot carry 40 MHz.
-4. **Park Z at midscale (32768) before the motor moves.** `RSET` and `TEST` both leave Z at a rail.
-5. **No cyanoacrylate** anywhere near the preamp or in its enclosure. CA vapour blooms and
-   contaminates the input node — this is the current blocker.
-6. **Preamp measurements are invalid if anyone is within a metre of the board.** A human body
-   injects 20 to 50 nA; a tunneling current is about 1 nA.
-7. **Never tell the user to send `CCON` with a tip in tunneling range.** `control_current()`
-   hardcodes midscale, so engaging the loop snaps Z to 32768 from wherever it was — up to a
-   ~180 nm lurch. Unfixed. See `STATUS.md` fault 2.
+**These are the ones that cost hardware. The list is a summary, not a substitute — read
+`STATUS.md`'s before any bench session, because it is longer and it changes.**
+
+- **Check LED1–LED4 before and after every measurement.** They are lit at **every** power-on and
+  `RSET` clears them — power sequencing, not a random fault, see `STATUS.md` fault 4. Any reading
+  taken with one lit is void. **There is no software way to detect this** — the ALERT pins are not
+  wired to the Teensy, and `GSTS` reports firmware bookkeeping, not measurements.
+- **Never tell the user to run `APRH`** until the sign of the tunneling current is known.
+  `approach()` compares `read_adc() > target` against a baseline that has been negative all
+  project. If tunneling drives the reading more negative it never triggers, and the tip drives into
+  the sample.
+- **Never raise either SPI clock above 1 MHz.** The ribbon cannot carry 40 MHz.
+- **Park Z at midscale (32768) before the motor moves.** `RSET` and `TEST` both leave Z at a rail,
+  so re-park after either.
+- **No cyanoacrylate** anywhere near the preamp or in its enclosure. CA vapour blooms and
+  contaminates the input node — this is the current blocker.
+- **Preamp measurements are invalid if anyone is within a metre of the board.** A human body
+  injects tens of nA; a tunneling current is about 1 nA.
+- **Never tell the user to send `CCON` with a tip in tunneling range.** `control_current()`
+  hardcodes midscale, so engaging the loop snaps Z to 32768 from wherever it was. Unfixed. See
+  `STATUS.md` fault 2.
+
+**Four more that live only in `STATUS.md`, and are just as capable of costing hardware or a day.
+Added here 2026-09-09 because this section had silently omitted them:**
+
+- **An out-of-range DAC value does not error — it silently jumps the axis to the opposite rail.**
+  `write()` takes a `uint16_t`, so anything outside 0–65535 wraps modulo 65536. **A tip hazard, not
+  a typo.** `STATUS.md` safety rule 13.
+- **No preamp measurement is valid until the board has been powered for 45 minutes.** The offset
+  climbs for over an hour after power-on. A reading taken early looks like a spectacular
+  improvement and is worthless. `STATUS.md` safety rule 0.
+- **A multimeter cannot clear a suspect leakage path here.** What matters is 100 MΩ to 10 GΩ; a
+  typical DMM tops out near 60 MΩ, so **"OL" only proves ">60 MΩ"**. **Never read OL as "ruled
+  out."** `STATUS.md` safety rule 12.
+- **Do not glue the spare preamp board to anything**, and **do not rebuild the preamp or the tip
+  lead** until the measurement chain is fixed. `STATUS.md` safety rules 10 and 0b.
 
 ---
 
@@ -323,7 +360,7 @@ it anywhere else creates a copy that will drift.
 
 | Information | Canonical home | Everywhere else |
 |---|---|---|
-| **Any constant or measured number** | **`docs/FACTS.md`** | link to it, never restate |
+| **Any constant or measured number** | **`docs/FACTS.md`** | **no second register.** Citing a figure in prose is fine and `check_facts.py` guards it — see §3bb |
 | **Any open question, UNKNOWN or VERIFY** | **`docs/OPEN_QUESTIONS.md`** | link to it |
 | **What to do next at the bench** | **`docs/NEXT_SESSION_PLAN.md`** | `STATUS.md` summarises, does not duplicate |
 | **Current state, faults, safety rules** | **`STATUS.md`** | — |

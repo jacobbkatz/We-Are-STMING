@@ -146,6 +146,90 @@ def check_archive_refs():
     return bad
 
 
+STOPWORDS = set("""
+about above after again against because before being below between both cannot could does
+doing during each every from have having here into itself just more most only other over
+same should some such than that their them then there these they this those through under
+until very were what when where which while will with would your rule rules safety status
+""".split())
+
+
+def status_rules():
+    """STATUS.md's numbered safety rules, as {number: body text}.
+
+    Written as "0.", "0b.", "0c.", "1." ... at the start of a line inside the
+    standing-safety-rules section. A rule runs on until the next one starts.
+    """
+    path = os.path.join(REPO, 'STATUS.md')
+    if not os.path.exists(path):
+        return {}
+    rules, inside, cur = {}, False, None
+    for line in open(path, encoding='utf-8', errors='replace'):
+        if re.match(r'#+ +Standing safety rules', line):
+            inside = True
+            continue
+        if inside and re.match(r'#+ ', line):
+            break
+        if not inside:
+            continue
+        m = re.match(r'(\d+[a-z]?)\. +(\S.*)', line)
+        if m:
+            cur = m.group(1)
+            rules[cur] = m.group(2)
+        elif cur and line.strip():
+            rules[cur] += ' ' + line.strip()
+    return rules
+
+
+def _words(text):
+    text = re.sub(r'`[^`]*`', ' ', text)
+    return {w for w in re.findall(r"[a-z]{5,}", text.lower()) if w not in STOPWORDS}
+
+
+def check_safety_rule_refs():
+    """Every "safety rule N" citation must resolve, AND point at the right rule.
+
+    Added 2026-09-09 after this went wrong in both ways it can. STATUS.md cited
+    "safety rule 10" twice meaning the DAC modulo-wrap hazard, which had become
+    rule 13 when rules were inserted above it -- while rule 10 had become "do not
+    glue the spare board". The citation still resolved, so a dangling-reference
+    check passes it. A session following it reads a different rule, and the one it
+    misses is a tip hazard.
+
+    So this checks two things: that rule N exists, and that the citing sentence
+    shares at least one content word with rule N's own text. No overlap at all
+    means the citation is almost certainly pointing at the wrong number.
+
+    STATUS.md's numbered list is the only citable one. Session logs are history
+    and keep whatever numbering was current when they were written.
+    """
+    rules = status_rules()
+    if not rules:
+        return [], []
+    ref = re.compile(r'safety rules? (\d+[a-z]?)(?: and (\d+[a-z]?))?', re.I)
+    missing, mismatched = [], []
+    for path in live_files():
+        if not path.endswith('.md') or '/archive/' in path:
+            continue
+        rel = os.path.relpath(path, REPO)
+        if rel.startswith('sessions'):
+            continue
+        for i, line in enumerate(open(path, encoding='utf-8', errors='replace'), 1):
+            for m in ref.finditer(line):
+                for n in m.groups():
+                    if not n:
+                        continue
+                    if n not in rules:
+                        missing.append((rel, i, n))
+                        continue
+                    cite = _words(line)
+                    if len(cite) < 3:
+                        continue          # "see safety rule 10" and nothing else
+                    if not (cite & _words(rules[n])):
+                        mismatched.append((rel, i, n, line.strip()[:80]))
+    return missing, mismatched
+
+
 def main():
     pats = retired_patterns()
     if not pats:
@@ -181,12 +265,14 @@ def main():
 
     links = check_links()
     arch = check_archive_refs()
+    rule_missing, rule_wrong = check_safety_rule_refs()
 
-    if not hits and not links and not arch:
+    if not hits and not links and not arch and not rule_missing and not rule_wrong:
         print("check_facts: clean.")
         print("  - no retired value in a live document")
         print("  - no broken file reference")
         print("  - no archived document cited as current")
+        print("  - every 'safety rule N' citation resolves, and matches its rule")
         return 0
 
     if links:
@@ -201,6 +287,24 @@ def main():
         for rel, ln, name in arch:
             print("    %s:%d  mentions %s" % (rel, ln, name))
         print("  Say 'archived' or 'superseded' on the line, or point somewhere current.\n")
+
+    if rule_missing:
+        print("check_facts: %d 'safety rule N' citation(s) that STATUS.md does not have:\n"
+              % len(rule_missing))
+        for rel, ln, n in rule_missing:
+            print("    %s:%d  cites safety rule %s" % (rel, ln, n))
+        print()
+
+    if rule_wrong:
+        print("check_facts: %d 'safety rule N' citation(s) pointing at the WRONG rule:\n"
+              % len(rule_wrong))
+        for rel, ln, n, text in rule_wrong:
+            print("    %s:%d  cites safety rule %s, which is about something else"
+                  % (rel, ln, n))
+            print("          %s" % text)
+        print("  The rule exists, but shares no wording with the sentence citing it.")
+        print("  STATUS.md renumbers when a rule is inserted -- find the rule that")
+        print("  actually holds this content and cite that number instead.\n")
 
     if not hits:
         return 1
