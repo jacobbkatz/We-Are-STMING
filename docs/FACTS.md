@@ -112,7 +112,7 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | **Preamp box screw length** | **M2×6. NOT M2×8** | CALC | 2026-09-09 |
 | Piezo disc seat in `PiezoPlate` | **Ø20.500 × 3.00 mm deep** over Ø18.000 | MESH | 2026-09-06 |
 | Piezo disc in the BOM | **25–27 mm brass** | BOM | — |
-| **Disc vs seat** | **CONFLICT — a 25–27 mm disc does not fit a 20.5 mm seat** | — | 2026-09-06 |
+| **Disc vs seat** | ~~CONFLICT~~ **CLOSED BY CONSTRUCTION 2026-09-09 — the scanner is built and works, so whatever went in fits.** A documentation artefact. Do not spend bench time on it | SAID | 2026-09-09 |
 | Print material | **PETG-CF** | Jacob | 2026-09-07 |
 | Scanner displacement | ~34 nm/V in Z, ~83 nm/V in XY | INFER | — | **Berard's disc, not ours** |
 

@@ -5,10 +5,11 @@
 
 > **Two changes of state, both from Jacob rather than from any file.**
 >
-> **1. The piezo scanner is built.** `SAID` 2026-09-09. **How it was built has not been stated and
-> is not inferable** — four explicit UNKNOWNs are logged in
-> [`docs/INVENTORY.md`](docs/INVENTORY.md), including **whether the four quadrant wires were
-> labelled**, which is the one worth answering soon. The Sn42/Bi58 purchase is moot.
+> **1. The piezo scanner is BUILT AND WORKING.** `SAID` 2026-09-09, Jacob. **Settled — do not
+> re-open it.** The Sn42/Bi58 paste is not to be bought, the iron-temperature question is moot, and
+> the Ø20.500 seat versus 25-27 mm disc conflict is **closed by construction: a working scanner
+> exists, so whatever went in fits.** No bench time on any of it. Quadrant-to-axis mapping was never
+> recorded and does not need to be — it falls out of the first image and is fixed in software.
 >
 > **2. Four items ordered, arriving 2026-09-11:** the **Chip Quik RMA791 rosin flux jar** (ROL0 —
 > the correct flux), a **manual syringe dispenser** to load from it, an **800 pc M2 screw
@@ -177,7 +178,7 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 | 2 Motor | PASS | |
 | 3 Analog rails | PASS | LED5 and LED6 lit |
 | 4 DACs and ADC | PASS | |
-| 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535` |
+| 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535`. **The scanner itself is now built and working** — Jacob, 2026-09-09 |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
 | 6 Preamp | **FAIL** | **~119 nA input leakage**, measured at PAD1 on 2026-09-07. Was recorded as 37 nA |
 | **Measurement chain** | **NEW FAIL** | **`PREAMP-` floating** — the ADC's reference is undefined. **Not over range after all:** span is ±10.24 V and the differential is ~9.2 V |
@@ -733,6 +734,20 @@ over** — it is the measurement reference, and it is repairable without a rebui
 > **The order below does not depend on the absolute-maximum rating at all**, because the preamp
 > rebuild can be validated with a meter at PAD1, which does not involve the ADC.
 
+### Purchase blocker, added 2026-09-09 — read before planning a soldering session
+
+**The flux arrives 2026-09-11. The things that remove it were NOT ordered.** No 99% IPA, distilled
+water, soft brushes, lint-free wipes or foam swabs. **Rosin flux left on this board is a leakage
+path at the exact node the 119 nA fault sits on.**
+
+**Do not solder the preamp until the cleaning kit is in the room.** Also still unbought: **copper
+tape with conductive adhesive** for the shield — aluminium will not do. See
+[`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
+
+**When the screws arrive: use the M2x6, not the M2x8.** The box pilot is 5.00 mm deep and blind;
+an M2x8 bottoms out and cracks the boss. **Calipers on the board first** — its thickness is assumed,
+not measured. Drive slowly, stop at snug; the thread is plastic.
+
 ### One required unpowered check, added 2026-09-09 — do it before anything is switched on
 
 **A. Check C2's polarity.** Two minutes with the beeper and a magnifier, board unpowered. See
@@ -928,7 +943,7 @@ here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log 
 | **Does the rebuilt preamp box shield conduct end to end?** | Two minutes with a meter, never done. Every shield conclusion rests on it |
 | **Is the ~119 nA the CA contamination, or something else?** | The rail-leak mechanism failed its own test. Drives whether the rebuild is the right fix |
 | **Which Z direction approaches the sample, and which sign of `MTMV` advances?** | `Code/pc/stm_approach.py` refuses to run without both |
-| **Does the piezo disc fit its Ø20.500 mm seat?** | The BOM says 25–27 mm. Changes every nm/V figure. Two calliper readings |
+| ~~**Does the piezo disc fit its Ø20.500 mm seat?**~~ **CLOSED 2026-09-09 by construction** | The scanner is built and works. **Do not spend bench time on this.** The nm/V figures still want a real calibration eventually, but that is a scan-calibration job, not a fit question |
 
 > **Closed since this table was last pruned**, and now only in `docs/OPEN_QUESTIONS.md`:
 > the ADC full scale (±10.24 V), the output format (two's complement), whether the ADC is damaged

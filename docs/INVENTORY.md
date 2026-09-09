@@ -84,19 +84,21 @@ fitted" line and by Jacob 2026-09-09.
 
 ---
 
-## The piezo scanner — built
+## The piezo scanner — BUILT AND WORKING
 
-**`SAID` 2026-09-09, Jacob: the piezo is finished.** Recorded here because it changes what is in the
-room. **Nothing about how it was built has been stated, and none of it is inferable** — see the
-questions below before anything in the docs is written as fact.
+**`SAID` 2026-09-09, Jacob: the piezo scanner is finished and it works.** Recorded as fact, not as a
+question. **Nobody needs to ask about it again.**
 
 | | |
 |---|---|
-| **Status** | **Built and complete.** `SAID`, 2026-09-09 |
-| How the quadrant wires were attached | **UNKNOWN.** Solder, and if so which alloy, or conductive epoxy |
-| Whether the disc still actuates | **UNKNOWN.** A depolarised disc still reads correctly on a meter — `docs/START_HERE_gotchas.md` |
-| Which disc was used | **UNKNOWN.** `docs/FACTS.md` records an unresolved conflict: a Ø20.500 mm seat against a 25-27 mm disc in the BOM |
-| **Were the four quadrant wires labelled?** | **UNKNOWN, and this is the time-critical one** — see `docs/OPEN_QUESTIONS.md` |
+| **Status** | **Built, complete and working.** `SAID`, Jacob, 2026-09-09 |
+| **Sn42/Bi58 low-temp paste** | **Do not buy.** The joints are made |
+| Quadrant-to-axis mapping | **Not recorded, and does not need to be.** The four wires are identical bare copper; the mapping falls out of the first image and is fixed in software. See `docs/OPEN_QUESTIONS.md` |
+
+> **Disc-versus-seat is settled by construction.** `docs/FACTS.md` carried a conflict between the
+> Ø20.500 mm seat in `PiezoPlate` and the 25-27 mm disc in `docs/BOM.md`. **A working scanner is
+> built, so whatever went in fits.** The paper conflict is a documentation artefact, not a
+> hardware problem, and no bench time should go on it.
 
 ## How to keep this file honest
 
