@@ -486,6 +486,18 @@ seconds.** These four rules are what would have caught them, and they cost almos
 
 Carried forward from the existing documents, because it has served this project well:
 
+- **A photograph is not a measurement of OUR hardware. Ask whose board it is before reading
+  anything off it.** **Applied 2026-09-09 from Nuh's own recommendation** in
+  `sessions/2026-09-09.md` §9, which had been written down and never acted on. That session read
+  the marking `A BB OPA124U` off a shared photo and edited **five documents** to say that is our
+  fitted part, before anyone asked whose board it was. **It was Dan Berard's.** Every edit was
+  reversed. The rule below was already in this file for wire colours; **it generalises to any
+  hardware fact — a part marking, a connector, a solder joint, a colour, a count.**
+- **A search-result summary is not a datasheet.** Same session, same day: the Keystone 11301's
+  hole was recorded as Ø2.03 mm from a search snippet and declared a clearance fit. **2.03 mm is
+  the part's length below the flange, not a diameter.** The real figure is larger than our hole —
+  interference, not clearance. **Get the manufacturer's own parameter table before a number
+  decides anything.**
 - **Use wire colours, and use the J1 / J2 ones from `docs/WIRING.md`.** Jacob and Nuh prefer
   colours to pin numbers, and they translate to their own jumpers themselves. **Do not read
   colours off a photograph** — the jumper leads at the preamp end are different colours from the

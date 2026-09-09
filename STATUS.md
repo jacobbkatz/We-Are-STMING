@@ -22,8 +22,15 @@
 > **Copper tape is now the only other unbought item.**
 
 > **3. Three defects found in the instruction files themselves**, after Jacob reported the model
-> behaving worse since the 2026-09-08 audit. **He was right.** `CLAUDE.md` had nearly doubled in
-> four days, and:
+> behaving worse since the 2026-09-08 audit.
+>
+> > **CORRECTED 2026-09-09 (final). These defects were real and worth fixing, but they did NOT
+> > cause the behaviour Jacob reported, and presenting them as the answer was a mis-attribution.**
+> > Every observed failure happened with the correct information already visible. **See
+> > [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) §17 for the diagnosis that was
+> > actually tested against the evidence.** Keep the fixes; do not believe the causal claim.
+>
+> `CLAUDE.md` had nearly doubled in four days, and:
 >
 > - **Two `safety rule 10` citations in this file meant rule 13** — the DAC modulo-wrap tip hazard.
 >   Rules were inserted above it and the citations never moved. **Both corrected.**
@@ -75,8 +82,35 @@
 > assertions, both hook behaviours, 40 unit tests. **`CLAUDE.md` §7 gains four rules** aimed at the
 > stopping-rule failure that made this take three passes. See
 > [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) §16.
+>
+> **6. The diagnosis, finally tested against the evidence — and the first three passes had the cause
+> wrong.** Jacob reported that **Nuh had seen the same decline**, which rules out anything specific
+> to one session. **None of the defects in items 3-5 explains any observed failure:** the start-up
+> hook named the *right* log for the question asked, and the answer was **the first row of a table
+> that had just been printed in full.**
+>
+> **Ruled out by evidence:** the model changed (`get_session` — `claude-opus-5`, effort high, no
+> fallback, **checked on two separate days**); context exhaustion (318k of 1M, and the misread was
+> the session's first exchange); the repository; `CLAUDE.md`'s length.
+>
+> **The actual mechanism, in nine errors across three sessions and both people's work:** act on the
+> first plausible reading, write it in as fact, skip the cheap check that would have disconfirmed
+> it. Nuh's session put `OPA124U` into **five documents** from a photograph of **Berard's** board;
+> a 2.03 mm *length* was read as a *diameter* and called a clearance fit; this session read
+> "solder" as piezo paste with the flux row on screen, and pushed a commit while the checker was
+> failing.
+>
+> **A fifth written rule would have been worthless** — §1, §3d and §7 already say it. **So what was
+> added is mechanism:** a **pre-commit hook that refuses a commit while `check_facts.py` fails**
+> (auto-installed on both computers via `core.hooksPath`), and **a checker that detects its own
+> blind spots** — generalising Nuh's finding that a badly worded RETIRED qualifier let it
+> **report clean while three files carried the wrong number**. **Two recommendations Nuh wrote down
+> on 2026-09-09 and nobody applied are now applied.**
+>
+> **Not claimed as fixed.** No mechanism can ask "whose board is that photo of". See
+> [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) §17.
 
-See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 11, 12, 14, 15 and 16, and
+See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 11, 12, 14, 15, 16 and 17, and
 [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
 
 Earlier on 2026-09-09 (later): Jacob, remote. C2's

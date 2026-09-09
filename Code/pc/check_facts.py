@@ -208,6 +208,46 @@ def _words(text):
     return {w for w in re.findall(r"[a-z]{5,}", text.lower()) if w not in STOPWORDS}
 
 
+def check_dead_qualifiers():
+    """A qualified RETIRED row whose qualifier matches nothing is an inert check.
+
+    Added 2026-09-09, generalising a finding Nuh recorded the same day
+    (sessions/2026-09-09.md section 9). The `5.93 mm` row was qualified as "the
+    preamp mounting-hole spacing" -- wording that appears in no document -- so the
+    qualifier never matched and THE CHECKER REPORTED CLEAN WHILE THREE LIVE FILES
+    CARRIED THE WRONG NUMBER. Broadening it to "the mounting holes" caught all
+    three at once.
+
+    Nuh's own words: "A silent checker is worse than no checker, because it is
+    believed. When adding a RETIRED row, phrase the qualifier in the words the
+    documents actually use, then confirm it fires before trusting it."
+
+    That confirmation was a manual step, so this does it automatically. It does not
+    test whether the row finds stale values -- it tests whether the row is CAPABLE
+    of finding them. A qualifier matching nothing anywhere is dead wording.
+    """
+    dead = []
+    for literal, qual, replacement in retired_patterns():
+        if not qual:
+            continue                      # unqualified rows always fire
+        words = [w for w in qual.split() if len(w) > 3]
+        if not words:
+            continue
+        seen = False
+        for path in live_files():
+            if not path.endswith('.md') or seen:
+                continue
+            lines = open(path, encoding='utf-8', errors='replace').read().splitlines()
+            for i in range(len(lines)):
+                window = ' '.join(lines[max(0, i - 2):i + 2]).lower()
+                if all(w in window for w in words):
+                    seen = True
+                    break
+        if not seen:
+            dead.append((literal, qual))
+    return dead
+
+
 def check_session_index():
     """Every session log on disk must be linked from sessions/README.md.
 
@@ -327,14 +367,16 @@ def main():
     arch = check_archive_refs()
     rule_missing, rule_wrong = check_safety_rule_refs()
     unindexed = check_session_index()
+    dead_quals = check_dead_qualifiers()
 
-    if not hits and not links and not arch and not rule_missing and not rule_wrong and not unindexed:
+    if not hits and not links and not arch and not rule_missing and not rule_wrong and not unindexed and not dead_quals:
         print("check_facts: clean.")
         print("  - no retired value in a live document")
         print("  - no broken file reference")
         print("  - no archived document cited as current")
         print("  - every 'safety rule N' citation resolves, and matches its rule")
         print("  - every session log is listed in sessions/README.md")
+        print("  - every RETIRED qualifier still matches real wording")
         return 0
 
     if links:
@@ -349,6 +391,15 @@ def main():
         for rel, ln, name in arch:
             print("    %s:%d  mentions %s" % (rel, ln, name))
         print("  Say 'archived' or 'superseded' on the line, or point somewhere current.\n")
+
+    if dead_quals:
+        print("check_facts: %d RETIRED row(s) whose qualifier matches NOTHING:\n"
+              % len(dead_quals))
+        for literal, qual in dead_quals:
+            print("    '%s' qualified as '%s'" % (literal, qual))
+        print("  This row can never fire, so the checker is BLIND to that value while")
+        print("  reporting clean. Reword the qualifier in docs/FACTS.md using the words")
+        print("  the documents actually use. See sessions/2026-09-09.md section 9.\n")
 
     if unindexed:
         print("check_facts: %d session log(s) missing from sessions/README.md:\n"

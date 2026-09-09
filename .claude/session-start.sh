@@ -21,6 +21,15 @@ cd "$(dirname "$0")/.." || exit 0
 
 MAIN="main"
 
+# Install the tracked git hooks on this computer if they are not already active.
+# .git/hooks is not version controlled, so a hook committed to the repository does
+# nothing on the other person's machine until core.hooksPath points at it. Doing
+# it here means neither Jacob nor Nuh has to run anything.
+if [ -d .githooks ] && [ "$(git config --get core.hooksPath 2>/dev/null)" != ".githooks" ]; then
+    git config core.hooksPath .githooks 2>/dev/null && \
+        echo "Installed the repository's git hooks (commit is now blocked while check_facts fails)."
+fi
+
 echo "=== We-Are-STMING: sync check ==="
 
 if ! git rev-parse --git-dir >/dev/null 2>&1; then

@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#
+# Refuses a commit while check_facts.py is failing.
+#
+# Why this exists. On 2026-09-09 a session pushed commit 1198651 to main with
+# check_facts.py exiting 1 on its own repository. The verification had been run
+# -- inside an "&&" chain, which reports the success of the last command in it,
+# not the one that mattered. The failure went straight past.
+#
+# The same session had already written the rule "run the check as its own command
+# and read the exit code". A rule is not a mechanism. This is the mechanism.
+#
+# To commit anyway -- mid-fix, or when you know why it is failing:
+#     git commit --no-verify
+#
+# Installed automatically by .claude/session-start.sh via core.hooksPath, so it
+# reaches both computers without anyone running anything.
+
+REPO=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+[ -f "$REPO/Code/pc/check_facts.py" ] || exit 0
+
+OUT=$(cd "$REPO" && python3 Code/pc/check_facts.py 2>&1)
+RC=$?
+
+if [ "$RC" -eq 0 ]; then
+    exit 0
+fi
+
+echo ""
+echo "=================================================================="
+echo " COMMIT BLOCKED - check_facts.py is failing"
+echo "=================================================================="
+echo ""
+echo "$OUT"
+echo ""
+echo "Fix what it names above, then commit again."
+echo ""
+echo "If you know why it is failing and want to commit anyway:"
+echo "    git commit --no-verify"
+echo ""
+exit 1
