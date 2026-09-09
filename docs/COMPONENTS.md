@@ -150,6 +150,13 @@ outside its specified input conditions.
 
 Texas Instruments (Burr-Brown). SOIC-8. **The most important part in the instrument.**
 
+> **VERIFY which part is actually fitted — opened 2026-09-08.** `docs/BOM.md` says **OPA627AU**;
+> the Eagle source we build from says **OPA124U**. **Nobody has read the marking on our own board.**
+> It matters: the OPA124's gain-bandwidth is **1.5 MHz** against the OPA627's 16 MHz, which changes
+> the stability margin below from about 7x to about 2x. Input bias current is ~1 pA either way, so
+> **nothing about the 119 nA conclusion depends on this.** One minute with a magnifier settles it.
+> See `docs/OPEN_QUESTIONS.md`.
+
 | Spec | Value | Mark |
 |---|---|---|
 | **Input bias current** | **~1 pA** | [DS] |
@@ -176,13 +183,14 @@ A transimpedance amplifier is stable when the feedback capacitance satisfies
 | Term | Value |
 |---|---|
 | R_f | 100 MΩ [DS/BOM] |
-| GBW | 16 MHz [DS] |
+| GBW | 16 MHz [DS] — *OPA627. 1.5 MHz if the fitted part is an OPA124* |
 | C_in (op-amp + stray, tip lead removed) | ~20 pF **[UNVERIFIED estimate]** |
-| **Required C_f** | **≥ 0.045 pF** [CALC] |
+| **Required C_f** | **≥ 0.045 pF** [CALC] — *0.146 pF if the fitted part is an OPA124* |
 | **Actual C_f** | **none fitted.** Only the resistor's own stray, typically 0.1–0.5 pF | design |
 
 > **The circuit is stable only because of the feedback resistor's stray capacitance. There is no
-> deliberate compensation capacitor.** It has enough margin at ~0.3 pF, but this is worth knowing:
+> deliberate compensation capacitor.** It has enough margin at ~0.3 pF — about **7x** for an OPA627,
+> about **2x** for an OPA124. Stable either way. This is worth knowing:
 > **do not "tidy" the feedback resistor by shortening its leads or laying it flat on the board.**
 > Air-mounting it is what keeps stray capacitance predictable, and it is also what keeps the input
 > node off the board surface.

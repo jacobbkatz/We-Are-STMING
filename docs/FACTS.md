@@ -102,12 +102,46 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | nm per motor step | **3.88 / 5.17 / 7.75** for ratio 40 / 30 / 20 | CALC | 2026-09-07 |
 | Plate-to-plate screws | **M3**, Ø3.200 clear into Ø2.500 self-tap | MESH | 2026-09-06 |
 | Preamp box screws | **M2**, Ø2.300 clear into Ø1.600 self-tap | MESH | 2026-09-06 |
-| Preamp board | **20.625 × 15.230 mm**, holes 5.93 mm apart | NETLIST | 2026-09-06 |
+| Preamp board | **20.625 × 15.230 mm**, 2 layer | NETLIST | 2026-09-06 |
+| **Preamp board mounting holes** | **2 × Ø2.261 NPTH, 11.430 mm apart** — (4.127, 1.905) and (4.127, 13.335) | NETLIST | 2026-09-08 |
+| **Preamp PTFE standoff hole** | **Ø2.108 NPTH, one only**, at (2.540, 7.620) — 2.540 mm from the board edge | NETLIST | 2026-09-08 |
+| **Preamp box standoff spacing** | **11.430 mm** — Ø1.600 M2 pilots at (5.63, 3.40) and (5.63, 14.83) | MESH | 2026-09-08 |
+| **Board-to-box fit** | **They match exactly.** M2 screws through Ø2.261 into Ø1.600. **No glue needed** | CALC | 2026-09-08 |
 | Piezo disc seat in `PiezoPlate` | **Ø20.500 × 3.00 mm deep** over Ø18.000 | MESH | 2026-09-06 |
 | Piezo disc in the BOM | **25–27 mm brass** | BOM | — |
 | **Disc vs seat** | **CONFLICT — a 25–27 mm disc does not fit a 20.5 mm seat** | — | 2026-09-06 |
 | Print material | **PETG-CF** | Jacob | 2026-09-07 |
 | Scanner displacement | ~34 nm/V in Z, ~83 nm/V in XY | INFER | — | **Berard's disc, not ours** |
+
+## Preamp board components
+
+**From the Eagle source `preamplifier/eagle/tunnelAmp.sch` inside `We-Are-STMING_PCB.zip`, opened
+2026-09-08.** The board is six SMD parts plus one through-hole header and one test pad. Only JP1
+(5 × Ø1.016 plated) and PAD1 (Ø0.914 plated) have drilled holes; everything else is surface mount.
+
+| Ref | Value | Package | Net / role |
+|---|---|---|---|
+| IC1 | **OPA627AU** per `docs/BOM.md` — **the Eagle source says OPA124U, and which part is actually on our board has never been checked with a magnifier** | SOIC-8, pads 2.210 × 0.610 mm | The TIA |
+| C1 | **4.7 µF** tantalum | EIA **6032-28** (case C) | + to +15 V, − to GND. **Correct** |
+| C2 | **4.7 µF** tantalum | EIA **6032-28** (case C) | **+ to −15 V, − to GND — REVERSED, see below** |
+| C3 | **0.1 µF** | **0603** | +15 V to GND |
+| C4 | **0.1 µF** | **0603** | −15 V to GND |
+| R1 | **220 Ω** | **0603** | Series output, IC1 pin 6 → JP1 pin 3 |
+| R3 (“R2” in our docs) | **100 MΩ** | **not on the board** — `docu-dummy` symbol | Air-wired feedback |
+| JP1 | 1×5 header | 2.54 mm through-hole | Power and output |
+| PAD1 | test pad | Ø0.914 plated | **Op-amp output, upstream of R1** |
+
+| Fact | Value | Prov | Date |
+|---|---|---|---|
+| **C2 polarity in the source design** | **Reversed.** Anode on −15 V, cathode on GND | NETLIST | 2026-09-08 |
+| IC1 pin 8 | **No internal connection** on the OPA627; **amplifier substrate** on the OPA124, where the datasheet says to ground it when no guard is used. Tied to GND on our board, which is correct either way | DS | 2026-09-08 |
+| Copper pours on the preamp board | **None.** Zero filled regions — **there is no guard ring** | NETLIST | 2026-09-08 |
+| Keystone **11301** mounting hole | **Ø2.184 mm (0.086")** — our hole is **0.076 mm under**, so it is a **press fit**, tighter than Keystone specify | DS | 2026-09-08 |
+| Keystone **11301** height above board | **6.35 mm (0.250")**; overall 8.38 mm, below-flange 2.03 mm, flange Ø3.18 mm | DS | 2026-09-08 |
+| **Standoff-hole edge margin** | **1.486 mm** as drilled; **1.448 mm** if opened to the 11301's Ø2.184 spec | CALC | 2026-09-08 |
+| Keystone **11311** mounting hole | **Ø3.45 mm (0.136")** — **does NOT fit our Ø2.108 hole.** Head is 2.03 mm; the flange needs the 3.45 | DS | 2026-09-08 |
+
+---
 
 ## Retired values — the checker looks for these
 
@@ -123,6 +157,7 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | `40.96 nA` as the measurable ceiling | **102.4 nA** | 2026-09-07 | Same cause |
 | `91%` as the **ADC range consumed** | **116% — off the top of the scale** | 2026-09-07 | Same cause |
 | `25 single-pad nets` | **34** | 2026-09-06 | Recount |
+| `5.93 mm` as the **mounting holes** | **11.430 mm** | 2026-09-08 | Paired the Ø2.108 PTFE standoff hole with one Ø2.261 mounting hole. The board has **three** NPTH holes and the third was missed |
 | `McMaster 97424A590` as **our** fine screw | unknown, ~30 mm longer | 2026-09-07 | That is Mech Panda's CAD part |
 | `±5 V` as the **X and Y range** | **±3 V** | 2026-08-31 | Firmware comments are wrong |
 | `244 nm` as the **motor step** | **3.88–7.75 nm** | 2026-09-05 | Old estimate |

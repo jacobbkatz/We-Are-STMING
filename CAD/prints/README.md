@@ -323,16 +323,35 @@ separately rather than modelled.
 
 ---
 
-## `1_preamp_box_base_v2_screwmount.stl` — print this one, not the original
+## `1_preamp_box_base_v2_screwmount.stl` — **DO NOT PRINT. Superseded 2026-09-08**
 
-**Made 2026-09-07. This is the box for the rebuilt preamp.**
+> # Correction banner — read before using this mesh
+>
+> **This mesh should not be printed. Print the original `1_preamp_box_base.stl` instead.**
+>
+> It was made on 2026-09-07 to solve a mismatch **that does not exist.** The box's two threaded
+> standoffs and the board's two mounting holes are **both 11.430 mm apart** and already match.
+>
+> **Worse, its added boss is in a harmful place.** The Ø5.000 mm boss at (4.04, 9.12) sits directly
+> under the board's **Ø2.108 mm PTFE standoff hole** — the input node's insulator position, and the
+> most leakage-sensitive point on the instrument. Using it would put an M2 screw and a
+> **carbon-fibre-filled (static-dissipative) pillar** there, and would occupy the hole the Keystone
+> standoff needs.
+>
+> Full reasoning: `docs/FACTS.md` and §0.3. Values in `docs/FACTS.md`.
+>
+> **The one reason to reprint the box still stands: the physical original is full of cured CA.**
+> Print the original geometry, in fresh material, and mount the board on two M2 screws.
+
+**Made 2026-09-07. Kept for history only.**
 
 **Why the original cannot be reused.** Two reasons, and either alone is enough:
 
-1. **Its standoffs do not match the board.** The box has two threaded standoffs **11.43 mm apart**;
-   the preamp board's two mounting holes are **5.93 mm apart**. Only one of the two lines up. One
-   screw will not hold a board, which is why the board ended up **superglued** in — and that glue
-   is now the leading candidate for the 119 nA leak.
+1. ~~**Its standoffs do not match the board.**~~ **WITHDRAWN 2026-09-08 — this was wrong.**
+   The box's two threaded standoffs and the board's two mounting holes are **both 11.430 mm apart**
+   and they match exactly. The now-retired `5.93 mm` figure was wrong: it was measured between the Ø2.108 mm **PTFE standoff
+   hole** and one mounting hole — the board has **three** non-plated holes and the third, at
+   (4.127, 1.905), was missed. See `docs/FACTS.md` and `docs/FACTS.md`.
 2. **The original box is contaminated.** Cured cyanoacrylate, three joints' worth, inside a 6 cm³
    volume. Putting a clean board into it would reproduce the fault.
 
@@ -349,11 +368,15 @@ standoffs. Verified with `Code/pc/stl_features.py`:
 | **NEW at (4.04, 9.12)** | — | **Ø5.000 boss, 4.00 mm tall, Ø1.600 pilot 4 mm deep** |
 | Cable hole | Ø4.000 through the Y wall | **unchanged** |
 
-**Where the new boss came from.** Board mounting hole (4.127, 13.335) lands within 0.1 mm of the
-existing standoff at (5.63, 14.83), which fixes the board's position in the box: offset
-**(1.503, 1.495)**. The board's other hole, (2.540, 7.620), therefore lands at box **(4.043,
-9.115)** — and that is exactly where the new boss is. It sits on the box centreline, 5.93 mm from
-each existing standoff, with **0.43 mm of clearance** to both.
+**Where the new boss came from — and where the reasoning went wrong.** Board mounting hole
+(4.127, 13.335) lands within 0.1 mm of the existing standoff at (5.63, 14.83), fixing the board's
+position in the box: offset **(1.503, 1.495)**. That part is correct.
+
+> **The error is the next step.** It then treated **(2.540, 7.620) as "the board's other hole"**.
+> It is not a mounting hole — it is the **Ø2.108 mm PTFE standoff hole**, and it is a different
+> diameter. The board's actual second mounting hole is **(4.127, 1.905)**, which under the very
+> same offset lands on the **existing** standoff at (5.63, 3.40). Both mounting holes were already
+> served. The new boss was never needed, and it sits on the input node.
 
 **So the board now takes two M2 screws** into Ø1.600 mm pilots — the same self-tapping scheme as
 the lid — and rests on the other two posts. **No glue anywhere.**

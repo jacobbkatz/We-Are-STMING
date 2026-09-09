@@ -147,12 +147,19 @@ must change. Record both numbers in `docs/BOM.md` and `CAD/prints/README.md`.
 
 ## H1. Print the new preamp box — do this first, it is the long-lead item
 
-**Why it matters.** The current box **cannot be reused**: its standoffs are 11.43 mm apart while the
-board's mounting holes are 5.93 mm apart, which is why the board was superglued in — and that glue
-is the leading candidate for the 119 nA. **It is also full of cured CA.**
+**Why it matters.** The current *physical* box **cannot be reused: it is full of cured CA**, the
+leading candidate for the 119 nA. That reason stands on its own.
 
-**Files.** `CAD/prints/enclosures/1_preamp_box_base_v2_screwmount.stl` (new base) and
-`1_preamp_box_lid.stl` (unmodified lid — reprint it too, the old one shared an enclosure with CA).
+> **The geometry reason was wrong — corrected 2026-09-08.** This section previously said the box's
+> standoffs (11.43 mm) did not match the board's mounting holes (`5.93 mm`, now retired as wrong). **They match exactly:
+> both are 11.430 mm.** The board has **three** non-plated holes and the Ø2.108 mm one is the
+> **PTFE standoff hole**, not a mounting hole. See `docs/FACTS.md`.
+
+**Files. Print the ORIGINAL base:** `1_preamp_box_base.stl` and `1_preamp_box_lid.stl`.
+
+> **Do NOT print `1_preamp_box_base_v2_screwmount.stl`.** Its added boss at (4.04, 9.12) sits under
+> the board's PTFE standoff hole — the input node — and would put an M2 screw and a
+> carbon-fibre-filled pillar at the most sensitive point on the instrument. §0.3 of the guide.
 
 **Settings.** PETG-CF, 0.08 mm layers, 2 walls, **no supports**, 40% infill is fine.
 **Bambu Studio may offer to repair the model — accept.** The added boss is a separate closed solid

@@ -97,7 +97,7 @@ keep soldering heat off the chip, and they let you swap a dead op-amp without de
 | Item | Spec | Qty | Status |
 |---|---|---|---|
 | PCB | 20.625 x 15.23 mm, 2-layer | 1 | CONFIRMED, Gerbers included |
-| **Op-amp** | **OPA627AU**, SOIC-8 | 1 | CONFIRMED on our board. **Berard's own design uses an OPA124**; he names OPA627 as a good substitute, so "Berard's design" overstated it. Corrected 2026-09-05 |
+| **Op-amp** | **OPA627AU**, SOIC-8 | 1 | CONFIRMED on our board. **Berard's own design uses an OPA124**; he names OPA627 as a good substitute. **VERIFY under a magnifier** — the Eagle source we build from says `OPA124U`, so the two disagree and nobody has read our own package marking. See `docs/OPEN_QUESTIONS.md` |
 | **Feedback resistor** | **100 Mohm** | 1 | CONFIRMED value |
 | Tantalum capacitor | 4.7 uF 35 V | 1 to 2 | CONFIRMED from a label we could read |
 | **PTFE standoff terminal** | **Keystone Electronics 11301** | 1 | **CONFIRMED 2026-09-05** — the exact part Berard names |

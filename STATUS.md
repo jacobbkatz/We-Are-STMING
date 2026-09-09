@@ -1,8 +1,13 @@
 # Current status
 
-**Last updated:** 2026-09-08
-**Updated by:** Jacob, remote. **Documentation only — no hardware was powered and nothing was
-measured on 2026-09-08.** Repository audit and migration: `docs/FACTS.md` and
+**Last updated:** 2026-09-09
+**Updated by:** Nuh. **Documentation only — no hardware was powered and nothing was measured on
+2026-09-09.** Worked out the materials and technique for finishing the preamp, and in doing so
+found that **the box already fits the board**, that **box v2 must not be printed**, and that
+**C2 is reverse-connected in the source design**. See [`sessions/2026-09-09.md`](sessions/2026-09-09.md)
+and the purchase list in [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
+
+Before that, 2026-09-08: Jacob, remote. Repository audit and migration: `docs/FACTS.md` and
 `Code/pc/check_facts.py` added, superseded documents archived with banners. See
 [`sessions/2026-09-08.md`](sessions/2026-09-08.md).
 **The hardware state below is unchanged from 2026-09-07**, when Nuh was at the bench with the
@@ -441,6 +446,40 @@ assembly. It was never disproved; it was removed.
    are two further independent reasons.
 4. **Never assume tape conducts to itself.** Check continuity across every seam with a meter.
 
+### 1d. C2 is reverse-connected in the source design — CHECK BEFORE POWERING THE PREAMP
+
+**Found 2026-09-09, in the design files. Not measured on hardware.**
+
+The preamp's Eagle source and its gerber pin attributes agree: **`C2`'s tantalum anode sits on the
+−15 V rail and its cathode on ground.** Ground is the more positive node, so as drawn the part is
+**reverse-biased by the full rail voltage.** C1, on the positive rail, is correct.
+
+A tantalum's reverse rating is a small fraction of its forward rating — typically quoted around
+10%, often capped near 1 V. At 15 V reverse it leaks, self-heats, and this is the classic tantalum
+short-and-ignite failure.
+
+**This is an upstream design error, in the board we fabricated from. Nobody here caused it.**
+
+> **UNKNOWN: how C2 is actually fitted on our physical board.** Nobody has looked. It is possible
+> whoever assembled it fitted the part against the silkscreen and got it right.
+
+**The check — two minutes, board unpowered.** On an SMD tantalum the printed stripe marks the
+**anode**. (On an aluminium electrolytic it marks the cathode. They are opposite.) Buzz each C2
+terminal to JP1 pin 1:
+
+| Result | Verdict |
+|---|---|
+| **Striped end beeps to ground** | Correct. Nothing to do |
+| **Unstriped end beeps to ground** | **Reverse-biased. Fix before powering** |
+
+**If reversed:** replace C2 with a **4.7 µF 50 V X7R ceramic** — a two-pad rework, and a ceramic is
+not polarized so it cannot recur. Rotating the tantalum 180° also works.
+
+**Worth checking on the old board too.** It has been powered for weeks, and a reverse-biased
+tantalum on the negative rail is a candidate for rail behaviour nobody has explained.
+
+---
+
 ### 2. `CCON` jumps Z to midscale and will crash a tip
 
 **Found 2026-09-05 by cross-referencing Dan Berard's write-up against our source. Not yet fixed.**
@@ -618,7 +657,18 @@ over** — it is the measurement reference, and it is repairable without a rebui
 > **The order below does not depend on the absolute-maximum rating at all**, because the preamp
 > rebuild can be validated with a meter at PAD1, which does not involve the ADC.
 
-### Do these first — none of them touch the ADC
+### Two unpowered checks, added 2026-09-09 — do these before anything is switched on
+
+**A. Check C2's polarity.** Two minutes with the beeper, board unpowered. See fault 1d. A
+reverse-biased tantalum on the −15 V rail is a fire risk, and this one is reverse-connected in the
+design we fabricated from.
+
+**B. Read the op-amp's package marking under the magnifier.** One minute. `docs/BOM.md` says
+**OPA627AU** and the Eagle source we build from says **OPA124U**, and nobody has looked. It changes
+the TIA stability margin (~7x vs ~2x) but **nothing about the 119 nA** — both parts are ~1 pA bias
+current. See `docs/OPEN_QUESTIONS.md`.
+
+### Then these — none of them touch the ADC
 
 1. **Measure PAD1 with a meter at 10 minutes and again at 60 minutes after power-on.**
    Five minutes of work, and it settles what the hour-long warm-up actually is.
@@ -628,11 +678,20 @@ over** — it is the measurement reference, and it is repairable without a rebui
    - **PAD1 climbing too** → the drift is real and in the preamp, and every future measurement must
      wait it out.
 
-2. **Start the new preamp box print NOW.** This is the long-lead item and it carries no risk.
-   The current box **cannot be reused**: its standoffs are 11.43 mm apart and the board's mounting
-   holes are **5.93 mm** apart, which is why the board was superglued in. **Move the two threaded
-   standoffs under the board's real hole positions and keep the Ø1.600 mm pilots** so M2 screws
-   self-tap. Nothing else about the box changes.
+2. **Reprint the preamp box — but print the ORIGINAL base, not v2. Corrected 2026-09-08.**
+   The old *physical* box still cannot be reused: it is full of cured CA. That reason stands.
+   **The geometry reason was wrong.**
+   > **The box already fits the board.** Both the box's threaded standoffs and the board's two
+   > mounting holes are **11.430 mm apart** — Ø2.261 mm clearance over Ø1.600 mm M2 pilots.
+   > The retired `5.93 mm` figure was wrong: it was measured between the Ø2.108 mm **PTFE standoff hole** and one
+   > mounting hole; the board has **three** non-plated holes and the third, at (4.127, 1.905), was
+   > missed. See `docs/FACTS.md` and `docs/FACTS.md`.
+   >
+   > **Do not print `1_preamp_box_base_v2_screwmount.stl`.** Its added boss at (4.04, 9.12) lands
+   > on the PTFE standoff hole — it would put a screw and a carbon-fibre-filled pillar at the
+   > input node. §0.3 of the rebuild guide.
+   **Consequence: the rebuilt board mounts on two M2 screws and needs no glue.** Check the print
+   with calipers before relying on this.
 
 3. **Rebuild the preamp on the spare board.** The leak is on the board — measured, not inferred,
    by the coax bisection. Rules in `sessions/2026-08-31-results.md` §6, plus:
@@ -738,10 +797,10 @@ which sign of `MTMV` advances.
     - **Measure the spare bare first** — on nylon or PTFE standoffs, no box, nothing glued. There
       has never been a measurement of this preamp outside its box, so **the project has no
       baseline.** That single reading is worth more than the whole D1/D2/D3 sequence.
-    - **The box print needs fixing before anything is mounted in it.** Its two threaded standoffs
-      are 11.43 mm apart; the board's two mounting holes are **5.93 mm** apart. Only one of the two
-      screw positions is usable, which is why it got glued. Move the standoffs to match the board
-      and keep the Ø1.600 mm pilots.
+    - **The box print does NOT need fixing — corrected 2026-09-08.** Both its threaded standoffs
+      and the board's two mounting holes are **11.430 mm apart** and they match exactly. The old
+      retired `5.93 mm` figure was wrong — it paired the PTFE standoff hole with a mounting hole. Reprint the **original**
+      base for cleanliness only. See `docs/FACTS.md` and §0.3.
 11. **Do not bring the sample plate near the tip holder** until the offset is understood.
     **Corrected 2026-09-07** — an earlier version of this rule said the bias was off. It is not;
     it has been on throughout, with the plate simply parked away from the tip. The rule that
