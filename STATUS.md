@@ -53,8 +53,30 @@
 >
 > **Each fix is commented at its site in the hook.** See
 > [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) §15.
+>
+> **5. A third, systematic pass found the root cause one level below all of that, and found that
+> the §15 fix was itself incomplete.** `sessions/README.md` states the convention as **"one file per
+> work session, named `YYYY-MM-DD.md`" — and four logs have broken it since the first session.**
+> The convention was never true, and **eight** separate mechanisms were written against it. §15
+> fixed two of them and reported the problem solved.
+>
+> - **Nuh's log for today, `sessions/2026-09-09.md`, was missing from `sessions/README.md`** — so it
+>   was invisible to **both** discovery mechanisms at once. **Now indexed, and `check_facts.py`
+>   fails if any log is unindexed.**
+> - **`/wrap` and `CLAUDE.md` §5 both said "if a file for today already exists, add to it".** Today
+>   that file was Nuh's. **Following it literally writes one person's session into the other's log.**
+>   Both now say to check whose it is first.
+> - **`/wrap` said to REMOVE a fixed fault or a dead rule.** This project strikes through and keeps,
+>   because **twice a retraction has itself been wrong.** Changed.
+> - **`check_facts.py` skipped `sessions/README.md` and `sessions/TEMPLATE.md`** though neither is
+>   history. Switching them on found **three retired `37 nA` values** in the index, read as current.
+>
+> **Every check has now been proved able to fail** by re-introducing each fault: 9 of 9 checker
+> assertions, both hook behaviours, 40 unit tests. **`CLAUDE.md` §7 gains four rules** aimed at the
+> stopping-rule failure that made this take three passes. See
+> [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) §16.
 
-See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 11, 12, 14 and 15, and
+See [`sessions/2026-09-09-jacob.md`](sessions/2026-09-09-jacob.md) sections 11, 12, 14, 15 and 16, and
 [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
 
 Earlier on 2026-09-09 (later): Jacob, remote. C2's

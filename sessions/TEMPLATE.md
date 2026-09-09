@@ -4,7 +4,9 @@
 **Type:** bench session / code only
 **Goal for the session:**
 
-> Copy this file to `sessions/YYYY-MM-DD.md` and fill it in. Delete any section that does not
+> Copy this file to `sessions/YYYY-MM-DD.md` and fill it in — or `sessions/YYYY-MM-DD-<your
+> name>.md` if the other person already has a log for today. **Do not append to someone else's
+> log.** Add a row to `sessions/README.md` when you are done. Delete any section that does not
 > apply. Delete these quote lines.
 
 ---

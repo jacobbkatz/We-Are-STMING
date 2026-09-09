@@ -5,7 +5,12 @@ description: End the work session - write the log, update STATUS.md, commit and 
 End the work session. Do all four steps in order. Do not stop partway.
 
 **1. Write the session log.** Copy `sessions/TEMPLATE.md` to `sessions/YYYY-MM-DD.md` with
-today's real date. If a file for today already exists, add to it rather than overwriting.
+today's real date.
+
+**If a log for today already exists, check whose session it is first.** If it belongs to the other
+person, **do not append to it** — create `sessions/YYYY-MM-DD-<your name>.md` instead. Only add to
+a log that is your own session's. **Then add a row to `sessions/README.md`** — `check_facts.py`
+fails if a log is not indexed.
 
 Fill it in from what actually happened this session. Measurements with numbers and units.
 What was observed, not what was expected. What was ruled out, not just what was found. If a
@@ -19,7 +24,11 @@ If nothing was measured this session because it was code-only, say so and keep t
 open questions, safety rules. Update the "Last updated" and "Updated by" lines at the top.
 
 This is the first file the other person's Claude reads. It must describe reality, not intentions.
-If a fault was fixed, remove it. If a rule no longer applies, remove it and say why in the log.
+
+**When a fault is fixed or a rule stops applying, strike it through and say what replaced it — do
+not delete it.** This project has twice found that a retraction was itself wrong, and a deleted
+rule leaves nothing to check that against. Deleting is only right for something that was never
+true. Say what changed in the log either way.
 
 **3. Commit.**
 

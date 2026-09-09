@@ -76,14 +76,28 @@ def retired_patterns():
     return rows
 
 
+# Two files inside sessions/ are NOT history and must be checked like any other
+# live document. Found 2026-09-09: the whole directory was skipped, so a retired
+# value in TEMPLATE.md would have been copied into every future log, and nothing
+# checked the index at all.
+SESSIONS_LIVE = {'README.md', 'TEMPLATE.md'}
+
+
 def live_files():
     for root, dirs, names in os.walk(REPO):
+        rel = os.path.relpath(root, REPO)
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
         for n in names:
             if n in SKIP_FILES:
                 continue
             if n.endswith(('.md', '.py', '.hpp', '.cpp', '.txt')):
                 yield os.path.join(root, n)
+    sess = os.path.join(REPO, 'sessions')
+    if os.path.isdir(sess):
+        for n in sorted(SESSIONS_LIVE):
+            fp = os.path.join(sess, n)
+            if os.path.exists(fp):
+                yield fp
 
 
 def check_links():
@@ -194,6 +208,30 @@ def _words(text):
     return {w for w in re.findall(r"[a-z]{5,}", text.lower()) if w not in STOPWORDS}
 
 
+def check_session_index():
+    """Every session log on disk must be linked from sessions/README.md.
+
+    Added 2026-09-09. sessions/2026-09-09.md -- a whole day's work -- was missing
+    from the index, and was simultaneously invisible to the start-up hook, whose
+    lexical sort put the same day's "-jacob" log first. Two independent
+    mechanisms, the same blind spot, the same file: a log nobody would find.
+
+    The root cause is that the naming convention was never agreed. README.md said
+    "one file per work session, named YYYY-MM-DD.md" while four logs on disk have
+    always carried a suffix. Everything that consumes logs assumed the singular
+    form. So this checks the index against reality rather than against the rule.
+    """
+    sess = os.path.join(REPO, 'sessions')
+    readme = os.path.join(sess, 'README.md')
+    if not os.path.isdir(sess) or not os.path.exists(readme):
+        return []
+    text = open(readme, encoding='utf-8', errors='replace').read()
+    linked = set(re.findall(r'\]\((\d{4}-\d{2}-\d{2}[^)]*\.md)\)', text))
+    on_disk = {n for n in os.listdir(sess)
+               if re.match(r'\d{4}-\d{2}-\d{2}.*\.md$', n)}
+    return sorted(on_disk - linked)
+
+
 def check_safety_rule_refs():
     """Every "safety rule N" citation must resolve, AND point at the right rule.
 
@@ -288,13 +326,15 @@ def main():
     links = check_links()
     arch = check_archive_refs()
     rule_missing, rule_wrong = check_safety_rule_refs()
+    unindexed = check_session_index()
 
-    if not hits and not links and not arch and not rule_missing and not rule_wrong:
+    if not hits and not links and not arch and not rule_missing and not rule_wrong and not unindexed:
         print("check_facts: clean.")
         print("  - no retired value in a live document")
         print("  - no broken file reference")
         print("  - no archived document cited as current")
         print("  - every 'safety rule N' citation resolves, and matches its rule")
+        print("  - every session log is listed in sessions/README.md")
         return 0
 
     if links:
@@ -309,6 +349,13 @@ def main():
         for rel, ln, name in arch:
             print("    %s:%d  mentions %s" % (rel, ln, name))
         print("  Say 'archived' or 'superseded' on the line, or point somewhere current.\n")
+
+    if unindexed:
+        print("check_facts: %d session log(s) missing from sessions/README.md:\n"
+              % len(unindexed))
+        for n in unindexed:
+            print("    sessions/%s" % n)
+        print("  An unindexed log is one nobody finds. Add a row to sessions/README.md.\n")
 
     if rule_missing:
         print("check_facts: %d 'safety rule N' citation(s) that STATUS.md does not have:\n"

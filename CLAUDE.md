@@ -83,7 +83,8 @@ corrected as we learned more. This is the most common way to get a fact wrong he
 **The precedence order, highest first:**
 
 1. **`STATUS.md`** — the live state. Rewritten every session.
-2. **The newest file in `sessions/`** — newer sessions correct older ones.
+2. **Every session log carrying the newest date in `sessions/`** — newer sessions correct older
+   ones. **Two logs sharing a date do not correct each other**; they are different sessions.
 3. **Older files in `sessions/`.**
 4. **`docs/PROJECT_HANDOFF_SUMMARY.md`** — large and useful, but parts of it are known to be
    wrong, corrected in `sessions/2026-08-31-results.md` section 5. Never cite the handoff's **body**
@@ -334,8 +335,16 @@ steps.** Do not stop after step 1.
 
 ### Step 1 — write the session log
 
-Copy `sessions/TEMPLATE.md` to `sessions/YYYY-MM-DD.md` using today's date. If a file for today
-already exists, add to it rather than overwriting.
+Copy `sessions/TEMPLATE.md` to `sessions/YYYY-MM-DD.md` using today's date.
+
+**If a log for today already exists, check whose it is before touching it.** If it is the other
+person's, **do not append to it** — start `sessions/YYYY-MM-DD-<your name>.md`. Only add to a file
+that is your own session's. **Then add a row to `sessions/README.md`**, which `check_facts.py`
+verifies.
+
+> **Corrected 2026-09-09.** This said "if a file for today already exists, add to it". On
+> 2026-09-09 the existing file was **Nuh's**, and following this literally would have written
+> Jacob's work into Nuh's log.
 
 Write it the way the existing logs are written: **measurements with numbers, what was actually
 observed rather than what was expected, and explicit notes on what was ruled out.** Record failed
@@ -382,7 +391,7 @@ it anywhere else creates a copy that will drift.
 | **What to do next at the bench** | **`docs/NEXT_SESSION_PLAN.md`** | `STATUS.md` summarises, does not duplicate |
 | **Current state, faults, safety rules** | **`STATUS.md`** | — |
 | **Documented conflicts between sources** | **`docs/ENGINEERING_REFERENCE.md`** §11 | — |
-| **What happened on a given day** | **`sessions/YYYY-MM-DD.md`** | append-only, never rewritten |
+| **What happened on a given day** | **`sessions/YYYY-MM-DD.md`**, or `-<name>.md` if more than one that day | append-only, never rewritten. Index every log in `sessions/README.md` |
 | **Pinouts and board layout** | **`docs/WIRING.md`** | — |
 | **Part specs and datasheet facts** | **`docs/COMPONENTS.md`** | — |
 | **What is inside a zip, PDF or mesh** | **`docs/INDEX.md`** | — |
@@ -440,6 +449,40 @@ it rather than re-deriving one from the handoff.
 ---
 
 ## 7. Working style
+
+### Before you say something is fixed — added 2026-09-09, after three shallow passes in one day
+
+**On 2026-09-09 Jacob asked why sessions had got worse. It took three attempts to answer, and the
+first two both stopped early. The misses were not subtle: a mechanical `grep` found them in
+seconds.** These four rules are what would have caught them, and they cost almost nothing.
+
+1. **A defect is a class, not an instance. Grep for every other occurrence before reporting it
+   fixed, and say how many you found.** The start-up hook assumed one session log per day. That
+   assumption was in **eight** places — `CLAUDE.md` three times, both slash commands, the template,
+   the plan, and the index. The first fix changed one of them and called it done.
+
+2. **A test that has never failed has not been run.** Re-introduce the fault deliberately and
+   confirm the check goes red. The first version of the safety-rule checker **passed while the bug
+   was present** — it reused a regex matching `wrong` and `error`, words that sit beside both real
+   miscitations in ordinary prose. It looked green because it had only ever been run on a clean
+   tree.
+
+3. **Run the check as its own command and read the exit code, before committing.** Not inside an
+   `&&` chain, which reports the success of the last thing in it. Commit `1198651` was pushed to
+   `main` with `check_facts.py` failing on its own repository, for exactly that reason.
+
+4. **"I have found the root cause" is a hypothesis, not a stopping condition.** A satisfying causal
+   story feels like completion and is not. **Enumerate the mechanisms that could produce the
+   symptom, then test each one** — the first two passes each followed a single thread to a tidy
+   ending and stopped there.
+
+> **What was NOT the cause.** `CLAUDE.md` roughly doubled in length over four days and that looked
+> like the obvious culprit. **It was not, and there is no evidence it was.** Every defect found was
+> a statement that had become **untrue** — a citation pointing at a renumbered rule, a list claiming
+> to mirror another list, a naming convention nobody followed. **Length was a red herring; accuracy
+> was the problem.** Do not compress this file in the belief that it will help.
+
+
 
 Carried forward from the existing documents, because it has served this project well:
 

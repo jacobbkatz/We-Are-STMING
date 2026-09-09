@@ -8,7 +8,9 @@ Bring the user up to date before work starts.
    the recovery guidance in `CLAUDE.md` section 2 — show the user what is uncommitted or
    diverged and ask before discarding anything.
 
-2. Read `STATUS.md` and the newest file in `sessions/`.
+2. Read `STATUS.md` and **every session log carrying the newest date** in `sessions/` — there is
+   often more than one for a date, because both people log the same day. `sessions/README.md`
+   indexes them all.
 
 3. Check whether anything changed since this computer last saw the repo:
    `git log --oneline -10`

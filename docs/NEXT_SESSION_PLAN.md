@@ -266,7 +266,8 @@ noise is the reference, not the preamp.**
 
 # DOCUMENTATION AND REPOSITORY CLEANUP
 
-- **Record every measurement in `sessions/YYYY-MM-DD.md`** as it is taken, with conditions — bench
+- **Record every measurement in `sessions/YYYY-MM-DD.md`** (or `-<your name>.md` if the other
+  person already logged today) as it is taken, with conditions — bench
   clear or not, LED state, time since power-on. **Time since power-on is now known to matter.**
 - **Update `STATUS.md`** for anything that changes state, especially if B1 or M2 voids the noise
   figures.
