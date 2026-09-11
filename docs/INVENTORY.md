@@ -66,6 +66,11 @@ fitted" line and by Jacob 2026-09-09.
 | **Manual flux/glue syringe dispenser** + 10 cc syringe + blunt tips | 1 | `ORDER` Amazon, **arriving 2026-09-11** | Load it from the RMA791 jar. **Solves the jar-vs-syringe question** |
 | **M2 self-tapping pan-head screws, 800 pc assortment** | M2x4 to M2x20 | `ORDER` Amazon, **arriving 2026-09-11** | **Use the M2x6.** M2x8 bottoms out in the box pilot — see `docs/FACTS.md` |
 | **Heat shrink tubing, assorted kit** | — | `ORDER` Amazon, **arriving 2026-09-11** | **VERIFY whether it is adhesive-lined (dual-wall).** Either way, **none at the input node** — the adhesive lining outgases |
+| **Isopropyl alcohol** | ≥1 | `SAID` Jacob, **2026-09-11** | **GRADE UNKNOWN — ask before it touches the board.** `docs/PREAMP_SHOPPING_LIST.md` calls for **99%**. **91% is 9% water**, and that water carries ionic contamination and leaves it as a conducting film on the input node. If what we have is 70%, 99% must be bought |
+| **Soft brushes** | **UNKNOWN** | `SAID` Jacob, **2026-09-11** | **TYPE AND COUNT UNKNOWN — ask.** Must be horsehair or ESD-safe nylon; stiff bristles scratch soldermask. The list wants **four**, so one stays clean — a brush that has scrubbed dirty flux spreads it around when reused |
+| **Lint-free wipes** | **0** | — | **NOT OWNED. Buy.** Not optional: IPA only *dissolves* rosin. If it dries on the board the rosin re-deposits as a thin film over a **wider** area than the original blob. The wipe is what carries it off. Paper towel sheds fibres, and a fibre across the input node is both a leakage path and a noise source |
+| **Foam or polyester swabs** | **0** | — | **NOT OWNED. Buy.** Separate item from the wipes and the brushes. They are what reaches **around the standoff — the input node itself**. Not cotton buds: they shed and hold moisture |
+| **Distilled / deionised water** | **0** | — | **DOWNGRADED 2026-09-11 to optional, and it may do harm.** Its job was to take ionic salts; **RMA791 is ROL0, halide-free**, so there is little to take. Rosin is not water-soluble, so water meeting an IPA-and-rosin solution can drop it back out as a white bloom. **Confidence: trade sources, not the manufacturer — chipquik.com is network-blocked.** A downgrade, not a settled prohibition |
 | Hakko FX-888DX + tips · solder wick · tip tinner · brass wool · fine tweezers · flush cutters · magnifier · helping hands · calipers · safety glasses · nitrile gloves · multimeter · bench PSU | — | `SAID` | |
 
 ---
@@ -80,6 +85,7 @@ fitted" line and by Jacob 2026-09-09.
 | **How was JLCPCB's C1/C2 polarity question answered?** | Would settle fault 1d from the order thread instead of needing the boards in hand |
 | ~~**Do we own M2 screws, copper tape, heat shrink?**~~ **M2 screws and heat shrink ORDERED 2026-09-09.** **Copper tape is still unchecked** | The shield rebuild needs copper tape with conductive adhesive. Aluminium will not do — `docs/ENGINEERING_REFERENCE.md` §3 |
 | ~~**Do we own low-temp Sn42/Bi58 solder paste?**~~ **MOOT — the piezo is built.** See below | Nothing to buy |
+| **What grade is the IPA, and what type and how many brushes?** | **New 2026-09-11.** Jacob says we have both. 91% IPA leaves a conducting film on the input node; the list calls for 99%. Decides whether anything more has to be bought before the preamp can be soldered |
 | **The piezo disc part number and diameter** | Ø20.500 mm seat vs a 25–27 mm disc in the BOM — see `docs/OPEN_QUESTIONS.md` |
 
 ---

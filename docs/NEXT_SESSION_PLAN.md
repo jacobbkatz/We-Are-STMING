@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-09
+**Last updated:** 2026-09-11
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -15,10 +15,35 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 ## BEFORE ANYTHING: two gates added 2026-09-09
 
 **1. Do not solder the preamp until the cleaning kit is in the room.** The Chip Quik RMA791 rosin
-flux arrives 2026-09-11, but **no 99% IPA, distilled water, soft brushes, lint-free wipes or foam
-swabs were ordered with it.** Rosin left on this board is a leakage path at the exact node the
-119 nA fault sits on. **Flux without cleaning makes the board worse, not better.**
-**Copper tape** with conductive adhesive, for H2, is also still unbought.
+flux arrived 2026-09-11. Rosin left on this board is a leakage path at the exact node the 119 nA
+fault sits on. **Flux without cleaning makes the board worse, not better.**
+
+> **Updated 2026-09-11 — partly closed, not closed.**
+>
+> **We have IPA and soft brushes.** `SAID`, Jacob, 2026-09-11. **The grade of the IPA and the type
+> and count of the brushes are UNKNOWN and must be confirmed before either is used on this board.**
+> 91% IPA is 9% water, and that water carries ionic contamination and leaves it as a conducting film
+> on the one node that cannot tolerate one; the list calls for **99%**. Stiff bristles scratch
+> soldermask. See `docs/INVENTORY.md`.
+>
+> **Still not owned: lint-free wipes, and foam or polyester swabs.** These are the step that
+> *removes* the rosin, and they are not optional. IPA only dissolves it — if the alcohol dries on
+> the board the rosin comes back out of solution as a thin film spread over a **wider** area than
+> the blob you started with, which is worse, because leakage depends on the area bridged. **Brushes
+> lift, IPA dissolves, wipes and swabs carry it off the board.** Swabs specifically reach around the
+> standoff, which is the input node itself. Not cotton buds: they shed and hold moisture.
+>
+> **Distilled water is DOWNGRADED to optional for this flux, and may do harm.** Its stated purpose
+> was to take the ionic salts IPA leaves behind — but **RMA791 is ROL0: rosin, low activity,
+> halide-free**, which is the whole reason RMA was chosen over RA.
+> [`sessions/2026-09-09-jacob.md`](../sessions/2026-09-09-jacob.md) §11.4 already drew this line
+> from the other side, calling the water rinse the step that *carries* the risk only for the
+> halide-bearing RA alternative. Rosin is also not water-soluble, so water meeting an IPA-and-rosin
+> solution can drop the rosin back out as a white bloom. **Confidence: trade sources, not the
+> manufacturer's own document — chipquik.com is blocked by the network here, as it was on
+> 2026-09-09.** Treat this as a downgrade, not a settled prohibition.
+>
+> **Copper tape** with conductive adhesive, for H2, is still unbought.
 
 **2. When the M2 screws arrive: use the M2x6. NOT the M2x8.** The box pilot is **5.00 mm deep and
 blind** and the boss is 4.00 mm tall (measured from the mesh — `docs/FACTS.md`). Through a 1.6 mm
@@ -173,6 +198,49 @@ must change. Record both numbers in `docs/BOM.md` and `CAD/prints/README.md`.
 
 ---
 
+## V4. Read C2's stripe under the magnifier — before any rework, and do not touch C1
+
+**Folded in 2026-09-11 from [`sessions/2026-09-09-jacob.md`](../sessions/2026-09-09-jacob.md) §9,
+where it had been recorded and never carried into this plan.**
+
+**Why it matters — and why it is NOT a blocker.** JLCPCB raised a C1/C2 polarity question at order
+time and how it was answered is unknown. **C2 polarity cannot be the 119 nA** and that is settled by
+argument in §6.1 of that log: `N$4` has exactly one connection in the whole design (`IC1.-IN`), C2
+connects −15 V to GND and touches neither, and **C2's pads sit at −15 V and 0 V whichever way the
+part faces** — so the surface-leakage map toward the input pad is identical either way. It does not
+explain the warm-up drift either: C2 is **7.1 mm** from IC1, and a 6032 part settles thermally in a
+minute or two, not 45.
+
+**Procedure.** Two minutes with the magnifier. **Read the stripe.** That is the only thing that
+settles it — **continuity testing cannot detect capacitor polarity** (§6.2: a capacitor is a DC open
+both ways, and buzzing the pads only tells you which net each is on, which is the same either way).
+
+**Expected.** Stripe consistent with the footprint. **If it is reversed:** record it, do not rework
+it during a diagnosis. **Do not re-rank the 119 nA candidates because of C2** — the superglue at the
+PTFE standoff remains the lead.
+
+**Record.** What the stripe shows, and a photo through the magnifier.
+
+## V5. Calipers on the Keystone 11301 and on the board hole, when the 11301 arrives
+
+**Folded in 2026-09-11 from the same §9.** **Arrival date UNKNOWN** — it was on order as of
+2026-09-09.
+
+**Why it matters.** The 11301's own mounting-hole spec is **disputed and marked VERIFY** in
+[`docs/FACTS.md`](FACTS.md): it is recorded as Ø2.184 mm (0.086"), but **0.086" is also listed as
+that part's turret-head diameter**, and a PTFE-insulated terminal's hole must clear its insulator,
+so both cannot be true. Every attempt to reach Keystone, DigiKey, Mouser, RS and Octopart on
+2026-09-09 was blocked by the network, and distributor snippets contradict each other. **One
+measurement with calipers closes it.**
+
+**Procedure.** Measure the part's actual mounting-hole diameter and the board's actual standoff
+hole. The board hole is **Ø2.108 mm NPTH** at (2.540, 7.620) per the netlist.
+
+**Decision.** Press fit, clearance, or interference — and whether the **#44 drill (2.184 mm)** is
+needed. **Do not open the hole beyond 2.184 mm.** See the do-not list at the end of this file.
+
+**Record.** Both numbers, into [`docs/FACTS.md`](FACTS.md), replacing the VERIFY row.
+
 # HARDWARE WORK
 
 ## H1. Print the new preamp box — do this first, it is the long-lead item
@@ -311,6 +379,12 @@ noise is the reference, not the preamp.**
 - **Update `STATUS.md`** for anything that changes state, especially if B1 or M2 voids the noise
   figures.
 - **If V3 finds the disc does not fit**, correct `docs/BOM.md` §5 and `CAD/prints/README.md`.
+- **Fill in the gaps in [`docs/INVENTORY.md`](INVENTORY.md).** **Folded in 2026-09-11 from
+  [`sessions/2026-09-09-jacob.md`](../sessions/2026-09-09-jacob.md) §9.** Open ones: **which other
+  parts JLCPCB left off the preamp PCBA**, **how the C1/C2 polarity question was answered at order
+  time**, **whether we own copper tape**, and the **grade of the IPA and type/count of the brushes**
+  added 2026-09-11. **These facts live in Jacob and Nuh's heads and in their email — anything left
+  in conversation is lost at the next compaction.** `CLAUDE.md` §3d.
 - **`docs/COMPONENTS.md` §12 lists six UNVERIFIED items.** If you have unrestricted network, close
   items 1, 2, 4 and 5 — they are one datasheet page each.
 
@@ -341,3 +415,14 @@ noise is the reference, not the preamp.**
 - **Do not bring the sample plate near the tip holder.**
 - **Do not change any firmware constant**, especially the 10.24 V ADC full scale.
 - **Do not rebuild the tip lead** until the open-input measurements are finished.
+
+**Three more, folded in 2026-09-11 from
+[`sessions/2026-09-09-jacob.md`](../sessions/2026-09-09-jacob.md) §9:**
+
+- **Do not rotate or replace C1.** It is correctly connected.
+- **Do not open the standoff hole to fit the 11311.** The hole is 2.540 mm from the board edge; at
+  the 11311's Ø3.45 mm only **0.815 mm** of material would remain, directly under the one component
+  the instrument's sensitivity depends on. **The 11311 does not fit and is not going to** — the
+  11301 is on order. `docs/FACTS.md`.
+- **Do not treat C2 as a candidate for the 119 nA.** Ruled out by argument in §6.1 of that log.
+  Read its stripe (V4), record what you see, and leave the candidate ranking alone.

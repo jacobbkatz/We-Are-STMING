@@ -1,15 +1,24 @@
 # Current status
 
-**Last updated:** 2026-09-09 (final)
-**Updated by:** Jacob, remote. **Documentation, tooling and diagnosis only — nothing was powered,
-no hardware measurement taken.** The only measurement came from a mesh: the preamp box M2 pilot.
+**Last updated:** 2026-09-11
+**Updated by:** Jacob, remote. **Documentation only — nothing was powered, nothing measured.**
+Folded the outstanding bench items from `sessions/2026-09-09-jacob.md` §9 into
+[`docs/NEXT_SESSION_PLAN.md`](docs/NEXT_SESSION_PLAN.md), and recorded that **IPA and brushes are in
+the room** while **wipes and swabs are not**.
 
 > ## IF YOU READ ONE THING BEFORE THE NEXT BENCH SESSION
 >
-> **The flux arrives 2026-09-11. The things that remove it were NOT ordered** — no 99% IPA, no
-> distilled water, no brushes, lint-free wipes or foam swabs. **Rosin left on the preamp board is a
-> leakage path at the exact node the 119 nA fault sits on. Do not solder the preamp until the
-> cleaning kit is in the room.** **Copper tape** for the shield is also still unbought.
+> **The flux arrived 2026-09-11. The cleaning kit is still incomplete — do not solder the preamp
+> until it is in the room.** Rosin left on the preamp board is a leakage path at the exact node the
+> 119 nA fault sits on.
+>
+> **Updated 2026-09-11.** **We have IPA and soft brushes** (`SAID`, Jacob). **The IPA grade and the
+> brush type are UNKNOWN and must be confirmed before use** — 91% IPA is 9% water and leaves a
+> conducting film on the input node; the list calls for 99%. **Still missing: lint-free wipes and
+> foam or polyester swabs**, which are the step that actually *removes* the rosin — IPA alone
+> dissolves it and lets it dry back as a wider film. **Distilled water is downgraded to optional**
+> for this halide-free ROL0 flux and may cause a white bloom. **Copper tape** for the shield is
+> still unbought. See [`docs/INVENTORY.md`](docs/INVENTORY.md).
 >
 > **When the screws arrive: M2×6, NOT M2×8.** The box pilot is 5.00 mm deep and blind; an M2×8
 > bottoms out and cracks the boss. **Calipers on the board first** — its thickness is assumed, not
@@ -43,6 +52,11 @@ no hardware measurement taken.** The only measurement came from a mesh: the prea
 > or foam swabs. **Rosin flux left on this board is a leakage path at the node the project is
 > blocked on. Do not solder the preamp until the cleaning kit is in the room.**
 > **Copper tape is now the only other unbought item.**
+>
+> > **Partly superseded 2026-09-11.** **We have IPA and brushes** — Jacob said so, grade and type
+> > UNKNOWN. **Wipes and swabs are still missing and are the part that matters**; distilled water is
+> > downgraded to optional for this flux. See the headline banner at the top of this file and
+> > [`docs/INVENTORY.md`](docs/INVENTORY.md).
 
 > **3. Three defects found in the instruction files themselves**, after Jacob reported the model
 > behaving worse since the 2026-09-08 audit.
@@ -848,9 +862,13 @@ over** — it is the measurement reference, and it is repairable without a rebui
 
 ### Purchase blocker, added 2026-09-09 — read before planning a soldering session
 
-**The flux arrives 2026-09-11. The things that remove it were NOT ordered.** No 99% IPA, distilled
-water, soft brushes, lint-free wipes or foam swabs. **Rosin flux left on this board is a leakage
-path at the exact node the 119 nA fault sits on.**
+**The flux arrived 2026-09-11. The kit that removes it is still incomplete.** **Rosin flux left on
+this board is a leakage path at the exact node the 119 nA fault sits on.**
+
+> **Updated 2026-09-11.** **IPA and soft brushes are in the room** (`SAID`, Jacob) — **grade and
+> type UNKNOWN, confirm before use.** **Lint-free wipes and foam/polyester swabs are still not
+> owned**, and they are the step that removes the rosin rather than just dissolving it.
+> **Distilled water: downgraded to optional**, and possibly harmful, for this halide-free ROL0 flux.
 
 **Do not solder the preamp until the cleaning kit is in the room.** Also still unbought: **copper
 tape with conductive adhesive** for the shield — aluminium will not do. See
