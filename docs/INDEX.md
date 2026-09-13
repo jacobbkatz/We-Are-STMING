@@ -52,7 +52,13 @@ were found.
 ### `gerbers/STM_Preamp_OPA627_Gerbers(1).zip` — preamp manufacturing files
 
 **KiCad gerbers carrying X2 attributes**, which embed component, pin and net names directly in the
-copper files. Effectively the preamp netlist.
+copper files. ~~Effectively the preamp netlist.~~
+
+> **Corrected 2026-09-13.** The `%TO.N` attribute names each pad's **intended** net. **It does not
+> show what copper actually connects.** On these boards the two disagree: every GND pad is labelled
+> `GND`, but the ground pour was never filled, so six of them are isolated. **Trace the tracks, or
+> compare with Berard's `tunnelAmp.brd` in `We-Are-STMING_PCB.zip`**, which has the polygon. See
+> `STATUS.md` fault 0d.
 
 ```bash
 grep -o '%TO\.[PN],[^*]*\*%' tunnelAmp-F_Cu.gbr | head

@@ -313,6 +313,19 @@ component, pin and net names — so this is the actual netlist, not an inference
 | **4** | **GND** | |
 | **5** | **- supply** (our -15 V) | **the far end** |
 
+### CORRECTED 2026-09-13: the whole ground pour is missing, not just pin 4
+
+> **Measured on both boards: IC1 pin 3 (+IN) is not connected to JP1 pin 1.** Berard's Eagle board
+> has a bottom-layer `GND` polygon; **the gerbers we fabricated have none.** In those files **only C1 −
+> and JP1 pin 1** are joined by copper. **C2 −, C3 pad 2, C4 pad 2, IC1 pin 3, IC1 pin 8 and JP1 pin
+> 4** each end at a tented via with a dead stub. **The netlist table at the end of this section lists
+> intended nets from the gerber X2 labels — it does not show copper connectivity.** See `STATUS.md`
+> fault 0d, `docs/FACTS.md`, and `sessions/2026-09-13.md` §3.6 for coordinates.
+>
+> **Spare board wiring, 2026-09-13:** single GND lead in hole 1; hole 4 empty; the dead vias wired to
+> hole 1 on the underside. At the DSUB2 splice, **green (AGND) and brown (`PREAMP−`) both join the
+> GND lead.** To-scale drawing: `docs/preamp_ground_repair_map.html`.
+
 ### Pin 4 is GND in the netlist but UNROUTED on the board
 
 **Found by Nuh on 2026-08-31**, from the same gerbers, and re-derived independently on 2026-09-06.

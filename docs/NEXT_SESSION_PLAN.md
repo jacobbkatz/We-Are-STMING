@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-09
+**Last updated:** 2026-09-13
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -12,7 +12,205 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-## BEFORE ANYTHING: two gates added 2026-09-09
+# WHERE THINGS STAND — 2026-09-13
+
+**Read `STATUS.md` fault 0d first.** Both preamp boards have **no ground copper pour**, so **IC1 pin 3
+— the op-amp's 0 V reference input — is connected to nothing.** Measured on both boards. **The spare
+board is half-way through a wire repair and must not be powered yet.**
+
+**Physical state of the spare board:**
+
+- **C2 rotated.** Its stripe is now on the end nearest the row of five holes, which is correct. It is
+  the original part, reused, so it must be replaced before the controller (`STATUS.md` safety rule 14).
+- **Four leads soldered** (jumper cable): JP1 hole 1 = GND, 2 = +15 V, 3 = OUT, 5 = −15 V. **Hole 4
+  is empty on purpose** — it has no copper.
+- **Underside:** two scraped vias, each wired with 40 AWG magnet wire to hole 1's underside solder
+  joint.
+  - **Dot 1** is IC1 pin 3's via.
+  - **Dot 2** is C4's ground via.
+- **Not verified yet.** Two more wires to go.
+
+**A to-scale drawing of both sides, generated from the manufacturing files, is in
+`docs/preamp_ground_repair_map.html`.** Open it in a browser and tap **Underside**. Coordinates of
+every via are in `sessions/2026-09-13.md` §3.6.
+
+**Orientation.**
+
+- **Top (chip side):** five holes on your right, the chip's corner dot at top-left.
+- **Underside:** flip the board like turning a page.
+  - Five holes now on your **left**, hole 1 still at the top.
+  - "GND +15V OUT GND -15V" printed beside the holes.
+  - "Dan Berard 2014" along the bottom.
+  - The big unplated standoff hole on the right, half-way down.
+
+---
+
+# PART A — finish the ground repair. Unpowered
+
+**Equipment.** Iron at 350 °C, RMA791 flux, 40 AWG magnet wire, scalpel, magnifier, meter (beep and
+capacitance), flush cutters.
+
+## A0. Remove any leftover from the first attempt
+
+Wires 3 and 4 were first tried on the **top** side and abandoned. If any piece of wire is still
+soldered on top — near C2's right-hand end, C3, or C1's right-hand end — remove it. Look under the
+magnifier for loose wire or solder near R1 and hole 2.
+
+## A1. Dot 3 — C2's ground via
+
+**Where.** Underside, near the bottom edge, roughly level with hole 5. Nothing else is close to it.
+
+**Scrape.** Scalpel tip, light strokes, until a shiny copper ring about 1 mm across shows.
+
+**Checks.**
+
+| Between | Must be |
+|---|---|
+| Dot 3 ↔ C2's right-hand end on top (the striped end, nearest the holes) | **Beep** |
+| Dot 3 ↔ hole 1 | **Silent** |
+
+If either is wrong, stop and record it.
+
+## A2. Dot 4 — C3's ground via. HAZARD: next to the +15 V pad
+
+**Where.** Underside, right beside hole 2's pad.
+
+**The hazard.** Its short copper tail points at hole 2's pad and, per the gerbers, ends **0.076 mm**
+from it with only solder mask between. Hole 2 is +15 V.
+
+1. **Before scraping: check the tail isn't already touching.** On top, C3's right-hand pad ↔ hole 2
+   must be **silent**. C3 is the tiny part to the right of the chip's upper-right legs, above R1; its
+   right-hand pad is the one nearer the holes. **If it beeps, stop.** Do not ground C3, and record it.
+2. **Scrape only the half of the dot away from the holes** — its right-hand half in the underside
+   view. Leave the tail covered.
+3. **Checks.**
+
+   | Between | Must be |
+   |---|---|
+   | Dot 4 ↔ C3's right-hand pad | **Beep** |
+   | Dot 4 ↔ hole 1 | **Silent** |
+   | Dot 4 ↔ hole 2 | **Silent** |
+
+**If dot 4 cannot be done safely, skip C3 and record it.** It is the lowest priority of the four,
+because C1 still filters +15 V at the preamp. **That the amplifier is stable without C3 is judgement,
+not verified.**
+
+## A3. Wires 3 and 4
+
+1. **Tin the wire ends.** Drag each end through a blob of solder on the iron, with flux. If the solder
+   balls up, the enamel is still on: scrape it very lightly and try again.
+2. **Tin each scraped dot.**
+3. **Solder each joint in about 1 second.**
+   - **Wire 3:** dot 3 → **dot 2's joint**, about 5 mm. Dot 2 is already ground through wire 2.
+   - **Wire 4:** from the right-hand side of dot 4, up about 2 mm, then to **hole 1's joint**. Keep
+     its solder off the tail, and the wire clear of hole 2's pad.
+
+Don't tug-test 40 AWG — it snaps. Inspect each joint under the magnifier instead.
+
+## A4. Verify the whole repair
+
+Top side, beep mode, **black probe on hole 1**. Record every result in the session log.
+
+| Red probe on | Must be |
+|---|---|
+| IC1 pin 3 (left side, third leg from the top) | **Beep** |
+| C4's right-hand pad | **Beep** |
+| C2's right-hand end | **Beep** |
+| C3's right-hand pad | **Beep** (unless C3 was skipped) |
+| **IC1 pin 2** (left side, second leg) | **Silent.** A beep means the input is shorted to ground — fix it before anything else |
+| Hole 2 | **Chirp only.** A continuous beep means +15 V is shorted to ground |
+| Hole 5 | **Chirp only** |
+| Hole 3 | **Silent** |
+
+**Optional.** Capacitance mode, hole 1 ↔ hole 5: roughly **4.7–5 µF** (C2 and C4 now connected).
+Before the repair it was far lower.
+
+---
+
+# PART B — continuity at the lead free ends. Unpowered
+
+| Between | Expect |
+|---|---|
+| +15 V lead ↔ C1's far pad (away from the holes) | Beep |
+| −15 V lead ↔ C2's far pad | Beep |
+| GND lead ↔ C1's near pad | Beep |
+| OUT lead ↔ PAD1 | About 220 Ω |
+| OUT lead ↔ each of the other leads | Open |
+| +15 V lead ↔ −15 V lead, and each ↔ GND lead | No continuous beep |
+
+---
+
+# PART C — smoke test on the bench supply. Not the controller
+
+The feedback resistor is not fitted yet, so **PAD1 will sit near a supply rail. That is expected and
+is not a preamp measurement.** This test checks current and heat only.
+
+1. **Set the supply first.** Supply off. Both channels **5.0 V**, current limit **20 mA**. Check each
+   output with the meter.
+2. **Make a ± supply.** Channel A's − terminal joined to channel B's + terminal = ground. Then:
+   - ground → GND lead
+   - A+ → +15 V lead
+   - B− → −15 V lead
+   - OUT lead taped, touching nothing
+3. **On.** Both channels should read **a few mA, within 1 mA of each other**. The op-amp's current
+   flows from +15 V straight to −15 V, so the two match. **Extra current on the −15 V channel only
+   means C2 is leaking.**
+4. **Off immediately if:**
+   - a channel is at the 20 mA limit,
+   - the current keeps rising,
+   - anything is warm.
+5. **Then 15.0 V for 10 minutes.** Never higher: the op-amp's limit is ±18 V. Recheck both currents,
+   and touch C2.
+6. **Disconnect** −15 V, then +15 V, then ground.
+
+---
+
+# PART D — gates before the input node is built
+
+1. **In the room:**
+   - 99% IPA, distilled water, foam swabs and a soft brush. **91% IPA is not enough for the node
+     wash** (`sessions/2026-09-13.md` §5).
+   - The Keystone 11301 standoff. Put calipers on the part and on the board hole first.
+2. **Wash the whole board:**
+   1. Scrub with IPA.
+   2. Rinse with clean IPA.
+   3. Rinse with distilled water.
+   4. Dry: 60–70 °C for 1–2 hours if an oven or dehydrator can hold that, otherwise overnight.
+3. **Build the node:**
+   1. Press in the standoff.
+   2. Air-mount the 100 MΩ **from PAD1 (the output) to the standoff**. Don't shorten its leads or lay
+      it flat.
+   3. Run a slack 40 AWG link from the standoff to IC1 pin 2's pad toe.
+   4. Clean locally with swabs and IPA, then dry.
+4. **The first valid preamp measurement this project will have:**
+   - **Setup.** Bench supply ±15 V with 20 mA limits. Meter clipped to the OUT lead, which reads the
+     same as PAD1. No box, no tip lead. Nobody within a metre.
+   - **Readings.** At 1, 5, 10, 20, **45** and 60 minutes, recording both channel currents each time.
+   - **Interpreting it.** The table is in `STATUS.md`, next actions, "Validate the rebuild".
+5. **`STATUS.md` safety rule 14 before the controller:** C2 replaced with a fresh part, and PAD1 under
+   0.1 V at 45 minutes.
+
+---
+
+# OPTIONAL — was the "119 nA" ever real?
+
+**Ground the old board's IC1 pin 3 and meter its PAD1 again.** If PAD1 drops to near 0 V, the old
+readings were the floating input, not leakage.
+
+**Plan it with Claude before doing it.**
+- **How to reach pin 3.** The old board is glued into its box.
+- **Its wiring to the controller is undocumented.** On 2026-08-31 its ground lead was recorded on
+  JP1 pin 4, which has no copper.
+- **Its C2 is probably still reversed. Do not ground C2.** Grounding it would put 15 V across a
+  reversed tantalum.
+
+---
+
+## ~~BEFORE ANYTHING: two gates added 2026-09-09~~ — status 2026-09-13
+
+**Gate 1:** the cleaning kit is still not in the room. Soldering at JP1 went ahead on 2026-09-13,
+because flux there sits on low-impedance pins 16 mm from the input node. **The gate still stands for
+the input node** (Part D). **Gate 2 (M2×6, not M2×8) still stands.** Original text follows.
 
 **1. Do not solder the preamp until the cleaning kit is in the room.** The Chip Quik RMA791 rosin
 flux arrives 2026-09-11, but **no 99% IPA, distilled water, soft brushes, lint-free wipes or foam
@@ -57,7 +255,10 @@ a ruler.
 
 # BLOCKERS — nothing downstream is trustworthy until these are done
 
-## B1. Establish whether the drift is the preamp or the floating reference
+## ~~B1. Establish whether the drift is the preamp or the floating reference~~ MOOT 2026-09-13
+
+> **The old board's IC1 +IN floats** (`STATUS.md` fault 0d), so its PAD1 drift cannot be attributed
+> to the preamp. Replaced by the timed readings on the repaired spare in Part D. Kept for method.
 
 **Why it matters.** Nuh measured **25,000 counts of climb over an hour** after power-on. If that is
 the preamp, every measurement must wait an hour. If it is the floating `PREAMP−` charging, the
@@ -88,7 +289,12 @@ the rails at JP1 before continuing.
 
 ---
 
-## B2. Find and bond the open ground — the `PREAMP−` fault
+## ~~B2. Find and bond the open ground — the `PREAMP−` fault~~ SUPERSEDED 2026-09-13
+
+> **JP1 pin 4 has no copper at all** — it is part of the missing ground pour. On the spare board,
+> hole 4 is left empty; green (AGND) and brown (`PREAMP−`) both join the single GND lead in hole 1 at
+> the DSUB2 splice. **Do not connect the spare board to the controller until C2 is replaced and PAD1 reads under 0.1 V** — `STATUS.md` safety rule 14.
+> Kept for history.
 
 **Why it matters.** `PREAMP−` is the ADC's negative reference and it is connected to nothing.
 The LTC2326-16 is **pseudo-differential and requires IN− within ±500 mV of GND** — ours sits near
@@ -247,7 +453,10 @@ The known defects are recorded in `STATUS.md` under "Known code issues". Three a
 
 # MEASUREMENTS AND TESTS
 
-## M1. Repeat the bias, Z and rail sweeps with a meter on PAD1
+## ~~M1. Repeat the bias, Z and rail sweeps with a meter on PAD1~~ MOOT for the old board, 2026-09-13
+
+> The old board's +IN floats, so a sweep there measures nothing about leakage. **Worth running on
+> the repaired spare** once it reads small. Kept for method.
 
 **Why it matters.** All three were run on 2026-09-07 through the ADC and **all three are in doubt** —
 the reference was floating and 2.7 V outside the converter's allowed range, so those sweeps may not
@@ -277,7 +486,10 @@ first and last reading at the same setting.
 > **A failed prediction on 2026-09-07:** the rail-scaling test predicted ~19,000 counts and measured
 > 30,175. **That test is one of the three in doubt**, so this repeat is what decides it.
 
-## M2. A noise capture with the meter, not the ADC
+## ~~M2. A noise capture with the meter, not the ADC~~ MOOT for the old board, 2026-09-13
+
+> Every recorded noise figure came from a board with +IN floating. Re-take the noise baseline on the
+> repaired spare. Kept for method.
 
 **Why it matters.** The recorded noise is **195 mV RMS at the output — about 1,700× the 100 MΩ
 resistor's thermal floor and 10,000× the OPA627's own contribution.** Neither device explains it.
@@ -330,7 +542,9 @@ noise is the reference, not the preamp.**
 
 # What is explicitly NOT in scope this session
 
-- **Do not rebuild the preamp board or the tip lead** — safety rule 0b, because the instrument that
+- ~~**Do not rebuild the preamp board or the tip lead**~~ **Preamp half superseded 2026-09-13:** the
+  rebuild went ahead, judged by a meter at PAD1 rather than the ADC. **Still do not rebuild the tip
+  lead** until the bare board is measured — safety rule 0b, because the instrument that
   would tell you whether a rebuild helped has a floating reference.
   **Updated 2026-09-09:** this said "that is Sunday's work, when Jacob is home", a stale calendar
   reference. The gate is the floating `PREAMP−`, not the date.

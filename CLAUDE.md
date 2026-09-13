@@ -170,10 +170,12 @@ as fresh when it was already recorded, they lose the ability to tell what is act
 | PAD1 is "downstream of R1" (A.8.1) | **Upstream.** PAD1 and IC1 pin 6 are the same net; R1 feeds JP1 pin 3 |
 | Power-on Z at −10 V is a tip hazard | That is the DAC output; the inverting stage puts +10 V on DSUB1. Direction is unproven |
 | Re-park after `TEST` | Re-park after **`RSET` too** — it also slams Z to a rail |
+| The preamp input current is ~119 nA | **Never measured.** IC1 pin 3 (+IN) floats on both boards: the fabricated gerbers have no ground pour (`STATUS.md` fault 0d, 2026-09-13). The gerber `GND` labels are intended nets, not copper |
 
 **JP1**, which the handoff's own header already corrects: pin 4 is `GND` in the netlist but
 **unrouted on the PCB** — no copper track lands on it on either layer. A routing defect, not a
-build fault. See `docs/WIRING.md` §10.
+build fault. See `docs/WIRING.md` §10. **Corrected 2026-09-13: pin 4 is one of six GND points left
+unconnected by a missing ground pour, including IC1's +IN** — `STATUS.md` fault 0d.
 
 The **firmware source comments are also wrong** about the DAC ranges. `stm_firmware.hpp:497-498`
 says X and Y are −5 to +5 V. They are **±3 V**: X, Y and bias all use identical mode bits

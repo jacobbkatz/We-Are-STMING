@@ -24,6 +24,17 @@ sensitivity depends on.
 | **Preamp PCB, assembled (PCBA)** | **2** | `SAID` 2026-09-09, Jacob | **JLCPCB PCBA, not bare.** One is built into the current preamp box; one is the spare |
 | **Preamp PCB, silkscreen only (bare)** | the rest of the order | `SAID` 2026-09-09, Jacob | Ordered 2 assembled, the remainder bare |
 
+### State of the two preamp boards — 2026-09-13, `BENCH`
+
+| Board | State |
+|---|---|
+| **Old board** (glued in the original box) | **IC1 pin 3 not connected to JP1 pin 1** (beep test). C2's ground end not connected either. C1/C2 stripe orientation **not checked** |
+| **Spare board** | **C2 was reversed, rotated with the original part** (4.65 µF after). Four jumper-cable leads in JP1 holes 1, 2, 3, 5; hole 4 empty. Underside vias for IC1 pin 3 and C4 scraped and wired to hole 1 with 40 AWG magnet wire; **C2 and C3 not yet wired; repair not verified; never powered**. Possibly a leftover partial wire on the top side from an abandoned attempt — UNKNOWN |
+
+> **The 2026-09-11 order:** "we have all components except for the standoff" — `SAID` 2026-09-13.
+> **VERIFY item by item** (RMA791 flux, syringe dispenser, M2 screws, heat shrink); not individually
+> confirmed. **Whether the 1812 ceramics were ordered is UNKNOWN.**
+
 ### What JLCPCB did NOT fit on the preamp PCBA
 
 `SAID` 2026-09-09, Jacob. **These are ours to solder:**
@@ -57,7 +68,11 @@ fitted" line and by Jacob 2026-09-09.
 | **Keystone 11311** turret terminal, PTFE insulated | **2** | `ORDER` DigiKey salesorder **100750867**, 2026-08-02, DK part 36-11311-ND, $2.81 ea | **Does NOT fit our board.** Needs a Ø3.45 mm hole; ours is Ø2.108 mm. Tried at the bench and it would not go |
 | **Keystone 11301** turret terminal | **0** | — | **We do not own this.** It is the part Berard names, and it is on order as of 2026-09-09 |
 | **100 MΩ feedback resistor** | ≥1 | `SAID` | Value CONFIRMED. Not fitted to the board |
-| **Tantalum 4.7 µF 35 V** | 1–2 | `SAID`, from a label | Spares beyond the two JLCPCB fitted |
+| **Tantalum 4.7 µF 35 V** | 1–2 | `SAID`, from a label | Spares beyond the two JLCPCB fitted. **2026-09-13: "we don't have access to a spare" (`SAID`).** Whether they exist somewhere is UNKNOWN |
+| **91% isopropyl alcohol** | — | `SAID` 2026-09-13 | In the room. **Not enough for the input-node wash** — 99% is still needed and is not in the room |
+| **Jumper cables** (plugs cut off) | — | `SAID` 2026-09-13 | **Used as the four JP1 leads on the spare board.** Conductor material not checked |
+| **Scalpel and razor blade** | — | `SAID` 2026-09-13 | Used to scrape solder mask off vias |
+| **Second soldering iron** | access | `SAID` 2026-09-13 | Used for two-iron removal of C2. Model not recorded |
 | **40 AWG magnet wire** | — | `SAID` | For the tip lead |
 | **Solder, Sn99.3/Ag0.3/Cu0.7 lead-free** | — | `SAID` | Correct for this work. **Do not buy more** |
 | **Low-temp solder paste, Sn42/Bi58** | **UNKNOWN** | — | **Nobody has said whether we own any.** Needed for the piezo quadrant wires and nothing else. `docs/BOM.md` §5 specifies it; a specification is not an inventory. **Ask before ordering** |

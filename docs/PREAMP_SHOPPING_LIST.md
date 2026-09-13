@@ -4,6 +4,21 @@
 wire the five JP1 holes and the tip lead, clean it, mount it. **We have the resistor. We do NOT
 have a usable standoff** — see the standoff section below.
 
+> ## Update 2026-09-13 — still to buy, in priority order
+>
+> 1. **4.7 µF 50 V X7R 1812 ceramics** (see the C2 section below). **Now required, not optional.**
+>    The spare board's C2 was found reversed and rotated using the original tantalum. Vishay says a
+>    tantalum heated past 3 s should be replaced. **It must be swapped before the board connects to
+>    the controller.**
+> 2. **99% IPA, distilled water, foam swabs, a soft brush.** 91% IPA is in the room; the input-node
+>    wash needs 99%. The claim below that 91% is ruled out by its water content is overstated, since
+>    the procedure ends with a distilled-water rinse — but 99% is still the right choice for the node.
+> 3. **Copper tape** with conductive adhesive, for the box shield.
+>
+> **Not needed after all:** stranded silicone wire. The JP1 leads went in as jumper cable.
+> **Used for the ground repair:** the 40 AWG magnet wire already owned.
+> **The spare tantalums are not accessible** (`docs/INVENTORY.md`).
+
 ## Buy
 
 | Item | Used for | Why it has to be this |

@@ -36,8 +36,8 @@ survived in a dozen files.**
 | Preamp transimpedance | **100 MΩ** | DS | — | Air-wired, IC1 pin 2 to pin 6 |
 | Counts per nA | **320** | CALC | 2026-09-07 | 0.1 V / 0.3125 mV |
 | **Max measurable current** | **102.4 nA** | CALC | 2026-09-07 | 10.24 V / 100 MΩ |
-| **Present input offset** | **~119 nA** | MEAS | 2026-09-07 | PAD1 = 11.905 V, R23 = 11.914 V |
-| Offset on 2026-08-31 | ~119 nA | CALC | 2026-09-07 | 29,873 counts rescaled. **It never changed** |
+| **Present input offset** | **~119 nA — NOT A VALID CURRENT** | MEAS | 2026-09-07 | PAD1 = 11.905 V, R23 = 11.914 V. **2026-09-13: IC1 +IN was floating on that board** (see "Preamp board ground copper" below), so the conversion through 100 MΩ does not hold. The voltage is real; the current was never measured |
+| Offset on 2026-08-31 | ~119 nA — same caveat | CALC | 2026-09-07 | 29,873 counts rescaled. Same floating +IN |
 | ADC front-end filter | 103 kHz, Q 0.5, 2nd order | CALC | 2026-09-06 | Sallen-Key, 470 Ω and 3.3 nF |
 | ADC front-end gain | **exactly 1** | NETLIST | 2026-09-06 | U21 outputs tied to inverting inputs |
 | **TIA bandwidth** | **~5 kHz** | CALC | 2026-09-07 | 1/(2π·100 MΩ·0.3 pF). **The real limit, not the filter** |
@@ -152,6 +152,15 @@ may get.
 | Fact | Value | Prov | Date |
 |---|---|---|---|
 | **C2 polarity in the source design** | **Reversed.** Anode on −15 V, cathode on GND | NETLIST | 2026-09-08 |
+| **C2 as fitted, spare board** | **Reversed** (stripe on the pad away from JP1). **Rotated at the bench 2026-09-13, original part reused** | BENCH | 2026-09-13 |
+| **C2 part rating** | **4.7 µF, 35 V** — marking `475V` (`V` = 35 V in the AVX TAJ voltage code). Logo not identified | DS | 2026-09-13 |
+| **C2 in circuit after rotation** | **4.65 µF** — C2 alone, because C4's ground end floats | BENCH | 2026-09-13 |
+| **Preamp board ground copper** | **The fabricated gerbers have NO pour** (zero `G36` regions). Berard's `tunnelAmp.brd` has a bottom-layer `GND` polygon, vertices (6.0325, 15.24)–(20.6375, 15.24)–(20.6375, 0)–(6.0325, 0). **Without it only C1 − and JP1 pin 1 are joined; C2 −, C3.2, C4.2, IC1.3, IC1.8 and JP1.4 are isolated** | NETLIST + BENCH | 2026-09-13 |
+| **IC1 pin 3 (+IN) ↔ JP1 pin 1** | **Open, on both boards** | BENCH | 2026-09-13 |
+| Preamp vias | **All tented, both sides** — no mask openings at via positions | NETLIST | 2026-09-13 |
+| **C3 ground-via stub to JP1 pin 2 pad (+15 V), underside** | **0.076 mm** (via ring: 0.513 mm). Untested whether they touch | NETLIST | 2026-09-13 |
+| **Tantalum hand-soldering limit** | **Max tip 370 °C, max 3 s** (KYOCERA AVX). Vishay TN-0004: reflow in 1.5–3 s from 343 °C; **over 3 s, replace with a fresh device** | DS | 2026-09-13 |
+| **Tantalum reverse-voltage limit** | **10% of rated, max 1.0 V at 25 °C** (KYOCERA AVX) | DS | 2026-09-13 |
 | IC1 pin 8 | **No internal connection** on the OPA627; **amplifier substrate** on the OPA124, where the datasheet says to ground it when no guard is used. Tied to GND on our board, which is correct either way | DS | 2026-09-08 |
 | Copper pours on the preamp board | **None.** Zero filled regions — **there is no guard ring** | NETLIST | 2026-09-08 |
 | Keystone **11301** mounting hole | **VERIFY — do not rely on this.** Recorded as Ø2.184 mm (0.086"), but 0.086" is also listed as this part's **turret head** diameter, and a PTFE-insulated terminal's hole must clear its insulator, so the two cannot both be right. **A 2026-09-09 attempt to reach Keystone, DigiKey, Mouser, RS and Octopart was blocked by the network**; distributor snippets contradict each other. **Measure the part with calipers when it arrives.** See `docs/OPEN_QUESTIONS.md` | DS, disputed | 2026-09-08, questioned 2026-09-09 |

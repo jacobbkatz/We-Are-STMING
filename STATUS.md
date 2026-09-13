@@ -1,10 +1,41 @@
 # Current status
 
-**Last updated:** 2026-09-09 (final)
-**Updated by:** Jacob, remote. **Documentation, tooling and diagnosis only — nothing was powered,
-no hardware measurement taken.** The only measurement came from a mesh: the preamp box M2 pilot.
+**Last updated:** 2026-09-13
+**Updated by:** Nuh, at the bench, nothing powered. **IC1 pin 3 floats on both preamp boards — the fabricated boards have no ground pour.** See [`sessions/2026-09-13.md`](sessions/2026-09-13.md).
 
-> ## IF YOU READ ONE THING BEFORE THE NEXT BENCH SESSION
+> ## READ THIS FIRST — 2026-09-13, MEASURED
+>
+> **IC1 pin 3, the preamp op-amp's non-inverting input — the transimpedance amplifier's 0 V
+> reference — is connected to nothing, on BOTH preamp boards.** Beep-tested on both. On the spare,
+> confirmed through a scraped underside via: the via beeps to pin 3 and is silent to JP1 pin 1.
+>
+> **Cause.** Berard's Eagle board file has a ground copper pour across the underside. **The KiCad
+> gerbers JLCPCB built our boards from have no pour at all** — zero filled regions in any layer. Six
+> points that should be ground each end at a dead via: **C2 −, C3, C4, IC1 pin 3, IC1 pin 8 and JP1
+> pin 4.** Only C1 − is joined to JP1 pin 1. **JP1 pin 4 "unrouted" (Nuh, 2026-08-31) was the first
+> visible symptom of this same defect.** See fault 0d.
+>
+> **What it means.** **Every preamp reading in this project was taken with the amplifier's reference
+> floating.** PAD1 = 11.905 V is a real reading, but **it cannot be converted to an input current**,
+> so **the "~119 nA leakage" is unproven** — it may or may not exist. The warm-up drift, the noise
+> figures, the three sweeps and the coax bisection are in the same position. The superglue and flux
+> candidates are **neither confirmed nor ruled out**.
+>
+> **The spare board is mid-repair and must not be powered yet.** C2 was fitted reversed (as designed)
+> and has been **rotated, reusing the original part**. Four leads are on (JP1 holes 1, 2, 3, 5; hole 4
+> empty). **Ground repair: 2 of 4 wires done, not yet verified.** Next steps are in
+> [`docs/NEXT_SESSION_PLAN.md`](docs/NEXT_SESSION_PLAN.md), with a to-scale drawing in
+> `docs/preamp_ground_repair_map.html`.
+>
+> **Before the spare board ever connects to the controller:** C2 replaced with a fresh part, and PAD1
+> under 0.1 V after 45 minutes on the bench supply. Safety rule 14.
+
+> ## IF YOU READ ONE THING BEFORE THE NEXT BENCH SESSION — written 2026-09-09
+>
+> **Update 2026-09-13:** the order arrived except the standoff (SAID — VERIFY item by item). **The
+> cleaning kit is still not in the room: 91% IPA is there, 99% is not.** Soldering at JP1 has gone
+> ahead (that flux can stay); **the input node still must not be built until 99% IPA is here.**
+>
 >
 > **The flux arrives 2026-09-11. The things that remove it were NOT ordered** — no 99% IPA, no
 > distilled water, no brushes, lint-free wipes or foam swabs. **Rosin left on the preamp board is a
@@ -230,10 +261,18 @@ Earlier on 2026-09-07: Jacob, remote, working from a photo of the rebuilt preamp
 
 ## Where we are in one line
 
-Stages 0 through 5 pass and the bias path passes. **The preamplifier is the blocker.** Its 119 nA
+> **Rewritten 2026-09-13.** Stages 0 through 5 pass and the bias path passes. **The preamplifier is
+> the blocker, and it has never been measured working as designed:** its reference input (IC1 pin 3)
+> has been floating on both boards because the fabricated boards have no ground pour (fault 0d). The
+> spare board is being repaired with wires. **Whether any real input leakage exists is unknown until
+> the repaired board is measured.**
+
+~~Stages 0 through 5 pass and the bias path passes. **The preamplifier is the blocker.** Its 119 nA
 offset has **two remaining candidate causes** — cyanoacrylate contamination and flux residue, both
 surface conduction into the input node. The third, the case shield, has been **rebuilt** and is
-about to be tested properly for the first time.
+about to be tested properly for the first time.~~ **Superseded 2026-09-13:** every one of those
+readings was taken with IC1 +IN floating. The candidates stay open; none was ever tested by a valid
+measurement.
 
 **On 2026-09-06 the shield was found to be discontinuous and only partly grounded**, which would
 have made the planned shield test return a false negative and pushed us into consuming the spare
@@ -292,11 +331,12 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 | 4 DACs and ADC | PASS | |
 | 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535`. **The scanner itself is now built and working** — Jacob, 2026-09-09 |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
-| 6 Preamp | **FAIL** | **~119 nA input leakage**, measured at PAD1 on 2026-09-07. Was recorded as 37 nA |
+| 6 Preamp | **FAIL** | PAD1 = 11.905 V on 2026-09-07. **Not a valid current measurement: IC1 +IN floats on both boards** (fault 0d, 2026-09-13). The "~119 nA" is unproven |
+| **Spare preamp board** | **IN REPAIR — do not power** | 2026-09-13: C2 rotated (original part, 4.65 µF); leads on JP1 holes 1, 2, 3, 5; ground repair **2 of 4 wires**, unverified. See `docs/NEXT_SESSION_PLAN.md` |
 | **Measurement chain** | **NEW FAIL** | **`PREAMP-` floating** — the ADC's reference is undefined. **Not over range after all:** span is ±10.24 V and the differential is ~9.2 V |
 | **Preamp box** shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
 | DAC config stability | **FAIL** | All four DACs drop config roughly hourly |
-| JP1 grounds | **FAIL** | One ground pin genuinely open on the old board |
+| JP1 grounds | **FAIL, explained** | Pin 4 is one of **six** GND points left unconnected by the missing ground pour (fault 0d). The spare board uses hole 1 only |
 
 ---
 
@@ -328,6 +368,43 @@ that the buffers have gain exactly 1. `docs/UPSTREAM_MECHPANDA.md` §5 warned th
 said to check the absolute-maximum rating first. **Nobody did, and it has been in this state for
 weeks.** Whether the converter is damaged is UNKNOWN.
 
+**0d. NEW 2026-09-13, MEASURED — THE PREAMP BOARDS HAVE NO GROUND POUR, SO IC1's REFERENCE INPUT
+FLOATS.** This sits underneath 0a, 0b and 0c and outranks them: those describe the ADC's reference;
+this is the preamp's own.
+
+| Check, unpowered, beep mode | Spare board | Old board |
+|---|---|---|
+| C1's grounded end ↔ JP1 pin 1 (control) | beep | — |
+| **IC1 pin 3 (+IN) ↔ JP1 pin 1** | **silent** | **silent** |
+| C2's ground end ↔ JP1 pin 1 | silent | silent |
+| Scraped pin-3 via ↔ IC1 pin 3 / ↔ JP1 pin 1 | beep / **silent** | not done |
+| Scraped C4-ground via ↔ C4 pad / ↔ JP1 pin 1 | beep / silent | not done |
+
+**Why.** Berard's Eagle board (`tunnelAmp.brd`) gives the `GND` net a polygon on the bottom layer
+covering everything except the input-node strip. **The gerbers we fabricated from contain no filled
+region on any layer.** In those files only **C1 − and JP1 pin 1** are joined by copper. **C2 −, C3
+pad 2, C4 pad 2, IC1 pin 3, IC1 pin 8 and JP1 pin 4** each end at a tented via whose stub leads
+nowhere. Coordinates and the trace are in `sessions/2026-09-13.md` §3.6. The gerbers' X2 net labels
+still say `GND` for every one of them, which is why every document in this repository believed they
+were connected. **An upstream conversion defect, not a build fault.**
+
+**Consequences.**
+
+1. **No preamp reading in this project measured input current.** With +IN floating, PAD1 follows
+   wherever that node drifts. Faults 1 and 1c, the noise figures, the 45-minute warm-up measured
+   after power-on (safety rule 0) and the figure for a person within a metre of the board (safety
+   rule 9) all rest on those readings. **Basis in doubt — kept until a repaired board is measured.**
+2. **C2, C3 and C4 decoupled nothing** on either board. Only C1 was working.
+3. **The old board's reversed C2 was probably never reverse-biased** — its ground end floats.
+   Derived from the copper and the beep test, not measured with power.
+4. **C3's ground-via stub ends 0.076 mm from JP1 pin 2's +15 V pad** on the underside. Untested
+   whether they touch. Check before grounding C3.
+
+**Repair on the spare, in progress.** Short 40 AWG magnet wires from each dead via to JP1 pin 1's
+underside joint. **Done:** IC1 pin 3, C4. **To do:** C2 (via → dot 2's joint), C3 (right half of the
+via only → hole 1). **Not verified yet.** Procedure: `docs/NEXT_SESSION_PLAN.md`. The permanent fix
+is a board reorder with the pour filled.
+
 **0c. RESOLVED 2026-09-07 — the contradiction was a wrong constant, not a mystery.**
 It was recorded as: with 11.9 V on its input the ADC should be pinned at 32767, yet it reads
 ~30,000 and wanders, behaving as though full scale were about 13 V.
@@ -339,6 +416,11 @@ range.** The "about 13 V" estimate was the right instinct pointing at a constant
 ---
 
 ### 1. Preamp — ~119 nA input leakage (the blocker)
+
+> **BASIS IN DOUBT, 2026-09-13.** Everything in this fault was measured on a board whose IC1 +IN was
+> floating (fault 0d). **The 11.905 V is real; the 119 nA is a conversion that assumed +IN at 0 V.**
+> The candidates below are neither confirmed nor ruled out, and the rail-leak "failed test" is not
+> evidence either way. **Kept in full, unedited, until the repaired spare board is measured.**
 
 > **Corrected 2026-09-07, twice.** This fault was recorded all project as **37 nA / 3.73 V**,
 > derived from ADC counts using a full-scale constant that was wrong. A meter on PAD1 reads
@@ -594,6 +676,17 @@ assembly. It was never disproved; it was removed.
 
 ### 1d. C2 is reverse-connected in the source design — CHECK BEFORE POWERING THE PREAMP
 
+> **UPDATE 2026-09-13, MEASURED on the spare board.** C1's stripe is on its far pad (correct);
+> **C2's stripe was on its far pad — reversed, exactly as designed.** C2 marking `475V` = 4.7 µF,
+> **35 V** (AVX voltage code). **Rotated at the bench with two irons, reusing the original part** (no
+> spare accessible). Afterwards 4.65 µF on the board. Vishay TN-0004 says a tantalum held over 3 s
+> should be replaced with a fresh one, so **the reused part is temporary: replace it with a fresh part
+> — the 4.7 µF 50 V 1812 ceramic — before this board connects to the controller** (safety rule 14).
+>
+> **Old board:** stripes not checked. **Its C2 ground end floats** (fault 0d), so it was probably
+> never reverse-biased by the rail. The warnings below about weeks at 15 V reverse were written before
+> that was known.
+
 **Found 2026-09-09, in the design files. Not measured on hardware.**
 
 The preamp's Eagle source and its gerber pin attributes agree: **`C2`'s tantalum anode sits on the
@@ -792,6 +885,12 @@ that would otherwise be blamed on the preamp.
 
 ### 5. One JP1 ground pin is open — PROMOTED 2026-09-07, this is fault 0a
 
+> **EXPLAINED 2026-09-13.** Pin 4 is not a one-off routing defect. It is one of six GND points left
+> unconnected because the fabricated boards have no ground pour — see fault 0d. **On the spare board
+> hole 4 is left empty**; a single ground lead goes in hole 1, and at the DSUB2 splice **green (AGND)
+> and brown (`PREAMP−`) both join that lead.** The bond described below is for the old board only,
+> and is moot while that board's +IN floats.
+
 > **This is no longer a loose end. It is `PREAMP-`, the ADC's differential reference.**
 >
 > On 2026-09-07 DSUB2 pin 2 (brown, `PREAMP-`) measured **"2 V and dropping"** — the signature of
@@ -839,6 +938,32 @@ over** — it is the measurement reference, and it is repairable without a rebui
 
 ## Next actions, in order
 
+### Current list, 2026-09-13 — the spare board is mid-repair
+
+**The full bench procedure is in `docs/NEXT_SESSION_PLAN.md`. This is the summary.**
+
+1. **Finish the ground repair on the spare board** (fault 0d).
+   - Dot 3 (C2's ground via): scrape, check, then wire to dot 2's joint.
+   - Dot 4 (C3's ground via): **first check C3's ground pad ↔ JP1 hole 2 is silent.** Then scrape
+     only the half of the via away from the holes, check, and wire to hole 1's joint.
+   - If any partial wire was left on the top side from the first attempt, remove it first.
+2. **Verify the whole repair, unpowered.** IC1 pin 3, C4, C2 and C3 each beep to hole 1. **IC1 pin 2
+   stays silent.** Holes 2 and 5 chirp only.
+3. **Continuity at the lead free ends, then the current-limited smoke test** on the bench supply:
+   both channels' currents within 1 mA of each other, 10 minutes at 15 V, C2 not warm.
+4. **Buy:** 99% IPA, distilled water, foam swabs, a soft brush; **the 4.7 µF 50 V 1812 ceramics
+   (now required, to replace the reused C2)**; copper tape.
+5. **When the Keystone 11301 arrives:** wash the board (99% IPA, distilled water, dry), fit the
+   standoff, build the input node, then **the first valid measurement this preamp has ever had**:
+   PAD1 on a meter, bench supply, no box, no tip lead, at 45 minutes.
+6. **Optional, and the quickest way to learn whether the 119 nA was ever real:** on the old board,
+   wire IC1 pin 3 to its JP1 pin 1 — **pin 3 only, not C2** — power it and meter PAD1.
+
+### The list below was written 2026-09-07 and refreshed 2026-09-09
+
+**Items 1, 5 and 6 are moot as written** (struck through below): they measure the old board, whose
++IN floats. Items 2–4 continue in the current list above.
+
 > **Reordered 2026-09-07 (late).** The previous order had "bond the open ground" ahead of "check
 > the ADC's absolute maximum". **That was backwards and it put the converter at risk** — see
 > `CLAUDE.md` §3c, which exists because of it.
@@ -862,7 +987,7 @@ not measured. Drive slowly, stop at snug; the thread is plastic.
 
 ### One required unpowered check, added 2026-09-09 — do it before anything is switched on
 
-**A. Check C2's polarity.** Two minutes with the beeper and a magnifier, board unpowered. See
+**A. ~~Check C2's polarity.~~ DONE 2026-09-13 on the spare board: reversed, then rotated** (fault 1d). The old board's is still unchecked. Original text: Two minutes with the beeper and a magnifier, board unpowered. See
 fault 1d. **Not a blocker** — established 2026-09-09 that it cannot cause the 119 nA, and the
 board has already run powered for weeks on a healthy rail. But a reverse-biased tantalum is a
 known degradation mode, JLCPCB flagged the polarity at order time, and there is **no polarity
@@ -875,7 +1000,9 @@ current either way. Reading it just pins the stability margin (~7x vs ~2x).
 
 ### Then these — none of them touch the ADC
 
-1. **Measure PAD1 with a meter at 10 minutes and again at 60 minutes after power-on.**
+1. ~~**Measure PAD1 with a meter at 10 minutes and again at 60 minutes after power-on.**~~
+   **MOOT 2026-09-13:** the old board's +IN floats, so its PAD1 drift is not the preamp's.
+   Replaced by the 45-minute readings on the repaired spare. Original text kept:
    Five minutes of work, and it settles what the hour-long warm-up actually is.
    - **PAD1 steady while the ADC counts climb** → the drift is the floating `PREAMP-` charging,
      not the preamp. The preamp is fine to measure early, and the "wait an hour" rule only applies
@@ -925,7 +1052,10 @@ current either way. Reading it just pins the stability margin (~7x vs ~2x).
 
 ### Then, and only once PAD1 is small
 
-5. **Find and bond the open ground.** Continuity from JP1 pin 1 to ground and JP1 pin 4 to ground;
+5. ~~**Find and bond the open ground.**~~ **SUPERSEDED 2026-09-13:** pin 4 has no copper at all
+   (fault 0d). On the spare, ground and `PREAMP−` both join a single lead in hole 1 at the DSUB2
+   splice. The waiting rule below still applies to that splice. Original text kept:
+   Continuity from JP1 pin 1 to ground and JP1 pin 4 to ground;
    one will be open. Then continuity from the DSUB2 `PREAMP-` wire to each, to tell whether the
    break is on the board or in the cable. Both pins are GND on the board, so bonding is correct.
    > **Why this waits.** With PAD1 at 11.9 V, bonding `PREAMP-` to ground puts the full 11.9 V
@@ -933,7 +1063,8 @@ current either way. Reading it just pins the stability margin (~7x vs ~2x).
    > unverified.** Once PAD1 is under 0.1 V there is no question to answer. **Do it in that order
    > and the risk disappears rather than being managed.**
 
-6. **Repeat the bias, Z and rail sweeps with a meter on PAD1**, not through the ADC. All three are
+6. ~~**Repeat the bias, Z and rail sweeps with a meter on PAD1**~~ **MOOT for the old board
+   2026-09-13** (+IN floats). Worth doing on the repaired spare once it reads small. Original text: not through the ADC. All three are
    in doubt (`sessions/2026-09-07.md` §22) because they were taken through an instrument with a
    floating reference.
 
@@ -965,15 +1096,24 @@ which sign of `MTMV` advances.
    at 75 minutes, ~29,500. **No procedure in this project has ever mentioned this**, so every
    historical figure sits at an unknown point on that curve. A reading taken early will look like a
    spectacular improvement and is worthless.
+   > **Basis in doubt, 2026-09-13:** the climb was measured on a board whose IC1 +IN floats (fault
+   > 0d), so it may be that node settling rather than the preamp. **Keep waiting 45 minutes** on the
+   > repaired spare until its own readings show whether the rule is needed.
 
-0b. **Added 2026-09-07. Do not rebuild the preamp board, and do not rebuild the tip lead.** The
+0b. ~~**Added 2026-09-07. Do not rebuild the preamp board, and do not rebuild the tip lead.** The
    instrument that would tell you whether a rebuild helped has a floating reference — see fault 0.
    Rebuilding into that consumes the only spare board and teaches nothing. **Fix the measurement
-   chain first.**
+   chain first.**~~ **SUPERSEDED 2026-09-13 for the preamp board:** Nuh decided at the bench to go
+   ahead with the rebuild, because the rebuild is judged with a meter at PAD1 on a bench supply, not
+   through the ADC. **The tip-lead half still stands:** do not rebuild the tip lead until the bare
+   board has been measured.
 
 0c. **Added 2026-09-07. Do not trust any current derived from ADC counts.** Use a meter on PAD1
    until fault 0 is fixed. Meter readings are sound; ADC readings are referenced to a floating node
    and the converter is being driven past its input span.
+   > **Extended 2026-09-13:** on the **old board**, a meter on PAD1 does not give a current either,
+   > because IC1 +IN floats (fault 0d). A PAD1 reading means input current only on a board whose
+   > pin 3 beeps to JP1 pin 1.
 
 1. **Check LED1–LED4 before and after every measurement.** No software substitute exists.
 2. **Do not run `APRH`** until the sign of the tunneling current is known. `approach()` tests
@@ -998,6 +1138,9 @@ which sign of `MTMV` advances.
    fixed. Engaging the loop snaps Z to midscale.
 9. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
    metre injects 20 to 50 nA, which is twenty to fifty times a tunneling current.
+   > **Basis in doubt, 2026-09-13:** the 20–50 nA figure came from a board with IC1 +IN floating,
+   > which makes it far more sensitive to a nearby body than a working amplifier. **Keep the rule** —
+   > body pickup on a 100 MΩ input node is real — but the number is not established.
 10. **Do not glue the spare preamp board to anything — not the box, and not the PTFE standoff.**
     Added 2026-09-07. Superglue was used twice on the current board: a little to stick the PTFE
     standoff down, and a lot to bond the board into the box. **Both are now suspects**, and the
@@ -1037,6 +1180,13 @@ which sign of `MTMV` advances.
     more than a tunneling gap. **Keep every DAC argument between 0 and 65535, and never send a
     bare `DACZ` / `DACX` / `DACY`.** There is no clamp anywhere in the path: not in `main.cpp`, not
     in `set_dac_*`, not in the driver.
+14. **Added 2026-09-13. Do not connect the spare preamp board to the controller until two things
+    are true.** (a) **C2 has been replaced with a fresh part** — the 4.7 µF 50 V 1812 ceramic. The
+    tantalum on it now was desoldered and refitted, and Vishay says a tantalum heated past 3 s should
+    be replaced; the controller's supply, unlike the 20 mA-limited bench supply, can drive a shorted
+    tantalum hard. (b) **PAD1 reads under 0.1 V after 45 minutes on the bench supply.** Its
+    `PREAMP−` is now grounded at the board, so a high PAD1 would put the ADC past its ±10.24 V range.
+    **Do not power it at all until the ground-repair checks in `docs/NEXT_SESSION_PLAN.md` pass.**
 
 ---
 
@@ -1048,10 +1198,13 @@ here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log 
 
 | Question | Why it blocks |
 |---|---|
-| **Where is the break in the `PREAMP−` return — board, cable, or connector?** | **The top question.** Until it is bonded, the ADC is operated with IN− about 2.7 V outside its ±500 mV spec and no ADC reading means anything |
-| **Is the warm-up drift the preamp or the floating reference?** | ~25,000 counts over an hour. Decides whether every capture must wait an hour, and whether the noise figures are real at all. `docs/NEXT_SESSION_PLAN.md` B1 |
-| **Is the recorded noise real, or is it the reference?** | 195 mV RMS is ~1,700× the resistor's Johnson floor and ~10,000× the op-amp's. Neither explains it. If it is the reference, every noise figure is void |
-| **Is the OPA627 saturated at +11.905 V?** | If it is pinned, the bias, Z and rail sweeps of 2026-09-07 could not have responded to anything |
+| **Is there any real input leakage at all?** New 2026-09-13 | **The top question.** Every reading so far was taken with IC1 +IN floating (fault 0d). Answered by the repaired spare board at 45 minutes, or faster by grounding the old board's pin 3 |
+| **Does C3's ground-via stub touch JP1 pin 2's pad?** New 2026-09-13 | The gerbers put them 0.076 mm apart. C3's ground pad ↔ hole 2 must be silent before C3 is grounded, or +15 V gets shorted to ground |
+| **Is any partial top-side wire left on the spare board?** New 2026-09-13 | Wires 3 and 4 were first attempted on top and abandoned. A loose bare end near R1 or hole 2 is a short |
+| ~~**Where is the break in the `PREAMP−` return — board, cable, or connector?**~~ **ANSWERED 2026-09-13** | On the board: JP1 pin 4 has no copper (fault 0d). Solved on the spare by wiring |
+| ~~**Is the warm-up drift the preamp or the floating reference?**~~ **SUPERSEDED 2026-09-13** | Probably neither: IC1 +IN floats. Re-measure on the repaired spare |
+| ~~**Is the recorded noise real, or is it the reference?**~~ **SUPERSEDED 2026-09-13** | Same. Every noise figure was taken with +IN floating |
+| ~~**Is the OPA627 saturated at +11.905 V?**~~ **SUPERSEDED 2026-09-13** | With +IN floating the question does not have a meaningful answer on the old board |
 | **Does the rebuilt preamp box shield conduct end to end?** | Two minutes with a meter, never done. Every shield conclusion rests on it |
 | **Is the ~119 nA the CA contamination, or something else?** | The rail-leak mechanism failed its own test. Drives whether the rebuild is the right fix |
 | **Which Z direction approaches the sample, and which sign of `MTMV` advances?** | `Code/pc/stm_approach.py` refuses to run without both |
