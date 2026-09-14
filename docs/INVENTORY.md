@@ -66,13 +66,15 @@ fitted" line and by Jacob 2026-09-09.
 | What | Qty | How we know | Notes |
 |---|---|---|---|
 | **Keystone 11311** turret terminal, PTFE insulated | **2** | `ORDER` DigiKey salesorder **100750867**, 2026-08-02, DK part 36-11311-ND, $2.81 ea | **Does NOT fit our board.** Needs a Ø3.45 mm hole; ours is Ø2.108 mm. Tried at the bench and it would not go |
-| **Keystone 11301** turret terminal | **2** | `ORDER` DigiKey **36-11301-ND**, mfr part **11301**, "TERM TURRET SINGLE L=6.35MM TIN", $2.09 ea, $4.18. Order screen seen 2026-09-14 | **The correct part, and the one Berard names.** Received 2026-09-14. **Needs a Ø2.184 mm hole against our Ø2.108 mm — a press fit with 0.076 mm interference, not a drop-in.** Calipers on the shank and on the board hole before anything is pressed; if it will not seat, open to a #44 drill **before** the board is washed. **Whether it carries a white PTFE collar or is bare tin-plated brass is UNKNOWN — distributors disagree and one look settles it** (`docs/OPEN_QUESTIONS.md`) |
+| **Keystone 11301** turret terminal | **2** | `ORDER` DigiKey **36-11301-ND**, mfr part **11301**, "TERM TURRET SINGLE L=6.35MM TIN", $2.09 ea, $4.18. Order screen seen 2026-09-14 | **The correct part, and the one Berard names.** Received 2026-09-14. **It drops into our hole with 0.076 mm clearance — do NOT drill.** Berard's own Eagle board specifies 2.1082 mm for this part and our board is 2.108 mm. **PTFE base with metal only on the pole** (`BENCH`, Jacob 2026-09-14) — a top-mount insulated terminal, so the input node gets a real PTFE insulator |
 | **100 MΩ feedback resistor** | ≥1 | `SAID` | Value CONFIRMED. Not fitted to the board |
 | **Tantalum 4.7 µF 35 V** | 1–2 | `SAID`, from a label | Spares beyond the two JLCPCB fitted. **2026-09-13: "we don't have access to a spare" (`SAID`).** Whether they exist somewhere is UNKNOWN |
 | **91% isopropyl alcohol** | — | `SAID` 2026-09-13 | In the room. **Not enough for the input-node wash** |
 | **99% isopropyl alcohol** | — | `SAID` 2026-09-14, Jacob: being collected this evening, about 19:00 | **Not yet in the room at the time of writing.** The input-node wash needs it |
 | **Deionised / distilled water** | — | `SAID` 2026-09-14, Jacob: "I also just got the DI" | **In the room.** For the final rinse after the IPA |
 | **Jumper cables** (plugs cut off) | — | `SAID` 2026-09-13 | **Used as the four JP1 leads on the spare board.** Conductor material not checked |
+| **Foam swabs** | — | `SAID` 2026-09-14, Jacob | **In the room.** For the input-node wash |
+| **Soft brush** | — | `SAID` 2026-09-14, Jacob | **In the room.** For the input-node wash |
 | **Scalpel and razor blade** | — | `SAID` 2026-09-13 | Used to scrape solder mask off vias |
 | **Second soldering iron** | access | `SAID` 2026-09-13 | Used for two-iron removal of C2. Model not recorded |
 | **40 AWG magnet wire** | — | `SAID` | For the tip lead |

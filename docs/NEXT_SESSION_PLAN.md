@@ -23,10 +23,10 @@ no shorts, C2 reads 4.7 µF in circuit. Table in [`sessions/2026-09-14.md`](../s
 
 | | |
 |---|---|
-| **Keystone 11301 standoff, 2 off** | **Received 2026-09-14**, DigiKey 36-11301-ND. The correct part. **Press fit, not a drop-in** — see D0 |
+| **Keystone 11301 standoff, 2 off** | **Received 2026-09-14**, DigiKey 36-11301-ND. The correct part, **PTFE base with a metal pole**. **It drops into our hole — no drilling** |
 | **Deionised water** | In the room |
 | **99% IPA** | **Collected this evening.** Until it is on the bench, Part D does not start |
-| **Foam swabs, soft brush** | **UNKNOWN — ask before starting Part D.** The wash needs both |
+| **Foam swabs, soft brush** | In the room, 2026-09-14 |
 | **4.7 µF 50 V 1812 ceramics** | **Not owned.** Needed only before the controller, not before Part D |
 
 ---
@@ -47,7 +47,7 @@ not**, and the input node is built last because it is the part that cannot be cl
 |---|---|---|---|
 | **B** | Continuity at the four lead free ends | No | 5 min |
 | **C** | Current-limited smoke test | **Bench supply only** | 20 min |
-| **D0** | Calipers on the standoff and the hole, drill if needed | No | 10 min |
+| **D0** | Check the standoff seats in the hole | No | 5 min |
 | **D** | Wash, fit the standoff, build the input node | No | An evening, plus drying |
 | **D5** | The first valid preamp measurement this project has had | Bench supply | 1 hour |
 
@@ -91,51 +91,47 @@ is not a preamp measurement.** This test checks current and heat only.
 
 ---
 
-# PART D0 — the standoff, before any washing. Unpowered
+# PART D0 — the standoff. Unpowered
 
-**Do this before the wash, not after.** If the hole needs opening, drilling it after the board is
-clean puts fresh FR4 dust straight onto the input node.
+**It drops in. Do not drill anything.**
 
-## D0.1 Two measurements, and one look
+> **Corrected 2026-09-14, the same day it was written.** An earlier version of this section said the
+> 11301 was a press fit with 0.076 mm of interference and gave a #44 drill as the remedy. **That was
+> wrong, and drilling would have made the hole worse.** The 0.086" figure from the distributor table
+> is Keystone's **recommended clearance hole**, not a requirement. **Berard's own Eagle board, which
+> has been in this repository since 2026-08-13, specifies `drill="2.1082"` for this exact hole** —
+> and our fabricated board is 2.108 mm, identical. He used an 11301 in it. The part's through-board
+> pin is 0.080" = 2.032 mm, so it passes with **0.076 mm of clearance.** Opening the hole to 2.184 mm
+> would only leave the standoff loose. See `docs/FACTS.md`.
+
+## D0.1 One measurement, then fit it
 
 | Measure | Expect |
 |---|---|
-| The standoff's **shank** — the part below the flange that goes through the board | Around **2.18 mm**. `docs/FACTS.md` says the specified hole is Ø2.184 mm (0.086") |
-| The **board hole**, the single NPTH at 2.540 mm from the edge | **Ø2.108 mm** from the drill file |
+| Whatever part of the standoff **enters the hole** — the pin below the PTFE base | **about 2.03 mm**, and in any case under 2.108 mm |
 
-**And look at the part:** is there a **white plastic collar** under the flange, or is it bare metal
-all the way down? Distributors disagree about whether this part is PTFE-insulated, and one look
-settles it. Tell me which. It does not block anything — it changes what the wash is protecting.
+**Then seat it by hand.** It should drop through or take a light push. The PTFE base sits flat on the
+board surface; the metal pole stands proud above it.
 
-## D0.2 What the numbers mean
+**If it will not go:** stop and tell me. Do not force it and do not drill. FR4 is brittle, this hole
+is 2.540 mm from the board edge, and **it is the insulator for the input node of a 100 MΩ
+amplifier** — a radial crack here is both a leakage path and a contamination trap, in the 100 MΩ to
+10 GΩ range a multimeter cannot see. If it does not fit, something about the part is not what we
+think and that is worth an hour of my time rather than two minutes of yours.
 
-**The specified hole is 0.076 mm bigger than ours.** That is a press fit with about 3.6%
-interference, not a part that drops in.
+## D0.2 What we know about the part
 
-| If | Then |
-|---|---|
-| **Shank ≤ 2.10 mm** | It drops in. Go straight to Part D, no drilling |
-| **Shank 2.10–2.20 mm** and it starts by hand with firm thumb pressure | A normal press fit. **Support the board on something flat and solid** and press it home square. Stop if it does not move |
-| **It will not start, or it needs a hammer** | **Do not force it.** Open the hole with a **#44 drill, Ø2.184 mm**, then press. Edge margin afterwards is **1.448 mm**, still ample |
-
-**Why not just force it.** FR4 is brittle and this hole is 2.540 mm from the board edge. A radial
-crack here is not cosmetic — **this is the insulator for the input node of a 100 MΩ amplifier**, and
-a crack becomes both a leakage path and a trap for contamination, in the 100 MΩ to 10 GΩ range that
-a multimeter cannot see. The drill costs two minutes.
-
-**Drill by hand if you can** — a pin vice or a slow cordless. Back the board with scrap so the exit
-side does not tear out.
-
----
+- **PTFE base, metal only on the pole** — seen at the bench, 2026-09-14. A top-mount insulated
+  terminal. **The input node gets a real PTFE insulator, which is what Berard was doing.**
+- **2 off**, DigiKey 36-11301-ND. One spare.
 
 # PART D — gates before the input node is built
 
-**Prerequisites: B and C passed, and D0 done.** The standoff is either pressed in or the hole is
-drilled and the swarf blown off — **either way, before the board gets wet.**
+**Prerequisites: B and C passed, and D0 done — the standoff confirmed to fit.**
 
 1. **On the bench before you start:** 99% IPA, deionised water, foam swabs, a soft brush.
    **91% IPA is not enough for the node wash** (`sessions/2026-09-13.md` §5). **Swabs and brush are
-   not recorded as owned — check.** `docs/INVENTORY.md`.
+   in the room** (`docs/INVENTORY.md`, 2026-09-14); the 99% IPA is the only one still to arrive.
 2. **Wash the whole board:**
    1. Scrub with IPA.
    2. Rinse with clean IPA.

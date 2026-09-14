@@ -111,7 +111,7 @@
     <div class="rung done"><span class="tag">A</span><span class="what">Ground repair, and verify it<small>Four wires on, IC1 pin 3 beeps to hole 1, no shorts, C2 reads 4.7 &micro;F</small></span><span class="when">done 09-14</span></div>
     <div class="rung now"><span class="tag">B</span><span class="what">Continuity at the four lead free ends<small>Five minutes. All that stands between here and the smoke test</small></span><span class="when">start here</span></div>
     <div class="rung"><span class="tag">C</span><span class="what">Current-limited smoke test<small>Bench supply only. Never the controller</small></span><span class="when live">powered</span></div>
-    <div class="rung"><span class="tag">D0</span><span class="what">Calipers on the standoff, drill only if it needs it<small>Before the board gets wet, not after</small></span><span class="when off">unpowered</span></div>
+    <div class="rung"><span class="tag">D0</span><span class="what">Seat the standoff in its hole<small>It drops in. No drilling</small></span><span class="when off">unpowered</span></div>
     <div class="rung"><span class="tag">D</span><span class="what">Wash, fit the standoff, build the input node<small>An evening, plus drying time</small></span><span class="when off">unpowered</span></div>
     <div class="rung"><span class="tag">D5</span><span class="what">The first valid preamp measurement<small>PAD1 on a meter, timed to 60 minutes</small></span><span class="when live">powered</span></div>
   </div>
@@ -119,13 +119,13 @@
   <div class="box gate">
     <h3>What is in the room, and what is not</h3>
     <table>
-      <tr><td><strong>Keystone 11301, 2 off</strong></td><td>Here. <strong>The right part</strong> &mdash; the one the BOM specifies and Berard names</td></tr>
+      <tr><td><strong>Keystone 11301, 2 off</strong></td><td>Here. <strong>The right part</strong> &mdash; the one the BOM specifies and Berard names. PTFE base, metal pole. Drops into our hole</td></tr>
       <tr><td><strong>Deionised water</strong></td><td>Here</td></tr>
-      <tr><td><strong>99% IPA</strong></td><td>Collected this evening. <strong>Part D does not start until it is on the bench</strong></td></tr>
-      <tr><td><strong>Foam swabs, soft brush</strong></td><td><strong>Not recorded as owned.</strong> The wash needs both &mdash; check before starting D</td></tr>
+      <tr><td><strong>99% IPA</strong></td><td>Collected this evening. <strong>The only thing still missing, and the only gate on Part D</strong></td></tr>
+      <tr><td><strong>Foam swabs, soft brush</strong></td><td>Here</td></tr>
       <tr><td>4.7 &micro;F 50 V 1812 ceramics</td><td>Not owned. Needed before the <em>controller</em>, not before any step here</td></tr>
     </table>
-    <p class="sub">B, C and D0 need none of this. They can all be done tonight.</p>
+    <p class="sub">B, C and D0 need none of this. They can all be done tonight, before the IPA arrives.</p>
   </div>
 
   <h2>B &mdash; continuity at the lead free ends</h2>
@@ -162,30 +162,23 @@
     <div class="tick"><div class="lbl">Ten minutes at 15 V, C2 not warm?</div><div class="res" data-key="c15"><button type="button" data-val="pass" aria-pressed="false">Yes</button><button type="button" data-val="fail" class="bad" aria-pressed="false">No</button></div></div>
   </div>
 
-  <h2>D0 &mdash; the standoff, before any washing</h2>
-  <p><strong>Do this before the wash, not after.</strong> If the hole needs opening, drilling a clean board puts fresh FR4 dust straight onto the input node.</p>
-  <h3>Two measurements and one look</h3>
+  <h2>D0 &mdash; the standoff</h2>
+  <div class="box live">
+    <p><strong>Correction, same evening.</strong> This page first said the standoff was a press fit with 0.076&nbsp;mm of interference, and offered a #44 drill as the remedy. <strong>That was wrong, and drilling would have made the hole worse.</strong> Berard&rsquo;s own board file &mdash; in this repository since August &mdash; specifies <code>drill="2.1082"</code> for this exact hole, and our board is 2.108&nbsp;mm. He used an 11301 in it. <strong>It drops in with 0.076&nbsp;mm of clearance. Do not drill anything.</strong></p>
+  </div>
+  <h3>One measurement, then fit it</h3>
   <div class="scroll"><table>
     <tr><th>Measure</th><th>Expect</th></tr>
-    <tr><td>The standoff's <strong>shank</strong> &mdash; the part below the flange that passes through the board</td><td class="num">around 2.18 mm</td></tr>
-    <tr><td>The <strong>board hole</strong> &mdash; the single unplated hole, 2.54 mm in from the edge</td><td class="num">2.108 mm</td></tr>
+    <tr><td>Whatever enters the hole &mdash; the pin below the PTFE base</td><td class="num">about 2.03 mm</td></tr>
+    <tr><td>The board hole, unplated, 2.54 mm in from the edge</td><td class="num">2.108 mm</td></tr>
   </table></div>
-  <p><strong>And look at the part:</strong> is there a <strong>white plastic collar</strong> under the flange, or is it bare metal all the way down? Distributors disagree about whether this one is PTFE-insulated. It blocks nothing &mdash; it changes what the wash is protecting &mdash; but tell me which.</p>
-  <h3>The specified hole is 0.076 mm bigger than ours</h3>
-  <p>That is a press fit with about 3.6% interference. <strong>Not a part that drops in.</strong></p>
-  <div class="scroll"><table>
-    <tr><th>If the shank is</th><th>Then</th></tr>
-    <tr><td class="num">&le; 2.10 mm</td><td>It drops in. Straight on to D, no drilling</td></tr>
-    <tr><td class="num">2.10&ndash;2.20 mm</td><td>Normal press fit. <strong>Back the board on something flat and solid</strong> and press it square. If it starts under firm thumb pressure, carry on. <strong>If it does not move, stop</strong></td></tr>
-    <tr><td class="num">won't start</td><td><strong>Do not force it.</strong> Open the hole with a <strong>#44 drill, 2.184 mm</strong>, then press. Edge margin afterwards is <strong class="n">1.448 mm</strong> &mdash; still ample</td></tr>
-  </table></div>
-  <div class="box live">
-    <p><strong>Why not just force it.</strong> FR4 is brittle and this hole is 2.54 mm from the board edge. A radial crack here is not cosmetic: <strong>this hole is the insulator for the input node of a 100 M&Omega; amplifier.</strong> A crack is both a leakage path and a trap for contamination, in the 100 M&Omega; to 10 G&Omega; range a multimeter cannot see. The drill takes two minutes.</p>
+  <p><strong>Then seat it by hand.</strong> It should drop through or take a light push. The PTFE base sits flat on the board surface with the metal pole standing proud above it.</p>
+  <div class="box gate">
+    <p><strong>If it will not go: stop and tell me.</strong> Do not force it, do not drill. FR4 is brittle and this hole is 2.54&nbsp;mm from the board edge &mdash; and <strong>it is the insulator for the input node of a 100 M&Omega; amplifier</strong>, where a radial crack is a leakage path and a contamination trap in the 100 M&Omega; to 10 G&Omega; range a meter cannot see. If it does not fit, something about the part is not what we think, and that is worth an hour of my time rather than two minutes of yours.</p>
   </div>
-  <p class="sub">Drill by hand if you can &mdash; a pin vice, or a cordless run slowly. Back the board with scrap so the exit side does not tear out, and blow the swarf off before the wash.</p>
+  <p class="sub"><strong>The part is PTFE-based with metal only on the pole</strong> &mdash; confirmed at the bench. A top-mount insulated terminal, so the input node gets a real PTFE insulator, which is exactly what Berard was doing. Two in hand, so there is a spare.</p>
   <div class="ticks">
-    <div class="tick"><div class="lbl">Standoff shank, in mm<small>Say the number rather than pass/fail</small></div><div class="res" data-key="d0shank"><button type="button" data-val="drops in" aria-pressed="false">Drops in</button><button type="button" data-val="press fit" aria-pressed="false">Presses</button><button type="button" data-val="needs drilling" class="bad" aria-pressed="false">Needs drill</button></div></div>
-    <div class="tick"><div class="lbl">White collar under the flange?</div><div class="res" data-key="d0ptfe"><button type="button" data-val="PTFE collar" aria-pressed="false">Yes, white</button><button type="button" data-val="bare metal" aria-pressed="false">Bare metal</button></div></div>
+    <div class="tick"><div class="lbl">Standoff seated, PTFE base flat on the board?</div><div class="res" data-key="d0shank"><button type="button" data-val="seated" aria-pressed="false">Seated</button><button type="button" data-val="will not go" class="bad" aria-pressed="false">Won't go</button></div></div>
   </div>
 
   <h2>D &mdash; wash, then build the node</h2>
@@ -218,7 +211,7 @@
 
 <script>
 (function () {
-  var KEYS = [["b","Part B"],["c5","C at 5 V"],["c15","C at 15 V"],["d0shank","standoff fit"],["d0ptfe","insulator"]];
+  var KEYS = [["b","Part B"],["c5","C at 5 V"],["c15","C at 15 V"],["d0shank","standoff fit"]];
   var state = {}, docRef = null, timer = null, hush = false;
   var saved = document.getElementById("saved");
   function paint() {
