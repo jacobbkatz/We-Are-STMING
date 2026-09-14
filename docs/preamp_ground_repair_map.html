@@ -1,4 +1,4 @@
-<title>Underside Solder Map</title>
+<title>Preamp Ground Repair</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -111,6 +111,19 @@
   .m-badge { fill: var(--probe); }
   .m-badge-t { font-family: var(--display); font-weight: 700; font-size: 1.1px; fill: var(--probe-ink); }
   .m-scrape .m-ring { stroke-dasharray: 3 2; }
+  .v-beep   .m-badge { fill: var(--beep); }
+  .v-chirp  .m-badge { fill: var(--warn); }
+  .v-silent .m-badge, .v-stop .m-badge { fill: var(--com); }
+  .v-silent .m-badge-t, .v-stop .m-badge-t, .v-chirp .m-badge-t, .v-beep .m-badge-t { fill: #FFFFFF; }
+  .m-ring2 { fill: none; stroke: var(--probe); stroke-width: 2px; stroke-dasharray: 2.5 2.5;
+    vector-effect: non-scaling-stroke; }
+  .m-skip .m-badge { fill: none; stroke: var(--rule); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+  .m-skip .m-badge-t { fill: var(--ink-soft); font-size: 1.2px; }
+  .keyrow { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; font-size: 13px; color: var(--ink-soft); }
+  .keyrow span { display: inline-flex; align-items: center; gap: 6px; }
+  .keyrow i { width: 15px; height: 15px; border-radius: 50%; display: inline-block; flex: none; }
+  .keyrow i.ring { background: none; border: 2.5px solid var(--probe); }
+  .keyrow i.com { background: none; border: 3px solid var(--com); }
   .m-guard .m-ring, .m-guard .m-leader { stroke: var(--warn); }
   .m-guard .m-badge { fill: var(--warn); } .m-guard .m-dot { fill: var(--warn); }
   .m-guard .m-badge-t { font-size: .8px; fill: #FFFFFF; }
@@ -139,6 +152,9 @@
   .tag.done { background: var(--done-bg); color: var(--done-ink); }
   .tag.todo { background: var(--probe); color: var(--probe-ink); }
   .tag.leave { background: var(--chip-bg); color: var(--ink-soft); }
+  .tag.beep { background: var(--beep); color: #FFFFFF; }
+  .tag.chirp { background: var(--warn); color: #FFFFFF; }
+  .tag.silent { background: var(--com); color: var(--com-ink); }
 
   ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; counter-reset: step; }
   .step { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 13px 15px;
@@ -190,14 +206,14 @@
 <div class="wrap">
   <header>
     <p class="eyebrow">Spare preamp board &middot; four wires on &middot; nothing powered</p>
-    <h1>Underside Solder Map</h1>
+    <h1>Preamp Ground Repair</h1>
     <p class="lede">All four ground wires are on the board. What is left is proving them: <strong>eight beeps and one capacitance reading</strong>, all unpowered. The last of those is what finally settles whether dot&nbsp;4&rsquo;s tail is touching the +15&nbsp;V pad.</p>
   </header>
 
   <div class="layout">
     <section class="stage" aria-label="Board drawing">
       <div class="plate">
-<svg class="map" id="map-top" viewBox="-3.5 0 33 22" hidden role="img" aria-label="Top of the board, chip side, to scale: the chip IC1 with its eight pins, C1 to C4, R1, PAD1, and the five holes on the right labelled GND, +15 V, OUT, GND and minus 15 V">
+<svg class="map" id="map-top" viewBox="-3.5 0 33 22" role="img" aria-label="Top of the board, chip side, to scale. Black COM probe stays in hole 1. Eight red probe points numbered in reading order: 1 IC1 pin 3, 2 C4 right-hand pad, 3 C2 striped end and 4 C3 right-hand pad must all beep; 5 IC1 pin 2 must stay silent; 6 hole 2 and 7 hole 5 should chirp then go quiet; 8 hole 3 must be silent.">
 <rect class="b-mask" x="0" y="3.37" width="20.625" height="15.23"/>
 <line class="b-trace" x1="13.4375" y1="10.98" x2="11.1887" y2="10.98" stroke-width="0.6096"/>
 <line class="b-trace" x1="13.6525" y1="11.195" x2="13.6525" y2="12.885" stroke-width="0.6096"/>
@@ -326,43 +342,72 @@
 <text class="t-fn-sub" x="23.1" y="14.02" text-anchor="start" dominant-baseline="central">no copper</text>
 <text class="t-holenum" x="17.5125" y="16.06" text-anchor="middle" dominant-baseline="central">5</text>
 <text class="t-fn" x="23.1" y="16.06" text-anchor="start" dominant-baseline="central">−15 V</text>
-<g class="m-com">
-<line class="m-leader-com" x1="19.5125" y1="5.9" x2="20.95" y2="5.9"/>
-<circle class="m-halo" cx="18.7325" cy="5.9" r="0.78"/><circle class="m-ring-com" cx="18.7325" cy="5.9" r="0.78"/>
-<circle class="m-badge-com" cx="21.9" cy="5.9" r="0.95"/>
-<text class="m-badge-com-t" x="21.9" y="5.9" text-anchor="middle" dominant-baseline="central">COM</text></g>
-<g class="m-probe" id="top-mark-1">
-<line class="m-leader" x1="4.7582" y1="10.5581" x2="1.9461" y2="7.9465"/>
-<circle class="m-halo" cx="5.2125" cy="10.98" r="0.62"/><circle class="m-ring" cx="5.2125" cy="10.98" r="0.62"/>
-<circle class="m-dot" cx="5.2125" cy="10.98" r="0.1"/>
-<circle class="m-badge" cx="1.25" cy="7.3" r="0.95"/>
-<text class="m-badge-t" x="1.25" y="7.3" text-anchor="middle" dominant-baseline="central">1</text></g>
-<g class="m-probe" id="top-mark-2">
-<line class="m-leader" x1="7.7677" y1="14.4575" x2="7.7696" y2="19.35"/>
-<circle class="m-halo" cx="7.7675" cy="13.8375" r="0.62"/><circle class="m-ring" cx="7.7675" cy="13.8375" r="0.62"/>
+<g class="m-com"><circle class="m-halo" cx="18.7325" cy="5.9" r="0.78"/><circle class="m-ring-com" cx="18.7325" cy="5.9" r="0.78"/><circle class="m-badge-com" cx="21.7" cy="5.9" r="0.95"/><text class="m-badge-com-t" x="21.7" y="5.9" text-anchor="middle" dominant-baseline="central">COM</text></g>
+<g class="m-probe v-beep">
+<line class="m-leader" x1="4.6190" y1="11.3880" x2="-1.1520" y2="15.3490"/>
+<circle class="m-halo" cx="5.2125" cy="10.9800" r="0.62"/>
+<circle class="m-ring" cx="5.2125" cy="10.9800" r="0.62"/>
+<circle class="m-dot" cx="5.2125" cy="10.9800" r="0.1"/>
+<circle class="m-badge" cx="-2.10" cy="16.00" r="0.95"/>
+<text class="m-badge-t" x="-2.10" y="16.00" text-anchor="middle" dominant-baseline="central">1</text>
+</g>
+<g class="m-probe v-beep">
+<line class="m-leader" x1="7.7675" y1="14.4600" x2="7.7700" y2="19.3500"/>
+<circle class="m-halo" cx="7.7675" cy="13.8375" r="0.62"/>
+<circle class="m-ring" cx="7.7675" cy="13.8375" r="0.62"/>
 <circle class="m-dot" cx="7.7675" cy="13.8375" r="0.1"/>
-<circle class="m-badge" cx="7.77" cy="20.3" r="0.95"/>
-<text class="m-badge-t" x="7.77" y="20.3" text-anchor="middle" dominant-baseline="central">2</text></g>
-<g class="m-probe" id="top-mark-3">
-<line class="m-leader" x1="15.8521" y1="16.9975" x2="15.8506" y2="19.35"/>
-<circle class="m-halo" cx="15.8525" cy="16.3775" r="0.62"/><circle class="m-ring" cx="15.8525" cy="16.3775" r="0.62"/>
+<circle class="m-badge" cx="7.77" cy="20.30" r="0.95"/>
+<text class="m-badge-t" x="7.77" y="20.30" text-anchor="middle" dominant-baseline="central">2</text>
+</g>
+<g class="m-probe v-beep">
+<line class="m-leader" x1="15.8525" y1="17.0000" x2="15.8500" y2="19.3500"/>
+<circle class="m-halo" cx="15.8525" cy="16.3775" r="0.62"/>
+<circle class="m-ring" cx="15.8525" cy="16.3775" r="0.62"/>
 <circle class="m-dot" cx="15.8525" cy="16.3775" r="0.1"/>
-<circle class="m-badge" cx="15.85" cy="20.3" r="0.95"/>
-<text class="m-badge-t" x="15.85" y="20.3" text-anchor="middle" dominant-baseline="central">3</text></g>
-<g class="m-probe" id="top-mark-4">
-<line class="m-leader" x1="15.6193" y1="8.4999" x2="18.0449" y2="2.4811"/>
-<circle class="m-halo" cx="15.3875" cy="9.075" r="0.62"/><circle class="m-ring" cx="15.3875" cy="9.075" r="0.62"/>
-<circle class="m-dot" cx="15.3875" cy="9.075" r="0.1"/>
-<circle class="m-badge" cx="18.4" cy="1.6" r="0.95"/>
-<text class="m-badge-t" x="18.4" y="1.6" text-anchor="middle" dominant-baseline="central">4</text></g>
-<g class="m-guard" id="top-mark-IN">
-<line class="m-leader" x1="4.8272" y1="9.2243" x2="1.5904" y2="5.1442"/>
-<circle class="m-halo" cx="5.2125" cy="9.71" r="0.62"/><circle class="m-ring" cx="5.2125" cy="9.71" r="0.62"/>
-<circle class="m-dot" cx="5.2125" cy="9.71" r="0.1"/>
-<circle class="m-badge" cx="1" cy="4.4" r="0.95"/>
-<text class="m-badge-t" x="1" y="4.4" text-anchor="middle" dominant-baseline="central">IN</text></g>
+<circle class="m-badge" cx="15.85" cy="20.30" r="0.95"/>
+<text class="m-badge-t" x="15.85" y="20.30" text-anchor="middle" dominant-baseline="central">3</text>
+</g>
+<g class="m-probe v-beep">
+<line class="m-leader" x1="15.6570" y1="8.4070" x2="17.9700" y2="2.6670"/>
+<circle class="m-halo" cx="15.3875" cy="9.0750" r="0.62"/>
+<circle class="m-ring" cx="15.3875" cy="9.0750" r="0.62"/>
+<circle class="m-dot" cx="15.3875" cy="9.0750" r="0.1"/>
+<circle class="m-badge" cx="18.40" cy="1.60" r="0.95"/>
+<text class="m-badge-t" x="18.40" y="1.60" text-anchor="middle" dominant-baseline="central">4</text>
+</g>
+<g class="m-probe v-stop">
+<line class="m-leader" x1="4.1610" y1="8.9470" x2="-1.1700" y2="5.0750"/>
+<circle class="m-halo" cx="5.2125" cy="9.7100" r="0.62"/>
+<circle class="m-ring" cx="5.2125" cy="9.7100" r="0.62"/>
+<circle class="m-ring2" cx="5.2125" cy="9.7100" r="1.17"/>
+<circle class="m-dot" cx="5.2125" cy="9.7100" r="0.1"/>
+<circle class="m-badge" cx="-2.10" cy="4.40" r="0.95"/>
+<text class="m-badge-t" x="-2.10" y="4.40" text-anchor="middle" dominant-baseline="central">5</text>
+</g>
+<g class="m-probe v-chirp">
+<circle class="m-halo" cx="18.7325" cy="8.4400" r="0.78"/>
+<circle class="m-ring" cx="18.7325" cy="8.4400" r="0.78"/>
+<circle class="m-dot" cx="18.7325" cy="8.4400" r="0.1"/>
+<circle class="m-badge" cx="21.70" cy="8.44" r="0.95"/>
+<text class="m-badge-t" x="21.70" y="8.44" text-anchor="middle" dominant-baseline="central">6</text>
+</g>
+<g class="m-probe v-chirp">
+<circle class="m-halo" cx="18.7325" cy="16.0600" r="0.78"/>
+<circle class="m-ring" cx="18.7325" cy="16.0600" r="0.78"/>
+<circle class="m-dot" cx="18.7325" cy="16.0600" r="0.1"/>
+<circle class="m-badge" cx="21.70" cy="16.06" r="0.95"/>
+<text class="m-badge-t" x="21.70" y="16.06" text-anchor="middle" dominant-baseline="central">7</text>
+</g>
+<g class="m-probe v-silent">
+<circle class="m-halo" cx="18.7325" cy="10.9800" r="0.78"/>
+<circle class="m-ring" cx="18.7325" cy="10.9800" r="0.78"/>
+<circle class="m-dot" cx="18.7325" cy="10.9800" r="0.1"/>
+<circle class="m-badge" cx="21.70" cy="10.98" r="0.95"/>
+<text class="m-badge-t" x="21.70" y="10.98" text-anchor="middle" dominant-baseline="central">8</text>
+</g>
+<g class="m-skip"><circle class="m-badge" cx="21.7" cy="13.52" r="0.95"/><text class="m-badge-t" x="21.7" y="13.52" text-anchor="middle" dominant-baseline="central">&#8212;</text></g>
         </svg>
-<svg class="map" id="map-bottom" viewBox="-3.5 0 33 22" role="img" aria-label="Underside of the board, mirror image and to scale: five holes on the left, the four scraped dots numbered 1 to 4, wires 1 and 2 already run to hole 1 in grey dashes, wire 3 in orange from dot 3 to dot 2, wire 4 in blue from dot 4 to hole 1">
+<svg class="map" id="map-bottom" viewBox="-3.5 0 33 22" hidden role="img" aria-label="Underside of the board, mirror image and to scale: five holes on the left, the four scraped dots numbered 1 to 4, wires 1 and 2 already run to hole 1 in grey dashes, wire 3 in orange from dot 3 to dot 2, wire 4 in blue from dot 4 to hole 1">
 <rect class="b-mask" x="0" y="3.37" width="20.625" height="15.23"/>
 <line class="b-trace-b" x1="4.4325" y1="9.075" x2="3.7975" y2="9.075" stroke-width="0.6096"/>
 <line class="b-trace-b" x1="7.6075" y1="5.5825" x2="7.6075" y2="6.535" stroke-width="0.6096"/>
@@ -446,13 +491,14 @@
       </div>
       <div class="viewbar">
         <div class="seg" role="group" aria-label="Which side of the board">
-          <button type="button" id="v-bottom" aria-pressed="true">Underside</button>
-          <button type="button" id="v-top" aria-pressed="false">Top (chip side)</button>
+          <button type="button" id="v-top" aria-pressed="true">Top (chip side)</button>
+          <button type="button" id="v-bottom" aria-pressed="false">Underside</button>
         </div>
         <button class="tool" type="button" id="z-all">Whole board</button>
       </div>
-      <p class="viewnote" id="note-bottom"><strong>Underside.</strong> Flip the board like turning a page. Five holes now on your <strong>left</strong>, hole&nbsp;1 still at the top, &ldquo;GND +15V OUT GND -15V&rdquo; printed beside them and &ldquo;Dan Berard 2014&rdquo; along the bottom. Big unplated standoff hole on the right.</p>
-      <p class="viewnote" id="note-top" hidden><strong>Top, chip side.</strong> Five holes on your right, the chip&rsquo;s corner dot top-left. This side is only for the beep checks &mdash; no soldering here.</p>
+      <p class="viewnote" id="note-top"><strong>Top, chip side.</strong> Five holes on your right, the chip&rsquo;s corner dot top-left. <strong>Black probe stays in hole&nbsp;1</strong> (the black ring) for all eight. Move only the red probe, in number order.</p>
+      <p class="keyrow" id="key-top"><span><i style="background:var(--beep)"></i>must beep</span><span><i style="background:var(--warn)"></i>chirp, then quiet</span><span><i style="background:var(--com)"></i>must be silent</span><span><i class="ring"></i>red probe here</span><span><i class="com"></i>black probe, hole 1</span></p>
+      <p class="viewnote" id="note-bottom" hidden><strong>Underside.</strong> Flip the board like turning a page. Five holes now on your <strong>left</strong>, hole&nbsp;1 still at the top. <strong>Dots&nbsp;1 to&nbsp;4 here are the same four points as badges&nbsp;1 to&nbsp;4 on the front</strong>, seen from the other side &mdash; dot&nbsp;1 is pin&nbsp;3&rsquo;s via, dot&nbsp;2 is C4&rsquo;s, and so on. Nothing to probe on this side; it is where you look for the joint if a reading comes out wrong.</p>
     </section>
 
     <section class="panel">
@@ -463,14 +509,20 @@
         <p><strong>None of it is verified yet, and nothing has been powered.</strong> That is the whole of what is left on this board today: eight beeps and one capacitance reading.</p>
       </div>
 
-      <h2>The four dots, and the two to leave alone</h2>
+      <h2>The eight points, in reading order</h2>
+      <p class="note"><strong>Black probe in hole&nbsp;1, and leave it there.</strong> Everything below is where the red probe goes. The badge colour on the drawing is what the meter should do, so you can check a reading without looking away from the board.</p>
       <div class="legend">
-        <div class="lrow"><b>1</b><span class="what">IC1 pin&nbsp;3 &mdash; the chip&rsquo;s 0&nbsp;V reference<small>The whole point of the repair. Wired to hole&nbsp;1</small></span><span class="tag done">wired 09-13</span></div>
-        <div class="lrow"><b>2</b><span class="what">C4&rsquo;s ground end<small>Wired to hole&nbsp;1. Wire&nbsp;3 lands on this joint</small></span><span class="tag done">wired 09-13</span></div>
-        <div class="lrow"><b>3</b><span class="what">C2&rsquo;s ground end<small>Bottom edge, level with hole&nbsp;5. Wire&nbsp;3 runs from here to dot&nbsp;2&rsquo;s joint</small></span><span class="tag done">wired today</span></div>
-        <div class="lrow"><b>4</b><span class="what">C3&rsquo;s ground end<small>Beside hole&nbsp;2&rsquo;s pad, which is +15&nbsp;V. Amber ring marks the copper tail that must stay covered</small></span><span class="tag done">wired today</span></div>
-        <div class="lrow"><b></b><span class="what">Two plain grey rings &mdash; solder to neither<small><strong>C1&rsquo;s ground end</strong> is the one point the factory copper did join to hole&nbsp;1. It is your control: it beeps. <strong>IC1 pin&nbsp;8</strong> is floating like the rest, but pin&nbsp;8 is a no-connect on an OPA627. It only needs a wire if the chip turns out to be an OPA124, and nobody has read the marking yet</small></span><span class="tag leave">leave</span></div>
+        <div class="lrow"><b>1</b><span class="what">IC1 pin&nbsp;3<small>Left side, third leg down. The fault that started all of this</small></span><span class="tag beep">beep</span></div>
+        <div class="lrow"><b>2</b><span class="what">C4&rsquo;s right-hand pad<small>The small part below the chip. Right-hand means nearer the holes. Tests wire&nbsp;2</small></span><span class="tag beep">beep</span></div>
+        <div class="lrow"><b>3</b><span class="what">C2&rsquo;s striped end<small>The big tantalum at the bottom. The stripe is on the end nearest the holes, after the rotation. Tests wire&nbsp;3</small></span><span class="tag beep">beep</span></div>
+        <div class="lrow"><b>4</b><span class="what">C3&rsquo;s right-hand pad<small>The small part above R1, right of the chip&rsquo;s upper legs. Tests wire&nbsp;4</small></span><span class="tag beep">beep</span></div>
+        <div class="lrow"><b>5</b><span class="what">IC1 pin&nbsp;2 &mdash; the one that must not beep<small>Left side, second leg down, immediately above pin&nbsp;3. The amplifier&rsquo;s input. Marked with a second dashed ring on the drawing because it is the only reading here that is a hard stop</small></span><span class="tag silent">silent</span></div>
+        <div class="lrow"><b>6</b><span class="what">Hole&nbsp;2, +15&nbsp;V<small>C1 and C3 charging. <strong>A beep that holds means dot&nbsp;4&rsquo;s tail is bridged to this pad</strong></small></span><span class="tag chirp">chirp</span></div>
+        <div class="lrow"><b>7</b><span class="what">Hole&nbsp;5, &minus;15&nbsp;V<small>C2 and C4 charging. A beep that holds points at C2 itself, not at anything you soldered</small></span><span class="tag chirp">chirp</span></div>
+        <div class="lrow"><b>8</b><span class="what">Hole&nbsp;3, OUT<small>Through R1 from the op-amp output. No path to ground</small></span><span class="tag silent">silent</span></div>
+        <div class="lrow"><b></b><span class="what">Hole&nbsp;4 has no badge, on purpose<small>No copper lands on it. It is the sixth ground point the missing pour left out, and it is why the lead was left out of it</small></span><span class="tag leave">skip</span></div>
       </div>
+      <p class="keyrow"><button class="show" type="button" data-view="top" data-zoom="ic">Zoom to 1 and 5, the chip pins</button><button class="show" type="button" data-view="top" data-zoom="caps">Zoom to 2 and 3</button><button class="show" type="button" data-view="top" data-zoom="holes">Zoom to 4, 6 and 8</button><button class="show" type="button" data-view="top" data-zoom="hole5">Zoom to 7</button></p>
 
       <h2>All four wires are on. Now prove it</h2>
       <p class="note">You do not need the checks that were meant to come before soldering. <strong>The list below is a superset of them</strong> &mdash; every one of those faults shows up here, it just takes one more step to say which wire caused it. Nothing here is powered and nothing here can hurt the board.</p>
@@ -488,7 +540,6 @@
             <div class="check"><div class="lbl">Hole&nbsp;5, &minus;15&nbsp;V <span class="req warn">CHIRP then quiet</span><small>C2 and C4 charging. A beep that holds here points at C2 itself &mdash; the reused part that took two irons</small></div><div class="res" data-key="h5"><button type="button" data-val="beep" class="bad" aria-pressed="false">Holds</button><button type="button" data-val="chirp" aria-pressed="false">Chirp</button></div></div>
             <div class="check"><div class="lbl">Hole&nbsp;3, OUT <span class="req silent">SILENT</span><small>Through R1 and the op-amp output. No path to ground</small></div><div class="res" data-key="h3"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
           </div>
-          <button class="show" type="button" data-view="top" data-zoom="ic">Show the chip pins</button>
         </li>
 
         <li class="step">
@@ -572,9 +623,12 @@
 (function () {
   var VB = {
     top: {
-      all: [-3.5, 0, 33, 22],
-      ic:  [2.5, 6.5, 12, 8],
-      c3:  [11.5, 5.5, 10.5, 7]
+      all:   [-3.5, 0, 33, 22],
+      ic:    [2.5, 6.5, 12, 8],
+      caps:  [4.5, 11.0, 16.5, 11],
+      holes: [12.0, 0.5, 19.5, 13],
+      hole5: [12.0, 10.0, 19.5, 13],
+      c3:    [11.5, 5.5, 10.5, 7]
     },
     bottom: {
       all: [-3.5, 0, 33, 22],
@@ -585,7 +639,8 @@
   var svgs = { top: document.getElementById("map-top"), bottom: document.getElementById("map-bottom") };
   var notes = { top: document.getElementById("note-top"), bottom: document.getElementById("note-bottom") };
   var btns = { top: document.getElementById("v-top"), bottom: document.getElementById("v-bottom") };
-  var view = "bottom";
+  var keyTop = document.getElementById("key-top");
+  var view = "top";
   var cur = { top: VB.top.all.slice(), bottom: VB.bottom.all.slice() };
   var anim = null;
 
@@ -598,6 +653,7 @@
     ["top", "bottom"].forEach(function (k) {
       svgs[k].hidden = (k !== v);
       notes[k].hidden = (k !== v);
+      if (k === "top" && keyTop) keyTop.hidden = (v !== "top");
       btns[k].setAttribute("aria-pressed", String(k === v));
     });
   }
@@ -627,7 +683,7 @@
       svgs[view].scrollIntoView({ block: "nearest", behavior: "smooth" });
     });
   });
-  showView("bottom");
+  showView("top");
 
   // ---- readings -------------------------------------------------------
   var ORDER = [
