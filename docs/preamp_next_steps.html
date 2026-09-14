@@ -1,0 +1,269 @@
+<title>Preamp Bring-Up Ladder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+  :root {
+    --ground: #E9ECEA; --surface: #FFFFFF; --ink: #141A18; --ink-soft: #57625E; --rule: #CFD6D2;
+    --probe: #C3281F; --beep: #1D7A4B; --warn: #9A5B00; --chip-bg: #DFE5E2;
+    --live: #A8320B; --live-bg: #FBEDE6; --live-edge: #E0A48D;
+    --done-bg: #E2E9E5; --done-ink: #46574F; --gate-bg: #FFF6E4; --gate-edge: #E0C48D;
+    --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #97A39E; --rule: #2A3430;
+    --probe: #FF5A4C; --beep: #53C98F; --warn: #E3A64A; --chip-bg: #1F2724;
+    --live: #FF7A5E; --live-bg: #2C1712; --live-edge: #6B3324;
+    --done-bg: #1B2320; --done-ink: #8B9993; --gate-bg: #2A2313; --gate-edge: #5C4A22;
+    color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #97A39E; --rule: #2A3430;
+    --probe: #FF5A4C; --beep: #53C98F; --warn: #E3A64A; --chip-bg: #1F2724;
+    --live: #FF7A5E; --live-bg: #2C1712; --live-edge: #6B3324;
+    --done-bg: #1B2320; --done-ink: #8B9993; --gate-bg: #2A2313; --gate-edge: #5C4A22;
+    color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body);
+    font-size: 16px; line-height: 1.55; padding-inline: 16px; padding-block: 0 56px; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header { padding-block: 24px 6px; display: grid; gap: 8px; }
+  .eyebrow { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--ink-soft); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(1.9rem, 5.5vw, 2.7rem);
+    line-height: 1.02; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+  .lede { margin: 0; color: var(--ink-soft); max-width: 62ch; }
+  h2 { font-family: var(--display); font-weight: 600; font-size: 1.4rem; margin: 30px 0 10px;
+    padding-top: 14px; border-top: 1px solid var(--rule); }
+  h2:first-of-type { border-top: 0; }
+  h3 { font-size: 1.02rem; margin: 18px 0 6px; }
+  p { margin: 0 0 10px; max-width: 64ch; }
+  .sub { font-size: 14px; color: var(--ink-soft); }
+  code { font-family: var(--mono); font-size: .92em; }
+  strong.n { font-family: var(--mono); font-weight: 700; }
+
+  .ladder { display: grid; gap: 8px; margin: 18px 0 6px; }
+  .rung { display: grid; grid-template-columns: 46px minmax(0,1fr) auto; gap: 12px; align-items: center;
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; padding: 12px 14px; }
+  .rung .tag { font-family: var(--display); font-weight: 700; font-size: 1.25rem; text-align: center;
+    color: var(--ink); }
+  .rung .what { font-size: 15px; } .rung .what small { display: block; color: var(--ink-soft); font-size: 13px; }
+  .rung .when { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; padding: 4px 8px; border-radius: 4px; white-space: nowrap; }
+  .rung.done { background: var(--done-bg); border-color: transparent; }
+  .rung.done .tag, .rung.done .what { color: var(--done-ink); }
+  .rung.done .when { background: transparent; color: var(--done-ink); }
+  .rung.now { border-color: var(--beep); border-width: 2px; }
+  .rung.now .when { background: var(--beep); color: #FFF; }
+  .rung .when.off { background: var(--chip-bg); color: var(--ink-soft); }
+  .rung .when.live { background: var(--live); color: #FFF; }
+
+  .box { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px;
+    padding: 14px 16px; margin: 12px 0; }
+  .box.gate { background: var(--gate-bg); border-color: var(--gate-edge); }
+  .box.live { background: var(--live-bg); border-color: var(--live-edge); }
+  .box.live strong { color: var(--live); }
+  .box h3 { margin-top: 0; }
+  .box > :last-child { margin-bottom: 0; }
+
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 14.5px; }
+  th, td { text-align: left; padding: 8px 10px; border-top: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--ink-soft); border-top: 0; }
+  td.num { font-family: var(--mono); font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .scroll { overflow-x: auto; }
+
+  ol.steps { margin: 0; padding-left: 0; list-style: none; counter-reset: s; display: grid; gap: 10px; }
+  ol.steps > li { counter-increment: s; display: grid; grid-template-columns: 26px minmax(0,1fr);
+    gap: 11px; align-items: start; }
+  ol.steps > li::before { content: counter(s); font-family: var(--display); font-weight: 700;
+    width: 26px; height: 26px; border-radius: 50%; background: var(--chip-bg); display: grid;
+    place-items: center; font-size: .95rem; }
+  ol.steps > li > div > :last-child { margin-bottom: 0; }
+
+  .ticks { display: grid; gap: 0; margin-top: 8px; }
+  .tick { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; align-items: center;
+    padding-block: 9px; border-top: 1px solid var(--rule); }
+  .tick:first-child { border-top: 0; }
+  .tick .lbl { font-size: 14.5px; } .tick .lbl small { display: block; color: var(--ink-soft); font-size: 12.5px; }
+  .res { display: inline-flex; gap: 5px; }
+  .res button { font-family: var(--body); font-weight: 700; font-size: 13px; border: 1px solid var(--rule);
+    background: var(--surface); color: var(--ink); border-radius: 5px; padding: 6px 12px; cursor: pointer; }
+  .res button[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .res button[aria-pressed="true"].bad { background: var(--probe); border-color: var(--probe); color: #FFF; }
+  button:focus-visible { outline: 2px solid var(--probe); outline-offset: 2px; }
+  .saved { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); margin-top: 8px; }
+  footer { margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--rule);
+    font-size: 13px; color: var(--ink-soft); }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Spare preamp board &middot; after the ground repair &middot; 2026-09-14</p>
+    <h1>Preamp Bring-Up Ladder</h1>
+    <p class="lede">Four steps between a verified ground repair and the first real preamp measurement this project has ever had. Each one gates the next, and only two of them involve power.</p>
+  </header>
+
+  <div class="ladder">
+    <div class="rung done"><span class="tag">A</span><span class="what">Ground repair, and verify it<small>Four wires on, IC1 pin 3 beeps to hole 1, no shorts, C2 reads 4.7 &micro;F</small></span><span class="when">done 09-14</span></div>
+    <div class="rung now"><span class="tag">B</span><span class="what">Continuity at the four lead free ends<small>Five minutes. All that stands between here and the smoke test</small></span><span class="when">start here</span></div>
+    <div class="rung"><span class="tag">C</span><span class="what">Current-limited smoke test<small>Bench supply only. Never the controller</small></span><span class="when live">powered</span></div>
+    <div class="rung"><span class="tag">D0</span><span class="what">Calipers on the standoff, drill only if it needs it<small>Before the board gets wet, not after</small></span><span class="when off">unpowered</span></div>
+    <div class="rung"><span class="tag">D</span><span class="what">Wash, fit the standoff, build the input node<small>An evening, plus drying time</small></span><span class="when off">unpowered</span></div>
+    <div class="rung"><span class="tag">D5</span><span class="what">The first valid preamp measurement<small>PAD1 on a meter, timed to 60 minutes</small></span><span class="when live">powered</span></div>
+  </div>
+
+  <div class="box gate">
+    <h3>What is in the room, and what is not</h3>
+    <table>
+      <tr><td><strong>Keystone 11301, 2 off</strong></td><td>Here. <strong>The right part</strong> &mdash; the one the BOM specifies and Berard names</td></tr>
+      <tr><td><strong>Deionised water</strong></td><td>Here</td></tr>
+      <tr><td><strong>99% IPA</strong></td><td>Collected this evening. <strong>Part D does not start until it is on the bench</strong></td></tr>
+      <tr><td><strong>Foam swabs, soft brush</strong></td><td><strong>Not recorded as owned.</strong> The wash needs both &mdash; check before starting D</td></tr>
+      <tr><td>4.7 &micro;F 50 V 1812 ceramics</td><td>Not owned. Needed before the <em>controller</em>, not before any step here</td></tr>
+    </table>
+    <p class="sub">B, C and D0 need none of this. They can all be done tonight.</p>
+  </div>
+
+  <h2>B &mdash; continuity at the lead free ends</h2>
+  <p>Unpowered, meter on beep. The four jumper leads go into JP1 holes 1, 2, 3 and 5; this checks each one arrives where it should and touches nothing else.</p>
+  <div class="scroll"><table>
+    <tr><th>Between</th><th>Expect</th></tr>
+    <tr><td>+15 V lead &harr; C1's far pad (away from the holes)</td><td class="num">beep</td></tr>
+    <tr><td>&minus;15 V lead &harr; C2's far pad</td><td class="num">beep</td></tr>
+    <tr><td>GND lead &harr; C1's near pad</td><td class="num">beep</td></tr>
+    <tr><td>OUT lead &harr; PAD1</td><td class="num">about 220 &Omega;</td></tr>
+    <tr><td>OUT lead &harr; each of the other three</td><td class="num">open</td></tr>
+    <tr><td>+15 V &harr; &minus;15 V, and each &harr; GND</td><td class="num">no held beep</td></tr>
+  </table></div>
+  <p class="sub"><strong>220 &Omega; on the OUT lead is R1</strong>, the series output resistor, so that one is a real number rather than a beep. The last row will chirp or stay silent, same as holes 2 and 5 did &mdash; only a beep that <em>holds</em> is a short.</p>
+  <div class="ticks">
+    <div class="tick"><div class="lbl">All six rows as expected?</div><div class="res" data-key="b"><button type="button" data-val="pass" aria-pressed="false">Yes</button><button type="button" data-val="fail" class="bad" aria-pressed="false">No</button></div></div>
+  </div>
+
+  <h2>C &mdash; the smoke test</h2>
+  <div class="box live">
+    <p><strong>Set the supply before anything is connected to it.</strong> Supply off, both channels to <strong class="n">5.0 V</strong>, current limit <strong class="n">20 mA</strong>, then meter each output to confirm. A supply you have not metered is not a supply you have set.</p>
+  </div>
+  <ol class="steps">
+    <li><div><p><strong>Make a &plusmn; supply.</strong> Channel A's &minus; terminal joined to channel B's + terminal &mdash; that junction is your ground.</p></div></li>
+    <li><div><p><strong>Connect, in this order:</strong> ground &rarr; GND lead. A+ &rarr; +15 V lead. B&minus; &rarr; &minus;15 V lead. <strong>OUT lead taped off, touching nothing.</strong></p></div></li>
+    <li><div><p><strong>Switch on. Both channels should read a few mA, within 1 mA of each other.</strong> The op-amp's supply current flows in one rail and out the other, so the two match. <strong>Extra current on the &minus;15 V channel alone means C2 is leaking.</strong></p></div></li>
+    <li><div><p><strong>Off immediately if</strong> a channel sits at the 20 mA limit, the current climbs rather than settling, or anything is warm to the touch.</p></div></li>
+    <li><div><p><strong>Then 15.0 V for ten minutes.</strong> Never higher &mdash; the op-amp's absolute maximum is &plusmn;18 V. Recheck both currents and touch C2.</p></div></li>
+    <li><div><p><strong>Disconnect &minus;15 V first, then +15 V, then ground.</strong></p></div></li>
+  </ol>
+  <p class="sub"><strong>PAD1 will sit near a supply rail throughout, and that is correct.</strong> The 100 M&Omega; feedback resistor is not fitted yet, so the amplifier has no feedback path. This test is about current and heat, nothing else.</p>
+  <div class="ticks">
+    <div class="tick"><div class="lbl">At 5 V &mdash; both channels within 1 mA?<small>Write the two numbers down</small></div><div class="res" data-key="c5"><button type="button" data-val="pass" aria-pressed="false">Yes</button><button type="button" data-val="fail" class="bad" aria-pressed="false">No</button></div></div>
+    <div class="tick"><div class="lbl">Ten minutes at 15 V, C2 not warm?</div><div class="res" data-key="c15"><button type="button" data-val="pass" aria-pressed="false">Yes</button><button type="button" data-val="fail" class="bad" aria-pressed="false">No</button></div></div>
+  </div>
+
+  <h2>D0 &mdash; the standoff, before any washing</h2>
+  <p><strong>Do this before the wash, not after.</strong> If the hole needs opening, drilling a clean board puts fresh FR4 dust straight onto the input node.</p>
+  <h3>Two measurements and one look</h3>
+  <div class="scroll"><table>
+    <tr><th>Measure</th><th>Expect</th></tr>
+    <tr><td>The standoff's <strong>shank</strong> &mdash; the part below the flange that passes through the board</td><td class="num">around 2.18 mm</td></tr>
+    <tr><td>The <strong>board hole</strong> &mdash; the single unplated hole, 2.54 mm in from the edge</td><td class="num">2.108 mm</td></tr>
+  </table></div>
+  <p><strong>And look at the part:</strong> is there a <strong>white plastic collar</strong> under the flange, or is it bare metal all the way down? Distributors disagree about whether this one is PTFE-insulated. It blocks nothing &mdash; it changes what the wash is protecting &mdash; but tell me which.</p>
+  <h3>The specified hole is 0.076 mm bigger than ours</h3>
+  <p>That is a press fit with about 3.6% interference. <strong>Not a part that drops in.</strong></p>
+  <div class="scroll"><table>
+    <tr><th>If the shank is</th><th>Then</th></tr>
+    <tr><td class="num">&le; 2.10 mm</td><td>It drops in. Straight on to D, no drilling</td></tr>
+    <tr><td class="num">2.10&ndash;2.20 mm</td><td>Normal press fit. <strong>Back the board on something flat and solid</strong> and press it square. If it starts under firm thumb pressure, carry on. <strong>If it does not move, stop</strong></td></tr>
+    <tr><td class="num">won't start</td><td><strong>Do not force it.</strong> Open the hole with a <strong>#44 drill, 2.184 mm</strong>, then press. Edge margin afterwards is <strong class="n">1.448 mm</strong> &mdash; still ample</td></tr>
+  </table></div>
+  <div class="box live">
+    <p><strong>Why not just force it.</strong> FR4 is brittle and this hole is 2.54 mm from the board edge. A radial crack here is not cosmetic: <strong>this hole is the insulator for the input node of a 100 M&Omega; amplifier.</strong> A crack is both a leakage path and a trap for contamination, in the 100 M&Omega; to 10 G&Omega; range a multimeter cannot see. The drill takes two minutes.</p>
+  </div>
+  <p class="sub">Drill by hand if you can &mdash; a pin vice, or a cordless run slowly. Back the board with scrap so the exit side does not tear out, and blow the swarf off before the wash.</p>
+  <div class="ticks">
+    <div class="tick"><div class="lbl">Standoff shank, in mm<small>Say the number rather than pass/fail</small></div><div class="res" data-key="d0shank"><button type="button" data-val="drops in" aria-pressed="false">Drops in</button><button type="button" data-val="press fit" aria-pressed="false">Presses</button><button type="button" data-val="needs drilling" class="bad" aria-pressed="false">Needs drill</button></div></div>
+    <div class="tick"><div class="lbl">White collar under the flange?</div><div class="res" data-key="d0ptfe"><button type="button" data-val="PTFE collar" aria-pressed="false">Yes, white</button><button type="button" data-val="bare metal" aria-pressed="false">Bare metal</button></div></div>
+  </div>
+
+  <h2>D &mdash; wash, then build the node</h2>
+  <p class="sub"><strong>Gate: 99% IPA on the bench, plus foam swabs and a soft brush.</strong> 91% is not enough here.</p>
+  <ol class="steps">
+    <li><div><p><strong>Wash the whole board.</strong> Scrub with IPA &rarr; rinse with clean IPA &rarr; rinse with deionised water &rarr; dry at 60&ndash;70 &deg;C for 1&ndash;2 hours if you have a dehydrator or oven that holds it, otherwise overnight.</p></div></li>
+    <li><div><p><strong>Press in the standoff</strong>, if D0 left it for now.</p></div></li>
+    <li><div><p><strong>Air-mount the 100 M&Omega;</strong> from <strong>PAD1</strong> (the op-amp output) to the standoff. Do not shorten its leads and do not lay it flat against the board &mdash; the air gap is the point.</p></div></li>
+    <li><div><p><strong>A slack 40 AWG link</strong> from the standoff to IC1 pin 2's pad toe. Slack, so nothing pulls on the joint.</p></div></li>
+    <li><div><p><strong>Clean locally</strong> with swabs and IPA, then dry again.</p></div></li>
+  </ol>
+
+  <h2>D5 &mdash; the measurement this has all been for</h2>
+  <p>Bench supply &plusmn;15 V, 20 mA limits. Meter on the OUT lead, which reads the same node as PAD1. <strong>No box, no tip lead, and nobody within a metre</strong> &mdash; a body injects tens of nA and a tunnelling current is about 1 nA.</p>
+  <p>Readings at <strong class="n">1, 5, 10, 20, 45 and 60 minutes</strong>, recording both channel currents each time. <strong>45 minutes is the one that counts</strong> &mdash; the offset climbed for over an hour after power-on on the old board, and an early reading looks like a spectacular improvement and is worthless.</p>
+  <div class="box">
+    <p><strong>This is the first preamp reading in this project that measures the preamp.</strong> Every previous one was taken with IC1 pin 3 floating, which is why the &ldquo;119 nA&rdquo; was never a current. Whatever this number is, it is the first honest one.</p>
+  </div>
+  <div class="box gate">
+    <h3>Before this board ever meets the controller</h3>
+    <p><strong>C2 replaced with a fresh part</strong> &mdash; the one fitted is the original, removed and refitted with two irons well past its 3 second limit &mdash; <strong>and PAD1 under 0.1 V at 45 minutes.</strong> Both, not either. <code>STATUS.md</code> safety rule 14.</p>
+  </div>
+
+  <p class="saved" id="saved">Tap results as you go and they are saved &mdash; I can read them back to write up the session.</p>
+
+  <footer>
+    <p>Procedure and numbers from <code>docs/NEXT_SESSION_PLAN.md</code>; part figures from <code>docs/FACTS.md</code>; what is in the room from <code>docs/INVENTORY.md</code>. The ground repair this follows is recorded in <code>sessions/2026-09-14.md</code>.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var KEYS = [["b","Part B"],["c5","C at 5 V"],["c15","C at 15 V"],["d0shank","standoff fit"],["d0ptfe","insulator"]];
+  var state = {}, docRef = null, timer = null, hush = false;
+  var saved = document.getElementById("saved");
+  function paint() {
+    Array.prototype.forEach.call(document.querySelectorAll(".res"), function (g) {
+      var k = g.getAttribute("data-key");
+      Array.prototype.forEach.call(g.querySelectorAll("button"), function (b) {
+        b.setAttribute("aria-pressed", String(state[k] === b.getAttribute("data-val")));
+      });
+    });
+  }
+  function save() {
+    if (!docRef || hush) return;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      timer = null;
+      var body = { updatedAt: new Date().toISOString() };
+      KEYS.forEach(function (k) { if (state[k[0]]) body[k[0]] = state[k[0]]; });
+      docRef.set(body).then(function () {
+        saved.textContent = "Saved " + new Date().toLocaleTimeString();
+      }).catch(function () { saved.textContent = "Not saved - keep your own note."; });
+    }, 600);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".res button"), function (b) {
+    b.addEventListener("click", function () {
+      var k = b.parentNode.getAttribute("data-key"), v = b.getAttribute("data-val");
+      if (state[k] === v) { delete state[k]; } else { state[k] = v; }
+      paint(); save();
+    });
+  });
+  paint();
+  if (window.claude && window.claude.use) {
+    window.claude.use("db").then(function (d) {
+      if (!d) { saved.textContent = "Not saving on this view - keep your own note."; return; }
+      docRef = d.doc("bench/bringup");
+      saved.textContent = "Saving as you tap.";
+      docRef.onSnapshot(function (snap) {
+        if (!snap || !snap.exists) return;
+        var data = snap.data() || {}, changed = false;
+        KEYS.forEach(function (k) {
+          var v = data[k[0]];
+          if (typeof v === "string" && state[k[0]] !== v) { state[k[0]] = v; changed = true; }
+        });
+        if (changed) { hush = true; paint(); hush = false; }
+      }, function () { saved.textContent = "Live sync dropped - taps still work."; });
+    }).catch(function () {});
+  } else { saved.textContent = "Not saving on this view - keep your own note."; }
+})();
+</script>

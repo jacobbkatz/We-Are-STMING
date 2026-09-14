@@ -12,128 +12,44 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# WHERE THINGS STAND — 2026-09-14
+# WHERE THINGS STAND — 2026-09-14, late
 
-**The spare board's ground repair is finished and verified.** All four wires are on, and **IC1
-pin 3 — the amplifier's 0 V reference — beeps to hole 1** for the first time in this project. Eight
-continuity readings and one capacitance reading, all pass; the table is in
-[`sessions/2026-09-14.md`](../sessions/2026-09-14.md) §3.1.
+**The ground repair is finished and verified.** All four wires on, **IC1 pin 3 beeps to hole 1**,
+no shorts, C2 reads 4.7 µF in circuit. Table in [`sessions/2026-09-14.md`](../sessions/2026-09-14.md) §3.1.
 
-**The board has still never been powered. Start at PART B.**
+**The board has still never been powered.**
 
-**Physical state of the spare board:**
+## What is now in the room
 
-- **Four ground wires**, underside, 40 AWG magnet wire. Dot 1 = IC1 pin 3's via, dot 2 = C4's,
-  dot 3 = C2's, dot 4 = C3's. Dots 1, 2 and 4 run to hole 1's joint; dot 3 runs to dot 2's joint.
-- **IC1 pin 8 is deliberately not wired.** It is the fifth dead ground point, but pin 8 is a
-  no-connect on an OPA627. It only matters if the part is an OPA124 — **the marking has never been
-  read.**
-- **Hole 4 is empty on purpose** — no copper lands on it.
-- **C2 rotated** and reading 4.7 µF in circuit, so it survived the rework. **It is still the reused
-  part and is replaced before the controller** — `STATUS.md` safety rule 14.
-- **Four leads** in JP1 holes 1 (GND), 2 (+15 V), 3 (OUT), 5 (−15 V). Free ends **not yet checked**.
-
-**The +15 V clearance hazard at C3's via is closed.** Hole 2 to hole 1 is silent with wire 4
-fitted; a bridge would have read as a held beep. `docs/FACTS.md`.
-
-**A to-scale drawing of both sides, generated from the manufacturing files, is in
-`docs/preamp_ground_repair_map.html`.** It opens on the top side with the eight verification probe
-points marked.
-
-**Orientation.**
-
-- **Top (chip side):** five holes on your right, the chip's corner dot at top-left.
-- **Underside:** flip the board like turning a page. Five holes on your **left**, hole 1 still at
-  the top, "Dan Berard 2014" along the bottom, the big unplated standoff hole on the right.
+| | |
+|---|---|
+| **Keystone 11301 standoff, 2 off** | **Received 2026-09-14**, DigiKey 36-11301-ND. The correct part. **Press fit, not a drop-in** — see D0 |
+| **Deionised water** | In the room |
+| **99% IPA** | **Collected this evening.** Until it is on the bench, Part D does not start |
+| **Foam swabs, soft brush** | **UNKNOWN — ask before starting Part D.** The wash needs both |
+| **4.7 µF 50 V 1812 ceramics** | **Not owned.** Needed only before the controller, not before Part D |
 
 ---
 
-# ~~PART A — finish the ground repair~~ DONE 2026-09-14
+**A bench page for all of this**, tick-as-you-go and readable on a phone, is
+`docs/preamp_next_steps.html`. The verified ground repair it follows on from is
+`docs/preamp_ground_repair_map.html`.
 
-> All four wires fitted and verified. Kept below for method, and because the verification table is
-> the one to repeat if anything is ever reworked on this board.
+---
 
-## Part A as it was run (for method)
+# THE ORDER THESE GO IN
 
-**Equipment.** Iron at 350 °C, RMA791 flux, 40 AWG magnet wire, scalpel, magnifier, meter (beep and
-capacitance), flush cutters.
+**B → C → D0 → D.** Each one gates the next. Do not jump to D because the parts arrived: **an
+unpowered board that has passed the smoke test is a completely different risk from one that has
+not**, and the input node is built last because it is the part that cannot be cleaned afterwards.
 
-## A0. Remove any leftover from the first attempt
-
-Wires 3 and 4 were first tried on the **top** side and abandoned. If any piece of wire is still
-soldered on top — near C2's right-hand end, C3, or C1's right-hand end — remove it. Look under the
-magnifier for loose wire or solder near R1 and hole 2.
-
-## A1. Dot 3 — C2's ground via
-
-**Where.** Underside, near the bottom edge, roughly level with hole 5. Nothing else is close to it.
-
-**Scrape.** Scalpel tip, light strokes, until a shiny copper ring about 1 mm across shows.
-
-**Checks.**
-
-| Between | Must be |
-|---|---|
-| Dot 3 ↔ C2's right-hand end on top (the striped end, nearest the holes) | **Beep** |
-| Dot 3 ↔ hole 1 | **Silent** |
-
-If either is wrong, stop and record it.
-
-## A2. Dot 4 — C3's ground via. HAZARD: next to the +15 V pad
-
-**Where.** Underside, right beside hole 2's pad.
-
-**The hazard.** Its short copper tail points at hole 2's pad and, per the gerbers, ends **0.076 mm**
-from it with only solder mask between. Hole 2 is +15 V.
-
-1. **Before scraping: check the tail isn't already touching.** On top, C3's right-hand pad ↔ hole 2
-   must be **silent**. C3 is the tiny part to the right of the chip's upper-right legs, above R1; its
-   right-hand pad is the one nearer the holes. **If it beeps, stop.** Do not ground C3, and record it.
-2. **Scrape only the half of the dot away from the holes** — its right-hand half in the underside
-   view. Leave the tail covered.
-3. **Checks.**
-
-   | Between | Must be |
-   |---|---|
-   | Dot 4 ↔ C3's right-hand pad | **Beep** |
-   | Dot 4 ↔ hole 1 | **Silent** |
-   | Dot 4 ↔ hole 2 | **Silent** |
-
-**If dot 4 cannot be done safely, skip C3 and record it.** It is the lowest priority of the four,
-because C1 still filters +15 V at the preamp. **That the amplifier is stable without C3 is judgement,
-not verified.**
-
-## A3. Wires 3 and 4
-
-1. **Tin the wire ends.** Drag each end through a blob of solder on the iron, with flux. If the solder
-   balls up, the enamel is still on: scrape it very lightly and try again.
-2. **Tin each scraped dot.**
-3. **Solder each joint in about 1 second.**
-   - **Wire 3:** dot 3 → **dot 2's joint**, about 5 mm. Dot 2 is already ground through wire 2.
-   - **Wire 4:** from the right-hand side of dot 4, up about 2 mm, then to **hole 1's joint**. Keep
-     its solder off the tail, and the wire clear of hole 2's pad.
-
-Don't tug-test 40 AWG — it snaps. Inspect each joint under the magnifier instead.
-
-## A4. Verify the whole repair — RUN 2026-09-14, ALL PASS
-
-Top side, beep mode, **black probe on hole 1**. Record every result in the session log.
-
-| Red probe on | Must be |
-|---|---|
-| IC1 pin 3 (left side, third leg from the top) | **Beep** |
-| C4's right-hand pad | **Beep** |
-| C2's right-hand end | **Beep** |
-| C3's right-hand pad | **Beep** (unless C3 was skipped) |
-| **IC1 pin 2** (left side, second leg) | **Silent.** A beep means the input is shorted to ground — fix it before anything else |
-| Hole 2 | **Silent, or a chirp too short to hear. Either passes.** **A beep that HOLDS** means +15 V is shorted to ground |
-| Hole 5 | **Silent, or a very short chirp. Either passes.** A beep that holds means −15 V is shorted to ground |
-
-> **Corrected 2026-09-14, after the readings came back silent.** This said "chirp only", and a session then read silence as a possible fault. **The chirp was never going to be audible.** A continuity tester drives a roughly constant current, so the resistance it computes while a capacitor charges is `R(t) = t/C` and it beeps for `t = C × R_threshold` — **the test current cancels out.** With 4.8 µF at holes 2 and 5 (C1‖C3 and C2‖C4) that is **96 µs at a 20 Ω threshold and 960 µs at 200 Ω**. A DMM beeper needs roughly a millisecond to sound. **Silence is the normal reading here; only a beep that holds means anything.** The capacitors are confirmed by the capacitance reading below, not by the beeper.
-| Hole 3 | **Silent** |
-
-**Optional.** Capacitance mode, hole 1 ↔ hole 5: roughly **4.7–5 µF** (C2 and C4 now connected).
-Before the repair it was far lower.
+| | What | Powered? | Roughly |
+|---|---|---|---|
+| **B** | Continuity at the four lead free ends | No | 5 min |
+| **C** | Current-limited smoke test | **Bench supply only** | 20 min |
+| **D0** | Calipers on the standoff and the hole, drill if needed | No | 10 min |
+| **D** | Wash, fit the standoff, build the input node | No | An evening, plus drying |
+| **D5** | The first valid preamp measurement this project has had | Bench supply | 1 hour |
 
 ---
 
@@ -175,19 +91,58 @@ is not a preamp measurement.** This test checks current and heat only.
 
 ---
 
+# PART D0 — the standoff, before any washing. Unpowered
+
+**Do this before the wash, not after.** If the hole needs opening, drilling it after the board is
+clean puts fresh FR4 dust straight onto the input node.
+
+## D0.1 Two measurements, and one look
+
+| Measure | Expect |
+|---|---|
+| The standoff's **shank** — the part below the flange that goes through the board | Around **2.18 mm**. `docs/FACTS.md` says the specified hole is Ø2.184 mm (0.086") |
+| The **board hole**, the single NPTH at 2.540 mm from the edge | **Ø2.108 mm** from the drill file |
+
+**And look at the part:** is there a **white plastic collar** under the flange, or is it bare metal
+all the way down? Distributors disagree about whether this part is PTFE-insulated, and one look
+settles it. Tell me which. It does not block anything — it changes what the wash is protecting.
+
+## D0.2 What the numbers mean
+
+**The specified hole is 0.076 mm bigger than ours.** That is a press fit with about 3.6%
+interference, not a part that drops in.
+
+| If | Then |
+|---|---|
+| **Shank ≤ 2.10 mm** | It drops in. Go straight to Part D, no drilling |
+| **Shank 2.10–2.20 mm** and it starts by hand with firm thumb pressure | A normal press fit. **Support the board on something flat and solid** and press it home square. Stop if it does not move |
+| **It will not start, or it needs a hammer** | **Do not force it.** Open the hole with a **#44 drill, Ø2.184 mm**, then press. Edge margin afterwards is **1.448 mm**, still ample |
+
+**Why not just force it.** FR4 is brittle and this hole is 2.540 mm from the board edge. A radial
+crack here is not cosmetic — **this is the insulator for the input node of a 100 MΩ amplifier**, and
+a crack becomes both a leakage path and a trap for contamination, in the 100 MΩ to 10 GΩ range that
+a multimeter cannot see. The drill costs two minutes.
+
+**Drill by hand if you can** — a pin vice or a slow cordless. Back the board with scrap so the exit
+side does not tear out.
+
+---
+
 # PART D — gates before the input node is built
 
-1. **In the room:**
-   - 99% IPA, distilled water, foam swabs and a soft brush. **91% IPA is not enough for the node
-     wash** (`sessions/2026-09-13.md` §5).
-   - The Keystone 11301 standoff. Put calipers on the part and on the board hole first.
+**Prerequisites: B and C passed, and D0 done.** The standoff is either pressed in or the hole is
+drilled and the swarf blown off — **either way, before the board gets wet.**
+
+1. **On the bench before you start:** 99% IPA, deionised water, foam swabs, a soft brush.
+   **91% IPA is not enough for the node wash** (`sessions/2026-09-13.md` §5). **Swabs and brush are
+   not recorded as owned — check.** `docs/INVENTORY.md`.
 2. **Wash the whole board:**
    1. Scrub with IPA.
    2. Rinse with clean IPA.
    3. Rinse with distilled water.
    4. Dry: 60–70 °C for 1–2 hours if an oven or dehydrator can hold that, otherwise overnight.
 3. **Build the node:**
-   1. Press in the standoff.
+   1. Press in the standoff, if D0 did not already do it.
    2. Air-mount the 100 MΩ **from PAD1 (the output) to the standoff**. Don't shorten its leads or lay
       it flat.
    3. Run a slack 40 AWG link from the standoff to IC1 pin 2's pad toe.
