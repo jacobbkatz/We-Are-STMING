@@ -608,9 +608,9 @@
         When the checks pass, the next powered step is a <strong>bench supply on both channels with a 20&nbsp;mA limit</strong>, set and metered before anything is connected &mdash; not the controller.
         <small>And when it is powered: PAD1 will sit near a supply rail. That is correct, not a fault. The 100&nbsp;M&Omega; feedback resistor is not fitted, so the amplifier has no feedback path yet.</small></li>
 
-        <li><b>Do not press the standoff in</b>
-        Two separate reasons, either one enough. <strong>The board has to be washed first</strong> &mdash; IPA scrub, clean IPA rinse, distilled water rinse, then dried &mdash; because you cannot clean underneath a fitted standoff, and that spot is the input node. <strong>And we have never measured the part.</strong>
-        <small>Put calipers on the standoff&rsquo;s shank and on the board hole and send me both numbers. Our own notes mark the 11301&rsquo;s mounting-hole figure disputed: 0.086&Prime; is listed both as its hole and as its turret head, and both cannot be right. The board hole is 2.108&nbsp;mm. Press an oversize shank into it and the fracture goes through the most sensitive point on the instrument.</small></li>
+        <li><b>Do not fit the standoff yet &mdash; but the fit question is closed</b>
+        <strong>The board has to be washed first</strong> &mdash; IPA scrub, clean IPA rinse, distilled water rinse, then dried &mdash; because you cannot clean underneath a fitted standoff, and that spot is the input node. That is the only reason left to wait.
+        <small><strong>Corrected 2026-09-14.</strong> This said the 11301&rsquo;s hole figure was disputed and warned about pressing an oversize shank in. <strong>It is not a press fit. It drops in with 0.076&nbsp;mm of clearance and you must not drill anything.</strong> 0.086&Prime; is Keystone&rsquo;s recommended clearance hole, not a requirement; the pin below the PTFE base is 0.080&Prime; = 2.032&nbsp;mm and our hole is 2.108&nbsp;mm. Berard&rsquo;s own board file specifies 2.1082&nbsp;mm for this hole. One caliper reading on that pin confirms it.</small></li>
 
         <li><b>Do not connect this board to the controller</b>
         C2 is the original part, reused after a two-iron removal that almost certainly went past the 3&nbsp;second limit. It gets replaced with a fresh 4.7&nbsp;&micro;F part, and PAD1 has to read under 0.1&nbsp;V at 45&nbsp;minutes on the bench supply, before the two ever meet.</li>

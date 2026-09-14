@@ -106,10 +106,12 @@ undersize, and confirmed at the bench that it will not go in.**
 only **0.815 mm** of material would remain, under the one component the instrument's sensitivity
 depends on.
 
-> **VERIFY before pressing.** The 11301's own mounting-hole spec is disputed — `docs/FACTS.md`
-> records Ø2.184 mm, but that figure is also listed as the part's turret-head diameter and the two
-> cannot both be right. Every distributor and manufacturer site was unreachable on 2026-09-09.
-> **Put calipers on the part and on the board hole when it arrives.**
+> **RESOLVED 2026-09-14 — it drops in, and there is nothing to press.** This block previously said
+> the 11301's mounting-hole spec was disputed and to verify before pressing. **Ø2.184 mm (0.086") is
+> Keystone's recommended clearance hole, not a requirement.** The part's through-board pin is
+> 0.080" = **2.032 mm** against our **2.108 mm** hole — **0.076 mm of clearance.** Berard's own Eagle
+> board, in this repository since 2026-08-13, specifies `drill="2.1082"` for this exact hole.
+> **Do not drill.** One caliper reading on the pin (expect ~2.03 mm) confirms it; it does not decide it.
 
 ## Buy — the C2 replacement ceramics
 
@@ -146,8 +148,11 @@ magnifier · helping hands · calipers · safety glasses · nitrile gloves ·
 
 ## Only if needed
 
-**#44 drill (2.184 mm)** — only if the 11301 will not press into the Ø2.108 mm hole. It leaves
-1.45 mm of board to the edge, which is safe. **It was recorded as exactly Keystone's specified hole
-size; that is now VERIFY** — measure the part first, and only open the hole if the part demands it.
+> **The `#44 drill` line that was here is RETIRED, 2026-09-14. Do not buy it and do not drill.**
+> It read "only if the 11301 will not press into the Ø2.108 mm hole". **The 11301 does not press
+> into that hole — it drops through it with 0.076 mm of clearance**, because 2.184 mm is Keystone's
+> recommended clearance hole rather than a requirement and the part's pin is 2.032 mm. Opening our
+> hole would only leave the standoff loose, at the input node, 2.54 mm from the board edge.
+> See `docs/FACTS.md` and `docs/NEXT_SESSION_PLAN.md` Part D0.
 **A 60–70 °C oven or dehydrator** — drying the board after washing, to drive moisture out of the
 FR-4. **Board only, never the printed box**: PETG softens near 80 °C.

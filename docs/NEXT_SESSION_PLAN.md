@@ -96,8 +96,8 @@ is not a preamp measurement.** This test checks current and heat only.
 **It drops in. Do not drill anything.**
 
 > **Corrected 2026-09-14, the same day it was written.** An earlier version of this section said the
-> 11301 was a press fit with 0.076 mm of interference and gave a #44 drill as the remedy. **That was
-> wrong, and drilling would have made the hole worse.** The 0.086" figure from the distributor table
+> 11301 was a press fit with 0.076 mm of interference, and gave a #44 drill as the remedy. **Both are RETIRED and wrong** —
+> see `docs/FACTS.md`. **Drilling would have made the hole worse.** The 0.086" figure from the distributor table
 > is Keystone's **recommended clearance hole**, not a requirement. **Berard's own Eagle board, which
 > has been in this repository since 2026-08-13, specifies `drill="2.1082"` for this exact hole** —
 > and our fabricated board is 2.108 mm, identical. He used an 11301 in it. The part's through-board

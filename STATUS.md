@@ -962,9 +962,13 @@ over** — it is the measurement reference, and it is repairable without a rebui
 2. **The current-limited smoke test** on the bench supply, Part C. Both channels 5.0 V, **20 mA
    limit**, each output metered before anything is connected. Both currents within 1 mA of each
    other, then 10 minutes at 15 V with C2 not warm. **Not the controller.**
-3. **Calipers on the standoff and on the board hole, and read the part number off the packet.**
-   Both numbers before anything is pressed in. A standoff arrived on 2026-09-14 but **which one is
-   UNKNOWN** — `docs/INVENTORY.md`.
+3. **Fit the standoff — it drops in. Do NOT drill.** **Corrected 2026-09-14, later the same day:**
+   this said the arrived standoff was UNKNOWN and to caliper it before pressing. **It is the
+   Keystone 11301**, order confirmation seen, PTFE base with a metal pole, 2 off. Berard's own
+   Eagle board specifies 2.1082 mm for this hole and our board is 2.108 mm, so the part's 2.032 mm
+   pin passes with **0.076 mm of clearance.** One caliper reading on the pin below the PTFE base
+   (expect ~2.03 mm) is still worth taking, but it confirms rather than decides.
+   `docs/NEXT_SESSION_PLAN.md` Part D0.
 4. **Buy:** 99% IPA, distilled water, foam swabs, a soft brush; **the 4.7 µF 50 V 1812 ceramics**
    to replace the reused C2; copper tape with conductive adhesive.
 5. **Then Part D:** wash the board, fit the standoff, build the input node, and take **the first
@@ -1267,5 +1271,9 @@ here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log 
 | `AD5761.cpp` `write_volt()` | **Never called, and wrong if it were.** `(voltage/2.5 + 4)/8 * 65536` assumes the ±10 V range, so it is wrong for X, Y and bias (±3 V); and at exactly +10 V it computes 65536, which wraps to 0 and outputs −10 V. Same class of trap as `read_volts()`. Do not use it. Found 2026-09-06 |
 | `AD5761.hpp` header comments | Document the mode words as `0b0000000101000` (±10 V) and `0b0000000101101` (±3 V). The firmware actually writes `0b0…000` and `0b0…101`. **Only the low three bits agree.** The firmware's words are the ones measured to work; the header's comments are stale. Found 2026-09-06 |
 | `checkSerial()` in `main.cpp` | Fires on **one** available byte then reads four without waiting, and leaves the terminator in the buffer after an argument-less command. `stm_console.py` already works around both — it sends one write, and a newline **only when there is an argument**. **Anything else (Arduino Serial Monitor, a hand-typed terminal) will desynchronise**: after `RSET` or `ADCR` the stray newline eats the first character of your next command |
+
+| `check_facts.py:394-396` | **A RETIRED row is silently dead if its replacement's first number also appears in the stale line.** `num = re.search(r'[\d.]+', replacement)` then skips any line containing that number, on the assumption the line is a correction table. **Found 2026-09-14** while retiring `0.076 mm interference` → `0.076 mm CLEARANCE`: both carry `0.076`, so the row could never fire. Worked around by wording that replacement with no shared number, and the row is now regression-tested. **The same weakness makes the `±5 V` → `±3 V` row nearly dead**, because its replacement's first token is `3` and almost every line contains a 3. Not yet fixed |
+| `check_facts.py` EXCUSES | **`~~` excuses the whole line**, so in a `docs/OPEN_QUESTIONS.md` table row where only the *question* is struck through and the *answer* cell is live and wrong, nothing is flagged. **This is how the retired press-fit claim survived in two rows until 2026-09-14.** Not yet fixed |
+| `check_facts.py` hint text | Tells you to "add a word like `was`" — but bare `was` is **not** in EXCUSES, so following the hint does not clear the warning. Use `corrected`, `retired`, `superseded` or `wrong` |
 
 `logTable[abs(adc)]` is **safe** — the table is `[32769]`. Do not "fix" it.

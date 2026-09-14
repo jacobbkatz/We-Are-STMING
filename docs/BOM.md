@@ -121,8 +121,9 @@ You'll need:
   easiest to air-wire. Berard's library caches an `HMC0603JT100M` (0603 chip) as a lead, but the
   through-hole version is much easier to work with here.
 - a **PTFE standoff terminal**. Berard names the exact part: **Keystone Electronics 11301**. It's
-  a metal post in an insulating body that press-fits the bare hole and holds the junction off the
-  board. Buy two or three. He also bends the op-amp's input pin up off the board surface.
+  a metal post in a PTFE body that **drops into** the bare hole — 0.076 mm of clearance, no press
+  and no drilling (**corrected 2026-09-14**; this said "press-fits") — and holds the junction off
+  the board. **We own two, received 2026-09-14** — see `docs/INVENTORY.md`. He also bends the op-amp's input pin up off the board surface.
 
 **PAD1 is the amplifier output, not the tip input.** The tip wire goes to the standoff.
 

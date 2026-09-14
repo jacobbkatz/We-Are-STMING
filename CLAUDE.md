@@ -528,11 +528,25 @@ Carried forward from the existing documents, because it has served this project 
   fitted part, before anyone asked whose board it was. **It was Dan Berard's.** Every edit was
   reversed. The rule below was already in this file for wire colours; **it generalises to any
   hardware fact — a part marking, a connector, a solder joint, a colour, a count.**
-- **A search-result summary is not a datasheet.** Same session, same day: the Keystone 11301's
-  hole was recorded as Ø2.03 mm from a search snippet and declared a clearance fit. **2.03 mm is
-  the part's length below the flange, not a diameter.** The real figure is larger than our hole —
-  interference, not clearance. **Get the manufacturer's own parameter table before a number
-  decides anything.**
+- **A search-result summary is not a datasheet — and on this part the web was wrong TWICE.**
+  Same session, same day: the Keystone 11301's hole was recorded as Ø2.03 mm from a search
+  snippet and declared a clearance fit. **2.03 mm is the part's length below the flange, not a
+  diameter.**
+  > **Corrected 2026-09-14.** This bullet then said "the real figure is larger than our hole —
+  > interference, not clearance". **That was the second wrong answer, from a distributor
+  > parametric table**, and it was wrong in the direction that breaks the board: it had someone
+  > about to drill out a hole that was already correct, at the input node.
+  > **Ø2.184 mm (0.086") is Keystone's RECOMMENDED clearance hole, not a requirement.** The part's
+  > through-board pin is 0.080" = 2.032 mm, so it **drops into our Ø2.108 mm hole with 0.076 mm of
+  > clearance.**
+  >
+  > **What settled it was a file this repository had held since 2026-08-13** — Berard's own Eagle
+  > board, which specifies `drill="2.1082"` for this exact hole, against our fabricated 2.108 mm.
+  > **Two web answers, both wrong; the repository had it all along.** That is §3b, not this bullet,
+  > and it is the stronger lesson here. See `docs/FACTS.md`.
+
+  **Get the manufacturer's own parameter table before a number decides anything — and grep the
+  repository before you go to the web at all.**
 - **Use wire colours, and use the J1 / J2 ones from `docs/WIRING.md`.** Jacob and Nuh prefer
   colours to pin numbers, and they translate to their own jumpers themselves. **Do not read
   colours off a photograph** — the jumper leads at the preamp end are different colours from the
