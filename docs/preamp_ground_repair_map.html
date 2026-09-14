@@ -79,6 +79,23 @@
   .m-keep { fill: none; stroke: #F2B233; stroke-width: 2.5px; vector-effect: non-scaling-stroke; }
   .m-leave circle { fill: none; stroke: #C6D3CE; stroke-width: 2.5px; stroke-dasharray: 3 2.5;
     vector-effect: non-scaling-stroke; }
+  /* magnified detail at dot 4. Local units are board millimetres x 10. */
+  svg.detail { display: block; width: 100%; height: auto; margin-block: 4px 2px;
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 5px; }
+  .d-tail { stroke: #4E8574; stroke-width: 6.096; stroke-linecap: round; }
+  .d-via { fill: #6E9E8C; }
+  .d-scrape { fill: none; stroke: var(--probe); stroke-width: 1.5px; stroke-dasharray: 3 2.5; vector-effect: non-scaling-stroke; }
+  .d-guide { stroke: #A9BDB5; stroke-width: 1.2px; stroke-dasharray: 2 2.5; vector-effect: non-scaling-stroke; }
+  .d-tick { stroke: var(--ink-soft); stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+  .d-bar-ok { stroke: var(--beep); stroke-width: 3.2px; vector-effect: non-scaling-stroke; }
+  .d-bar-bad { stroke: var(--probe); stroke-width: 3.2px; vector-effect: non-scaling-stroke; }
+  .d-lead { stroke: var(--ink-soft); stroke-width: 1.2px; vector-effect: non-scaling-stroke; }
+  .d-num { font-family: var(--mono); font-weight: 700; font-size: 2.5px; }
+  .d-num.ok { fill: var(--beep); } .d-num.bad { fill: var(--probe); }
+  .ok-ink { color: var(--beep); } .bad-ink { color: var(--probe); }
+  .d-lab { font-family: var(--mono); font-weight: 700; font-size: 2px; fill: var(--ink-soft); }
+  .d-eyebrow { font-family: var(--mono); font-weight: 700; font-size: 1.9px; fill: var(--ink-soft);
+    letter-spacing: .12px; }
   .w-route { fill: none; stroke: var(--wire); stroke-width: 2.4px; stroke-dasharray: 5 3; vector-effect: non-scaling-stroke; stroke-linecap: round; }
   .t-part, .t-part-lt, .t-small, .t-pin, .t-holenum { font-family: var(--mono); font-weight: 700; }
   .t-part { font-size: .62px; fill: var(--silk); } .t-part-lt { font-size: .8px; fill: #F3F6F4; }
@@ -458,11 +475,40 @@
         <li class="step hazard">
           <h3>Before the iron: is dot&nbsp;4 already touching +15&nbsp;V?</h3>
           <p>Meter on beep, <strong>on the top side</strong>. Red probe on <strong>C3&rsquo;s right-hand pad</strong> &mdash; C3 is the tiny part right of the chip&rsquo;s upper legs, above R1; its right-hand pad is the one nearer the holes. Black probe in <strong>hole&nbsp;2</strong>.</p>
-          <p class="sub">C3&rsquo;s ground via has a short copper tail pointing straight at hole&nbsp;2&rsquo;s pad. The gerbers put the gap at 0.076&nbsp;mm with nothing but solder mask between. If they are already bridged, running wire&nbsp;4 to hole&nbsp;1 ties +15&nbsp;V to ground.</p>
-          <p class="stop">If it beeps: stop, leave dot&nbsp;4 alone, and tell me. Wire&nbsp;3 can still go on.</p>
+          <p class="sub"><strong>You are right that there is more room than 0.076&nbsp;mm suggests</strong> &mdash; but that number was never about the part you can see. The <strong>via ring</strong> sits 0.51&nbsp;mm from hole&nbsp;2&rsquo;s pad, which is what looks roomy and is. The <strong>copper tail</strong> running out of that via, still under the solder mask, reaches <strong>6.7 times closer</strong>. That is the 0.076&nbsp;mm, and scraping &ldquo;most of&rdquo; the dot is exactly the case where some of it may now be bare.</p>
+          <svg class="detail" viewBox="-12 -7.5 42 35" role="img" aria-label="Magnified detail at dot 4. The via ring you scraped stops 0.51 millimetres short of hole 2's pad. The copper tail running out of that via, still under the solder mask, reaches to within 0.076 millimetres of the same pad.">
+            <defs><clipPath id="win4"><rect x="-6" y="0" width="24" height="13"/></clipPath></defs>
+            <text class="d-eyebrow" x="-12" y="-4.6">DOT 4, MAGNIFIED 10x</text>
+            <g clip-path="url(#win4)">
+              <rect class="b-mask" x="-6" y="0" width="24" height="13"/>
+              <rect class="b-pad" x="-9" y="-3" width="11.665" height="10.52"/>
+              <line class="d-tail" x1="12.825" y1="6.25" x2="6.475" y2="6.25"/>
+              <circle class="d-via" cx="12.825" cy="6.25" r="5.032"/>
+              <circle class="d-scrape" cx="12.825" cy="6.25" r="5.032"/>
+              <line class="d-guide" x1="2.665" y1="0" x2="2.665" y2="13"/>
+              <line class="d-guide" x1="3.427" y1="0" x2="3.427" y2="13"/>
+              <line class="d-guide" x1="7.793" y1="0" x2="7.793" y2="13"/>
+            </g>
+            <text class="d-lab" x="-6" y="-1.6">HOLE 2 PAD &middot; +15 V</text>
+            <line class="d-lead" x1="19.4" y1="4.2" x2="17.3" y2="5.2"/>
+            <text class="d-lab" x="20.2" y="4.9">RING</text>
+            <line class="d-lead" x1="19.4" y1="10.4" x2="9.0" y2="8.9"/>
+            <text class="d-lab" x="20.2" y="11.1">TAIL</text>
+            <line class="d-tick" x1="2.665" y1="13.6" x2="2.665" y2="24.2"/>
+            <line class="d-tick" x1="7.793" y1="13.6" x2="7.793" y2="18.4"/>
+            <line class="d-tick" x1="3.427" y1="13.6" x2="3.427" y2="24.2"/>
+            <line class="d-bar-ok" x1="2.665" y1="17.4" x2="7.793" y2="17.4"/>
+            <text class="d-num ok" x="9.6" y="18.3">0.51 mm</text>
+            <line class="d-bar-bad" x1="2.665" y1="23.2" x2="3.427" y2="23.2"/>
+            <line class="d-lead" x1="3.9" y1="23.2" x2="9.1" y2="23.2"/>
+            <text class="d-num bad" x="9.6" y="24.1">0.076 mm</text>
+          </svg>
+          <p class="sub"><strong class="ok-ink">0.51&nbsp;mm</strong> is the bare ring to the pad &mdash; the gap you are looking at. <strong class="bad-ink">0.076&nbsp;mm</strong> is the tail end to the same pad, under the mask, and it is the one that decides this.</p>
+          <p class="sub">If the two are already bridged, running wire&nbsp;4 to hole&nbsp;1 ties +15&nbsp;V to ground. It is not a board-killer &mdash; the next power-up is a bench supply on a 20&nbsp;mA limit, which just current-limits &mdash; but you would be unpicking 40&nbsp;AWG out of a finished joint to find it. Two beeps is cheaper.</p>
+          <p class="stop">Either one beeps: stop, leave dot&nbsp;4 alone, tell me. Wire&nbsp;3 still goes on regardless.</p>
           <div class="checks">
             <div class="check"><div class="lbl">C3&rsquo;s right pad to hole&nbsp;2 <span class="req warn">must be SILENT</span></div><div class="res" data-key="c3h2"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">Dot&nbsp;4 to hole&nbsp;2 <span class="req warn">must be SILENT</span><small>Only if you scraped past the right-hand half and the tail is bare</small></div><div class="res" data-key="d4h2"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">Dot&nbsp;4 to hole&nbsp;2 <span class="req warn">must be SILENT</span><small>Probe the bare copper itself. This is the one that covers the scraped tail</small></div><div class="res" data-key="d4h2"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
           </div>
           <button class="show" type="button" data-view="top" data-zoom="c3">Show C3 and hole 2 on top</button>
         </li>
@@ -470,7 +516,9 @@
         <li class="step">
           <h3>Check dot&nbsp;3, then run wire&nbsp;3 <span class="wirekey"><i style="background:#F08A24"></i>orange</span></h3>
           <p><strong>Dot&nbsp;3 to dot&nbsp;2&rsquo;s joint</strong>, about 5&nbsp;mm. Dot&nbsp;2 is already ground through wire&nbsp;2, so landing there is the same as landing on hole&nbsp;1 and it is a far easier target.</p>
+          <p class="sub"><strong>Prove that first.</strong> Wire&nbsp;2 was soldered on 2026-09-13 and never checked &mdash; the session ended before the final checks were run. If it is not making, dot&nbsp;2 is not ground, and hanging wire&nbsp;3 off it leaves C2 and C4 both floating while everything looks finished.</p>
           <div class="checks">
+            <div class="check"><div class="lbl">Dot&nbsp;2 to hole&nbsp;1 <span class="req beep">must BEEP</span><small>Checking wire 2, before you use it as your anchor</small></div><div class="res" data-key="w2"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
             <div class="check"><div class="lbl">Dot&nbsp;3 to C2&rsquo;s striped end on top <span class="req beep">must BEEP</span><small>The striped end is the one nearest the holes, after the rotation</small></div><div class="res" data-key="d3c"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
             <div class="check"><div class="lbl">Dot&nbsp;3 to hole&nbsp;1 <span class="req silent">must be SILENT</span><small>Until the wire is on. A beep here means it is already grounded somehow</small></div><div class="res" data-key="d3h"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
           </div>
@@ -598,6 +646,7 @@
   // ---- readings -------------------------------------------------------
   var ORDER = [
     ["c3h2", "C3 pad-hole 2"], ["d4h2", "dot 4-hole 2"],
+    ["w2", "wire 2 dot 2-hole 1"],
     ["d3c", "dot 3-C2"], ["d3h", "dot 3-hole 1"],
     ["d4c", "dot 4-C3"], ["d4h", "dot 4-hole 1"],
     ["s1", "pin 3"], ["s2", "C4"], ["s3", "C2"], ["s4", "C3"],
