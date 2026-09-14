@@ -154,11 +154,12 @@ may get.
 | **C2 polarity in the source design** | **Reversed.** Anode on −15 V, cathode on GND | NETLIST | 2026-09-08 |
 | **C2 as fitted, spare board** | **Reversed** (stripe on the pad away from JP1). **Rotated at the bench 2026-09-13, original part reused** | BENCH | 2026-09-13 |
 | **C2 part rating** | **4.7 µF, 35 V** — marking `475V` (`V` = 35 V in the AVX TAJ voltage code). Logo not identified | DS | 2026-09-13 |
-| **C2 in circuit after rotation** | **4.65 µF** — C2 alone, because C4's ground end floats | BENCH | 2026-09-13 |
+| **C2 in circuit after rotation** | **4.65 µF** — C2 alone. **The stated reason, "because C4's ground end floats", stopped being true on 2026-09-14** when the ground repair was completed and verified. The reading itself stands | BENCH | 2026-09-13 |
+| **Spare preamp board, hole 1 ↔ hole 5, after the ground repair** | **4.7 µF** — C2 (4.7 µF) ∥ C4 (0.1 µF). **Near zero before the repair**, when both ground ends floated. Confirms C2 has not gone open after the two-iron rework; says nothing about its ESR or leakage | BENCH | 2026-09-14 |
 | **Preamp board ground copper** | **The fabricated gerbers have NO pour** (zero `G36` regions). Berard's `tunnelAmp.brd` has a bottom-layer `GND` polygon, vertices (6.0325, 15.24)–(20.6375, 15.24)–(20.6375, 0)–(6.0325, 0). **Without it only C1 − and JP1 pin 1 are joined; C2 −, C3.2, C4.2, IC1.3, IC1.8 and JP1.4 are isolated** | NETLIST + BENCH | 2026-09-13 |
 | **IC1 pin 3 (+IN) ↔ JP1 pin 1** | **Open, on both boards** | BENCH | 2026-09-13 |
 | Preamp vias | **All tented, both sides** — no mask openings at via positions | NETLIST | 2026-09-13 |
-| **C3 ground-via stub to JP1 pin 2 pad (+15 V), underside** | **0.076 mm** (via ring: 0.513 mm). Untested whether they touch | NETLIST | 2026-09-13 |
+| **C3 ground-via stub to JP1 pin 2 pad (+15 V), underside** | **0.076 mm** to the tail end; **0.513 mm** to the via ring, which is the bare copper actually visible and scrapeable — the two are 6.7× apart and were conflated until 2026-09-14. **TESTED 2026-09-14 on the spare: they do NOT touch.** Hole 2 to hole 1 is silent with wire 4 fitted, where a bridge would read as a held beep | NETLIST + BENCH | 2026-09-13, tested 2026-09-14 |
 | **Tantalum hand-soldering limit** | **Max tip 370 °C, max 3 s** (KYOCERA AVX). Vishay TN-0004: reflow in 1.5–3 s from 343 °C; **over 3 s, replace with a fresh device** | DS | 2026-09-13 |
 | **Tantalum reverse-voltage limit** | **10% of rated, max 1.0 V at 25 °C** (KYOCERA AVX) | DS | 2026-09-13 |
 | IC1 pin 8 | **No internal connection** on the OPA627; **amplifier substrate** on the OPA124, where the datasheet says to ground it when no guard is used. Tied to GND on our board, which is correct either way | DS | 2026-09-08 |

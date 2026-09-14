@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-13
+**Last updated:** 2026-09-14
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -12,40 +12,48 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# WHERE THINGS STAND — 2026-09-13
+# WHERE THINGS STAND — 2026-09-14
 
-**Read `STATUS.md` fault 0d first.** Both preamp boards have **no ground copper pour**, so **IC1 pin 3
-— the op-amp's 0 V reference input — is connected to nothing.** Measured on both boards. **The spare
-board is half-way through a wire repair and must not be powered yet.**
+**The spare board's ground repair is finished and verified.** All four wires are on, and **IC1
+pin 3 — the amplifier's 0 V reference — beeps to hole 1** for the first time in this project. Eight
+continuity readings and one capacitance reading, all pass; the table is in
+[`sessions/2026-09-14.md`](../sessions/2026-09-14.md) §3.1.
+
+**The board has still never been powered. Start at PART B.**
 
 **Physical state of the spare board:**
 
-- **C2 rotated.** Its stripe is now on the end nearest the row of five holes, which is correct. It is
-  the original part, reused, so it must be replaced before the controller (`STATUS.md` safety rule 14).
-- **Four leads soldered** (jumper cable): JP1 hole 1 = GND, 2 = +15 V, 3 = OUT, 5 = −15 V. **Hole 4
-  is empty on purpose** — it has no copper.
-- **Underside:** two scraped vias, each wired with 40 AWG magnet wire to hole 1's underside solder
-  joint.
-  - **Dot 1** is IC1 pin 3's via.
-  - **Dot 2** is C4's ground via.
-- **Not verified yet.** Two more wires to go.
+- **Four ground wires**, underside, 40 AWG magnet wire. Dot 1 = IC1 pin 3's via, dot 2 = C4's,
+  dot 3 = C2's, dot 4 = C3's. Dots 1, 2 and 4 run to hole 1's joint; dot 3 runs to dot 2's joint.
+- **IC1 pin 8 is deliberately not wired.** It is the fifth dead ground point, but pin 8 is a
+  no-connect on an OPA627. It only matters if the part is an OPA124 — **the marking has never been
+  read.**
+- **Hole 4 is empty on purpose** — no copper lands on it.
+- **C2 rotated** and reading 4.7 µF in circuit, so it survived the rework. **It is still the reused
+  part and is replaced before the controller** — `STATUS.md` safety rule 14.
+- **Four leads** in JP1 holes 1 (GND), 2 (+15 V), 3 (OUT), 5 (−15 V). Free ends **not yet checked**.
+
+**The +15 V clearance hazard at C3's via is closed.** Hole 2 to hole 1 is silent with wire 4
+fitted; a bridge would have read as a held beep. `docs/FACTS.md`.
 
 **A to-scale drawing of both sides, generated from the manufacturing files, is in
-`docs/preamp_ground_repair_map.html`.** Open it in a browser and tap **Underside**. Coordinates of
-every via are in `sessions/2026-09-13.md` §3.6.
+`docs/preamp_ground_repair_map.html`.** It opens on the top side with the eight verification probe
+points marked.
 
 **Orientation.**
 
 - **Top (chip side):** five holes on your right, the chip's corner dot at top-left.
-- **Underside:** flip the board like turning a page.
-  - Five holes now on your **left**, hole 1 still at the top.
-  - "GND +15V OUT GND -15V" printed beside the holes.
-  - "Dan Berard 2014" along the bottom.
-  - The big unplated standoff hole on the right, half-way down.
+- **Underside:** flip the board like turning a page. Five holes on your **left**, hole 1 still at
+  the top, "Dan Berard 2014" along the bottom, the big unplated standoff hole on the right.
 
 ---
 
-# PART A — finish the ground repair. Unpowered
+# ~~PART A — finish the ground repair~~ DONE 2026-09-14
+
+> All four wires fitted and verified. Kept below for method, and because the verification table is
+> the one to repeat if anything is ever reworked on this board.
+
+## Part A as it was run (for method)
 
 **Equipment.** Iron at 350 °C, RMA791 flux, 40 AWG magnet wire, scalpel, magnifier, meter (beep and
 capacitance), flush cutters.
@@ -107,7 +115,7 @@ not verified.**
 
 Don't tug-test 40 AWG — it snaps. Inspect each joint under the magnifier instead.
 
-## A4. Verify the whole repair
+## A4. Verify the whole repair — RUN 2026-09-14, ALL PASS
 
 Top side, beep mode, **black probe on hole 1**. Record every result in the session log.
 

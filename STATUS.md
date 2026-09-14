@@ -1,7 +1,7 @@
 # Current status
 
-**Last updated:** 2026-09-13
-**Updated by:** Nuh, at the bench, nothing powered. **IC1 pin 3 floats on both preamp boards — the fabricated boards have no ground pour.** See [`sessions/2026-09-13.md`](sessions/2026-09-13.md).
+**Last updated:** 2026-09-14
+**Updated by:** Jacob, at the bench, nothing powered. **The spare preamp board's ground repair is finished and verified — IC1 pin 3 now beeps to ground.** See [`sessions/2026-09-14.md`](sessions/2026-09-14.md).
 
 > ## READ THIS FIRST — 2026-09-13, MEASURED
 >
@@ -21,10 +21,21 @@
 > figures, the three sweeps and the coax bisection are in the same position. The superglue and flux
 > candidates are **neither confirmed nor ruled out**.
 >
-> **The spare board is mid-repair and must not be powered yet.** C2 was fitted reversed (as designed)
-> and has been **rotated, reusing the original part**. Four leads are on (JP1 holes 1, 2, 3, 5; hole 4
-> empty). **Ground repair: 2 of 4 wires done, not yet verified.** Next steps are in
-> [`docs/NEXT_SESSION_PLAN.md`](docs/NEXT_SESSION_PLAN.md), with a to-scale drawing in
+> **UPDATE 2026-09-14 — the spare board is repaired and verified.** All four ground wires are on and
+> **IC1 pin 3 beeps to hole 1**: the first time in this project the amplifier's reference has been
+> connected to anything. Eight continuity readings and one capacitance reading, all pass — the table
+> is in [`sessions/2026-09-14.md`](sessions/2026-09-14.md) §3.1. **The +15 V clearance hazard at C3's
+> via is closed: not bridged.** C2 reads 4.7 µF in circuit, so it survived the two-iron rework.
+>
+> **It is still unpowered, and it stays that way until the lead free ends are checked and the
+> current-limited smoke test is run** (`docs/NEXT_SESSION_PLAN.md` Parts B and C). **C2 is still the
+> reused part: it is replaced before this board ever meets the controller** — safety rule 14.
+>
+> **The old board is untouched and its +IN still floats**, so everything in the paragraph above this
+> one still stands for every historical measurement.
+>
+> C2 was fitted reversed (as designed) and has been **rotated, reusing the original part**. Four leads
+> are on (JP1 holes 1, 2, 3, 5; hole 4 empty on purpose — no copper). The to-scale bench drawing is
 > `docs/preamp_ground_repair_map.html`.
 >
 > **Before the spare board ever connects to the controller:** C2 replaced with a fresh part, and PAD1
@@ -332,11 +343,11 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 | 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535`. **The scanner itself is now built and working** — Jacob, 2026-09-09 |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
 | 6 Preamp | **FAIL** | PAD1 = 11.905 V on 2026-09-07. **Not a valid current measurement: IC1 +IN floats on both boards** (fault 0d, 2026-09-13). The "~119 nA" is unproven |
-| **Spare preamp board** | **IN REPAIR — do not power** | 2026-09-13: C2 rotated (original part, 4.65 µF); leads on JP1 holes 1, 2, 3, 5; ground repair **2 of 4 wires**, unverified. See `docs/NEXT_SESSION_PLAN.md` |
+| **Spare preamp board** | **GROUND REPAIR VERIFIED — still do not power** | 2026-09-14: **4 of 4 wires on, all four ground points beep to hole 1, no shorts, C2 reads 4.7 µF in circuit.** Next is the lead free-end check and the current-limited smoke test, `docs/NEXT_SESSION_PLAN.md` Parts B and C. **C2 is still the reused part** — safety rule 14 before the controller |
 | **Measurement chain** | **NEW FAIL** | **`PREAMP-` floating** — the ADC's reference is undefined. **Not over range after all:** span is ±10.24 V and the differential is ~9.2 V |
 | **Preamp box** shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
 | DAC config stability | **FAIL** | All four DACs drop config roughly hourly |
-| JP1 grounds | **FAIL, explained** | Pin 4 is one of **six** GND points left unconnected by the missing ground pour (fault 0d). The spare board uses hole 1 only |
+| JP1 grounds | **FAIL on the old board, FIXED on the spare** | Pin 4 is one of **six** GND points left unconnected by the missing ground pour (fault 0d). **On the spare, four are now wired, verified 2026-09-14**; IC1 pin 8 is skipped by design (no-connect on an OPA627) and hole 4 is left empty. The spare uses hole 1 only |
 
 ---
 
@@ -938,28 +949,29 @@ over** — it is the measurement reference, and it is repairable without a rebui
 
 ## Next actions, in order
 
-### Current list, 2026-09-13 — the spare board is mid-repair
+### Current list, 2026-09-14 — the spare board's ground repair is done
 
 **The full bench procedure is in `docs/NEXT_SESSION_PLAN.md`. This is the summary.**
 
-1. **Finish the ground repair on the spare board** (fault 0d).
-   - Dot 3 (C2's ground via): scrape, check, then wire to dot 2's joint.
-   - Dot 4 (C3's ground via): **first check C3's ground pad ↔ JP1 hole 2 is silent.** Then scrape
-     only the half of the via away from the holes, check, and wire to hole 1's joint.
-   - If any partial wire was left on the top side from the first attempt, remove it first.
-2. **Verify the whole repair, unpowered.** IC1 pin 3, C4, C2 and C3 each beep to hole 1. **IC1 pin 2
-   stays silent.** **Holes 2 and 5 read silent, or chirp too briefly to hear — both pass. Only a beep
-   that HOLDS is a short.** (Corrected 2026-09-14: this said "chirp only". At 4.8 µF the chirp lasts
-   `C × R_threshold` = 96–960 µs, below what a beeper can sound. See `docs/NEXT_SESSION_PLAN.md`.)
-3. **Continuity at the lead free ends, then the current-limited smoke test** on the bench supply:
-   both channels' currents within 1 mA of each other, 10 minutes at 15 V, C2 not warm.
-4. **Buy:** 99% IPA, distilled water, foam swabs, a soft brush; **the 4.7 µF 50 V 1812 ceramics
-   (now required, to replace the reused C2)**; copper tape.
-5. **When the Keystone 11301 arrives:** wash the board (99% IPA, distilled water, dry), fit the
-   standoff, build the input node, then **the first valid measurement this preamp has ever had**:
-   PAD1 on a meter, bench supply, no box, no tip lead, at 45 minutes.
-6. **Optional, and the quickest way to learn whether the 119 nA was ever real:** on the old board,
-   wire IC1 pin 3 to its JP1 pin 1 — **pin 3 only, not C2** — power it and meter PAD1.
+> **~~1. Finish the ground repair.~~ ~~2. Verify it.~~ DONE 2026-09-14.** All four wires on, eight
+> continuity readings and one capacitance reading, all pass. IC1 pin 3 beeps to hole 1.
+> `sessions/2026-09-14.md` §3.1 has the table.
+
+1. **Continuity at the four lead free ends.** Unpowered, five minutes. `docs/NEXT_SESSION_PLAN.md`
+   Part B. This is all that stands between here and the smoke test.
+2. **The current-limited smoke test** on the bench supply, Part C. Both channels 5.0 V, **20 mA
+   limit**, each output metered before anything is connected. Both currents within 1 mA of each
+   other, then 10 minutes at 15 V with C2 not warm. **Not the controller.**
+3. **Calipers on the standoff and on the board hole, and read the part number off the packet.**
+   Both numbers before anything is pressed in. A standoff arrived on 2026-09-14 but **which one is
+   UNKNOWN** — `docs/INVENTORY.md`.
+4. **Buy:** 99% IPA, distilled water, foam swabs, a soft brush; **the 4.7 µF 50 V 1812 ceramics**
+   to replace the reused C2; copper tape with conductive adhesive.
+5. **Then Part D:** wash the board, fit the standoff, build the input node, and take **the first
+   valid preamp measurement this project has ever had** — PAD1 on a meter, bench supply, no box, no
+   tip lead, readings at 1, 5, 10, 20, 45 and 60 minutes.
+6. **Optional, and still the quickest way to learn whether the 119 nA was ever real:** on the old
+   board, wire IC1 pin 3 to its JP1 pin 1 — **pin 3 only, not C2** — power it and meter PAD1.
 
 ### The list below was written 2026-09-07 and refreshed 2026-09-09
 

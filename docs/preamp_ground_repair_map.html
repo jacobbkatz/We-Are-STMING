@@ -137,6 +137,7 @@
   .said { border: 1px solid var(--rule); border-left: 3px solid var(--probe); border-radius: 0 6px 6px 0;
     background: var(--surface); padding: 12px 14px; display: grid; gap: 7px; }
   .said p { margin: 0; font-size: 14.5px; }
+  .said.pass { border-left-color: var(--beep); }
   .said .hd { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .09em;
     text-transform: uppercase; color: var(--ink-soft); }
 
@@ -205,7 +206,7 @@
 </style>
 <div class="wrap">
   <header>
-    <p class="eyebrow">Spare preamp board &middot; four wires on &middot; nothing powered</p>
+    <p class="eyebrow">Spare preamp board &middot; repair verified &middot; nothing powered</p>
     <h1>Preamp Ground Repair</h1>
     <p class="lede">All four ground wires are on the board. What is left is proving them: <strong>eight beeps and one capacitance reading</strong>, all unpowered. The last of those is what finally settles whether dot&nbsp;4&rsquo;s tail is touching the +15&nbsp;V pad.</p>
   </header>
@@ -503,10 +504,11 @@
 
     <section class="panel">
 
-      <div class="said">
-        <p class="hd">State of the board right now</p>
-        <p><strong>Both remaining wires are on.</strong> Wire&nbsp;3 from dot&nbsp;3 to dot&nbsp;2&rsquo;s joint &mdash; new today, it was never on before. Wire&nbsp;4 from dot&nbsp;4 to hole&nbsp;1&rsquo;s joint. With wires&nbsp;1 and&nbsp;2 from 2026-09-13, all four ground points are wired.</p>
-        <p><strong>None of it is verified yet, and nothing has been powered.</strong> That is the whole of what is left on this board today: eight beeps and one capacitance reading.</p>
+      <div class="said pass">
+        <p class="hd">Verified 2026-09-14 &mdash; all nine readings pass</p>
+        <p><strong>IC1 pin&nbsp;3 beeps to hole&nbsp;1.</strong> The first time in this project the amplifier&rsquo;s 0&nbsp;V reference has been connected to anything. All four ground wires make, the input is not shorted, neither rail is shorted, and hole&nbsp;1 to hole&nbsp;5 reads <strong>4.7&nbsp;&micro;F</strong> &mdash; so C2 survived the two-iron rework.</p>
+        <p><strong>The +15&nbsp;V hazard at dot&nbsp;4 is closed.</strong> Hole&nbsp;2 read silent with wire&nbsp;4 fitted, where a bridged tail would have held a beep.</p>
+        <p><strong>Next, and still unpowered:</strong> continuity at the four lead free ends, then the current-limited smoke test &mdash; both channels 5.0&nbsp;V, <strong>20&nbsp;mA limit</strong>, metered before anything is connected. Not the controller. The readings below are kept as the record, and as the list to repeat if anything on this board is ever reworked.</p>
       </div>
 
       <h2>The eight points, in reading order</h2>
@@ -525,7 +527,7 @@
       </div>
       <p class="keyrow"><button class="show" type="button" data-view="top" data-zoom="ic">Zoom to 1 and 5, the chip pins</button><button class="show" type="button" data-view="top" data-zoom="caps">Zoom to 2 and 3</button><button class="show" type="button" data-view="top" data-zoom="holes">Zoom to 4, 6 and 8</button><button class="show" type="button" data-view="top" data-zoom="hole5">Zoom to 7</button></p>
 
-      <h2>All four wires are on. Now prove it</h2>
+      <h2>The readings, as taken</h2>
       <p class="note">You do not need the checks that were meant to come before soldering. <strong>The list below is a superset of them</strong> &mdash; every one of those faults shows up here, it just takes one more step to say which wire caused it. Nothing here is powered and nothing here can hurt the board.</p>
       <ol class="steps">
         <li class="step">
