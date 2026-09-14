@@ -10,7 +10,9 @@ have a usable standoff** — see the standoff section below.
 >    The spare board's C2 was found reversed and rotated using the original tantalum. Vishay says a
 >    tantalum heated past 3 s should be replaced. **It must be swapped before the board connects to
 >    the controller.**
-> 2. **99% IPA, distilled water, foam swabs, a soft brush.** 91% IPA is in the room; the input-node
+> 2. ~~**99% IPA, distilled water, foam swabs, a soft brush.**~~ **ALL IN THE ROOM 2026-09-14** —
+>    the 99% IPA arrived late that evening and was the last one outstanding. Original note:
+>    91% IPA is in the room; the input-node
 >    wash needs 99%. The claim below that 91% is ruled out by its water content is overstated, since
 >    the procedure ends with a distilled-water rinse — but 99% is still the right choice for the node.
 > 3. **Copper tape** with conductive adhesive, for the box shield.
@@ -70,12 +72,15 @@ onto a clean surface with a clean tool.
 > **Most flux pens are low-solids no-clean — the wrong chemistry.** None has been verified. Do not
 > buy one on the assumption it is fine.
 
-> ### The flux is only half of it. THE CLEANING SUPPLIES ARE NOT BOUGHT.
+> ### ~~The flux is only half of it. THE CLEANING SUPPLIES ARE NOT BOUGHT.~~ RESOLVED 2026-09-14
 >
-> RMA791 is rosin, so it comes off — **but only if something takes it off.** As of 2026-09-09 none of
-> **99% IPA, distilled water, the four soft brushes, lint-free wipes or foam swabs** has been
+> **All of it is now in the room** — 99% IPA (2026-09-14, late), DI water, foam swabs and a soft
+> brush. **This gate is closed and the input node may be built.**
+>
+> Original text, kept because the reason still governs how you work: RMA791 is rosin, so it comes
+> off — **but only if something takes it off.** As of 2026-09-09 none of
+> **99% IPA, distilled water, the four soft brushes, lint-free wipes or foam swabs** had been
 > ordered. **Rosin left on this board is a leakage path at the exact node we are chasing.**
-> **Do not solder the preamp until the cleaning kit is in the room.**
 
 ## Buy only if we do not already have it
 

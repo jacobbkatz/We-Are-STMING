@@ -1,0 +1,472 @@
+<title>Part B Probe Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+  :root {
+    --ground: #E9ECEA; --surface: #FFFFFF; --ink: #141A18; --ink-soft: #57625E; --rule: #CFD6D2;
+    --probe: #C3281F; --probe-ink: #FFFFFF; --com: #111413; --com-ink: #FFFFFF;
+    --beep: #1D7A4B; --warn: #9A5B00; --chip-bg: #DFE5E2; --wire: #E0862A;
+    --hazard-bg: #FBEDE6; --hazard-edge: #E0A48D; --hazard-ink: #8C2A15;
+    --done-bg: #E2E9E5; --done-ink: #46574F;
+    --mask: #1D3A32; --mask-edge: #3F6B5E; --trace: #2B5448; --via: #33604F; --pad: #C9CDD1;
+    --hole: #0A0D0C; --ic: #25282A; --lead: #A2A9AE; --tant: #6E6759; --term: #BDC2C6;
+    --stripe: #E8E1CD; --mlcc: #9C8C74; --res: #1C1C1C; --silk: #DCE5E1;
+    --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #97A39E; --rule: #2A3430;
+      --probe: #FF5A4C; --probe-ink: #1A0907; --com: #050706; --beep: #53C98F; --warn: #E3A64A;
+      --chip-bg: #1F2724; --hazard-bg: #2C1712; --hazard-edge: #6B3324; --hazard-ink: #FFAC98;
+      --done-bg: #1B2320; --done-ink: #8B9993; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #97A39E; --rule: #2A3430;
+    --probe: #FF5A4C; --probe-ink: #1A0907; --com: #050706; --beep: #53C98F; --warn: #E3A64A;
+    --chip-bg: #1F2724; --hazard-bg: #2C1712; --hazard-edge: #6B3324; --hazard-ink: #FFAC98;
+    --done-bg: #1B2320; --done-ink: #8B9993; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body);
+    font-size: 16px; line-height: 1.5; padding-inline: 16px; padding-block: 0 56px; }
+  .wrap { max-width: 1220px; margin: 0 auto; }
+  header { padding-block: 22px 14px; display: grid; gap: 8px; }
+  .eyebrow { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--ink-soft); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(1.8rem, 5vw, 2.6rem);
+    line-height: 1.02; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .lede { margin: 0; color: var(--ink-soft); max-width: 64ch; }
+
+  .layout { display: grid; gap: 20px; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 920px) { .layout { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 30px; } }
+  .stage { position: sticky; top: 0; z-index: 3; background: var(--ground); padding-block: 8px 10px; display: grid; gap: 9px; }
+  .plate { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; padding: 6px; }
+  svg.map { display: block; width: 100%; height: auto; max-height: 46vh; }
+  @media (min-width: 920px) { svg.map { max-height: none; } }
+  .viewbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: space-between; }
+  .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; background: var(--surface); }
+  .seg button { font-family: var(--mono); font-size: 12.5px; font-weight: 700; border: 0; background: none;
+    color: var(--ink); padding: 7px 14px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
+  .tool { font-family: var(--mono); font-size: 12.5px; border: 1px solid var(--rule); background: var(--surface);
+    color: var(--ink); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--probe); outline-offset: 2px; }
+  .viewnote { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+  .viewnote strong { color: var(--ink); }
+
+  /* board artwork, generated from the gerbers and drill file */
+  .b-mask { fill: var(--mask); stroke: var(--mask-edge); stroke-width: .12; }
+  .b-trace { stroke: var(--trace); stroke-linecap: round; fill: none; }
+  .b-trace-b { stroke: #325E51; stroke-linecap: round; fill: none; }
+  .b-via { fill: var(--via); } .b-via-b { fill: #3A6A5B; }
+  .b-pad { fill: var(--pad); } .b-hole { fill: var(--hole); }
+  .b-npth { fill: var(--hole); stroke: var(--mask-edge); stroke-width: .1; }
+  .b-ic { fill: var(--ic); } .b-lead { fill: var(--lead); } .b-dot { fill: #8E969B; }
+  .b-tant { fill: var(--tant); } .b-term { fill: var(--term); } .b-stripe { fill: var(--stripe); }
+  .b-mlcc { fill: var(--mlcc); } .b-res { fill: var(--res); }
+  .b-silk { fill: none; stroke: #E9EFEC; stroke-width: .11; stroke-linecap: round; stroke-linejoin: round; }
+  .w-halo { fill: none; stroke: #FFFFFF; stroke-width: 6px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+  .w3 { fill: none; stroke: #F08A24; stroke-width: 3.4px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  .w4 { fill: none; stroke: #2F9BE8; stroke-width: 3.4px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  .w3-end { fill: #F08A24; stroke: #FFFFFF; stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
+  .w4-end { fill: #2F9BE8; stroke: #FFFFFF; stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
+  .w-done { stroke: #9FB3AB; stroke-width: 2px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+  .m-keep { fill: none; stroke: #F2B233; stroke-width: 2.5px; vector-effect: non-scaling-stroke; }
+  .m-leave circle { fill: none; stroke: #C6D3CE; stroke-width: 2.5px; stroke-dasharray: 3 2.5;
+    vector-effect: non-scaling-stroke; }
+  /* magnified detail at dot 4. Local units are board millimetres x 10. */
+  svg.detail { display: block; width: 100%; height: auto; margin-block: 4px 2px;
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 5px; }
+  .d-tail { stroke: #4E8574; stroke-width: 6.096; stroke-linecap: round; }
+  .d-via { fill: #6E9E8C; }
+  .d-scrape { fill: none; stroke: var(--probe); stroke-width: 1.5px; stroke-dasharray: 3 2.5; vector-effect: non-scaling-stroke; }
+  .d-guide { stroke: #A9BDB5; stroke-width: 1.2px; stroke-dasharray: 2 2.5; vector-effect: non-scaling-stroke; }
+  .d-tick { stroke: var(--ink-soft); stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+  .d-bar-ok { stroke: var(--beep); stroke-width: 3.2px; vector-effect: non-scaling-stroke; }
+  .d-bar-bad { stroke: var(--probe); stroke-width: 3.2px; vector-effect: non-scaling-stroke; }
+  .d-lead { stroke: var(--ink-soft); stroke-width: 1.2px; vector-effect: non-scaling-stroke; }
+  .d-num { font-family: var(--mono); font-weight: 700; font-size: 2.5px; }
+  .d-num.ok { fill: var(--beep); } .d-num.bad { fill: var(--probe); }
+  .ok-ink { color: var(--beep); } .bad-ink { color: var(--probe); }
+  .d-lab { font-family: var(--mono); font-weight: 700; font-size: 2px; fill: var(--ink-soft); }
+  .d-eyebrow { font-family: var(--mono); font-weight: 700; font-size: 1.9px; fill: var(--ink-soft);
+    letter-spacing: .12px; }
+  .w-route { fill: none; stroke: var(--wire); stroke-width: 2.4px; stroke-dasharray: 5 3; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+  .t-part, .t-part-lt, .t-small, .t-pin, .t-holenum { font-family: var(--mono); font-weight: 700; }
+  .t-part { font-size: .62px; fill: var(--silk); } .t-part-lt { font-size: .8px; fill: #F3F6F4; }
+  .t-small { font-size: .48px; fill: var(--silk); font-weight: 500; } .t-pin { font-size: .55px; fill: var(--silk); }
+  .t-holenum { font-size: .82px; fill: #1B2320; }
+  .t-fn { font-family: var(--mono); font-size: .9px; font-weight: 700; fill: var(--ink); }
+  .t-fn-sub { font-family: var(--mono); font-size: .66px; font-weight: 500; fill: var(--ink-soft); }
+  .t-wire3 { font-family: var(--mono); font-weight: 700; font-size: .5px; fill: #F8B26A; }
+  .m-halo { fill: none; stroke: #FFFFFF; stroke-width: 5px; vector-effect: non-scaling-stroke; opacity: .9; }
+  .m-ring { fill: none; stroke: var(--probe); stroke-width: 2.5px; vector-effect: non-scaling-stroke; }
+  .m-dot { fill: var(--probe); }
+  .m-leader { stroke: var(--probe); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+  .m-badge { fill: var(--probe); }
+  .m-badge-t { font-family: var(--display); font-weight: 700; font-size: 1.1px; fill: var(--probe-ink); }
+  .m-scrape .m-ring { stroke-dasharray: 3 2; }
+  .v-beep   .m-badge { fill: var(--beep); }
+  .v-chirp  .m-badge { fill: var(--warn); }
+  .v-silent .m-badge, .v-stop .m-badge { fill: var(--com); }
+  .v-silent .m-badge-t, .v-stop .m-badge-t, .v-chirp .m-badge-t, .v-beep .m-badge-t { fill: #FFFFFF; }
+  .m-ring2 { fill: none; stroke: var(--probe); stroke-width: 2px; stroke-dasharray: 2.5 2.5;
+    vector-effect: non-scaling-stroke; }
+  .m-skip .m-badge { fill: none; stroke: var(--rule); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+  .m-skip .m-badge-t { fill: var(--ink-soft); font-size: 1.2px; }
+  .keyrow { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; font-size: 13px; color: var(--ink-soft); }
+  .keyrow span { display: inline-flex; align-items: center; gap: 6px; }
+  .keyrow i { width: 15px; height: 15px; border-radius: 50%; display: inline-block; flex: none; }
+  .keyrow i.ring { background: none; border: 2.5px solid var(--probe); }
+  .keyrow i.com { background: none; border: 3px solid var(--com); }
+  .m-guard .m-ring, .m-guard .m-leader { stroke: var(--warn); }
+  .m-guard .m-badge { fill: var(--warn); } .m-guard .m-dot { fill: var(--warn); }
+  .m-guard .m-badge-t { font-size: .8px; fill: #FFFFFF; }
+  .m-ring-com { fill: none; stroke: var(--com); stroke-width: 2.5px; vector-effect: non-scaling-stroke; }
+  .m-leader-com { stroke: #6B7571; stroke-width: 2px; vector-effect: non-scaling-stroke; }
+  .m-badge-com { fill: var(--com); stroke: #FFFFFF; stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
+  .m-badge-com-t { font-family: var(--mono); font-weight: 700; font-size: .46px; fill: var(--com-ink); }
+
+  .panel { display: grid; gap: 14px; }
+  h2 { font-family: var(--display); font-weight: 600; font-size: 1.32rem; margin: 10px 0 0; letter-spacing: .005em; }
+  .said { border: 1px solid var(--rule); border-left: 3px solid var(--probe); border-radius: 0 6px 6px 0;
+    background: var(--surface); padding: 12px 14px; display: grid; gap: 7px; }
+  .said p { margin: 0; font-size: 14.5px; }
+  .said.pass { border-left-color: var(--beep); }
+  .said .hd { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--ink-soft); }
+
+  .legend { display: grid; gap: 0; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); overflow: hidden; }
+  .lrow { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; align-items: baseline;
+    padding: 10px 13px; border-top: 1px solid var(--rule); }
+  .lrow:first-child { border-top: 0; }
+  .lrow b { font-family: var(--display); font-size: 1.05rem; font-weight: 700; }
+  .lrow .what { font-size: 14.5px; }
+  .lrow .what small { display: block; color: var(--ink-soft); font-size: 12.5px; }
+  .tag { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: 3px 7px; border-radius: 3px; white-space: nowrap; align-self: center; }
+  .tag.done { background: var(--done-bg); color: var(--done-ink); }
+  .tag.todo { background: var(--probe); color: var(--probe-ink); }
+  .tag.leave { background: var(--chip-bg); color: var(--ink-soft); }
+  .tag.beep { background: var(--beep); color: #FFFFFF; }
+  .tag.chirp { background: var(--warn); color: #FFFFFF; }
+  .tag.silent { background: var(--com); color: var(--com-ink); }
+
+  ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; counter-reset: step; }
+  .step { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 13px 15px;
+    display: grid; grid-template-columns: 30px minmax(0, 1fr); column-gap: 12px; row-gap: 7px; }
+  .step::before { counter-increment: step; content: counter(step); grid-column: 1; grid-row: 1 / span 12;
+    width: 30px; height: 30px; border-radius: 50%; background: var(--chip-bg); color: var(--ink);
+    font-family: var(--display); font-weight: 700; font-size: 1.05rem; display: grid; place-items: center; align-self: start; }
+  .step > * { grid-column: 2; }
+  .step h3 { margin: 0; font-size: 1.02rem; line-height: 1.28; }
+  .step p { margin: 0; max-width: 60ch; font-size: 15px; }
+  .step .sub { font-size: 13.5px; color: var(--ink-soft); }
+  .step.hazard { background: var(--hazard-bg); border-color: var(--hazard-edge); }
+  .step.hazard::before { background: var(--hazard-ink); color: var(--hazard-bg); }
+  .step.hazard .stop { color: var(--hazard-ink); font-weight: 700; }
+  .wirekey { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono);
+    font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); }
+  .wirekey i { width: 18px; height: 4px; border-radius: 2px; display: inline-block; }
+  .show { justify-self: start; font-family: var(--mono); font-size: 12px; background: none; border: 0; color: var(--probe);
+    padding: 2px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .checks { display: grid; gap: 0; }
+  .check { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center;
+    padding-block: 8px; border-top: 1px solid var(--rule); }
+  .check:first-child { border-top: 0; }
+  .check.wide { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+  .check.wide .res { justify-self: start; }
+  .check .lbl { font-size: 14.5px; }
+  .check .lbl small { display: block; color: var(--ink-soft); font-size: 12.5px; }
+  .check .lbl .req { font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: .05em; }
+  .req.beep { color: var(--beep); } .req.silent { color: var(--ink-soft); } .req.warn { color: var(--warn); }
+  .res { display: inline-flex; gap: 4px; }
+  .res button { font-family: var(--body); font-weight: 700; font-size: 13px; border: 1px solid var(--rule);
+    background: var(--surface); color: var(--ink); border-radius: 5px; padding: 6px 11px; cursor: pointer; }
+  .res button[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .res button[aria-pressed="true"].bad { background: var(--probe); border-color: var(--probe); color: var(--probe-ink); }
+  .report { background: var(--ink); color: var(--ground); border-radius: 6px; padding: 13px 15px; display: grid; gap: 5px; }
+  .report .hd { font-family: var(--mono); font-size: 11px; letter-spacing: .09em; text-transform: uppercase; opacity: .72; }
+  .report output { font-family: var(--mono); font-size: .95rem; font-weight: 700; word-break: break-word; line-height: 1.55; }
+  .report .saved { font-family: var(--mono); font-size: 11px; opacity: .6; }
+  .stop-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+  .stop-list li { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 11px 14px; font-size: 14.5px; }
+  .stop-list b { display: block; font-family: var(--display); font-size: 1.02rem; font-weight: 700; margin-bottom: 2px; }
+  .stop-list small { display: block; color: var(--ink-soft); font-size: 13px; margin-top: 3px; }
+  footer { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--rule);
+    font-size: 13px; color: var(--ink-soft); max-width: 74ch; }
+  footer p { margin: 0 0 7px; }
+  code { font-family: var(--mono); font-size: .92em; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+  /* ---- Part B additions ---- */
+  .lead-w { fill: none; stroke: #9AA4A0; stroke-width: 5.5px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; }
+  .lead-core { fill: none; stroke: #D8DEDB; stroke-width: 2.2px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; }
+  .tip { fill: #C9A227; stroke: #FFFFFF; stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+  .pair { fill: none; stroke-width: 2.6px; vector-effect: non-scaling-stroke;
+    stroke-dasharray: 5 4; stroke-linecap: round; }
+  .pair-halo { fill: none; stroke: #FFFFFF; stroke-width: 6.5px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; opacity: .8; }
+  .c1 { stroke: #E07A16; } .c2 { stroke: #2F8FD8; } .c3 { stroke: #1D7A4B; } .c4 { stroke: #8046B8; }
+  .f1 { fill: #E07A16; } .f2 { fill: #2F8FD8; } .f3 { fill: #1D7A4B; } .f4 { fill: #8046B8; }
+  .badge { stroke: #FFFFFF; stroke-width: 1.6px; vector-effect: non-scaling-stroke; }
+  .badge-t { font-family: var(--mono); font-weight: 700; font-size: .95px; fill: #FFFFFF; }
+  .t-lead { font-family: var(--mono); font-size: .85px; font-weight: 700; fill: var(--ink); }
+  .t-note { font-family: var(--mono); font-size: .6px; font-weight: 500; fill: var(--ink-soft); }
+  .key { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; padding: 0; list-style: none;
+    font-size: 13px; color: var(--ink-soft); }
+  .key li { display: flex; align-items: center; gap: 6px; }
+  .key i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; flex: none; }
+  .callout { background: var(--chip-bg); border: 1px solid var(--rule); border-radius: 7px;
+    padding: 12px 14px; margin: 14px 0; }
+  .callout h3 { font-family: var(--display); font-size: 1.05rem; margin: 0 0 6px; }
+  .callout p { margin: 0 0 8px; font-size: 14px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .hazard { background: var(--hazard-bg); border-color: var(--hazard-edge); }
+  .hazard h3 { color: var(--hazard-ink); }
+  h2 { font-family: var(--display); font-size: 1.35rem; margin: 22px 0 8px; }
+  .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px;
+    padding: 4px 14px; }
+  .done { background: var(--done-bg); color: var(--done-ink); border-radius: 7px; padding: 10px 14px;
+    font-size: 13.5px; margin-top: 14px; }
+</style>
+<div class="wrap">
+<header>
+  <p class="eyebrow">Spare preamp board &middot; unpowered &middot; about 5 minutes</p>
+  <h1>Part B &mdash; the four lead free ends</h1>
+  <p class="lede">Six readings on the <strong>dangling ends of the four jumper leads</strong>, before a
+  power supply is ever clipped to them. Meter on continuity. Nothing is powered at any point.</p>
+</header>
+
+<div class="callout">
+  <h3>This is not the test you did last night</h3>
+  <p>Last night the black probe sat <strong>in hole&nbsp;1</strong> and the red probe moved around
+  <strong>the board</strong>. That tested the four repair wires &mdash; the thin magnet-wire links from
+  the scraped vias &mdash; and they all passed.</p>
+  <p><strong>This test is at the other end.</strong> It probes the cut-off free ends of the four
+  jumper leads, out in the air, back to landmarks on the board. It answers a different question:
+  <strong>is each lead the one you think it is, and is it touching any of the others?</strong></p>
+  <p>That matters because in Part&nbsp;C you clip a bench supply onto those four ends. A lead in the
+  wrong place, or two ends touching, puts a short across the supply and you would read it as a board
+  fault that is not there.</p>
+</div>
+
+<div class="plate"><svg class="map" viewBox="-1 2.2 31.5 17.4" role="img" aria-label="The spare preamp board seen from the top, plotted to scale from the gerbers, with the four jumper leads drawn leaving JP1 holes 1, 2, 3 and 5 and running to their free ends on the right. Four numbered probe pairs: 1 links the plus 15 volt lead free end to C1 far pad, 2 links the minus 15 volt lead free end to C2 far pad, 3 links the ground lead free end to C1 near pad, 4 links the out lead free end to PAD1. Hole 4 is empty.">
+<rect class="b-mask" x="0" y="3.37" width="20.625" height="15.23"/>
+<line class="b-trace" x1="13.4375" y1="10.98" x2="11.1887" y2="10.98" stroke-width="0.6096"/>
+<line class="b-trace" x1="13.6525" y1="11.195" x2="13.6525" y2="12.885" stroke-width="0.6096"/>
+<line class="b-trace" x1="13.4375" y1="10.98" x2="13.6525" y2="11.195" stroke-width="0.6096"/>
+<line class="b-trace" x1="18.7325" y1="8.44" x2="18.0975" y2="7.805" stroke-width="0.6096"/>
+<line class="b-trace" x1="18.0975" y1="7.805" x2="13.335" y2="7.805" stroke-width="0.6096"/>
+<line class="b-trace" x1="9.2075" y1="9.075" x2="9.8425" y2="9.71" stroke-width="0.6096"/>
+<line class="b-trace" x1="9.2075" y1="6.1325" x2="9.2075" y2="9.075" stroke-width="0.6096"/>
+<line class="b-trace" x1="9.8425" y1="9.71" x2="11.1887" y2="9.71" stroke-width="0.6096"/>
+<line class="b-trace" x1="13.335" y1="7.805" x2="11.1125" y2="5.5825" stroke-width="0.6096"/>
+<line class="b-trace" x1="12.8025" y1="9.71" x2="11.1887" y2="9.71" stroke-width="0.6096"/>
+<line class="b-trace" x1="11.1125" y1="5.5825" x2="9.7575" y2="5.5825" stroke-width="0.6096"/>
+<line class="b-trace" x1="13.4375" y1="9.075" x2="12.8025" y2="9.71" stroke-width="0.6096"/>
+<line class="b-trace" x1="9.7575" y1="5.5825" x2="9.2075" y2="6.1325" stroke-width="0.6096"/>
+<line class="b-trace" x1="18.415" y1="16.06" x2="18.7325" y2="16.06" stroke-width="0.6096"/>
+<line class="b-trace" x1="5.9563" y1="12.25" x2="5.8175" y2="12.25" stroke-width="0.4064"/>
+<line class="b-trace" x1="9.7575" y1="16.3775" x2="8.4875" y2="15.1075" stroke-width="0.6096"/>
+<line class="b-trace" x1="6.35" y1="15.1075" x2="5.8175" y2="14.575" stroke-width="0.6096"/>
+<line class="b-trace" x1="8.4875" y1="15.1075" x2="6.35" y2="15.1075" stroke-width="0.6096"/>
+<line class="b-trace" x1="16.8275" y1="14.4725" x2="18.415" y2="16.06" stroke-width="0.6096"/>
+<line class="b-trace" x1="16.8275" y1="14.4725" x2="11.43" y2="14.4725" stroke-width="0.6096"/>
+<line class="b-trace" x1="5.8175" y1="12.25" x2="5.8175" y2="13.8375" stroke-width="0.6096"/>
+<line class="b-trace" x1="11.43" y1="14.4725" x2="9.8425" y2="16.06" stroke-width="0.6096"/>
+<line class="b-trace" x1="9.8425" y1="16.06" x2="9.7575" y2="16.3775" stroke-width="0.6096"/>
+<line class="b-trace" x1="5.8175" y1="14.575" x2="5.8175" y2="13.8375" stroke-width="0.6096"/>
+<line class="b-trace" x1="11.1125" y1="8.3638" x2="11.1125" y2="7.4875" stroke-width="0.6096"/>
+<line class="b-trace" x1="11.1887" y1="8.44" x2="11.1125" y2="8.3638" stroke-width="0.6096"/>
+<line class="b-trace" x1="5.9563" y1="10.98" x2="7.9375" y2="10.98" stroke-width="0.6096"/>
+<line class="b-trace" x1="7.5175" y1="13.8375" x2="8.5725" y2="13.8375" stroke-width="0.6096"/>
+<line class="b-trace" x1="15.1375" y1="9.075" x2="16.1925" y2="9.075" stroke-width="0.6096"/>
+<line class="b-trace" x1="15.0075" y1="5.5825" x2="15.325" y2="5.9" stroke-width="0.6096"/>
+<line class="b-trace" x1="15.325" y1="5.9" x2="19.05" y2="5.9" stroke-width="0.6096"/>
+<line class="b-trace" x1="15.0075" y1="16.3775" x2="13.0175" y2="16.3775" stroke-width="0.6096"/>
+<line class="b-trace" x1="15.0075" y1="5.5825" x2="13.0175" y2="5.5825" stroke-width="0.6096"/>
+<line class="b-trace" x1="15.1375" y1="10.98" x2="18.7325" y2="10.98" stroke-width="0.6096"/>
+<rect class="b-pad" x="12.8875" y="8.575" width="1.1" height="1"/>
+<rect class="b-pad" x="14.5875" y="8.575" width="1.1" height="1"/>
+<rect class="b-pad" x="8.3825" y="15.4775" width="2.75" height="1.8"/>
+<rect class="b-pad" x="13.6325" y="15.4775" width="2.75" height="1.8"/>
+<rect class="b-pad" x="5.2675" y="13.3375" width="1.1" height="1"/>
+<rect class="b-pad" x="6.9675" y="13.3375" width="1.1" height="1"/>
+<rect class="b-pad" x="12.9375" y="10.43" width="1" height="1.1"/>
+<rect class="b-pad" x="14.6375" y="10.43" width="1" height="1.1"/>
+<rect class="b-pad" x="17.2085" y="5.138" width="3.048" height="1.524" rx="0.762"/>
+<rect class="b-pad" x="17.2085" y="7.678" width="3.048" height="1.524" rx="0.762"/>
+<rect class="b-pad" x="17.2085" y="10.218" width="3.048" height="1.524" rx="0.762"/>
+<rect class="b-pad" x="17.2085" y="12.758" width="3.048" height="1.524" rx="0.762"/>
+<rect class="b-pad" x="17.2085" y="15.298" width="3.048" height="1.524" rx="0.762"/>
+<polygon class="b-pad" points="12.8524,12.5536 13.3211,12.0849 13.9839,12.0849 14.4526,12.5536 14.4526,13.2164 13.9839,13.6851 13.3211,13.6851 12.8524,13.2164"/>
+<rect class="b-pad" x="4.8514" y="8.1352" width="2.2098" height="0.6096"/>
+<rect class="b-pad" x="4.8514" y="9.4052" width="2.2098" height="0.6096"/>
+<rect class="b-pad" x="4.8514" y="10.6752" width="2.2098" height="0.6096"/>
+<rect class="b-pad" x="4.8514" y="11.9452" width="2.2098" height="0.6096"/>
+<rect class="b-pad" x="10.0838" y="11.9452" width="2.2098" height="0.6096"/>
+<rect class="b-pad" x="10.0838" y="10.6752" width="2.2098" height="0.6096"/>
+<rect class="b-pad" x="10.0838" y="9.4052" width="2.2098" height="0.6096"/>
+<rect class="b-pad" x="10.0838" y="8.1352" width="2.2098" height="0.6096"/>
+<rect class="b-pad" x="8.3825" y="4.6825" width="2.75" height="1.8"/>
+<rect class="b-pad" x="13.6325" y="4.6825" width="2.75" height="1.8"/>
+<circle class="b-via" cx="7.9375" cy="10.98" r="0.5032"/>
+<circle class="b-via" cx="13.0175" cy="16.3775" r="0.5032"/>
+<circle class="b-via" cx="13.0175" cy="5.5825" r="0.5032"/>
+<circle class="b-via" cx="11.1125" cy="7.4875" r="0.5032"/>
+<circle class="b-via" cx="16.1925" cy="9.075" r="0.5032"/>
+<circle class="b-via" cx="8.5725" cy="13.8375" r="0.5032"/>
+<circle class="b-hole" cx="13.652" cy="12.885" r="0.457"/>
+<circle class="b-hole" cx="18.732" cy="5.9" r="0.508"/>
+<circle class="b-hole" cx="18.732" cy="8.44" r="0.508"/>
+<circle class="b-hole" cx="18.732" cy="10.98" r="0.508"/>
+<circle class="b-hole" cx="18.732" cy="13.52" r="0.508"/>
+<circle class="b-hole" cx="18.732" cy="16.06" r="0.508"/>
+<circle class="b-npth" cx="2.54" cy="10.98" r="1.054"/>
+<circle class="b-npth" cx="4.127" cy="5.265" r="1.1305"/>
+<circle class="b-npth" cx="4.127" cy="16.695" r="1.1305"/>
+<rect class="b-lead" x="5.5725" y="8.23" width="1.05" height="0.42"/>
+<rect class="b-lead" x="5.5725" y="9.5" width="1.05" height="0.42"/>
+<rect class="b-lead" x="5.5725" y="10.77" width="1.05" height="0.42"/>
+<rect class="b-lead" x="5.5725" y="12.04" width="1.05" height="0.42"/>
+<rect class="b-lead" x="10.5225" y="12.04" width="1.05" height="0.42"/>
+<rect class="b-lead" x="10.5225" y="10.77" width="1.05" height="0.42"/>
+<rect class="b-lead" x="10.5225" y="9.5" width="1.05" height="0.42"/>
+<rect class="b-lead" x="10.5225" y="8.23" width="1.05" height="0.42"/>
+<rect class="b-ic" x="6.6225" y="7.895" width="3.9" height="4.9" rx="0.12"/>
+<circle class="b-dot" cx="7.1225" cy="8.395" r="0.24"/>
+<rect class="b-tant" x="9.3825" y="3.9825" width="6" height="3.2" rx="0.15"/>
+<rect class="b-term" x="9.3825" y="4.4825" width="1.3" height="2.2"/>
+<rect class="b-term" x="14.0825" y="4.4825" width="1.3" height="2.2"/>
+<rect class="b-stripe" x="10.8325" y="3.9825" width="0.62" height="3.2"/>
+<rect class="b-tant" x="9.3825" y="14.7775" width="6" height="3.2" rx="0.15"/>
+<rect class="b-term" x="9.3825" y="15.2775" width="1.3" height="2.2"/>
+<rect class="b-term" x="14.0825" y="15.2775" width="1.3" height="2.2"/>
+<rect class="b-stripe" x="13.3125" y="14.7775" width="0.62" height="3.2"/>
+<rect class="b-mlcc" x="13.4875" y="8.675" width="1.6" height="0.8"/>
+<rect class="b-term" x="13.4875" y="8.675" width="0.35" height="0.8"/>
+<rect class="b-term" x="14.7375" y="8.675" width="0.35" height="0.8"/>
+<rect class="b-mlcc" x="5.8675" y="13.4375" width="1.6" height="0.8"/>
+<rect class="b-term" x="5.8675" y="13.4375" width="0.35" height="0.8"/>
+<rect class="b-term" x="7.1175" y="13.4375" width="0.35" height="0.8"/>
+<rect class="b-res" x="13.4875" y="10.58" width="1.6" height="0.8"/>
+<rect class="b-term" x="13.4875" y="10.58" width="0.35" height="0.8"/>
+<rect class="b-term" x="14.7375" y="10.58" width="0.35" height="0.8"/>
+<text class="t-part-lt" x="11.9825" y="5.5825" text-anchor="middle" dominant-baseline="central">C1</text>
+<text class="t-part-lt" x="11.9825" y="16.3775" text-anchor="middle" dominant-baseline="central">C2</text>
+<text class="t-part-lt" x="8.8225" y="10.345" text-anchor="middle" dominant-baseline="central">IC1</text>
+<text class="t-part" x="14.2875" y="7.925" text-anchor="middle" dominant-baseline="central">C3</text>
+<text class="t-part" x="6.6675" y="14.9875" text-anchor="middle" dominant-baseline="central">C4</text>
+<text class="t-part" x="13.6525" y="14.15" text-anchor="middle" dominant-baseline="central">PAD1</text>
+<text class="t-small" x="2.54" y="12.55" text-anchor="middle" dominant-baseline="central">standoff</text>
+<text class="t-small" x="2.54" y="13.15" text-anchor="middle" dominant-baseline="central">hole</text>
+<text class="t-pin" x="4.25" y="8.44" text-anchor="end" dominant-baseline="central">1</text>
+<text class="t-pin" x="4.25" y="9.71" text-anchor="end" dominant-baseline="central">2</text>
+<text class="t-pin" x="4.25" y="10.98" text-anchor="end" dominant-baseline="central">3</text>
+<text class="t-pin" x="4.25" y="12.25" text-anchor="end" dominant-baseline="central">4</text>
+<text class="t-pin" x="12.42" y="12.25" text-anchor="start" dominant-baseline="central">5</text>
+<text class="t-pin" x="12.42" y="10.98" text-anchor="start" dominant-baseline="central">6</text>
+<text class="t-pin" x="12.42" y="9.71" text-anchor="start" dominant-baseline="central">7</text>
+<text class="t-pin" x="12.42" y="8.44" text-anchor="start" dominant-baseline="central">8</text>
+<path class="lead-w" d="M 18.732 5.900 C 23.2 5.900, 24.6 4.200, 28.4 4.200"/>
+<path class="lead-core" d="M 18.732 5.900 C 23.2 5.900, 24.6 4.200, 28.4 4.200"/>
+<circle class="tip" cx="28.4" cy="4.200" r="0.45"/>
+<text class="t-lead" x="28.4" y="3.150" text-anchor="middle">GND</text>
+<text class="t-note" x="28.4" y="5.350" text-anchor="middle">free end</text>
+<path class="lead-w" d="M 18.732 8.440 C 23.2 8.440, 24.6 7.400, 28.4 7.400"/>
+<path class="lead-core" d="M 18.732 8.440 C 23.2 8.440, 24.6 7.400, 28.4 7.400"/>
+<circle class="tip" cx="28.4" cy="7.400" r="0.45"/>
+<text class="t-lead" x="28.4" y="6.350" text-anchor="middle">+15 V</text>
+<text class="t-note" x="28.4" y="8.550" text-anchor="middle">free end</text>
+<path class="lead-w" d="M 18.732 10.980 C 23.2 10.980, 24.6 10.600, 28.4 10.600"/>
+<path class="lead-core" d="M 18.732 10.980 C 23.2 10.980, 24.6 10.600, 28.4 10.600"/>
+<circle class="tip" cx="28.4" cy="10.600" r="0.45"/>
+<text class="t-lead" x="28.4" y="9.550" text-anchor="middle">OUT</text>
+<text class="t-note" x="28.4" y="11.750" text-anchor="middle">free end</text>
+<path class="lead-w" d="M 18.732 16.060 C 23.2 16.060, 24.6 13.800, 28.4 13.800"/>
+<path class="lead-core" d="M 18.732 16.060 C 23.2 16.060, 24.6 13.800, 28.4 13.800"/>
+<circle class="tip" cx="28.4" cy="13.800" r="0.45"/>
+<text class="t-lead" x="28.4" y="12.750" text-anchor="middle">−15 V</text>
+<text class="t-note" x="28.4" y="14.950" text-anchor="middle">free end</text>
+<text class="t-note" x="21.6" y="13.52" text-anchor="start" dominant-baseline="central">hole 4 empty</text>
+<path class="pair-halo" d="M 28.4 7.4 C 22 7.4, 16 3.1, 9.7575 5.5825"/>
+<path class="pair c1" d="M 28.4 7.4 C 22 7.4, 16 3.1, 9.7575 5.5825"/>
+<path class="pair-halo" d="M 28.4 13.8 C 22 13.8, 16 18.9, 9.7575 16.3775"/>
+<path class="pair c2" d="M 28.4 13.8 C 22 13.8, 16 18.9, 9.7575 16.3775"/>
+<path class="pair-halo" d="M 28.4 4.2 C 23 4.2, 19 3.3, 15.0075 5.5825"/>
+<path class="pair c3" d="M 28.4 4.2 C 23 4.2, 19 3.3, 15.0075 5.5825"/>
+<path class="pair-halo" d="M 28.4 10.6 C 23 10.6, 19.5 13.6, 13.652 12.885"/>
+<path class="pair c4" d="M 28.4 10.6 C 23 10.6, 19.5 13.6, 13.652 12.885"/>
+<circle class="badge f1" cx="28.400" cy="7.400" r="0.86"/>
+<text class="badge-t" x="28.400" y="7.400" text-anchor="middle" dominant-baseline="central">1</text>
+<circle class="badge f1" cx="9.758" cy="5.582" r="0.86"/>
+<text class="badge-t" x="9.758" y="5.582" text-anchor="middle" dominant-baseline="central">1</text>
+<circle class="badge f2" cx="28.400" cy="13.800" r="0.86"/>
+<text class="badge-t" x="28.400" y="13.800" text-anchor="middle" dominant-baseline="central">2</text>
+<circle class="badge f2" cx="9.758" cy="16.378" r="0.86"/>
+<text class="badge-t" x="9.758" y="16.378" text-anchor="middle" dominant-baseline="central">2</text>
+<circle class="badge f3" cx="28.400" cy="4.200" r="0.86"/>
+<text class="badge-t" x="28.400" y="4.200" text-anchor="middle" dominant-baseline="central">3</text>
+<circle class="badge f3" cx="15.008" cy="5.582" r="0.86"/>
+<text class="badge-t" x="15.008" y="5.582" text-anchor="middle" dominant-baseline="central">3</text>
+<circle class="badge f4" cx="28.400" cy="10.600" r="0.86"/>
+<text class="badge-t" x="28.400" y="10.600" text-anchor="middle" dominant-baseline="central">4</text>
+<circle class="badge f4" cx="13.652" cy="12.885" r="0.86"/>
+<text class="badge-t" x="13.652" y="12.885" text-anchor="middle" dominant-baseline="central">4</text>
+</svg></div>
+<ul class="key">
+  <li><i style="background:#E07A16"></i> 1 &nbsp;+15&nbsp;V &rarr; C1 far</li>
+  <li><i style="background:#2F8FD8"></i> 2 &nbsp;&minus;15&nbsp;V &rarr; C2 far</li>
+  <li><i style="background:#1D7A4B"></i> 3 &nbsp;GND &rarr; C1 near</li>
+  <li><i style="background:#8046B8"></i> 4 &nbsp;OUT &rarr; PAD1</li>
+</ul>
+<p class="viewnote" style="margin-top:8px"><strong>The lead colours in this drawing are not your lead
+colours.</strong> The four leads are cut-off jumper cable and <strong>nobody recorded what colour each
+one is</strong>, so they are all drawn the same grey here. Go by the <strong>hole number</strong> they
+come out of: <strong>1&nbsp;GND, 2&nbsp;+15&nbsp;V, 3&nbsp;OUT, 4&nbsp;empty, 5&nbsp;&minus;15&nbsp;V</strong>.
+While you have the meter out, tell me which colour is in which hole and I will write it into
+<code>docs/INVENTORY.md</code> so nobody has to work it out again.</p>
+
+<h2>The six readings</h2>
+<div class="panel"><div class="checks"><div class="check wide"><div class="lbl"><b>1</b> &nbsp;+15&nbsp;V lead free end &harr; C1&rsquo;s <b>far</b> pad <span class="req beep">MUST BEEP</span><small>Far means the pad away from the holes, on the left. This proves the +15&nbsp;V lead actually reaches C1.</small></div><div class="res" data-key="p1"><button type="button" data-val="beep" aria-pressed="false">Beeps</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div><div class="check wide"><div class="lbl"><b>2</b> &nbsp;&minus;15&nbsp;V lead free end &harr; C2&rsquo;s <b>far</b> pad <span class="req beep">MUST BEEP</span><small>Same idea on the bottom capacitor. C2 is the one that was rotated, so this also re-confirms its joint.</small></div><div class="res" data-key="p2"><button type="button" data-val="beep" aria-pressed="false">Beeps</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div><div class="check wide"><div class="lbl"><b>3</b> &nbsp;GND lead free end &harr; C1&rsquo;s <b>near</b> pad <span class="req beep">MUST BEEP</span><small>Near means the pad closest to the holes, on the right.</small></div><div class="res" data-key="p3"><button type="button" data-val="beep" aria-pressed="false">Beeps</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div><div class="check wide"><div class="lbl"><b>4</b> &nbsp;OUT lead free end &harr; PAD1 <span class="req warn">ABOUT 220 &Omega;</span><small>Not a beep &mdash; a number. That 220&nbsp;&Omega; is R1, the series output resistor between IC1 pin 6 and hole 3. A beep here would mean R1 is shorted; an open would mean the OUT lead is not connected.</small></div><div class="res" data-key="p4"><button type="button" data-val="220" aria-pressed="false">~220 ohm</button><button type="button" data-val="short" class="bad" aria-pressed="false">Beeps / near 0</button><button type="button" data-val="open" class="bad" aria-pressed="false">Open</button></div></div><div class="check wide"><div class="lbl"><b>5</b> &nbsp;OUT lead &harr; each of the other three leads <span class="req silent">ALL SILENT</span><small>Three separate readings: OUT to GND, OUT to +15&nbsp;V, OUT to &minus;15&nbsp;V.</small></div><div class="res" data-key="p5"><button type="button" data-val="open" aria-pressed="false">Silent</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps</button></div></div><div class="check wide"><div class="lbl"><b>6</b> &nbsp;+15&nbsp;V &harr; &minus;15&nbsp;V, and each &harr; GND <span class="req silent">NO <i>HELD</i> BEEP</span><small>Three more readings. <strong>A brief chirp is a capacitor charging and is a pass</strong> &mdash; same as holes 2 and 5 last night. Only a beep that <strong>holds</strong> is a short.</small></div><div class="res" data-key="p6"><button type="button" data-val="silent" aria-pressed="false">Silent or brief chirp</button><button type="button" data-val="holds" class="bad" aria-pressed="false">A beep HOLDS</button></div></div></div></div>
+
+<div class="callout hazard">
+  <h3>If anything fails, stop here</h3>
+  <p><strong>Do not go on to Part&nbsp;C.</strong> A lead that does not reach where it should, or two
+  ends that beep to each other, is a five-minute fix now and a confusing hour once a supply is
+  attached. Send me which row failed and what it read.</p>
+  <p><strong>Nothing gets powered by anything but the current-limited bench supply</strong>, and this
+  board does not meet the controller at all until C2 is replaced and PAD1 reads under 0.1&nbsp;V at
+  45&nbsp;minutes &mdash; <code>STATUS.md</code> safety rule 14.</p>
+</div>
+
+<div class="done">
+  <strong>All six as expected?</strong> Then Part&nbsp;C, the current-limited smoke test, on the bench
+  page <code>docs/preamp_next_steps.html</code>. Set the supply to 5.0&nbsp;V and a 20&nbsp;mA limit
+  and meter both outputs <em>before</em> anything is connected.
+  <br><br>
+  <strong>Where this drawing comes from.</strong> The board is plotted to scale from
+  <code>tunnelAmp</code>&rsquo;s top copper, silkscreen and drill files &mdash; the same geometry as
+  <code>docs/preamp_ground_repair_map.html</code>, not redrawn by hand. The leads are drawn
+  schematically; only the board is to scale.
+</div>
+</div>
+
+<script>
+  document.querySelectorAll('.res').forEach(function (g) {
+    g.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      var on = b.getAttribute('aria-pressed') === 'true';
+      g.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', on ? 'false' : 'true');
+    });
+  });
+</script>

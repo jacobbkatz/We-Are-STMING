@@ -25,7 +25,7 @@ no shorts, C2 reads 4.7 µF in circuit. Table in [`sessions/2026-09-14.md`](../s
 |---|---|
 | **Keystone 11301 standoff, 2 off** | **Received 2026-09-14**, DigiKey 36-11301-ND. The correct part, **PTFE base with a metal pole**. **It drops into our hole — no drilling** |
 | **Deionised water** | In the room |
-| **99% IPA** | **Collected this evening.** Until it is on the bench, Part D does not start |
+| **99% IPA** | **IN THE ROOM** — confirmed by Jacob, 2026-09-14 late. **The cleaning kit is complete and Part D is no longer gated** |
 | **Foam swabs, soft brush** | In the room, 2026-09-14 |
 | **4.7 µF 50 V 1812 ceramics** | **Not owned.** Needed only before the controller, not before Part D |
 
@@ -54,6 +54,13 @@ not**, and the input node is built last because it is the part that cannot be cl
 ---
 
 # PART B — continuity at the lead free ends. Unpowered
+
+**To-scale probe map, tick-as-you-go:** `docs/preamp_partB_probe_map.html`.
+
+**This is NOT the test done on 2026-09-14.** That one put the black probe in hole 1 and moved the red
+probe around the **board**, which verified the four repair wires. **This one probes the free ends of
+the four jumper leads**, and answers a different question: is each lead the one you think it is, and
+is it touching any of the others? It matters because Part C clips a bench supply onto those ends.
 
 | Between | Expect |
 |---|---|
@@ -130,8 +137,9 @@ think and that is worth an hour of my time rather than two minutes of yours.
 **Prerequisites: B and C passed, and D0 done — the standoff confirmed to fit.**
 
 1. **On the bench before you start:** 99% IPA, deionised water, foam swabs, a soft brush.
-   **91% IPA is not enough for the node wash** (`sessions/2026-09-13.md` §5). **Swabs and brush are
-   in the room** (`docs/INVENTORY.md`, 2026-09-14); the 99% IPA is the only one still to arrive.
+   **91% IPA is not enough for the node wash** (`sessions/2026-09-13.md` §5). **All four are now in
+   the room** — the 99% IPA arrived 2026-09-14 late and was the last one outstanding
+   (`docs/INVENTORY.md`). **This gate is closed.**
 2. **Wash the whole board:**
    1. Scrub with IPA.
    2. Rinse with clean IPA.
@@ -169,9 +177,10 @@ readings were the floating input, not leakage.
 
 ## ~~BEFORE ANYTHING: two gates added 2026-09-09~~ — status 2026-09-13
 
-**Gate 1:** the cleaning kit is still not in the room. Soldering at JP1 went ahead on 2026-09-13,
-because flux there sits on low-impedance pins 16 mm from the input node. **The gate still stands for
-the input node** (Part D). **Gate 2 (M2×6, not M2×8) still stands.** Original text follows.
+**Gate 1 is CLOSED, 2026-09-14 late: the 99% IPA is in the room**, with the DI water, foam swabs and
+soft brush already here. The input node may now be built. Soldering at JP1 had already gone ahead on
+2026-09-13, because flux there sits on low-impedance pins 16 mm from the input node.
+**Gate 2 (M2×6, not M2×8) still stands.** Original text follows.
 
 **1. Do not solder the preamp until the cleaning kit is in the room.** The Chip Quik RMA791 rosin
 flux arrives 2026-09-11, but **no 99% IPA, distilled water, soft brushes, lint-free wipes or foam
@@ -509,7 +518,8 @@ noise is the reference, not the preamp.**
   would tell you whether a rebuild helped has a floating reference.
   **Updated 2026-09-09:** this said "that is Sunday's work, when Jacob is home", a stale calendar
   reference. The gate is the floating `PREAMP−`, not the date.
-- **Do not solder anything on the preamp until the cleaning supplies arrive** — see the gate at the
+- ~~**Do not solder anything on the preamp until the cleaning supplies arrive.**~~ **CLOSED
+  2026-09-14 late — the 99% IPA is in the room and the cleaning kit is complete.** See the gate at the
   top of this file.
 - **Do not re-open the piezo.** Built and working. Do not buy Sn42/Bi58 paste.
 - **Do not fit a tip.** The zero-risk window is worth keeping.

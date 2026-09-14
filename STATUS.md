@@ -44,8 +44,10 @@
 > ## IF YOU READ ONE THING BEFORE THE NEXT BENCH SESSION — written 2026-09-09
 >
 > **Update 2026-09-13:** the order arrived except the standoff (SAID — VERIFY item by item). **The
-> cleaning kit is still not in the room: 91% IPA is there, 99% is not.** Soldering at JP1 has gone
-> ahead (that flux can stay); **the input node still must not be built until 99% IPA is here.**
+> ~~cleaning kit is still not in the room: 91% IPA is there, 99% is not.~~ **SUPERSEDED 2026-09-14
+> late: the 99% IPA is in the room** (Jacob), alongside the DI water, foam swabs and soft brush.
+> **The cleaning kit is complete and the input node is no longer gated.** Soldering at JP1 had gone
+> ahead already (that flux can stay). Copper tape and the 4.7 uF 1812 ceramics remain unbought.
 >
 >
 > **The flux arrives 2026-09-11. The things that remove it were NOT ordered** — no 99% IPA, no
@@ -81,9 +83,10 @@
 > assortment**, and **assorted heat shrink**. **Use the M2×6 — an M2×8 bottoms out** in the box's
 > 5.00 mm blind pilot (measured from the mesh, see [`docs/FACTS.md`](docs/FACTS.md)).
 >
-> **THE CLEANING SUPPLIES WERE NOT BOUGHT.** No 99% IPA, distilled water, brushes, lint-free wipes
-> or foam swabs. **Rosin flux left on this board is a leakage path at the node the project is
-> blocked on. Do not solder the preamp until the cleaning kit is in the room.**
+> ~~**THE CLEANING SUPPLIES WERE NOT BOUGHT.** No 99% IPA, distilled water, brushes, lint-free wipes
+> or foam swabs.~~ **SUPERSEDED — all of them are in the room as of 2026-09-14 late.** The reason the
+> rule existed stands: rosin flux left on this board is a leakage path at the node the project is
+> blocked on, **so wash the board and clean locally after building the node.**
 > **Copper tape is now the only other unbought item.**
 
 > **3. Three defects found in the instruction files themselves**, after Jacob reported the model
@@ -995,7 +998,9 @@ over** — it is the measurement reference, and it is repairable without a rebui
 water, soft brushes, lint-free wipes or foam swabs. **Rosin flux left on this board is a leakage
 path at the exact node the 119 nA fault sits on.**
 
-**Do not solder the preamp until the cleaning kit is in the room.** Also still unbought: **copper
+~~**Do not solder the preamp until the cleaning kit is in the room.**~~ **CLOSED 2026-09-14 late:
+the kit is complete** — 99% IPA, DI water, foam swabs and soft brush are all in the room.
+Still unbought: **copper
 tape with conductive adhesive** for the shield — aluminium will not do. See
 [`docs/PREAMP_SHOPPING_LIST.md`](docs/PREAMP_SHOPPING_LIST.md).
 

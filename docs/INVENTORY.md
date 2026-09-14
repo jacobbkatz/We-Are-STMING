@@ -70,7 +70,7 @@ fitted" line and by Jacob 2026-09-09.
 | **100 MΩ feedback resistor** | ≥1 | `SAID` | Value CONFIRMED. Not fitted to the board |
 | **Tantalum 4.7 µF 35 V** | 1–2 | `SAID`, from a label | Spares beyond the two JLCPCB fitted. **2026-09-13: "we don't have access to a spare" (`SAID`).** Whether they exist somewhere is UNKNOWN |
 | **91% isopropyl alcohol** | — | `SAID` 2026-09-13 | In the room. **Not enough for the input-node wash** |
-| **99% isopropyl alcohol** | — | `SAID` 2026-09-14, Jacob: being collected this evening, about 19:00 | **Not yet in the room at the time of writing.** The input-node wash needs it |
+| **99% isopropyl alcohol** | — | `SAID` 2026-09-14 (late), Jacob: "yes IPA is here" | **IN THE ROOM.** Collected this evening as planned. **This was the last gate on the input-node wash** — with the DI water, foam swabs and brush already here, the full cleaning kit is now present |
 | **Deionised / distilled water** | — | `SAID` 2026-09-14, Jacob: "I also just got the DI" | **In the room.** For the final rinse after the IPA |
 | **Jumper cables** (plugs cut off) | — | `SAID` 2026-09-13 | **Used as the four JP1 leads on the spare board.** Conductor material not checked |
 | **Foam swabs** | — | `SAID` 2026-09-14, Jacob | **In the room.** For the input-node wash |
