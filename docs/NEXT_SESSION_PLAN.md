@@ -39,6 +39,13 @@ no shorts, C2 reads 4.7 µF in circuit. Table in [`sessions/2026-09-14.md`](../s
 
 # THE ORDER THESE GO IN
 
+> **Resequenced 2026-09-14 late, at Jacob's decision.** He chose to skip the smoke test until the
+> board is built. **The smoke test is NOT dropped — it moves to after the wash and before the input
+> node goes on**, which is strictly better than either running it first or leaving it to the end:
+> the board is clean by then, and a fault still gets found while the board is bare and reworkable.
+> **Rework after the node is built means flux and a second wash at the one place that cannot be
+> cleaned afterwards.** Order is now **B → D-wash → C → D-node → D5**.
+
 **B → C → D0 → D.** Each one gates the next. Do not jump to D because the parts arrived: **an
 unpowered board that has passed the smoke test is a completely different risk from one that has
 not**, and the input node is built last because it is the part that cannot be cleaned afterwards.
@@ -85,9 +92,27 @@ is not a preamp measurement.** This test checks current and heat only.
    - A+ → +15 V lead
    - B− → −15 V lead
    - OUT lead taped, touching nothing
-3. **On.** Both channels should read **a few mA, within 1 mA of each other**. The op-amp's current
-   flows from +15 V straight to −15 V, so the two match. **Extra current on the −15 V channel only
-   means C2 is leaking.**
+3. **On.** Both channels should read **a few mA, in the same ballpark as each other.** The op-amp's
+   current flows from +15 V straight to −15 V, so the two match. **Much more current on the −15 V
+   channel alone means C2 is leaking.**
+
+   > **"Within 1 mA" was over-specified — corrected 2026-09-14 late, at Jacob's objection.** He is
+   > right that our supplies cannot resolve it, and right that it does not matter. **1 mA of
+   > sensitivity was only ever going to catch a *mildly* degraded C2 — and C2 is being replaced
+   > before this board meets the controller regardless** (safety rule 14), so that reading could
+   > never have changed a decision. **Do not let a coarse current display stop you running this
+   > test.** Everything it exists to catch is gross and visible on any supply:
+   >
+   > | What it catches | How it shows |
+   > |---|---|
+   > | A short from the repair work | A channel pinned at the limit — the CC / constant-current light |
+   > | A shorted or badly leaking C2 | Large asymmetry, or the −15 V channel at the limit |
+   > | Anything drawing more as it heats | Current visibly climbing |
+   > | A part cooking | It is warm to the touch |
+   >
+   > **The pass is: neither channel at the limit, neither climbing, nothing warm.** No resolution
+   > needed. If you want a real number, put the multimeter in current mode in series with one
+   > supply lead — it will beat the supply's own display easily.
 4. **Off immediately if:**
    - a channel is at the 20 mA limit,
    - the current keeps rising,
@@ -170,13 +195,32 @@ think and that is worth an hour of my time rather than two minutes of yours.
    > rinse, not preceded by one.** IPA and water mix, so an IPA rinse afterwards displaces the water
    > and flashes off fast. Ending on water is the worst case for drying.
 
-   1. Scrub with 99% IPA and the soft brush.
-   2. Rinse with clean 99% IPA.
-   3. ~~Rinse with distilled water.~~ **Skipped unless the board can be baked at 60–70 °C** — see
-      above. If it is done, follow it with a final 99% IPA rinse.
-   4. Dry: 60–70 °C for 1–2 hours if anything can hold that, **otherwise overnight in still air.**
+   **Before you start.** Board unpowered, nothing connected to the four leads. **Ventilate the
+   room and put the iron away** — 99% IPA is more flammable than the 91%, and its vapour is heavier
+   than air. Nitrile gloves on (`docs/INVENTORY.md`).
+
+   1. **Scrub with 99% IPA and the soft brush.** Both sides. Flood it rather than dampening it —
+      the IPA has to carry the rosin away, not just move it around. Concentrate on **JP1**, where
+      the flux actually went, and around **C2**, which was removed and refitted.
+      - **Brush ALONG the four repair wires, never across them.** They are 40 AWG magnet wire and
+        finer than a hair. Do not lever the brush under them.
+      - **No ultrasonic cleaner.** Not that we have one — but it is what people reach for, and
+        those four wires and their scraped-via joints are exactly what it would break.
+   2. **Rinse with clean 99% IPA** — fresh from the bottle, poured over, not the dirty stuff from
+      step 1. **This is the step that matters and the one people skip.** Scrubbing alone dissolves
+      the rosin and then lets it dry back down somewhere else on the board; the rinse is what
+      removes it. If the runoff looks dirty, scrub and rinse again.
+   3. ~~Rinse with distilled water.~~ **SKIPPED — see the note above.** No bake is available, and
+      **the four leads are jumper cable**: if they are stranded, as most jumper cable is, water
+      wicks up inside the insulation and sits there for days where nothing can dry it.
+   4. **Dry. Stand the board on edge so it drains** — do not lay it flat, which traps IPA under
+      IC1 and the two 1812s. Somewhere warm, dust-free and out of the way, **overnight.** A cool or
+      low hairdryer setting will blow the bulk off first if you want; it does not replace the wait.
       **Board only, never the printed box** — PETG softens near 80 °C.
-   5. **Nothing gets powered until it is completely dry.** If in doubt, give it longer: waiting costs
+   5. **From the rinse onward, handle the board by its edges only.** Skin oil and salt are precisely
+      the leakage path being removed, and a fingerprint on the input-node area undoes the wash. This
+      matters more after cleaning than before it.
+   6. **Nothing gets powered until it is completely dry.** If in doubt, give it longer: waiting costs
       an evening, a wrong first measurement costs the credibility of the whole rebuild.
 3. **Build the node:**
    1. Press in the standoff, if D0 did not already do it.
