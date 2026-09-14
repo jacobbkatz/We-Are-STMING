@@ -346,7 +346,7 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 | 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535`. **The scanner itself is now built and working** — Jacob, 2026-09-09 |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
 | 6 Preamp | **FAIL** | PAD1 = 11.905 V on 2026-09-07. **Not a valid current measurement: IC1 +IN floats on both boards** (fault 0d, 2026-09-13). The "~119 nA" is unproven |
-| **Spare preamp board** | **GROUND REPAIR VERIFIED — still do not power** | 2026-09-14: **4 of 4 wires on, all four ground points beep to hole 1, no shorts, C2 reads 4.7 µF in circuit.** Next is the lead free-end check and the current-limited smoke test, `docs/NEXT_SESSION_PLAN.md` Parts B and C. **C2 is still the reused part** — safety rule 14 before the controller |
+| **Spare preamp board** | **GROUND REPAIR + PART B BOTH PASS — still never powered** | 2026-09-14: 4 of 4 wires on, all four ground points beep to hole 1, no shorts, C2 reads 4.7 µF in circuit. **Part B passed the same evening — all six lead free-end readings as expected** (`docs/preamp_partB_probe_map.html`). **Next is Part C, the current-limited smoke test**, which is the first time this board is powered by anything. **C2 is still the reused part** — safety rule 14 before the controller |
 | **Measurement chain** | **NEW FAIL** | **`PREAMP-` floating** — the ADC's reference is undefined. **Not over range after all:** span is ±10.24 V and the differential is ~9.2 V |
 | **Preamp box** shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
 | DAC config stability | **FAIL** | All four DACs drop config roughly hourly |
@@ -960,18 +960,22 @@ over** — it is the measurement reference, and it is repairable without a rebui
 > continuity readings and one capacitance reading, all pass. IC1 pin 3 beeps to hole 1.
 > `sessions/2026-09-14.md` §3.1 has the table.
 
-1. **Continuity at the four lead free ends.** Unpowered, five minutes. `docs/NEXT_SESSION_PLAN.md`
-   Part B. This is all that stands between here and the smoke test.
+1. ~~**Continuity at the four lead free ends.**~~ **DONE 2026-09-14 late, all six readings as
+   expected.** Probe map: `docs/preamp_partB_probe_map.html`. **Lead colours recorded for the first
+   time:** hole 1 GND white, hole 2 +15 V grey, hole 3 OUT orange, hole 4 empty, hole 5 −15 V tan
+   (`docs/INVENTORY.md`). **These are the preamp's own jumper leads and do NOT match the J1/J2
+   colours in `docs/WIRING.md`.**
 2. **The current-limited smoke test** on the bench supply, Part C. Both channels 5.0 V, **20 mA
    limit**, each output metered before anything is connected. Both currents within 1 mA of each
    other, then 10 minutes at 15 V with C2 not warm. **Not the controller.**
-3. **Fit the standoff — it drops in. Do NOT drill.** **Corrected 2026-09-14, later the same day:**
-   this said the arrived standoff was UNKNOWN and to caliper it before pressing. **It is the
-   Keystone 11301**, order confirmation seen, PTFE base with a metal pole, 2 off. Berard's own
-   Eagle board specifies 2.1082 mm for this hole and our board is 2.108 mm, so the part's 2.032 mm
-   pin passes with **0.076 mm of clearance.** One caliper reading on the pin below the PTFE base
-   (expect ~2.03 mm) is still worth taking, but it confirms rather than decides.
-   `docs/NEXT_SESSION_PLAN.md` Part D0.
+3. **Fit the standoff after the wash — it drops in. Do NOT drill, and no calipers are needed.**
+   **Corrected twice on 2026-09-14.** It is the Keystone 11301, order confirmation seen, PTFE base
+   with a metal pole, 2 off. Berard's own Eagle board specifies 2.1082 mm for this hole and our
+   board is 2.108 mm, so the part's 2.032 mm pin passes with **0.076 mm of clearance.**
+   **There are no calipers in the room** (corrected `SAID`, `docs/INVENTORY.md`) and none are
+   required — the fit was settled from the board file, not from a measurement, and the real test is
+   whether it drops in. **It goes in after the wash**, because you cannot clean underneath it and
+   that spot is the input node. `docs/NEXT_SESSION_PLAN.md` Part D0.
 4. **Buy:** 99% IPA, distilled water, foam swabs, a soft brush; **the 4.7 µF 50 V 1812 ceramics**
    to replace the reused C2; copper tape with conductive adhesive.
 5. **Then Part D:** wash the board, fit the standoff, build the input node, and take **the first

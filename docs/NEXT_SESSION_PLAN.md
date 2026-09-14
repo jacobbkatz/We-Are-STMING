@@ -111,14 +111,21 @@ is not a preamp measurement.** This test checks current and heat only.
 > pin is 0.080" = 2.032 mm, so it passes with **0.076 mm of clearance.** Opening the hole to 2.184 mm
 > would only leave the standoff loose. See `docs/FACTS.md`.
 
-## D0.1 One measurement, then fit it
+## D0.1 No measurement is needed. There are no calipers, and none are required
 
-| Measure | Expect |
-|---|---|
-| Whatever part of the standoff **enters the hole** — the pin below the PTFE base | **about 2.03 mm**, and in any case under 2.108 mm |
+> **Rewritten 2026-09-14 late.** This asked for a caliper reading on the pin below the PTFE base,
+> expecting ~2.03 mm. **There are no calipers in the room** — Jacob, at the bench; the `SAID` row in
+> `docs/INVENTORY.md` that listed them was wrong and is corrected. **Nothing is lost.** The fit was
+> never decided by measurement: it is settled by Berard's own board file specifying `drill="2.1082"`
+> for this exact hole against our 2.108 mm, with the part's 2.032 mm pin passing through it. The
+> caliper was only ever going to confirm an answer we already had.
 
-**Then seat it by hand.** It should drop through or take a light push. The PTFE base sits flat on the
-board surface; the metal pole stands proud above it.
+**The test is the fit itself.** Offer the standoff up to the hole when the time comes. It drops
+through, or takes a light push. The PTFE base sits flat on the board surface; the metal pole stands
+proud above it.
+
+**Do it AFTER the wash, not before** — you cannot clean underneath a fitted standoff, and that spot
+is the input node. So there is nothing to do here tonight except know that it will go in.
 
 **If it will not go:** stop and tell me. Do not force it and do not drill. FR4 is brittle, this hole
 is 2.540 mm from the board edge, and **it is the insulator for the input node of a 100 MΩ
@@ -134,17 +141,43 @@ think and that is worth an hour of my time rather than two minutes of yours.
 
 # PART D — gates before the input node is built
 
-**Prerequisites: B and C passed, and D0 done — the standoff confirmed to fit.**
+**Prerequisites: B and C passed.** B passed 2026-09-14 late, all six readings as expected.
 
-1. **On the bench before you start:** 99% IPA, deionised water, foam swabs, a soft brush.
-   **91% IPA is not enough for the node wash** (`sessions/2026-09-13.md` §5). **All four are now in
-   the room** — the 99% IPA arrived 2026-09-14 late and was the last one outstanding
-   (`docs/INVENTORY.md`). **This gate is closed.**
-2. **Wash the whole board:**
-   1. Scrub with IPA.
-   2. Rinse with clean IPA.
-   3. Rinse with distilled water.
-   4. Dry: 60–70 °C for 1–2 hours if an oven or dehydrator can hold that, otherwise overnight.
+1. **On the bench before you start:** 99% IPA, foam swabs, a soft brush. **91% IPA is not enough for
+   the node wash** (`sessions/2026-09-13.md` §5). All are in the room (`docs/INVENTORY.md`).
+2. **Wash the whole board — IPA ONLY unless the board can be baked.**
+
+   > **Changed 2026-09-14 late, after Jacob asked whether water on a board is sensible.** It is a
+   > fair question and the answer has a condition attached. **Water on an UNPOWERED board that is
+   > then properly dried is ordinary practice** — assembly houses wash boards in aqueous cleaners,
+   > and deionised water is specifically the kind that leaves **no** residue behind. Tap water is the
+   > one that would be a mistake, because its minerals are the very contamination we are removing.
+   > **Nothing fitted to this board is water-sensitive:** IC1 is a moulded SOIC-8, C1/C2 are moulded
+   > 1812 tantalums, C3/C4/R1 are 0603 ceramics. No trimmer, no relay, no can, no label.
+   >
+   > **The real risk is not the water. It is water that does not leave.** It wicks under IC1 and the
+   > 1812s and sits there, and trapped moisture at a 100 MΩ input node **is the exact fault class
+   > this project has been chasing for two weeks.** Worse, it would mimic the signature we already
+   > cannot explain: a high PAD1 that slowly improves over an hour looks identical to the "warm-up
+   > drift". **A water rinse without a bake could manufacture a fresh copy of our own open question.**
+   >
+   > **We have no oven or dehydrator** — it was listed as "only if needed" and never bought
+   > (`docs/INVENTORY.md`). **So: IPA only.**
+   >
+   > **Two further points if a bake ever does become available.** The water rinse targets *ionic
+   > activator* residue; RMA791 is **mildly** activated and its bulk is rosin, which IPA takes.
+   > And the order written here was wrong: **a water rinse must be followed by a final 99% IPA
+   > rinse, not preceded by one.** IPA and water mix, so an IPA rinse afterwards displaces the water
+   > and flashes off fast. Ending on water is the worst case for drying.
+
+   1. Scrub with 99% IPA and the soft brush.
+   2. Rinse with clean 99% IPA.
+   3. ~~Rinse with distilled water.~~ **Skipped unless the board can be baked at 60–70 °C** — see
+      above. If it is done, follow it with a final 99% IPA rinse.
+   4. Dry: 60–70 °C for 1–2 hours if anything can hold that, **otherwise overnight in still air.**
+      **Board only, never the printed box** — PETG softens near 80 °C.
+   5. **Nothing gets powered until it is completely dry.** If in doubt, give it longer: waiting costs
+      an evening, a wrong first measurement costs the credibility of the whole rebuild.
 3. **Build the node:**
    1. Press in the standoff, if D0 did not already do it.
    2. Air-mount the 100 MΩ **from PAD1 (the output) to the standoff**. Don't shorten its leads or lay

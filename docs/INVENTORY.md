@@ -73,6 +73,7 @@ fitted" line and by Jacob 2026-09-09.
 | **99% isopropyl alcohol** | — | `SAID` 2026-09-14 (late), Jacob: "yes IPA is here" | **IN THE ROOM.** Collected this evening as planned. **This was the last gate on the input-node wash** — with the DI water, foam swabs and brush already here, the full cleaning kit is now present |
 | **Deionised / distilled water** | — | `SAID` 2026-09-14, Jacob: "I also just got the DI" | **In the room.** For the final rinse after the IPA |
 | **Jumper cables** (plugs cut off) | — | `SAID` 2026-09-13 | **Used as the four JP1 leads on the spare board.** Conductor material not checked |
+| **JP1 lead colours on the spare board** | 4 | `BENCH` 2026-09-14 late, Jacob, meter in hand | **hole 1 GND = WHITE · hole 2 +15 V = GREY · hole 3 OUT = ORANGE · hole 4 = EMPTY · hole 5 −15 V = TAN.** Recorded for the first time — previously "conductor material not checked" with no colours at all. **These are the jumper-cable colours and they do NOT match the J1/J2 wiring colours in `docs/WIRING.md`** (Jacob, same message). Use these only for the preamp board's own leads |
 | **Foam swabs** | — | `SAID` 2026-09-14, Jacob | **In the room.** For the input-node wash |
 | **Soft brush** | — | `SAID` 2026-09-14, Jacob | **In the room.** For the input-node wash |
 | **Scalpel and razor blade** | — | `SAID` 2026-09-13 | Used to scrape solder mask off vias |
@@ -85,7 +86,8 @@ fitted" line and by Jacob 2026-09-09.
 | **Manual flux/glue syringe dispenser** + 10 cc syringe + blunt tips | 1 | `ORDER` Amazon, **arriving 2026-09-11** | Load it from the RMA791 jar. **Solves the jar-vs-syringe question** |
 | **M2 self-tapping pan-head screws, 800 pc assortment** | M2x4 to M2x20 | `ORDER` Amazon, **arriving 2026-09-11** | **Use the M2x6.** M2x8 bottoms out in the box pilot — see `docs/FACTS.md` |
 | **Heat shrink tubing, assorted kit** | — | `ORDER` Amazon, **arriving 2026-09-11** | **VERIFY whether it is adhesive-lined (dual-wall).** Either way, **none at the input node** — the adhesive lining outgases |
-| Hakko FX-888DX + tips · solder wick · tip tinner · brass wool · fine tweezers · flush cutters · magnifier · helping hands · calipers · safety glasses · nitrile gloves · multimeter · bench PSU | — | `SAID` | |
+| Hakko FX-888DX + tips · solder wick · tip tinner · brass wool · fine tweezers · flush cutters · magnifier · helping hands · ~~calipers~~ · safety glasses · nitrile gloves · multimeter · bench PSU | — | `SAID` | **CORRECTED 2026-09-14 late: there are NO calipers.** Jacob, at the bench: "I don't have a caliper." This row's `SAID` was wrong. **Every procedure that says "put calipers on it" needs a route that does not use them** — see the standoff (no measurement needed, the fit is settled from Berard's board file) and the board-thickness check before the M2 screws |
+| **60–70 °C oven or dehydrator** | **UNKNOWN — probably none** | never confirmed | Listed in `docs/PREAMP_SHOPPING_LIST.md` under "only if needed" and **never bought or confirmed.** **This is what gates the distilled-water rinse**: without a controlled bake, water under IC1 or the 1812s is a leakage path at the input node. Ask before planning any wash that ends in water |
 
 ---
 
