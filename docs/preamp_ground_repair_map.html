@@ -1,12 +1,14 @@
-<title>Tunnel Amp Probe Map</title>
+<title>Underside Solder Map</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Semi+Condensed:wght@600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
   :root {
-    --ground: #EDF0EE; --surface: #FFFFFF; --ink: #17201D; --ink-soft: #55615C; --rule: #D2D9D5;
+    --ground: #E9ECEA; --surface: #FFFFFF; --ink: #141A18; --ink-soft: #57625E; --rule: #CFD6D2;
     --probe: #C3281F; --probe-ink: #FFFFFF; --com: #111413; --com-ink: #FFFFFF;
-    --beep: #1D7A4B; --warn: #9A5B00; --chip-bg: #E4E9E6; --wire: #E0862A;
+    --beep: #1D7A4B; --warn: #9A5B00; --chip-bg: #DFE5E2; --wire: #E0862A;
+    --hazard-bg: #FBEDE6; --hazard-edge: #E0A48D; --hazard-ink: #8C2A15;
+    --done-bg: #E2E9E5; --done-ink: #46574F;
     --mask: #1D3A32; --mask-edge: #3F6B5E; --trace: #2B5448; --via: #33604F; --pad: #C9CDD1;
     --hole: #0A0D0C; --ic: #25282A; --lead: #A2A9AE; --tant: #6E6759; --term: #BDC2C6;
     --stripe: #E8E1CD; --mlcc: #9C8C74; --res: #1C1C1C; --silk: #DCE5E1;
@@ -17,35 +19,34 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #9AA6A1; --rule: #2A3430;
-      --probe: #FF5A4C; --probe-ink: #1A0907; --com: #0A0C0B; --beep: #53C98F; --warn: #E3A64A;
-      --chip-bg: #1F2724; color-scheme: dark;
+      --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #97A39E; --rule: #2A3430;
+      --probe: #FF5A4C; --probe-ink: #1A0907; --com: #050706; --beep: #53C98F; --warn: #E3A64A;
+      --chip-bg: #1F2724; --hazard-bg: #2C1712; --hazard-edge: #6B3324; --hazard-ink: #FFAC98;
+      --done-bg: #1B2320; --done-ink: #8B9993; color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #9AA6A1; --rule: #2A3430;
-    --probe: #FF5A4C; --probe-ink: #1A0907; --com: #0A0C0B; --beep: #53C98F; --warn: #E3A64A;
-    --chip-bg: #1F2724; color-scheme: dark;
+    --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #97A39E; --rule: #2A3430;
+    --probe: #FF5A4C; --probe-ink: #1A0907; --com: #050706; --beep: #53C98F; --warn: #E3A64A;
+    --chip-bg: #1F2724; --hazard-bg: #2C1712; --hazard-edge: #6B3324; --hazard-ink: #FFAC98;
+    --done-bg: #1B2320; --done-ink: #8B9993; color-scheme: dark;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body);
-    font-size: 16px; line-height: 1.5; padding-inline: 16px; padding-block: 0 48px; }
-  .wrap { max-width: 1200px; margin: 0 auto; }
-  header { padding-block: 22px 12px; display: grid; gap: 6px; }
-  .eyebrow { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .08em;
+    font-size: 16px; line-height: 1.5; padding-inline: 16px; padding-block: 0 56px; }
+  .wrap { max-width: 1220px; margin: 0 auto; }
+  header { padding-block: 22px 14px; display: grid; gap: 8px; }
+  .eyebrow { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .09em;
     text-transform: uppercase; color: var(--ink-soft); margin: 0; }
-  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(1.7rem, 4.5vw, 2.4rem);
-    line-height: 1.05; margin: 0; text-wrap: balance; }
-  .lede { margin: 0; color: var(--ink-soft); max-width: 66ch; }
-  .done { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0;
-    font-family: var(--mono); font-size: 12.5px; }
-  .done b { background: var(--chip-bg); padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(1.8rem, 5vw, 2.6rem);
+    line-height: 1.02; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+  .lede { margin: 0; color: var(--ink-soft); max-width: 64ch; }
 
-  .layout { display: grid; gap: 18px; grid-template-columns: 1fr; align-items: start; }
-  @media (min-width: 920px) { .layout { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 28px; } }
-  .stage { position: sticky; top: 0; z-index: 2; background: var(--ground); padding-block: 8px; display: grid; gap: 8px; }
-  .plate { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 6px; }
-  svg.map { display: block; width: 100%; height: auto; max-height: 52vh; }
+  .layout { display: grid; gap: 20px; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 920px) { .layout { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 30px; } }
+  .stage { position: sticky; top: 0; z-index: 3; background: var(--ground); padding-block: 8px 10px; display: grid; gap: 9px; }
+  .plate { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; padding: 6px; }
+  svg.map { display: block; width: 100%; height: auto; max-height: 46vh; }
   @media (min-width: 920px) { svg.map { max-height: none; } }
   .viewbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: space-between; }
   .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; background: var(--surface); }
@@ -54,15 +55,15 @@
   .seg button[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
   .tool { font-family: var(--mono); font-size: 12.5px; border: 1px solid var(--rule); background: var(--surface);
     color: var(--ink); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
-  button:focus-visible { outline: 2px solid var(--probe); outline-offset: 2px; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--probe); outline-offset: 2px; }
   .viewnote { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
   .viewnote strong { color: var(--ink); }
 
+  /* board artwork, generated from the gerbers and drill file */
   .b-mask { fill: var(--mask); stroke: var(--mask-edge); stroke-width: .12; }
   .b-trace { stroke: var(--trace); stroke-linecap: round; fill: none; }
   .b-trace-b { stroke: #325E51; stroke-linecap: round; fill: none; }
-  .b-via { fill: var(--via); }
-  .b-via-b { fill: #3A6A5B; }
+  .b-via { fill: var(--via); } .b-via-b { fill: #3A6A5B; }
   .b-pad { fill: var(--pad); } .b-hole { fill: var(--hole); }
   .b-npth { fill: var(--hole); stroke: var(--mask-edge); stroke-width: .1; }
   .b-ic { fill: var(--ic); } .b-lead { fill: var(--lead); } .b-dot { fill: #8E969B; }
@@ -70,14 +71,14 @@
   .b-mlcc { fill: var(--mlcc); } .b-res { fill: var(--res); }
   .b-silk { fill: none; stroke: #E9EFEC; stroke-width: .11; stroke-linecap: round; stroke-linejoin: round; }
   .w-halo { fill: none; stroke: #FFFFFF; stroke-width: 6px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
-  .w3 { fill: none; stroke: #F08A24; stroke-width: 3.2px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
-  .w4 { fill: none; stroke: #2F9BE8; stroke-width: 3.2px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  .w3 { fill: none; stroke: #F08A24; stroke-width: 3.4px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  .w4 { fill: none; stroke: #2F9BE8; stroke-width: 3.4px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
   .w3-end { fill: #F08A24; stroke: #FFFFFF; stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
   .w4-end { fill: #2F9BE8; stroke: #FFFFFF; stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
-  .t-wire3 { font-family: var(--mono); font-weight: 700; font-size: .5px; fill: #F8B26A; }
-  .key { display: inline-block; width: 18px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
   .w-done { stroke: #9FB3AB; stroke-width: 2px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
   .m-keep { fill: none; stroke: #F2B233; stroke-width: 2.5px; vector-effect: non-scaling-stroke; }
+  .m-leave circle { fill: none; stroke: #C6D3CE; stroke-width: 2.5px; stroke-dasharray: 3 2.5;
+    vector-effect: non-scaling-stroke; }
   .w-route { fill: none; stroke: var(--wire); stroke-width: 2.4px; stroke-dasharray: 5 3; vector-effect: non-scaling-stroke; stroke-linecap: round; }
   .t-part, .t-part-lt, .t-small, .t-pin, .t-holenum { font-family: var(--mono); font-weight: 700; }
   .t-part { font-size: .62px; fill: var(--silk); } .t-part-lt { font-size: .8px; fill: #F3F6F4; }
@@ -85,7 +86,7 @@
   .t-holenum { font-size: .82px; fill: #1B2320; }
   .t-fn { font-family: var(--mono); font-size: .9px; font-weight: 700; fill: var(--ink); }
   .t-fn-sub { font-family: var(--mono); font-size: .66px; font-weight: 500; fill: var(--ink-soft); }
-
+  .t-wire3 { font-family: var(--mono); font-weight: 700; font-size: .5px; fill: #F8B26A; }
   .m-halo { fill: none; stroke: #FFFFFF; stroke-width: 5px; vector-effect: non-scaling-stroke; opacity: .9; }
   .m-ring { fill: none; stroke: var(--probe); stroke-width: 2.5px; vector-effect: non-scaling-stroke; }
   .m-dot { fill: var(--probe); }
@@ -100,55 +101,84 @@
   .m-leader-com { stroke: #6B7571; stroke-width: 2px; vector-effect: non-scaling-stroke; }
   .m-badge-com { fill: var(--com); stroke: #FFFFFF; stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
   .m-badge-com-t { font-family: var(--mono); font-weight: 700; font-size: .46px; fill: var(--com-ink); }
-  .hot .m-ring { stroke-width: 4px; }
 
-  .panel { display: grid; gap: 12px; }
-  .panel h2 { font-family: var(--display); font-weight: 600; font-size: 1.2rem; margin: 6px 0 0; }
-  .note { margin: 0; padding: 10px 14px; border-radius: 6px; background: var(--chip-bg); font-size: 15px; }
-  ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: step; }
-  .step { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px;
-    display: grid; grid-template-columns: 30px minmax(0, 1fr); column-gap: 12px; row-gap: 6px; }
-  .step::before { counter-increment: step; content: counter(step); grid-row: span 4;
+  .panel { display: grid; gap: 14px; }
+  h2 { font-family: var(--display); font-weight: 600; font-size: 1.32rem; margin: 10px 0 0; letter-spacing: .005em; }
+  .said { border: 1px solid var(--rule); border-left: 3px solid var(--probe); border-radius: 0 6px 6px 0;
+    background: var(--surface); padding: 12px 14px; display: grid; gap: 7px; }
+  .said p { margin: 0; font-size: 14.5px; }
+  .said .hd { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--ink-soft); }
+
+  .legend { display: grid; gap: 0; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); overflow: hidden; }
+  .lrow { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; align-items: baseline;
+    padding: 10px 13px; border-top: 1px solid var(--rule); }
+  .lrow:first-child { border-top: 0; }
+  .lrow b { font-family: var(--display); font-size: 1.05rem; font-weight: 700; }
+  .lrow .what { font-size: 14.5px; }
+  .lrow .what small { display: block; color: var(--ink-soft); font-size: 12.5px; }
+  .tag { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: 3px 7px; border-radius: 3px; white-space: nowrap; align-self: center; }
+  .tag.done { background: var(--done-bg); color: var(--done-ink); }
+  .tag.todo { background: var(--probe); color: var(--probe-ink); }
+  .tag.leave { background: var(--chip-bg); color: var(--ink-soft); }
+
+  ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; counter-reset: step; }
+  .step { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 13px 15px;
+    display: grid; grid-template-columns: 30px minmax(0, 1fr); column-gap: 12px; row-gap: 7px; }
+  .step::before { counter-increment: step; content: counter(step); grid-column: 1; grid-row: 1 / span 12;
     width: 30px; height: 30px; border-radius: 50%; background: var(--chip-bg); color: var(--ink);
-    font-family: var(--display); font-weight: 700; font-size: 1.05rem; display: grid; place-items: center; }
+    font-family: var(--display); font-weight: 700; font-size: 1.05rem; display: grid; place-items: center; align-self: start; }
   .step > * { grid-column: 2; }
-  .step::before { grid-column: 1; grid-row: 1 / span 12; align-self: start; }
-  .step h3 { margin: 0; font-size: 1rem; line-height: 1.3; }
-  .step p { margin: 0; max-width: 62ch; }
-  .step .sub { font-size: 14px; color: var(--ink-soft); }
-  .step .must { font-family: var(--mono); font-size: 12.5px; font-weight: 700; }
-  .must.beep { color: var(--beep); } .must.warn { color: var(--warn); }
+  .step h3 { margin: 0; font-size: 1.02rem; line-height: 1.28; }
+  .step p { margin: 0; max-width: 60ch; font-size: 15px; }
+  .step .sub { font-size: 13.5px; color: var(--ink-soft); }
+  .step.hazard { background: var(--hazard-bg); border-color: var(--hazard-edge); }
+  .step.hazard::before { background: var(--hazard-ink); color: var(--hazard-bg); }
+  .step.hazard .stop { color: var(--hazard-ink); font-weight: 700; }
+  .wirekey { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono);
+    font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); }
+  .wirekey i { width: 18px; height: 4px; border-radius: 2px; display: inline-block; }
   .show { justify-self: start; font-family: var(--mono); font-size: 12px; background: none; border: 0; color: var(--probe);
     padding: 2px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
-  .checks { display: grid; gap: 6px; }
-  .check { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center;
-    padding-block: 6px; border-top: 1px solid var(--rule); }
+  .checks { display: grid; gap: 0; }
+  .check { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center;
+    padding-block: 8px; border-top: 1px solid var(--rule); }
   .check:first-child { border-top: 0; }
   .check .lbl { font-size: 14.5px; }
   .check .lbl small { display: block; color: var(--ink-soft); font-size: 12.5px; }
+  .check .lbl .req { font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: .05em; }
+  .req.beep { color: var(--beep); } .req.silent { color: var(--ink-soft); } .req.warn { color: var(--warn); }
   .res { display: inline-flex; gap: 4px; }
   .res button { font-family: var(--body); font-weight: 700; font-size: 13px; border: 1px solid var(--rule);
-    background: var(--surface); color: var(--ink); border-radius: 5px; padding: 5px 10px; cursor: pointer; }
+    background: var(--surface); color: var(--ink); border-radius: 5px; padding: 6px 11px; cursor: pointer; }
   .res button[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
-  .report { background: var(--ink); color: var(--ground); border-radius: 6px; padding: 12px 14px; display: grid; gap: 4px; }
-  .report span { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
-  .report output { font-family: var(--mono); font-size: .98rem; font-weight: 700; word-break: break-word; }
-  footer { margin-top: 26px; font-size: 13px; color: var(--ink-soft); max-width: 74ch; }
-  footer p { margin: 0 0 6px; } code { font-family: var(--mono); font-size: .92em; }
+  .res button[aria-pressed="true"].bad { background: var(--probe); border-color: var(--probe); color: var(--probe-ink); }
+  .report { background: var(--ink); color: var(--ground); border-radius: 6px; padding: 13px 15px; display: grid; gap: 5px; }
+  .report .hd { font-family: var(--mono); font-size: 11px; letter-spacing: .09em; text-transform: uppercase; opacity: .72; }
+  .report output { font-family: var(--mono); font-size: .95rem; font-weight: 700; word-break: break-word; line-height: 1.55; }
+  .report .saved { font-family: var(--mono); font-size: 11px; opacity: .6; }
+  .stop-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+  .stop-list li { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 11px 14px; font-size: 14.5px; }
+  .stop-list b { display: block; font-family: var(--display); font-size: 1.02rem; font-weight: 700; margin-bottom: 2px; }
+  .stop-list small { display: block; color: var(--ink-soft); font-size: 13px; margin-top: 3px; }
+  footer { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--rule);
+    font-size: 13px; color: var(--ink-soft); max-width: 74ch; }
+  footer p { margin: 0 0 7px; }
+  code { font-family: var(--mono); font-size: .92em; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
-
 <div class="wrap">
   <header>
-    <p class="eyebrow">Preamp spare board &middot; ground repair &middot; power off</p>
-    <h1>Tunnel Amp Probe Map</h1>
-    <p class="lede">Your readings confirmed the chip&rsquo;s reference pin is connected to nothing. Four fine wires fix it, all on the underside. Iron at 350&nbsp;&deg;C, 1&ndash;2 seconds per joint.</p>
-    <p class="done">Readings taken: <b>A beep</b><b>B silent</b><b>C silent</b></p>
+    <p class="eyebrow">Spare preamp board &middot; underside &middot; nothing powered</p>
+    <h1>Underside Solder Map</h1>
+    <p class="lede">Two fine wires left, both on the back of the board. Dot&nbsp;3 is open ground with nothing near it. Dot&nbsp;4 sits <strong>0.076&nbsp;mm</strong> from the +15&nbsp;V pad, so it gets a meter check before the iron goes anywhere near it.</p>
   </header>
 
   <div class="layout">
     <section class="stage" aria-label="Board drawing">
       <div class="plate">
-        <svg class="map" id="map-top" viewBox="-3.5 0 33 22" role="img" aria-label="Top of the board, to scale, with spots 1 to 4, the input pin, and the two top-side wire routes">
+<svg class="map" id="map-top" viewBox="-3.5 0 33 22" hidden role="img" aria-label="Top of the board, chip side, to scale: the chip IC1 with its eight pins, C1 to C4, R1, PAD1, and the five holes on the right labelled GND, +15 V, OUT, GND and minus 15 V">
 <rect class="b-mask" x="0" y="3.37" width="20.625" height="15.23"/>
 <line class="b-trace" x1="13.4375" y1="10.98" x2="11.1887" y2="10.98" stroke-width="0.6096"/>
 <line class="b-trace" x1="13.6525" y1="11.195" x2="13.6525" y2="12.885" stroke-width="0.6096"/>
@@ -313,7 +343,7 @@
 <circle class="m-badge" cx="1" cy="4.4" r="0.95"/>
 <text class="m-badge-t" x="1" y="4.4" text-anchor="middle" dominant-baseline="central">IN</text></g>
         </svg>
-        <svg class="map" id="map-bottom" viewBox="-3.5 0 33 22" role="img" aria-label="Underside of the board, mirror image, to scale, with the two dots to scrape and the two wire routes to hole 1" hidden>
+<svg class="map" id="map-bottom" viewBox="-3.5 0 33 22" role="img" aria-label="Underside of the board, mirror image and to scale: five holes on the left, the four scraped dots numbered 1 to 4, wires 1 and 2 already run to hole 1 in grey dashes, wire 3 in orange from dot 3 to dot 2, wire 4 in blue from dot 4 to hole 1">
 <rect class="b-mask" x="0" y="3.37" width="20.625" height="15.23"/>
 <line class="b-trace-b" x1="4.4325" y1="9.075" x2="3.7975" y2="9.075" stroke-width="0.6096"/>
 <line class="b-trace-b" x1="7.6075" y1="5.5825" x2="7.6075" y2="6.535" stroke-width="0.6096"/>
@@ -392,164 +422,192 @@
 <circle class="m-dot" cx="4.4325" cy="9.075" r="0.1"/>
 <circle class="m-badge" cx="7.3" cy="9.7" r="0.95"/>
 <text class="m-badge-t" x="7.3" y="9.7" text-anchor="middle" dominant-baseline="central">4</text></g>
-        </svg>
+        <g class="m-leave"><circle cx="7.6075" cy="5.5825" r="0.72"/><circle cx="9.5125" cy="7.4875" r="0.72"/></g>
+</svg>
       </div>
       <div class="viewbar">
-        <div class="seg" role="group" aria-label="Which side">
-          <button type="button" id="v-top" aria-pressed="true">Top (chip side)</button>
-          <button type="button" id="v-bottom" aria-pressed="false">Underside</button>
+        <div class="seg" role="group" aria-label="Which side of the board">
+          <button type="button" id="v-bottom" aria-pressed="true">Underside</button>
+          <button type="button" id="v-top" aria-pressed="false">Top (chip side)</button>
         </div>
         <button class="tool" type="button" id="z-all">Whole board</button>
       </div>
-      <p class="viewnote" id="note-top"><strong>Top:</strong> five holes on your right, chip dot top-left. Used only for the beep checks.</p>
-      <p class="viewnote" id="note-bottom" hidden><strong>Underside:</strong> flip the board like turning a page. Five holes now on your <strong>left</strong>, hole&nbsp;1 still at the top, with &ldquo;GND +15V OUT GND -15V&rdquo; printed beside them. Grey dashes = wires 1 and 2 (done). Orange = wire 3, blue = wire 4. Amber ring = the copper tail beside hole 2 that must stay covered. Leave the two unmarked faded dots alone.</p>
+      <p class="viewnote" id="note-bottom"><strong>Underside.</strong> Flip the board like turning a page. Five holes now on your <strong>left</strong>, hole&nbsp;1 still at the top, &ldquo;GND +15V OUT GND -15V&rdquo; printed beside them and &ldquo;Dan Berard 2014&rdquo; along the bottom. Big unplated standoff hole on the right.</p>
+      <p class="viewnote" id="note-top" hidden><strong>Top, chip side.</strong> Five holes on your right, the chip&rsquo;s corner dot top-left. This side is only for the beep checks &mdash; no soldering here.</p>
     </section>
 
     <section class="panel">
-      <p class="note">Before starting: the four leads are soldered into holes 1, 2, 3 and 5 (hole 4 empty). The thick ground lead heats hole&nbsp;1 a lot, so it goes in before the fine wires land there.</p>
 
-      <h2>Repair</h2>
+      <div class="said">
+        <p class="hd">What I think is already on the board</p>
+        <p><strong>From you, today:</strong> the ground wires done so far are soldered, and all four dots are scraped. <strong>From the repo, 2026-09-13, Nuh at the bench:</strong> dots&nbsp;1 and&nbsp;2 wired to hole&nbsp;1, dots&nbsp;3 and&nbsp;4 not wired; C2 rotated and refitted with the original part; jumper leads in holes 1, 2, 3 and 5, hole&nbsp;4 empty on purpose; never powered.</p>
+        <p><strong>So this page assumes wires 3 and 4 are the two that are left.</strong> If more than that is already on, or if dot&nbsp;4 was scraped right across rather than just its right-hand half, say so before you solder &mdash; step&nbsp;1 changes.</p>
+      </div>
+
+      <h2>The four dots, and the two to leave alone</h2>
+      <div class="legend">
+        <div class="lrow"><b>1</b><span class="what">IC1 pin&nbsp;3 &mdash; the chip&rsquo;s 0&nbsp;V reference<small>The whole point of the repair. Wired to hole&nbsp;1</small></span><span class="tag done">wired 09-13</span></div>
+        <div class="lrow"><b>2</b><span class="what">C4&rsquo;s ground end<small>Wired to hole&nbsp;1. Wire&nbsp;3 lands on this joint</small></span><span class="tag done">wired 09-13</span></div>
+        <div class="lrow"><b>3</b><span class="what">C2&rsquo;s ground end<small>Bottom edge, level with hole&nbsp;5. Nothing else near it</small></span><span class="tag todo">wire 3</span></div>
+        <div class="lrow"><b>4</b><span class="what">C3&rsquo;s ground end<small>Beside hole&nbsp;2&rsquo;s pad, which is +15&nbsp;V. Amber ring marks the copper tail that must stay covered</small></span><span class="tag todo">wire 4</span></div>
+        <div class="lrow"><b></b><span class="what">Two plain grey rings &mdash; solder to neither<small><strong>C1&rsquo;s ground end</strong> is the one point the factory copper did join to hole&nbsp;1. It is your control: it beeps. <strong>IC1 pin&nbsp;8</strong> is floating like the rest, but pin&nbsp;8 is a no-connect on an OPA627. It only needs a wire if the chip turns out to be an OPA124, and nobody has read the marking yet</small></span><span class="tag leave">leave</span></div>
+      </div>
+
+      <h2>Do these in order</h2>
       <ol class="steps">
-        <li class="step">
-          <h3>Flip to the underside. Scrape dot 1.</h3>
-          <p>Scalpel tip, light strokes, until a shiny copper ring about 1&nbsp;mm across shows. Only the green coating comes off, so don&rsquo;t dig.</p>
-          <button class="show" type="button" data-view="bottom" data-zoom="1">Show dot 1</button>
-        </li>
-        <li class="step">
-          <h3>Two checks on dot 1, before any wire</h3>
-          <p><strong>a.</strong> One probe on dot 1 (underside), the other on <strong>spot 1 on top</strong>, the chip&rsquo;s left side, third leg down. <span class="must beep">MUST BEEP</span>: proves it&rsquo;s pin 3&rsquo;s dot.</p>
-          <p><strong>b.</strong> One probe on dot 1, the other on <strong>hole 1</strong>. <span class="must warn">MUST BE SILENT</span>: proves pin 3 really is disconnected, with no tiny chip leg to miss.</p>
-          <p class="sub">If a is silent or b beeps, stop and tell Claude before doing anything else.</p>
+        <li class="step hazard">
+          <h3>Before the iron: is dot&nbsp;4 already touching +15&nbsp;V?</h3>
+          <p>Meter on beep, <strong>on the top side</strong>. Red probe on <strong>C3&rsquo;s right-hand pad</strong> &mdash; C3 is the tiny part right of the chip&rsquo;s upper legs, above R1; its right-hand pad is the one nearer the holes. Black probe in <strong>hole&nbsp;2</strong>.</p>
+          <p class="sub">C3&rsquo;s ground via has a short copper tail pointing straight at hole&nbsp;2&rsquo;s pad. The gerbers put the gap at 0.076&nbsp;mm with nothing but solder mask between. If they are already bridged, running wire&nbsp;4 to hole&nbsp;1 ties +15&nbsp;V to ground.</p>
+          <p class="stop">If it beeps: stop, leave dot&nbsp;4 alone, and tell me. Wire&nbsp;3 can still go on.</p>
           <div class="checks">
-            <div class="check"><div class="lbl">a. Dot 1 to pin 3</div><div class="res" data-key="d1p"><button type="button" id="d1p-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="d1p-s" data-val="silent" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">b. Dot 1 to hole 1</div><div class="res" data-key="d1h"><button type="button" id="d1h-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="d1h-s" data-val="silent" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">C3&rsquo;s right pad to hole&nbsp;2 <span class="req warn">must be SILENT</span></div><div class="res" data-key="c3h2"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">Dot&nbsp;4 to hole&nbsp;2 <span class="req warn">must be SILENT</span><small>Only if you scraped past the right-hand half and the tail is bare</small></div><div class="res" data-key="d4h2"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
           </div>
-          <button class="show" type="button" data-view="top" data-zoom="1">Show spot 1 on top</button>
+          <button class="show" type="button" data-view="top" data-zoom="c3">Show C3 and hole 2 on top</button>
         </li>
+
         <li class="step">
-          <h3>Scrape dot 2, and check it</h3>
-          <p>Same way. <strong>a.</strong> Dot 2 to <strong>spot 2 on top</strong> (right-hand pad of the tiny part C4): <span class="must beep">MUST BEEP</span>. <strong>b.</strong> Dot 2 to <strong>hole 1</strong>: <span class="must warn">MUST BE SILENT</span>.</p>
+          <h3>Check dot&nbsp;3, then run wire&nbsp;3 <span class="wirekey"><i style="background:#F08A24"></i>orange</span></h3>
+          <p><strong>Dot&nbsp;3 to dot&nbsp;2&rsquo;s joint</strong>, about 5&nbsp;mm. Dot&nbsp;2 is already ground through wire&nbsp;2, so landing there is the same as landing on hole&nbsp;1 and it is a far easier target.</p>
           <div class="checks">
-            <div class="check"><div class="lbl">a. Dot 2 to C4 pad</div><div class="res" data-key="d2p"><button type="button" id="d2p-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="d2p-s" data-val="silent" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">b. Dot 2 to hole 1</div><div class="res" data-key="d2h"><button type="button" id="d2h-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="d2h-s" data-val="silent" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">Dot&nbsp;3 to C2&rsquo;s striped end on top <span class="req beep">must BEEP</span><small>The striped end is the one nearest the holes, after the rotation</small></div><div class="res" data-key="d3c"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">Dot&nbsp;3 to hole&nbsp;1 <span class="req silent">must be SILENT</span><small>Until the wire is on. A beep here means it is already grounded somehow</small></div><div class="res" data-key="d3h"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
           </div>
-          <button class="show" type="button" data-view="bottom" data-zoom="2">Show dot 2</button>
+          <p class="sub">Tin both wire ends through a blob of solder with flux &mdash; if the solder balls up, enamel is still on, scrape it lightly and try again. Tin the dot. One second per joint, iron at 350&nbsp;&deg;C. Do not tug-test 40&nbsp;AWG; look at it under the magnifier instead.</p>
+          <button class="show" type="button" data-view="bottom" data-zoom="3">Zoom to dot 3</button>
         </li>
+
         <li class="step">
-          <h3>Wires 1 and 2: done</h3>
-          <p>Dots 1 and 2 are each wired to hole 1&rsquo;s joint.</p>
-        </li>
-        <li class="step">
-          <h3>Undo any top-side attempt</h3>
-          <p>If wire 3 or 4 is partly soldered on top, remove it. Check under the magnifier that no loose wire or solder is left near R1 or hole 2.</p>
-        </li>
-        <li class="step">
-          <h3>Dot 3 (C2&rsquo;s): scrape and check</h3>
-          <p>Underside, near the bottom edge, roughly level with hole 5. Nothing else is close to it. Scrape it like dots 1 and 2.</p>
-          <p><strong>a.</strong> Dot 3 to the <strong>right-hand end of C2</strong> on top: <span class="must beep">MUST BEEP</span>. <strong>b.</strong> Dot 3 to <strong>hole 1</strong>: <span class="must warn">MUST BE SILENT</span>.</p>
-          <div class="checks"><div class="check"><div class="lbl">a. Dot 3 to C2 end</div><div class="res" data-key="d3c"><button type="button" id="d3c-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="d3c-s" data-val="silent" aria-pressed="false">Silent</button></div></div><div class="check"><div class="lbl">b. Dot 3 to hole 1</div><div class="res" data-key="d3h"><button type="button" id="d3h-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="d3h-s" data-val="silent" aria-pressed="false">Silent</button></div></div></div>
-          <button class="show" type="button" data-view="bottom" data-zoom="3">Show dot 3</button>
-        </li>
-        <li class="step">
-          <h3>Dot 4 (C3&rsquo;s): check first, then scrape half</h3>
-          <p><strong>Before scraping:</strong> on top, <strong>C3&rsquo;s right-hand pad to hole 2</strong>: <span class="must warn">MUST BE SILENT</span>. If it beeps, stop: C3 is already touching +15&nbsp;V and must not be grounded.</p>
-          <p>This dot&rsquo;s tiny copper tail points left at hole 2&rsquo;s pad and ends <strong>less than a tenth of a millimetre</strong> from it (amber ring). <strong>Scrape only the right-hand half of the dot</strong>, the side away from the holes (red half-ring). Leave the tail covered.</p>
-          <p>After scraping: <strong>a.</strong> dot 4 to C3&rsquo;s right-hand pad: <span class="must beep">MUST BEEP</span>. <strong>b.</strong> dot 4 to hole 1: <span class="must warn">MUST BE SILENT</span>. <strong>c.</strong> dot 4 to hole 2: <span class="must warn">MUST BE SILENT</span>.</p>
-          <div class="checks"><div class="check"><div class="lbl">Before: C3 pad to hole 2</div><div class="res" data-key="c3h2"><button type="button" id="c3h2-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="c3h2-s" data-val="silent" aria-pressed="false">Silent</button></div></div><div class="check"><div class="lbl">a. Dot 4 to C3 pad</div><div class="res" data-key="d4c"><button type="button" id="d4c-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="d4c-s" data-val="silent" aria-pressed="false">Silent</button></div></div><div class="check"><div class="lbl">b. Dot 4 to hole 1</div><div class="res" data-key="d4h"><button type="button" id="d4h-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="d4h-s" data-val="silent" aria-pressed="false">Silent</button></div></div><div class="check"><div class="lbl">c. Dot 4 to hole 2</div><div class="res" data-key="d4h2"><button type="button" id="d4h2-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="d4h2-s" data-val="silent" aria-pressed="false">Silent</button></div></div></div>
-          <button class="show" type="button" data-view="bottom" data-zoom="4">Show dot 4</button>
-        </li>
-        <li class="step">
-          <h3>Wires 3 and 4 (underside)</h3>
-          <p><strong>Wire 3 (orange):</strong> dot 3 to <strong>dot 2&rsquo;s joint</strong>, about 5&nbsp;mm. Dot 2 is already ground through wire 2.</p>
-          <p><strong>Wire 4 (blue):</strong> from the right-hand side of dot 4, straight up about 2&nbsp;mm, then over to <strong>hole 1&rsquo;s joint</strong>. Keep its solder on dot 4&rsquo;s right-hand half, and the wire clear of hole 2&rsquo;s pad.</p>
-          <p class="sub">Tin each wire end and each dot first, then 1 second per joint. Re-touching dot 2 and hole 1 can loosen wires 1 and 2, so the final checks test all four.</p>
-          <button class="show" type="button" data-view="bottom" data-zoom="all">Show wires 3 and 4</button>
-        </li>
-        <li class="step">
-          <h3>Check the repair</h3>
-          <p>Top side, meter on beep, <strong>black probe on hole 1</strong>. Tap each result.</p>
+          <h3>Check dot&nbsp;4, then run wire&nbsp;4 <span class="wirekey"><i style="background:#2F9BE8"></i>blue</span></h3>
+          <p>Start on the <strong>right-hand side of dot&nbsp;4</strong>, away from the holes. Up about 2&nbsp;mm, then across to <strong>hole&nbsp;1&rsquo;s joint</strong>. Keep the solder off the tail and the wire clear of hole&nbsp;2&rsquo;s pad.</p>
           <div class="checks">
-            <div class="check"><div class="lbl">Spot 1: chip pin 3 <small>should beep now</small></div><div class="res" data-key="s1"><button type="button" id="s1-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="s1-s" data-val="silent" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">Spot 2: C4 right-hand pad <small>should beep</small></div><div class="res" data-key="s2"><button type="button" id="s2-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="s2-s" data-val="silent" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">Spot 3: C2 right-hand end <small>should beep</small></div><div class="res" data-key="s3"><button type="button" id="s3-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="s3-s" data-val="silent" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">Spot 4: C3 right-hand pad <small>should beep</small></div><div class="res" data-key="s4"><button type="button" id="s4-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="s4-s" data-val="silent" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl"><strong>IN: chip pin 2</strong> (left side, second leg) <small>MUST stay silent. A beep means the input is shorted to ground</small></div><div class="res" data-key="in"><button type="button" id="in-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="in-s" data-val="silent" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">Hole 2 <small>short chirp only, never a continuous beep</small></div><div class="res" data-key="h2"><button type="button" id="h2-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="h2-s" data-val="chirp" aria-pressed="false">Chirp</button></div></div>
-            <div class="check"><div class="lbl">Hole 5 <small>short chirp only, never a continuous beep</small></div><div class="res" data-key="h5"><button type="button" id="h5-b" data-val="beep" aria-pressed="false">Beep</button><button type="button" id="h5-s" data-val="chirp" aria-pressed="false">Chirp</button></div></div>
+            <div class="check"><div class="lbl">Dot&nbsp;4 to C3&rsquo;s right pad <span class="req beep">must BEEP</span></div><div class="res" data-key="d4c"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">Dot&nbsp;4 to hole&nbsp;1 <span class="req silent">must be SILENT</span><small>Until the wire is on</small></div><div class="res" data-key="d4h"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
           </div>
-          <button class="show" type="button" data-view="top" data-zoom="IN">Show pin 2</button>
+          <p class="sub">If dot&nbsp;4 will not go safely, skip it and say so. C3 is the lowest-value of the four &mdash; C1 still filters +15&nbsp;V at the preamp. That the amplifier is stable without C3 is my judgement, not something we have verified.</p>
+          <button class="show" type="button" data-view="bottom" data-zoom="4">Zoom to dot 4</button>
+        </li>
+
+        <li class="step">
+          <h3>Verify the whole repair</h3>
+          <p>Top side, meter on beep, <strong>black probe in hole&nbsp;1</strong> and leave it there. Red probe on each in turn.</p>
+          <div class="checks">
+            <div class="check"><div class="lbl">IC1 pin&nbsp;3 <span class="req beep">BEEP</span><small>Left side, third leg down. This is the repair working</small></div><div class="res" data-key="s1"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">C4&rsquo;s right-hand pad <span class="req beep">BEEP</span></div><div class="res" data-key="s2"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">C2&rsquo;s striped end <span class="req beep">BEEP</span></div><div class="res" data-key="s3"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">C3&rsquo;s right-hand pad <span class="req beep">BEEP</span><small>Skip if you skipped dot&nbsp;4</small></div><div class="res" data-key="s4"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button><button type="button" data-val="skipped" aria-pressed="false">Skipped</button></div></div>
+            <div class="check"><div class="lbl"><strong>IC1 pin&nbsp;2</strong> <span class="req warn">MUST be SILENT</span><small>Left side, second leg down. A beep means the amplifier&rsquo;s input is shorted to ground. Fix that before anything else</small></div><div class="res" data-key="in"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
+            <div class="check"><div class="lbl">Hole&nbsp;2, +15&nbsp;V <span class="req warn">a short CHIRP only</span><small>The chirp is C1 and C3 charging. A continuous beep means +15&nbsp;V is shorted to ground</small></div><div class="res" data-key="h2"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="chirp" aria-pressed="false">Chirp</button></div></div>
+            <div class="check"><div class="lbl">Hole&nbsp;5, &minus;15&nbsp;V <span class="req warn">a short CHIRP only</span></div><div class="res" data-key="h5"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="chirp" aria-pressed="false">Chirp</button></div></div>
+            <div class="check"><div class="lbl">Hole&nbsp;3, OUT <span class="req silent">SILENT</span></div><div class="res" data-key="h3"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
+          </div>
+          <p class="sub">Optional, and a good confirmation: meter on capacitance, hole&nbsp;1 to hole&nbsp;5, should read roughly 4.7&ndash;5&nbsp;&micro;F now that C2 and C4 are both connected. Before the repair it read 4.65&nbsp;&micro;F for C2 alone.</p>
+          <button class="show" type="button" data-view="top" data-zoom="ic">Show the chip pins</button>
         </li>
       </ol>
 
-      <div class="report" aria-live="polite">
-        <span>Send this back</span>
-        <output id="report">(tap results to fill this in)</output>
+      <div class="report">
+        <span class="hd">Readings so far &mdash; saved, I can read this back</span>
+        <output id="report">Nothing recorded yet. Tap a result as you take it.</output>
+        <span class="saved" id="saved-note"></span>
       </div>
-      <p class="note">Send the line above after the dot 4 checks, and again at the end. Don&rsquo;t power the board until Claude has seen the final results.</p>
+
+      <h2>Then stop. Three things not to do today</h2>
+      <ul class="stop-list">
+        <li><b>Do not power it, not even briefly</b>
+        When the checks pass, the next powered step is a <strong>bench supply on both channels with a 20&nbsp;mA limit</strong>, set and metered before anything is connected &mdash; not the controller.
+        <small>And when it is powered: PAD1 will sit near a supply rail. That is correct, not a fault. The 100&nbsp;M&Omega; feedback resistor is not fitted, so the amplifier has no feedback path yet.</small></li>
+
+        <li><b>Do not press the standoff in</b>
+        Two separate reasons, either one enough. <strong>The board has to be washed first</strong> &mdash; IPA scrub, clean IPA rinse, distilled water rinse, then dried &mdash; because you cannot clean underneath a fitted standoff, and that spot is the input node. <strong>And we have never measured the part.</strong>
+        <small>Put calipers on the standoff&rsquo;s shank and on the board hole and send me both numbers. Our own notes mark the 11301&rsquo;s mounting-hole figure disputed: 0.086&Prime; is listed both as its hole and as its turret head, and both cannot be right. The board hole is 2.108&nbsp;mm. Press an oversize shank into it and the fracture goes through the most sensitive point on the instrument.</small></li>
+
+        <li><b>Do not connect this board to the controller</b>
+        C2 is the original part, reused after a two-iron removal that almost certainly went past the 3&nbsp;second limit. It gets replaced with a fresh 4.7&nbsp;&micro;F part, and PAD1 has to read under 0.1&nbsp;V at 45&nbsp;minutes on the bench supply, before the two ever meet.</li>
+      </ul>
+
+      <footer>
+        <p><strong>Where this drawing comes from.</strong> Both views are plotted to scale straight from <code>tunnelAmp-B_Cu.gbr</code>, the top copper, silkscreen and the drill file &mdash; not drawn by hand. Via coordinates are in <code>sessions/2026-09-13.md</code> &sect;3.6.</p>
+        <p><strong>What is actually wrong with these boards.</strong> Berard&rsquo;s Eagle design has a ground copper pour across the whole underside. The KiCad gerbers JLCPCB built ours from have no filled regions at all, so six ground points each end at a dead via. Nobody here caused it. Nuh found it on 2026-09-13 by reporting a silence he did not expect instead of assuming a bad joint.</p>
+      </footer>
     </section>
   </div>
-
-  <footer>
-    <p>Drawn to scale from the files JLCPCB built the board from: <code>tunnelAmp-F_Cu.gbr</code> and <code>tunnelAmp-B_Cu.gbr</code> (copper), <code>tunnelAmp-B_Silkscreen.gbr</code> (white underside printing) and <code>tunnelAmp.drl</code> (holes). Pads, holes, tracks, dots and underside printing are exact. Chip and capacitor bodies are standard package sizes, not measured. Colours aren&rsquo;t your board&rsquo;s.</p>
-    <p>Wire routes are suggestions: any path works if the wire lies flat and only its two ends are bare.</p>
-  </footer>
 </div>
-
 <script>
 (function () {
-  var FULL = [-3.5, 0, 33, 22], W = 9.6, H = 6.4;
-  var PTS = {"top": {"1": [5.2125, 10.98], "2": [7.7675, 13.8375], "3": [15.8525, 16.3775], "4": [15.3875, 9.075], "IN": [5.2125, 9.71], "COM": [18.7325, 5.9]}, "bottom": {"1": [12.6875, 10.98], "2": [12.0525, 13.8375], "3": [7.6075, 16.3775], "4": [4.4325, 9.075], "H1": [1.8925, 5.9]}};
+  var VB = {
+    top: {
+      all: [-3.5, 0, 33, 22],
+      ic:  [2.5, 6.5, 12, 8],
+      c3:  [11.5, 5.5, 10.5, 7]
+    },
+    bottom: {
+      all: [-3.5, 0, 33, 22],
+      "3": [3.1, 12.9, 9, 6],
+      "4": [-0.6, 4.6, 9, 6]
+    }
+  };
   var svgs = { top: document.getElementById("map-top"), bottom: document.getElementById("map-bottom") };
-  var RIGHT = [8.4, 4.9, 18.9, 12.6];
-  var view = "top", cur = { top: FULL.slice(), bottom: FULL.slice() }, anim = null;
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var notes = { top: document.getElementById("note-top"), bottom: document.getElementById("note-bottom") };
+  var btns = { top: document.getElementById("v-top"), bottom: document.getElementById("v-bottom") };
+  var view = "bottom";
+  var cur = { top: VB.top.all.slice(), bottom: VB.bottom.all.slice() };
+  var anim = null;
 
-  function setVB(v, arr) { svgs[v].setAttribute("viewBox", arr.map(function (n) { return n.toFixed(3); }).join(" ")); cur[v] = arr; }
+  function setVB(v, arr) {
+    svgs[v].setAttribute("viewBox", arr.map(function (n) { return n.toFixed(3); }).join(" "));
+    cur[v] = arr;
+  }
   function showView(v) {
     view = v;
     ["top", "bottom"].forEach(function (k) {
-      if (k === v) { svgs[k].removeAttribute("hidden"); svgs[k].style.display = "block"; } else { svgs[k].setAttribute("hidden", ""); svgs[k].style.display = "none"; }
-      document.getElementById("note-" + k).hidden = k !== v;
-      document.getElementById("v-" + k).setAttribute("aria-pressed", String(k === v));
+      svgs[k].hidden = (k !== v);
+      notes[k].hidden = (k !== v);
+      btns[k].setAttribute("aria-pressed", String(k === v));
     });
   }
   function zoom(key) {
-    var to = FULL.slice();
-    if (key === "right") { to = RIGHT.slice(); }
-    else if (key && key !== "all" && PTS[view] && PTS[view][key]) {
-      var p = PTS[view][key];
-      to = [Math.min(Math.max(p[0] - W / 2, FULL[0]), FULL[0] + FULL[2] - W),
-            Math.min(Math.max(p[1] - H / 2, FULL[1]), FULL[1] + FULL[3] - H), W, H];
+    var target = (VB[view] && VB[view][key]) || VB[view].all;
+    var from = cur[view].slice(), to = target.slice(), t0 = null;
+    if (anim) { cancelAnimationFrame(anim); anim = null; }
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { setVB(view, to); return; }
+    var v = view;
+    function step(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / 380);
+      var e = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+      setVB(v, from.map(function (a, i) { return a + (to[i] - a) * e; }));
+      if (p < 1) { anim = requestAnimationFrame(step); } else { anim = null; }
     }
-    var from = cur[view].slice(), v = view;
-    if (anim) cancelAnimationFrame(anim);
-    if (reduce) { setVB(v, to); } else {
-      var t0 = null;
-      var step = function (ts) {
-        if (!t0) t0 = ts;
-        var k = Math.min(1, (ts - t0) / 380), e = 1 - Math.pow(1 - k, 3);
-        setVB(v, from.map(function (a, i) { return a + (to[i] - a) * e; }));
-        if (k < 1) anim = requestAnimationFrame(step);
-      };
-      anim = requestAnimationFrame(step);
-    }
-    Array.prototype.forEach.call(document.querySelectorAll(".m-probe, .m-guard"), function (g) {
-      g.classList.toggle("hot", g.id === v + "-mark-" + key);
-    });
+    anim = requestAnimationFrame(step);
   }
-  document.getElementById("v-top").addEventListener("click", function () { showView("top"); zoom("all"); });
-  document.getElementById("v-bottom").addEventListener("click", function () { showView("bottom"); zoom("all"); });
+  btns.top.addEventListener("click", function () { showView("top"); zoom("all"); });
+  btns.bottom.addEventListener("click", function () { showView("bottom"); zoom("all"); });
   document.getElementById("z-all").addEventListener("click", function () { zoom("all"); });
   Array.prototype.forEach.call(document.querySelectorAll(".show"), function (b) {
     b.addEventListener("click", function () {
-      showView(b.getAttribute("data-view")); zoom(b.getAttribute("data-zoom"));
-      if (window.innerWidth < 920) document.querySelector(".stage").scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+      showView(b.getAttribute("data-view"));
+      zoom(b.getAttribute("data-zoom"));
+      svgs[view].scrollIntoView({ block: "nearest", behavior: "smooth" });
     });
   });
+  showView("bottom");
 
-  var KEY = "tunnelamp-repair-v1", state = {};
-  try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { state = {}; }
-  var order = [["d3c", "dot3-C2"], ["d3h", "dot3-hole1"], ["c3h2", "C3pad-hole2"], ["d4c", "dot4-C3"], ["d4h", "dot4-hole1"], ["d4h2", "dot4-hole2"], ["s1", "1"], ["s2", "2"], ["s3", "3"], ["s4", "4"], ["in", "pin 2"], ["h2", "hole 2"], ["h5", "hole 5"]];
+  // ---- readings -------------------------------------------------------
+  var ORDER = [
+    ["c3h2", "C3 pad-hole 2"], ["d4h2", "dot 4-hole 2"],
+    ["d3c", "dot 3-C2"], ["d3h", "dot 3-hole 1"],
+    ["d4c", "dot 4-C3"], ["d4h", "dot 4-hole 1"],
+    ["s1", "pin 3"], ["s2", "C4"], ["s3", "C2"], ["s4", "C3"],
+    ["in", "PIN 2"], ["h2", "hole 2"], ["h5", "hole 5"], ["h3", "hole 3"]
+  ];
+  var state = {};
+  var out = document.getElementById("report");
+  var savedNote = document.getElementById("saved-note");
+  var db = null, docRef = null, writeTimer = null, suppress = false;
+
   function paint() {
     Array.prototype.forEach.call(document.querySelectorAll(".res"), function (g) {
       var k = g.getAttribute("data-key");
@@ -557,16 +615,57 @@
         b.setAttribute("aria-pressed", String(state[k] === b.getAttribute("data-val")));
       });
     });
-    document.getElementById("report").textContent = order.map(function (o) { return o[1] + ": " + (state[o[0]] || "?"); }).join(", ");
+    var taken = ORDER.filter(function (o) { return state[o[0]]; });
+    out.textContent = taken.length
+      ? taken.map(function (o) { return o[1] + ": " + state[o[0]]; }).join("  |  ")
+      : "Nothing recorded yet. Tap a result as you take it.";
+  }
+  function queueWrite() {
+    if (!docRef || suppress) return;
+    if (writeTimer) clearTimeout(writeTimer);
+    writeTimer = setTimeout(function () {
+      writeTimer = null;
+      var body = {};
+      ORDER.forEach(function (o) { if (state[o[0]]) body[o[0]] = state[o[0]]; });
+      body.updatedAt = new Date().toISOString();
+      docRef.set(body).then(function () {
+        savedNote.textContent = "Saved " + new Date().toLocaleTimeString();
+      }).catch(function () {
+        savedNote.textContent = "Not saved - write it in your notes as well.";
+      });
+    }, 600);
   }
   Array.prototype.forEach.call(document.querySelectorAll(".res button"), function (b) {
     b.addEventListener("click", function () {
-      var k = b.parentNode.getAttribute("data-key"), v = b.getAttribute("data-val");
-      state[k] = state[k] === v ? undefined : v;
-      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      var k = b.parentNode.getAttribute("data-key");
+      var v = b.getAttribute("data-val");
+      state[k] = (state[k] === v) ? null : v;
+      if (!state[k]) delete state[k];
       paint();
+      queueWrite();
     });
   });
   paint();
+
+  if (window.claude && window.claude.use) {
+    window.claude.use("db").then(function (d) {
+      if (!d) { savedNote.textContent = "Not saving on this view - keep your own note of the readings."; return; }
+      db = d;
+      docRef = db.doc("bench/underside-repair");
+      savedNote.textContent = "Saving as you tap.";
+      docRef.onSnapshot(function (snap) {
+        if (!snap || !snap.exists) return;
+        var data = snap.data() || {};
+        var changed = false;
+        ORDER.forEach(function (o) {
+          var v = data[o[0]];
+          if (typeof v === "string" && state[o[0]] !== v) { state[o[0]] = v; changed = true; }
+        });
+        if (changed) { suppress = true; paint(); suppress = false; }
+      }, function () { savedNote.textContent = "Live sync dropped - your taps are still recorded locally."; });
+    }).catch(function () {});
+  } else {
+    savedNote.textContent = "Not saving on this view - keep your own note of the readings.";
+  }
 })();
 </script>
