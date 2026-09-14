@@ -948,7 +948,9 @@ over** — it is the measurement reference, and it is repairable without a rebui
      only the half of the via away from the holes, check, and wire to hole 1's joint.
    - If any partial wire was left on the top side from the first attempt, remove it first.
 2. **Verify the whole repair, unpowered.** IC1 pin 3, C4, C2 and C3 each beep to hole 1. **IC1 pin 2
-   stays silent.** Holes 2 and 5 chirp only.
+   stays silent.** **Holes 2 and 5 read silent, or chirp too briefly to hear — both pass. Only a beep
+   that HOLDS is a short.** (Corrected 2026-09-14: this said "chirp only". At 4.8 µF the chirp lasts
+   `C × R_threshold` = 96–960 µs, below what a beeper can sound. See `docs/NEXT_SESSION_PLAN.md`.)
 3. **Continuity at the lead free ends, then the current-limited smoke test** on the bench supply:
    both channels' currents within 1 mA of each other, 10 minutes at 15 V, C2 not warm.
 4. **Buy:** 99% IPA, distilled water, foam swabs, a soft brush; **the 4.7 µF 50 V 1812 ceramics

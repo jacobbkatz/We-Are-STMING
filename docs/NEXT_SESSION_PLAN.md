@@ -118,8 +118,10 @@ Top side, beep mode, **black probe on hole 1**. Record every result in the sessi
 | C2's right-hand end | **Beep** |
 | C3's right-hand pad | **Beep** (unless C3 was skipped) |
 | **IC1 pin 2** (left side, second leg) | **Silent.** A beep means the input is shorted to ground — fix it before anything else |
-| Hole 2 | **Chirp only.** A continuous beep means +15 V is shorted to ground |
-| Hole 5 | **Chirp only** |
+| Hole 2 | **Silent, or a chirp too short to hear. Either passes.** **A beep that HOLDS** means +15 V is shorted to ground |
+| Hole 5 | **Silent, or a very short chirp. Either passes.** A beep that holds means −15 V is shorted to ground |
+
+> **Corrected 2026-09-14, after the readings came back silent.** This said "chirp only", and a session then read silence as a possible fault. **The chirp was never going to be audible.** A continuity tester drives a roughly constant current, so the resistance it computes while a capacitor charges is `R(t) = t/C` and it beeps for `t = C × R_threshold` — **the test current cancels out.** With 4.8 µF at holes 2 and 5 (C1‖C3 and C2‖C4) that is **96 µs at a 20 Ω threshold and 960 µs at 200 Ω**. A DMM beeper needs roughly a millisecond to sound. **Silence is the normal reading here; only a beep that holds means anything.** The capacitors are confirmed by the capacitance reading below, not by the beeper.
 | Hole 3 | **Silent** |
 
 **Optional.** Capacitance mode, hole 1 ↔ hole 5: roughly **4.7–5 µF** (C2 and C4 now connected).
