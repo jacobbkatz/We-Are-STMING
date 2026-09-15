@@ -32,7 +32,23 @@
 > > that is the over-firing side of the defect already logged under Known code issues.
 >
 > **Then, shortly after the 1-minute reading, Jacob reported the voltages "started floating" and cut
-> the power.** **The cause is NOT established.** His exact words are recorded here because the
+> the power.**
+>
+> > **RESOLVED MINUTES LATER, and it was NOT the board.** Jacob: *"resetting it fixed the issue,
+> > voltages came back to 15 volts and -15 volts."* **It was the bench supply's own output rails that
+> > wandered**, not the meter and not the preamp. A power cycle of the supply restored them.
+> > **The board is exonerated for this event.** **Why the supply did it is still unknown** — a loose
+> > lead at its terminals and the supply's own glitch are both live, and the 20 mA limit is not a
+> > likely cause, since the board draws about 3 mA and never approaches it. **If it recurs, capture
+> > what the supply's display and its constant-current indicator do at that moment.**
+> >
+> > **No damage is expected.** The limit was 20 mA throughout and a wandering rail in constant-voltage
+> > mode sags rather than overshoots.
+> >
+> > **The warm-up clock restarts from the new power-on** — safety rule 0 counts from when the board
+> > was last powered, and it was unpowered in between.
+>
+> **The original wording is kept below because it was written before the cause was known.** His exact words are recorded here because the
 > wording matters and was not reconciled at the bench: it is not known whether the wander was on the
 > **meter** reading the OUT lead or on the **supply's own displays**, nor how large it was.
 >
