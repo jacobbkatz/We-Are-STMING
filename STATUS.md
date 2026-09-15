@@ -12,6 +12,23 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## CONTINUITY READINGS ON THE BUILT NODE — 2026-09-15, verbatim, NOTHING POWERED
+>
+> **Jacob, at the bench, reported exactly this:** `1: beep · 2: no beep · 3: no beep · 4: no beep ·
+> 5: 220 ohms · 6: all open`.
+>
+> **Every value is a pass. No reading indicates a fault.** But **the numbering does not map onto the
+> eight checks in [`docs/preamp_input_node_tests.html`](docs/preamp_input_node_tests.html)** and was
+> not reconciled at the time: six items were reported against eight checks, and the `220 ohms` sits
+> at item 5 where that page puts the −15 V silence check and puts 220 Ω at item 7. **The 220 Ω is
+> almost certainly PAD1 to hole 3, which is R1** — there is no plausible 220 Ω path from the
+> standoff to the −15 V rail — so the likely explanation is that the three "silent to a supply lead"
+> rows were merged into the single `all open`.
+>
+> **Recorded as reported rather than as interpreted.** If a later session needs the individual
+> rows, **re-measure; do not assume this mapping.** This is the same gap as the Part B readings of
+> 2026-09-15, which were reported as "all as expected" and lost.
+
 > **RESOLVED LATER THE SAME EVENING: IT WENT IN, AND THE INPUT NODE IS BUILT.** Jacob: *"I got it
 > to work, the tension in the resistor wire holds the standoff in place after I solder both
 > together."* **The hole does not grip the part** — retention is the 100 MOhm's own lead in
