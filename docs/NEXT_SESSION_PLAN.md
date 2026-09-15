@@ -69,6 +69,25 @@ will ever take. Heat shrink is fine here — this splice is at the connector end
 input node, so the "no adhesive-lined shrink" rule does not apply to it. **Row rule if you are ever unsure at the
 connector: on DSUB2 the row of five carries signal and the row of four is all ground.**
 
+### The configuration for this bring-up: no sample plate, no overall shield cover
+
+**Jacob's decision, 2026-09-15, and it is the right one.** Neither is needed for what comes next, and
+leaving them off has three advantages.
+
+- **Safety rule 11 already says not to bring the sample plate near the tip holder until the offset is
+  understood.** Not fitting it at all goes further, and no tip is fitted either, so **nothing in this
+  bring-up can be crashed.**
+- **The big cover, `6_shield_cover.stl`, is for imaging noise, not for electrical bring-up.**
+  Berard's own note is that without a shield his images were dominated by 60 Hz pickup. That is a
+  problem for pictures, not for an `ADCR` reading.
+- **It removes a loop risk.** One fewer copper-wrapped part that could touch the preamp box and
+  create a second bond — see the shield question in `docs/OPEN_QUESTIONS.md`.
+
+> **The consequence, and it matters when the numbers come in.** **Any noise figure taken in this
+> configuration is NOT representative and must not be recorded as one.** Counts, baselines and
+> offsets are all fair; **noise is not, until the cover is on.** This project has already had to void
+> a set of noise figures once.
+
 ### Verify the cable's colours before you trust them. Two minutes, and it removes the whole risk
 
 **The FUNCTIONS are netlist-verified and I am confident in them. The COLOURS are not ours** — they
