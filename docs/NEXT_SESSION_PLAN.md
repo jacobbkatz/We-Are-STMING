@@ -199,17 +199,44 @@ think and that is worth an hour of my time rather than two minutes of yours.
    room and put the iron away** — 99% IPA is more flammable than the 91%, and its vapour is heavier
    than air. Nitrile gloves on (`docs/INVENTORY.md`).
 
-   1. **Scrub with 99% IPA and the soft brush.** Both sides. Flood it rather than dampening it —
+   **Bath or brush? Bath — preferred, added 2026-09-14 late at Jacob's question.** Immersion beats
+   scrubbing here, because **the rosin that matters is under IC1 and the two 1812 tantalums**, where
+   no brush reaches. It is also gentler on the four 40 AWG repair wires than dry scrubbing. The
+   board is **20.625 × 15.230 mm** (`docs/FACTS.md`) — postage-stamp sized — so a few millilitres
+   covers it and fresh IPA for the final rinse costs nothing.
+
+   > **The one rule that makes or breaks a bath: the LAST liquid to touch the board must be CLEAN
+   > IPA.** A bath saturates with dissolved rosin as it works — that is it doing its job. Lift the
+   > board straight out of a dirty bath and the film that drains off dries **leaving rosin spread
+   > over the whole board, including the input node.** That is worse than not washing at all. So:
+   > **two containers, never one.**
+   >
+   > **Container:** glass is unambiguously safe — a shot glass, ramekin or small jam jar. HDPE or PP
+   > (food tubs marked 2 or 5) are fine. **Avoid thin clear brittle tubs**, which are often
+   > polystyrene and can craze in IPA; dissolved plastic on a 100 MΩ input node would be a
+   > self-inflicted version of the exact fault we are chasing. **Shallow dish beats a tall jar**, so
+   > the four leads drape out over the edge rather than being forced in.
+   >
+   > **Do not let the board dry between the bath and the clean rinse.** Go straight from one to the
+   > other, wet. If it dries in between, the rosin sets back down and you have to start again.
+   >
+   > A few minutes is plenty — rosin dissolves quickly and this is not an overnight soak. Swirl it,
+   > or brush gently **while it is submerged**, which is the gentlest option of all for the repair
+   > wires. The leads will wick a little IPA into their insulation; that evaporates, which is one
+   > more reason it is IPA here and not water.
+
+   1. **Bath 1, the wash — or scrub with 99% IPA and the soft brush.** Both sides. Flood it rather than dampening it —
       the IPA has to carry the rosin away, not just move it around. Concentrate on **JP1**, where
       the flux actually went, and around **C2**, which was removed and refitted.
       - **Brush ALONG the four repair wires, never across them.** They are 40 AWG magnet wire and
         finer than a hair. Do not lever the brush under them.
       - **No ultrasonic cleaner.** Not that we have one — but it is what people reach for, and
         those four wires and their scraped-via joints are exactly what it would break.
-   2. **Rinse with clean 99% IPA** — fresh from the bottle, poured over, not the dirty stuff from
-      step 1. **This is the step that matters and the one people skip.** Scrubbing alone dissolves
-      the rosin and then lets it dry back down somewhere else on the board; the rinse is what
-      removes it. If the runoff looks dirty, scrub and rinse again.
+   2. **Bath 2 / rinse, in clean 99% IPA** — fresh from the bottle, never the dirty liquid from
+      step 1. Dip it, then **pour fresh IPA over it as it comes out**, so the very last thing to
+      touch the board is clean. **This is the step that matters and the one people skip.** The wash
+      dissolves the rosin; only the clean rinse removes it. If the runoff still looks coloured,
+      change the IPA and do it again — at this board size that is pennies.
    3. ~~Rinse with distilled water.~~ **SKIPPED — see the note above.** No bake is available, and
       **the four leads are jumper cable**: if they are stranded, as most jumper cable is, water
       wicks up inside the insulation and sits there for days where nothing can dry it.
