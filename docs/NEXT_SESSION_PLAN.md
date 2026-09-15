@@ -53,8 +53,20 @@ grounded. That is fixed on this board.
 | **orange** | **OUT** | 3 | **pin 3 `PREAMP+`** | **red** |
 | **tan** | −15 V | 5 | **pin 4** | **orange** |
 
-**White takes two wires.** Green (AGND) and brown (`PREAMP−`) both join it at the splice — that is
-the repair that makes the ADC's negative reference real. **Row rule if you are ever unsure at the
+**White takes two wires.** Green (AGND) and brown (`PREAMP−`) both join it at the splice — **three
+wires into one joint** — and that is the repair that makes the ADC's negative reference real.
+**Decided when the ground repair was planned, 2026-09-13**, and recorded in `docs/WIRING.md` §10.
+
+> **A second colour collision, harmless but it would defeat the point.** **DSUB2 pins 6–9 are all
+> AGND: green, blue, grey and WHITE.** So the cable has a white wire too, and the preamp has a white
+> lead. **Joining white to white is electrically fine** — both are ground — **but it leaves brown,
+> the ADC's negative reference, unconnected**, which is the exact fault this whole splice exists to
+> fix. **Use the green one, and take brown with it.** Blue, grey and the cable's white can be left
+> unconnected; they are spare grounds off the same point.
+
+**Make this joint mechanically solid.** It carries the reference for every measurement the instrument
+will ever take. Heat shrink is fine here — this splice is at the connector end, nowhere near the
+input node, so the "no adhesive-lined shrink" rule does not apply to it. **Row rule if you are ever unsure at the
 connector: on DSUB2 the row of five carries signal and the row of four is all ground.**
 
 ### Then, in order
