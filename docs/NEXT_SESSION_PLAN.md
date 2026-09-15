@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-15 (evening, after the first power-on)
+**Last updated:** 2026-09-15 (evening, paused with the splice made and verified)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -27,7 +27,48 @@ that treats the preamp as broken, unbuilt or unmeasured is history.
 | Cost of the box and shield | **None** — 4 pA boxed against 6 pA bare |
 | Blocking the controller | **Nothing** |
 
-## CONNECTING THE PREAMP TO THE CONTROLLER — do this before the tip lead
+## START HERE — the splice is DONE and VERIFIED. Power it up
+
+> **Done 2026-09-15:** the preamp is spliced to the DSUB2 cable and the splice was verified
+> unpowered with the DB9 unplugged. **Row of five, left to right: nothing, white, orange, tan,
+> grey.** Correct. **Nothing has been powered through the controller yet.**
+>
+> **~~Verify the splice~~ — done. The verification sections below are kept for the next rewiring.**
+
+**Use the Windows machine.** It has run this instrument before. `Code/pc/README.md` has first-time
+Mac notes for whenever that move is wanted, but do not add a new computer to a chain being validated
+for the first time.
+
+**The configuration:** preamp in its copper box, **no sample plate, no overall shield cover, no tip,
+no tip lead.** Nothing can be crashed.
+
+1. **Pull the repo** on the Windows machine so it has tonight's changes.
+2. **Analog supply on** — ±18 V into U19, the JST XH. **Note what the controller draws**, as a
+   baseline nobody has ever recorded.
+3. **USB.** The documented order is analog supply first, then USB.
+4. **`RSET`.** **LED1–LED4 are lit at every power-on and `RSET` clears them** — safety rule 1.
+   **Confirm all four are dark before and after every reading.**
+5. **`DACZ 32768`** to park Z at 0 V. `RSET` leaves it at a rail.
+6. **`ADCR`.**
+
+**Expected: near zero counts.** The preamp output is about 0 V and `PREAMP−` now sits at the
+preamp's own ground, so the converter should finally be inside its specified input conditions.
+
+| `ADCR` reads | Meaning |
+|---|---|
+| **near 0** | **The chain works.** First time in this project |
+| a few hundred counts either way | Fine — that is millivolts at the preamp. Record as the new baseline |
+| pinned near ±32767 | Over-range. Stop, meter the OUT lead at the preamp |
+| the old ~−400 baseline exactly | Suspicious. Check the splice took |
+
+**Do not run `APRH`** — safety rule 2. **Do not send `CCON`** — safety rule 8. Neither is needed.
+
+**Any noise figure taken in this configuration is NOT representative**, because the overall shield
+cover is off. Counts, baselines and offsets are fair; noise is not.
+
+---
+
+## Reference: the wiring, kept for the next rewiring
 
 **Nothing blocks it, and it touches nothing on the input node**, so the ~4 pA baseline survives. It
 tests the one chain that has never worked in this project: **every ADC reading ever taken was made
@@ -97,12 +138,12 @@ splice is made and it depends only on the netlist, which is solid.
 your hand. **Nothing powered.** Meter on continuity.
 
 **The connector has a row of FIVE pins and a row of FOUR.** On DSUB2 the row of five carries signal
-and the row of four is all ground. **You do not need to read the tiny numbers** — the readings
-identify everything:
+and the row of four is all ground. **You do not need to read the tiny numbers** — the order along the row of
+five identifies everything:
 
 | Probe | Expect |
 |---|---|
-| **white** ↔ **each of the four pins in the row of FOUR** | **beep, all four.** This identifies the ground row |
+| **white** ↔ the row of FOUR | **beep on EXACTLY ONE of them** — the pin green is spliced to. **CORRECTED 2026-09-15: this line first said "beep, all four", and that was WRONG.** With the connector unplugged the four AGND pins are only tied together *inside the controller*, so at the cable end they are four separate wires and only the spliced one beeps. **A correct splice would have looked like a fault** |
 | **white** ↔ one pin in the row of five | **beep** — that is pin 2, `PREAMP−`, the sense wire |
 | **orange, tan, grey** ↔ the row of five | each beeps to **exactly one** pin |
 

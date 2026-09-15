@@ -1,7 +1,8 @@
 # Current status
 
 **Last updated:** 2026-09-15 (evening, third session of this run)
-**Updated by:** Jacob at the bench, with Claude remote.
+**Updated by:** Jacob at the bench, with Claude remote. **Paused with everything wired and verified,
+nothing powered through the controller yet.**
 
 # THE PREAMP WORKS. ~4 pA, IN THE BOX, AT 45 MINUTES
 
@@ -35,6 +36,25 @@ run: Part B passed and the board was washed. The first time any preamp board in 
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## THE SPLICE IS MADE AND VERIFIED — 2026-09-15
+>
+> **The preamp is spliced to the DSUB2 cable and the splice is correct.** Checked unpowered with the
+> DB9 unplugged, so nothing was ever at risk. **Row of five, left to right: nothing, white, orange,
+> tan, grey** — which is BIAS, `PREAMP−`, `PREAMP+`, −15 V, +15 V. **The destructive case is
+> excluded:** the amplifier's output is on the middle pin, the −15 V rail two places along.
+>
+> **Nothing has been powered through the controller yet.** Next action is at the top of
+> [`docs/NEXT_SESSION_PLAN.md`](docs/NEXT_SESSION_PLAN.md).
+>
+> > **An expected reading I wrote was wrong, and a correct splice looked like a fault.** I said white
+> > should beep to **all four** ground pins. **With the connector unplugged it beeps to exactly one**,
+> > because the four AGND pins are tied together only *inside the controller*. **Jacob reported what
+> > he saw instead of what he had been told to expect, which is the only reason it was caught.**
+> > Corrected at the site. **Same failure mode as the 2026-09-09 box print**, where the expected
+> > result described a different part and a good print would have been judged faulty.
+>
+> **The trap below still stands for anyone rewiring this.**
+
 > ## THE ORANGE TRAP — read before the preamp meets the controller
 >
 > **The preamp's own lead colours are NOT the DSUB2 cable's colours, and `orange` means two different
