@@ -6,6 +6,27 @@ Python programs that talk to the Teensy over USB serial. Run them from the repos
 pip install -r Code/pc/requirements.txt
 ```
 
+### First time on a Mac — added 2026-09-15
+
+**No driver is needed.** The Teensy is a USB CDC device and macOS has it built in. It appears as
+`/dev/tty.usbmodem…`, but **you never have to name the port**: `stm_console.py` finds it by PJRC's
+vendor ID, `0x16C0`.
+
+**Recent macOS refuses `pip install` into the system Python** with an
+`externally-managed-environment` error. Use a virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install pyserial
+```
+
+**`pyserial` alone is enough for `stm_console.py`.** `numpy` and `matplotlib` are only needed by
+`adc_stats.py` and the GUI.
+
+**If `find_teensy()` returns nothing**, the board is not enumerating: check the USB cable is a data
+cable and not charge-only, which is the usual cause.
+
 | File | What it is |
 |---|---|
 | **`stm_console.py`** | **Start here.** Send any firmware command, one-shot or interactive |
