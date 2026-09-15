@@ -12,6 +12,31 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## WHY THE 45-MINUTE READING IS STILL WORTH TAKING — and where Jacob is right
+>
+> **Jacob, 2026-09-15: "Why is it so important to wait for the 45 minutes? We have the 10 minute
+> test."** A fair challenge, answered here rather than by pointing at the rule.
+>
+> **He is right about the offset.** 10 minutes is enough to establish that this board is clean at the
+> picoamp level. The reading settled inside two minutes and moved 0.3 mV — one meter count — between
+> minute 5 and minute 10. **A longer wait will not make 6 pA more true.**
+>
+> **What the longer run actually buys is a different answer, and it is worth more than this board.**
+> **Safety rule 0 makes every future capture in this project wait 45 minutes**, on the strength of a
+> climb measured on a board whose reference floated. **If this board is flat at 45 and 60 minutes,
+> that rule can be retired and every future session saves the better part of an hour.** That is the
+> prize, not a better offset figure.
+>
+> **The schedule cost is zero.** **C2's replacement part is not in the room and not on order**
+> (`docs/INVENTORY.md`, 2026-09-15), and safety rule 14 blocks the controller until it is fitted.
+> **Nothing downstream can start before that part arrives**, so the 45-minute reading costs nothing
+> anyone is waiting on.
+>
+> **Better still, take it in the box.** Boxing is NOT blocked by this reading — only the controller
+> is. **Mount the board, then run the timed measurement in the assembled, shielded box**, which tests
+> the configuration that will actually be used and puts the shield on trial at the same time. One
+> measurement, three answers.
+
 > ## THE TIMED RUN — started 17:49 UTC, 2026-09-15
 >
 > **Second power-on, after the supply glitch. Rails at 15 V and −15 V, limit 20 mA.**
