@@ -1,7 +1,30 @@
 # Current status
 
 **Last updated:** 2026-09-15 (evening, third session of this run)
-**Updated by:** Jacob at the bench, with Claude remote. **THE INPUT NODE IS BUILT AND THE SPARE PREAMP BOARD HAS BEEN POWERED FOR THE FIRST TIME.** It reads **about 6 pA at 10 minutes on ±15 V**, against a target of 1 nA — **the first valid input current this project has ever measured.** The warm-up drift does not reproduce. See [`sessions/2026-09-15-bench.md`](sessions/2026-09-15-bench.md), which is a **different session** from [`sessions/2026-09-15.md`](sessions/2026-09-15.md) and does not supersede it. **The 45-minute reading is still owed.** Earlier the same run: Part B passed and the board was washed. The first time any preamp board in this project has been cleaned. See [`sessions/2026-09-15.md`](sessions/2026-09-15.md), which is the second session of the same night as [`sessions/2026-09-14.md`](sessions/2026-09-14.md).
+**Updated by:** Jacob at the bench, with Claude remote.
+
+# THE PREAMP WORKS. ~4 pA, IN THE BOX, AT 45 MINUTES
+
+**The gate is passed and the preamp is no longer the blocker on this instrument.** The rebuilt board,
+mounted in the new copper box, reads **−0.4 mV on the OUT lead at 45 minutes**, which through the
+100 MΩ is **about 4 pA of input current**. Safety rule 14 wanted under 0.1 V; this is **250× inside
+it**. **Nothing now blocks connecting this board to the controller.**
+
+**Three things fell out of one measurement:**
+
+1. **Safety rule 14 is satisfied.** Clause (a) was withdrawn by Jacob the same day; clause (b) is met.
+2. **Safety rule 0 is RETIRED.** Zero change between 20 and 45 minutes, twice. **The warm-up drift
+   was the floating reference charging, not the preamp.** No capture in this project needs to wait
+   45 minutes any more — about two minutes to settle is enough.
+3. **The box and shield cost nothing.** Boxed 4 pA against bare 6 pA, a difference of two meter
+   counts.
+
+**For scale: the old board sat at 11.905 V, and a tunnelling current is about 1 nA. This board's
+noise floor is now under half a percent of the signal it has to see.**
+
+See [`sessions/2026-09-15-bench.md`](sessions/2026-09-15-bench.md), which is a **different session**
+from [`sessions/2026-09-15.md`](sessions/2026-09-15.md) and does not supersede it. Earlier the same
+run: Part B passed and the board was washed. The first time any preamp board in this project has been cleaned. See [`sessions/2026-09-15.md`](sessions/2026-09-15.md), which is the second session of the same night as [`sessions/2026-09-14.md`](sessions/2026-09-14.md).
 
 > ## NEXT THING THAT HAPPENS — read before touching the board
 >
@@ -22,10 +45,18 @@
 > Reminders are held in the remote session for a 20-minute mid-point and for **45 minutes, which is
 > the gate**.
 >
-> | Minute | OUT lead | Input current | Supply current |
-> |---|---|---|---|
-> | **20** | **−0.4 mV** | **~4 pA** | **4 mA** |
-> | **45** | | | **THE GATE** |
+> | Minute | OUT lead | Input current | Supply current | |
+> |---|---|---|---|---|
+> | **20** | **−0.4 mV** | **~4 pA** | **4 mA** | mid-point |
+> | **45 — THE GATE** | **−0.4 mV** | **~4 pA** | **4 mA** | **PASSED. 250× inside the limit** |
+>
+> ### THE GATE IS PASSED, AND THE DRIFT IS NOT REAL
+>
+> **Zero change between 20 and 45 minutes.** Same voltage, same current, same sign. **On the old board
+> the reading at 45 minutes was most of the way to 29,500 counts**, roughly 9 V, and still climbing.
+>
+> **Safety rule 14 is now fully satisfied.** Clause (a) was withdrawn by Jacob on 2026-09-15; clause (b)
+> is met by this reading. **Nothing now blocks connecting this board to the controller.**
 >
 > **The box costs nothing.** Bare board at 10 minutes: −0.6 mV. **Boxed at 20 minutes: −0.4 mV.**
 > The 0.2 mV between them is two counts of the meter. **The copper box, the shield and the mounting
@@ -1490,15 +1521,35 @@ which sign of `MTMV` advances.
 
 ## Standing safety rules — do not violate these
 
-0. **Added 2026-09-07. No preamp measurement is valid until the board has been powered for at
+0. ~~**Added 2026-09-07. No preamp measurement is valid until the board has been powered for at
+   least 45 minutes.**~~ **RETIRED 2026-09-15 — allow about two minutes to settle instead.**
+   Original text and the evidence that retired it follow.
+   **Added 2026-09-07. No preamp measurement is valid until the board has been powered for at
    least 45 minutes.** The offset climbs about **25,000 counts — roughly 30 nA — over more than an
    hour** after power-on, decelerating throughout. Measured at 10 minutes it reads 3,969 counts;
    at 75 minutes, ~29,500. **No procedure in this project has ever mentioned this**, so every
    historical figure sits at an unknown point on that curve. A reading taken early will look like a
    spectacular improvement and is worthless.
-   > **Basis in doubt, 2026-09-13:** the climb was measured on a board whose IC1 +IN floats (fault
-   > 0d), so it may be that node settling rather than the preamp. **Keep waiting 45 minutes** on the
-   > repaired spare until its own readings show whether the rule is needed.
+   > **RETIRED 2026-09-15 — the rule's own condition was met and the answer is that it is not
+   > needed.** This rule already said to *"keep waiting 45 minutes on the repaired spare until its own
+   > readings show whether the rule is needed."* **They now show it.** The repaired board was run
+   > twice, and both times it settled within about two minutes and then did not move:
+   >
+   > | Run | 2 min | 5 min | 10 min | 20 min | 45 min |
+   > |---|---|---|---|---|---|
+   > | Bare, ±15 V | 0.9 mV | −0.3 mV | −0.6 mV | — | — |
+   > | **Boxed, ±15 V** | — | — | — | **−0.4 mV** | **−0.4 mV** |
+   >
+   > **Zero change between 20 and 45 minutes.** The old board was near 29,500 counts at that point and
+   > still climbing. **The climb was the floating reference charging, not the preamp**, exactly as the
+   > 2026-09-13 doubt suspected.
+   >
+   > **What replaces it: allow about two minutes to settle, then measure.** No preamp reading needs to
+   > wait 45 minutes any more.
+   >
+   > **One honest limit.** Nothing was observed past 45 minutes on this board. The old board's climb
+   > ran to 75 minutes. **There is no mechanism for a late climb** — the reading is already sitting at
+   > the amplifier's own offset — but it has not been watched, and nobody should claim it has.
 
 0b. ~~**Added 2026-09-07. Do not rebuild the preamp board, and do not rebuild the tip lead.** The
    instrument that would tell you whether a rebuild helped has a floating reference — see fault 0.

@@ -12,46 +12,64 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# WHERE THINGS STAND — 2026-09-15, evening
+# WHERE THINGS STAND — 2026-09-15, end of the evening
 
-**THE INPUT NODE IS BUILT AND THE BOARD HAS BEEN POWERED. It reads about 6 pA.** Everything below
-this block that describes the node as unbuilt is history. Full account:
-[`sessions/2026-09-15-bench.md`](../sessions/2026-09-15-bench.md).
+# THE PREAMP WORKS. ~4 pA in its box at 45 minutes
 
-## The one thing to do next
-
-**RE-POWER ON THE BENCH SUPPLY AND FINISH THE HOUR.** The run was stopped at 10 minutes.
-**Safety rule 14 wants the output under 0.1 V at 45 minutes on the bench supply**, and that reading
-has not been taken. On the evidence so far it should pass by a factor of about a thousand.
-**An untaken measurement is not a result.**
-
-Procedure, in full, with a to-scale drawing:
-[`docs/preamp_input_node_tests.html`](preamp_input_node_tests.html). In short:
+**The gate is passed. The preamp is no longer the blocker on this instrument.** Full account:
+[`sessions/2026-09-15-bench.md`](../sessions/2026-09-15-bench.md) §11. Everything below this block
+that treats the preamp as broken, unbuilt or unmeasured is history.
 
 | | |
 |---|---|
-| Rails | **15.0 V and −15.0 V. NEVER 18 V** — that is the controller's figure, not this board's |
-| Limit | 20 mA on both channels |
-| Wiring | **+15 to grey, GND to white, −15 to tan.** Orange goes to the meter only, never the supply |
-| Order | Outputs off to connect. **White first, tan last.** Reverse to disconnect |
-| Meter | **DC volts.** Black probe on the supply ground junction, red on the orange lead. **Never current mode on this board** |
-| Readings | Output volts and both supply currents at 1, 5, 10, 20, **45** and 60 minutes |
-| Expect | A few mA per channel, matching. Output in **single-digit millivolts**. 1 mV = 10 pA |
+| Input current, boxed, 45 min | **~4 pA** — safety rule 14 wanted under 0.1 V, this is 250× inside |
+| Drift, 20 to 45 min | **None.** Safety rule 0's 45-minute wait is **RETIRED** — about 2 minutes to settle is enough |
+| Cost of the box and shield | **None** — 4 pA boxed against 6 pA bare |
+| Blocking the controller | **Nothing** |
 
-**Do not touch the board or the standoff while the clock is running.** The standoff is not in its
-hole: it rests on the surface, held by the resistor lead in tension, about 2 mm from IC1's grounded
-leg. A gloved touch injects about 500 pA and perturbs the very drift measurement the hour is buying.
+## The one thing to do next
 
-## Then, in order
+**BUILD THE TIP LEAD.** Safety rule 0b gated it on the bare board being measured; that is done, and
+**~4 pA is the baseline every later number gets compared against.** H3 below has the wire.
 
-1. ~~**Replace C2** with the 4.7 µF 50 V 1812 ceramic.~~ **WITHDRAWN 2026-09-15 by Jacob's
-   decision: C2 is NOT being replaced.** The part is not in the room and not on order. **The only
-   remaining gate on the controller is the 45-minute reading.** The reasoning on both sides is kept
-   at `STATUS.md` safety rule 14.
-2. **Decide how the standoff is held permanently.** Adhesive is forbidden there — safety rule 10.
-3. **Buy copper tape** with conductive adhesive. The last unbought item for the shield.
-4. **Get the OPA627's quiescent current** when the network allows, and close the chip-identity
-   question against the 4 mA measured on 2026-09-15.
+**Three things first, none a formality:**
+
+1. **Settle how the standoff is held.** It rests on the board surface under the 100 MΩ's own lead in
+   tension, and the pole is about 2 mm from IC1's grounded leg. **A second wire pulling on it is a
+   mechanical problem.** **Do not glue the spare preamp board to anything, not the box and not the
+   PTFE standoff** — safety rule 10.
+2. **Fix the box in its final position** relative to the scan head, then cut the wire to length. It
+   exits through the **Ø4.00 mm hole at box (15.15, Z 8.60)**.
+3. **Decide nothing about the tip yet.** No tip is fitted and none should be.
+
+**Building it:** 40 AWG magnet wire to the standoff's metal pole, same as the resistor. **Burn the
+enamel off both ends** — an open joint rails the output and looks exactly like a catastrophic leak.
+**Leave it slack**, so it neither pulls on the standoff nor stiffens the piezo, which has to flex
+freely. **Local clean with 99% IPA afterwards**: that joint is the one spot that cannot be cleaned
+later. **Then re-measure.** Any degradation from ~4 pA belongs to the lead, the holder or the piezo,
+and that is now a measurement rather than an argument.
+
+**Then safety rule 7**, before any imaging: meter the tip holder against the brass piezo electrode.
+It must be open.
+
+## Then
+
+1. **Connect to the controller** and re-establish the ADC chain. Nothing blocks this now.
+2. **Buy copper tape** if any more shielding is wanted. **C2 is not being replaced** — Jacob's
+   decision, 2026-09-15.
+3. **Get the OPA627's quiescent current** when the network allows, and close the chip-identity
+   question against the 4 mA measured tonight.
+4. **Fix the `check_facts.py` defects**, including the false positive it threw tonight, each with a
+   red-then-green test.
+
+## Open, and worth knowing
+
+| Question | Why |
+|---|---|
+| **Why did the bench supply's rails wander?** | It will look exactly like a board fault next time. The supply's display at that moment was never captured |
+| **How did Berard fit an 11301 into a 2.1082 mm hole?** | Ours will not go. **Draw that hole at Ø2.184 mm on any future board order** |
+| **Which op-amp is fitted?** | Open since 2026-09-09. Tonight's 4 mA may answer it for free |
+| **Is the piezo block bonded to ground?** | It is aluminium-wrapped. An unbonded conductor near the scan head couples and re-radiates |
 
 ---
 
