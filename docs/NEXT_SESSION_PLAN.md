@@ -27,7 +27,68 @@ that treats the preamp as broken, unbuilt or unmeasured is history.
 | Cost of the box and shield | **None** — 4 pA boxed against 6 pA bare |
 | Blocking the controller | **Nothing** |
 
-## The one thing to do next
+## CONNECTING THE PREAMP TO THE CONTROLLER — do this before the tip lead
+
+**Nothing blocks it, and it touches nothing on the input node**, so the ~4 pA baseline survives. It
+tests the one chain that has never worked in this project: **every ADC reading ever taken was made
+with the converter operated outside its specified input conditions**, because `PREAMP−` was not
+grounded. That is fixed on this board.
+
+### The colour trap. Read this before anything is joined
+
+> ## The preamp's own lead colours are NOT the cable's colours, and ORANGE means two different things
+>
+> **Preamp lead orange = the amplifier's OUTPUT. DSUB2 cable orange = −15 V.**
+> **Joining orange to orange puts −15 V onto the amplifier's output through R1.** At 220 Ω that is
+> about **68 mA driven into the output stage**, against a part that limits in the tens of mA.
+> **It would very likely destroy IC1**, on a board that took two weeks to get right.
+>
+> **Go by function, never by matching colours.** Jacob's own caveat, recorded 2026-09-14: *"jumper
+> cable colours don't necessarily align with J2's colours."* **This is what that means in practice.**
+
+| Preamp lead | Is | JP1 hole | Joins DSUB2 | Cable colour |
+|---|---|---|---|---|
+| **white** | GND | 1 | **pin 2 `PREAMP−` AND one of pins 6–9 AGND** | brown **and** green |
+| **grey** | +15 V | 2 | **pin 5** | yellow |
+| **orange** | **OUT** | 3 | **pin 3 `PREAMP+`** | **red** |
+| **tan** | −15 V | 5 | **pin 4** | **orange** |
+
+**White takes two wires.** Green (AGND) and brown (`PREAMP−`) both join it at the splice — that is
+the repair that makes the ADC's negative reference real. **Row rule if you are ever unsure at the
+connector: on DSUB2 the row of five carries signal and the row of four is all ground.**
+
+### Then, in order
+
+1. **Splice the four leads as above, with nothing powered.** Check twice against the table, not
+   against the colours.
+2. **The bench supply comes OFF the preamp entirely.** The controller's DSUB2 pins 4 and 5 are
+   **outputs**, and they will now power the preamp.
+3. **Power the controller the usual way: ±18 V into U19, the JST XH.** **This is where the 18 V
+   figure belongs** — the controller's regulators need headroom above 15 V. It was never the
+   preamp's number.
+4. **USB, then `RSET`.** **LED1–LED4 are lit at every power-on and `RSET` clears them** — safety
+   rule 1. **Check they are dark before and after every reading.**
+5. **`DACZ 32768`** to park Z at 0 V. `RSET` leaves it at a rail.
+6. **`ADCR`.**
+
+### What to expect, and what each answer means
+
+**The preamp output is about 0 V and `PREAMP−` is now genuinely at ground, so the ADC should read
+near zero counts.**
+
+| `ADCR` reads | Meaning |
+|---|---|
+| **near 0** | **The chain works.** First time in this project. The ADC is inside its input conditions and the number means something |
+| a few hundred counts either way | Still fine — that is millivolts at the preamp. Note it as the new baseline |
+| pinned near ±32767 | Over-range. Stop and meter the OUT lead: something is not what it was on the bench |
+| the old ~−400 baseline exactly | Suspicious. Check the splice actually took |
+
+**No tip is fitted and none should be.** **Do not run `APRH`** — safety rule 2. **Do not send
+`CCON`** — safety rule 8. Neither is needed for this.
+
+## Then: the tip lead
+
+## The tip lead, after the above
 
 **BUILD THE TIP LEAD.** Safety rule 0b gated it on the bare board being measured; that is done, and
 **~4 pA is the baseline every later number gets compared against.** H3 below has the wire.

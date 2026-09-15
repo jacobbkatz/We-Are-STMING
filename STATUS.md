@@ -35,6 +35,29 @@ run: Part B passed and the board was washed. The first time any preamp board in 
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## THE ORANGE TRAP — read before the preamp meets the controller
+>
+> **The preamp's own lead colours are NOT the DSUB2 cable's colours, and `orange` means two different
+> things at the two ends.**
+>
+> | | Orange means |
+> |---|---|
+> | At the preamp board | **the amplifier's OUTPUT**, JP1 hole 3 |
+> | On the DSUB2 cable | **−15 V**, pin 4 |
+>
+> **Joining orange to orange puts −15 V onto the amplifier's output through R1.** At 220 Ω that is
+> roughly **68 mA into the output stage**, against a part that limits in the tens of mA. **It would
+> very likely destroy IC1.**
+>
+> **Go by function, never by colour.** The full mapping is in
+> [`docs/NEXT_SESSION_PLAN.md`](docs/NEXT_SESSION_PLAN.md): white to brown **and** green, grey to
+> yellow, **orange to RED**, **tan to ORANGE**. **White takes two wires** — green (AGND) and brown
+> (`PREAMP−`) both land on it, and that splice is what finally gives the ADC a real negative
+> reference.
+>
+> **This is the concrete meaning of Jacob's own caveat of 2026-09-14**, that the jumper-cable colours
+> do not align with J2's.
+
 > ## THE BOXED RUN — started 19:16 UTC, 2026-09-15. THE GATE READING
 >
 > **Both post-mount checks passed** (`SAID`, Jacob): standoff to IC1 pin 2 **beeps**, standoff to the
