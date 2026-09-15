@@ -12,6 +12,30 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## THE TIP LEAD — cleared to build, but it goes LAST. Ordering, 2026-09-15
+>
+> **Jacob asked when the magnet wire from the tip holder gets soldered to the standoff.** Safety rule
+> 0b gated it on the bare board being measured, **and that gate is now cleared.** But three things
+> should happen first, and none of them is a formality.
+>
+> 1. **Take the boxed 45-minute reading first.** Tonight's ~6 pA is **the board alone**. The moment
+>    the tip lead is on, the input node also includes the wire, the tip holder and the piezo
+>    assembly. **With a baseline, a worse number is attributable. Without one, it is an argument.**
+> 2. **Settle how the standoff is held.** It rests on the board surface under the 100 MΩ's own lead
+>    in tension. **A second wire pulling on it is a mechanical problem, not a detail** — the pole is
+>    about 2 mm from IC1's grounded leg.
+> 3. **Fix the box in its final position relative to the scan head first**, then cut the wire to
+>    length. It leaves the box through the **Ø4.00 mm hole in the wall at box (15.15, Z 8.60)**,
+>    measured from `1_preamp_box_base.stl`.
+>
+> **When it is built:** solder to the metal pole, same as the resistor. **Burn the enamel off both
+> ends** — a 40 AWG joint that looks perfect and is open would rail the output and look exactly like
+> a catastrophic leak. **Leave it slack.** It must not pull on the standoff, and **the piezo disc has
+> to flex freely** — bending stiffness goes as diameter⁴, which is why the coax was retired (H3).
+> **No tip fitted during any of it.** Local clean with 99% IPA afterwards: that joint is the one spot
+> that cannot be cleaned later. **Then safety rule 7** — meter the tip holder against the brass
+> piezo electrode, which must be open, before imaging.
+
 > ## WHY THE 45-MINUTE READING IS STILL WORTH TAKING — and where Jacob is right
 >
 > **Jacob, 2026-09-15: "Why is it so important to wait for the 45 minutes? We have the 10 minute
@@ -231,6 +255,13 @@
 > warning at the top of its powered section. **Any future instruction to power the preamp from a
 > bench supply must say 15.0 V and say why**, because the 18 V figure is the one a reader will find
 > first if they grep for a supply voltage.
+
+> ## THE UNDERSIDE REPAIR WIRES — inspected 2026-09-15
+>
+> **`SAID` 2026-09-15, Jacob: "repair wires are visually all good."** Taken as: the four 40 AWG
+> ground wires on the underside are intact and undamaged after the node build and the handling.
+> **Whether that inspection specifically covered clearance against the box's Ø3.600 mm support post
+> at board (16.197, 7.615) was not stated.** **Confirm at mounting.**
 
 > ## CONTINUITY READINGS ON THE BUILT NODE — 2026-09-15, verbatim, NOTHING POWERED
 >
@@ -1419,8 +1450,12 @@ which sign of `MTMV` advances.
    Rebuilding into that consumes the only spare board and teaches nothing. **Fix the measurement
    chain first.**~~ **SUPERSEDED 2026-09-13 for the preamp board:** Nuh decided at the bench to go
    ahead with the rebuild, because the rebuild is judged with a meter at PAD1 on a bench supply, not
-   through the ADC. **The tip-lead half still stands:** do not rebuild the tip lead until the bare
-   board has been measured.
+   through the ADC. ~~**The tip-lead half still stands:** do not rebuild the tip lead until the bare
+   board has been measured.~~ **CLEARED 2026-09-15: the bare board HAS now been measured** — about
+   6 pA at 10 minutes on ±15 V rails, with no tip lead, no box and no shield. **That baseline is the
+   whole point of the rule**: when the tip lead goes on, any degradation is attributable to the lead
+   rather than arguable. **The tip lead may now be built**, in the order set out at the top of this
+   file.
 
 0c. **Added 2026-09-07. Do not trust any current derived from ADC counts.** Use a meter on PAD1
    until fault 0 is fixed. Meter readings are sound; ADC readings are referenced to a floating node

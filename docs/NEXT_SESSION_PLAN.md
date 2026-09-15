@@ -580,7 +580,14 @@ ground at **exactly one point**, **then meter it** as in V1.
 **Do not wrap the interior** — the exterior wrap is the Faraday cage; interior copper adds stray
 capacitance millimetres from the input node and buys nothing.
 
-## H3. Prepare the tip lead in fine wire
+## H3. Prepare the tip lead in fine wire — CLEARED TO BUILD 2026-09-15, but it goes LAST
+
+> **Safety rule 0b gated this on the bare board being measured. That gate is now cleared** — the
+> board reads about 6 pA. **Three things still come first:** the boxed 45-minute reading, so the
+> bare-board baseline exists before the lead is added to the input node; settling how the standoff
+> is held, since it currently hangs on the resistor lead's tension; and fixing the box in its final
+> position, so the wire can be cut to length. It exits through the **Ø4.00 mm hole at box
+> (15.15, Z 8.60)**. Full ordering and the soldering notes are in `STATUS.md`.
 
 **The coax is being retired.** It shielded only 1–2 cm before becoming bare copper, added just
 ~2 pF, doubled the solder joints on the input node, and — the strongest reason — **it lands on the
