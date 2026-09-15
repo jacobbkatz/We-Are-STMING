@@ -311,8 +311,9 @@
 > are on (JP1 holes 1, 2, 3, 5; hole 4 empty on purpose — no copper). The to-scale bench drawing is
 > `docs/preamp_ground_repair_map.html`.
 >
-> **Before the spare board ever connects to the controller:** C2 replaced with a fresh part, and PAD1
-> under 0.1 V after 45 minutes on the bench supply. Safety rule 14.
+> **Before the spare board ever connects to the controller:** PAD1 under 0.1 V after 45 minutes on
+> the bench supply. Safety rule 14. ~~C2 replaced with a fresh part~~ — **that clause was withdrawn
+> 2026-09-15 by Jacob's decision; see the rule for the reasoning kept on both sides.**
 
 > ## IF YOU READ ONE THING BEFORE THE NEXT BENCH SESSION — written 2026-09-09
 >
@@ -1493,13 +1494,31 @@ which sign of `MTMV` advances.
     more than a tunneling gap. **Keep every DAC argument between 0 and 65535, and never send a
     bare `DACZ` / `DACX` / `DACY`.** There is no clamp anywhere in the path: not in `main.cpp`, not
     in `set_dac_*`, not in the driver.
-14. **Added 2026-09-13. Do not connect the spare preamp board to the controller until two things
-    are true.** (a) **C2 has been replaced with a fresh part** — the 4.7 µF 50 V 1812 ceramic. The
-    tantalum on it now was desoldered and refitted, and Vishay says a tantalum heated past 3 s should
-    be replaced; the controller's supply, unlike the 20 mA-limited bench supply, can drive a shorted
-    tantalum hard. (b) **PAD1 reads under 0.1 V after 45 minutes on the bench supply.** Its
-    `PREAMP−` is now grounded at the board, so a high PAD1 would put the ADC past its ±10.24 V range.
-    **Do not power it at all until the ground-repair checks in `docs/NEXT_SESSION_PLAN.md` pass.**
+14. **Added 2026-09-13. AMENDED 2026-09-15 BY JACOB'S DECISION — clause (a) is withdrawn.**
+    **Do not connect the spare preamp board to the controller until PAD1 reads under 0.1 V after
+    45 minutes on the bench supply.** Its `PREAMP−` is now grounded at the board, so a high PAD1
+    would put the ADC past its ±10.24 V range. **That is now the ONLY remaining gate.**
+
+    > **(a) ~~C2 has been replaced with a fresh part~~ — WITHDRAWN 2026-09-15.** Jacob, at the bench:
+    > *"we will not be replacing C2, executive decision."* **His call, recorded as his so that no
+    > later session cites this rule against him.** The part is not in the room and not on order
+    > (`docs/INVENTORY.md`).
+    >
+    > **The original reasoning, which still stands as reasoning:** the tantalum fitted now was
+    > desoldered and refitted with two irons, well past the 3 s hand-soldering limit, and Vishay says
+    > a tantalum heated past that should be replaced. **Tantalums fail short, and the controller's
+    > supply — unlike the 20 mA-limited bench supply — can drive a short hard.**
+    >
+    > **The evidence in favour of the decision, which is real and was not available on 2026-09-13.**
+    > C2 measures 4.65–4.7 µF in circuit, so it has not gone open. **It has now been powered at 5 V
+    > and 15 V rails for about 15 minutes with both channels matching at 3–4 mA and nothing warm** —
+    > a badly leaking C2 would have shown as extra current on the negative channel alone, and did
+    > not. At 15 V on a 35 V part it sits at 43% of rating, inside the conventional 50% derating for
+    > tantalums. **The residual risk is that heat-stressed tantalums can degrade and then fail
+    > suddenly, which the bench supply's limit has been masking.**
+    >
+    > **Cheap mitigation, if it is ever wanted:** watch the supply current and touch C2 on the first
+    > connection to the controller. **A tantalum going short is not subtle.**
 
 ---
 

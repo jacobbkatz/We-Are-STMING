@@ -44,8 +44,10 @@ leg. A gloved touch injects about 500 pA and perturbs the very drift measurement
 
 ## Then, in order
 
-1. **Replace C2** with the 4.7 µF 50 V 1812 ceramic — the other half of safety rule 14. **Whether
-   those were ever ordered is still UNKNOWN. Ask before buying.**
+1. ~~**Replace C2** with the 4.7 µF 50 V 1812 ceramic.~~ **WITHDRAWN 2026-09-15 by Jacob's
+   decision: C2 is NOT being replaced.** The part is not in the room and not on order. **The only
+   remaining gate on the controller is the 45-minute reading.** The reasoning on both sides is kept
+   at `STATUS.md` safety rule 14.
 2. **Decide how the standoff is held permanently.** Adhesive is forbidden there — safety rule 10.
 3. **Buy copper tape** with conductive adhesive. The last unbought item for the shield.
 4. **Get the OPA627's quiescent current** when the network allows, and close the chip-identity
@@ -335,8 +337,8 @@ think and that is worth an hour of my time rather than two minutes of yours.
      same as PAD1. No box, no tip lead. Nobody within a metre.
    - **Readings.** At 1, 5, 10, 20, **45** and 60 minutes, recording both channel currents each time.
    - **Interpreting it.** The table is in `STATUS.md`, next actions, "Validate the rebuild".
-5. **`STATUS.md` safety rule 14 before the controller:** C2 replaced with a fresh part, and PAD1 under
-   0.1 V at 45 minutes.
+5. **`STATUS.md` safety rule 14 before the controller:** PAD1 under 0.1 V at 45 minutes.
+   ~~C2 replaced with a fresh part~~ — **withdrawn 2026-09-15 by Jacob's decision.**
 
 ---
 
@@ -442,7 +444,7 @@ the rails at JP1 before continuing.
 
 > **JP1 pin 4 has no copper at all** — it is part of the missing ground pour. On the spare board,
 > hole 4 is left empty; green (AGND) and brown (`PREAMP−`) both join the single GND lead in hole 1 at
-> the DSUB2 splice. **Do not connect the spare board to the controller until C2 is replaced and PAD1 reads under 0.1 V** — `STATUS.md` safety rule 14.
+> the DSUB2 splice. **Do not connect the spare board to the controller until PAD1 reads under 0.1 V** — `STATUS.md` safety rule 14.
 > Kept for history.
 
 **Why it matters.** `PREAMP−` is the ADC's negative reference and it is connected to nothing.
