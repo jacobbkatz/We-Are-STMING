@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-14
+**Last updated:** 2026-09-15
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -12,22 +12,41 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# WHERE THINGS STAND — 2026-09-14, late
+# WHERE THINGS STAND — 2026-09-15
 
-**The ground repair is finished and verified.** All four wires on, **IC1 pin 3 beeps to hole 1**,
-no shorts, C2 reads 4.7 µF in circuit. Table in [`sessions/2026-09-14.md`](../sessions/2026-09-14.md) §3.1.
+**The ground repair is verified, Part B has passed, and the board has been washed.** All four wires
+on and IC1 pin 3 beeps to hole 1 ([`sessions/2026-09-14.md`](../sessions/2026-09-14.md) §3.1); all
+six lead free-end readings as expected ([`sessions/2026-09-15.md`](../sessions/2026-09-15.md) §3.1);
+washed in 99% IPA and left to dry overnight on a lint-free pad.
 
-**The board has still never been powered.**
+**The board has still never been powered. The next thing that happens to it is Part C.**
+
+> **START HERE: is it dry?** It was washed late on 2026-09-14 and dried overnight. **If there is any
+> doubt at all, give it longer before powering anything.** Waiting costs an evening; a wrong first
+> measurement costs the credibility of the whole rebuild, and that measurement (D5) is the one this
+> project has been trying to take for two weeks.
 
 ## What is now in the room
 
 | | |
 |---|---|
 | **Keystone 11301 standoff, 2 off** | **Received 2026-09-14**, DigiKey 36-11301-ND. The correct part, **PTFE base with a metal pole**. **It drops into our hole — no drilling** |
-| **Deionised water** | In the room |
-| **99% IPA** | **IN THE ROOM** — confirmed by Jacob, 2026-09-14 late. **The cleaning kit is complete and Part D is no longer gated** |
+| **99% IPA** | **IN THE ROOM.** Used for the wash on 2026-09-14 |
+| **Deionised water** | In the room, **but the water rinse is dropped** — see Part D |
 | **Foam swabs, soft brush** | In the room, 2026-09-14 |
-| **4.7 µF 50 V 1812 ceramics** | **Not owned.** Needed only before the controller, not before Part D |
+| **Calipers** | **NONE. Corrected 2026-09-14** — `docs/INVENTORY.md` wrongly listed them. **No procedure here needs one** |
+| **60–70 °C oven or dehydrator** | **NONE, and none was ever bought.** This is what dropped the water rinse |
+| **4.7 µF 50 V 1812 ceramics** | **Not owned.** Needed before the controller, not before D5 |
+| **Copper tape, conductive adhesive** | **Not owned.** For the box shield, later |
+
+## The JP1 lead colours on the spare board
+
+**Recorded 2026-09-14 and nowhere before that.** Use these for the preamp's own leads.
+**They do NOT match the J1/J2 colours in `docs/WIRING.md`** — Jacob's own caveat.
+
+| Hole 1 GND | Hole 2 +15 V | Hole 3 OUT | Hole 4 | Hole 5 −15 V |
+|---|---|---|---|---|
+| **white** | **grey** | **orange** | **empty** | **tan** |
 
 ---
 
@@ -46,17 +65,17 @@ no shorts, C2 reads 4.7 µF in circuit. Table in [`sessions/2026-09-14.md`](../s
 > **Rework after the node is built means flux and a second wash at the one place that cannot be
 > cleaned afterwards.** Order is now **B → D-wash → C → D-node → D5**.
 
-**B → C → D0 → D.** Each one gates the next. Do not jump to D because the parts arrived: **an
-unpowered board that has passed the smoke test is a completely different risk from one that has
-not**, and the input node is built last because it is the part that cannot be cleaned afterwards.
+Each one gates the next. The input node is built last because it is the part that cannot be
+cleaned afterwards.
 
-| | What | Powered? | Roughly |
-|---|---|---|---|
-| **B** | Continuity at the four lead free ends | No | 5 min |
-| **C** | Current-limited smoke test | **Bench supply only** | 20 min |
-| **D0** | Check the standoff seats in the hole | No | 5 min |
-| **D** | Wash, fit the standoff, build the input node | No | An evening, plus drying |
-| **D5** | The first valid preamp measurement this project has had | Bench supply | 1 hour |
+| | What | Powered? | Roughly | State |
+|---|---|---|---|---|
+| **B** | Continuity at the four lead free ends | No | 5 min | **DONE 2026-09-14, all six as expected** |
+| **D-wash** | Wash the board in 99% IPA, dry | No | An evening + drying | **DONE 2026-09-14, drying overnight** |
+| **C** | Current-limited smoke test | **Bench supply only** | 20 min | **NEXT. Confirm the board is dry first** |
+| **D0** | Standoff drops into the hole | No | 2 min | Nothing to prepare — no calipers needed |
+| **D-node** | Fit the standoff, air-mount the 100 MΩ, run the 40 AWG link | No | An evening | After C passes |
+| **D5** | **The first valid preamp measurement this project has had** | Bench supply | 1 hour | The point of all of it |
 
 ---
 

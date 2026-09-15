@@ -1,7 +1,20 @@
 # Current status
 
-**Last updated:** 2026-09-14
-**Updated by:** Jacob, at the bench, nothing powered. **The spare preamp board's ground repair is finished and verified — IC1 pin 3 now beeps to ground.** See [`sessions/2026-09-14.md`](sessions/2026-09-14.md).
+**Last updated:** 2026-09-15
+**Updated by:** Jacob, at the bench, nothing powered. **Part B passed and the spare preamp board has been washed** — 99% IPA, drying overnight. The first time any preamp board in this project has been cleaned. See [`sessions/2026-09-15.md`](sessions/2026-09-15.md), which is the second session of the same night as [`sessions/2026-09-14.md`](sessions/2026-09-14.md).
+
+> ## NEXT THING THAT HAPPENS — read before touching the board
+>
+> **The board was washed late on 2026-09-14 and left to dry overnight on a lint-free pad. Confirm it
+> is bone dry before powering anything.** If in doubt, give it longer.
+>
+> **Then Part C, the current-limited smoke test** — `docs/NEXT_SESSION_PLAN.md`. It has moved: it
+> now runs **after the wash and before the input node is built**, so a fault is found while the
+> board is still bare and reworkable. Bench supply only, **never the controller**.
+>
+> **Two things that are NOT true any more:** there are **no calipers** (nothing needs them), and
+> **the distilled-water rinse is dropped** — we have no oven or dehydrator, and water under IC1
+> would be a leakage path that mimics the warm-up drift we cannot yet explain.
 
 > ## READ THIS FIRST — 2026-09-13, MEASURED
 >
@@ -346,7 +359,7 @@ Z to midscale**, and **the motor is left energised** and heats the scan head.
 | 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535`. **The scanner itself is now built and working** — Jacob, 2026-09-09 |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
 | 6 Preamp | **FAIL** | PAD1 = 11.905 V on 2026-09-07. **Not a valid current measurement: IC1 +IN floats on both boards** (fault 0d, 2026-09-13). The "~119 nA" is unproven |
-| **Spare preamp board** | **GROUND REPAIR + PART B BOTH PASS — still never powered** | 2026-09-14: 4 of 4 wires on, all four ground points beep to hole 1, no shorts, C2 reads 4.7 µF in circuit. **Part B passed the same evening — all six lead free-end readings as expected** (`docs/preamp_partB_probe_map.html`). **Next is Part C, the current-limited smoke test**, which is the first time this board is powered by anything. **C2 is still the reused part** — safety rule 14 before the controller |
+| **Spare preamp board** | **GROUND REPAIR + PART B PASS, WASHED, DRYING — still never powered** | 2026-09-14: 4 of 4 wires on, all four ground points beep to hole 1, no shorts, C2 reads 4.7 µF in circuit. **Part B passed the same evening — all six lead free-end readings as expected** (`docs/preamp_partB_probe_map.html`). **Then washed in 99% IPA and left to dry overnight**, the first preamp board in this project to be cleaned. **Next is Part C, the smoke test** — the first time this board is powered by anything, and only once it is dry. **C2 is still the reused part** — safety rule 14 before the controller |
 | **Measurement chain** | **NEW FAIL** | **`PREAMP-` floating** — the ADC's reference is undefined. **Not over range after all:** span is ±10.24 V and the differential is ~9.2 V |
 | **Preamp box** shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
 | DAC config stability | **FAIL** | All four DACs drop config roughly hourly |
@@ -965,9 +978,22 @@ over** — it is the measurement reference, and it is repairable without a rebui
    time:** hole 1 GND white, hole 2 +15 V grey, hole 3 OUT orange, hole 4 empty, hole 5 −15 V tan
    (`docs/INVENTORY.md`). **These are the preamp's own jumper leads and do NOT match the J1/J2
    colours in `docs/WIRING.md`.**
-2. **The current-limited smoke test** on the bench supply, Part C. Both channels 5.0 V, **20 mA
-   limit**, each output metered before anything is connected. Both currents within 1 mA of each
-   other, then 10 minutes at 15 V with C2 not warm. **Not the controller.**
+
+1b. ~~**Wash the board.**~~ **DONE 2026-09-14 late.** 99% IPA, drying overnight on a lint-free pad.
+   **The distilled-water rinse was dropped** — no oven or dehydrator exists, and without a bake
+   water under IC1 or the 1812s is a leakage path that would **mimic the warm-up drift we cannot yet
+   explain.** Two things about the wash were not recorded: **whether it was bathed or brushed**, and
+   **what the lint-free pad actually is** — a plain wipe is fine, a treated or pre-moistened one
+   would leave residue on a just-cleaned input node. See `sessions/2026-09-15.md` §3.3.
+2. **The current-limited smoke test** on the bench supply, Part C — **but only once the board is
+   confirmed dry.** Both channels 5.0 V, **20 mA limit**, each output metered before anything is
+   connected, then 10 minutes at 15 V with C2 not warm. **Not the controller.**
+   > **"Both currents within 1 mA of each other" is RETIRED, 2026-09-14**, at Jacob's objection.
+   > Our supplies cannot resolve it, and **it could never have changed a decision: C2 is replaced
+   > before the controller regardless** (safety rule 14), so a *mildly* degraded C2 is not a finding.
+   > **The pass is: neither channel at the limit, neither climbing, nothing warm.** No resolution
+   > needed. A multimeter in series with one supply lead beats the supply's own display if a real
+   > number is ever wanted.
 3. **Fit the standoff after the wash — it drops in. Do NOT drill, and no calipers are needed.**
    **Corrected twice on 2026-09-14.** It is the Keystone 11301, order confirmation seen, PTFE base
    with a metal pole, 2 off. Berard's own Eagle board specifies 2.1082 mm for this hole and our
