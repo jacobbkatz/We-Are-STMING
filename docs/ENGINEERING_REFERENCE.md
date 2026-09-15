@@ -98,7 +98,7 @@ schematic's ADC sheet.
 | Node | Path to AGND | Confidence |
 |---|---|---|
 | **Preamp box shield** | One soldered ground wire, added 2026-09-06 | CONFIRMED it exists; **continuity across the box UNKNOWN — the acceptance test was never run** |
-| **Scan head shield cover** | Grounded at one point | INFERRED (reported by Jacob, not metered) |
+| **Scan head shield cover** | Grounded at one point | **MEASURED** — `SAID` 2026-09-15, all shielding metered end to end. Was INFERRED from 2026-09-06 |
 | **DSUB1 shell** | **NONE.** Sits alone on its own net | CONFIRMED from netlist |
 | **DSUB2 shell** | **NONE.** Same | CONFIRMED |
 | **H1 pins 24, 26** | **NONE.** Each alone on its own net | CONFIRMED |
@@ -115,7 +115,13 @@ schematic's ADC sheet.
 
 Asked repeatedly, scattered across three documents. **Consolidated here.**
 
-> ## Use COPPER tape everywhere on this instrument. Do not use aluminium tape at all.
+> ## Use COPPER tape on the preamp box and the scan head shield cover. Solder the seams, bond at one point, and meter it.
+
+> **Amended 2026-09-15.** This read *"use copper everywhere, do not use aluminium at all."*
+> **Two places on the assembled instrument are aluminium, by Jacob's decision, and an absolute rule
+> the hardware does not follow teaches the reader that the rules here are decorative** — the same
+> lesson `CLAUDE.md` §3bb learned on 2026-09-09. **The exceptions are listed below rather than left
+> as a rule everyone quietly breaks.** The technical table is unchanged and still correct.
 
 | | Copper | Aluminium |
 |---|---|---|
@@ -154,6 +160,21 @@ follow.
 **If aluminium tape is used anyway** — for cost, over a large area with no ground bond and no
 copper nearby — it still must not touch copper, and it still needs a mechanical clamp rather than
 a solder joint for any ground connection.
+
+### Where aluminium is on this instrument, by decision — recorded 2026-09-15
+
+**`SAID` 2026-09-15, Jacob.** **The preamp box is copper**, and **all shielding has been metered end
+to end** — which closes V1, open since 2026-09-06 and until now the thing every shield conclusion
+rested on.
+
+| Where | Wrap | Assessment |
+|---|---|---|
+| **Preamp box** | **Copper** | Correct, and now metered |
+| **Motor mount extenders** | **Aluminium, then copper over it** | **The one place the technical table still bites.** Copper in contact with aluminium is a galvanic couple in humidity. **Far from the input node and slow-acting** — a joint that grows resistive over months, not a fault tonight. **Watch it; do not rebuild it on my say-so** |
+| **Piezo holding block** | **Aluminium only, with the screws** | **Defensible, and it matches Mech Panda's build, which is the design we follow.** It is **not** the scan head shield cover — that is `6_shield_cover.stl`, a separate 142 × 128 × 112 mm part, and rule 1 above is about that. **What decides whether it matters: is this block bonded to ground at one point, and was it included in the end-to-end metering?** A conductor near the scan head that is NOT bonded is worse than no shield, because it couples and re-radiates |
+
+**Nothing here is a reason to take the instrument apart.** It is written down so the next session
+does not read "copper everywhere" and conclude the build is wrong.
 
 ---
 

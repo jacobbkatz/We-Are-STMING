@@ -491,7 +491,15 @@ over-range question entirely. **Either order works. Do not do it while unsure.**
 
 # HIGH-PRIORITY VERIFICATION
 
-## V1. Meter the rebuilt shield's continuity
+## ~~V1. Meter the rebuilt shield's continuity~~ CLOSED 2026-09-15
+
+> **`SAID` 2026-09-15, Jacob: all shielding has been metered end to end.** This item had been open
+> since 2026-09-06 and was the thing every shield conclusion in this project rested on.
+> **The preamp box is copper.** Two places are aluminium by decision — the motor mount extenders,
+> which have copper over aluminium, and the piezo holding block. Both are recorded in
+> `docs/ENGINEERING_REFERENCE.md` §3 with what to watch. **Kept below for method.**
+
+## V1 (retained for method only). Meter the rebuilt shield's continuity
 
 **Why it matters.** Every conclusion about the shield rests on it being continuous. It was rebuilt
 on 2026-09-06 and **has never been metered.** The box being open makes this easier, not harder.
