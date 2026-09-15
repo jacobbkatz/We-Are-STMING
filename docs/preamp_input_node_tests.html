@@ -625,24 +625,31 @@ far less energy goes into it before you notice.</p>
 <p>The 20 mA limit is already right. Leave it.</p>
 <p class="sub">Why 5 V and not straight to 15: a short at 15 V with a 20 mA limit still puts 0.3 W into
 whatever is shorted. At 5 V it is 0.1 W. Neither is dramatic, but the cheaper test goes first.</p></li>
-<li class="step"><h3>Check each channel really is at 5.0 V, with nothing connected</h3>
-<p>Leave both leads off the board. Turn the outputs <strong>on</strong>.</p>
-<p><strong>Multimeter to DC volts.</strong> Black probe on a channel's black terminal, red probe on its red
-terminal. <strong>Expect 5.0 V.</strong> Do the same on the other channel.</p>
-<p>Turn the outputs <strong>off</strong> again.</p>
-<p class="sub">A supply that is <em>set</em> to 5 V is not the same as a supply that is <em>giving</em> 5 V.
-This is thirty seconds and it has caught a wrong setting before.</p></li>
-<li class="step"><h3>Wire it, with the outputs still off</h3>
-<p><strong>First, make the middle.</strong> Join channel A's <strong>black</strong> terminal to channel B's
-<strong>red</strong> terminal, with a short wire. <strong>That junction is ground.</strong> It is the 0 V
-that everything else is measured against.</p>
-<p>Then connect, in this order:</p>
-<p><strong>1.</strong> That junction to the <strong>white</strong> lead.<br>
-<strong>2.</strong> Channel A's <strong>red</strong> terminal to the <strong>grey</strong> lead.<br>
-<strong>3.</strong> Channel B's <strong>black</strong> terminal to the <strong>tan</strong> lead.</p>
-<p><strong>Ground goes on first and comes off last, every time.</strong></p>
-<p class="sub">This gives the board plus 5 V on grey, minus 5 V on tan, and 0 V on white, which is what the
-amplifier needs. Channel B is used backwards on purpose: its black terminal becomes the negative rail.</p></li>
+<li class="step"><h3>Prove the three supply terminals are what you think</h3>
+<p>Leads still off the board. Outputs <strong>on</strong>. <strong>Meter on DC volts.</strong></p>
+<p><strong>Black probe stays on GND.</strong> Then touch the red probe to each of the other two:</p>
+<table class="interp"><tr><th>Red probe on</th><th>Meter should read</th></tr>
+<tr class="good"><td>+5 V terminal</td><td><strong>+5.0</strong></td></tr>
+<tr class="good"><td>&minus;5 V terminal</td><td><strong>&minus;5.0</strong>, with the minus sign showing</td></tr></table>
+<p><strong>If the minus sign does not appear, stop.</strong> It means you have two positive supplies, not a
+positive and a negative one, and connecting that to the board would put 5 V backwards across it.</p>
+<p>Outputs <strong>off</strong> again. Now wire the board, in the next step.</p></li>
+<li class="step"><h3>Wire the board, with the outputs off</h3>
+<p><strong>You have four leads on the board and only three places to put them. The orange one does not
+go to the supply at all.</strong></p>
+<table class="interp"><tr><th>Supply</th><th>Board lead</th><th>What it is</th></tr>
+<tr><td>+5 V</td><td><strong>grey</strong></td><td>positive rail, hole 2, chip pin 7</td></tr>
+<tr><td>GND</td><td><strong>white</strong></td><td>0 V, hole 1, chip pin 3</td></tr>
+<tr><td>&minus;5 V</td><td><strong>tan</strong></td><td>negative rail, hole 5, chip pin 4</td></tr>
+<tr><td><em>nothing</em></td><td><strong>orange</strong></td><td>the amplifier&rsquo;s output. It goes to the
+multimeter, never to the supply</td></tr></table>
+<p><strong>Connect white first, then grey, then tan.</strong> Coming apart later, reverse it: tan, grey,
+white last.</p>
+<p><strong>If your supply does not have a GND terminal of its own</strong>, make one: join channel A&rsquo;s
+<strong>black</strong> terminal to channel B&rsquo;s <strong>red</strong> terminal with a short wire. That
+junction is your GND. Channel A&rsquo;s red is then +5 V and channel B&rsquo;s black is &minus;5 V.</p>
+<p class="sub"><strong>Swapping grey and tan is the one mistake that breaks things.</strong> It puts both
+supplies backwards across the chip and across both tantalum capacitors. Check it twice before you switch on.</p></li>
 <li class="step"><h3>Set the multimeter up on the orange lead</h3>
 <p><strong>Meter on DC volts.</strong> Not current. Not continuity.</p>
 <p><strong>Black probe</strong> on the ground junction you made in step 3. <strong>Red probe</strong> on the
