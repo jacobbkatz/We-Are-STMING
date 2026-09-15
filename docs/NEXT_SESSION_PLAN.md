@@ -88,7 +88,43 @@ leaving them off has three advantages.
 > offsets are all fair; **noise is not, until the cover is on.** This project has already had to void
 > a set of noise figures once.
 
-### Verify the cable's colours before you trust them. Two minutes, and it removes the whole risk
+### BEST verification: unplug the DB9 and beep it. Unpowered, and it needs no colour table at all
+
+**Added 2026-09-15, and better than the powered method below**, because it can be done after the
+splice is made and it depends only on the netlist, which is solid.
+
+**Unplug the DSUB2 connector from the controller.** The cable and the preamp are now one assembly in
+your hand. **Nothing powered.** Meter on continuity.
+
+**The connector has a row of FIVE pins and a row of FOUR.** On DSUB2 the row of five carries signal
+and the row of four is all ground. **You do not need to read the tiny numbers** — the readings
+identify everything:
+
+| Probe | Expect |
+|---|---|
+| **white** ↔ **each of the four pins in the row of FOUR** | **beep, all four.** This identifies the ground row |
+| **white** ↔ one pin in the row of five | **beep** — that is pin 2, `PREAMP−`, the sense wire |
+| **orange, tan, grey** ↔ the row of five | each beeps to **exactly one** pin |
+
+**Then check the order along the row of five.** Counting from the end where the row of four's own
+count starts, the sequence must read:
+
+| Pin | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|
+| Function | BIAS | `PREAMP−` | `PREAMP+` | **−15 V** | **+15 V** |
+| Your lead | nothing | **white** | **orange** | **tan** | **grey** |
+
+**White, orange, tan, grey — in that order, with one empty pin at the start.**
+
+> ### The one reading that must be SILENT
+>
+> **orange ↔ the pin that tan is on.** If the amplifier's output beeps to the −15 V pin, **do not
+> power anything.** That is the fault that destroys IC1, and it is the only one worth a dedicated
+> check.
+
+**If the order comes out different, stop and tell me** rather than reasoning it out at the bench.
+
+### Older method, powered: verify the colours before you trust them
 
 **The FUNCTIONS are netlist-verified and I am confident in them. The COLOURS are not ours** — they
 come from the standard colour order of a JUXINICE DB9-to-bare-wire cable (`docs/WIRING.md` §6), which
