@@ -21,12 +21,37 @@
 > | Minute | OUT lead | Input current | Supply current |
 > |---|---|---|---|
 > | 0 | **5 mV**, wandering slightly | **~50 pA** | 4 mA |
+> | ~2, settled | **0.9 mV** | **~9 pA** | — |
 > | 5 | | | |
 > | 10 | | | |
 > | 20 | | | |
 > | 45 | | | |
 > | 60 | | | |
 >
+> ### A gloved touch on the standoff — an accidental but useful control
+>
+> **`BENCH` 2026-09-15. Jacob brushed the standoff with a nitrile glove.** The output jumped to
+> **0.05 V**, which is **500 pA**, and **came back down to 0.9 mV, about 9 pA**, on its own.
+>
+> **Two things follow, and the second is the important one.**
+>
+> **The node behaves correctly.** It responds to injected charge and then recovers, which is exactly
+> what a working high-impedance input does. Nothing was left behind: no new leakage path, no sticky
+> offset.
+>
+> **It is strong evidence that the old board's body sensitivity was its floating reference.** Safety
+> rule 9 records **20 to 50 nA from a person within a metre**, measured on a board whose +IN floated,
+> and the rule already carries a "basis in doubt" note from 2026-09-13. **Here, DIRECT CONTACT
+> through a glove produced 0.5 nA** — between 40 and 100 times less, from a far more aggressive
+> stimulus than standing nearby. **Keep the rule**, because 500 pA is still half a tunneling current
+> and the shield matters. **But the 20 to 50 nA figure looks like an artefact of the floating
+> reference, not a property of this circuit.**
+>
+> **Do not repeat it deliberately.** Two reasons, neither about the reading: the standoff is held by
+> a springy resistor lead about 2 mm from IC1's grounded leg, so a knock can short the input to
+> ground; and **a nitrile glove is an excellent static generator** while the input is a JFET gate
+> that 100 MΩ does nothing to protect.
+
 > **Reading times are held as scheduled reminders in the remote session**, at Jacob's request, so he
 > does not have to watch a clock. **Minute zero is 17:49 UTC.**
 >
