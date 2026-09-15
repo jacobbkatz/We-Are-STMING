@@ -12,6 +12,14 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> **STOPPED 2026-09-15, at the bench: THE STANDOFF DOES NOT GO IN.** Jacob offered it up and it
+> did not enter the hole. **Nothing was forced and nothing was drilled**, which is what Part D0 says
+> to do. **`docs/FACTS.md`'s "0.076 mm clearance, it drops in" is suspended, not yet replaced** —
+> the four candidate causes and their tests are in `docs/OPEN_QUESTIONS.md`, top row. **The first
+> thing to rule out is that the part in hand is one of the two 11311 we also own**, which needs
+> Ø3.45 mm and is already known not to fit. **Do all fit testing on a bare spare board, not on the
+> repaired one.** Part C, the smoke test, does not involve the standoff and can still run.
+
 > **Two things that are NOT true any more:** there are **no calipers** (nothing needs them), and
 > **the distilled-water rinse is dropped** — we have no oven or dehydrator, and water under IC1
 > would be a leakage path that mimics the warm-up drift we cannot yet explain.
