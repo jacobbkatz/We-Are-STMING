@@ -617,7 +617,18 @@ in normal use.</p></div>
 <p class="viewnote"><strong>Two instruments, two different readings. Keep them straight.</strong>
 The <strong>power supply's own display</strong> shows <strong>current in milliamps</strong>. That is the
 safety check. The <strong>multimeter</strong> shows <strong>DC volts</strong> on the orange lead. That is
-the measurement we actually came for. Nothing here uses the meter's current mode.</p>
+the measurement we actually came for.</p>
+<div class="callout hazard"><h3>Never put the meter in current mode on this board</h3>
+<p><strong>Not from white to orange, not anywhere.</strong> A multimeter in current mode is almost a piece
+of wire. Across white and orange it shorts the amplifier's output to ground through the 220 ohm resistor.
+<strong>If the output happened to be sitting at a rail, that is about 59 mA</strong>, more than the chip can
+supply, so it would go into its own limit and get hot.</p>
+<p><strong>It would also tell you nothing.</strong> The current we care about is around a <strong>nanoamp</strong>,
+and no multimeter can read that. <strong>That is the entire reason this amplifier exists.</strong> The
+100 M&#937; resistor turns that tiny current into a voltage large enough to read: one nanoamp in becomes
+0.1 V out. So we read <strong>volts</strong>, and divide.</p>
+<p><strong>Check the red lead is in the volts socket</strong>, not the amps socket. A lead left in the amps
+socket and then touched across the supply is a dead short through the meter.</p></div>
 <ol class="steps">
 <li class="step"><h3>Set both channels to 5.00 volts, limit 20 mA</h3>
 <p><strong>Not 18 V, and not 15 V yet.</strong> We start low so that if something on the board is shorted,
