@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-15
+**Last updated:** 2026-09-15 (evening, after the first power-on)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -12,7 +12,48 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# WHERE THINGS STAND — 2026-09-15
+# WHERE THINGS STAND — 2026-09-15, evening
+
+**THE INPUT NODE IS BUILT AND THE BOARD HAS BEEN POWERED. It reads about 6 pA.** Everything below
+this block that describes the node as unbuilt is history. Full account:
+[`sessions/2026-09-15-bench.md`](../sessions/2026-09-15-bench.md).
+
+## The one thing to do next
+
+**RE-POWER ON THE BENCH SUPPLY AND FINISH THE HOUR.** The run was stopped at 10 minutes.
+**Safety rule 14 wants the output under 0.1 V at 45 minutes on the bench supply**, and that reading
+has not been taken. On the evidence so far it should pass by a factor of about a thousand.
+**An untaken measurement is not a result.**
+
+Procedure, in full, with a to-scale drawing:
+[`docs/preamp_input_node_tests.html`](preamp_input_node_tests.html). In short:
+
+| | |
+|---|---|
+| Rails | **15.0 V and −15.0 V. NEVER 18 V** — that is the controller's figure, not this board's |
+| Limit | 20 mA on both channels |
+| Wiring | **+15 to grey, GND to white, −15 to tan.** Orange goes to the meter only, never the supply |
+| Order | Outputs off to connect. **White first, tan last.** Reverse to disconnect |
+| Meter | **DC volts.** Black probe on the supply ground junction, red on the orange lead. **Never current mode on this board** |
+| Readings | Output volts and both supply currents at 1, 5, 10, 20, **45** and 60 minutes |
+| Expect | A few mA per channel, matching. Output in **single-digit millivolts**. 1 mV = 10 pA |
+
+**Do not touch the board or the standoff while the clock is running.** The standoff is not in its
+hole: it rests on the surface, held by the resistor lead in tension, about 2 mm from IC1's grounded
+leg. A gloved touch injects about 500 pA and perturbs the very drift measurement the hour is buying.
+
+## Then, in order
+
+1. **Replace C2** with the 4.7 µF 50 V 1812 ceramic — the other half of safety rule 14. **Whether
+   those were ever ordered is still UNKNOWN. Ask before buying.**
+2. **Decide how the standoff is held permanently.** Adhesive is forbidden there — safety rule 10.
+3. **Buy copper tape** with conductive adhesive. The last unbought item for the shield.
+4. **Get the OPA627's quiescent current** when the network allows, and close the chip-identity
+   question against the 4 mA measured on 2026-09-15.
+
+---
+
+# WHERE THINGS STOOD — 2026-09-15, earlier the same run
 
 **The ground repair is verified, Part B has passed, and the board has been washed.** All four wires
 on and IC1 pin 3 beeps to hole 1 ([`sessions/2026-09-14.md`](../sessions/2026-09-14.md) §3.1); all

@@ -1,7 +1,7 @@
 # Current status
 
-**Last updated:** 2026-09-15
-**Updated by:** Jacob, at the bench, nothing powered. **Part B passed and the spare preamp board has been washed** — 99% IPA, drying overnight. The first time any preamp board in this project has been cleaned. See [`sessions/2026-09-15.md`](sessions/2026-09-15.md), which is the second session of the same night as [`sessions/2026-09-14.md`](sessions/2026-09-14.md).
+**Last updated:** 2026-09-15 (evening, third session of this run)
+**Updated by:** Jacob at the bench, with Claude remote. **THE INPUT NODE IS BUILT AND THE SPARE PREAMP BOARD HAS BEEN POWERED FOR THE FIRST TIME.** It reads **about 6 pA at 10 minutes on ±15 V**, against a target of 1 nA — **the first valid input current this project has ever measured.** The warm-up drift does not reproduce. See [`sessions/2026-09-15-bench.md`](sessions/2026-09-15-bench.md), which is a **different session** from [`sessions/2026-09-15.md`](sessions/2026-09-15.md) and does not supersede it. **The 45-minute reading is still owed.** Earlier the same run: Part B passed and the board was washed. The first time any preamp board in this project has been cleaned. See [`sessions/2026-09-15.md`](sessions/2026-09-15.md), which is the second session of the same night as [`sessions/2026-09-14.md`](sessions/2026-09-14.md).
 
 > ## NEXT THING THAT HAPPENS — read before touching the board
 >
@@ -23,6 +23,10 @@
 > | 0 | **5 mV**, wandering slightly | **~50 pA** | 4 mA |
 > | ~2, settled | **0.9 mV** | **~9 pA** | — |
 > | **5** | **−0.3 mV** | **~3 pA**, sign meaningless at this level | **4 mA** |
+> | **10** | **−0.6 mV** | **~6 pA** | **4 mA** |
+> | ~~20~~ | ~~—~~ | **NOT TAKEN** | — |
+> | ~~45~~ | ~~—~~ | **NOT TAKEN — this is the one safety rule 14 wants** | — |
+> | ~~60~~ | ~~—~~ | **NOT TAKEN** | — |
 > | 5 | | | |
 > | 10 | | | |
 > | 20 | | | |
@@ -71,8 +75,13 @@
 > ground; and **a nitrile glove is an excellent static generator** while the input is a JFET gate
 > that 100 MΩ does nothing to protect.
 
-> **Reading times are held as scheduled reminders in the remote session**, at Jacob's request, so he
-> does not have to watch a clock. **Minute zero is 17:49 UTC.**
+> **The run was stopped at 10 minutes and the board powered down**, by Jacob's choice, to break for
+> lunch. **Minute zero was 17:49 UTC.** The scheduled reminders for 20, 45 and 60 minutes were
+> cancelled.
+>
+> **THE 45-MINUTE READING IS STILL OWED.** Safety rule 14 wants the output under 0.1 V at 45 minutes
+> on the bench supply, and on tonight's evidence it should pass by a factor of about a thousand —
+> **but it has not been taken, and an untaken measurement is not a result.** Re-power and finish it.
 >
 > **What this run is for is no longer the offset.** That is settled at tens of pA and cannot
 > meaningfully improve. **It is for the drift question** — whether the warm-up climb recorded on the
