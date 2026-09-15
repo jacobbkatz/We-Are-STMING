@@ -12,7 +12,15 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
-> **STOPPED 2026-09-15, at the bench: THE STANDOFF DOES NOT GO IN.** Jacob offered it up and it
+> **RESOLVED LATER THE SAME EVENING: IT WENT IN, AND THE INPUT NODE IS BUILT.** Jacob: *"I got it
+> to work, the tension in the resistor wire holds the standoff in place after I solder both
+> together."* **The hole does not grip the part** — retention is the 100 MOhm's own lead in
+> tension. **Nothing was glued, nothing was drilled, nothing was forced.** How it went in after it
+> would not, and whether the pin is inside the hole at all, are **still unanswered** and matter for
+> any future board. **The earlier stop notice follows, kept because its four candidate causes are
+> still the right list for next time.**
+
+> **~~STOPPED 2026-09-15, at the bench: THE STANDOFF DOES NOT GO IN.~~** Jacob offered it up and it
 > did not enter the hole. **Nothing was forced and nothing was drilled**, which is what Part D0 says
 > to do. **`docs/FACTS.md`'s "0.076 mm clearance, it drops in" is suspended, not yet replaced** —
 > the four candidate causes and their tests are in `docs/OPEN_QUESTIONS.md`, top row. **The first
