@@ -15,7 +15,11 @@
 > **RESOLVED LATER THE SAME EVENING: IT WENT IN, AND THE INPUT NODE IS BUILT.** Jacob: *"I got it
 > to work, the tension in the resistor wire holds the standoff in place after I solder both
 > together."* **The hole does not grip the part** — retention is the 100 MOhm's own lead in
-> tension. **Nothing was glued, nothing was drilled, nothing was forced.** How it went in after it
+> tension. **Nothing was glued, nothing was drilled, nothing was forced.** **The bench page for what
+> happens next — eight unpowered checks, the current-limited ramp, then the timed hour — is
+> [`docs/preamp_input_node_tests.html`](docs/preamp_input_node_tests.html).** **Part C and the D5
+> measurement have merged**, because with the feedback resistor fitted the output no longer sits at a
+> rail. How it went in after it
 > would not, and whether the pin is inside the hole at all, are **still unanswered** and matter for
 > any future board. **The earlier stop notice follows, kept because its four candidate causes are
 > still the right list for next time.**

@@ -50,6 +50,14 @@ washed in 99% IPA and left to dry overnight on a lint-free pad.
 
 ---
 
+> **UPDATED 2026-09-15, late: THE INPUT NODE IS BUILT.** Jacob fitted the standoff and air-mounted
+> the 100 MOhm before Part C was run, so **Part C and the D5 measurement have merged** — with feedback
+> in place the output no longer rails, so the first power-up reports both the short check and the
+> leakage at once. **The order below is therefore superseded for this board.** What runs now is the
+> eight unpowered continuity checks, then the current-limited ramp, then the timed hour:
+> **[`docs/preamp_input_node_tests.html`](preamp_input_node_tests.html)**, which is the bench page
+> for it and has a to-scale drawing of the node as built.
+
 **A bench page for all of this**, tick-as-you-go and readable on a phone, is
 `docs/preamp_next_steps.html`. The verified ground repair it follows on from is
 `docs/preamp_ground_repair_map.html`.

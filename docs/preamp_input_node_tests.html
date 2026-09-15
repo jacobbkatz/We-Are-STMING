@@ -1,4 +1,5 @@
-<title>Preamp Ground Repair</title>
+<title>Input Node Tests</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -208,18 +209,100 @@
   footer p { margin: 0 0 7px; }
   code { font-family: var(--mono); font-size: .92em; }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+/* ---- Part B additions ---- */
+  .lead-w { fill: none; stroke: #9AA4A0; stroke-width: 5.5px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; }
+  .lead-core { fill: none; stroke: #D8DEDB; stroke-width: 2.2px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; }
+  .tip { fill: #C9A227; stroke: #FFFFFF; stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+  .pair { fill: none; stroke-width: 2.6px; vector-effect: non-scaling-stroke;
+    stroke-dasharray: 5 4; stroke-linecap: round; }
+  .pair-halo { fill: none; stroke: #FFFFFF; stroke-width: 6.5px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; opacity: .8; }
+  .c1 { stroke: #E07A16; } .c2 { stroke: #2F8FD8; } .c3 { stroke: #1D7A4B; } .c4 { stroke: #8046B8; }
+  .f1 { fill: #E07A16; } .f2 { fill: #2F8FD8; } .f3 { fill: #1D7A4B; } .f4 { fill: #8046B8; }
+  .badge { stroke: #FFFFFF; stroke-width: 1.6px; vector-effect: non-scaling-stroke; }
+  .badge-t { font-family: var(--mono); font-weight: 700; font-size: .95px; fill: #FFFFFF; }
+  .t-lead { font-family: var(--mono); font-size: .85px; font-weight: 700; fill: var(--ink); }
+  .t-note { font-family: var(--mono); font-size: .6px; font-weight: 500; fill: var(--ink-soft); }
+  .key { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; padding: 0; list-style: none;
+    font-size: 13px; color: var(--ink-soft); }
+  .key li { display: flex; align-items: center; gap: 6px; }
+  .key i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; flex: none; }
+  .callout { background: var(--chip-bg); border: 1px solid var(--rule); border-radius: 7px;
+    padding: 12px 14px; margin: 14px 0; }
+  .callout h3 { font-family: var(--display); font-size: 1.05rem; margin: 0 0 6px; }
+  .callout p { margin: 0 0 8px; font-size: 14px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .hazard { background: var(--hazard-bg); border-color: var(--hazard-edge); }
+  .hazard h3 { color: var(--hazard-ink); }
+  h2 { font-family: var(--display); font-size: 1.35rem; margin: 22px 0 8px; }
+  .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px;
+    padding: 4px 14px; }
+  .done { background: var(--done-bg); color: var(--done-ink); border-radius: 7px; padding: 10px 14px;
+    font-size: 13.5px; margin-top: 14px; }
+
+  /* ---- input node additions, 2026-09-15 ---- */
+  /* the inherited .step::before spans 12 rows, which adds 11 empty row-gaps to every
+     short step and leaves a tall blank area under the text. Pin it to row 1. */
+  .step::before { grid-row: 1; }
+  .so-flange { fill: #E8EDEA; stroke: #9AA4A0; stroke-width: .12; }
+  .so-pole   { fill: #C3C8CC; stroke: #7E878C; stroke-width: .1; }
+  .so-pole-i { fill: #8E969B; }
+  .r-halo { fill: none; stroke: var(--surface); stroke-width: 4.4px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; opacity: .92; }
+  .r-lead { fill: none; stroke: #B9873F; stroke-width: 2.6px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; }
+  .r-body { fill: #2B2F33; stroke: #E8EDEA; stroke-width: .1; }
+  .r-band { fill: #C9A227; }
+  .m-halo-th { fill: none; stroke: var(--surface); stroke-width: 3.8px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; opacity: .92; }
+  .mag { fill: none; stroke: #E8559A; stroke-width: 2.4px; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; }
+  .t-node { font-family: var(--mono); font-size: .68px; font-weight: 700; fill: var(--ink); }
+  .t-node-sub { font-family: var(--mono); font-size: .55px; font-weight: 500; fill: var(--ink-soft); }
+  .v-high .m-badge { fill: var(--warn); }
+  .v-high .m-ring, .v-high .m-leader { stroke: var(--warn); }
+  .v-high .m-dot { fill: var(--warn); }
+  .grid2 { display: grid; gap: 8px; grid-template-columns: repeat(3, minmax(0,1fr)); align-items: end; }
+  .fld { display: grid; gap: 3px; }
+  .fld label { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; color: var(--ink-soft); }
+  .fld input { font-family: var(--mono); font-size: 14px; font-weight: 700; width: 100%;
+    border: 1px solid var(--rule); background: var(--surface); color: var(--ink);
+    border-radius: 5px; padding: 7px 8px; }
+  .fld input:focus-visible { outline: 2px solid var(--probe); outline-offset: 1px; }
+  .tline { display: grid; gap: 7px; padding-block: 11px; border-top: 1px solid var(--rule); }
+  .tline:first-child { border-top: 0; }
+  .tline .when { font-family: var(--display); font-weight: 700; font-size: 1.05rem; }
+  .tline .when small { font-family: var(--body); font-weight: 400; color: var(--ink-soft);
+    font-size: 12.5px; display: block; }
+  table.interp { border-collapse: collapse; width: 100%; font-size: 14px; }
+  table.interp th, table.interp td { text-align: left; padding: 9px 10px; border-top: 1px solid var(--rule);
+    vertical-align: top; }
+  table.interp th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--ink-soft); font-weight: 700; border-top: 0; }
+  table.interp td:first-child { font-family: var(--mono); font-weight: 700; white-space: nowrap; }
+  .good td:first-child { color: var(--beep); }
+  .bad td:first-child { color: var(--probe); }
+  .copy { font-family: var(--mono); font-size: 12px; border: 1px solid rgba(255,255,255,.35);
+    background: none; color: var(--ground); border-radius: 5px; padding: 6px 11px; cursor: pointer;
+    justify-self: start; }
 </style>
 <div class="wrap">
-  <header>
-    <p class="eyebrow">Spare preamp board &middot; repair verified &middot; nothing powered</p>
-    <h1>Preamp Ground Repair</h1>
-    <p class="lede">All four ground wires are on the board. What is left is proving them: <strong>eight beeps and one capacitance reading</strong>, all unpowered. The last of those is what finally settles whether dot&nbsp;4&rsquo;s tail is touching the +15&nbsp;V pad.</p>
-  </header>
-
-  <div class="layout">
-    <section class="stage" aria-label="Board drawing">
-      <div class="plate">
-<svg class="map" id="map-top" viewBox="-3.5 0 33 22" role="img" aria-label="Top of the board, chip side, to scale. Black COM probe stays in hole 1. Eight red probe points numbered in reading order: 1 IC1 pin 3, 2 C4 right-hand pad, 3 C2 striped end and 4 C3 right-hand pad must all beep; 5 IC1 pin 2 must stay silent; 6 hole 2 and 7 hole 5 should chirp then go quiet; 8 hole 3 must be silent.">
+<header>
+  <p class="eyebrow">Spare preamp board &middot; input node built 2026-09-15 &middot; eight checks, then an hour</p>
+  <h1>The input node is on. Now prove it before you trust it</h1>
+  <p class="lede">Eight continuity checks with nothing powered, then the current-limited ramp, then the hour of timed readings. <strong>The last one is the measurement this project has been trying to take for two weeks.</strong></p>
+</header>
+<div class="callout">
+  <h3>What changed, now that the resistor is fitted</h3>
+  <p>Every previous plan said the smoke test came first and the node second. <strong>The node went on first, so the two have merged.</strong> That is not a problem, and it has one real advantage: with the 100&nbsp;M&#937; in place the amplifier has feedback, so <strong>the output should no longer sit at a rail</strong>. The very first power-up now tells you both things at once, whether anything is shorted and roughly how much leakage there is.</p>
+  <p><strong>It also means a fault found now is a fault reworked on a finished node.</strong> So do all eight unpowered checks before the supply goes anywhere near it. They cost five minutes and they catch the three mistakes that would otherwise look like a catastrophic leak.</p>
+</div>
+<section class="stage">
+<div class="plate">
+<svg class="map" id="map-top" viewBox="-3.5 0 33 22" role="img" aria-label="The spare preamp board from the top, plotted to scale from the gerbers, with the input node as built on 2026-09-15 drawn over it: a 100 megohm resistor arching from PAD1 across IC1 to the PTFE standoff at the left edge, and a short 40 AWG link from that standoff to IC1 pin 2. The black COM probe stays on the standoff post. Seven numbered red probe points: 1 IC1 pin 2 must beep, 2 IC1 pin 3 must stay silent, 3 hole 1, 4 hole 2 and 5 hole 5 must all stay silent, 6 PAD1 must read open or very high, 7 hole 3 reads about 220 ohms with the black probe moved to PAD1.">
 <rect class="b-mask" x="0" y="3.37" width="20.625" height="15.23"/>
 <line class="b-trace" x1="13.4375" y1="10.98" x2="11.1887" y2="10.98" stroke-width="0.6096"/>
 <line class="b-trace" x1="13.6525" y1="11.195" x2="13.6525" y2="12.885" stroke-width="0.6096"/>
@@ -348,72 +431,92 @@
 <text class="t-fn-sub" x="23.1" y="14.02" text-anchor="start" dominant-baseline="central">no copper</text>
 <text class="t-holenum" x="17.5125" y="16.06" text-anchor="middle" dominant-baseline="central">5</text>
 <text class="t-fn" x="23.1" y="16.06" text-anchor="start" dominant-baseline="central">−15 V</text>
-<g class="m-com"><circle class="m-halo" cx="18.7325" cy="5.9" r="0.78"/><circle class="m-ring-com" cx="18.7325" cy="5.9" r="0.78"/><circle class="m-badge-com" cx="21.7" cy="5.9" r="0.95"/><text class="m-badge-com-t" x="21.7" y="5.9" text-anchor="middle" dominant-baseline="central">COM</text></g>
-<g class="m-probe v-beep">
-<line class="m-leader" x1="4.6190" y1="11.3880" x2="-1.1520" y2="15.3490"/>
-<circle class="m-halo" cx="5.2125" cy="10.9800" r="0.62"/>
-<circle class="m-ring" cx="5.2125" cy="10.9800" r="0.62"/>
-<circle class="m-dot" cx="5.2125" cy="10.9800" r="0.1"/>
-<circle class="m-badge" cx="-2.10" cy="16.00" r="0.95"/>
-<text class="m-badge-t" x="-2.10" y="16.00" text-anchor="middle" dominant-baseline="central">1</text>
+
+<!-- the input node as built 2026-09-15. Board to scale; the node drawn schematically -->
+<g class="node">
+<path class="r-halo" d="M13.652 12.885 Q8.0 9.0 2.54 10.98"/>
+<path class="r-lead" d="M13.652 12.885 Q8.0 9.0 2.54 10.98"/>
+<g transform="rotate(9.73 8.048 10.466)">
+<rect class="r-body" x="6.048" y="10.006" width="4" height="0.92" rx="0.3"/>
+<rect class="r-band" x="6.74" y="10.006" width="0.26" height="0.92"/>
+<rect class="r-band" x="7.30" y="10.006" width="0.26" height="0.92"/>
+<rect class="r-band" x="7.86" y="10.006" width="0.26" height="0.92"/>
+</g>
+<path class="m-halo-th" d="M2.54 10.98 Q3.9 9.75 6.10 9.71"/>
+<path class="mag" d="M2.54 10.98 Q3.9 9.75 6.10 9.71"/>
+<circle class="so-flange" cx="2.54" cy="10.98" r="1.59" opacity="0.82"/>
+<circle class="so-pole" cx="2.54" cy="10.98" r="0.8"/>
+<circle class="so-pole-i" cx="2.54" cy="10.98" r="0.34"/>
+<line class="m-leader" x1="8.05" y1="9.35" x2="8.05" y2="2.95"/>
+<text class="t-node" x="8.05" y="2.35" text-anchor="middle" dominant-baseline="central">100 M&#937;</text>
+<text class="t-node-sub" x="8.05" y="1.45" text-anchor="middle" dominant-baseline="central">PAD1 to the standoff</text>
+</g>
+
+<g class="m-com">
+<line class="m-leader-com" x1="0.79" y1="10.98" x2="-1.05" y2="10.98"/>
+<circle class="m-halo" cx="2.54" cy="10.98" r="1.80"/>
+<circle class="m-ring-com" cx="2.54" cy="10.98" r="1.75"/>
+<circle class="m-badge-com" cx="-2.10" cy="10.98" r="0.95"/>
+<text class="m-badge-com-t" x="-2.10" y="10.98" text-anchor="middle" dominant-baseline="central">COM</text>
 </g>
 <g class="m-probe v-beep">
-<line class="m-leader" x1="7.7675" y1="14.4600" x2="7.7700" y2="19.3500"/>
-<circle class="m-halo" cx="7.7675" cy="13.8375" r="0.62"/>
-<circle class="m-ring" cx="7.7675" cy="13.8375" r="0.62"/>
-<circle class="m-dot" cx="7.7675" cy="13.8375" r="0.1"/>
-<circle class="m-badge" cx="7.77" cy="20.30" r="0.95"/>
-<text class="m-badge-t" x="7.77" y="20.30" text-anchor="middle" dominant-baseline="central">2</text>
-</g>
-<g class="m-probe v-beep">
-<line class="m-leader" x1="15.8525" y1="17.0000" x2="15.8500" y2="19.3500"/>
-<circle class="m-halo" cx="15.8525" cy="16.3775" r="0.62"/>
-<circle class="m-ring" cx="15.8525" cy="16.3775" r="0.62"/>
-<circle class="m-dot" cx="15.8525" cy="16.3775" r="0.1"/>
-<circle class="m-badge" cx="15.85" cy="20.30" r="0.95"/>
-<text class="m-badge-t" x="15.85" y="20.30" text-anchor="middle" dominant-baseline="central">3</text>
-</g>
-<g class="m-probe v-beep">
-<line class="m-leader" x1="15.6570" y1="8.4070" x2="17.9700" y2="2.6670"/>
-<circle class="m-halo" cx="15.3875" cy="9.0750" r="0.62"/>
-<circle class="m-ring" cx="15.3875" cy="9.0750" r="0.62"/>
-<circle class="m-dot" cx="15.3875" cy="9.0750" r="0.1"/>
-<circle class="m-badge" cx="18.40" cy="1.60" r="0.95"/>
-<text class="m-badge-t" x="18.40" y="1.60" text-anchor="middle" dominant-baseline="central">4</text>
+<line class="m-leader" x1="5.2726" y1="9.3558" x2="-0.9233" y2="6.7037"/>
+<circle class="m-halo" cx="6.1000" cy="9.7100" r="0.58"/>
+<circle class="m-ring" cx="6.1000" cy="9.7100" r="0.58"/>
+<circle class="m-dot" cx="6.1000" cy="9.7100" r="0.1"/>
+<circle class="m-badge" cx="-2.10" cy="6.20" r="0.95"/>
+<text class="m-badge-t" x="-2.10" y="6.20" text-anchor="middle" dominant-baseline="central">1</text>
 </g>
 <g class="m-probe v-stop">
-<line class="m-leader" x1="4.1610" y1="8.9470" x2="-1.1700" y2="5.0750"/>
-<circle class="m-halo" cx="5.2125" cy="9.7100" r="0.62"/>
-<circle class="m-ring" cx="5.2125" cy="9.7100" r="0.62"/>
-<circle class="m-ring2" cx="5.2125" cy="9.7100" r="1.17"/>
-<circle class="m-dot" cx="5.2125" cy="9.7100" r="0.1"/>
-<circle class="m-badge" cx="-2.10" cy="4.40" r="0.95"/>
-<text class="m-badge-t" x="-2.10" y="4.40" text-anchor="middle" dominant-baseline="central">5</text>
+<line class="m-leader" x1="5.3408" y1="11.4633" x2="-1.0202" y2="15.5126"/>
+<circle class="m-halo" cx="6.1000" cy="10.9800" r="0.58"/>
+<circle class="m-ring" cx="6.1000" cy="10.9800" r="0.58"/>
+<circle class="m-dot" cx="6.1000" cy="10.9800" r="0.1"/>
+<circle class="m-badge" cx="-2.10" cy="16.20" r="0.95"/>
+<text class="m-badge-t" x="-2.10" y="16.20" text-anchor="middle" dominant-baseline="central">2</text>
 </g>
-<g class="m-probe v-chirp">
-<circle class="m-halo" cx="18.7325" cy="8.4400" r="0.78"/>
-<circle class="m-ring" cx="18.7325" cy="8.4400" r="0.78"/>
+<g class="m-probe v-stop">
+<line class="m-leader" x1="19.6725" y1="5.9000" x2="20.4200" y2="5.9000"/>
+<circle class="m-halo" cx="18.7325" cy="5.9000" r="0.62"/>
+<circle class="m-ring" cx="18.7325" cy="5.9000" r="0.62"/>
+<circle class="m-dot" cx="18.7325" cy="5.9000" r="0.1"/>
+<circle class="m-badge" cx="21.70" cy="5.90" r="0.95"/>
+<text class="m-badge-t" x="21.70" y="5.90" text-anchor="middle" dominant-baseline="central">3</text>
+</g>
+<g class="m-probe v-stop">
+<line class="m-leader" x1="19.6725" y1="8.4400" x2="20.4200" y2="8.4400"/>
+<circle class="m-halo" cx="18.7325" cy="8.4400" r="0.62"/>
+<circle class="m-ring" cx="18.7325" cy="8.4400" r="0.62"/>
 <circle class="m-dot" cx="18.7325" cy="8.4400" r="0.1"/>
 <circle class="m-badge" cx="21.70" cy="8.44" r="0.95"/>
-<text class="m-badge-t" x="21.70" y="8.44" text-anchor="middle" dominant-baseline="central">6</text>
+<text class="m-badge-t" x="21.70" y="8.44" text-anchor="middle" dominant-baseline="central">4</text>
 </g>
-<g class="m-probe v-chirp">
-<circle class="m-halo" cx="18.7325" cy="16.0600" r="0.78"/>
-<circle class="m-ring" cx="18.7325" cy="16.0600" r="0.78"/>
+<g class="m-probe v-stop">
+<line class="m-leader" x1="19.6725" y1="16.0600" x2="20.4200" y2="16.0600"/>
+<circle class="m-halo" cx="18.7325" cy="16.0600" r="0.62"/>
+<circle class="m-ring" cx="18.7325" cy="16.0600" r="0.62"/>
 <circle class="m-dot" cx="18.7325" cy="16.0600" r="0.1"/>
 <circle class="m-badge" cx="21.70" cy="16.06" r="0.95"/>
-<text class="m-badge-t" x="21.70" y="16.06" text-anchor="middle" dominant-baseline="central">7</text>
+<text class="m-badge-t" x="21.70" y="16.06" text-anchor="middle" dominant-baseline="central">5</text>
 </g>
-<g class="m-probe v-silent">
-<circle class="m-halo" cx="18.7325" cy="10.9800" r="0.78"/>
-<circle class="m-ring" cx="18.7325" cy="10.9800" r="0.78"/>
+<g class="m-probe v-high">
+<line class="m-leader" x1="14.0761" y1="13.7239" x2="16.7224" y2="18.9577"/>
+<circle class="m-halo" cx="13.6520" cy="12.8850" r="0.62"/>
+<circle class="m-ring" cx="13.6520" cy="12.8850" r="0.62"/>
+<circle class="m-dot" cx="13.6520" cy="12.8850" r="0.1"/>
+<circle class="m-badge" cx="17.30" cy="20.10" r="0.95"/>
+<text class="m-badge-t" x="17.30" y="20.10" text-anchor="middle" dominant-baseline="central">6</text>
+</g>
+<g class="m-probe v-high">
+<line class="m-leader" x1="19.6725" y1="10.9800" x2="20.4200" y2="10.9800"/>
+<circle class="m-halo" cx="18.7325" cy="10.9800" r="0.62"/>
+<circle class="m-ring" cx="18.7325" cy="10.9800" r="0.62"/>
 <circle class="m-dot" cx="18.7325" cy="10.9800" r="0.1"/>
 <circle class="m-badge" cx="21.70" cy="10.98" r="0.95"/>
-<text class="m-badge-t" x="21.70" y="10.98" text-anchor="middle" dominant-baseline="central">8</text>
+<text class="m-badge-t" x="21.70" y="10.98" text-anchor="middle" dominant-baseline="central">7</text>
 </g>
-<g class="m-skip"><circle class="m-badge" cx="21.7" cy="13.52" r="0.95"/><text class="m-badge-t" x="21.7" y="13.52" text-anchor="middle" dominant-baseline="central">&#8212;</text></g>
-        </svg>
-<svg class="map" id="map-bottom" viewBox="-3.5 0 33 22" hidden role="img" aria-label="Underside of the board, mirror image and to scale: five holes on the left, the four scraped dots numbered 1 to 4, wires 1 and 2 already run to hole 1 in grey dashes, wire 3 in orange from dot 3 to dot 2, wire 4 in blue from dot 4 to hole 1">
+</svg>
+<svg class="map" id="map-bottom" viewBox="-3.5 0 33 22" hidden role="img" aria-label="Underside of the board, mirror image and to scale. The standoff pin tail comes through on the right at point 8. The four ground repair wires are all on the left half of this face, and the nearest one ends about 6 millimetres away from the standoff pin.">
 <rect class="b-mask" x="0" y="3.37" width="20.625" height="15.23"/>
 <line class="b-trace-b" x1="4.4325" y1="9.075" x2="3.7975" y2="9.075" stroke-width="0.6096"/>
 <line class="b-trace-b" x1="7.6075" y1="5.5825" x2="7.6075" y2="6.535" stroke-width="0.6096"/>
@@ -463,306 +566,161 @@
 <text class="t-small" x="18.085" y="13.15" text-anchor="middle" dominant-baseline="central">hole</text>
 <text class="t-fn" x="25.2" y="4.3" text-anchor="middle" dominant-baseline="central">underside</text>
 <text class="t-fn-sub" x="25.2" y="5.15" text-anchor="middle" dominant-baseline="central">mirror image</text>
-<g class="m-com">
-<line class="m-leader-com" x1="1.2341" y1="5.4817" x2="-1.3981" y2="3.8094"/>
-<circle class="m-halo" cx="1.8925" cy="5.9" r="0.78"/><circle class="m-ring-com" cx="1.8925" cy="5.9" r="0.78"/>
-<circle class="m-badge-com" cx="-2.2" cy="3.3" r="0.95"/>
-<text class="m-badge-com-t" x="-2.2" y="3.3" text-anchor="middle" dominant-baseline="central">HOLE 1</text></g>
-<g class="m-probe m-scrape" id="bottom-mark-1">
-<line class="m-leader" x1="13.3942" y1="10.7289" x2="21.3048" y2="7.9181"/>
-<circle class="m-halo" cx="12.6875" cy="10.98" r="0.75"/><circle class="m-ring" cx="12.6875" cy="10.98" r="0.75"/>
-<circle class="m-dot" cx="12.6875" cy="10.98" r="0.1"/>
-<circle class="m-badge" cx="22.2" cy="7.6" r="0.95"/>
-<text class="m-badge-t" x="22.2" y="7.6" text-anchor="middle" dominant-baseline="central">1</text></g>
-<g class="m-probe m-scrape" id="bottom-mark-2">
-<line class="m-leader" x1="12.8004" y1="13.8937" x2="21.2527" y2="14.5288"/>
-<circle class="m-halo" cx="12.0525" cy="13.8375" r="0.75"/><circle class="m-ring" cx="12.0525" cy="13.8375" r="0.75"/>
-<circle class="m-dot" cx="12.0525" cy="13.8375" r="0.1"/>
-<circle class="m-badge" cx="22.2" cy="14.6" r="0.95"/>
-<text class="m-badge-t" x="22.2" y="14.6" text-anchor="middle" dominant-baseline="central">2</text></g>
-<g class="m-probe m-scrape" id="bottom-mark-3">
-<line class="m-leader" x1="7.608" y1="17.1275" x2="7.6094" y2="19.35"/>
-<circle class="m-halo" cx="7.6075" cy="16.3775" r="0.75"/><circle class="m-ring" cx="7.6075" cy="16.3775" r="0.75"/>
-<circle class="m-dot" cx="7.6075" cy="16.3775" r="0.1"/>
-<circle class="m-badge" cx="7.61" cy="20.3" r="0.95"/>
-<text class="m-badge-t" x="7.61" y="20.3" text-anchor="middle" dominant-baseline="central">3</text></g>
-<g class="m-probe m-scrape" id="bottom-mark-4">
-<line class="m-leader" x1="5.1653" y1="9.2347" x2="6.3718" y2="9.4977"/>
-<path class="m-halo" d="M4.4325 8.325 A0.75 0.75 0 0 1 4.4325 9.825"/><path class="m-ring" d="M4.4325 8.325 A0.75 0.75 0 0 1 4.4325 9.825" style="stroke-dasharray:none"/><line class="m-ring" x1="4.4325" y1="8.325" x2="4.4325" y2="9.825" style="stroke-dasharray:2 2"/>
-<circle class="m-dot" cx="4.4325" cy="9.075" r="0.1"/>
-<circle class="m-badge" cx="7.3" cy="9.7" r="0.95"/>
-<text class="m-badge-t" x="7.3" y="9.7" text-anchor="middle" dominant-baseline="central">4</text></g>
-        <g class="m-leave"><circle cx="7.6075" cy="5.5825" r="0.72"/><circle cx="9.5125" cy="7.4875" r="0.72"/></g>
+<g class="m-probe v-stop">
+<line class="m-leader" x1="19.3050" y1="10.9800" x2="20.4200" y2="10.9800"/>
+<circle class="m-halo" cx="18.0850" cy="10.9800" r="0.90"/>
+<circle class="m-ring" cx="18.0850" cy="10.9800" r="0.90"/>
+<circle class="m-dot" cx="18.0850" cy="10.9800" r="0.1"/>
+<circle class="m-badge" cx="21.70" cy="10.98" r="0.95"/>
+<text class="m-badge-t" x="21.70" y="10.98" text-anchor="middle" dominant-baseline="central">8</text>
+</g>
+<text class="t-fn-sub" x="8.0" y="2.4" text-anchor="middle" dominant-baseline="central">nearest repair wire ends about 6 mm away</text>
 </svg>
-      </div>
-      <div class="viewbar">
-        <div class="seg" role="group" aria-label="Which side of the board">
-          <button type="button" id="v-top" aria-pressed="true">Top (chip side)</button>
-          <button type="button" id="v-bottom" aria-pressed="false">Underside</button>
-        </div>
-        <button class="tool" type="button" id="z-all">Whole board</button>
-      </div>
-      <p class="viewnote" id="note-top"><strong>Top, chip side.</strong> Five holes on your right, the chip&rsquo;s corner dot top-left. <strong>Black probe stays in hole&nbsp;1</strong> (the black ring) for all eight. Move only the red probe, in number order.</p>
-      <p class="keyrow" id="key-top"><span><i style="background:var(--beep)"></i>must beep</span><span><i style="background:var(--warn)"></i>silent or a chirp &mdash; never a held beep</span><span><i style="background:var(--com)"></i>must be silent</span><span><i class="ring"></i>red probe here</span><span><i class="com"></i>black probe, hole 1</span></p>
-      <p class="viewnote" id="note-bottom" hidden><strong>Underside.</strong> Flip the board like turning a page. Five holes now on your <strong>left</strong>, hole&nbsp;1 still at the top. <strong>Dots&nbsp;1 to&nbsp;4 here are the same four points as badges&nbsp;1 to&nbsp;4 on the front</strong>, seen from the other side &mdash; dot&nbsp;1 is pin&nbsp;3&rsquo;s via, dot&nbsp;2 is C4&rsquo;s, and so on. Nothing to probe on this side; it is where you look for the joint if a reading comes out wrong.</p>
-    </section>
-
-    <section class="panel">
-
-      <div class="said pass">
-        <p class="hd">Verified 2026-09-14 &mdash; all nine readings pass</p>
-        <p><strong>IC1 pin&nbsp;3 beeps to hole&nbsp;1.</strong> The first time in this project the amplifier&rsquo;s 0&nbsp;V reference has been connected to anything. All four ground wires make, the input is not shorted, neither rail is shorted, and hole&nbsp;1 to hole&nbsp;5 reads <strong>4.7&nbsp;&micro;F</strong> &mdash; so C2 survived the two-iron rework.</p>
-        <p><strong>The +15&nbsp;V hazard at dot&nbsp;4 is closed.</strong> Hole&nbsp;2 read silent with wire&nbsp;4 fitted, where a bridged tail would have held a beep.</p>
-        <p><strong>Next, and still unpowered:</strong> continuity at the four lead free ends, then the current-limited smoke test &mdash; both channels 5.0&nbsp;V, <strong>20&nbsp;mA limit</strong>, metered before anything is connected. Not the controller. The readings below are kept as the record, and as the list to repeat if anything on this board is ever reworked.</p>
-      </div>
-
-      <h2>The eight points, in reading order</h2>
-      <p class="note"><strong>Black probe in hole&nbsp;1, and leave it there.</strong> Everything below is where the red probe goes. The badge colour on the drawing is what the meter should do, so you can check a reading without looking away from the board.</p>
-      <p class="note"><strong>On 6 and 7, expect nothing to happen.</strong> A continuity tester drives a roughly constant current, so while a capacitor charges the resistance it computes is <code>t / C</code> and it beeps for <code>C &times; R_threshold</code> &mdash; the test current cancels out. At 4.8&nbsp;&micro;F that is <strong>96&nbsp;&micro;s to 960&nbsp;&micro;s</strong>, and a beeper needs about a millisecond to sound. <strong>Silence is the normal reading. Only a beep that holds means anything.</strong></p>
-      <div class="legend">
-        <div class="lrow"><b>1</b><span class="what">IC1 pin&nbsp;3<small>Left side, third leg down. The fault that started all of this</small></span><span class="tag beep">beep</span></div>
-        <div class="lrow"><b>2</b><span class="what">C4&rsquo;s right-hand pad<small>The small part below the chip. Right-hand means nearer the holes. Tests wire&nbsp;2</small></span><span class="tag beep">beep</span></div>
-        <div class="lrow"><b>3</b><span class="what">C2&rsquo;s striped end<small>The big tantalum at the bottom. The stripe is on the end nearest the holes, after the rotation. Tests wire&nbsp;3</small></span><span class="tag beep">beep</span></div>
-        <div class="lrow"><b>4</b><span class="what">C3&rsquo;s right-hand pad<small>The small part above R1, right of the chip&rsquo;s upper legs. Tests wire&nbsp;4</small></span><span class="tag beep">beep</span></div>
-        <div class="lrow"><b>5</b><span class="what">IC1 pin&nbsp;2 &mdash; the one that must not beep<small>Left side, second leg down, immediately above pin&nbsp;3. The amplifier&rsquo;s input. Marked with a second dashed ring on the drawing because it is the only reading here that is a hard stop</small></span><span class="tag silent">silent</span></div>
-        <div class="lrow"><b>6</b><span class="what">Hole&nbsp;2, +15&nbsp;V<small>Through C1 and C3. <strong>A beep that holds means dot&nbsp;4&rsquo;s tail is bridged to this pad</strong></small></span><span class="tag chirp">no hold</span></div>
-        <div class="lrow"><b>7</b><span class="what">Hole&nbsp;5, &minus;15&nbsp;V<small>Through C2 and C4. A beep that holds points at C2 itself, not at anything you soldered</small></span><span class="tag chirp">no hold</span></div>
-        <div class="lrow"><b>8</b><span class="what">Hole&nbsp;3, OUT<small>Through R1 from the op-amp output. No path to ground</small></span><span class="tag silent">silent</span></div>
-        <div class="lrow"><b></b><span class="what">Hole&nbsp;4 has no badge, on purpose<small>No copper lands on it. It is the sixth ground point the missing pour left out, and it is why the lead was left out of it</small></span><span class="tag leave">skip</span></div>
-      </div>
-      <p class="keyrow"><button class="show" type="button" data-view="top" data-zoom="ic">Zoom to 1 and 5, the chip pins</button><button class="show" type="button" data-view="top" data-zoom="caps">Zoom to 2 and 3</button><button class="show" type="button" data-view="top" data-zoom="holes">Zoom to 4, 6 and 8</button><button class="show" type="button" data-view="top" data-zoom="hole5">Zoom to 7</button></p>
-
-      <h2>The readings, as taken</h2>
-      <p class="note">You do not need the checks that were meant to come before soldering. <strong>The list below is a superset of them</strong> &mdash; every one of those faults shows up here, it just takes one more step to say which wire caused it. Nothing here is powered and nothing here can hurt the board.</p>
-      <ol class="steps">
-        <li class="step">
-          <h3>Eight readings. Black probe in hole&nbsp;1 and leave it there</h3>
-          <p>Meter on beep, top side. Move only the red probe. The first four are the repair working; the last four are the repair not having broken something else.</p>
-          <div class="checks">
-            <div class="check"><div class="lbl">IC1 pin&nbsp;3 <span class="req beep">BEEP</span><small>Left side, third leg down. This is the fault that started all of it</small></div><div class="res" data-key="s1"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">C4&rsquo;s right-hand pad <span class="req beep">BEEP</span><small>Tests wire&nbsp;2, which wire&nbsp;3 now hangs off</small></div><div class="res" data-key="s2"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">C2&rsquo;s striped end <span class="req beep">BEEP</span><small>The end nearest the holes, after the rotation. Tests wire&nbsp;3</small></div><div class="res" data-key="s3"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl">C3&rsquo;s right-hand pad <span class="req beep">BEEP</span><small>Tests wire&nbsp;4</small></div><div class="res" data-key="s4"><button type="button" data-val="beep" aria-pressed="false">Beep</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
-            <div class="check"><div class="lbl"><strong>IC1 pin&nbsp;2</strong> <span class="req warn">MUST be SILENT</span><small>Left side, second leg down. The amplifier&rsquo;s input. Nothing on this board should touch it &mdash; a beep means a whisker or a bridge, and it is a hard stop</small></div><div class="res" data-key="in"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
-            <div class="check wide"><div class="lbl">Hole&nbsp;2, +15&nbsp;V <span class="req beep">SILENT, or a chirp &mdash; both pass</span><small><strong>Only a beep that HOLDS is a fault</strong>, and it would mean dot&nbsp;4&rsquo;s tail is bridged to this pad. This is the check that settles the 0.076&nbsp;mm question</small></div><div class="res" data-key="h2"><button type="button" data-val="silent" aria-pressed="false">Silent</button><button type="button" data-val="chirp" aria-pressed="false">Brief chirp</button><button type="button" data-val="holds" class="bad" aria-pressed="false">Beep holds</button></div></div>
-            <div class="check wide"><div class="lbl">Hole&nbsp;5, &minus;15&nbsp;V <span class="req beep">SILENT, or a chirp &mdash; both pass</span><small>A beep that holds would point at C2 itself, the reused part that took two irons</small></div><div class="res" data-key="h5"><button type="button" data-val="silent" aria-pressed="false">Silent</button><button type="button" data-val="chirp" aria-pressed="false">Brief chirp</button><button type="button" data-val="holds" class="bad" aria-pressed="false">Beep holds</button></div></div>
-            <div class="check"><div class="lbl">Hole&nbsp;3, OUT <span class="req silent">SILENT</span><small>Through R1 and the op-amp output. No path to ground</small></div><div class="res" data-key="h3"><button type="button" data-val="beep" class="bad" aria-pressed="false">Beep</button><button type="button" data-val="silent" aria-pressed="false">Silent</button></div></div>
-          </div>
-        </li>
-
-        <li class="step">
-          <h3>One capacitance reading, and it is the strongest of the lot</h3>
-          <p>Meter on capacitance. <strong>Hole&nbsp;1 to hole&nbsp;5.</strong> Expect about <strong>4.7&nbsp;&micro;F</strong>.</p>
-          <p class="sub">That is C2 at 4.7&nbsp;&micro;F in parallel with C4 at 0.1&nbsp;&micro;F. <strong>Before today it read near zero</strong> &mdash; both of those capacitors had their ground ends hanging in the air.</p>
-          <p class="sub">Readings&nbsp;2 and&nbsp;3 have already proved the wiring, so what this one tests is <strong>C2 itself</strong>, the part that came off and back on with two irons. Three outcomes: <strong>about 4.7&nbsp;&micro;F</strong> and C2 survived; <strong>about 0.1&nbsp;&micro;F</strong> and C2 has gone open, leaving only C4; <strong>near zero</strong> and something has come adrift since reading&nbsp;3.</p>
-          <div class="checks">
-            <div class="check wide"><div class="lbl">Hole&nbsp;1 to hole&nbsp;5, capacitance <span class="req beep">about 4.7 &micro;F</span></div><div class="res" data-key="cap"><button type="button" data-val="~4.7uF" aria-pressed="false">~4.7 &micro;F</button><button type="button" data-val="near zero" class="bad" aria-pressed="false">Near zero</button><button type="button" data-val="~0.1uF" class="bad" aria-pressed="false">~0.1 &micro;F</button><button type="button" data-val="other" class="bad" aria-pressed="false">Something else</button></div></div>
-          </div>
-        </li>
-      </ol>
-
-      <h2>If a reading comes out wrong</h2>
-      <div class="legend">
-        <div class="lrow"><b></b><span class="what"><strong>IC1 pin&nbsp;3 silent</strong><small>Wire&nbsp;1, from 2026-09-13. Either its joint at dot&nbsp;1 or its joint at hole&nbsp;1</small></span><span class="tag leave">wire 1</span></div>
-        <div class="lrow"><b></b><span class="what"><strong>C4 silent, and C2 silent too</strong><small>Wire&nbsp;2 is the common ancestor &mdash; wire&nbsp;3 lands on its joint, so both hang off it. Fix wire&nbsp;2 and both come back</small></span><span class="tag leave">wire 2</span></div>
-        <div class="lrow"><b></b><span class="what"><strong>C4 beeps but C2 is silent</strong><small>Wire&nbsp;2 is fine, so it is wire&nbsp;3 or its joint at dot&nbsp;3</small></span><span class="tag leave">wire 3</span></div>
-        <div class="lrow"><b></b><span class="what"><strong>C3 silent</strong><small>Wire&nbsp;4 or its joint at dot&nbsp;4. Lowest stakes of the four &mdash; C1 still filters +15&nbsp;V if we end up leaving it</small></span><span class="tag leave">wire 4</span></div>
-        <div class="lrow"><b></b><span class="what"><strong>Hole&nbsp;2 beeps and holds</strong><small>Silence here is a pass, not a worry. A <em>held</em> beep means dot&nbsp;4&rsquo;s tail is touching the +15&nbsp;V pad. Take wire&nbsp;4 off and tell me &mdash; nothing is damaged, it has never been powered</small></span><span class="tag todo">stop</span></div>
-        <div class="lrow"><b></b><span class="what"><strong>Hole&nbsp;5 beeps and holds</strong><small>Again, silence passes. A <em>held</em> beep: nothing you soldered today goes near hole&nbsp;5, so this points at <strong>C2 being shorted</strong> &mdash; the part that came off and back on with two irons. Tell me before doing anything else</small></span><span class="tag todo">stop</span></div>
-        <div class="lrow"><b></b><span class="what"><strong>IC1 pin&nbsp;2 beeps</strong><small>The amplifier&rsquo;s input is shorted to ground. Hard stop. Magnifier on pins 2 and 3 and on dot&nbsp;1&rsquo;s joint &mdash; look for a whisker</small></span><span class="tag todo">stop</span></div>
-      </div>
-
-      <svg class="detail" viewBox="-12 -7.5 42 35" role="img" aria-label="Magnified detail at dot 4. The scraped via ring stops 0.51 millimetres short of hole 2's pad. The copper tail running out of that via, under the solder mask, reaches to within 0.076 millimetres of the same pad.">
-        <defs><clipPath id="win4"><rect x="-6" y="0" width="24" height="13"/></clipPath></defs>
-        <text class="d-eyebrow" x="-12" y="-4.6">DOT 4, MAGNIFIED 10x</text>
-        <g clip-path="url(#win4)">
-          <rect class="b-mask" x="-6" y="0" width="24" height="13"/>
-          <rect class="b-pad" x="-9" y="-3" width="11.665" height="10.52"/>
-          <line class="d-tail" x1="12.825" y1="6.25" x2="6.475" y2="6.25"/>
-          <circle class="d-via" cx="12.825" cy="6.25" r="5.032"/>
-          <circle class="d-scrape" cx="12.825" cy="6.25" r="5.032"/>
-          <line class="d-guide" x1="2.665" y1="0" x2="2.665" y2="13"/>
-          <line class="d-guide" x1="3.427" y1="0" x2="3.427" y2="13"/>
-          <line class="d-guide" x1="7.793" y1="0" x2="7.793" y2="13"/>
-        </g>
-        <text class="d-lab" x="-6" y="-1.6">HOLE 2 PAD &middot; +15 V</text>
-        <line class="d-lead" x1="19.4" y1="4.2" x2="17.3" y2="5.2"/>
-        <text class="d-lab" x="20.2" y="4.9">RING</text>
-        <line class="d-lead" x1="19.4" y1="10.4" x2="9.0" y2="8.9"/>
-        <text class="d-lab" x="20.2" y="11.1">TAIL</text>
-        <line class="d-tick" x1="2.665" y1="13.6" x2="2.665" y2="24.2"/>
-        <line class="d-tick" x1="7.793" y1="13.6" x2="7.793" y2="18.4"/>
-        <line class="d-tick" x1="3.427" y1="13.6" x2="3.427" y2="24.2"/>
-        <line class="d-bar-ok" x1="2.665" y1="17.4" x2="7.793" y2="17.4"/>
-        <text class="d-num ok" x="9.6" y="18.3">0.51 mm</text>
-        <line class="d-bar-bad" x1="2.665" y1="23.2" x2="3.427" y2="23.2"/>
-        <line class="d-lead" x1="3.9" y1="23.2" x2="9.1" y2="23.2"/>
-        <text class="d-num bad" x="9.6" y="24.1">0.076 mm</text>
-      </svg>
-      <p class="viewnote"><strong>Why hole&nbsp;2 is the one that settles it.</strong> The <strong class="ok-ink">0.51&nbsp;mm</strong> gap is the scraped ring to the pad &mdash; the one you could see, and it is genuinely roomy. The <strong class="bad-ink">0.076&nbsp;mm</strong> gap is the tail end to the same pad, under the mask. Now that wire&nbsp;4 ties that node to hole&nbsp;1, a bridge at the tail is a dead short from +15&nbsp;V to ground, and the beeper will hold instead of chirping. Nothing subtle about it.</p>
-
-      <div class="report">
-        <span class="hd">Readings &mdash; saved, I can read these back</span>
-        <output id="report">Nothing recorded yet. Tap a result as you take it.</output>
-        <span class="saved" id="saved-note"></span>
-      </div>
-
-      <h2>Once it passes, stop there</h2>
-      <ul class="stop-list">
-        <li><b>Do not power it, not even briefly</b>
-        When the checks pass, the next powered step is a <strong>bench supply on both channels with a 20&nbsp;mA limit</strong>, set and metered before anything is connected &mdash; not the controller.
-        <small>And when it is powered: PAD1 will sit near a supply rail. That is correct, not a fault. The 100&nbsp;M&Omega; feedback resistor is not fitted, so the amplifier has no feedback path yet.</small></li>
-
-        <li><b>Do not fit the standoff yet &mdash; but the fit question is closed</b>
-        <strong>The board has to be washed first</strong> &mdash; IPA scrub, clean IPA rinse, distilled water rinse, then dried &mdash; because you cannot clean underneath a fitted standoff, and that spot is the input node. That is the only reason left to wait.
-        <small><strong>Corrected 2026-09-14.</strong> This said the 11301&rsquo;s hole figure was disputed and warned about pressing an oversize shank in. <strong>It is not a press fit. It drops in with 0.076&nbsp;mm of clearance and you must not drill anything.</strong> 0.086&Prime; is Keystone&rsquo;s recommended clearance hole, not a requirement; the pin below the PTFE base is 0.080&Prime; = 2.032&nbsp;mm and our hole is 2.108&nbsp;mm. Berard&rsquo;s own board file specifies 2.1082&nbsp;mm for this hole. One caliper reading on that pin confirms it.</small></li>
-
-        <li><b>Do not connect this board to the controller</b>
-        C2 is the original part, reused after a two-iron removal that almost certainly went past the 3&nbsp;second limit. It gets replaced with a fresh 4.7&nbsp;&micro;F part, and PAD1 has to read under 0.1&nbsp;V at 45&nbsp;minutes on the bench supply, before the two ever meet.</li>
-      </ul>
-
-      <footer>
-        <p><strong>Where this drawing comes from.</strong> Both views are plotted to scale straight from <code>tunnelAmp-B_Cu.gbr</code>, the top copper, silkscreen and the drill file &mdash; not drawn by hand. Via coordinates are in <code>sessions/2026-09-13.md</code> &sect;3.6.</p>
-        <p><strong>What is actually wrong with these boards.</strong> Berard&rsquo;s Eagle design has a ground copper pour across the whole underside. The KiCad gerbers JLCPCB built ours from have no filled regions at all, so six ground points each end at a dead via. Nobody here caused it. Nuh found it on 2026-09-13 by reporting a silence he did not expect instead of assuming a bad joint.</p>
-      </footer>
-    </section>
+</div>
+<div class="viewbar">
+  <div class="seg" role="group" aria-label="Which side of the board">
+    <button type="button" id="v-top" aria-pressed="true">Top (chip side)</button>
+    <button type="button" id="v-bottom" aria-pressed="false">Underside</button>
   </div>
+  <div class="seg" role="group" aria-label="Zoom">
+    <button type="button" id="z-all" aria-pressed="true">Whole board</button>
+    <button type="button" id="z-node" aria-pressed="false">The node</button>
+  </div>
+</div>
+<p class="viewnote" id="note-top"><strong>Top, chip side.</strong> Five holes on your right, the standoff at the left edge. <strong>Black probe stays on the standoff post</strong> for checks 1 to 6 &mdash; that is the black ring. Move only the red probe. <strong>Check 7 is the odd one out</strong>: the black probe moves to PAD1 for it.</p>
+<p class="keyrow" id="key-top"><span><i style="background:var(--beep)"></i>must beep</span><span><i style="background:var(--com)"></i>must be silent</span><span><i style="background:var(--warn)"></i>a number, not a beep</span><span><i class="ring"></i>red probe here</span><span><i class="com"></i>black probe, the standoff</span></p>
+<p class="viewnote" id="note-bottom" hidden><strong>Underside.</strong> Flip the board like turning a page. The standoff&rsquo;s pin tail comes through on your <strong>right</strong> now. <strong>The four ground repair wires are all on the left half of this face</strong> and the nearest one ends about 6&nbsp;mm from the pin, so check&nbsp;8 should be a formality. Do it anyway: that pin is the amplifier&rsquo;s input, sitting bare.</p>
+</section>
+<ul class="key" style="margin-top:10px">
+<li><i style="background:#B9873F"></i> the 100&nbsp;M&#937;, PAD1 to the standoff</li>
+<li><i style="background:#D95F9B"></i> the 40&nbsp;AWG link, standoff to IC1 pin&nbsp;2</li>
+<li><i style="background:#C3C8CC;border:1px solid #9AA4A0"></i> the PTFE standoff</li>
+</ul>
+<p class="viewnote" style="margin-top:8px"><strong>The board is to scale. The node is not.</strong> The resistor and the link are drawn schematically, because how you routed them is your choice and I have not seen it. What the drawing is accurate about is <strong>where the three points are</strong> and <strong>what the resistor has to pass over to get there</strong>.</p><h2>1 &mdash; Eight checks, nothing powered</h2>
+<p class="viewnote">Meter on continuity. <strong>Black probe on the standoff post for 1 to 6.</strong> Handle the board by its edges: it has just been cleaned and a fingerprint at this node undoes the wash.</p>
+<div class="panel"><div class="checks">
+<div class="check wide"><div class="lbl"><b>1</b> &nbsp;Standoff post &harr; IC1 pin&nbsp;2 <span class="req beep">MUST BEEP</span><small>Proves the link is on <em>and</em> that the enamel came off both ends. <strong>An open here is the most likely fault tonight</strong>, and once powered it looks exactly like a catastrophic leak: the output rails, because an open feedback path is an infinite feedback resistor.</small></div><div class="res" data-key="c1"><button type="button" data-val="beep" aria-pressed="false">Beeps</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
+<div class="check wide"><div class="lbl"><b>2</b> &nbsp;Standoff post &harr; IC1 pin&nbsp;3 <span class="req silent">MUST BE SILENT</span><small>Pin&nbsp;3 is ground and it is the very next leg down. A beep here shorts the amplifier&rsquo;s input to its own reference. <strong>Hard stop</strong> &mdash; magnifier on those two legs.</small></div><div class="res" data-key="c2"><button type="button" data-val="silent" aria-pressed="false">Silent</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps</button></div></div>
+<div class="check wide"><div class="lbl"><b>3</b> &nbsp;Standoff post &harr; hole&nbsp;1, the <b>white</b> GND lead <span class="req silent">MUST BE SILENT</span><small>The same fault seen from further away. Catches the link sagging onto anything grounded, not just onto pin&nbsp;3.</small></div><div class="res" data-key="c3"><button type="button" data-val="silent" aria-pressed="false">Silent</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps</button></div></div>
+<div class="check wide"><div class="lbl"><b>4</b> &nbsp;Standoff post &harr; hole&nbsp;2, the <b>grey</b> +15&nbsp;V lead <span class="req silent">MUST BE SILENT</span><small>Catches the resistor or its lead touching IC1 pin&nbsp;7, the positive supply.</small></div><div class="res" data-key="c4"><button type="button" data-val="silent" aria-pressed="false">Silent</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps</button></div></div>
+<div class="check wide"><div class="lbl"><b>5</b> &nbsp;Standoff post &harr; hole&nbsp;5, the <b>tan</b> &minus;15&nbsp;V lead <span class="req silent">MUST BE SILENT</span><small><strong>The resistor passes closest to pin&nbsp;4, the negative supply</strong>, on its way over the chip. This is the row that catches it.</small></div><div class="res" data-key="c5"><button type="button" data-val="silent" aria-pressed="false">Silent</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps</button></div></div>
+<div class="check wide"><div class="lbl"><b>6</b> &nbsp;Standoff post &harr; PAD1 <span class="req warn">OPEN OR VERY HIGH</span><small>Not a beep. A beep means solder has bridged across the 100&nbsp;M&#937;. <strong>Your meter cannot read 100&nbsp;M&#937;</strong> &mdash; it tops out far below that &mdash; so open <em>is</em> the pass, and it proves only that the resistor is not shorted. Its real value is proved by the hour, not by this.</small></div><div class="res" data-key="c6"><button type="button" data-val="open" aria-pressed="false">Open / very high</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps or low</button></div></div>
+<div class="check wide"><div class="lbl"><b>7</b> &nbsp;PAD1 &harr; hole&nbsp;3, the <b>orange</b> OUT lead <span class="req warn">ABOUT 220 &#937;</span><small><strong>The black probe moves to PAD1 for this one.</strong> That 220&nbsp;&#937; is R1. It passed in Part&nbsp;B; repeat it to prove nothing was knocked loose while you worked.</small></div><div class="res" data-key="c7"><button type="button" data-val="220" aria-pressed="false">~220 ohm</button><button type="button" data-val="short" class="bad" aria-pressed="false">Near 0</button><button type="button" data-val="open" class="bad" aria-pressed="false">Open</button></div></div>
+<div class="check wide"><div class="lbl"><b>8</b> &nbsp;Underside: the standoff&rsquo;s pin tail &harr; each repair wire, and hole&nbsp;1 <span class="req silent">MUST BE SILENT</span><small>That pin is the amplifier&rsquo;s input, sitting bare on the underside. The four repair wires are on the far side of that face and the nearest ends about 6&nbsp;mm away, so this should be a formality. <strong>Also make sure nothing conductive will ever sit under that spot.</strong></small></div><div class="res" data-key="c8"><button type="button" data-val="silent" aria-pressed="false">Silent</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps</button></div></div>
+</div></div>
+<div class="callout hazard"><h3>If 1 fails, or 2 to 5 beep, stop</h3>
+<p>Do not power it. A bridge to ground or to a supply rail is minutes to find now with a magnifier, and an hour of confusing readings later. Send me which row failed.</p></div>
+<h2>2 &mdash; The ramp, on the bench supply only</h2>
+<ol class="steps">
+<li class="step"><h3>Set the supply before anything is connected</h3><p>Outputs <strong>off</strong>. Both channels <strong>5.0&nbsp;V</strong>, current limit <strong>20&nbsp;mA</strong>. Then check each output with the meter, because a supply that is set is not the same as a supply that is right.</p><p class="sub">If your supply cannot be set to limit that low, stop and tell me. Do not improvise a substitute.</p></li>
+<li class="step"><h3>Make the split supply, then connect in this order</h3><p>Join channel&nbsp;A&rsquo;s <strong>negative</strong> terminal to channel&nbsp;B&rsquo;s <strong>positive</strong> terminal. That junction is ground.</p><p><strong>Ground to white. Then A+ to grey. Then B&minus; to tan.</strong> Meter clipped to the <strong>orange</strong> OUT lead, which reads the same node as PAD1.</p><p class="sub">Ground goes on first and comes off last, every time.</p></li>
+<li class="step"><h3>On, at 5.0 V</h3><p>Both channels should show <strong>a few mA, in the same ballpark as each other</strong>. The current runs from the positive rail straight through to the negative one, so the two match.</p><p class="sub"><strong>I do not have an absolute figure for you.</strong> The op-amp datasheet is blocked from this network again, and we have never confirmed which of the two candidate parts JLCPCB fitted. The pass here is relative and it does not need that number: <strong>neither channel at the limit, neither climbing, nothing warm.</strong></p><div class="grid2"><div class="fld"><label>Ch A, mA</label><input id="f5a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="f5b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>OUT, volts</label><input id="f5v" inputmode="decimal" autocomplete="off"></div></div></li>
+<li class="step"><h3>Then 15.0 V, and never higher</h3><p>The op-amp is rated to 18&nbsp;V and 15.0&nbsp;V is what the controller would give it. At 5.0&nbsp;V the part is at the very bottom of its range, so a slightly odd reading there is not alarming. <strong>Fifteen is the meaningful one.</strong></p></li>
+</ol>
+<h2>3 &mdash; The hour</h2>
+<p class="viewnote"><strong>Nobody within a metre, and do not lean over the board.</strong> A body injects tens of nA and a tunnelling current is about one. Step back between readings. Record what you see even if it looks wrong &mdash; especially if it looks wrong.</p>
+<div class="panel">
+<div class="tline"><div class="when">1 min<small>The first look. Expect it to be moving.</small></div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t0a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t0b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t0c" inputmode="decimal" autocomplete="off"></div></div></div>
+<div class="tline"><div class="when">5 min</div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t1a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t1b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t1c" inputmode="decimal" autocomplete="off"></div></div></div>
+<div class="tline"><div class="when">10 min<small>The old board read 3,969 counts here and 29,500 at 75 minutes. That climb was measured with the reference floating, so this run is also the test of whether the warm-up rule is real.</small></div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t2a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t2b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t2c" inputmode="decimal" autocomplete="off"></div></div></div>
+<div class="tline"><div class="when">20 min</div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t3a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t3b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t3c" inputmode="decimal" autocomplete="off"></div></div></div>
+<div class="tline"><div class="when">45 min<small>The one that matters. Safety rule 14 wants this under 0.1 V before the board ever meets the controller.</small></div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t4a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t4b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t4c" inputmode="decimal" autocomplete="off"></div></div></div>
+<div class="tline"><div class="when">60 min<small>If it is still moving at 60, say so and keep going.</small></div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t5a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t5b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t5c" inputmode="decimal" autocomplete="off"></div></div></div>
+</div>
+<h2>What the number means</h2>
+<p class="viewnote">The output voltage divided by 100&nbsp;M&#937; is the current going into the amplifier. Read the size and ignore the sign.</p>
+<table class="interp"><tr><th>OUT reads</th><th>Input current</th><th>What it means</th></tr>
+<tr class="good"><td>under 0.1 V</td><td>under 1 nA</td><td><strong>The rebuild worked.</strong> This is the first valid input-current figure this project has ever had, and it clears half of safety rule 14.</td></tr>
+<tr><td>0.1 to 1 V</td><td>1 to 10 nA</td><td>Usable but not clean. A tunnelling current would sit on top of this rather than under it. Worth chasing, not a disaster.</td></tr>
+<tr class="bad"><td>1 to 10 V</td><td>10 to 100 nA</td><td>Leakage is still there. The node, the board or the resistor is still contaminated. That is a result too &mdash; it means the wash and the ground repair were not the whole story.</td></tr>
+<tr class="bad"><td>hard at a rail, about 13 V</td><td>cannot be converted</td><td><strong>Most likely an open feedback path, not leakage.</strong> Power down and redo check&nbsp;1. The old board read 11.905 V and that was read as leakage for weeks &mdash; with a fresh magnet-wire joint in the loop, the joint is now the better suspect.</td></tr>
+</table>
+<h2>Switch off at once if</h2>
+<ul class="stop-list">
+<li><b>A channel sits at the 20 mA limit</b>Usually the constant-current light. Something is shorted.</li>
+<li><b>The current keeps rising</b>Something is heating and pulling more as it does.</li>
+<li><b>Anything is warm to the touch</b>Including C2, which is the reused part.</li>
+<li><b>Both channels pin at the limit together</b>Off, and tell me. <strong>Do not raise the limit</strong> &mdash; I cannot get the op-amp&rsquo;s own current figure tonight, so I will not have you widen a limit on a guess.</li>
+</ul>
+<div class="report"><p class="hd">Send me this line when you are done</p><output id="sum">nothing recorded yet</output><button class="copy" type="button" id="copy">Copy</button><p class="saved">Part B was reported back as &ldquo;all as expected&rdquo; and the six numbers were lost. This box exists so that does not happen twice.</p></div>
+<div class="callout hazard" style="margin-top:16px"><h3>Standing rules for this board</h3><p><strong>Bench supply only.</strong> It does not meet the controller until C2 is replaced with a fresh part <em>and</em> the output reads under 0.1&nbsp;V at 45 minutes. Both, not either. Safety rule&nbsp;14.</p><p><strong>Never above 15.0&nbsp;V. Nobody within a metre during the hour. No cyanoacrylate near this board, ever.</strong></p></div>
+<footer>
+<p><strong>Where this drawing comes from.</strong> The board outline, copper, silkscreen and every hole are plotted to scale from <code>tunnelAmp</code>&rsquo;s gerbers and drill file. The artwork and the stylesheet are lifted at build time from <code>docs/preamp_ground_repair_map.html</code> rather than redrawn, so the three bench pages cannot drift apart.</p>
+<p><strong>The node itself is schematic.</strong> The standoff, the resistor and the link are drawn where they belong, not how you built them. Nobody has seen your routing.</p>
+<p>Follows on from <code>docs/preamp_ground_repair_map.html</code> and <code>docs/preamp_partB_probe_map.html</code>. The written procedure is <code>docs/NEXT_SESSION_PLAN.md</code>, Parts C and D.</p>
+</footer>
 </div>
 <script>
 (function () {
-  var VB = {
-    top: {
-      all:   [-3.5, 0, 33, 22],
-      ic:    [2.5, 6.5, 12, 8],
-      caps:  [4.5, 11.0, 16.5, 11],
-      holes: [12.0, 0.5, 19.5, 13],
-      hole5: [12.0, 10.0, 19.5, 13],
-      c3:    [11.5, 5.5, 10.5, 7]
-    },
-    bottom: {
-      all: [-3.5, 0, 33, 22],
-      "3": [3.1, 12.9, 9, 6],
-      "4": [-0.6, 4.6, 9, 6]
-    }
-  };
+  var VB = { top: { all: [-3.5,0,33,22], node: [-3.2,6.2,14,9] },
+             bottom: { all: [-3.5,0,33,22], node: [11.5,6.2,14,9] } };
   var svgs = { top: document.getElementById("map-top"), bottom: document.getElementById("map-bottom") };
   var notes = { top: document.getElementById("note-top"), bottom: document.getElementById("note-bottom") };
   var btns = { top: document.getElementById("v-top"), bottom: document.getElementById("v-bottom") };
+  var zb = { all: document.getElementById("z-all"), node: document.getElementById("z-node") };
   var keyTop = document.getElementById("key-top");
-  var view = "top";
-  var cur = { top: VB.top.all.slice(), bottom: VB.bottom.all.slice() };
-  var anim = null;
+  var view = "top", zkey = "all", anim = null, cur = { top: VB.top.all.slice(), bottom: VB.bottom.all.slice() };
 
-  function setVB(v, arr) {
-    svgs[v].setAttribute("viewBox", arr.map(function (n) { return n.toFixed(3); }).join(" "));
-    cur[v] = arr;
-  }
-  function showView(v) {
-    view = v;
-    ["top", "bottom"].forEach(function (k) {
-      svgs[k].hidden = (k !== v);
-      notes[k].hidden = (k !== v);
-      if (k === "top" && keyTop) keyTop.hidden = (v !== "top");
-      btns[k].setAttribute("aria-pressed", String(k === v));
-    });
-  }
+  function setVB(v, a) { svgs[v].setAttribute("viewBox", a.map(function (n) { return n.toFixed(3); }).join(" ")); cur[v] = a; }
   function zoom(key) {
-    var target = (VB[view] && VB[view][key]) || VB[view].all;
-    var from = cur[view].slice(), to = target.slice(), t0 = null;
+    zkey = key;
+    zb.all.setAttribute("aria-pressed", String(key === "all"));
+    zb.node.setAttribute("aria-pressed", String(key === "node"));
+    var to = (VB[view] && VB[view][key] || VB[view].all).slice(), from = cur[view].slice(), t0 = null, v = view;
     if (anim) { cancelAnimationFrame(anim); anim = null; }
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) { setVB(view, to); return; }
-    var v = view;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setVB(v, to); return; }
     function step(ts) {
       if (t0 === null) t0 = ts;
-      var p = Math.min(1, (ts - t0) / 380);
-      var e = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+      var p = Math.min(1, (ts - t0) / 380), e = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
       setVB(v, from.map(function (a, i) { return a + (to[i] - a) * e; }));
       if (p < 1) { anim = requestAnimationFrame(step); } else { anim = null; }
     }
     anim = requestAnimationFrame(step);
   }
-  btns.top.addEventListener("click", function () { showView("top"); zoom("all"); });
-  btns.bottom.addEventListener("click", function () { showView("bottom"); zoom("all"); });
-  document.getElementById("z-all").addEventListener("click", function () { zoom("all"); });
-  Array.prototype.forEach.call(document.querySelectorAll(".show"), function (b) {
-    b.addEventListener("click", function () {
-      showView(b.getAttribute("data-view"));
-      zoom(b.getAttribute("data-zoom"));
-      svgs[view].scrollIntoView({ block: "nearest", behavior: "smooth" });
+  function show(v) {
+    view = v;
+    ["top", "bottom"].forEach(function (k) {
+      svgs[k].hidden = (k !== v); notes[k].hidden = (k !== v);
+      btns[k].setAttribute("aria-pressed", String(k === v));
+    });
+    if (keyTop) keyTop.hidden = (v !== "top");
+    zoom(zkey);
+  }
+  btns.top.addEventListener("click", function () { show("top"); });
+  btns.bottom.addEventListener("click", function () { show("bottom"); });
+  zb.all.addEventListener("click", function () { zoom("all"); });
+  zb.node.addEventListener("click", function () { zoom("node"); });
+
+  var res = {};
+  document.querySelectorAll(".res").forEach(function (g) {
+    g.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      var on = b.getAttribute("aria-pressed") === "true";
+      g.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
+      b.setAttribute("aria-pressed", on ? "false" : "true");
+      if (on) { delete res[g.dataset.key]; } else { res[g.dataset.key] = b.dataset.val; }
+      sum();
     });
   });
-  showView("top");
-
-  // ---- readings -------------------------------------------------------
-  var ORDER = [
-    ["s1", "pin 3"], ["s2", "C4"], ["s3", "C2"], ["s4", "C3"],
-    ["in", "PIN 2"], ["h2", "hole 2"], ["h5", "hole 5"], ["h3", "hole 3"],
-    ["cap", "hole 1-5 cap"]
-  ];
-  var state = {};
-  var out = document.getElementById("report");
-  var savedNote = document.getElementById("saved-note");
-  var db = null, docRef = null, writeTimer = null, suppress = false;
-
-  function paint() {
-    Array.prototype.forEach.call(document.querySelectorAll(".res"), function (g) {
-      var k = g.getAttribute("data-key");
-      Array.prototype.forEach.call(g.querySelectorAll("button"), function (b) {
-        b.setAttribute("aria-pressed", String(state[k] === b.getAttribute("data-val")));
-      });
-    });
-    var taken = ORDER.filter(function (o) { return state[o[0]]; });
-    out.textContent = taken.length
-      ? taken.map(function (o) { return o[1] + ": " + state[o[0]]; }).join("  |  ")
-      : "Nothing recorded yet. Tap a result as you take it.";
+  var TIMES = ["1min", "5min", "10min", "20min", "45min", "60min"];
+  function val(id) { var el = document.getElementById(id); return el && el.value.trim(); }
+  function sum() {
+    var out = [], i;
+    for (i = 1; i <= 8; i++) { if (res["c" + i]) out.push(i + ":" + res["c" + i]); }
+    var a = val("f5a"), b = val("f5b"), v = val("f5v");
+    if (a || b || v) { out.push("5V[" + (a || "?") + "mA/" + (b || "?") + "mA/" + (v || "?") + "V]"); }
+    for (i = 0; i < TIMES.length; i++) {
+      var ta = val("t" + i + "a"), tb = val("t" + i + "b"), tc = val("t" + i + "c");
+      if (ta || tb || tc) { out.push(TIMES[i] + "[" + (ta || "?") + "V/" + (tb || "?") + "mA/" + (tc || "?") + "mA]"); }
+    }
+    document.getElementById("sum").textContent = out.length ? out.join("  ") : "nothing recorded yet";
   }
-  function queueWrite() {
-    if (!docRef || suppress) return;
-    if (writeTimer) clearTimeout(writeTimer);
-    writeTimer = setTimeout(function () {
-      writeTimer = null;
-      var body = {};
-      ORDER.forEach(function (o) { if (state[o[0]]) body[o[0]] = state[o[0]]; });
-      body.updatedAt = new Date().toISOString();
-      docRef.set(body).then(function () {
-        savedNote.textContent = "Saved " + new Date().toLocaleTimeString();
-      }).catch(function () {
-        savedNote.textContent = "Not saved - write it in your notes as well.";
-      });
-    }, 600);
-  }
-  Array.prototype.forEach.call(document.querySelectorAll(".res button"), function (b) {
-    b.addEventListener("click", function () {
-      var k = b.parentNode.getAttribute("data-key");
-      var v = b.getAttribute("data-val");
-      state[k] = (state[k] === v) ? null : v;
-      if (!state[k]) delete state[k];
-      paint();
-      queueWrite();
-    });
+  document.querySelectorAll("input").forEach(function (el) { el.addEventListener("input", sum); });
+  document.getElementById("copy").addEventListener("click", function () {
+    var t = document.getElementById("sum").textContent;
+    if (navigator.clipboard) { navigator.clipboard.writeText(t); }
+    this.textContent = "Copied";
+    var self = this; setTimeout(function () { self.textContent = "Copy"; }, 1400);
   });
-  paint();
-
-  if (window.claude && window.claude.use) {
-    window.claude.use("db").then(function (d) {
-      if (!d) { savedNote.textContent = "Not saving on this view - keep your own note of the readings."; return; }
-      db = d;
-      docRef = db.doc("bench/underside-repair");
-      savedNote.textContent = "Saving as you tap.";
-      docRef.onSnapshot(function (snap) {
-        if (!snap || !snap.exists) return;
-        var data = snap.data() || {};
-        var changed = false;
-        ORDER.forEach(function (o) {
-          var v = data[o[0]];
-          if (typeof v === "string" && state[o[0]] !== v) { state[o[0]] = v; changed = true; }
-        });
-        if (changed) { suppress = true; paint(); suppress = false; }
-      }, function () { savedNote.textContent = "Live sync dropped - your taps are still recorded locally."; });
-    }).catch(function () {});
-  } else {
-    savedNote.textContent = "Not saving on this view - keep your own note of the readings.";
-  }
 })();
 </script>
