@@ -173,6 +173,29 @@ Standard JUXINICE DB9-male-to-bare-wire cable:
 | **Yellow** | 5 | **+15 V** |
 | Green, Blue, Grey, White | 6–9 | AGND |
 
+> ### Why `PREAMP−` must land on the preamp's ground, and not on ground anywhere else
+>
+> **Asked at the bench 2026-09-15: can green just go to a common ground point, to avoid the three-way
+> joint? No, and the reason is the whole purpose of that pin.**
+>
+> **`PREAMP−` is the ADC's IN−.** The LTC2326-16 is pseudo-differential: it measures `PREAMP+`
+> **relative to `PREAMP−`**. That input is high impedance, so **brown carries no current at all.**
+> It is a **sense wire**, and a sense wire that carries no current has no voltage drop along it, so
+> it reports the preamp's *local* ground faithfully back to the converter.
+>
+> **That is what cancels the ground drop.** The preamp draws about 4 mA, and that return current
+> flows down the AGND wires. Thin DB9 cable is very roughly 0.05–0.2 Ω over its length, so
+> **the preamp's ground sits a few tenths of a millivolt away from the controller's.** `ESTIMATE`,
+> not measured. **Our entire reading is 0.4 mV.** So sensing ground at the wrong end would inject an
+> error about the same size as the quantity being measured.
+>
+> **And white has to meet an AGND wire regardless**, or the ±15 V supply has no return path and the
+> preamp does not run. **Brown alone cannot carry it — it is an ADC input.** So the three-way joint
+> is the minimum, not a convenience: **white + one AGND + brown.**
+>
+> **Easier way to make it:** solder brown and green onto the white lead one at a time rather than
+> twisting three together.
+
 ### DSUB1 — to the scan head
 
 | Colour | Pin | Function |
