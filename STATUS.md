@@ -12,6 +12,23 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## THE BOARD IS IN THE BOX — 2026-09-15
+>
+> **`SAID` 2026-09-15, Jacob: "preamp is screwed into the box, all good."** Mounted on the two M2
+> screws into the printed pilots, in the **new** box: printed, wrapped in **copper**, grounded, and
+> metered end to end. **The CA-contaminated original box is out of the instrument.**
+>
+> **Two checks before it is powered in the box, and they take under a minute.** Screwing a board
+> down flexes it, and **the standoff is held only by the 100 MΩ's lead in tension**:
+>
+> | Between | Must read |
+> |---|---|
+> | Standoff post and IC1 pin 2 | **Beep** — the feedback path survived the mounting |
+> | Standoff post and the white GND lead | **Silent** — the standoff has not shifted onto anything |
+>
+> **A beep on the second is a hard stop.** Everything else about the node was proved before mounting;
+> these two are the ones mounting can break.
+
 > ## THE TIP LEAD — cleared to build, but it goes LAST. Ordering, 2026-09-15
 >
 > **Jacob asked when the magnet wire from the tip holder gets soldered to the standoff.** Safety rule
