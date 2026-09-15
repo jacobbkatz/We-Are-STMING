@@ -105,6 +105,8 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | Preamp box screws | **M2**, Ø2.300 clear into Ø1.600 self-tap | MESH | 2026-09-06 |
 | Preamp board | **20.625 × 15.230 mm**, 2 layer | NETLIST | 2026-09-06 |
 | **Preamp board mounting holes** | **2 × Ø2.261 NPTH, 11.430 mm apart** — (4.127, 1.905) and (4.127, 13.335) | NETLIST | 2026-09-08 |
+| **Preamp box, clear height above the board** | **13.2 mm** | CALC from mesh | 2026-09-15 | Interior floor to wall top is **18.80 mm** (`1_preamp_box_base.stl`, Z 0 to 18.80); the board sits on **4.00 mm** bosses and is **1.6 mm** thick (assumed, never measured), so its top face is at 5.6 mm. **The Keystone standoff stands 6.35 mm proud, leaving about 6.8 mm of air above it.** The lid adds a 1.2 mm perimeter lip only. **Closing the box does not touch the input node** |
+| **Preamp box v2 boss vs the standoff** | **They are the same point** | CALC from mesh | 2026-09-15 | Board→box offset is +1.503, +1.505 mm, from the mounting holes at board (4.127, 1.895) and (4.127, 13.325) landing on box bosses (5.63, 3.40) and (5.63, 14.83). **The standoff at board (2.540, 7.620) maps to box (4.043, 9.125), and `1_preamp_box_base_v2_screwmount.stl`'s added boss is at (4.04, 9.12).** **Independently confirms the standing instruction never to print v2** |
 | **Preamp PTFE standoff hole** | **Ø2.108 NPTH, one only**, at (2.540, 7.620) — 2.540 mm from the board edge | NETLIST | 2026-09-08 |
 | **Preamp box standoff spacing** | **11.430 mm** — Ø1.600 M2 pilots at (5.63, 3.40) and (5.63, 14.83) | MESH | 2026-09-08 |
 | **Board-to-box fit** | **They match exactly.** M2 screws through Ø2.261 into Ø1.600. **No glue needed** | CALC | 2026-09-08 |
