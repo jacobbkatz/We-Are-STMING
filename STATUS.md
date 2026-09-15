@@ -12,6 +12,40 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## THE MEASUREMENT. 35 pA — 2026-09-15, and the rebuild worked
+>
+> **`BENCH`, Jacob: the OUT lead reads 3.5 mV, stable, at ±5 V supplies.** Through the 100 MΩ that is
+> **about 35 pA of input current** — see [`docs/FACTS.md`](docs/FACTS.md).
+>
+> **This is the first input current this project has ever measured on an amplifier whose 0 V
+> reference is connected to anything.**
+> **For scale, safety rule 14 wants PAD1 under 0.1 V after 45 minutes on the bench supply**, and
+> 0.1 V through 100 MΩ is 1 nA. **35 pA is about thirty times better than that**, and roughly 3% of a
+> tunneling current, so a real signal would sit far above this floor. The chip's own input bias
+> current is ~1 pA, so the board is within about 35× of the physical floor of the part.
+>
+> **The control was taken first, and this is why the reading is believable.** The same meter on the
+> +15 V lead read 5.0 V before the zero was accepted. `CLAUDE.md`'s "take a control measurement"
+> rule, applied at the bench.
+>
+> **What this does NOT yet establish, and none of it is a quibble:**
+>
+> - **It is a two-minute reading at ±5 V.** Safety rule 0 wants **45 minutes**, and the old board's
+>   reading climbed for over an hour. **Repeat it at ±15 V on the timed schedule before anyone calls
+>   this settled.**
+> - **There is no tip lead and no box.** The original fault was measured on a board that had both.
+>   **This clears the rebuilt board, not the whole measurement chain.**
+> - **It does not prove the missing ground pour caused the old fault.** The old "119 nA" was never a
+>   valid current, so there is nothing to compare against. What it proves is that **the rebuilt board
+>   is clean**, which is the thing that was actually needed.
+> - **Safety rule 14 is half cleared at most.** C2 is still the reused, over-heated tantalum and must
+>   be replaced before this board meets the controller.
+>
+> **Not retired: the ~119 nA.** It sits in about ten live documents and is already flagged in place
+> as never having been a valid current. Adding it to the RETIRED table would fire the checker across
+> all of them for a figure that is correctly captioned where it stands. **Deliberate decision, not an
+> oversight.**
+
 > ## FIRST POWER-ON IN THE PROJECT'S HISTORY — 2026-09-15, bench supply
 >
 > **The spare preamp board has been powered for the first time. Both channels at 5.0 V, 20 mA limit,
