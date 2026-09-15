@@ -24,8 +24,19 @@
 >
 > | Minute | OUT lead | Input current | Supply current |
 > |---|---|---|---|
-> | 20 | | | |
+> | **20** | **−0.4 mV** | **~4 pA** | **4 mA** |
 > | **45** | | | **THE GATE** |
+>
+> **The box costs nothing.** Bare board at 10 minutes: −0.6 mV. **Boxed at 20 minutes: −0.4 mV.**
+> The 0.2 mV between them is two counts of the meter. **The copper box, the shield and the mounting
+> have added no measurable leakage**, which is the result you want and was not guaranteed.
+>
+> **Still flat at 20 minutes**, and already **250× under the 0.1 V gate**.
+>
+> **A refinement worth knowing:** the readings have been consistently negative and of this size for
+> half an hour across two power cycles. **A fixed DC offset of that kind is the amplifier's own input
+> offset VOLTAGE, not a current at all** — it does not divide by 100 MΩ. **So the true input current
+> is at or below what these numbers show**, not above it.
 >
 > **This one measurement answers three things at once:**
 >
