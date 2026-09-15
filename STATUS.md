@@ -22,12 +22,31 @@
 > |---|---|---|---|
 > | 0 | **5 mV**, wandering slightly | **~50 pA** | 4 mA |
 > | ~2, settled | **0.9 mV** | **~9 pA** | — |
+> | **5** | **−0.3 mV** | **~3 pA**, sign meaningless at this level | **4 mA** |
 > | 5 | | | |
 > | 10 | | | |
 > | 20 | | | |
 > | 45 | | | |
 > | 60 | | | |
 >
+> ### The drift question is already answering itself
+>
+> **Minute 0: 5 mV. Minute 2: 0.9 mV. Minute 5: −0.3 mV.** The reading is **falling and has crossed
+> zero**, not climbing. It is settling toward the amplifier's own input offset voltage, which is
+> where a working transimpedance amplifier with no input current should end up.
+>
+> **The sign flip means nothing at this level.** A few tenths of a mV is inside both the meter's last
+> digit and the op-amp's own offset voltage. **Do not chase the sign until the magnitude is large
+> enough to carry one.**
+>
+> **Compare with the old board: about 25,000 counts of climb over an hour, roughly 7.8 V at the
+> output.** This board has moved about 5 mV in the wrong direction for that story, in the first five
+> minutes. **Not yet conclusive at 5 of 60 minutes**, but the two behaviours are already nothing
+> alike.
+>
+> **The gloved-touch response repeats at 0.05 V**, so the 500 pA figure is reproducible rather than a
+> one-off.
+
 > ### A gloved touch on the standoff — an accidental but useful control
 >
 > **`BENCH` 2026-09-15. Jacob brushed the standoff with a nitrile glove.** The output jumped to
