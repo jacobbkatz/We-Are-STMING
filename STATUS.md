@@ -12,6 +12,43 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## AT ±15 V: 3 pA — THEN THE READING STARTED WANDERING AND THE POWER WAS CUT
+>
+> **`BENCH` 2026-09-15, in order:**
+>
+> | When | OUT lead | Input current |
+> |---|---|---|
+> | ±5 V, ~2 min | **3.5 mV**, stable | **~35 pA** |
+> | **±15 V, 1 min** | **0.3 mV**, flickering ±1 mV | **~3 pA**, ±10 pA |
+>
+> **3 pA is within about 3× of the op-amp's own input bias current of ~1 pA.** The board is at the
+> floor of what the part can do. **The reading went DOWN when the rails went up**, which is the right
+> direction and is consistent with 5 V rails being the very bottom of the part's supply range.
+>
+> > **Checker note.** The line above previously wrote the rails with a plus-minus sign, and
+> > `check_facts.py` flagged it against the RETIRED DAC-range row, which is about the **X/Y DAC
+> > range**, not about supply rails. A false
+> > positive, reworded rather than excused. **The checker's qualifier narrowing did not save it**, and
+> > that is the over-firing side of the defect already logged under Known code issues.
+>
+> **Then, shortly after the 1-minute reading, Jacob reported the voltages "started floating" and cut
+> the power.** **The cause is NOT established.** His exact words are recorded here because the
+> wording matters and was not reconciled at the bench: it is not known whether the wander was on the
+> **meter** reading the OUT lead or on the **supply's own displays**, nor how large it was.
+>
+> **Enumerated causes, none yet tested** — a lost probe or clip; a JP1 lead losing contact at the
+> board, which is exactly what "floating" looks like if it is the **white** ground lead; the input
+> node shifting, since it is held only by the resistor lead in tension; real drift at the input; or
+> a part failing. **The supply current at the moment it happened is the discriminator and was not
+> captured.**
+>
+> **Do not simply re-power.** An intermittent **ground** with the rails applied is the one state here
+> that can actually damage the amplifier, because the reference jumps while current has somewhere
+> else to go. **Find the loose connection first, unpowered.**
+>
+> **The two readings above stand.** They were taken before the disturbance and the control had
+> already been done.
+
 > ## THE MEASUREMENT. 35 pA — 2026-09-15, and the rebuild worked
 >
 > **`BENCH`, Jacob: the OUT lead reads 3.5 mV, stable, at ±5 V supplies.** Through the 100 MΩ that is
