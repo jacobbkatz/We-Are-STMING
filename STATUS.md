@@ -12,6 +12,21 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## THE ±18 V FIGURE IS THE CONTROLLER'S, NOT THE PREAMP'S — flagged 2026-09-15
+>
+> **Jacob had the bench supply set to 18 V per channel before powering the preamp board directly.**
+> That number is correct and it is in our own documents — `docs/WIRING.md` §212 and
+> `docs/COMPONENTS.md` §308 both say to feed **±18 V into the controller**, because its regulators
+> need headroom. **It is the wrong number for the preamp board**, which the controller feeds at
+> **±15 V**, and which our own parts notes give a supply range topping out at **±18 V**. Powering it
+> at 18 V puts it exactly on its stated limit with no margin, and bench supplies can overshoot at
+> switch-on.
+>
+> **Nothing was damaged: it was caught before the outputs went on.** The bench page now carries the
+> warning at the top of its powered section. **Any future instruction to power the preamp from a
+> bench supply must say 15.0 V and say why**, because the 18 V figure is the one a reader will find
+> first if they grep for a supply voltage.
+
 > ## CONTINUITY READINGS ON THE BUILT NODE — 2026-09-15, verbatim, NOTHING POWERED
 >
 > **Jacob, at the bench, reported exactly this:** `1: beep · 2: no beep · 3: no beep · 4: no beep ·

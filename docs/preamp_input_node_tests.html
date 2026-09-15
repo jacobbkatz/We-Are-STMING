@@ -604,23 +604,73 @@
 </div></div>
 <div class="callout hazard"><h3>If 1 fails, or 2 to 5 beep, stop</h3>
 <p>Do not power it. A bridge to ground or to a supply rail is minutes to find now with a magnifier, and an hour of confusing readings later. Send me which row failed.</p></div>
-<h2>2 &mdash; The ramp, on the bench supply only</h2>
+<div class="callout hazard"><h3>18 V is the controller's number, not this board's</h3>
+<p><strong>If your supply is set to 18 V, turn it down before you connect anything.</strong> That figure is
+real and it is in our own notes, but it belongs to the <strong>controller PCB</strong>, whose regulators
+need headroom above 15 V. <strong>This preamp board is not that board.</strong></p>
+<p>The controller feeds the preamp <strong>15 V</strong>, and 15 V is what we are copying here. Our own
+parts notes give the op-amp's supply range as up to <strong>18 V</strong>, so 18 V is the very top of what
+it will take. <strong>Sitting exactly on a part's limit leaves no margin</strong>, and supplies can overshoot
+for an instant when you switch them on. There is nothing to gain: the board will never see more than 15 V
+in normal use.</p></div>
+<h2>2 &mdash; Powering it, step by step</h2>
+<p class="viewnote"><strong>Two instruments, two different readings. Keep them straight.</strong>
+The <strong>power supply's own display</strong> shows <strong>current in milliamps</strong>. That is the
+safety check. The <strong>multimeter</strong> shows <strong>DC volts</strong> on the orange lead. That is
+the measurement we actually came for. Nothing here uses the meter's current mode.</p>
 <ol class="steps">
-<li class="step"><h3>Set the supply before anything is connected</h3><p>Outputs <strong>off</strong>. Both channels <strong>5.0&nbsp;V</strong>, current limit <strong>20&nbsp;mA</strong>. Then check each output with the meter, because a supply that is set is not the same as a supply that is right.</p><p class="sub">If your supply cannot be set to limit that low, stop and tell me. Do not improvise a substitute.</p></li>
-<li class="step"><h3>Make the split supply, then connect in this order</h3><p>Join channel&nbsp;A&rsquo;s <strong>negative</strong> terminal to channel&nbsp;B&rsquo;s <strong>positive</strong> terminal. That junction is ground.</p><p><strong>Ground to white. Then A+ to grey. Then B&minus; to tan.</strong> Meter clipped to the <strong>orange</strong> OUT lead, which reads the same node as PAD1.</p><p class="sub">Ground goes on first and comes off last, every time.</p></li>
-<li class="step"><h3>On, at 5.0 V</h3><p>Both channels should show <strong>a few mA, in the same ballpark as each other</strong>. The current runs from the positive rail straight through to the negative one, so the two match.</p><p class="sub"><strong>I do not have an absolute figure for you.</strong> The op-amp datasheet is blocked from this network again, and we have never confirmed which of the two candidate parts JLCPCB fitted. The pass here is relative and it does not need that number: <strong>neither channel at the limit, neither climbing, nothing warm.</strong></p><div class="grid2"><div class="fld"><label>Ch A, mA</label><input id="f5a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="f5b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>OUT, volts</label><input id="f5v" inputmode="decimal" autocomplete="off"></div></div></li>
-<li class="step"><h3>Then 15.0 V, and never higher</h3><p>The op-amp is rated to 18&nbsp;V and 15.0&nbsp;V is what the controller would give it. At 5.0&nbsp;V the part is at the very bottom of its range, so a slightly odd reading there is not alarming. <strong>Fifteen is the meaningful one.</strong></p></li>
+<li class="step"><h3>Set both channels to 5.00 volts, limit 20 mA</h3>
+<p><strong>Not 18 V, and not 15 V yet.</strong> We start low so that if something on the board is shorted,
+far less energy goes into it before you notice.</p>
+<p>The 20 mA limit is already right. Leave it.</p>
+<p class="sub">Why 5 V and not straight to 15: a short at 15 V with a 20 mA limit still puts 0.3 W into
+whatever is shorted. At 5 V it is 0.1 W. Neither is dramatic, but the cheaper test goes first.</p></li>
+<li class="step"><h3>Check each channel really is at 5.0 V, with nothing connected</h3>
+<p>Leave both leads off the board. Turn the outputs <strong>on</strong>.</p>
+<p><strong>Multimeter to DC volts.</strong> Black probe on a channel's black terminal, red probe on its red
+terminal. <strong>Expect 5.0 V.</strong> Do the same on the other channel.</p>
+<p>Turn the outputs <strong>off</strong> again.</p>
+<p class="sub">A supply that is <em>set</em> to 5 V is not the same as a supply that is <em>giving</em> 5 V.
+This is thirty seconds and it has caught a wrong setting before.</p></li>
+<li class="step"><h3>Wire it, with the outputs still off</h3>
+<p><strong>First, make the middle.</strong> Join channel A's <strong>black</strong> terminal to channel B's
+<strong>red</strong> terminal, with a short wire. <strong>That junction is ground.</strong> It is the 0 V
+that everything else is measured against.</p>
+<p>Then connect, in this order:</p>
+<p><strong>1.</strong> That junction to the <strong>white</strong> lead.<br>
+<strong>2.</strong> Channel A's <strong>red</strong> terminal to the <strong>grey</strong> lead.<br>
+<strong>3.</strong> Channel B's <strong>black</strong> terminal to the <strong>tan</strong> lead.</p>
+<p><strong>Ground goes on first and comes off last, every time.</strong></p>
+<p class="sub">This gives the board plus 5 V on grey, minus 5 V on tan, and 0 V on white, which is what the
+amplifier needs. Channel B is used backwards on purpose: its black terminal becomes the negative rail.</p></li>
+<li class="step"><h3>Set the multimeter up on the orange lead</h3>
+<p><strong>Meter on DC volts.</strong> Not current. Not continuity.</p>
+<p><strong>Black probe</strong> on the ground junction you made in step 3. <strong>Red probe</strong> on the
+free end of the <strong>orange</strong> lead.</p>
+<p>Clip them if you can, so you are not holding the board while it reads.</p>
+<p class="sub">The orange lead is the amplifier's output. It reads the same node as PAD1, through the
+220 ohm resistor, and that resistor makes no difference to a voltage reading.</p></li>
+<li class="step"><h3>Outputs on. Look at the supply, not the meter</h3>
+<p><strong>What you are reading: the current display on each channel, in mA.</strong></p>
+<p><strong>Expect a few mA on each, and the two roughly equal.</strong> The current runs from the positive
+rail, through the chip, and out the negative rail, so both channels carry the same current.</p>
+<p><strong>Pass:</strong> neither channel sitting at 20 mA, neither number climbing, nothing warm to the
+touch.</p>
+<p class="sub"><strong>Ignore the volts at this step.</strong> At 5 V the output cannot swing far enough for
+the number to tell you anything. It is not a fault, it is just not a measurement yet.</p>
+<p class="sub">I still cannot give you an exact expected current. The op-amp datasheet is blocked from this
+session and we have never confirmed which of the two candidate chips is fitted. The pass above does not
+need that number.</p></li>
+<li class="step hazard"><h3>Switch off at once if</h3>
+<p class="stop">A channel sits at 20 mA. The current keeps rising. Anything is warm.</p>
+<p>If <strong>both</strong> channels pin at 20 mA together, switch off and tell me. <strong>Do not raise the
+limit.</strong></p></li>
+<li class="step"><h3>Now 15.0 V on both channels. Never higher</h3>
+<p>Turn both channels up to <strong>15.0 V</strong>. Leave the limit at 20 mA.</p>
+<p>Check the two current displays again, same pass test as before.</p>
+<p><strong>From here the multimeter reading is the real measurement.</strong> Note the time. This is minute
+zero.</p></li>
 </ol>
-<h2>3 &mdash; The hour</h2>
-<p class="viewnote"><strong>Nobody within a metre, and do not lean over the board.</strong> A body injects tens of nA and a tunnelling current is about one. Step back between readings. Record what you see even if it looks wrong &mdash; especially if it looks wrong.</p>
-<div class="panel">
-<div class="tline"><div class="when">1 min<small>The first look. Expect it to be moving.</small></div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t0a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t0b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t0c" inputmode="decimal" autocomplete="off"></div></div></div>
-<div class="tline"><div class="when">5 min</div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t1a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t1b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t1c" inputmode="decimal" autocomplete="off"></div></div></div>
-<div class="tline"><div class="when">10 min<small>The old board read 3,969 counts here and 29,500 at 75 minutes. That climb was measured with the reference floating, so this run is also the test of whether the warm-up rule is real.</small></div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t2a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t2b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t2c" inputmode="decimal" autocomplete="off"></div></div></div>
-<div class="tline"><div class="when">20 min</div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t3a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t3b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t3c" inputmode="decimal" autocomplete="off"></div></div></div>
-<div class="tline"><div class="when">45 min<small>The one that matters. Safety rule 14 wants this under 0.1 V before the board ever meets the controller.</small></div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t4a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t4b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t4c" inputmode="decimal" autocomplete="off"></div></div></div>
-<div class="tline"><div class="when">60 min<small>If it is still moving at 60, say so and keep going.</small></div><div class="grid2"><div class="fld"><label>OUT, volts</label><input id="t5a" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch A, mA</label><input id="t5b" inputmode="decimal" autocomplete="off"></div><div class="fld"><label>Ch B, mA</label><input id="t5c" inputmode="decimal" autocomplete="off"></div></div></div>
-</div>
 <h2>What the number means</h2>
 <p class="viewnote">The output voltage divided by 100&nbsp;M&#937; is the current going into the amplifier. Read the size and ignore the sign.</p>
 <table class="interp"><tr><th>OUT reads</th><th>Input current</th><th>What it means</th></tr>
