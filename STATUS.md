@@ -12,6 +12,24 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## FIRST POWER-ON IN THE PROJECT'S HISTORY — 2026-09-15, bench supply
+>
+> **The spare preamp board has been powered for the first time. Both channels at 5.0 V, 20 mA limit,
+> and both read 3 mA.** `BENCH`, Jacob.
+>
+> **That is a pass on every criterion the smoke test has:** neither channel at the limit, and the two
+> match, which is what a working op-amp does — its current runs from the positive rail straight
+> through to the negative one. **A short from either rail would have pinned a channel at 20 mA. A
+> badly leaking C2 would have shown as extra current on the −15 V channel alone.** Neither happened.
+>
+> **A lead on IC1's identity, not a conclusion.** `docs/OPEN_QUESTIONS.md` has carried "which op-amp
+> is actually fitted" since 2026-09-09. **3 mA sits close to the 2.5 mA typical quiescent current of
+> the OPA124**, read from its datasheet on 2026-09-09 and the only such figure this repository
+> holds. **This does NOT establish the part.** The OPA627's own figure is unknown here — ti.com and
+> three mirrors are blocked from this network — and without both numbers the comparison decides
+> nothing. **Get the OPA627 figure when the network allows, then this reading may close the
+> question for free.**
+
 > ## THE ±18 V FIGURE IS THE CONTROLLER'S, NOT THE PREAMP'S — flagged 2026-09-15
 >
 > **Jacob had the bench supply set to 18 V per channel before powering the preamp board directly.**
