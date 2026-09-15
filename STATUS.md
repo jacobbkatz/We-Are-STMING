@@ -15,7 +15,10 @@
 > **RESOLVED LATER THE SAME EVENING: IT WENT IN, AND THE INPUT NODE IS BUILT.** Jacob: *"I got it
 > to work, the tension in the resistor wire holds the standoff in place after I solder both
 > together."* **The hole does not grip the part** — retention is the 100 MOhm's own lead in
-> tension. **Nothing was glued, nothing was drilled, nothing was forced.** **The bench page for what
+> tension, **resting on the board surface rather than sitting in the hole** — confirmed at the bench
+> and the part confirmed as the 11301 from its bag. **Nothing was glued, drilled or forced.**
+> **`docs/FACTS.md` is corrected: the 11301 does NOT enter our Ø2.108 mm hole**, which retires the
+> previously stated "drops in with clearance" claim and every copy of it. **The bench page for what
 > happens next — eight unpowered checks, the current-limited ramp, then the timed hour — is
 > [`docs/preamp_input_node_tests.html`](docs/preamp_input_node_tests.html).** **Part C and the D5
 > measurement have merged**, because with the feedback resistor fitted the output no longer sits at a
@@ -26,7 +29,7 @@
 
 > **~~STOPPED 2026-09-15, at the bench: THE STANDOFF DOES NOT GO IN.~~** Jacob offered it up and it
 > did not enter the hole. **Nothing was forced and nothing was drilled**, which is what Part D0 says
-> to do. **`docs/FACTS.md`'s "0.076 mm clearance, it drops in" is suspended, not yet replaced** —
+> to do. **The previously stated clearance figure is now corrected in `docs/FACTS.md`** —
 > the four candidate causes and their tests are in `docs/OPEN_QUESTIONS.md`, top row. **The first
 > thing to rule out is that the part in hand is one of the two 11311 we also own**, which needs
 > Ø3.45 mm and is already known not to fit. **Do all fit testing on a bare spare board, not on the
@@ -1014,14 +1017,14 @@ over** — it is the measurement reference, and it is repairable without a rebui
    > **The pass is: neither channel at the limit, neither climbing, nothing warm.** No resolution
    > needed. A multimeter in series with one supply lead beats the supply's own display if a real
    > number is ever wanted.
-3. **Fit the standoff after the wash — it drops in. Do NOT drill, and no calipers are needed.**
-   **Corrected twice on 2026-09-14.** It is the Keystone 11301, order confirmation seen, PTFE base
-   with a metal pole, 2 off. Berard's own Eagle board specifies 2.1082 mm for this hole and our
-   board is 2.108 mm, so the part's 2.032 mm pin passes with **0.076 mm of clearance.**
-   **There are no calipers in the room** (corrected `SAID`, `docs/INVENTORY.md`) and none are
-   required — the fit was settled from the board file, not from a measurement, and the real test is
-   whether it drops in. **It goes in after the wash**, because you cannot clean underneath it and
-   that spot is the input node. `docs/NEXT_SESSION_PLAN.md` Part D0.
+3. ~~**Fit the standoff after the wash — it drops in.**~~ **DONE 2026-09-15, and the fit claim was
+   wrong.** The 11301 **does not enter our Ø2.108 mm hole** — offered up at the bench and it would
+   not go. **The node was built anyway, with the standoff resting on the board surface**, held by
+   the 100 MOhm's own lead in tension. **Nothing was glued, drilled or forced**, so safety rule 10
+   holds. **Its through-board diameter is UNKNOWN** — no calipers — and the retired 2.032 mm figure
+   came from a distributor table. **Do not drill this hole**: the node is now built over it, we do
+   not know the target size, and it is 2.54 mm from the board edge at the input node. **Any future
+   board order should draw this hole at Keystone's recommended Ø2.184 mm.**
 4. **Buy:** 99% IPA, distilled water, foam swabs, a soft brush; **the 4.7 µF 50 V 1812 ceramics**
    to replace the reused C2; copper tape with conductive adhesive.
 5. **Then Part D:** wash the board, fit the standoff, build the input node, and take **the first

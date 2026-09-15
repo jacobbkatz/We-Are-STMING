@@ -516,7 +516,7 @@
 <text class="m-badge-t" x="21.70" y="10.98" text-anchor="middle" dominant-baseline="central">7</text>
 </g>
 </svg>
-<svg class="map" id="map-bottom" viewBox="-3.5 0 33 22" hidden role="img" aria-label="Underside of the board, mirror image and to scale. The standoff pin tail comes through on the right at point 8. The four ground repair wires are all on the left half of this face, and the nearest one ends about 6 millimetres away from the standoff pin.">
+<svg class="map" id="map-bottom" viewBox="-3.5 0 33 22" hidden role="img" aria-label="Underside of the board, mirror image and to scale, unchanged since the ground repair. The standoff does not pass through the board, so nothing of the input node appears on this face. The four ground repair wires are all on the left half.">
 <rect class="b-mask" x="0" y="3.37" width="20.625" height="15.23"/>
 <line class="b-trace-b" x1="4.4325" y1="9.075" x2="3.7975" y2="9.075" stroke-width="0.6096"/>
 <line class="b-trace-b" x1="7.6075" y1="5.5825" x2="7.6075" y2="6.535" stroke-width="0.6096"/>
@@ -566,15 +566,7 @@
 <text class="t-small" x="18.085" y="13.15" text-anchor="middle" dominant-baseline="central">hole</text>
 <text class="t-fn" x="25.2" y="4.3" text-anchor="middle" dominant-baseline="central">underside</text>
 <text class="t-fn-sub" x="25.2" y="5.15" text-anchor="middle" dominant-baseline="central">mirror image</text>
-<g class="m-probe v-stop">
-<line class="m-leader" x1="19.3050" y1="10.9800" x2="20.4200" y2="10.9800"/>
-<circle class="m-halo" cx="18.0850" cy="10.9800" r="0.90"/>
-<circle class="m-ring" cx="18.0850" cy="10.9800" r="0.90"/>
-<circle class="m-dot" cx="18.0850" cy="10.9800" r="0.1"/>
-<circle class="m-badge" cx="21.70" cy="10.98" r="0.95"/>
-<text class="m-badge-t" x="21.70" y="10.98" text-anchor="middle" dominant-baseline="central">8</text>
-</g>
-<text class="t-fn-sub" x="8.0" y="2.4" text-anchor="middle" dominant-baseline="central">nearest repair wire ends about 6 mm away</text>
+<text class="t-fn-sub" x="8.0" y="2.4" text-anchor="middle" dominant-baseline="central">nothing of the input node is on this face</text>
 </svg>
 </div>
 <div class="viewbar">
@@ -589,14 +581,16 @@
 </div>
 <p class="viewnote" id="note-top"><strong>Top, chip side.</strong> Five holes on your right, the standoff at the left edge. <strong>Black probe stays on the standoff post</strong> for checks 1 to 6 &mdash; that is the black ring. Move only the red probe. <strong>Check 7 is the odd one out</strong>: the black probe moves to PAD1 for it.</p>
 <p class="keyrow" id="key-top"><span><i style="background:var(--beep)"></i>must beep</span><span><i style="background:var(--com)"></i>must be silent</span><span><i style="background:var(--warn)"></i>a number, not a beep</span><span><i class="ring"></i>red probe here</span><span><i class="com"></i>black probe, the standoff</span></p>
-<p class="viewnote" id="note-bottom" hidden><strong>Underside.</strong> Flip the board like turning a page. The standoff&rsquo;s pin tail comes through on your <strong>right</strong> now. <strong>The four ground repair wires are all on the left half of this face</strong> and the nearest one ends about 6&nbsp;mm from the pin, so check&nbsp;8 should be a formality. Do it anyway: that pin is the amplifier&rsquo;s input, sitting bare.</p>
+<p class="viewnote" id="note-bottom" hidden><strong>Underside &mdash; and there is nothing of the node on it.</strong> The standoff <strong>does not pass through the board</strong>, so no part of the amplifier&rsquo;s input reaches this face. That removes a hazard the through-hole version would have had: bare input-node metal sitting on the underside. This face is unchanged since the ground repair.</p>
 </section>
 <ul class="key" style="margin-top:10px">
 <li><i style="background:#B9873F"></i> the 100&nbsp;M&#937;, PAD1 to the standoff</li>
 <li><i style="background:#D95F9B"></i> the 40&nbsp;AWG link, standoff to IC1 pin&nbsp;2</li>
 <li><i style="background:#C3C8CC;border:1px solid #9AA4A0"></i> the PTFE standoff</li>
 </ul>
-<p class="viewnote" style="margin-top:8px"><strong>The board is to scale. The node is not.</strong> The resistor and the link are drawn schematically, because how you routed them is your choice and I have not seen it. What the drawing is accurate about is <strong>where the three points are</strong> and <strong>what the resistor has to pass over to get there</strong>.</p><h2>1 &mdash; Eight checks, nothing powered</h2>
+<p class="viewnote" style="margin-top:8px"><strong>The board is to scale. The node is not.</strong> The resistor and the link are drawn schematically, because how you routed them is your choice and I have not seen it. What the drawing is accurate about is <strong>where the three points are</strong> and <strong>what the resistor has to pass over to get there</strong>.</p>
+<p class="viewnote"><strong>The standoff rests on the board surface. It is not in the hole.</strong> The 11301 would not enter our Ø2.108&nbsp;mm hole, so the whole node is held by the 100&nbsp;M&#937;&rsquo;s own lead in tension. <strong>That is sound electrically and fragile mechanically</strong>, which is what check&nbsp;8 is about.</p><h2>1 &mdash; Eight checks, nothing powered</h2>
+<p class="viewnote"><strong>The standoff is not in the hole.</strong> It would not enter, so it rests on the board surface held by the resistor lead. <strong>Electrically that is fine, and arguably better</strong> &mdash; no bare input-node metal reaches the underside. <strong>Mechanically it is fragile</strong>, which is why check&nbsp;8 exists and why nothing should touch the board once the hour starts.</p>
 <p class="viewnote">Meter on continuity. <strong>Black probe on the standoff post for 1 to 6.</strong> Handle the board by its edges: it has just been cleaned and a fingerprint at this node undoes the wash.</p>
 <div class="panel"><div class="checks">
 <div class="check wide"><div class="lbl"><b>1</b> &nbsp;Standoff post &harr; IC1 pin&nbsp;2 <span class="req beep">MUST BEEP</span><small>Proves the link is on <em>and</em> that the enamel came off both ends. <strong>An open here is the most likely fault tonight</strong>, and once powered it looks exactly like a catastrophic leak: the output rails, because an open feedback path is an infinite feedback resistor.</small></div><div class="res" data-key="c1"><button type="button" data-val="beep" aria-pressed="false">Beeps</button><button type="button" data-val="silent" class="bad" aria-pressed="false">Silent</button></div></div>
@@ -606,7 +600,7 @@
 <div class="check wide"><div class="lbl"><b>5</b> &nbsp;Standoff post &harr; hole&nbsp;5, the <b>tan</b> &minus;15&nbsp;V lead <span class="req silent">MUST BE SILENT</span><small><strong>The resistor passes closest to pin&nbsp;4, the negative supply</strong>, on its way over the chip. This is the row that catches it.</small></div><div class="res" data-key="c5"><button type="button" data-val="silent" aria-pressed="false">Silent</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps</button></div></div>
 <div class="check wide"><div class="lbl"><b>6</b> &nbsp;Standoff post &harr; PAD1 <span class="req warn">OPEN OR VERY HIGH</span><small>Not a beep. A beep means solder has bridged across the 100&nbsp;M&#937;. <strong>Your meter cannot read 100&nbsp;M&#937;</strong> &mdash; it tops out far below that &mdash; so open <em>is</em> the pass, and it proves only that the resistor is not shorted. Its real value is proved by the hour, not by this.</small></div><div class="res" data-key="c6"><button type="button" data-val="open" aria-pressed="false">Open / very high</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps or low</button></div></div>
 <div class="check wide"><div class="lbl"><b>7</b> &nbsp;PAD1 &harr; hole&nbsp;3, the <b>orange</b> OUT lead <span class="req warn">ABOUT 220 &#937;</span><small><strong>The black probe moves to PAD1 for this one.</strong> That 220&nbsp;&#937; is R1. It passed in Part&nbsp;B; repeat it to prove nothing was knocked loose while you worked.</small></div><div class="res" data-key="c7"><button type="button" data-val="220" aria-pressed="false">~220 ohm</button><button type="button" data-val="short" class="bad" aria-pressed="false">Near 0</button><button type="button" data-val="open" class="bad" aria-pressed="false">Open</button></div></div>
-<div class="check wide"><div class="lbl"><b>8</b> &nbsp;Underside: the standoff&rsquo;s pin tail &harr; each repair wire, and hole&nbsp;1 <span class="req silent">MUST BE SILENT</span><small>That pin is the amplifier&rsquo;s input, sitting bare on the underside. The four repair wires are on the far side of that face and the nearest ends about 6&nbsp;mm away, so this should be a formality. <strong>Also make sure nothing conductive will ever sit under that spot.</strong></small></div><div class="res" data-key="c8"><button type="button" data-val="silent" aria-pressed="false">Silent</button><button type="button" data-val="beep" class="bad" aria-pressed="false">Beeps</button></div></div>
+<div class="check wide"><div class="lbl"><b>8</b> &nbsp;Look at the standoff from the side, with a magnifier <span class="req warn">NOTHING TOUCHING, NOTHING LEANING</span><small>Not a meter reading. <strong>The standoff is not in the hole &mdash; it rests on the surface, held only by the resistor lead</strong>, so the whole node is a spring. The metal pole stands about 6&nbsp;mm tall and IC1&rsquo;s nearest leg is about 2&nbsp;mm away, so <strong>a lean toward the chip can reach ground.</strong> Check the pole is upright and clear, the resistor body touches nothing, and neither lead rests on a pin. <strong>Then stop handling the board.</strong> Do not move it or its leads once the readings start.</small></div><div class="res" data-key="c8"><button type="button" data-val="clear" aria-pressed="false">Upright and clear</button><button type="button" data-val="leaning" class="bad" aria-pressed="false">Leaning or touching</button></div></div>
 </div></div>
 <div class="callout hazard"><h3>If 1 fails, or 2 to 5 beep, stop</h3>
 <p>Do not power it. A bridge to ground or to a supply rail is minutes to find now with a magnifier, and an hour of confusing readings later. Send me which row failed.</p></div>

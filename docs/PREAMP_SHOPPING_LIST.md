@@ -111,12 +111,13 @@ undersize, and confirmed at the bench that it will not go in.**
 only **0.815 mm** of material would remain, under the one component the instrument's sensitivity
 depends on.
 
-> **RESOLVED 2026-09-14 — it drops in, and there is nothing to press.** This block previously said
-> the 11301's mounting-hole spec was disputed and to verify before pressing. **Ø2.184 mm (0.086") is
-> Keystone's recommended clearance hole, not a requirement.** The part's through-board pin is
-> 0.080" = **2.032 mm** against our **2.108 mm** hole — **0.076 mm of clearance.** Berard's own Eagle
-> board, in this repository since 2026-08-13, specifies `drill="2.1082"` for this exact hole.
-> **Do not drill.** One caliper reading on the pin (expect ~2.03 mm) confirms it; it does not decide it.
+> **SETTLED AT THE BENCH 2026-09-15: the 11301 does NOT enter our Ø2.108 mm hole.** It was offered
+> up and would not go. This block has now been wrong twice, first saying press fit with interference
+> and then previously saying it drops in with clearance — **both from distributor figures, and the second also
+> had Berard's own board file agreeing with it.** The part's real through-board diameter is
+> **UNKNOWN**; there are no calipers. **It was fitted by resting it on the board surface**, held by
+> the feedback resistor's lead. **Still do not drill**, and draw this hole at Keystone's recommended
+> Ø2.184 mm on any future board order.
 
 ## Buy — the C2 replacement ceramics
 
@@ -154,10 +155,11 @@ magnifier · helping hands · calipers · safety glasses · nitrile gloves ·
 ## Only if needed
 
 > **The `#44 drill` line that was here is RETIRED, 2026-09-14. Do not buy it and do not drill.**
-> It read "only if the 11301 will not press into the Ø2.108 mm hole". **The 11301 does not press
-> into that hole — it drops through it with 0.076 mm of clearance**, because 2.184 mm is Keystone's
-> recommended clearance hole rather than a requirement and the part's pin is 2.032 mm. Opening our
-> hole would only leave the standoff loose, at the input node, 2.54 mm from the board edge.
+> It read "only if the 11301 will not press into the Ø2.108 mm hole". **Updated 2026-09-15: the
+> 11301 indeed will not go into that hole** — but the remedy is still not a drill bought on a guess.
+> The node is now built over that hole, we have no calipers, and it is 2.54 mm from the board edge
+> at the input node. **If the hole is ever opened, it should be a deliberate decision with a
+> measured target, practised on one of the bare spare boards first.**
 > See `docs/FACTS.md` and `docs/NEXT_SESSION_PLAN.md` Part D0.
 **A 60–70 °C oven or dehydrator** — drying the board after washing, to drive moisture out of the
 FR-4. **Board only, never the printed box**: PETG softens near 80 °C.

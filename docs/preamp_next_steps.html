@@ -111,7 +111,7 @@
     <div class="rung done"><span class="tag">A</span><span class="what">Ground repair, and verify it<small>Four wires on, IC1 pin 3 beeps to hole 1, no shorts, C2 reads 4.7 &micro;F</small></span><span class="when">done 09-14</span></div>
     <div class="rung now"><span class="tag">B</span><span class="what">Continuity at the four lead free ends<small>Five minutes. All that stands between here and the smoke test</small></span><span class="when">start here</span></div>
     <div class="rung"><span class="tag">C</span><span class="what">Current-limited smoke test<small>Bench supply only. Never the controller</small></span><span class="when live">powered</span></div>
-    <div class="rung"><span class="tag">D0</span><span class="what">Seat the standoff in its hole<small>It drops in. No drilling</small></span><span class="when off">unpowered</span></div>
+    <div class="rung"><span class="tag">D0</span><span class="what">The standoff<small>DONE 2026-09-15. It does NOT enter the hole &mdash; it rests on the surface, held by the resistor lead</small></span><span class="when off">unpowered</span></div>
     <div class="rung"><span class="tag">D</span><span class="what">Wash, fit the standoff, build the input node<small>An evening, plus drying time</small></span><span class="when off">unpowered</span></div>
     <div class="rung"><span class="tag">D5</span><span class="what">The first valid preamp measurement<small>PAD1 on a meter, timed to 60 minutes</small></span><span class="when live">powered</span></div>
   </div>
@@ -164,7 +164,7 @@
 
   <h2>D0 &mdash; the standoff</h2>
   <div class="box live">
-    <p><strong>Correction, same evening.</strong> This page first said the standoff was a press fit with 0.076&nbsp;mm of interference, and offered a #44 drill as the remedy. <strong>That was wrong, and drilling would have made the hole worse.</strong> Berard&rsquo;s own board file &mdash; in this repository since August &mdash; specifies <code>drill="2.1082"</code> for this exact hole, and our board is 2.108&nbsp;mm. He used an 11301 in it. <strong>It drops in with 0.076&nbsp;mm of clearance. Do not drill anything.</strong></p>
+    <p><strong>Correction, same evening.</strong> This page first said the standoff was a press fit with 0.076&nbsp;mm of interference, and offered a #44 drill as the remedy. <strong>That was wrong, and drilling would have made the hole worse.</strong> Berard&rsquo;s own board file &mdash; in this repository since August &mdash; specifies <code>drill="2.1082"</code> for this exact hole, and our board is 2.108&nbsp;mm. He used an 11301 in it. <strong>Corrected again 2026-09-15, at the bench: it does NOT enter the hole.</strong> The clearance figure was the third wrong answer on this part number, and the first to have a file in this repository agreeing with it. The node was built with the standoff resting on the board surface. <strong>Still do not drill anything.</strong></p>
   </div>
   <h3>One measurement, then fit it</h3>
   <div class="scroll"><table>

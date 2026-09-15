@@ -30,7 +30,7 @@ washed in 99% IPA and left to dry overnight on a lint-free pad.
 
 | | |
 |---|---|
-| **Keystone 11301 standoff, 2 off** | **Received 2026-09-14**, DigiKey 36-11301-ND. The correct part, **PTFE base with a metal pole**. **It drops into our hole — no drilling** |
+| **Keystone 11301 standoff, 2 off** | **Received 2026-09-14**, DigiKey 36-11301-ND. **PTFE base with a metal pole.** **It does NOT enter our hole** — bench, 2026-09-15. Fitted on 2026-09-15 by resting it on the board surface, held by the resistor lead |
 | **99% IPA** | **IN THE ROOM.** Used for the wash on 2026-09-14 |
 | **Deionised water** | In the room, **but the water rinse is dropped** — see Part D |
 | **Foam swabs, soft brush** | In the room, 2026-09-14 |
@@ -81,7 +81,7 @@ cleaned afterwards.
 | **B** | Continuity at the four lead free ends | No | 5 min | **DONE 2026-09-14, all six as expected** |
 | **D-wash** | Wash the board in 99% IPA, dry | No | An evening + drying | **DONE 2026-09-14, drying overnight** |
 | **C** | Current-limited smoke test | **Bench supply only** | 20 min | **NEXT. Confirm the board is dry first** |
-| **D0** | Standoff drops into the hole | No | 2 min | Nothing to prepare — no calipers needed |
+| **D0** | Standoff | No | 2 min | **DONE 2026-09-15. It does NOT enter the hole** — sits on the surface, held by the resistor lead |
 | **D-node** | Fit the standoff, air-mount the 100 MΩ, run the 40 AWG link | No | An evening | After C passes |
 | **D5** | **The first valid preamp measurement this project has had** | Bench supply | 1 hour | The point of all of it |
 
@@ -152,16 +152,23 @@ is not a preamp measurement.** This test checks current and heat only.
 
 # PART D0 — the standoff. Unpowered
 
-**It drops in. Do not drill anything.**
+**DONE 2026-09-15, and it did not go in. Do not drill anything.**
 
-> **Corrected 2026-09-14, the same day it was written.** An earlier version of this section said the
-> 11301 was a press fit with 0.076 mm of interference, and gave a #44 drill as the remedy. **Both are RETIRED and wrong** —
-> see `docs/FACTS.md`. **Drilling would have made the hole worse.** The 0.086" figure from the distributor table
-> is Keystone's **recommended clearance hole**, not a requirement. **Berard's own Eagle board, which
-> has been in this repository since 2026-08-13, specifies `drill="2.1082"` for this exact hole** —
-> and our fabricated board is 2.108 mm, identical. He used an 11301 in it. The part's through-board
-> pin is 0.080" = 2.032 mm, so it passes with **0.076 mm of clearance.** Opening the hole to 2.184 mm
-> would only leave the standoff loose. See `docs/FACTS.md`.
+> **Settled at the bench, against three web-sourced answers.** Jacob offered the part up and **it
+> would not enter the hole at all.** It is the 11301, confirmed from the bag. **The node was built
+> with the standoff resting on the board surface**, held by the 100 MOhm's own lead in tension —
+> nothing glued, nothing drilled, nothing forced.
+>
+> **What this section said before, and why it was wrong twice.** First that the 11301 was a press fit
+> with 0.076 mm of interference, with a #44 drill as the remedy. Then, corrected 2026-09-14, that it
+> previously **drops in** with 0.076 mm of clearance, from a distributor's 0.080" pin figure and from Berard's
+> own Eagle board specifying `drill="2.1082"` for this exact hole, which our board matches.
+> **Two documents agreeing is not a measurement.** Its real through-board diameter is **UNKNOWN** —
+> we have no calipers — and all that is established is that it exceeds our Ø2.108 mm.
+>
+> **Still do not drill.** The node is now built over that hole, we do not know the target size, and
+> it is 2.54 mm from the board edge at the input node. **A future board order should draw this hole
+> at Keystone's recommended Ø2.184 mm.** See `docs/FACTS.md` and `docs/OPEN_QUESTIONS.md`.
 
 ## D0.1 No measurement is needed. There are no calipers, and none are required
 
