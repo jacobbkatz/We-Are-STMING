@@ -12,6 +12,28 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## THE TIMED RUN — started 17:49 UTC, 2026-09-15
+>
+> **Second power-on, after the supply glitch. Rails at 15 V and −15 V, limit 20 mA.**
+> **Supply current 4 mA**, against 3 mA at the 5 V rails — a small rise with supply voltage is
+> ordinary and the two channels still match.
+>
+> | Minute | OUT lead | Input current | Supply current |
+> |---|---|---|---|
+> | 0 | **5 mV**, wandering slightly | **~50 pA** | 4 mA |
+> | 5 | | | |
+> | 10 | | | |
+> | 20 | | | |
+> | 45 | | | |
+> | 60 | | | |
+>
+> **Reading times are held as scheduled reminders in the remote session**, at Jacob's request, so he
+> does not have to watch a clock. **Minute zero is 17:49 UTC.**
+>
+> **What this run is for is no longer the offset.** That is settled at tens of pA and cannot
+> meaningfully improve. **It is for the drift question** — whether the warm-up climb recorded on the
+> old board was real or was its floating reference. A flat line here answers it.
+
 > ## AT ±15 V: 3 pA — THEN THE READING STARTED WANDERING AND THE POWER WAS CUT
 >
 > **`BENCH` 2026-09-15, in order:**
