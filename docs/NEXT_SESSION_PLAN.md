@@ -69,6 +69,37 @@ will ever take. Heat shrink is fine here — this splice is at the connector end
 input node, so the "no adhesive-lined shrink" rule does not apply to it. **Row rule if you are ever unsure at the
 connector: on DSUB2 the row of five carries signal and the row of four is all ground.**
 
+### Verify the cable's colours before you trust them. Two minutes, and it removes the whole risk
+
+**The FUNCTIONS are netlist-verified and I am confident in them. The COLOURS are not ours** — they
+come from the standard colour order of a JUXINICE DB9-to-bare-wire cable (`docs/WIRING.md` §6), which
+is a property of whatever cable was bought, not of this build. **That is the one link in the chain
+taken on trust, and it is the link that could destroy IC1. Measure it instead.**
+
+1. **Preamp NOT connected.** DSUB2 cable plugged into the controller, **bare ends free, taped apart,
+   touching nothing and not each other.**
+2. **Power the controller** the usual way, ±18 V into U19.
+3. **Meter on DC volts. Black probe on a KNOWN controller ground** — U19's middle pin, `AGND`. **Not
+   on a cable wire**, because which cable wires are ground is the thing being tested.
+4. **Red probe on each bare wire in turn.**
+
+| Reading | That wire is | Expected colour |
+|---|---|---|
+| **+15 V** | **DSUB2 pin 5.** Joins the preamp's **grey** | yellow |
+| **−15 V** | **DSUB2 pin 4.** Joins the preamp's **tan** | orange |
+| **solid 0 V**, four of them | AGND, pins 6–9. Use **one** of these | green, blue, grey, white |
+| near 0 and drifting, two of them | the ADC inputs, pins 2 and 3, high impedance and unconnected | brown, red |
+| **some other DC level** | `BIAS`, pin 1. **Leave it alone** | black |
+
+**The two that matter are found with certainty: the rails.** Getting those right is what protects
+the board. **If brown and red were ever swapped the ADC would read inverted, which is recoverable**;
+putting a rail on the output is not.
+
+5. **Power off before splicing anything.**
+
+> **If the colours do not come out as the table predicts, stop and tell me.** It means the cable is
+> not the one `docs/WIRING.md` §6 describes, and the whole mapping needs redoing from measurement.
+
 ### Then, in order
 
 1. **Splice the four leads as above, with nothing powered.** Check twice against the table, not
