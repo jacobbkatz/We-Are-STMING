@@ -12,6 +12,33 @@
 > now runs **after the wash and before the input node is built**, so a fault is found while the
 > board is still bare and reworkable. Bench supply only, **never the controller**.
 >
+> ## THE BOXED RUN — started 19:16 UTC, 2026-09-15. THE GATE READING
+>
+> **Both post-mount checks passed** (`SAID`, Jacob): standoff to IC1 pin 2 **beeps**, standoff to the
+> white GND lead **silent**. **The feedback path survived the mounting and the standoff has not
+> shifted.**
+>
+> **Running now, in the assembled copper box, on the bench supply at 15 V and −15 V, 20 mA limit.**
+> Reminders are held in the remote session for a 20-minute mid-point and for **45 minutes, which is
+> the gate**.
+>
+> | Minute | OUT lead | Input current | Supply current |
+> |---|---|---|---|
+> | 20 | | | |
+> | **45** | | | **THE GATE** |
+>
+> **This one measurement answers three things at once:**
+>
+> 1. **Safety rule 14**, which after the C2 clause was withdrawn is the **only** remaining gate
+>    between this board and the controller. It wants the output under 0.1 V at 45 minutes.
+> 2. **The warm-up drift. Safety rule 0 says no preamp measurement is valid until the board has been
+>    powered for 45 minutes**, and it has stood since 2026-09-07 on a climb measured with the
+>    reference floating. **If this run is flat, that rule can be retired and every future capture in
+>    this project stops waiting.**
+> 3. **The shield's first trial**, in the configuration the instrument will actually use.
+>
+> **The bare-board baseline it will be compared against is ~6 pA at 10 minutes, unboxed.**
+
 > ## THE BOARD IS IN THE BOX — 2026-09-15
 >
 > **`SAID` 2026-09-15, Jacob: "preamp is screwed into the box, all good."** Mounted on the two M2
