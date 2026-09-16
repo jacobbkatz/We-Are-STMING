@@ -319,6 +319,25 @@ near zero counts.**
 >    other mechanisms in §3.2d**, and moving the lead or the operator is the next split.
 >
 > **Still owed after that: a known signal through the preamp**, which proves the chain end to end.
+>
+> **DONE 2026-09-16, AND IT MADE THE SPREAD WORSE.** Cover on, both shields bonded to what Jacob
+> called "universal ground": **standard deviation 294.9 counts, against 131.5 without the cover.**
+> `sessions/2026-09-16-bench.md` §3.2e.
+>
+> ## NEXT: move each shield's ONE bond to `AGND`, then the same twenty readings
+>
+> 1. **Find out what "universal ground" is.** If it is mains earth, that is the suspect.
+> 2. **Power down**: USB out, then supply off.
+> 3. **Take both shield ground wires off "universal ground".** Bond **each shield once** to `AGND`.
+>    **The easy point is the junction of the two supply channels**, the middle wire of the U19 plug.
+>    **The preamp box's preferred point is the preamp's own ground**, the white lead at the DSUB2
+>    splice (`docs/OPEN_QUESTIONS.md`). **The two shields must not touch each other**, and nothing
+>    else metal should touch either.
+> 4. **Power up with the steps at the top of this file.** After the LEDs go dark, **step at least a
+>    metre away** for the wait and the twenty `ADCR`.
+> 5. **Compare the standard deviation with 294.9 counts with the cover on, and 131.5 without it.**
+>    Well below 131.5 means the earth bond was injecting noise and the cover now works. Unchanged
+>    means the bond is not the cause: look at operator distance, then the scan head.
 
 **BUILD THE TIP LEAD.** Safety rule 0b gated it on the bare board being measured; that is done, and
 **~4 pA is the baseline every later number gets compared against.** H3 below has the wire.

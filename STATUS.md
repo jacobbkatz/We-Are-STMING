@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16 (ADC chain works; tip lead built and passes, mean −22.3 counts; spread tripled with the cover off, cover test next)
+**Last updated:** 2026-09-16 (ADC chain works; tip lead passes; cover on with shields to "universal ground" made the spread worse, 294.9 counts; move shield bonds to AGND next)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
@@ -24,8 +24,14 @@ about 60 MΩ (safety rule 12), so the lead was then re-measured through the ADC.
 lead on: mean −22.3 counts over 20 `ADCR`, against −1.7 before — a change under one standard error,
 so any added leakage is below about 0.2 nA. The tip lead passes.** **But the spread tripled, 45 to
 131.5 counts, about 0.4 nA**, which is too much to image a 1 nA current through. **Not a noise
-figure, cover off.** **Next: fit the scan head shield cover and repeat the twenty readings**, once
-where the cover's and the box's ground wires land is known (`docs/OPEN_QUESTIONS.md`). §3.2d.
+figure, cover off.** §3.2d.
+
+**Then the shield cover went on, with both shields bonded to what Jacob calls "universal ground" —
+and the spread MORE THAN DOUBLED, to 294.9 counts, about 0.9 nA.** Mean +69.3, not a significant
+change. Readings bunch near ±480, which is suggestive of mains hum. **"Universal ground" is
+undefined here; read as mains earth, NOT CONFIRMED.** **Leading suspect: shields bonded to a ground
+other than `AGND`, which injects hum rather than blocking it.** **Next: move each shield's one bond
+to `AGND` and repeat the twenty readings, operator a metre away.** §3.2e.
 
 > ## 2026-09-16, later — FIRST CONTROLLER POWER-ON: ONE SUPPLY CHANNEL WENT INTO CURRENT LIMIT
 >
