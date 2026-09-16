@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16 (THE ADC CHAIN WORKS: preamp on the controller reads a mean of −1.7 counts, no drift)
+**Last updated:** 2026-09-16 (ADC chain works; tip lead built and passes, mean −22.3 counts; spread tripled with the cover off, cover test next)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
@@ -18,8 +18,14 @@ signal through the preamp is still owed. Full numbers: `sessions/2026-09-16-benc
 **THE TIP LEAD IS BUILT, later 2026-09-16** (`SAID`, Jacob): the standoff beeps to the tip holder,
 and **the tip holder is open to the piezo's brass electrode, so safety rule 7's meter check
 passes.** Read as no tip fitted, **not yet confirmed.** A meter's open reading only proves more than
-about 60 MΩ (safety rule 12), so **the ADC re-measure against the −1.7-count baseline is next**, and
-it is the real test of the lead, the holder and the piezo. §3.2c.
+about 60 MΩ (safety rule 12), so the lead was then re-measured through the ADC. §3.2c.
+
+**Confirmed by Jacob: no tip fitted, joint cleaned with IPA, lead slack.** **Re-measure with the tip
+lead on: mean −22.3 counts over 20 `ADCR`, against −1.7 before — a change under one standard error,
+so any added leakage is below about 0.2 nA. The tip lead passes.** **But the spread tripled, 45 to
+131.5 counts, about 0.4 nA**, which is too much to image a 1 nA current through. **Not a noise
+figure, cover off.** **Next: fit the scan head shield cover and repeat the twenty readings**, once
+where the cover's and the box's ground wires land is known (`docs/OPEN_QUESTIONS.md`). §3.2d.
 
 > ## 2026-09-16, later — FIRST CONTROLLER POWER-ON: ONE SUPPLY CHANNEL WENT INTO CURRENT LIMIT
 >

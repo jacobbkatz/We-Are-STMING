@@ -300,6 +300,25 @@ near zero counts.**
 >
 > **The spread will likely be wider** with the holder on the input node and the shield cover off.
 > **It is still not a noise figure.**
+>
+> **RE-MEASURED 2026-09-16: PASSES.** No tip, IPA-cleaned, lead slack (`SAID`, Jacob). **20 `ADCR`:
+> mean −22.3 counts** against −1.7 before, under one standard error apart, so any added leakage is
+> below about 0.2 nA. **Standard deviation 131.5 counts against 45**: the spread tripled.
+> `sessions/2026-09-16-bench.md` §3.2d.
+>
+> ## NEXT: the scan head shield cover, then the same twenty readings
+>
+> 1. **First, find out where the ground wires land** — the cover's, and the preamp box's. Open in
+>    `docs/OPEN_QUESTIONS.md`. **One bond per shield to circuit ground, and the cover must not touch
+>    the preamp box**, or the two form a second path.
+> 2. **Power down before fitting it**: USB out, then supply off. No tip, so nothing can be crashed.
+> 3. **Fit the cover over the scanning module**, then the power-up steps at the top of this file and
+>    **twenty `ADCR`**, hands well away.
+> 4. **Compare the standard deviation with 131.5 counts.** A large drop means the spread was pickup
+>    and this is the instrument's first representative noise figure. **Little change points at the
+>    other mechanisms in §3.2d**, and moving the lead or the operator is the next split.
+>
+> **Still owed after that: a known signal through the preamp**, which proves the chain end to end.
 
 **BUILD THE TIP LEAD.** Safety rule 0b gated it on the bare board being measured; that is done, and
 **~4 pA is the baseline every later number gets compared against.** H3 below has the wire.
