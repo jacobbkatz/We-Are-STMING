@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-16 (Jacob's Windows machine works; first power-on hit a supply current limit, prove the supply wiring before raising the limit)
+**Last updated:** 2026-09-16 (the ADC chain works, mean −1.7 counts; next is the tip lead)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -27,7 +27,15 @@ that treats the preamp as broken, unbuilt or unmeasured is history.
 | Cost of the box and shield | **None** — 4 pA boxed against 6 pA bare |
 | Blocking the controller | **Nothing** |
 
-## START HERE — the splice is DONE and VERIFIED. Power it up
+## ~~START HERE — the splice is DONE and VERIFIED. Power it up~~ DONE 2026-09-16: THE ADC CHAIN WORKS
+
+> **Done 2026-09-16, Jacob at the bench, commands sent by Claude from Jacob's machine.** Controller at
+> about 40 mA with 200 mA limits, LED1–LED4 dark after `RSET`, Z at 32768, two minutes' settle.
+> **`ADCR` 89, 22, −13, then twenty more with a mean of −1.7 counts and no drift**, which is the
+> "chain works" row of the table below and matches last night's −0.4 mV meter reading.
+> `sessions/2026-09-16-bench.md` §3.2b. **Still owed: a known signal through the preamp**, because a
+> grounded input would also read near zero. **The next section is the tip lead.** The steps below are
+> kept as the power-up procedure for any cold start.
 
 > **Done 2026-09-15:** the preamp is spliced to the DSUB2 cable and the splice was verified
 > unpowered with the DB9 unplugged. **Row of five, left to right: nothing, white, orange, tan,

@@ -1,7 +1,20 @@
 # Current status
 
-**Last updated:** 2026-09-16 (Jacob's Windows machine works; controller powered at about 40 mA after a 20 mA limit was corrected; no ADC reading yet)
-**Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine. **Controller powered; no ADC reading taken yet.**
+**Last updated:** 2026-09-16 (THE ADC CHAIN WORKS: preamp on the controller reads a mean of −1.7 counts, no drift)
+**Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
+
+# THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
+
+**Preamp spliced and boxed, controller powered, `RSET` with LED1–LED4 dark after it, Z parked at
+32768, two minutes' settle: three `ADCR` of 89, 22 and −13, then twenty more averaging −1.7 counts
+with no drift.** That is **−0.5 mV**, against the **−0.4 mV** metered on the OUT lead the night
+before. **Every earlier ADC reading in this project was taken outside the converter's input
+conditions. This is the first inside them.**
+
+**Not yet established:** the 45-count spread is **not a noise figure**, because the overall shield
+cover is off; and **a near-zero reading is also what a grounded input would give**, so a known
+signal through the preamp is still owed. **Next is the tip lead**, in the order in
+`docs/NEXT_SESSION_PLAN.md`. Full numbers: `sessions/2026-09-16-bench.md` §3.2b.
 
 > ## 2026-09-16, later — FIRST CONTROLLER POWER-ON: ONE SUPPLY CHANNEL WENT INTO CURRENT LIMIT
 >
