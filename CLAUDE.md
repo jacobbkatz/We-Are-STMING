@@ -313,8 +313,10 @@ was assembled, what a supplier did or asked:**
   injects tens of nA; a tunneling current is about 1 nA.
 - **Never tell the user to send `CCON` with a tip in tunneling range.** `control_current()`
   hardcodes midscale, so engaging the loop snaps Z to 32768 from wherever it was. See
-  `STATUS.md` fault 2. **A fix was written and builds on 2026-09-16, but the Teensy runs the old
-  firmware until the fix is uploaded and bench-tested. Until then this rule stands as written.**
+  `STATUS.md` fault 2. **FIXED 2026-09-16: the fix was uploaded and passed a red-then-green bench
+  test — Z held at 20000 on engage, where the old firmware jumped to 32768.** **The rule is kept
+  anyway until Jacob and Nuh decide otherwise**, because with non-zero gains the loop's first step
+  still applies a normal `(Kp + Ki) × error` correction, and no tip has ever been near a sample.
 
 **Four more that live only in `STATUS.md`, and are just as capable of costing hardware or a day.
 Added here 2026-09-09 because this section had silently omitted them:**

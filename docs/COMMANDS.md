@@ -62,7 +62,7 @@ All four are silent — they reply with nothing.
 
 | Command | Arguments | Notes |
 |---|---|---|
-| `MTMV` | steps | Blocks while moving. ~68.3 steps/s, so 512 steps takes about 7.5 s. **Old firmware, still on the Teensy: the coils stay powered afterwards, and `RSET` does not switch them off.** **Fixed firmware, written 2026-09-16 and not yet uploaded: coils switch off about 20 ms after the move; `MTMV 0` just switches them off** |
+| `MTMV` | steps | Blocks while moving. ~68.3 steps/s, so 512 steps takes about 7.5 s. **Since the 2026-09-16 firmware, uploaded and bench-tested: the coils switch off about 20 ms after the move, so the driver LEDs go dark between moves; `MTMV 0` just switches them off.** Before that the coils stayed powered after every move, and `RSET` never switched them off |
 
 2048 steps per revolution, verified by measurement.
 
@@ -116,7 +116,7 @@ at the top of the range may be off by some percent.**
 
 | Command | Arguments | Notes |
 |---|---|---|
-| `CCON` | adc_target | Turn on constant-current mode. **Old firmware, still on the Teensy: Z snaps to 32768 on engage** (`STATUS.md` fault 2). **Fixed firmware, written 2026-09-16 and not yet uploaded: starts from the current Z; refuses silently when Z is outside 10000–50000, so check `GSTS` field 8.** Keep the target within ±32768 either way: a larger one indexes past the end of `logTable` |
+| `CCON` | adc_target | Turn on constant-current mode. **Since the 2026-09-16 firmware, uploaded and bench-tested: starts from the current Z; refuses silently when Z is outside 10000–50000, so check `GSTS` field 8.** Before that Z snapped to 32768 on engage (`STATUS.md` fault 2). Keep the target within ±32768 either way: a larger one indexes past the end of `logTable` |
 | `CCOF` | — | Turn it off |
 | `PIDS` | Kp Ki Kd | Set PID gains. They default to 0.0 |
 | `SCST` | x_start x_end x_res y_start y_end y_res samples_per_pixel | Start a scan. Blocks for a long time |

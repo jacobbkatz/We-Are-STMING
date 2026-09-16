@@ -43,7 +43,8 @@ Berard's measured 34 nm/V on a disc scanner over our ±10 V Z range, one count i
 so that is a **~180 nm lurch toward the sample**. Tunneling happens below 1 nm. The tip does not
 survive that.
 
-**Fix WRITTEN 2026-09-16 and builds; not yet uploaded or bench-tested.** The first option below was
+**FIXED 2026-09-16: written, uploaded, and passed a red-then-green bench test** — Z held at 20000 on
+engage where the old firmware jumped to 32768. The first option below was
 used, plus a refusal to engage when Z is outside the loop's 10000–50000 clamp window. See
 `STATUS.md` fault 2. The original proposal: initialise `iTerm` so the loop's first output equals the current Z.
 Concretely, seed `iTerm = stm_status.dac_z - 32768` in `turn_on_const_current()`, or use
@@ -67,7 +68,8 @@ Berard:
 `approach()`, and only on success. So after any `MTMV`, the motor sits energised and warming until
 something else disables it.
 
-**Fix WRITTEN 2026-09-16 and builds; not yet uploaded or bench-tested:** `disable()` at the end of
+**FIXED 2026-09-16, uploaded and bench-tested** — driver LEDs dark after a move, where the old
+firmware left two lit: `disable()` at the end of
 `step()`, after a one-step-period settle so the last step is not lost. See `STATUS.md` fault 3.
 The original proposal: call `disable()` at the end of `step()`, or after each `MTMV`. This
 motor is geared, so it holds position without holding current — that is the whole reason a geared

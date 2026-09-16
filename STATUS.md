@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16 (DUMMY JUNCTION PASSES: whole current path works, 320.5 counts per nA, positive sample bias reads negative; CCON and motor fixes built, NOT uploaded)
+**Last updated:** 2026-09-16 (DUMMY JUNCTION PASSES, 320.5 counts per nA, positive sample bias reads negative; CCON jump and powered-motor faults FIXED, uploaded and bench-tested)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # THE DUMMY JUNCTION TEST PASSES — 2026-09-16, evening
@@ -13,8 +13,11 @@ counts**, so under positive sample bias a tunnelling current drives the reading 
 is annotated, not lifted.** The 320-count scatter is not a noise figure: cover off, clips on the tip
 holder. `sessions/2026-09-16-bench.md` §3.4.
 
-**Firmware fixes for the `CCON` jump and the powered motor are written and build, but are NOT on the
-Teensy** — faults 2 and 3.
+**FIRMWARE FIXES UPLOADED AND BENCH-TESTED, same evening: faults 2 and 3 are FIXED.** Red first on
+the old firmware — `CCON` snapped Z from 20000 to 32768, and two motor driver LEDs stayed lit after a
+move — then upload, then green: **Z held at 20000 on engage, the loop refused to engage at Z 5000,
+and the driver LEDs flickered during a move and went dark after it.** `sessions/2026-09-16-bench.md`
+§3.5.
 
 # THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
 
@@ -827,8 +830,9 @@ preamp board for nothing. It was stripped and rebuilt in all copper with soldere
 **The rebuild has not been verified with a meter yet — do that first.**
 
 Two unfixed firmware faults were found on 2026-09-05 that will damage a tip if hit: **`CCON` snaps
-Z to midscale**, and **the motor is left energised** and heats the scan head. **Fixes for both were
-written and build on 2026-09-16, but are NOT on the Teensy yet** — faults 2 and 3.
+Z to midscale**, and **the motor is left energised** and heats the scan head. ~~**Fixes for both were
+written and build on 2026-09-16, but are NOT on the Teensy yet**~~ **Both FIXED, uploaded and
+bench-tested 2026-09-16** — faults 2 and 3.
 
 > ### Physical state of the preamp right now — read before planning any measurement
 >
@@ -1310,10 +1314,16 @@ tantalum on the negative rail is a candidate for rail behaviour nobody has expla
 
 ---
 
-### 2. `CCON` jumps Z to midscale and will crash a tip
+### 2. `CCON` jumps Z to midscale and will crash a tip — FIXED 2026-09-16
 
-> **FIX WRITTEN AND BUILDS, 2026-09-16. NOT YET UPLOADED, NOT BENCH-TESTED. The Teensy still runs the
-> old firmware, so everything below still describes the instrument.** `turn_on_const_current()` now
+> **UPLOADED AND BENCH-TESTED 2026-09-16, same evening: FIXED.** Red on the old firmware: Z at
+> 20000, `CCON 100`, `GSTS` read **32768** with the loop running. Green on the new: the same
+> sequence read **20000** twice over three seconds with the loop running, and at Z 5000 the loop
+> **refused**, field 8 staying 0. Gains were the boot zeros. **The rest of this box describes the fix;
+> the text after the box describes the OLD firmware.** `sessions/2026-09-16-bench.md` §3.5.
+>
+> ~~**FIX WRITTEN AND BUILDS, 2026-09-16. NOT YET UPLOADED, NOT BENCH-TESTED. The Teensy still runs the
+> old firmware, so everything below still describes the instrument.**~~ `turn_on_const_current()` now
 > seeds `iTerm = stm_status.dac_z - 32768`, the fix proposed below, so the loop's first output is
 > the current Z plus only the normal `(Kp + Ki) × error` correction; **with the boot gains of zero, Z
 > does not move on engage.** **It also refuses to engage when Z is outside 10000–50000**, because
@@ -1341,9 +1351,14 @@ the tip!"*
 `turn_on_const_current()`, so the loop's first output equals the current Z. See
 `docs/UPSTREAM_BERARD.md` §1.1.
 
-### 3. The stepper motor is left energised, which heats the scan head
+### 3. The stepper motor is left energised, which heats the scan head — FIXED 2026-09-16
 
-> **FIX WRITTEN AND BUILDS, 2026-09-16. NOT YET UPLOADED, NOT BENCH-TESTED.** `EfficientStepper::step()`
+> **UPLOADED AND BENCH-TESTED 2026-09-16: FIXED.** Red on the old firmware: after `MTMV 100`, **two
+> driver LEDs stayed lit** (`SAID`, Jacob). Green on the new: after `MTMV -400`, **"flickered and now
+> dark"** (`SAID`, Jacob). A 100-step move was too short to watch; 400 was clear. **The one-step
+> read-back VERIFY below is still open.** `sessions/2026-09-16-bench.md` §3.5.
+>
+> ~~**FIX WRITTEN AND BUILDS, 2026-09-16. NOT YET UPLOADED, NOT BENCH-TESTED.**~~ `EfficientStepper::step()`
 > now switches the coils off after every move, **after waiting one step period**, about 15 ms at the
 > firmware's speed: the Arduino `Stepper` library returns the instant it energises the last step, so
 > cutting power at once could lose that step. `MTMV 0` now just makes sure the coils are off. **Also
@@ -1759,8 +1774,9 @@ which sign of `MTMV` advances.
    shunt across the preamp input — it costs signal and adds noise. It is **not** an offset source,
    so it is not a candidate for the 119 nA, but it must be open before imaging.
 8. **Never send `CCON` with a tip in tunneling range** until the integral-init bug in fault 2 is
-   fixed. Engaging the loop snaps Z to midscale. **A fix was written on 2026-09-16 and builds, but
-   this rule stands until it is uploaded and passes its bench test.**
+   fixed. Engaging the loop snaps Z to midscale. **The fix was uploaded and passed its bench test on
+   2026-09-16, so this rule's condition is met. It is kept until Jacob and Nuh decide**: with
+   non-zero gains the first step still applies `(Kp + Ki) × error`, and no tip has been near a sample.
 9. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
    metre injects 20 to 50 nA, which is twenty to fifty times a tunneling current.
    > **Basis in doubt, 2026-09-13:** the 20–50 nA figure came from a board with IC1 +IN floating,

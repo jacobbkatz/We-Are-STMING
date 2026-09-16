@@ -61,7 +61,8 @@ void EfficientStepper::step(int steps)
     // after every move. disable() saves the coil pattern and enable() restores
     // it, so the next move carries on from the same phase.
     //
-    // NOT YET UPLOADED OR BENCH-TESTED when written.
+    // Uploaded and bench-tested 2026-09-16: the driver LEDs go dark after a move,
+    // where the old firmware left two lit.
     if (steps == 0)
     {
         // Nothing to move. Do not pulse the coils on; just make sure they are off.

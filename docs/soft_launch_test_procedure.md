@@ -330,9 +330,9 @@ won't answer mid-move. Neither is a fault.
 routine calls it on completion. After a successful approach the LEDs go dark and the motor goes
 silent — correct, not a fault. `step()` calls `enable()` automatically next time.
 
-> **Changed once the 2026-09-16 firmware is uploaded:** `step()` switches the coils off after
-> **every** move, so the driver LEDs go dark about 20 ms after each `MTMV` finishes. **Dark LEDs
-> between moves are then correct.** On the old firmware they stay lit. `STATUS.md` fault 3.
+> **Changed by the 2026-09-16 firmware, uploaded and bench-tested that day:** `step()` switches the
+> coils off after **every** move, so the driver LEDs go dark about 20 ms after each `MTMV` finishes.
+> **Dark LEDs between moves are correct.** On the older firmware they stayed lit. `STATUS.md` fault 3.
 
 ---
 

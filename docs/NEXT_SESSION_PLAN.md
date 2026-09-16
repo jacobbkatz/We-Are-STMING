@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-16 (dummy junction passes, 320.5 counts per nA, sign measured; next, the firmware red-then-green test and upload)
+**Last updated:** 2026-09-16 (dummy junction passes, 320.5 counts per nA, sign measured; CCON and motor firmware fixes uploaded and bench-tested)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -370,7 +370,14 @@ near zero counts.**
 > sign to be measured. **`RSET` alone puts about +3 V on the sample holder**, about 9,600 counts with
 > 100 MΩ, which is inside the range.
 >
-> ## FIRMWARE: upload and bench-test the two fixes — written 2026-09-16, NOT uploaded
+> **DONE 2026-09-16, BOTH PASS.** Red on the old firmware: Z 20000 jumped to 32768 on `CCON`; two
+> driver LEDs stayed lit after `MTMV 100`. Uploaded with PlatformIO's Teensy Loader, no button
+> press. Green on the new: Z held at 20000; refused at Z 5000; LEDs flickered during `MTMV -400`
+> and went dark after. **Faults 2 and 3 are FIXED.** **Safety rule 8 is kept until Jacob and Nuh
+> decide.** `sessions/2026-09-16-bench.md` §3.5. **The procedure below is kept for any future
+> firmware change.**
+>
+> ## ~~FIRMWARE: upload and bench-test the two fixes — written 2026-09-16, NOT uploaded~~ DONE
 >
 > **`CCON` now starts from the current Z** and refuses outside 10000–50000; **the motor coils switch
 > off after every move.** Both build. `STATUS.md` faults 2 and 3, `sessions/2026-09-16-bench.md`

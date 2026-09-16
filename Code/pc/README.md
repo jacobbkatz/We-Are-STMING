@@ -185,8 +185,8 @@ The Tkinter GUI has buttons wired directly to the two most dangerous paths in th
 - **"Approach"** sends `APRH`, whose signed comparison can drive the tip into the sample without
   ever triggering. Use `stm_approach.py` instead.
 - **"ConstCurrentOn"** sends `CCON`, which snaps Z to midscale from wherever it was — up to a
-  ~180 nm lurch. See `STATUS.md` fault 2. **A firmware fix was written on 2026-09-16 but is not
-  on the Teensy until uploaded and bench-tested.** The GUI stays off-limits either way, for the
+  ~180 nm lurch. See `STATUS.md` fault 2. **Fixed in the firmware on 2026-09-16, uploaded and
+  bench-tested**, so `CCON` now starts from the current Z. The GUI stays off-limits either way, for the
   `APRH` button above.
 
 Its motor control is broken independently of both. Use `stm_console.py` and `stm_approach.py`.

@@ -336,7 +336,8 @@ public: // Access specifier
         // REFUSES to engage there. No reply is printed, because every PC tool
         // expects CCON to be silent: check GSTS field 8, is_const_current.
         //
-        // NOT YET UPLOADED OR BENCH-TESTED when written.
+        // Uploaded and bench-tested 2026-09-16: Z held at 20000 on engage (the old
+        // firmware jumped to 32768), and the loop refused to engage at Z = 5000.
         if (stm_status.dac_z < 10000 || stm_status.dac_z > 50000)
         {
             this->stm_status.is_const_current = false;
