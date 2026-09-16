@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16 (ADC chain works; tip lead passes; cover on, shields on AGND, operator a metre away: standard deviation 12.7 counts, about 40 pA; cause of the earlier noise not yet named)
+**Last updated:** 2026-09-16 (ADC chain works; tip lead passes; cover on, iron off: standard deviation 12.7 to 17.9 counts; operator and iron both ruled out as the big earlier noise; drying input node now suspected)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
@@ -43,7 +43,11 @@ possible soldering iron left on earlier, a power cycle and the time of day all c
 **The soldering iron was on during both noisy captures** (`SAID`, Jacob) **and off for the quiet one**,
 so it fits all four runs and is the leading candidate. **Test 1, iron off with Jacob standing close:
 17.9 counts**, not significantly different from 12.7, **so the operator is not the big noise
-source.** **Next: test 2, the iron on with the operator away.** Supply currents after the park:
+source.** **Test 2, iron hot with Jacob away: 21.5 counts — the iron adds a significant but small
+amount, about 17 counts, NOT the big noise either.** **Leading candidate now: the freshly soldered,
+IPA-cleaned input node still drying and settling** during the noisy captures, with the cover newly on
+slowing it; untested. **Rules from tonight: iron off for any capture that matters, and do not judge
+noise soon after soldering or cleaning near the input node.** §3.2j, §3.2k. Supply currents after the park:
 **V++ 60 mA, V-- 47 mA**, the negative about 11 mA above the August figure, steady; LEDs dark at
 power-on for the first time. §3.2g to §3.2i.
 

@@ -342,6 +342,26 @@ near zero counts.**
 >    then switch the suspect equipment on, standing away, and repeat.
 > 4. **Always capture with the operator a metre away** until this is settled.
 >
+> **BOTH TESTS DONE 2026-09-16.** Operator close, iron off: **17.9 counts.** Iron hot, operator
+> away: **21.5 counts.** **Neither explains the earlier 131.5 and 294.9.** The iron's small addition
+> is significant, so **iron off for every capture that matters.** `sessions/2026-09-16-bench.md`
+> §3.2j and §3.2k.
+>
+> ## NEXT SESSION: first capture of the day, before any soldering
+>
+> **Leading candidate for the earlier noise: the freshly soldered, IPA-cleaned input node still drying
+> and settling.** It cannot be re-created without re-contaminating the node, so **do not test it
+> deliberately.** Instead:
+>
+> 1. **Iron off and unplugged. Nothing soldered or cleaned that day yet.**
+> 2. **Power up with the steps at the top of this file**, operator a metre away, and **twenty
+>    `ADCR`**, same as tonight.
+> 3. **Compare with 12.7 counts.** Quiet again means tonight's quiet was not luck of the hour, and the
+>    cover-on figure stands as the instrument's first noise figure. **Noisy again, with no soldering
+>    that day, rules out the drying node** and points at the power-on state or the building.
+> 4. **After any future soldering or cleaning near the input node, wait before judging noise.** How
+>    long is UNKNOWN: between roughly a quarter of an hour and three hours.
+>
 > ## ~~NEXT: move each shield's ONE bond to `AGND`, then the same twenty readings~~ MOOT — already on `AGND`
 >
 > 1. **Find out what "universal ground" is.** If it is mains earth, that is the suspect.
