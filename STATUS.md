@@ -41,8 +41,9 @@ cover went on** — about 25 times below a 1 nA tunnelling current. **The first 
 configuration the instrument will image in.** **Not yet a clean noise figure**: operator distance, a
 possible soldering iron left on earlier, a power cycle and the time of day all changed at once.
 **The soldering iron was on during both noisy captures** (`SAID`, Jacob) **and off for the quiet one**,
-so it fits all four runs and is the leading candidate. **Next: two one-variable tests — operator
-close with the iron off, then the iron on with the operator away.** Supply currents after the park:
+so it fits all four runs and is the leading candidate. **Test 1, iron off with Jacob standing close:
+17.9 counts**, not significantly different from 12.7, **so the operator is not the big noise
+source.** **Next: test 2, the iron on with the operator away.** Supply currents after the park:
 **V++ 60 mA, V-- 47 mA**, the negative about 11 mA above the August figure, steady; LEDs dark at
 power-on for the first time. §3.2g to §3.2i.
 
