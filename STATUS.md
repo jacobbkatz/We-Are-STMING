@@ -1,7 +1,7 @@
 # Current status
 
-**Last updated:** 2026-09-16 (Jacob's Windows machine works; first controller power-on hit a supply current limit and was switched off, cause not yet established)
-**Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine. **Nothing measured through the controller yet.**
+**Last updated:** 2026-09-16 (Jacob's Windows machine works; controller powered at about 40 mA after a 20 mA limit was corrected; no ADC reading yet)
+**Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine. **Controller powered; no ADC reading taken yet.**
 
 > ## 2026-09-16, later — FIRST CONTROLLER POWER-ON: ONE SUPPLY CHANNEL WENT INTO CURRENT LIMIT
 >
@@ -11,7 +11,11 @@
 >
 > **One channel's limit was 20 mA and the other's 200 mA** (`SAID`, Jacob). The 20 mA is the
 > preamp-alone setting, left over from the preamp tests, and that channel is the one that limited.
-> **That explains the event; the supply wiring is still unproven.** Both now set to 200 mA. The controller was **measured on 2026-08-29 drawing 60 mA from V++ and 36 mA from V--**
+> **That explains the event; the supply wiring is still unproven.** Both now set to 200 mA.
+>
+> **Second power-on at 200 mA: WORKS** (`SAID`, Jacob). **About 40 mA, no current limit.** Which
+> channel that figure is from was not stated; it matches the negative channel's expected ~40 mA
+> closely. **USB, `RSET` and the first `ADCR` still to come.** The controller was **measured on 2026-08-29 drawing 60 mA from V++ and 36 mA from V--**
 > (`docs/PROJECT_HANDOFF_SUMMARY.md` §A.1.11), and V++ feeds three regulators, so it limits first.
 > **A wiring fault at the supply is the other live explanation**, so **prove the wiring at the plug
 > before raising the limit** — the steps are in `sessions/2026-09-16-bench.md` §3.1a and at the top
