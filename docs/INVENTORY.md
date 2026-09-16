@@ -81,7 +81,7 @@ fitted" line and by Jacob 2026-09-09.
 | **Scalpel and razor blade** | — | `SAID` 2026-09-13 | Used to scrape solder mask off vias |
 | **Second soldering iron** | access | `SAID` 2026-09-13 | Used for two-iron removal of C2. Model not recorded |
 | **40 AWG magnet wire** | — | `SAID` | For the tip lead |
-| **Alligator clips, clip leads, mini-grabbers** | **0** | `SAID` 2026-09-16, Jacob: "I dont have aligator clips" | **None in the room.** **Blocks the dummy junction test**, which needs a resistor held temporarily between the sample holder, or the black `BIAS` wire, and the tip holder. Small hook-type grabbers put less force on the tip holder and piezo than spring alligator clips |
+| **Alligator clips, clip leads, mini-grabbers** | ~~0~~ **some, bought 2026-09-16** | `SAID` 2026-09-16, Jacob: "I dont have aligator clips"; **then, after a trip to Home Depot: "Im back with the clips"** — type, size and count not stated | **None in the room.** **Blocks the dummy junction test**, which needs a resistor held temporarily between the sample holder, or the black `BIAS` wire, and the tip holder. Small hook-type grabbers put less force on the tip holder and piezo than spring alligator clips |
 | **Solder, Sn99.3/Ag0.3/Cu0.7 lead-free** | — | `SAID` | Correct for this work. **Do not buy more** |
 | **Low-temp solder paste, Sn42/Bi58** | **UNKNOWN** | — | **Nobody has said whether we own any.** Needed for the piezo quadrant wires and nothing else. `docs/BOM.md` §5 specifies it; a specification is not an inventory. **Ask before ordering** |
 | **Flux, non-rosin no-clean** | — | `SAID` | **Wrong type for this board.** Superseded by the RMA791 below. **Do not use it on the preamp** |
