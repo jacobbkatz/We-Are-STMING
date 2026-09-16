@@ -1,8 +1,20 @@
 # Current status
 
-**Last updated:** 2026-09-15 (evening, third session of this run)
-**Updated by:** Jacob at the bench, with Claude remote. **Paused with everything wired and verified,
-nothing powered through the controller yet.**
+**Last updated:** 2026-09-16 (setup only; nothing powered, nothing measured)
+**Updated by:** Jacob, with Claude on the web. **State unchanged since 2026-09-15: everything wired
+and verified, nothing powered through the controller yet.**
+
+> ## 2026-09-16 — no bench work. A web session cannot reach the Teensy
+>
+> **Jacob sat down at a Windows computer new to the project, opened Claude Code on the web, and
+> the first controller power-up did not happen**: a web session runs in a cloud container and can
+> see only the repository, never a USB port. Every bench session so far ran Claude locally on
+> Nuh's machine, and the plan's "use the Windows machine, it has run this before" meant that one
+> without saying so. **Jacob stopped to install Claude Code desktop, Git and Python and restart
+> there.** First-time Windows steps are now in `Code/pc/README.md`; the computers are in
+> `docs/INVENTORY.md`; the plan says whose machine and that Claude must run on it. **The bench
+> list is unchanged** and was checked through node by node, see `sessions/2026-09-16.md`.
+> **These changes are on the branch `claude/funny-cori-xttv3q`, not on `main`.**
 
 # THE PREAMP WORKS. ~4 pA, IN THE BOX, AT 45 MINUTES
 

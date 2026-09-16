@@ -27,6 +27,50 @@ pip install pyserial
 **If `find_teensy()` returns nothing**, the board is not enumerating: check the USB cable is a data
 cable and not charge-only, which is the usual cause.
 
+### First time on Windows — added 2026-09-16, not yet exercised end to end
+
+**Written from a cloud session for Jacob's Windows machine, which had never held this repository.
+Nuh's machine is the one that has run the instrument. Correct this section the first time it is
+actually followed.**
+
+**Claude has to run on the computer the Teensy is plugged into.** Claude Code on the web runs in a
+cloud container and can see only the repository; it cannot open a USB port. Use Claude Code
+desktop or the CLI on this machine.
+
+**No driver is needed on Windows 10 or 11.** The Teensy appears as a COM port on its own, and
+`stm_console.py` finds it by PJRC's vendor ID, so the port never has to be named.
+
+1. **Check what is there.** Press the Windows key, type `cmd`, press Enter, then:
+   ```
+   git --version
+   python --version
+   ```
+   "is not recognized" means that one is missing.
+2. **Git**: https://git-scm.com/download/win, accept every default.
+3. **Python**: https://www.python.org/downloads/windows/. On the installer's first screen **tick
+   "Add python.exe to PATH"** before Install. That box is the usual miss. Close and reopen the
+   terminal after each installer.
+4. **Get the repository and the one library the console needs:**
+   ```
+   cd %USERPROFILE%
+   git clone https://github.com/jacobbkatz/We-Are-STMING
+   cd We-Are-STMING
+   pip install pyserial
+   ```
+   The clone opens a browser window to sign in to GitHub, because the repository is private. The
+   folder is then `C:\Users\<name>\We-Are-STMING`, and every command in this project runs from
+   inside it.
+5. **Prove the tools run before going near the bench**, with nothing plugged in:
+   ```
+   python Code/pc/stm_console.py GSTS
+   ```
+   **The correct answer is a message that it cannot find the Teensy.** An error mentioning `serial`
+   or "module not found" means pip installed into a different Python from the one on the PATH;
+   `python -m pip install pyserial` usually fixes that.
+
+**`pyserial` alone is enough for `stm_console.py`.** `numpy` and `matplotlib` are only needed by
+`adc_stats.py` and the GUI.
+
 | File | What it is |
 |---|---|
 | **`stm_console.py`** | **Start here.** Send any firmware command, one-shot or interactive |

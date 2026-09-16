@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-15 (evening, paused with the splice made and verified)
+**Last updated:** 2026-09-16 (setup only; nothing powered. Jacob's Windows machine being set up, Claude must run locally)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -35,28 +35,54 @@ that treats the preamp as broken, unbuilt or unmeasured is history.
 >
 > **~~Verify the splice~~ — done. The verification sections below are kept for the next rewiring.**
 
-**Use the Windows machine.** It has run this instrument before. `Code/pc/README.md` has first-time
-Mac notes for whenever that move is wanted, but do not add a new computer to a chain being validated
-for the first time.
+~~**Use the Windows machine.** It has run this instrument before.~~ **Corrected 2026-09-16: that
+was Nuh's machine, and it was never named.** Jacob's Windows machine was new to the project on
+2026-09-16 and is being set up; `Code/pc/README.md` has the first-time Windows steps beside the Mac
+ones. **Whichever computer it is, Claude Code has to be running ON that computer**, as the desktop
+app or the CLI. **A Claude Code web session runs in the cloud and cannot open the USB port**, which
+is what stopped the 2026-09-16 session at the moment of plugging in.
+
+0. **First time on a machine:** follow the Windows or Mac section of `Code/pc/README.md`, and run
+   `python Code/pc/stm_console.py GSTS` with nothing plugged in. **"Cannot find the Teensy" is the
+   pass.** Do this before the bench, not at it.
 
 **The configuration:** preamp in its copper box, **no sample plate, no overall shield cover, no tip,
 no tip lead.** Nothing can be crashed.
 
 1. **Pull the repo** on the Windows machine so it has tonight's changes.
-2. **Analog supply on** — ±18 V into U19, the JST XH. **Note what the controller draws**, as a
-   baseline nobody has ever recorded.
-3. **USB.** The documented order is analog supply first, then USB.
-4. **`RSET`.** **LED1–LED4 are lit at every power-on and `RSET` clears them** — safety rule 1.
+2. **DB9 back into DSUB2. Bench supply completely off the preamp** — the controller's DSUB2 pins 4
+   and 5 are outputs and feed it now. **If the supply has a current limit, set both channels to
+   about 300 mA**: generous for the controller, and it turns a real short into a warning.
+3. **Analog supply on** — ±18 V into U19, the JST XH. **Note what BOTH channels draw**, as a
+   baseline nobody has ever recorded, and **watch the negative channel for a minute.** Roughly
+   equal and steady is the pass. **A negative channel much higher than the positive, or climbing,
+   is the reused C2 failing: switch off.** That is the residual risk of safety rule 14's amended
+   clause (a), and this is its cheap mitigation. If the supply goes into constant-current mode,
+   switch off. **LED1–LED4 will be lit. That is normal at every power-on.**
+4. **USB.** The documented order is analog supply first, then USB.
+5. **`GSTS`** first, to prove the serial link before anything is trusted. Then **`RSET`.**
+   **Check LED1–LED4: they are lit at every power-on and `RSET` clears them** — safety rule 1.
    **Confirm all four are dark before and after every reading.**
-5. **`DACZ 32768`** to park Z at 0 V. `RSET` leaves it at a rail.
-6. **`ADCR`.**
+6. **`DACZ 32768`** to park Z at 0 V. `RSET` leaves it at a rail. **Type the number**: a bare
+   `DACZ` or a value outside 0–65535 throws Z to the opposite rail, safety rule 13.
+7. **Wait about two minutes**, hands away from the preamp box and its cable, then **`ADCR` three
+   times and one `GSTS`** — field 5 of `GSTS` is a raw single conversion and is the control on the
+   averaged number.
 
-**Expected: near zero counts.** The preamp output is about 0 V and `PREAMP−` now sits at the
-preamp's own ground, so the converter should finally be inside its specified input conditions.
+**Expected: within a few tens of counts of zero.** The preamp output was −0.4 mV on the meter last
+night, which is about one count at 0.3125 mV per count; the buffer's and the ADC's own offsets add a
+few more. `PREAMP−` now sits at the preamp's own ground, so the converter should finally be inside
+its specified input conditions.
+
+**What the controller puts on the preamp, checked 2026-09-16 before this was written:** +15 V and
+−15 V from U17 and U18 onto the grey and tan leads, the same rails the preamp has already run on for
+over an hour from the bench supply; the preamp's ~0 V output onto the ADC's IN+, inside ±10.24 V;
+the bias pin open at the preamp end; Z at a rail from power-on until step 6, with no tip and no
+sample plate, so nothing to crash.
 
 | `ADCR` reads | Meaning |
 |---|---|
-| **near 0** | **The chain works.** First time in this project |
+| **within a few tens of counts of 0** | **The chain works.** First time in this project |
 | a few hundred counts either way | Fine — that is millivolts at the preamp. Record as the new baseline |
 | pinned near ±32767 | Over-range. Stop, meter the OUT lead at the preamp |
 | the old ~−400 baseline exactly | Suspicious. Check the splice took |
