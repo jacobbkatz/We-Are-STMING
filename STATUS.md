@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16 (DUMMY JUNCTION PASSES, 320.5 counts per nA; CCON and motor faults FIXED; motor direction: negative approaches, PROVISIONAL)
+**Last updated:** 2026-09-16 (dummy junction passes; CCON and motor faults FIXED; motor direction provisional; TIP FITTED; Z direction unknown, approach tool can now find it safely)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # THE DUMMY JUNCTION TEST PASSES — 2026-09-16, evening
@@ -25,7 +25,14 @@ tension, and the tip sits 1.00 mm on the motor side of the pivot screws** (measu
 `PiezoPlate.stl` — the notes had said the other side), **so pushing out moves the sample away.**
 Only provisional because 1 mm is a thin margin, **and the tip holder is improvised** — a shaft
 stuck to the piezo with a soldered socket (`SAID`, Jacob) — **so the real tip position is unmeasured.**
-**Only about 1 mm of screw travel outward is demonstrated**; the ±3 mm range is an estimate. **A move cannot be interrupted by command**: that
+**Only about 1 mm of screw travel outward is demonstrated**; the ±3 mm range is an estimate.
+
+**A TIP IS NOW FITTED** (`SAID`, Jacob, blunt and bent, a placeholder), so **every Z and motor command
+is a tip hazard again.** **The Z direction cannot be settled from the repository** — it depends on
+the disc's unknown poling and which face the tip holder is on — **so `Code/pc/stm_approach.py` gained
+`--z-retracted unknown`**: Z parks at midscale for motor steps, searches both ways, and reports the
+direction at first contact. 50 tests pass, each new one shown to fail against an injected fault.
+§3.7. **A move cannot be interrupted by command**: that
 3-turn move ran to completion while Jacob asked for it to stop. **Keep moves to a few hundred steps.**
 Screw returned to base. §3.6.
 

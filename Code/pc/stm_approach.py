@@ -180,14 +180,36 @@ class Device(object):
 
 
 class Approach(object):
-    """The woodpecker loop. Holds no serial knowledge; talks only to a Device."""
+    """The woodpecker loop. Holds no serial knowledge; talks only to a Device.
+
+    Two modes.
+
+    KNOWN Z DIRECTION (z_retracted and z_extended given): Z parks at the
+    retracted end for every motor step and sweeps the full range toward the
+    sample. This is the original design.
+
+    UNKNOWN Z DIRECTION (both None) -- added 2026-09-16, because which way our
+    disc bends cannot be settled from the repository: it depends on the
+    ceramic's poling, which is unknown for our unbranded disc, and on which face
+    the improvised tip holder is on. Z parks at MIDSCALE for every motor step,
+    and each cycle sweeps midscale -> Z_MIN, then midscale -> Z_MAX. The first
+    contact is found on whichever half actually extends, which reveals the
+    direction; Z then retracts to the OTHER end. Safe either way provided one
+    motor step is much smaller than HALF the Z range: the extending half was
+    searched with no contact before every step, so a step cannot carry the tip
+    from out of range to a crash while Z sits at midscale. The cost is half the
+    search depth per cycle.
+    """
 
     def __init__(self, device, z_retracted, z_extended, motor_step,
                  z_step=DEFAULT_Z_STEP, max_steps=DEFAULT_MAX_STEPS,
                  log=print):
         if motor_step == 0:
             raise ValueError("motor_step must not be zero")
+        if (z_retracted is None) != (z_extended is None):
+            raise ValueError("give both Z ends, or neither for an unknown Z direction")
         self.dev = device
+        self.direction_known = z_retracted is not None
         self.z_retracted = z_retracted
         self.z_extended = z_extended
         self.motor_step = motor_step
@@ -199,12 +221,22 @@ class Approach(object):
         self.steps_taken = 0
         self.found = False
         self.found_at = None
+        # Unknown mode only: 'low' or 'high' once contact shows which end of the
+        # Z range moves the tip toward the sample. Stays None if contact was
+        # already present at midscale, when the direction cannot be told.
+        self.z_toward_sample = None
+
+    @property
+    def z_home(self):
+        """Where Z waits during motor steps and baseline: the retracted end if
+        known, midscale if not."""
+        return self.z_retracted if self.z_retracted is not None else Z_PARK
 
     # -- baseline ---------------------------------------------------------
 
     def measure_baseline(self, n=DEFAULT_BASELINE_N):
-        """Resting reading with Z fully retracted. Returns (mean, stdev)."""
-        self.dev.set_z(self.z_retracted)
+        """Resting reading with Z at home. Returns (mean, stdev)."""
+        self.dev.set_z(self.z_home)
         time.sleep(0.5)
         samples = []
         for _ in range(n):
@@ -234,27 +266,68 @@ class Approach(object):
 
     # -- the loop ---------------------------------------------------------
 
+    def _is_contact(self, value):
+        return value is not None and abs(value - self.baseline) >= self.threshold
+
+    def _sweep_segment(self, z_from, z_to):
+        """Step Z from z_from to z_to reading the ADC. Returns (z, value) at the
+        first contact, or None. Does NOT retract: the caller does, at once."""
+        for z in z_sweep_points(z_from, z_to, self.z_step):
+            self.dev.set_z(z)
+            value = self.dev.read_adc()
+            if value is None:
+                continue  # a malformed reply is not evidence of anything
+            if self._is_contact(value):
+                return z, value
+        return None
+
     def _sweep_once(self):
-        """One Z sweep from retracted toward the sample.
+        """One search cycle.
 
         Returns the Z code where the threshold was crossed, or None.
         Retracts immediately on a hit -- that retract happens here, not in the
         caller, so nothing can run between detection and pulling back.
         """
-        for z in z_sweep_points(self.z_retracted, self.z_extended, self.z_step):
-            self.dev.set_z(z)
-            value = self.dev.read_adc()
-            if value is None:
-                continue  # a malformed reply is not evidence of anything
-            if abs(value - self.baseline) >= self.threshold:
+        if self.direction_known:
+            hit = self._sweep_segment(self.z_retracted, self.z_extended)
+            if hit is not None:
                 self.dev.set_z(self.z_retracted)
                 self.found = True
-                self.found_at = (z, value)
-                return z
+                self.found_at = hit
+                return hit[0]
+            return None
+
+        # Unknown direction. First: is there already contact at midscale? That
+        # should be impossible while a motor step is under half the Z range. If
+        # it happens anyway, neither end can be trusted to retract, so stop with
+        # Z left at midscale and say so.
+        self.dev.set_z(Z_PARK)
+        value = self.dev.read_adc()
+        if self._is_contact(value):
+            self.found = True
+            self.found_at = (Z_PARK, value)
+            return Z_PARK
+
+        for end in (Z_MIN, Z_MAX):
+            hit = self._sweep_segment(Z_PARK, end)
+            if hit is not None:
+                # Contact while moving toward `end`: that end extends toward the
+                # sample, so the OTHER end retracts. Pull back there at once;
+                # the path passes back through midscale, away from the sample.
+                retract_end = Z_MAX if end == Z_MIN else Z_MIN
+                self.dev.set_z(retract_end)
+                self.z_retracted, self.z_extended = retract_end, end
+                self.z_toward_sample = "low" if end == Z_MIN else "high"
+                self.found = True
+                self.found_at = hit
+                return hit[0]
+            self.dev.set_z(Z_PARK)
         return None
 
     def run(self):
-        """Returns True if tunneling was found. Always leaves Z retracted."""
+        """Returns True if tunneling was found. Always leaves Z at home: the
+        retracted end when the direction is known or has just been learned,
+        midscale otherwise."""
         if self.baseline is None or self.threshold is None:
             raise RuntimeError("measure_baseline() and a threshold must be set first")
         try:
@@ -267,7 +340,19 @@ class Approach(object):
                              % (z, self.steps_taken))
                     self.log("  reading %d counts, baseline %.0f, deviation %.0f"
                              % (value, self.baseline, abs(value - self.baseline)))
-                    self.log("  Z retracted. Motor stopped.")
+                    if self.direction_known:
+                        self.log("  Z retracted. Motor stopped.")
+                    elif self.z_toward_sample is not None:
+                        self.log("  Z DIRECTION FOUND: the %s end of the Z range moves the"
+                                 % self.z_toward_sample.upper())
+                        self.log("  tip TOWARD the sample. Z retracted to %d. Motor stopped."
+                                 % self.z_retracted)
+                    else:
+                        self.log("  CONTACT ALREADY PRESENT AT MIDSCALE. The Z direction")
+                        self.log("  could not be told, so Z was left at %d. Motor stopped."
+                                 % Z_PARK)
+                        self.log("  Do not move Z or the motor. Power down, then back the")
+                        self.log("  sample off by hand.")
                     return True
 
                 # Clamp the last move so the step budget is never exceeded,
@@ -275,7 +360,7 @@ class Approach(object):
                 remaining = self.max_steps - self.steps_taken
                 magnitude = min(abs(self.motor_step), remaining)
                 move = magnitude if self.motor_step > 0 else -magnitude
-                self.dev.set_z(self.z_retracted)
+                self.dev.set_z(self.z_home)
                 self.dev.move_motor(move)
                 self.steps_taken += magnitude
                 self.log("  %d/%d motor steps, no contact yet"
@@ -287,9 +372,11 @@ class Approach(object):
             return False
         finally:
             # Runs on success, on failure, and on Ctrl-C. The tip must never be
-            # left extended.
+            # left extended. In unknown-direction mode, before any contact, home
+            # is midscale: the extending half from there was searched clear
+            # before the last motor step, so midscale is out of contact.
             try:
-                self.dev.set_z(self.z_retracted)
+                self.dev.set_z(self.z_home)
             except Exception:
                 pass
 
@@ -308,11 +395,14 @@ def build_parser():
     ap = argparse.ArgumentParser(
         description="PC-side woodpecker coarse approach. Never sends APRH.",
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--z-retracted", choices=["low", "high"], required=True,
+    ap.add_argument("--z-retracted", choices=["low", "high", "unknown"], required=True,
                     help="Which end of the Z DAC range pulls the tip AWAY from "
                          "the sample. 'low' means Z=%d is retracted, 'high' "
                          "means Z=%d is. GETTING THIS BACKWARDS DRIVES THE TIP "
-                         "INTO THE SAMPLE." % (Z_MIN, Z_MAX))
+                         "INTO THE SAMPLE. 'unknown' parks Z at midscale (%d) for "
+                         "every motor step and searches both ways, which is safe "
+                         "without the answer and reports it at first contact."
+                         % (Z_MIN, Z_MAX, Z_PARK))
     ap.add_argument("--motor-toward-sample", choices=["positive", "negative"],
                     required=True,
                     help="Which sign of MTMV advances the tip TOWARD the "
@@ -361,8 +451,10 @@ def main(argv=None):
 
     if opts.z_retracted == "low":
         z_retracted, z_extended = Z_MIN, Z_MAX
-    else:
+    elif opts.z_retracted == "high":
         z_retracted, z_extended = Z_MAX, Z_MIN
+    else:
+        z_retracted, z_extended = None, None
     motor_step = (opts.motor_step if opts.motor_toward_sample == "positive"
                   else -opts.motor_step)
 
@@ -376,8 +468,14 @@ def main(argv=None):
     print("  COARSE APPROACH -- this moves a real tip toward a real sample")
     print("=" * 68)
     print("  port              %s%s" % (portname, "   [DRY RUN]" if opts.dry_run else ""))
-    print("  Z retracted at    %d      extends toward sample to %d"
-          % (z_retracted, z_extended))
+    if z_retracted is None:
+        print("  Z direction       UNKNOWN: Z parks at %d for every motor step and"
+              % Z_PARK)
+        print("                    searches toward %d and toward %d each cycle"
+              % (Z_MIN, Z_MAX))
+    else:
+        print("  Z retracted at    %d      extends toward sample to %d"
+              % (z_retracted, z_extended))
     print("  motor step        %+d per cycle, up to %d steps (~%.1f um)"
           % (motor_step, opts.max_steps, opts.max_steps * 7.8 / 1000.0))
     print("")
@@ -386,7 +484,10 @@ def main(argv=None):
     print("     configuration, every Z command below does nothing, and the")
     print("     motor would advance with no piezo protection at all.")
     print("   - Nobody within a metre of the preamp.")
-    print("   - Ctrl-C stops at any time and retracts Z.")
+    if z_retracted is None:
+        print("   - Ctrl-C stops at any time and sends Z to midscale.")
+    else:
+        print("   - Ctrl-C stops at any time and retracts Z.")
     print("")
 
     if not opts.yes:
@@ -412,7 +513,10 @@ def main(argv=None):
         app = Approach(dev, z_retracted, z_extended, motor_step,
                        z_step=opts.z_step, max_steps=opts.max_steps)
 
-        print("\n  Measuring baseline with Z retracted...")
+        if z_retracted is None:
+            print("\n  Measuring baseline with Z at midscale...")
+        else:
+            print("\n  Measuring baseline with Z retracted...")
         try:
             mean, sd = app.measure_baseline()
         except RuntimeError as e:
@@ -442,10 +546,18 @@ def main(argv=None):
         try:
             found = app.run()
         except KeyboardInterrupt:
-            # Approach.run()'s finally clause has already retracted Z.
-            print("\n  Stopped by user. Z retracted, motor stopped.")
+            # Approach.run()'s finally clause has already sent Z home: the
+            # retracted end if known, midscale if not.
+            print("\n  Stopped by user. Z sent to %d, motor stopped." % app.z_home)
             print("  %d motor steps were taken." % app.steps_taken)
             return 130
+
+        if app.z_toward_sample is not None:
+            other = "high" if app.z_toward_sample == "low" else "low"
+            print("")
+            print("  RECORD THIS: Z toward the sample is the %s end, so next time"
+                  % app.z_toward_sample.upper())
+            print("  use --z-retracted %s. Write it into docs/OPEN_QUESTIONS.md." % other)
 
         if opts.dry_run:
             print("")

@@ -204,6 +204,10 @@ DSUB1 pins 6-9 → four piezo quadrant wires
 Piezo displacement
       ~34 nm/V in Z, ~83 nm/V in XY                                                  INFERRED
       (Berard's measured figures for a disc scanner, not ours)
+      DIRECTION: higher Z code = more NEGATIVE quadrants vs the brass. Whether that   UNKNOWN
+      moves the tip toward or away from the sample depends on the ceramic's poling
+      (unspecified for our unbranded disc) and which face the tip holder is on.
+      Use stm_approach.py --z-retracted unknown until a first contact tells.
 ```
 
 ### Numbers that fall out of that chain

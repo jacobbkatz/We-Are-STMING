@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-16 (dummy junction passes; CCON and motor fixes bench-tested; motor direction provisionally negative approaches; next, the Z direction)
+**Last updated:** 2026-09-16 (tip fitted; Z direction unknown on paper, approach tool's new unknown mode finds it safely; next, sample mounting)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -426,16 +426,19 @@ near zero counts.**
 >
 > ## STILL NEEDED BEFORE A FIRST APPROACH
 >
-> 1. **Which Z direction retracts** — `--z-retracted`. Z travel is under a micron, so it cannot be
->    seen. It needs first tunnelling, or working out from the drive chain: DAC, the inverting summing
->    stage, which quadrant polarity extends the disc, and which way the disc faces. **Research job
->    for Claude first**, before any bench time.
-> 2. **The tip's position, once a tip is fitted**, with a ruler or a photo from above with a ruler in
->    frame: **its distance from the line joining the two side-by-side screw centres, and which side.**
->    The holder is improvised (`SAID`, Jacob), so the design drawing does not say. With a 1 mm short
->    arm this decides both the lever ratio and the motor sign.
-> 3. **A tip**, prepared and fitted; and **the gold sample** mounted on the sample plate.
+> 1. ~~**Which Z direction retracts**~~ **Cannot be settled on paper** (2026-09-16,
+>    `docs/OPEN_QUESTIONS.md`). **Use `--z-retracted unknown`**, which finds it safely at first contact.
+> 2. **The tip's position**: **its distance from the line joining the two side-by-side screw centres,
+>    and which side.** Jacob measured about 1.8 cm of protrusion and about halfway along the pair; **the
+>    1 mm that matters is still unmeasured**, so the motor sign stays provisional.
+> 3. ~~**A tip**~~ **fitted 2026-09-16**, blunt and bent, a placeholder. **The gold sample** still to
+>    mount. **Dummy junction resistor removed?** Not stated — confirm before any approach.
 > 4. **The sample set by hand to within about 75 µm of the tip** — the motor only reaches about that far.
+>    **The side-by-side screws now stand beyond the tip** (`SAID`), so the plate can go on without
+>    touching it; fit it slowly, watching the tip from the side.
+>
+> **A TIP IS FITTED. Every `DACZ`, `MTMV`, `TEST` and `TONE` is now a tip hazard.** Keep Z parked at
+> 32768, and move nothing with the sample near until an approach is planned.
 >
 > ## NEXT SESSION: first capture of the day, before any soldering
 >

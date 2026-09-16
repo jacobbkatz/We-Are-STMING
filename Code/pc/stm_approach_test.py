@@ -65,24 +65,36 @@ class FakeScope(object):
 
     # -- Device interface --------------------------------------------------
 
+    def _remaining(self):
+        """Gap left right now, and record the deepest penetration so far.
+
+        Called after EVERY command, not only on reads (changed 2026-09-16): a
+        motor step taken with the tip extended crashes at that moment, whether
+        or not anything reads the ADC before Z moves again. Tracking only at
+        reads hid exactly that crash."""
+        z_advance = abs(self.z - self.z_retracted) * self.z_per_count
+        remaining = self.gap - self.motor_advance - z_advance
+        if remaining < 0:
+            self.max_penetration = max(self.max_penetration, -remaining)
+        return remaining
+
     def set_z(self, code):
         self.commands.append(("DACZ", code))
         if not self.dead_dacs:
             self.z = code
+        self._remaining()
 
     def move_motor(self, steps):
         self.commands.append(("MTMV", steps))
         self.motor_steps_sent += steps
         self.motor_advance += abs(steps) * self.counts_per_motor_step
+        self._remaining()
 
     def read_adc(self):
         self._reads += 1
         if self.malformed_every and self._reads % self.malformed_every == 0:
             return None
-        z_advance = abs(self.z - self.z_retracted) * self.z_per_count
-        remaining = self.gap - self.motor_advance - z_advance
-        if remaining < 0:
-            self.max_penetration = max(self.max_penetration, -remaining)
+        remaining = self._remaining()
         value = self.baseline
         if remaining <= 0:
             value += self.tunnel_delta
@@ -373,6 +385,148 @@ class TestDirectionHandling(unittest.TestCase):
         app.run()
         self.assertEqual(scope.motor_steps_sent, -5)
         self.assertEqual(app.steps_taken, 5, "step budget counts magnitude")
+
+
+class TestUnknownZDirection(unittest.TestCase):
+    """--z-retracted unknown, added 2026-09-16.
+
+    Which way our disc bends could not be settled from the repository, and a
+    wrong --z-retracted makes every motor step happen with the tip fully
+    EXTENDED. This mode parks Z at midscale instead, searches both halves each
+    cycle, and learns the direction from the first contact.
+    """
+
+    Z_STEP = 200
+
+    def _unknown(self, scope, **kw):
+        kw.setdefault("z_step", self.Z_STEP)
+        return make_approach(scope, z_retracted=None, z_extended=None, **kw)
+
+    def test_learns_direction_when_low_end_retracts(self):
+        scope = FakeScope(gap=60000, z_retracted=A.Z_MIN)
+        app = self._unknown(scope, max_steps=60)
+        app.measure_baseline(n=5)
+        app.threshold = 2000
+        self.assertTrue(app.run())
+        self.assertEqual(app.z_toward_sample, "high")
+        self.assertEqual(app.z_retracted, A.Z_MIN)
+        self.assertEqual(scope.commands[-1], ("DACZ", A.Z_MIN),
+                         "must end retracted at the LOW end")
+        self.assertEqual(scope.z, A.Z_MIN)
+
+    def test_learns_direction_when_high_end_retracts(self):
+        scope = FakeScope(gap=60000, z_retracted=A.Z_MAX)
+        app = self._unknown(scope, max_steps=60)
+        app.measure_baseline(n=5)
+        app.threshold = 2000
+        self.assertTrue(app.run())
+        self.assertEqual(app.z_toward_sample, "low")
+        self.assertEqual(app.z_retracted, A.Z_MAX)
+        self.assertEqual(scope.z, A.Z_MAX, "must end retracted at the HIGH end")
+
+    def test_motor_only_ever_moves_with_z_at_midscale(self):
+        """The unknown-mode invariant: every MTMV happens with Z at Z_PARK."""
+        for gap in (45000, 60000, 90000, 250000):
+            for true_ret in (A.Z_MIN, A.Z_MAX):
+                scope = FakeScope(gap=gap, z_retracted=true_ret)
+                app = self._unknown(scope, max_steps=60)
+                app.measure_baseline(n=5)
+                app.threshold = 2000
+                app.run()
+                z_now = None
+                for kind, value in scope.commands:
+                    if kind == "DACZ":
+                        z_now = value
+                    elif kind == "MTMV":
+                        self.assertEqual(
+                            z_now, A.Z_PARK,
+                            "motor moved with Z at %r, not midscale; gap=%d, "
+                            "true retracted end %d" % (z_now, gap, true_ret))
+
+    def test_never_goes_more_than_one_z_step_past_contact(self):
+        """THE safety property. Whichever way the disc really bends, the tip
+        never gets further past contact than one Z sweep step.
+
+        The gaps are deliberately NOT multiples of the 2500-count motor step: a
+        gap that divides exactly lands a bad design exactly on contact, never
+        past it, and the test would pass with the fault present."""
+        for gap in (45100, 61000, 90300, 250700):
+            for true_ret in (A.Z_MIN, A.Z_MAX):
+                scope = FakeScope(gap=gap, z_retracted=true_ret)
+                app = self._unknown(scope, max_steps=120)
+                app.measure_baseline(n=5)
+                app.threshold = 2000
+                self.assertTrue(app.run(), "gap=%d should be reachable" % gap)
+                self.assertLessEqual(
+                    scope.max_penetration, self.Z_STEP,
+                    "went %d past contact; gap=%d, true retracted end %d"
+                    % (scope.max_penetration, gap, true_ret))
+
+    def test_control_known_mode_with_the_WRONG_direction_crashes(self):
+        """Why this mode exists. Told the wrong end, the original mode steps the
+        motor with the tip fully extended and goes a whole motor step past
+        contact -- far more than one Z step. If this ever stops failing
+        dangerously, the FakeScope no longer models the hazard."""
+        # 61000, not 60000: a gap that divides exactly by the 2500-count motor
+        # step lands exactly ON contact and hides the overshoot. Real gaps do not.
+        scope = FakeScope(gap=61000, z_retracted=A.Z_MAX)      # truly HIGH
+        app = make_approach(scope, z_retracted=A.Z_MIN,        # told LOW
+                            z_extended=A.Z_MAX, z_step=self.Z_STEP, max_steps=60)
+        app.measure_baseline(n=5)
+        app.threshold = 2000
+        app.run()
+        self.assertGreater(scope.max_penetration, self.Z_STEP)
+
+    def test_no_contact_leaves_z_at_midscale(self):
+        scope = FakeScope(gap=10**9)
+        app = self._unknown(scope, max_steps=3)
+        app.measure_baseline(n=5)
+        app.threshold = 2000
+        self.assertFalse(app.run())
+        self.assertIsNone(app.z_toward_sample)
+        self.assertEqual(scope.z, A.Z_PARK)
+
+    def test_contact_at_midscale_stops_without_guessing(self):
+        """A motor step bigger than half the Z range can land the tip in
+        contact at midscale. Neither end is then known to retract, so it must
+        stop there, not pick one."""
+        scope = FakeScope(gap=45000, z_retracted=A.Z_MIN,
+                          counts_per_motor_step=30000)
+        app = self._unknown(scope, max_steps=10)
+        app.measure_baseline(n=5)
+        app.threshold = 2000
+        self.assertTrue(app.run())
+        self.assertIsNone(app.z_toward_sample)
+        self.assertEqual(scope.motor_steps_sent, 1, "no further motor movement")
+        self.assertEqual(scope.z, A.Z_PARK)
+
+    def test_z_home_even_if_something_throws(self):
+        scope = FakeScope(gap=10**9)
+        calls = {"n": 0}
+        real_read = scope.read_adc
+
+        def exploding_read():
+            calls["n"] += 1
+            if calls["n"] > 30:
+                raise RuntimeError("simulated USB unplug")
+            return real_read()
+
+        app = self._unknown(scope, max_steps=50)
+        app.measure_baseline(n=5)
+        app.threshold = 2000
+        scope.read_adc = exploding_read
+        with self.assertRaises(RuntimeError):
+            app.run()
+        self.assertEqual(scope.z, A.Z_PARK, "must fall back to midscale")
+
+    def test_one_z_end_without_the_other_rejected(self):
+        with self.assertRaises(ValueError):
+            make_approach(FakeScope(), z_retracted=A.Z_MIN, z_extended=None)
+
+    def test_unknown_accepted_on_the_command_line(self):
+        opts = A.build_parser().parse_args(
+            ["--z-retracted", "unknown", "--motor-toward-sample", "negative"])
+        self.assertEqual(opts.z_retracted, "unknown")
 
 
 class TestArgumentParsing(unittest.TestCase):

@@ -149,12 +149,26 @@ exactly what the firmware's `APRH` gets wrong.
 **It refuses to run** unless you tell it two things it cannot work out for itself:
 `--z-retracted` (which end of the Z range pulls away from the sample) and `--motor-toward-sample`
 (which sign of `MTMV` advances). **The motor sign is PROVISIONALLY `negative`, found 2026-09-16** —
-see `docs/OPEN_QUESTIONS.md` for why only provisional; the Z direction is still UNKNOWN. **The
-example above uses `positive` only to show the syntax — do not copy it.** Determine both with the
-tip removed before using this for real. It also refuses if the resting ADC reading is railed, which
-it currently is, so **it will not run until the preamp is fixed.**
+see `docs/OPEN_QUESTIONS.md` for why only provisional. **The example above uses `positive` only to
+show the syntax — do not copy it.** ~~It also refuses if the resting ADC reading is railed, which it
+currently is~~ — **the preamp is fixed** (2026-09-15); the resting reading is a few counts.
 
-Ctrl-C stops it at any point and retracts Z. `--dry-run` does everything except move the motor.
+### `--z-retracted unknown` — added 2026-09-16, for a first approach
+
+**The Z direction cannot be worked out from the files** (`docs/OPEN_QUESTIONS.md`), and guessing
+wrong makes every motor step happen with the tip fully extended. **`unknown` parks Z at midscale for
+every motor step and searches both ways each cycle.** The first contact reveals which end extends;
+the tool retracts to the other end and prints **"RECORD THIS: ... use --z-retracted high/low"**. It
+costs half the search depth per cycle, and it is safe **only while one motor step is well under half
+the Z range**, which the default of 1 step is by a wide margin. **If contact is somehow already
+present at midscale it stops without guessing**, leaves Z there, and says to back off by hand.
+
+```bash
+py Code/pc/stm_approach.py --z-retracted unknown --motor-toward-sample negative --dry-run
+```
+
+Ctrl-C stops it at any point and sends Z home: the retracted end, or midscale in `unknown` mode.
+`--dry-run` does everything except move the motor.
 
 To check it still behaves after any change:
 
