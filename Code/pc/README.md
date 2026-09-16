@@ -27,11 +27,11 @@ pip install pyserial
 **If `find_teensy()` returns nothing**, the board is not enumerating: check the USB cable is a data
 cable and not charge-only, which is the usual cause.
 
-### First time on Windows — added 2026-09-16, not yet exercised end to end
+### First time on Windows — added 2026-09-16, followed on Jacob's machine the same day
 
-**Written from a cloud session for Jacob's Windows machine, which had never held this repository.
-Nuh's machine is the one that has run the instrument. Correct this section the first time it is
-actually followed.**
+**Written from a cloud session, then followed for real on Jacob's Windows machine on 2026-09-16 by
+Claude Code desktop, and corrected from what actually happened.** See
+`sessions/2026-09-16-bench.md`. Nuh's machine is the one that had run the instrument before.
 
 **Claude has to run on the computer the Teensy is plugged into.** Claude Code on the web runs in a
 cloud container and can see only the repository; it cannot open a USB port. Use Claude Code
@@ -40,33 +40,54 @@ desktop or the CLI on this machine.
 **No driver is needed on Windows 10 or 11.** The Teensy appears as a COM port on its own, and
 `stm_console.py` finds it by PJRC's vendor ID, so the port never has to be named.
 
+> **On Windows, type `py` wherever this project says `python` or `python3`.** Found 2026-09-16.
+> On Jacob's machine `python` and `python3` are **Microsoft Store placeholders**, not Python. They
+> print *"Python was not found; run without arguments to install from the Microsoft Store"* even
+> though Python 3.13 is installed. **`py` is the Python launcher and it works.** The placeholder
+> appears when Python's own folder is not on the PATH, which is what the installer tick box below
+> controls. **`py` works either way**, so the commands below use it.
+
 1. **Check what is there.** Press the Windows key, type `cmd`, press Enter, then:
    ```
    git --version
-   python --version
+   py --version
    ```
-   "is not recognized" means that one is missing.
+   "is not recognized" means that one is missing. **Do not trust `python --version`**: the
+   "Python was not found" message comes from the Store placeholder, and says nothing about whether
+   Python is installed.
 2. **Git**: https://git-scm.com/download/win, accept every default.
-3. **Python**: https://www.python.org/downloads/windows/. On the installer's first screen **tick
-   "Add python.exe to PATH"** before Install. That box is the usual miss. Close and reopen the
-   terminal after each installer.
-4. **Get the repository and the one library the console needs:**
+3. **Python**: https://www.python.org/downloads/windows/. On the installer's first screen tick
+   "Add python.exe to PATH" before Install.
+4. **After any installer, fully quit and reopen the terminal AND Claude Code desktop.** A program
+   that was already open cannot see a newly installed tool. **This happened on 2026-09-16:** Git
+   was installed and registered on the machine's PATH, but the open Claude session reported it
+   missing, and winget then said it was already installed.
+5. **Get the repository and the one library the console needs:**
    ```
-   cd %USERPROFILE%
    git clone https://github.com/jacobbkatz/We-Are-STMING
    cd We-Are-STMING
-   pip install pyserial
+   py -m pip install pyserial
    ```
-   The clone opens a browser window to sign in to GitHub, because the repository is private. The
-   folder is then `C:\Users\<name>\We-Are-STMING`, and every command in this project runs from
-   inside it.
-5. **Prove the tools run before going near the bench**, with nothing plugged in:
+   **No GitHub sign-in is needed to clone**: the repository is public (checked 2026-09-16 with no
+   credentials). **Pushing does need a sign-in.** The folder can be anywhere, and every command in
+   this project runs from inside it. Jacob's copy is in a folder on the OneDrive desktop.
+   `py -m pip` installs into the same Python that `py` runs, which avoids the classic mismatch.
+   A warning that `pyserial-miniterm.exe` "is not on PATH" is harmless.
+6. **Prove the tools run before going near the bench**, with nothing plugged in:
    ```
-   python Code/pc/stm_console.py GSTS
+   py Code/pc/stm_console.py GSTS
    ```
-   **The correct answer is a message that it cannot find the Teensy.** An error mentioning `serial`
-   or "module not found" means pip installed into a different Python from the one on the PATH;
-   `python -m pip install pyserial` usually fixes that.
+   **The pass, seen 2026-09-16, is exactly `No Teensy found. Ports seen:` with nothing after it.**
+   It exits with code 1, which is normal for this check. An error mentioning `serial` or "module
+   not found" means pyserial went into a different Python; rerun `py -m pip install pyserial`.
+
+**The automatic start-of-session check needs Git's bash.** `.claude/settings.json` runs
+`bash .claude/session-start.sh`, and on Jacob's machine `bash` is not on the PATH. Git's copy is
+inside the Git install folder, under `bin`. **Whether Claude Code desktop finds it on its own is
+UNKNOWN.** If a session opens without printing `=== We-Are-STMING: sync check ===`, Claude should
+pull by hand and run `py Code/pc/check_facts.py` before starting work. **The commit guard does work
+here**: Git runs it with its own bash, and since 2026-09-16 it picks whichever of `python3`,
+`python` or `py` actually runs.
 
 **`pyserial` alone is enough for `stm_console.py`.** `numpy` and `matplotlib` are only needed by
 `adc_stats.py` and the GUI.

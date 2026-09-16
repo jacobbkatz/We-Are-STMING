@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-16 (setup only; nothing powered. Jacob's Windows machine being set up, Claude must run locally)
+**Last updated:** 2026-09-16 (Jacob's Windows machine works; first power-on hit a supply current limit, prove the supply wiring before raising the limit)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -44,7 +44,25 @@ is what stopped the 2026-09-16 session at the moment of plugging in.
 
 0. **First time on a machine:** follow the Windows or Mac section of `Code/pc/README.md`, and run
    `python Code/pc/stm_console.py GSTS` with nothing plugged in. **"Cannot find the Teensy" is the
-   pass.** Do this before the bench, not at it.
+   pass.** Do this before the bench, not at it. **Done on Jacob's machine 2026-09-16. On Windows type
+   `py`, not `python`**: there `python` is a Microsoft Store placeholder.
+
+> ## 2026-09-16: THE FIRST ATTEMPT AT STEP 3 HIT A CURRENT LIMIT. Do this before powering again
+>
+> **One channel went into constant-current mode at about 2 V and the other held 18 V.** Switched off.
+> **The limits were still at the preamp tests' 20 mA** (`SAID`, Jacob): the controller draws about
+> **60 mA from V++ and 36 mA from V--** (measured 2026-08-29, `docs/PROJECT_HANDOFF_SUMMARY.md`
+> §A.1.11). **But raising the limit is what would let a wiring mistake do damage, so prove the
+> wiring first:**
+>
+> 1. **Plug out of U19. USB unplugged.** Both current limits to about **200 mA**, the value the
+>    2026-08-29 bring-up used.
+> 2. **Outputs on, plug hanging free.** Meter on DC volts, black probe on the plug's **middle** wire.
+>    The two outer wires must read about **+18 V and −18 V**. Two positives, or a zero: stop.
+> 3. **Outputs off.** On the board, beep each outer U19 pin to **U18's middle leg**, which is its
+>    V-- input (`docs/WIRING.md` §7). **That pin must receive the −18 V wire.**
+> 4. **Then step 3 below at 200 mA.** Expect roughly 60 mA and 36 mA plus a few mA for the preamp.
+>    **A channel still in current mode at 200 mA is a real fault: switch off, do not retry.**
 
 **The configuration:** preamp in its copper box, **no sample plate, no overall shield cover, no tip,
 no tip lead.** Nothing can be crashed.
@@ -52,9 +70,13 @@ no tip lead.** Nothing can be crashed.
 1. **Pull the repo** on the Windows machine so it has tonight's changes.
 2. **DB9 back into DSUB2. Bench supply completely off the preamp** — the controller's DSUB2 pins 4
    and 5 are outputs and feed it now. **If the supply has a current limit, set both channels to
-   about 300 mA**: generous for the controller, and it turns a real short into a warning.
-3. **Analog supply on** — ±18 V into U19, the JST XH. **Note what BOTH channels draw**, as a
-   baseline nobody has ever recorded, and **watch the negative channel for a minute.** Roughly
+   about 200 mA**: over three times the controller's measured draw, and it turns a real short into a
+   warning. **Changed from 300 mA on 2026-09-16** to match the 2026-08-29 bring-up. **Check it: the
+   preamp tests left the limits at 20 mA**, which the controller exceeds.
+3. **Analog supply on** — ±18 V into U19, the JST XH. **Note what BOTH channels draw** against the
+   2026-08-29 baseline of 60 mA and 36 mA (~~a baseline nobody has ever recorded~~ — **corrected
+   2026-09-16, it was recorded in the handoff's history**), and **watch the negative channel for a
+   minute.** Roughly
    equal and steady is the pass. **A negative channel much higher than the positive, or climbing,
    is the reused C2 failing: switch off.** That is the residual risk of safety rule 14's amended
    clause (a), and this is its cheap mitigation. If the supply goes into constant-current mode,

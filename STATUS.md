@@ -1,8 +1,28 @@
 # Current status
 
-**Last updated:** 2026-09-16 (setup only; nothing powered, nothing measured)
-**Updated by:** Jacob, with Claude on the web. **State unchanged since 2026-09-15: everything wired
-and verified, nothing powered through the controller yet.**
+**Last updated:** 2026-09-16 (Jacob's Windows machine works; first controller power-on hit a supply current limit and was switched off, cause not yet established)
+**Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine. **Nothing measured through the controller yet.**
+
+> ## 2026-09-16, later — FIRST CONTROLLER POWER-ON: ONE SUPPLY CHANNEL WENT INTO CURRENT LIMIT
+>
+> **`SAID`, Jacob, shortly after 14:00 UTC:** both channels set to 18 V, connected to U19, switched
+> on. **One channel dropped into constant-current mode at about 2 V; the other held 18 V. Both were
+> switched off.** Which channel, **not yet reported.**
+>
+> **The limits were 20 mA** (`SAID`, Jacob), left over from the preamp tests, which is the
+> preamp-alone setting. **That explains the event; the supply wiring is still unproven.** The controller was **measured on 2026-08-29 drawing 60 mA from V++ and 36 mA from V--**
+> (`docs/PROJECT_HANDOFF_SUMMARY.md` §A.1.11), and V++ feeds three regulators, so it limits first.
+> **A wiring fault at the supply is the other live explanation**, so **prove the wiring at the plug
+> before raising the limit** — the steps are in `sessions/2026-09-16-bench.md` §3.1a and at the top
+> of `docs/NEXT_SESSION_PLAN.md`. **A channel still in current mode at 200 mA is a real fault: do not
+> retry.**
+>
+> **Jacob's Windows machine now runs the tools.** Repository cloned, pyserial installed, and the dry
+> run gave the pass, `No Teensy found. Ports seen:`. **On that machine type `py`, never `python`** —
+> `python` and `python3` are Microsoft Store placeholders. The commit guard and start-up script
+> called `python3` by name and are fixed. See
+> [`sessions/2026-09-16-bench.md`](sessions/2026-09-16-bench.md), a **different session** from
+> [`sessions/2026-09-16.md`](sessions/2026-09-16.md).
 
 > ## 2026-09-16 — no bench work. A web session cannot reach the Teensy
 >
@@ -14,7 +34,8 @@ and verified, nothing powered through the controller yet.**
 > there.** First-time Windows steps are now in `Code/pc/README.md`; the computers are in
 > `docs/INVENTORY.md`; the plan says whose machine and that Claude must run on it. **The bench
 > list is unchanged** and was checked through node by node, see `sessions/2026-09-16.md`.
-> **These changes are on the branch `claude/funny-cori-xttv3q`, not on `main`.**
+> ~~**These changes are on the branch `claude/funny-cori-xttv3q`, not on `main`.**~~ **Corrected
+> later 2026-09-16: they are on `main`** as `1e10aa0`. Nothing needs merging.
 
 # THE PREAMP WORKS. ~4 pA, IN THE BOX, AT 45 MINUTES
 

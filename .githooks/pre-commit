@@ -19,7 +19,28 @@
 REPO=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
 [ -f "$REPO/Code/pc/check_facts.py" ] || exit 0
 
-OUT=$(cd "$REPO" && python3 Code/pc/check_facts.py 2>&1)
+# Pick a Python that actually runs. Added 2026-09-16 on Jacob's Windows machine,
+# where `python3` and `python` are Microsoft Store placeholders: they exist on the
+# PATH, print "Python was not found", and exit non-zero. Calling python3 blindly
+# would have blocked every commit there with a message about a checker failure
+# that never ran. The `py` launcher is what works on that machine.
+PY=""
+for cand in python3 python py; do
+    if command -v "$cand" >/dev/null 2>&1 && "$cand" -c "import sys" >/dev/null 2>&1; then
+        PY="$cand"
+        break
+    fi
+done
+
+if [ -z "$PY" ]; then
+    echo ""
+    echo "COMMIT BLOCKED - no working Python found (tried python3, python, py),"
+    echo "so check_facts.py could not run. Install Python, then commit again."
+    echo ""
+    exit 1
+fi
+
+OUT=$(cd "$REPO" && "$PY" Code/pc/check_facts.py 2>&1)
 RC=$?
 
 if [ "$RC" -eq 0 ]; then

@@ -141,8 +141,24 @@ fi
 # sent the session hunting the wrong thing. Worse, a crashed checker produced an
 # empty message plus that same confident wrong diagnosis. Show what it said.
 if [ -f Code/pc/check_facts.py ]; then
-    FACTS_OUT=$(python3 Code/pc/check_facts.py 2>&1)
-    FACTS_RC=$?
+    # FIX 5 (2026-09-16). This called python3 blindly. On Jacob's Windows machine
+    # python3 and python are Microsoft Store placeholders that print "Python was
+    # not found" and exit non-zero, so the checker would always report as crashed.
+    # Use the first interpreter that actually runs; `py` is the one that works there.
+    PY=""
+    for cand in python3 python py; do
+        if command -v "$cand" >/dev/null 2>&1 && "$cand" -c "import sys" >/dev/null 2>&1; then
+            PY="$cand"
+            break
+        fi
+    done
+    if [ -n "$PY" ]; then
+        FACTS_OUT=$("$PY" Code/pc/check_facts.py 2>&1)
+        FACTS_RC=$?
+    else
+        FACTS_OUT="No working Python found (tried python3, python, py)."
+        FACTS_RC=127
+    fi
     if [ "$FACTS_RC" -ne 0 ]; then
         echo ""
         if printf '%s' "$FACTS_OUT" | grep -q '^check_facts:'; then
