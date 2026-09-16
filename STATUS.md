@@ -13,8 +13,13 @@ conditions. This is the first inside them.**
 
 **Not yet established:** the 45-count spread is **not a noise figure**, because the overall shield
 cover is off; and **a near-zero reading is also what a grounded input would give**, so a known
-signal through the preamp is still owed. **Next is the tip lead**, in the order in
-`docs/NEXT_SESSION_PLAN.md`. Full numbers: `sessions/2026-09-16-bench.md` §3.2b.
+signal through the preamp is still owed. Full numbers: `sessions/2026-09-16-bench.md` §3.2b.
+
+**THE TIP LEAD IS BUILT, later 2026-09-16** (`SAID`, Jacob): the standoff beeps to the tip holder,
+and **the tip holder is open to the piezo's brass electrode, so safety rule 7's meter check
+passes.** Read as no tip fitted, **not yet confirmed.** A meter's open reading only proves more than
+about 60 MΩ (safety rule 12), so **the ADC re-measure against the −1.7-count baseline is next**, and
+it is the real test of the lead, the holder and the piezo. §3.2c.
 
 > ## 2026-09-16, later — FIRST CONTROLLER POWER-ON: ONE SUPPLY CHANNEL WENT INTO CURRENT LIMIT
 >

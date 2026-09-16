@@ -285,6 +285,22 @@ near zero counts.**
 
 ## The tip lead, after the above
 
+> **BUILT 2026-09-16** (`SAID`, Jacob): standoff to tip holder beeps, tip holder to the piezo's
+> brass electrode is open, so **the safety rule 7 meter check below is done.** Read as no tip fitted,
+> not yet confirmed. **Not stated:** the IPA clean, how the standoff is held, the box's final
+> position, slack in the lead. **NEXT: re-measure through the ADC** with the power-up steps at the top
+> of this file, and compare with the **−1.7-count baseline** from `sessions/2026-09-16-bench.md`
+> §3.2b:
+>
+> | Mean `ADCR` | Meaning |
+> |---|---|
+> | **within a few tens of counts of −1.7** | **The lead, holder and piezo add no measurable leakage** |
+> | **shifted by a few hundred counts** | **About 1 nA added**, 320 counts per nA. That is a tunnelling current's worth. Record, and find it before imaging |
+> | **pinned near ±32767** | Stop. An open joint or a hard path to a driven electrode |
+>
+> **The spread will likely be wider** with the holder on the input node and the shield cover off.
+> **It is still not a noise figure.**
+
 **BUILD THE TIP LEAD.** Safety rule 0b gated it on the bare board being measured; that is done, and
 **~4 pA is the baseline every later number gets compared against.** H3 below has the wire.
 
