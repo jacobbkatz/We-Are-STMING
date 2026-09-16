@@ -1,7 +1,7 @@
 # Current status
 
-**Last updated:** 2026-09-16, 21:55 UTC wrap (first approach attempt, no contact; screw left at +6144 steps from the hand-set start; powered down)
-**Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
+**Last updated:** 2026-09-16, later — samples session wrap (no bench work; gold leaf confirmed REAL gold; copper tape confirmed in the room; **a new untested candidate for the null approach: the tape's adhesive may leave the sample surface unbiased**)
+**Updated by:** Jacob, with Claude Code on the web. **A third session filed under 2026-09-16** — `sessions/2026-09-16-samples.md`, `sessions/2026-09-16-bench.md` and `sessions/2026-09-16.md` are three different sessions and none supersedes another.
 
 # END OF 2026-09-16 — WHERE THE INSTRUMENT IS LEFT
 
@@ -9,7 +9,7 @@
 |---|---|
 | **Power** | **Off**: USB out, then supplies off (`SAID`, Jacob) |
 | **Tip** | **Fitted** — a blunt, bent placeholder in the improvised holder |
-| **Sample** | **Gold leaf on the sample plate, in front of the tip** (`SAID`); crumpled; plate on its screws under rubber bands |
+| **Sample** | **Gold leaf on the sample plate, in front of the tip** (`SAID`); crumpled; plate on its screws under rubber bands. **CONFIRMED REAL GOLD, not imitation** (`SAID`, Jacob, 2026-09-16) — so **no oxide layer**, and only its flatness and its bias connection are in doubt. **Whether the bias actually reaches it has still never been metered** |
 | **Coarse screw** | **+6144 motor steps, about 1 mm out, from the position Jacob set by hand.** The firmware counter resets at restart; **this number exists only here and in the log** |
 | **Firmware** | Faults 2 and 3 fixed and bench-tested |
 | **Motor direction** | **Provisional and disputed**: the design says negative approaches, Jacob reads the build as positive |
@@ -31,6 +31,25 @@ decide it; which side of the pivot line the tip sits on does**, and neither of u
 tip; **the gold is not joined to the bias**; the tip sits almost on the pivot line so it barely moves;
 the Z range is far smaller than the inferred 680 nm. **Nothing was damaged.** **Next steps are in
 `docs/NEXT_SESSION_PLAN.md`.** `sessions/2026-09-16-bench.md` §3.8–§3.11.
+
+> ## NEW CANDIDATE, added 2026-09-16 (samples session): THE BIAS MAY NEVER REACH THE SURFACE
+>
+> **Copper tape is in the room** (`SAID`, Jacob) — correcting `docs/INVENTORY.md` and
+> `docs/NEXT_SESSION_PLAN.md`, which both said not owned. **Most copper tape has ordinary
+> acrylic adhesive, which is an insulator**, and `docs/ENGINEERING_REFERENCE.md` §3 already
+> warns of this for the shield. **The sample plate is printed PETG-CF, an insulator.** If the
+> orange bias wire has to cross the tape's adhesive to reach the copper face the tip lands on,
+> **the sample surface is floating and no tunnelling current can flow at any Z or any motor
+> position** — which is the whole of the null approach above.
+>
+> **Why it was never caught:** the checks run that night were **plate to ground, silent** and
+> **plate to tip, silent.** Both test for the ABSENCE of a connection. **Neither tested that the
+> bias is PRESENT at the copper surface.**
+>
+> **A CANDIDATE, NOT A FINDING.** How the orange wire attaches to the plate is **not documented
+> anywhere in this repository**, and no photograph was read to guess it. **Two beeps settle it,
+> powered off, and they go first next session** — `docs/NEXT_SESSION_PLAN.md`.
+> `sessions/2026-09-16-samples.md` §6.
 
 # THE DUMMY JUNCTION TEST PASSES — 2026-09-16, evening
 
@@ -1577,6 +1596,33 @@ over** — it is the measurement reference, and it is repairable without a rebui
 ---
 
 ## Next actions, in order
+
+### Current list, 2026-09-16 — the full procedure is `docs/NEXT_SESSION_PLAN.md`
+
+**Everything below this block is older and mostly done. This is what to do next.**
+
+1. **TWO BEEPS ON THE COPPER TAPE, POWERED OFF, BEFORE ANYTHING ELSE.** Cheapest check in the
+   project and it may explain the null approach outright.
+   - **Orange bias wire to the copper tape's top face, near where the tip lands. This MUST
+     beep.** Silence means the sample surface has never been biased.
+   - **Copper top face through the adhesive** to whatever the tape is stuck to. **Silence means
+     non-conductive adhesive**, which also decides whether this tape is fit for the shield
+     (`docs/ENGINEERING_REFERENCE.md` §3).
+   - **If the adhesive is insulating:** solder or clamp the bias wire **directly onto the copper
+     face**, not through the tape's back.
+2. **Motor direction by LOOKING, not by approaching.** Sample plate off; is the tip on the driven
+   screw's side of the line through the two side-by-side ball ends, or beyond it? Photo with a
+   ruler in frame.
+3. **Gold leaf to the orange wire with a meter.** Still never done.
+4. **Replace the crumpled wad with a flat piece** burnished onto the clean bare copper face.
+   **Not onto gilding size — size is an insulator and would break the bias path.**
+5. **Find contact by hand, then back off 1/16 turn (about 20 µm)**, DB9 unplugged.
+6. **Then approach**, `--z-retracted unknown`, in the direction step 2 gives. **Record the Z
+   direction the tool reports.**
+
+**Not blocking, and no purchase is needed to get first contact.** A sample decision — whether to
+reverse the 2026-09-05 choice of gold foil in favour of HOPG — is **open and Jacob's to make**;
+the argument is in `sessions/2026-09-16-samples.md` §5 and §8.
 
 ### Current list, 2026-09-14 — the spare board's ground repair is done
 

@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-16, 21:55 UTC wrap (first approach attempt, no contact; next: tip side of the pivot line, gold-to-bias continuity, find contact by hand and back off)
+**Last updated:** 2026-09-16, later — samples session wrap. **A new step 0 goes before everything else: two beeps on the copper tape.** The gold leaf is confirmed REAL gold; copper tape is confirmed in the room; **its adhesive may be why the approach found nothing.**
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -16,6 +16,24 @@ disputed; Z direction unknown.** `sessions/2026-09-16-bench.md` §3.8–§3.11.
 
 **Why the approach found nothing is not known.** Do these, in order, before approaching again:
 
+0. **TWO BEEPS ON THE COPPER TAPE, POWERED OFF. DO THIS FIRST.** Added 2026-09-16 after Jacob
+   said *"we only have copper tape"*. **Most copper tape has ordinary acrylic adhesive, which
+   is an insulator**, and the sample plate is printed PETG-CF, also an insulator. **If the bias
+   only reaches the tip-facing copper through that adhesive, the sample surface is floating and
+   no tunnelling current can flow at any Z or any motor position** — which is exactly what
+   happened. **The checks run last session were plate-to-ground silent and plate-to-tip silent;
+   both test for the ABSENCE of a connection, neither tested that the bias is PRESENT.**
+   - **(a) Orange bias wire to the copper tape's TOP FACE, probing near where the tip lands.
+     THIS MUST BEEP.** If it does not, stop — you have found the null result, and nothing
+     further down this list matters until it is fixed.
+   - **(b) Copper top face through the adhesive**, to whatever the tape is stuck to, or press a
+     probe onto the sticky side. **Silence means non-conductive adhesive.** Worth knowing either
+     way: `docs/ENGINEERING_REFERENCE.md` §3 requires conductive-adhesive tape for the shield.
+   - **The fix, if (a) fails: solder or clamp the bias wire DIRECTLY onto the copper face**, not
+     through the tape's back. **Expected reading after the fix: (a) beeps.**
+   - **This is a candidate, not a finding.** How the orange wire attaches to the plate is not
+     documented anywhere. `sessions/2026-09-16-samples.md` §6.
+
 1. **Motor direction, by looking.** Sample plate off. Look straight at the head's face: **is the tip on
    the motor-driven screw's side of the straight line through the two side-by-side ball ends, or
    beyond it?** Photo with a ruler in frame. **On the driven screw's side: negative approaches. Beyond:
@@ -23,8 +41,12 @@ disputed; Z direction unknown.** `sessions/2026-09-16-bench.md` §3.8–§3.11.
 2. **Gold to bias, with a meter**, powered off: the gold leaf to the orange sample-plate wire must
    beep. Touch the leaf lightly at an edge away from the tip. **Last session checked plate-to-ground
    and plate-to-tip only.**
-3. **Replace the crumpled wad with a flat piece** patted onto clean copper tape in front of the tip,
-   if it will stay. A crumpled high point meets the tip first.
+3. **Replace the crumpled wad with a flat piece** burnished onto the clean copper tape's top face
+   in front of the tip, if it will stay. A crumpled high point meets the tip first. **The leaf is
+   confirmed REAL gold** (`SAID`, Jacob, 2026-09-16), so it carries no oxide and is a perfectly
+   good surface — the problem is its shape, not its material. **Burnish it onto BARE copper, not
+   onto gilding size: size is an insulator and would break the bias path.** **No purchase is
+   needed for this.**
 4. **Find contact by hand, then back off a known amount.** Powered off, **preamp DB9 unplugged**, meter
    on continuity from the tip holder to the orange wire. **Turn the two side-by-side screws in tiny
    equal amounts until it beeps**, then back both off **1/16 turn — about 20 µm** of a 1/4"-80 screw.
@@ -583,7 +605,7 @@ washed in 99% IPA and left to dry overnight on a lint-free pad.
 | **Calipers** | **NONE. Corrected 2026-09-14** — `docs/INVENTORY.md` wrongly listed them. **No procedure here needs one** |
 | **60–70 °C oven or dehydrator** | **NONE, and none was ever bought.** This is what dropped the water rinse |
 | **4.7 µF 50 V 1812 ceramics** | **Not owned.** Needed before the controller, not before D5 |
-| **Copper tape, conductive adhesive** | **Not owned.** For the box shield, later |
+| **Copper tape, conductive adhesive** | ~~**Not owned.**~~ **CORRECTED 2026-09-16: copper tape IS in the room** (`SAID`, Jacob). **Whether its adhesive conducts is UNKNOWN and is now step 0 above** — it decides both the shield and the bias path. `docs/INVENTORY.md` |
 
 ## The JP1 lead colours on the spare board
 
