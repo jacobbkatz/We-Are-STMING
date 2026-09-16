@@ -3,6 +3,23 @@
 **Last updated:** 2026-09-16, 21:55 UTC wrap (first approach attempt, no contact; screw left at +6144 steps from the hand-set start; powered down)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
+# A PUBLIC PROGRESS PAGE NOW EXISTS — 2026-09-16
+
+**`docs/progress.html`**, published at <https://claude.ai/artifact/5Sx12CteGTZaCptVSBqiSV>. It is a
+**view of this repository for people outside it** — readouts, the dummy-junction chart with all 53
+raw readings, the bring-up ladder, a dated timeline and an honest list of what we still cannot do.
+
+**It has no independent authority.** Every number on it is cited from `STATUS.md`, `docs/FACTS.md`
+or a session log. **If it ever disagrees with this file, this file wins** — fix the page, not this
+one. It is regenerated at the end of each week, updated in place and republished to the same URL so
+the link keeps working for anyone it has been sent to.
+
+**`Code/pc/check_facts.py` now scans `.html`**, which it never did before. That was not a
+theoretical gap: `docs/preamp_next_steps.html` was still telling the bench the **Keystone 11301
+"drops into our hole"** — retired at the bench on 2026-09-15 — **while the same page carried the
+correction further down.** Corrected, and the guard now covers all five HTML documents in `docs/`,
+four of which are live bench instructions. `sessions/2026-09-16-showcase.md`.
+
 # END OF 2026-09-16 — WHERE THE INSTRUMENT IS LEFT
 
 | | |

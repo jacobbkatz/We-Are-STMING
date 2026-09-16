@@ -90,7 +90,14 @@ def live_files():
         for n in names:
             if n in SKIP_FILES:
                 continue
-            if n.endswith(('.md', '.py', '.hpp', '.cpp', '.txt')):
+            # .html added 2026-09-16. The bench pages in docs/ are live
+            # instructions and the showcase page is public, but neither was
+            # scanned, so a retired value could sit in one indefinitely. On the
+            # run that added this, docs/preamp_next_steps.html was still telling
+            # the bench the Keystone 11301 "drops into our hole" -- retired
+            # 2026-09-15 -- while the SAME page carried the correction lower
+            # down. Nothing had caught it because of this tuple.
+            if n.endswith(('.md', '.py', '.hpp', '.cpp', '.txt', '.html')):
                 yield os.path.join(root, n)
     sess = os.path.join(REPO, 'sessions')
     if os.path.isdir(sess):

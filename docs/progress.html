@@ -1,0 +1,582 @@
+<title>We Are STMing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --ground: #EAEDEB; --surface: #FFFFFF; --sunk: #E1E6E3;
+    --ink: #141A18; --ink-soft: #57625E; --ink-faint: #7C8783; --rule: #CFD6D2;
+    --pass: #1D7A4B; --pass-bg: #E2EFE8; --pass-edge: #A9CDB9;
+    --open: #C3281F; --open-bg: #FAEAE8; --open-edge: #E2ADA7;
+    --unk-bg: #DFE4E1; --unk-ink: #5C6763;
+    --grid: #DCE2DF;
+    --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --ground: #0E1312; --surface: #161C1A; --sunk: #121817;
+    --ink: #E3E9E6; --ink-soft: #97A39E; --ink-faint: #76817C; --rule: #2A3430;
+    --pass: #34A874; --pass-bg: #142A20; --pass-edge: #2B5240;
+    --open: #E85744; --open-bg: #2C1712; --open-edge: #6B3324;
+    --unk-bg: #1F2724; --unk-ink: #94A09B;
+    --grid: #232C29;
+    color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --ground: #0E1312; --surface: #161C1A; --sunk: #121817;
+    --ink: #E3E9E6; --ink-soft: #97A39E; --ink-faint: #76817C; --rule: #2A3430;
+    --pass: #34A874; --pass-bg: #142A20; --pass-edge: #2B5240;
+    --open: #E85744; --open-bg: #2C1712; --open-edge: #6B3324;
+    --unk-bg: #1F2724; --unk-ink: #94A09B;
+    --grid: #232C29;
+    color-scheme: dark; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body);
+    font-size: 16px; line-height: 1.55; padding-inline: 16px; padding-block: 0 64px; }
+  .wrap { max-width: 820px; margin: 0 auto; }
+  p { margin: 0 0 12px; max-width: 66ch; }
+  a { color: inherit; text-underline-offset: 2px; text-decoration-color: var(--rule); }
+  a:hover { text-decoration-color: currentColor; }
+  a:focus-visible, summary:focus-visible { outline: 2px solid var(--pass); outline-offset: 2px; border-radius: 3px; }
+  code { font-family: var(--mono); font-size: .9em; }
+
+  /* ---- masthead ---- */
+  header { padding-block: 40px 8px; display: grid; gap: 12px; }
+  .eyebrow { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-faint); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2.4rem, 8vw, 4.1rem);
+    line-height: .96; margin: 0; letter-spacing: -.015em; text-wrap: balance; }
+  .lede { font-size: clamp(1.02rem, 2.4vw, 1.18rem); color: var(--ink-soft); max-width: 58ch; margin: 0; }
+  .lede strong { color: var(--ink); font-weight: 700; }
+
+  h2 { font-family: var(--display); font-weight: 600; font-size: clamp(1.45rem, 3.6vw, 1.85rem);
+    margin: 52px 0 6px; padding-top: 18px; border-top: 1px solid var(--rule);
+    letter-spacing: -.005em; text-wrap: balance; }
+  h2 .num { font-family: var(--mono); font-size: .58em; font-weight: 500; color: var(--ink-faint);
+    letter-spacing: .08em; display: block; margin-bottom: 4px; }
+  h3 { font-family: var(--display); font-weight: 600; font-size: 1.16rem; margin: 26px 0 4px; }
+  .sub { font-size: 14.5px; color: var(--ink-soft); max-width: 66ch; }
+
+  /* ---- provenance tag: this project's own convention, from docs/FACTS.md ---- */
+  .prov { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .09em;
+    color: var(--ink-faint); border: 1px solid var(--rule); border-radius: 3px;
+    padding: 1px 4px; white-space: nowrap; vertical-align: 2px; }
+
+  /* ---- readout tiles ---- */
+  .readouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 8px;
+    overflow: hidden; margin: 24px 0 10px; }
+  .readout { background: var(--surface); padding: 16px 16px 14px; display: grid; gap: 3px; align-content: start; }
+  .readout .cap { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ink-faint); }
+  .readout .val { font-family: var(--display); font-weight: 700; font-size: 2.2rem; line-height: 1;
+    font-variant-numeric: tabular-nums; color: var(--pass); letter-spacing: -.01em; }
+  .readout .val .unit { font-size: .5em; font-weight: 600; color: var(--ink-soft); margin-left: 3px; }
+  .readout .note { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
+
+  /* ---- status chips: colour is never alone, the word is always there ---- */
+  .chip { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; padding: 3px 7px; border-radius: 4px; white-space: nowrap;
+    border: 1px solid transparent; }
+  .chip.pass { background: var(--pass-bg); color: var(--pass); border-color: var(--pass-edge); }
+  .chip.open { background: var(--open-bg); color: var(--open); border-color: var(--open-edge); }
+  .chip.unk  { background: var(--unk-bg); color: var(--unk-ink); border-color: var(--rule); }
+
+  /* ---- stage ladder ---- */
+  .ladder { display: grid; gap: 6px; margin: 22px 0 8px; }
+  .rung { display: grid; grid-template-columns: 30px minmax(0,1fr) auto; gap: 14px; align-items: center;
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; padding: 11px 14px; }
+  .rung .tag { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--ink-faint);
+    text-align: center; }
+  .rung .what { font-size: 15px; font-weight: 700; }
+  .rung .what small { display: block; font-weight: 400; color: var(--ink-soft); font-size: 13px;
+    line-height: 1.4; margin-top: 1px; }
+  @media (max-width: 480px) {
+    .rung { grid-template-columns: 26px minmax(0,1fr); gap: 10px; }
+    .rung .chip { grid-column: 2; justify-self: start; }
+  }
+
+  /* ---- chart ---- */
+  figure { margin: 22px 0 0; }
+  .plot { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+    padding: 14px 10px 6px; position: relative; }
+  .plot svg { display: block; width: 100%; height: auto; max-width: 100%; overflow: visible; }
+  .axis-label { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint); letter-spacing: .06em; }
+  .tick { font-family: var(--mono); font-size: 10.5px; fill: var(--ink-faint);
+    font-variant-numeric: tabular-nums; }
+  .mark-label { font-family: var(--mono); font-size: 10.5px; font-weight: 700; fill: var(--ink-soft);
+    paint-order: stroke; stroke: var(--surface); stroke-width: 3.5px; stroke-linejoin: round; }
+  .key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 10px 4px 2px; font-size: 13px;
+    color: var(--ink-soft); align-items: center; }
+  .key span { display: inline-flex; align-items: center; gap: 7px; }
+  .key i { width: 22px; height: 0; border-top: 2px solid var(--ink-faint); display: inline-block; }
+  .key i.dash { border-top-style: dashed; }
+  .key i.dot { width: 10px; height: 10px; border: 0; border-radius: 50%; background: var(--pass); }
+  .key i.dotfaint { width: 7px; height: 7px; border: 0; border-radius: 50%; background: var(--pass); opacity: .34; }
+  figcaption { font-size: 13.5px; color: var(--ink-soft); margin-top: 12px; max-width: 70ch; }
+  .tip { position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s;
+    background: var(--ink); color: var(--ground); font-family: var(--mono); font-size: 11.5px;
+    line-height: 1.45; padding: 7px 9px; border-radius: 5px; white-space: nowrap; z-index: 5;
+    transform: translate(-50%, -114%); }
+  .tip.on { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+
+  details { margin-top: 14px; border: 1px solid var(--rule); border-radius: 7px;
+    background: var(--surface); }
+  summary { cursor: pointer; padding: 10px 14px; font-family: var(--mono); font-size: 11.5px;
+    font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
+  .tablewrap { overflow-x: auto; padding: 0 14px 14px; }
+  table { border-collapse: collapse; font-size: 13.5px; width: 100%; min-width: 440px; }
+  th, td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--rule);
+    vertical-align: top; }
+  th { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--ink-faint); }
+  td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ---- timeline: dated, so the order carries real information ---- */
+  .timeline { display: grid; gap: 0; margin: 24px 0 8px; }
+  .ev { display: grid; grid-template-columns: 82px minmax(0,1fr); gap: 18px;
+    padding: 14px 0; border-top: 1px solid var(--rule); }
+  .ev:first-child { border-top: 0; padding-top: 4px; }
+  .ev .when { font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: .04em;
+    color: var(--ink-faint); padding-top: 3px; }
+  .ev .body h4 { font-family: var(--display); font-weight: 600; font-size: 1.08rem; margin: 0 0 3px; }
+  .ev .body p { font-size: 14.5px; color: var(--ink-soft); margin: 0; }
+  .ev.turn { background: var(--sunk); border-radius: 8px; padding: 14px 16px; border-top: 0;
+    margin: 6px 0; }
+  .ev.turn .when { color: var(--pass); }
+  .ev.turn .body h4 { color: var(--pass); }
+  @media (max-width: 480px) {
+    .ev, .ev.turn { grid-template-columns: minmax(0,1fr); gap: 3px; }
+  }
+
+  /* ---- open items ---- */
+  .openlist { display: grid; gap: 8px; margin: 22px 0 8px; }
+  .item { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px;
+    padding: 13px 15px; display: grid; gap: 5px; }
+  .item .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+  .item .head strong { font-size: 15px; }
+  .item p { font-size: 14px; color: var(--ink-soft); margin: 0; max-width: 70ch; }
+
+  .specs { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+    border-radius: 8px; overflow: hidden; margin: 22px 0 8px; }
+  .spec { background: var(--surface); display: grid; grid-template-columns: 172px minmax(0,1fr);
+    gap: 16px; padding: 11px 15px; font-size: 14.5px; }
+  .spec dt { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--ink-faint); padding-top: 3px; }
+  .spec dd { margin: 0; color: var(--ink-soft); }
+  .spec dd strong { color: var(--ink); font-weight: 700; }
+  @media (max-width: 560px) { .spec { grid-template-columns: minmax(0,1fr); gap: 2px; } }
+
+  .pull { border-left: 3px solid var(--pass); padding: 2px 0 2px 18px; margin: 24px 0;
+    font-size: clamp(1.05rem, 2.6vw, 1.22rem); line-height: 1.45; color: var(--ink); max-width: 56ch; }
+  .pull .who { display: block; font-size: 13px; color: var(--ink-faint); margin-top: 8px;
+    font-family: var(--mono); letter-spacing: .04em; }
+
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--rule);
+    font-size: 13.5px; color: var(--ink-soft); display: grid; gap: 8px; }
+  footer .meta { font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em;
+    color: var(--ink-faint); text-transform: uppercase; }
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Build log &middot; updated 2026-09-16 &middot; day 19</p>
+  <h1>We Are STMing</h1>
+  <p class="lede">Two people who <strong>don't write code</strong> are building a scanning tunneling
+  microscope out of a 3D printer, a Teensy and about &pound;400 of parts. It is meant to image
+  individual atoms. This is where it actually is &mdash; <strong>measured, not estimated.</strong></p>
+</header>
+
+<h2><span class="num">01 &mdash; where it stands</span>The instrument can now feel a current</h2>
+
+<p>As of 16 September the whole signal chain works end to end. A known current injected where the
+tunneling gap will be travels through the amplifier, the cable, the converter, the firmware and the
+laptop, and comes out the far end as the right number. <strong>Every bring-up stage passes.</strong></p>
+
+<p>What has not happened yet: the tip has never touched the sample. The first approach attempt, the
+same evening, found no contact. That is the next thing.</p>
+
+<div class="readouts">
+  <div class="readout">
+    <div class="cap">Amplifier input current</div>
+    <div class="val">~4<span class="unit">pA</span></div>
+    <div class="note">Boxed, at 45 minutes. <span class="prov">MEAS</span> 250&times; inside the limit we set ourselves.</div>
+  </div>
+  <div class="readout">
+    <div class="cap">Measured chain gain</div>
+    <div class="val">320.5<span class="unit">cts/nA</span></div>
+    <div class="note">Against 320 predicted. <span class="prov">MEAS</span> R&sup2; 0.993 over 53 readings.</div>
+  </div>
+  <div class="readout">
+    <div class="cap">Quietest noise floor</div>
+    <div class="val">~40<span class="unit">pA</span></div>
+    <div class="note">12.7 counts sd. <span class="prov">MEAS</span> About 25&times; below the signal we need to see.</div>
+  </div>
+  <div class="readout">
+    <div class="cap">Bring-up stages passing</div>
+    <div class="val">0&ndash;6</div>
+    <div class="note">All of them, plus the bias path and the full measurement chain.</div>
+  </div>
+</div>
+
+<p class="sub">Every figure on this page carries the mark it carries in our own records:
+<span class="prov">MEAS</span> measured on our hardware &middot; <span class="prov">CALC</span> calculated
+&middot; <span class="prov">MESH</span> from a CAD mesh &middot; <span class="prov">DS</span> manufacturer
+datasheet. Anything we have not measured says so.</p>
+
+<h2><span class="num">02 &mdash; the proof</span>The night the whole chain worked</h2>
+
+<p>A tunneling current is about <strong>one nanoamp</strong> &mdash; roughly a billionth of the current
+in a phone charger. Proving you can measure something that small, before you risk a tip on it, means
+faking it: we clipped a <strong>100&nbsp;M&Omega; resistor</strong> across the gap where the tip and
+sample will be, swept the sample voltage across its full &plusmn;3&nbsp;V range, and read the result
+back through the real amplifier, the real cable and the real converter.</p>
+
+<p>Ohm's law says that should give <strong>&minus;3,200 counts per volt</strong>. We measured
+<strong>&minus;3,205 &plusmn; 37</strong>. The prediction and the measurement differ by
+<strong>0.16%</strong>.</p>
+
+<figure>
+  <div class="plot" id="plot">
+    <svg id="chart" viewBox="0 0 720 430" role="img"
+         aria-label="Scatter plot of 53 ADC readings against sample bias voltage. The measured points fall on the predicted line of minus 3,200 counts per volt across the full plus or minus 3 volt range."></svg>
+    <div class="tip" id="tip" hidden></div>
+  </div>
+  <div class="key">
+    <span><i class="dot"></i> Mean of each step</span>
+    <span><i class="dotfaint"></i> Individual reading (53)</span>
+    <span><i class="dash"></i> Predicted, &minus;3,200 counts/V</span>
+  </div>
+  <figcaption><strong>What this establishes:</strong> the bias converter, the buffer, the wire, the
+  tip holder, the tip lead, the amplifier, the cable, the converter, the firmware and the PC tools
+  all work, together, for the first time in this project. It also settled a sign we had been guessing
+  at &mdash; <strong>a positive voltage on the sample reads as negative counts</strong>, which is
+  exactly the case that would have made the firmware's built-in approach routine drive the tip into
+  the sample. <strong>What it does not establish:</strong> the spread you can see at each step is
+  <em>not</em> our noise figure &mdash; the shield cover was off and there were crocodile clips
+  hanging on the input. <strong>Zero was re-checked three times across the sweep</strong> &mdash; the stacked
+  point at 0&nbsp;V &mdash; and came back +36, &minus;6 and +39 counts, so there was no drift and no
+  hysteresis over the run. The quiet figure is the 40&nbsp;pA in the readout above.</figcaption>
+
+  <details>
+    <summary>Show the readings</summary>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Sample bias</th><th>Readings</th><th>Mean</th><th>Predicted</th></tr></thead>
+        <tbody id="datarows"></tbody>
+      </table>
+    </div>
+  </details>
+</figure>
+
+<h2><span class="num">03 &mdash; bring-up</span>Stage by stage</h2>
+
+<p class="sub">A staged bring-up: nothing is powered until the stage below it passes. This is the
+ladder we have been climbing since 29 August.</p>
+
+<div class="ladder">
+  <div class="rung"><div class="tag">0</div><div class="what">Continuity<small>Every connection metered before anything was switched on</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">1</div><div class="what">Serial link<small>The laptop can talk to the Teensy and get status back</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">2</div><div class="what">Coarse approach motor<small>Stepper and driver, wired direct to the Teensy</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">3</div><div class="what">Analog rails<small>&plusmn;18&nbsp;V in, &plusmn;15&nbsp;V out to the scan head</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">4</div><div class="what">Converters<small>Four digital-to-analog channels and the current reader</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">5</div><div class="what">Piezo drive<small>&minus;10&nbsp;V reaches the scanner. The scanner is built and moves</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">&mdash;</div><div class="what">Sample bias path<small>&minus;3&nbsp;V at the sample holder, gain as designed</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">6</div><div class="what">Preamplifier<small>~4&nbsp;pA in its copper box &mdash; the stage that blocked us for two weeks</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">&mdash;</div><div class="what">Measurement chain, end to end<small>320.5 counts per nA through a dummy junction</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">&mdash;</div><div class="what">Tip lead<small>Adds under 0.2&nbsp;nA of leakage; holder isolated from the piezo electrode</small></div><span class="chip pass">Pass</span></div>
+  <div class="rung"><div class="tag">&mdash;</div><div class="what">Two tip-crash firmware faults<small>Found by reading the code, fixed, and bench-tested red-then-green</small></div><span class="chip pass">Fixed</span></div>
+  <div class="rung"><div class="tag">&mdash;</div><div class="what">First approach to the sample<small>Attempted 16 September. No contact found &mdash; nothing damaged</small></div><span class="chip open">Open</span></div>
+</div>
+
+<h2><span class="num">04 &mdash; how we got here</span>Nineteen days, sixteen logged sessions</h2>
+
+<p class="sub">Every session is written up the same night, with the measurements, the failed
+approaches, and what was ruled out. The two hardest days were the two where we found out we had
+been wrong.</p>
+
+<div class="timeline">
+
+  <div class="ev"><div class="when">29&ndash;30 Aug</div><div class="body">
+    <h4>First power-on</h4>
+    <p>The controller board is assembled and characterised. Draws 60&nbsp;mA and 36&nbsp;mA from its
+    two rails &mdash; a number that mattered more than we knew at the time.</p></div></div>
+
+  <div class="ev"><div class="when">31 Aug</div><div class="body">
+    <h4>The sample bias path works &mdash; and the amplifier doesn't</h4>
+    <p>First verified signal path in the project. In the same session the preamplifier is found to be
+    leaking badly, and both converter buses are found running at 40&nbsp;MHz down a ribbon cable that
+    cannot carry it. Dropped to 1&nbsp;MHz.</p></div></div>
+
+  <div class="ev"><div class="when">5 Sep</div><div class="body">
+    <h4>Two ways to destroy a tip, found by reading the firmware</h4>
+    <p>Engaging the feedback loop snapped the Z axis to mid-range from wherever it was; the motor was
+    left energised after every move, heating the scan head. Both faults were inherited from the
+    upstream design, and both would have cost a tip. Found before any tip was fitted.</p></div></div>
+
+  <div class="ev"><div class="when">6 Sep</div><div class="body">
+    <h4>The manufacturing files turn out to contain the answers</h4>
+    <p>The gerber archives we had been treating as pictures are plain text, and carry the complete
+    netlist of both boards. A connector pinout we had marked "unknown, do not run a wire" was
+    resolved from a file that had been sitting in the repository for days.</p></div></div>
+
+  <div class="ev"><div class="when">7 Sep</div><div class="body">
+    <h4>A meter overturns the project's headline number</h4>
+    <p>The amplifier's leakage is three times worse than recorded, and the converter's reference input
+    is discovered floating &mdash; meaning every reading taken so far had been measured against a
+    drifting zero.</p></div></div>
+
+  <div class="ev"><div class="when">8&ndash;9 Sep</div><div class="body">
+    <h4>We stop and audit ourselves</h4>
+    <p>Two corrected numbers are found still sitting wrong in six live documents. We build a single
+    canonical file of every number that matters, and a checker that refuses a commit while a
+    known-wrong value is still written anywhere it would be believed. Its very first run finds a live
+    bug in our own analysis code.</p></div></div>
+
+  <div class="ev turn"><div class="when">13 Sep</div><div class="body">
+    <h4>The root cause, after two weeks of chasing symptoms</h4>
+    <p>The amplifier's 0&nbsp;V reference pin is connected to <em>nothing</em> &mdash; on both boards.
+    The fabricated circuit boards have no ground plane: the original design has one, the files sent to
+    the manufacturer do not, leaving six ground points dead. Every preamplifier measurement in the
+    project had been taken on an amplifier with no reference. None of them were ever currents at
+    all.</p></div></div>
+
+  <div class="ev"><div class="when">14 Sep</div><div class="body">
+    <h4>Repaired by hand, with wire</h4>
+    <p>Four wires onto a board 20&nbsp;mm long, then eight continuity checks and a capacitance check,
+    all passing. The first bench session in the project that ended with no new faults.</p></div></div>
+
+  <div class="ev turn"><div class="when">15 Sep</div><div class="body">
+    <h4>The preamplifier works</h4>
+    <p>Mounted in its copper box, the repaired board reads <strong>about 4 picoamps</strong> &mdash;
+    250 times inside the limit we had set as the pass mark, against a signal of 1&nbsp;nA it has to
+    detect. A 45-minute warm-up rule we had been obeying for a week is retired: that drift was the
+    floating reference charging up, not the amplifier.</p></div></div>
+
+  <div class="ev turn"><div class="when">16 Sep</div><div class="body">
+    <h4>End to end, and both tip-crash faults fixed</h4>
+    <p>The converter reads the amplifier. The dummy junction test passes at 320.5 counts per nA. The
+    two firmware fixes are uploaded and bench-tested &mdash; deliberately reproduced on the old
+    firmware first, so we could watch the check go red before it went green. A tip goes in, and the
+    first approach is attempted.</p></div></div>
+
+</div>
+
+<h2><span class="num">05 &mdash; honest ledger</span>What we still can't do</h2>
+
+<p>This project keeps a rule that a confident wrong number costs more than an admitted gap. So:</p>
+
+<div class="openlist">
+
+  <div class="item">
+    <div class="head"><strong>No tunneling current yet</strong><span class="chip open">Open</span></div>
+    <p>The first approach ran the coarse screw 2,000 steps one way and 6,144 the other and found
+    nothing. Four candidate explanations, none tested. Nothing was damaged.</p>
+  </div>
+
+  <div class="item">
+    <div class="head"><strong>Which way the motor approaches</strong><span class="chip unk">Disputed</span></div>
+    <p>The CAD mesh says one direction; Jacob, looking at the actual build, reads it the other way.
+    The tip sits 1&nbsp;mm from the pivot line <span class="prov">MESH</span> and the tip holder is
+    improvised, so 1&nbsp;mm is too thin a margin to settle it on paper. It gets settled by looking,
+    with a ruler in the photo.</p>
+  </div>
+
+  <div class="item">
+    <div class="head"><strong>Which way the scanner extends</strong><span class="chip unk">Unknown</span></div>
+    <p>It depends on how the piezo disc was polarised at the factory and which face the tip is on,
+    and neither is recorded anywhere. Rather than guess, the approach tool now searches both
+    directions and reports which one it was at first contact.</p>
+  </div>
+
+  <div class="item">
+    <div class="head"><strong>The converters lose their configuration</strong><span class="chip open">Open</span></div>
+    <p>All four drop their settings roughly hourly. We know how to detect it &mdash; four indicator
+    LEDs &mdash; but there is no software way to catch it, so every measurement is bracketed by
+    looking at the board.</p>
+  </div>
+
+  <div class="item">
+    <div class="head"><strong>One noise spike we cannot explain</strong><span class="chip open">Open</span></div>
+    <p>Noise got 20&times; worse for part of one evening and then went away. Two suspects were tested
+    one variable at a time and both were cleared. The leading candidate &mdash; a freshly soldered,
+    solvent-cleaned joint still drying &mdash; is untested.</p>
+  </div>
+
+  <div class="item">
+    <div class="head"><strong>How far one motor step actually moves the tip</strong><span class="chip unk">Unresolved</span></div>
+    <p>The lever ratio is 20, 30 or 40 depending on which source you believe, putting one step
+    somewhere between 3.9 and 7.8&nbsp;nm <span class="prov">CALC</span>. The measurement that settles
+    it is the same photograph that settles the motor direction.</p>
+  </div>
+
+</div>
+
+<h2><span class="num">06 &mdash; the machine</span>What it's made of</h2>
+
+<dl class="specs">
+  <div class="spec"><dt>Frame</dt><dd>3D-printed in <strong>carbon-filled PETG</strong> for stiffness and dimensional stability. Not PLA &mdash; it creeps, and creep shows up directly as drift in the image</dd></div>
+  <div class="spec"><dt>Vibration isolation</dt><dd>A 200&nbsp;mm platform hung on three springs, damped by an aluminium plate moving through fixed magnets &mdash; <strong>no contact, no rubber</strong> <span class="prov">MESH</span></dd></div>
+  <div class="spec"><dt>Coarse approach</dt><dd>A stepper motor turning a <strong>1/4"&ndash;80 screw</strong> through a lever, giving single-digit nanometres per step</dd></div>
+  <div class="spec"><dt>Scanner</dt><dd>A piezoelectric disc with a tungsten tip cut at 45&deg;. Roughly <strong>680&nbsp;nm of travel in Z</strong>, inferred from a similar disc, not ours</dd></div>
+  <div class="spec"><dt>Amplifier</dt><dd>An <strong>OPA627</strong> current-to-voltage converter with a 100&nbsp;M&Omega; feedback resistor, in a hand-made copper box at the scan head. This is the part that has to see a nanoamp</dd></div>
+  <div class="spec"><dt>Controller</dt><dd><strong>Teensy 4.1</strong>, four 16-bit converters for X, Y, Z and sample bias, and a 16-bit converter reading the current back</dd></div>
+  <div class="spec"><dt>Sample</dt><dd>Gold leaf on a magnetic plate, biased through the mounting magnet</dd></div>
+</dl>
+
+<div class="pull">
+  &ldquo;You have the data, not us. 100% should never happen again.&rdquo;
+  <span class="who">Jacob, 7 September, after being told to check a datasheet <em>after</em> making the connection. The working rules were rewritten the same day.</span>
+</div>
+
+<h2><span class="num">07 &mdash; credit</span>Standing on other people's work</h2>
+
+<p>Neither of us invented any of this. The mechanics, firmware and controller board come from
+<strong>Mech Panda's</strong> <code>red-panda-stm</code>; the scan head, tip preparation and
+amplifier design come from <strong>Dan Berard's</strong> home-built STM, which is the reference build
+for anyone attempting this at home. Thanks also to <strong>Dr Percy Zahl</strong> of Brookhaven
+National Laboratory for guidance on vibration isolation and scan head design.</p>
+
+<p>Everything we have worked out that <em>wasn't</em> already documented &mdash; and everything we got
+wrong on the way &mdash; is written up in the open, because the gap between "here are the files" and
+"here is how to actually get it working" is where we have spent almost all of our time.</p>
+
+<footer>
+  <p class="meta">Last updated 2026-09-16 &middot; 16 session logs &middot; stages 0&ndash;6 passing</p>
+  <p>Built by Jacob and Nuh Shaheer. The full build log, every measurement and every wrong turn:
+  <a href="https://github.com/jacobbkatz/We-Are-STMING">github.com/jacobbkatz/We-Are-STMING</a>.
+  This page is regenerated from <code>STATUS.md</code> and the session logs; where it disagrees with
+  those, believe them.</p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  // The dummy junction sweep, 2026-09-16. Raw readings exactly as logged.
+  var STEPS = [
+    { v:  3.000, code: 'boot/0', r: [-9625, -9145, -9868, -9442, -9851] },
+    { v:  0.000, code: '32768',  r: [28, 104, 691, -95, 301, -19, -73, -307, 32, -303] },
+    { v: -0.662, code: '40000',  r: [1613, 2415, 2181, 1829, 2081, 2204] },
+    { v: -1.578, code: '50000',  r: [5335, 5548, 5314, 5634, 5065, 4434] },
+    { v:  0.000, code: '32768',  r: [-616, 282, 576, -51, -83, -141] },
+    { v:  0.711, code: '25000',  r: [-1718, -2271, -1875, -1791, -2311, -2589] },
+    { v:  1.627, code: '15000',  r: [-4965, -5077, -5390, -4788, -5428, -5038] },
+    { v:  0.000, code: '32768',  r: [-148, -102, 581, -480, -49, 228, 219, 59] }
+  ];
+  var SLOPE = -3200; // counts per volt, from Ohm's law through a nominal 100 MOhm
+
+  var mean = function (a) { return a.reduce(function (s, x) { return s + x; }, 0) / a.length; };
+  var NS = 'http://www.w3.org/2000/svg';
+  var el = function (n, at) {
+    var e = document.createElementNS(NS, n);
+    for (var k in at) { if (at[k] !== null) e.setAttribute(k, at[k]); }
+    return e;
+  };
+
+  var svg = document.getElementById('chart');
+  if (!svg) { return; }
+
+  var W = 720, H = 430, M = { t: 16, r: 26, b: 48, l: 64 };
+  var x0 = M.l, x1 = W - M.r, y0 = M.t, y1 = H - M.b;
+  var xd = [-1.95, 3.25], yd = [-10800, 6400];
+  var X = function (v) { return x0 + (v - xd[0]) / (xd[1] - xd[0]) * (x1 - x0); };
+  var Y = function (c) { return y1 - (c - yd[0]) / (yd[1] - yd[0]) * (y1 - y0); };
+
+  // --- grid and axes, recessive ---
+  var yTicks = [5000, 0, -5000, -10000];
+  yTicks.forEach(function (t) {
+    svg.appendChild(el('line', { x1: x0, x2: x1, y1: Y(t), y2: Y(t),
+      stroke: 'var(--grid)', 'stroke-width': t === 0 ? 1.5 : 1 }));
+    var lab = el('text', { x: x0 - 10, y: Y(t) + 3.6, 'text-anchor': 'end', class: 'tick' });
+    lab.textContent = (t > 0 ? '+' : '') + t.toLocaleString().replace('-', '\u2212');
+    svg.appendChild(lab);
+  });
+
+  var xTicks = [-1, 0, 1, 2, 3];
+  xTicks.forEach(function (t) {
+    svg.appendChild(el('line', { x1: X(t), x2: X(t), y1: y0, y2: y1,
+      stroke: 'var(--grid)', 'stroke-width': t === 0 ? 1.5 : 1 }));
+    var lab = el('text', { x: X(t), y: y1 + 20, 'text-anchor': 'middle', class: 'tick' });
+    lab.textContent = ((t > 0 ? '+' : '') + t).replace('-', '\u2212');
+    svg.appendChild(lab);
+  });
+
+  var xl = el('text', { x: (x0 + x1) / 2, y: H - 10, 'text-anchor': 'middle', class: 'axis-label' });
+  xl.textContent = 'VOLTS ON THE SAMPLE';
+  svg.appendChild(xl);
+
+  var yl = el('text', { x: 0, y: 0, 'text-anchor': 'middle', class: 'axis-label',
+    transform: 'translate(15,' + (y0 + y1) / 2 + ') rotate(-90)' });
+  yl.textContent = 'ADC COUNTS';
+  svg.appendChild(yl);
+
+  // --- prediction line, drawn under the data ---
+  svg.appendChild(el('line', {
+    x1: X(xd[0]), y1: Y(SLOPE * xd[0]), x2: X(xd[1]), y2: Y(SLOPE * xd[1]),
+    stroke: 'var(--ink-faint)', 'stroke-width': 2, 'stroke-dasharray': '7 5',
+    'stroke-linecap': 'round'
+  }));
+
+  // --- individual readings, faint ---
+  STEPS.forEach(function (s) {
+    s.r.forEach(function (c) {
+      svg.appendChild(el('circle', { cx: X(s.v), cy: Y(c), r: 3.4,
+        fill: 'var(--pass)', 'fill-opacity': .34 }));
+    });
+  });
+
+  // --- means, with a surface ring so they sit clear of the faint points ---
+  var tip = document.getElementById('tip'), plot = document.getElementById('plot');
+  tip.hidden = false;
+  var show = function (s, m) {
+    tip.innerHTML = (s.v > 0 ? '+' : '') + s.v.toFixed(3) + ' V &nbsp;&rarr;&nbsp; '
+      + (m > 0 ? '+' : '') + Math.round(m).toLocaleString() + ' counts<br>'
+      + s.r.length + ' readings &middot; predicted '
+      + Math.round(SLOPE * s.v).toLocaleString();
+    tip.style.left = (X(s.v) / W * 100) + '%';
+    tip.style.top = (Y(m) / H * 100) + '%';
+    tip.classList.add('on');
+  };
+  var hide = function () { tip.classList.remove('on'); };
+
+  STEPS.forEach(function (s, i) {
+    var m = mean(s.r);
+    var g = el('g', { tabindex: '0', role: 'button',
+      'aria-label': s.v.toFixed(3) + ' volts, mean ' + Math.round(m) + ' counts' });
+    g.appendChild(el('circle', { cx: X(s.v), cy: Y(m), r: 14, fill: 'transparent' }));
+    g.appendChild(el('circle', { cx: X(s.v), cy: Y(m), r: 7.5,
+      fill: 'var(--pass)', stroke: 'var(--surface)', 'stroke-width': 2 }));
+    g.addEventListener('mouseenter', function () { show(s, m); });
+    g.addEventListener('focus', function () { show(s, m); });
+    g.addEventListener('mouseleave', hide);
+    g.addEventListener('blur', hide);
+    svg.appendChild(g);
+  });
+
+  // --- two direct labels, at the extremes, so the scale reads without hovering ---
+  var lo = el('text', { x: X(3.000) - 12, y: Y(-9586) + 4, 'text-anchor': 'end', class: 'mark-label' });
+  lo.textContent = '−9,586';
+  svg.appendChild(lo);
+  var hi = el('text', { x: X(-1.578) + 14, y: Y(5222) + 4, class: 'mark-label' });
+  hi.textContent = '+5,222';
+  svg.appendChild(hi);
+
+  // --- the table view ---
+  var tb = document.getElementById('datarows');
+  STEPS.forEach(function (s) {
+    var m = mean(s.r);
+    var tr = document.createElement('tr');
+    var fmt = function (n) { return (n > 0 ? '+' : '') + Math.round(n).toLocaleString(); };
+    tr.innerHTML = '<td class="n">' + (s.v > 0 ? '+' : '') + s.v.toFixed(3) + ' V</td>'
+      + '<td class="n">' + s.r.map(function (c) { return c.toLocaleString(); }).join(', ') + '</td>'
+      + '<td class="n"><strong>' + fmt(m) + '</strong></td>'
+      + '<td class="n">' + fmt(SLOPE * s.v) + '</td>';
+    tb.appendChild(tr);
+  });
+})();
+</script>
