@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-16 (dummy junction passes, 320.5 counts per nA, sign measured; CCON and motor firmware fixes uploaded and bench-tested)
+**Last updated:** 2026-09-16 (dummy junction passes; CCON and motor fixes bench-tested; motor direction provisionally negative approaches; next, the Z direction)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -408,6 +408,31 @@ near zero counts.**
 >    -100`, same, and `GSTS` field 6 back to its starting value.
 >
 > **Only when all three pass** do faults 2 and 3 become FIXED, and safety rule 8 gets reconsidered.
+>
+> ## MOTOR DIRECTION — found 2026-09-16, PROVISIONAL: negative `MTMV` approaches
+>
+> `MTMV +6144` pushed the driven screw's tip **out**; the tip holder sits 1.00 mm on the driven
+> screw's side of the pivot pair, so out = sample pushed away. `sessions/2026-09-16-bench.md` §3.6,
+> `docs/OPEN_QUESTIONS.md`. **Screw returned to base.**
+>
+> **Rules for every motor move from now on:**
+>
+> 1. **Z parked at 32768 first.**
+> 2. **A few hundred steps per command, at most.** A move cannot be stopped by command; unplugging
+>    USB is the only stop. **About ±3 mm of screw from base, Jacob's estimate: about ±19,000 steps.**
+> 3. **Keep a running total of steps from base**, because the firmware's counter resets at every
+>    restart.
+>
+> ## STILL NEEDED BEFORE A FIRST APPROACH
+>
+> 1. **Which Z direction retracts** — `--z-retracted`. Z travel is under a micron, so it cannot be
+>    seen. It needs first tunnelling, or working out from the drive chain: DAC, the inverting summing
+>    stage, which quadrant polarity extends the disc, and which way the disc faces. **Research job
+>    for Claude first**, before any bench time.
+> 2. **The tip holder's position on the disc**, with a ruler: how far from the disc centre, and in which
+>    direction. With a 1 mm short arm this decides both the lever ratio and the motor sign.
+> 3. **A tip**, prepared and fitted; and **the gold sample** mounted on the sample plate.
+> 4. **The sample set by hand to within about 75 µm of the tip** — the motor only reaches about that far.
 >
 > ## NEXT SESSION: first capture of the day, before any soldering
 >

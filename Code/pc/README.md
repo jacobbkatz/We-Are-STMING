@@ -148,7 +148,9 @@ exactly what the firmware's `APRH` gets wrong.
 
 **It refuses to run** unless you tell it two things it cannot work out for itself:
 `--z-retracted` (which end of the Z range pulls away from the sample) and `--motor-toward-sample`
-(which sign of `MTMV` advances). Both are still UNKNOWN in this project — determine them with the
+(which sign of `MTMV` advances). **The motor sign is PROVISIONALLY `negative`, found 2026-09-16** —
+see `docs/OPEN_QUESTIONS.md` for why only provisional; the Z direction is still UNKNOWN. **The
+example above uses `positive` only to show the syntax — do not copy it.** Determine both with the
 tip removed before using this for real. It also refuses if the resting ADC reading is railed, which
 it currently is, so **it will not run until the preamp is fixed.**
 

@@ -357,6 +357,26 @@ three-screw tripod lever reduction, ~20x or ~30x                    CONFLICTING
 > Z range**, which is a comfortable woodpecker approach. It would matter if the Z range turned out
 > much smaller.
 
+### How our coarse approach actually moves — `SAID` and measured 2026-09-16
+
+**The sample moves, not the tip.** The sample plate is held against the tips of the three 1/4"-80
+screws by **rubber bands**; the screws run through the piezo plate and push it away (`SAID`,
+Jacob). **The motor turns the screw farthest from the piezo**; the two side-by-side screws are the
+pivot. The tip holder sits in the piezo pocket, **1.00 mm from the pivot line on the motor screw's
+side** (mesh, above), so the sample under the tip moves **the same way as the motor end**, about 40×
+less.
+
+| `MTMV` sign | Driven screw | Sample under the tip | |
+|---|---|---|---|
+| **positive** | **tip pushes OUT** — observed 2026-09-16, 6144 steps | pushed **away** | **retract** |
+| **negative** | pulls in; rubber bands follow | drawn **toward** the tip | **approach** — PROVISIONAL |
+
+**Provisional because the lever's short arm is only 1 mm**: a tip holder more than about 1 mm off
+the disc centre toward the pivot pair would reverse it. **Range:** about **±3 mm of screw travel from
+the base position** (`SAID`, Jacob, an estimate), which is ±9.4 turns, about ±19,000 steps, and
+**only about ±75 µm at the tip** at a ratio of 40. **So the sample must be set by hand to within
+about 75 µm of the tip before any motor approach** — under a tenth of a millimetre. `docs/OPEN_QUESTIONS.md`.
+
 **The firmware's `approach()` is not usable** — it compares `read_adc() > target`, signed, against a
 baseline that has been negative all project. Use `Code/pc/stm_approach.py`, which thresholds on
 absolute deviation. CONFIRMED.
@@ -430,7 +450,7 @@ measurements; the readings under them are marked separately.**
 |---|---|---|
 | 3 × dia **8.100** through-holes, isosceles triangle | base **35.000 mm**, sides 43.661 mm | The three 1/4"-80 brass inserts. **INFERRED** — the count and a sensible bore for a 0.438" insert |
 | Front-screw line to the rear screw | **40.000 mm** | The lever arm |
-| Piezo pocket centre, from the front-screw line | **1.000 mm** | The short arm |
+| Piezo pocket centre, from the front-screw line | **1.000 mm, on the REAR-screw side** (Y 96.28 against the pair at 95.28 and the rear screw at 135.28; side added 2026-09-16) | The short arm. **Same side as the driven screw, so the tip moves the same way as the driven end, not the opposite way** |
 | Disc seat | **dia 20.500, 3.00 mm deep** on the Z = 15 face | |
 | Free-flex clearance beneath it | **dia 18.000**, the remaining 12.00 mm | Textbook unimorph mounting: clamp the brass rim, let the ceramic centre flex |
 
@@ -640,7 +660,8 @@ listed the AD5761R pull-up question after the datasheet answered it. **One list,
 
 **Everything that was here is in `docs/OPEN_QUESTIONS.md`**, including the ones that gate current
 work: whether the rebuilt shield conducts, our lever ratio, our disc's actual nm/V, which Z
-direction approaches the sample, and which sign of `MTMV` advances.
+direction approaches the sample, and which sign of `MTMV` advances — **provisionally negative since
+2026-09-16, see §6.**
 
 ---
 

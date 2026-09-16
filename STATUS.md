@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16 (DUMMY JUNCTION PASSES, 320.5 counts per nA, positive sample bias reads negative; CCON jump and powered-motor faults FIXED, uploaded and bench-tested)
+**Last updated:** 2026-09-16 (DUMMY JUNCTION PASSES, 320.5 counts per nA; CCON and motor faults FIXED; motor direction: negative approaches, PROVISIONAL)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # THE DUMMY JUNCTION TEST PASSES — 2026-09-16, evening
@@ -18,6 +18,14 @@ the old firmware — `CCON` snapped Z from 20000 to 32768, and two motor driver 
 move — then upload, then green: **Z held at 20000 on engage, the loop refused to engage at Z 5000,
 and the driver LEDs flickered during a move and went dark after it.** `sessions/2026-09-16-bench.md`
 §3.5.
+
+**MOTOR DIRECTION, PROVISIONAL: NEGATIVE `MTMV` APPROACHES.** `MTMV +6144` pushed the driven screw's
+tip **out** (`SAID`, Jacob, on video). **The sample plate rides on the screws under rubber-band
+tension, and the tip sits 1.00 mm on the motor side of the pivot screws** (measured from
+`PiezoPlate.stl` — the notes had said the other side), **so pushing out moves the sample away.**
+Only provisional because 1 mm is a thin margin. **A move cannot be interrupted by command**: that
+3-turn move ran to completion while Jacob asked for it to stop. **Keep moves to a few hundred steps.**
+Screw returned to base. §3.6.
 
 # THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
 
@@ -1693,7 +1701,8 @@ current either way. Reading it just pins the stability margin (~7x vs ~2x).
 
 **`Code/pc/stm_approach.py`** is written and tested (40 tests, 2026-09-05) but has **never run on
 hardware**. It needs both direction answers first: which Z direction approaches the sample, and
-which sign of `MTMV` advances.
+which sign of `MTMV` advances. **The motor sign is provisionally `negative` since 2026-09-16; the Z
+direction is still UNKNOWN.**
 
 ---
 
@@ -1866,7 +1875,7 @@ here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log 
 | ~~**Is the OPA627 saturated at +11.905 V?**~~ **SUPERSEDED 2026-09-13** | With +IN floating the question does not have a meaningful answer on the old board |
 | **Does the rebuilt preamp box shield conduct end to end?** | Two minutes with a meter, never done. Every shield conclusion rests on it |
 | **Is the ~119 nA the CA contamination, or something else?** | The rail-leak mechanism failed its own test. Drives whether the rebuild is the right fix |
-| **Which Z direction approaches the sample, and which sign of `MTMV` advances?** | `Code/pc/stm_approach.py` refuses to run without both |
+| **Which Z direction approaches the sample, and which sign of `MTMV` advances?** | `Code/pc/stm_approach.py` refuses to run without both. **`MTMV` sign PROVISIONALLY negative, 2026-09-16** (`docs/OPEN_QUESTIONS.md`); Z direction still UNKNOWN |
 | ~~**Does the piezo disc fit its Ø20.500 mm seat?**~~ **CLOSED 2026-09-09 by construction** | The scanner is built and works. **Do not spend bench time on this.** The nm/V figures still want a real calibration eventually, but that is a scan-calibration job, not a fit question |
 
 > **Closed since this table was last pruned**, and now only in `docs/OPEN_QUESTIONS.md`:
@@ -1888,7 +1897,7 @@ here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log 
 | ~~Is there a sample material?~~ | **Answered 2026-09-05: gold foil.** It must be mounted flat on a magnetic disc with a conductive path to the bias magnet — see `docs/UPSTREAM_BERARD.md` §5. Expect atomic terraces, not individual atoms; Berard could not resolve single atoms on metals |
 | How far does one motor step move the tip, in nm? | **Largely answered 2026-09-05, superseded estimate was 244 nm: roughly 4 to 8 nm.** From the 1/4"-80 pitch and 2048 steps/rev, with a lever reduction Berard quotes as **either 20 or 30 on different pages** — 7.8 nm at 20, 5.2 nm at 30. **Nothing depends on resolving it**: both give 90–130 steps per Z range. **VERIFY our own ratio** — ours is Mech Panda's geometry. Replaces the old 244 nm estimate. See `docs/UPSTREAM_BERARD.md` §2b |
 | Which Z direction is toward the sample | Only resolvable at first tunneling, or from the CAD. Park Z at midscale meanwhile. **`stm_approach.py` requires this answer before it will run** |
-| Which sign of `MTMV` advances toward the sample | Determinable by eye with the tip removed. **`stm_approach.py` requires this too** |
+| Which sign of `MTMV` advances toward the sample | Determinable by eye with the tip removed. **`stm_approach.py` requires this too.** **PROVISIONALLY NEGATIVE, 2026-09-16** — `docs/OPEN_QUESTIONS.md` |
 | ~~ADC full scale: 4.096 or 10.24 V?~~ **CLOSED 2026-09-07** | **±10.24 V**, from the datasheet. REFBUF is 4.096 V and the input span is 2.5 × REFBUF. The PC tools were right. **Two's complement also confirmed from the same page** |
 | DST-201 DC input impedance | Needed to finish some of the high-impedance arithmetic |
 

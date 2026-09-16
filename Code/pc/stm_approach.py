@@ -31,8 +31,10 @@ straight into the sample:
     --z-retracted          which end of the Z DAC range pulls AWAY from the sample
     --motor-toward-sample  which sign of MTMV advances TOWARD the sample
 
-Both are recorded as UNKNOWN in docs/OPEN_QUESTIONS.md. Determine them before
-using this, with the tip removed or far away.
+See docs/OPEN_QUESTIONS.md for both. As of 2026-09-16 the motor sign is
+PROVISIONALLY "negative" (the sample moves toward the tip when the driven screw
+pulls in) and the Z direction is still UNKNOWN. The usage lines below show the
+syntax only; do not copy their values.
 
 Usage:
     python stm_approach.py --z-retracted low --motor-toward-sample positive

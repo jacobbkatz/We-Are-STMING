@@ -62,7 +62,7 @@ All four are silent — they reply with nothing.
 
 | Command | Arguments | Notes |
 |---|---|---|
-| `MTMV` | steps | Blocks while moving. ~68.3 steps/s, so 512 steps takes about 7.5 s. **Since the 2026-09-16 firmware, uploaded and bench-tested: the coils switch off about 20 ms after the move, so the driver LEDs go dark between moves; `MTMV 0` just switches them off.** Before that the coils stayed powered after every move, and `RSET` never switched them off |
+| `MTMV` | steps | Blocks while moving. ~68.3 steps/s, so 512 steps takes about 7.5 s. **Since the 2026-09-16 firmware, uploaded and bench-tested: the coils switch off about 20 ms after the move, so the driver LEDs go dark between moves; `MTMV 0` just switches them off.** Before that the coils stayed powered after every move, and `RSET` never switched them off. **A move CANNOT be stopped by any command** — the firmware reads nothing until it finishes. **The only stop is unplugging USB**, or a 134-baud open of the port, which drops the Teensy into its bootloader (used 2026-09-16). **So keep single moves short: a few hundred steps.** **Direction: negative approaches, PROVISIONALLY** — `docs/OPEN_QUESTIONS.md` |
 
 2048 steps per revolution, verified by measurement.
 

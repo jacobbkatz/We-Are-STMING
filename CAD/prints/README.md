@@ -175,7 +175,7 @@ three 1/4"-80 fine-adjust screws and three brass inserts, and 8.1 mm is a sensib
 | Front pair spacing (the two screws on one line) | **35.000 mm** | CONFIRMED |
 | Front-screw line to the third (rear) screw | **40.000 mm** | CONFIRMED |
 | Other two triangle sides | 43.661 mm each | CONFIRMED |
-| Piezo disc pocket centre, relative to the front-screw line | **1.000 mm in front of it** | CONFIRMED |
+| Piezo disc pocket centre, relative to the front-screw line | ~~**1.000 mm in front of it**~~ **1.000 mm on the REAR-screw side of it** — corrected 2026-09-16 from the mesh: front pair at Y 95.28, pocket at Y 96.28, rear screw at Y 135.28. "In front" had it on the wrong side, which reverses the motor direction | CONFIRMED |
 
 Those are exact round numbers — 35.000, 40.000, 1.000 — which is what design intent looks like.
 
@@ -187,6 +187,12 @@ Those are exact round numbers — 35.000, 40.000, 1.000 — which is what design
 > **Do not treat that as settled.** It assumes the tip sits at the disc centre and that the rear
 > screw is the driven one. Both are readable off the assembled instrument in about a minute with
 > a ruler, and that is the check worth doing. Recorded as a lead, not a result.
+>
+> **Update 2026-09-16:** **the rear screw IS the driven one** (`SAID`, Jacob), and the tip holder is
+> in the pocket (`SAID`). **The disc centre is on the rear screw's side of the pivot line**, so the
+> sample under the tip moves the same way as the driven end — **negative `MTMV` approaches,
+> provisionally.** The tip holder's exact offset from the disc centre is still unmeasured, and with a
+> 1 mm short arm it decides both the ratio and the sign. `docs/OPEN_QUESTIONS.md`.
 
 ---
 
