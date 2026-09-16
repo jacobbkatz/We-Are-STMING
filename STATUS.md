@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16 (ADC chain works; tip lead passes; cover on, iron off: standard deviation 12.7 to 17.9 counts; operator and iron both ruled out as the big earlier noise; drying input node now suspected)
+**Last updated:** 2026-09-16 (ADC chain works; tip lead passes; quiet with cover on and iron off; CCON and motor firmware fixes written and built, NOT uploaded; dummy junction waits on clips)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
@@ -814,7 +814,8 @@ preamp board for nothing. It was stripped and rebuilt in all copper with soldere
 **The rebuild has not been verified with a meter yet — do that first.**
 
 Two unfixed firmware faults were found on 2026-09-05 that will damage a tip if hit: **`CCON` snaps
-Z to midscale**, and **the motor is left energised** and heats the scan head.
+Z to midscale**, and **the motor is left energised** and heats the scan head. **Fixes for both were
+written and build on 2026-09-16, but are NOT on the Teensy yet** — faults 2 and 3.
 
 > ### Physical state of the preamp right now — read before planning any measurement
 >
@@ -1298,6 +1299,17 @@ tantalum on the negative rail is a candidate for rail behaviour nobody has expla
 
 ### 2. `CCON` jumps Z to midscale and will crash a tip
 
+> **FIX WRITTEN AND BUILDS, 2026-09-16. NOT YET UPLOADED, NOT BENCH-TESTED. The Teensy still runs the
+> old firmware, so everything below still describes the instrument.** `turn_on_const_current()` now
+> seeds `iTerm = stm_status.dac_z - 32768`, the fix proposed below, so the loop's first output is
+> the current Z plus only the normal `(Kp + Ki) × error` correction; **with the boot gains of zero, Z
+> does not move on engage.** **It also refuses to engage when Z is outside 10000–50000**, because
+> `control_current()` clamps to that window and would still jump Z to its edge. **No reply is printed
+> on refusal** — every PC tool expects `CCON` to be silent — **so check `GSTS` field 8.** The
+> red-then-green bench test is in `docs/NEXT_SESSION_PLAN.md`. **What the fix does not remove:** with
+> non-zero gains, the first step still applies a proportional correction, so gains must be chosen
+> with the error at engage in mind. `sessions/2026-09-16-bench.md` §3.3.
+
 **Found 2026-09-05 by cross-referencing Dan Berard's write-up against our source. Not yet fixed.**
 
 `turn_on_const_current()` assigns `dac_z_control_value = stm_status.dac_z` and **nothing ever reads
@@ -1317,6 +1329,15 @@ the tip!"*
 `docs/UPSTREAM_BERARD.md` §1.1.
 
 ### 3. The stepper motor is left energised, which heats the scan head
+
+> **FIX WRITTEN AND BUILDS, 2026-09-16. NOT YET UPLOADED, NOT BENCH-TESTED.** `EfficientStepper::step()`
+> now switches the coils off after every move, **after waiting one step period**, about 15 ms at the
+> firmware's speed: the Arduino `Stepper` library returns the instant it energises the last step, so
+> cutting power at once could lose that step. `MTMV 0` now just makes sure the coils are off. **Also
+> confirmed from the code on 2026-09-16: `RSET` does not de-energise the motor** — it only zeroes the
+> step count — so on the old firmware only unplugging USB does. **VERIFY at the bench** that
+> `disable()`'s read-back of the coil pattern works on Teensy 4.1 output pins; if it does not, the
+> worst case is one step lost per move. `sessions/2026-09-16-bench.md` §3.3.
 
 **Found 2026-09-05, same source. Not yet fixed.**
 
@@ -1719,7 +1740,8 @@ which sign of `MTMV` advances.
    shunt across the preamp input — it costs signal and adds noise. It is **not** an offset source,
    so it is not a candidate for the 119 nA, but it must be open before imaging.
 8. **Never send `CCON` with a tip in tunneling range** until the integral-init bug in fault 2 is
-   fixed. Engaging the loop snaps Z to midscale.
+   fixed. Engaging the loop snaps Z to midscale. **A fix was written on 2026-09-16 and builds, but
+   this rule stands until it is uploaded and passes its bench test.**
 9. **No preamp measurement is valid while anyone is leaning over the board.** A person within a
    metre injects 20 to 50 nA, which is twenty to fifty times a tunneling current.
    > **Basis in doubt, 2026-09-13:** the 20–50 nA figure came from a board with IC1 +IN floating,
@@ -1861,3 +1883,8 @@ here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log 
 | `check_facts.py` hint text | Tells you to "add a word like `was`" — but bare `was` is **not** in EXCUSES, so following the hint does not clear the warning. Use `corrected`, `retired`, `superseded` or `wrong` |
 
 `logTable[abs(adc)]` is **safe** — the table is `[32769]`. Do not "fix" it.
+
+**But `logTable[abs(target_adc)]` in `turn_on_const_current()` is NOT bounded** — found 2026-09-16
+while fixing fault 2. The target comes straight from `CCON`'s serial argument, so **`CCON 40000`
+reads past the end of the table.** Not fixed; **keep `CCON` targets within ±32768.** Recorded in
+`docs/COMMANDS.md`.

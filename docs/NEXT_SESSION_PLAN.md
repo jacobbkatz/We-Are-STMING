@@ -365,6 +365,38 @@ near zero counts.**
 > sign to be measured. **`RSET` alone puts about +3 V on the sample holder**, about 9,600 counts with
 > 100 MΩ, which is inside the range.
 >
+> ## FIRMWARE: upload and bench-test the two fixes — written 2026-09-16, NOT uploaded
+>
+> **`CCON` now starts from the current Z** and refuses outside 10000–50000; **the motor coils switch
+> off after every move.** Both build. `STATUS.md` faults 2 and 3, `sessions/2026-09-16-bench.md`
+> §3.3. **Nothing is uploaded without Jacob's go-ahead.** **No tip for any of this**: Z will move by
+> volts and the motor will turn.
+>
+> **RED FIRST, on the old firmware, so the tests are proven able to fail:**
+>
+> 1. Powered, `RSET`, LED1–LED4 dark. `DACZ 20000`, `GSTS`: field 2 reads 20000.
+> 2. **`CCON 100`**, wait a second, `GSTS`. **Expect field 2 = 32768 and field 8 = 1**: the jump.
+>    Then **`CCOF`** and **`DACZ 32768`.**
+> 3. Z is parked. **`MTMV 100`**, about 1.5 s. **Look at the four LEDs on the motor driver board
+>    after it stops: on the old firmware some stay lit.** Then `MTMV -100`.
+>
+> **UPLOAD** (Claude runs it): `py -m platformio run -d Code/teensy -t upload`. **Nothing else may
+> hold the Teensy's port** — on 2026-08-29 a forgotten serial monitor made the loader ask for the
+> PROGRAM button on every upload (`docs/PROJECT_HANDOFF_SUMMARY.md` §A.1.2). One press is fine;
+> repeated requests mean something holds the port. **Afterwards `GSTS` shows a small uptime**, and
+> the firmware's own start-up `reset()` leaves Z at a rail: **re-park with `DACZ 32768`.**
+>
+> **GREEN, on the new firmware:**
+>
+> 1. `RSET`, LEDs dark, `DACZ 20000`, **`CCON 100`**, wait, `GSTS`. **Expect field 2 = 20000 and
+>    field 8 = 1.** `CCOF`.
+> 2. **`DACZ 5000`, `CCON 100`, `GSTS`. Expect field 2 = 5000 and field 8 = 0**: the refusal.
+>    `DACZ 32768`.
+> 3. **`MTMV 100`: the driver LEDs go dark within a fraction of a second after it stops.** `MTMV
+>    -100`, same, and `GSTS` field 6 back to its starting value.
+>
+> **Only when all three pass** do faults 2 and 3 become FIXED, and safety rule 8 gets reconsidered.
+>
 > ## NEXT SESSION: first capture of the day, before any soldering
 >
 > **Leading candidate for the earlier noise: the freshly soldered, IPA-cleaned input node still drying

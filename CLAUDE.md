@@ -310,8 +310,9 @@ was assembled, what a supplier did or asked:**
 - **Preamp measurements are invalid if anyone is within a metre of the board.** A human body
   injects tens of nA; a tunneling current is about 1 nA.
 - **Never tell the user to send `CCON` with a tip in tunneling range.** `control_current()`
-  hardcodes midscale, so engaging the loop snaps Z to 32768 from wherever it was. Unfixed. See
-  `STATUS.md` fault 2.
+  hardcodes midscale, so engaging the loop snaps Z to 32768 from wherever it was. See
+  `STATUS.md` fault 2. **A fix was written and builds on 2026-09-16, but the Teensy runs the old
+  firmware until the fix is uploaded and bench-tested. Until then this rule stands as written.**
 
 **Four more that live only in `STATUS.md`, and are just as capable of costing hardware or a day.
 Added here 2026-09-09 because this section had silently omitted them:**

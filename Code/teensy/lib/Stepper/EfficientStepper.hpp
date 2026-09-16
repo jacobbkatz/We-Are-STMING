@@ -32,6 +32,8 @@ private:
     Stepper _stepper_motor;
     void _save_status();
     int _total_steps = 0;
+    int _number_of_steps = 0; // steps per revolution, for the settle delay in step()
+    long _speed_rpm = 0;      // last value given to setSpeed(), for the same
 };
 
 #endif // STEPPER_H

@@ -321,11 +321,32 @@ public: // Access specifier
     double pTerm, iTerm;
     void turn_on_const_current(int target_adc)
     {
+        // FIX 2026-09-16, STATUS.md fault 2. This used to set iTerm = 0, and
+        // control_current() computes z = pTerm + iTerm + 32768, so the loop's
+        // first output was midscale WHEREVER Z ACTUALLY WAS: a jump of up to
+        // hundreds of nm on engage, the crash Berard documents on his own build.
+        // (dac_z_control_value was assigned below and never read.)
+        //
+        // Now the integrator is seeded with the current Z, so the first output
+        // equals the current Z plus only the normal (Kp + Ki) * error correction.
+        // With the boot gains of zero, Z does not move at all on engage.
+        //
+        // control_current() also clamps Z to 10000..50000. Engaging from outside
+        // that window would still jump Z to the nearest limit, so the loop now
+        // REFUSES to engage there. No reply is printed, because every PC tool
+        // expects CCON to be silent: check GSTS field 8, is_const_current.
+        //
+        // NOT YET UPLOADED OR BENCH-TESTED when written.
+        if (stm_status.dac_z < 10000 || stm_status.dac_z > 50000)
+        {
+            this->stm_status.is_const_current = false;
+            return;
+        }
         this->adc_set_value = target_adc;
         this->adc_set_value_log = static_cast<double>(logTable[abs(target_adc)]);
         this->dac_z_control_value = static_cast<double>(stm_status.dac_z);
         pTerm = 0.0;
-        iTerm = 0.0;
+        iTerm = static_cast<double>(stm_status.dac_z - 32768);
         this->stm_status.is_const_current = true;
     }
     int control_current(int adc_value)
