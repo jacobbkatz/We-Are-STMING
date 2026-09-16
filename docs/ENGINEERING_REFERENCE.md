@@ -372,9 +372,14 @@ less.
 | **negative** | pulls in; rubber bands follow | drawn **toward** the tip | **approach** — PROVISIONAL |
 
 **Provisional because the lever's short arm is only 1 mm**: a tip holder more than about 1 mm off
-the disc centre toward the pivot pair would reverse it. **Range:** about **±3 mm of screw travel from
-the base position** (`SAID`, Jacob, an estimate), which is ±9.4 turns, about ±19,000 steps, and
-**only about ±75 µm at the tip** at a ratio of 40. **So the sample must be set by hand to within
+the disc centre toward the pivot pair would reverse it. **And the tip holder is improvised** (`SAID`,
+Jacob, 2026-09-16): a metal shaft stuck, insulated, to the underside of the piezo, with a socket
+soldered to the shaft; tips of varying length go into it. **Its offset from the disc centre is
+unmeasured.** **Range:** Jacob estimated **±3 mm of screw travel from the base position**, then said
+the estimate may be wrong; **what is demonstrated is about 1 mm outward** — the 3-turn move of
+2026-09-16, 6144 steps, "seemed fine". ±3 mm would be ±9.4 turns, about ±19,000 steps, and **only
+about ±75 µm at the tip** at a ratio of 40 — **and the ratio itself depends on the unmeasured tip
+position.** **So the sample must be set by hand to within
 about 75 µm of the tip before any motor approach** — under a tenth of a millimetre. `docs/OPEN_QUESTIONS.md`.
 
 **The firmware's `approach()` is not usable** — it compares `read_adc() > target`, signed, against a

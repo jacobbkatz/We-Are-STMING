@@ -419,7 +419,8 @@ near zero counts.**
 >
 > 1. **Z parked at 32768 first.**
 > 2. **A few hundred steps per command, at most.** A move cannot be stopped by command; unplugging
->    USB is the only stop. **About ±3 mm of screw from base, Jacob's estimate: about ±19,000 steps.**
+>    USB is the only stop. **Range UNVERIFIED**: Jacob estimated ±3 mm of screw from base and then
+>    doubted it; **only about 1 mm outward, 6144 steps, is demonstrated.**
 > 3. **Keep a running total of steps from base**, because the firmware's counter resets at every
 >    restart.
 >
@@ -429,8 +430,10 @@ near zero counts.**
 >    seen. It needs first tunnelling, or working out from the drive chain: DAC, the inverting summing
 >    stage, which quadrant polarity extends the disc, and which way the disc faces. **Research job
 >    for Claude first**, before any bench time.
-> 2. **The tip holder's position on the disc**, with a ruler: how far from the disc centre, and in which
->    direction. With a 1 mm short arm this decides both the lever ratio and the motor sign.
+> 2. **The tip's position, once a tip is fitted**, with a ruler or a photo from above with a ruler in
+>    frame: **its distance from the line joining the two side-by-side screw centres, and which side.**
+>    The holder is improvised (`SAID`, Jacob), so the design drawing does not say. With a 1 mm short
+>    arm this decides both the lever ratio and the motor sign.
 > 3. **A tip**, prepared and fitted; and **the gold sample** mounted on the sample plate.
 > 4. **The sample set by hand to within about 75 µm of the tip** — the motor only reaches about that far.
 >

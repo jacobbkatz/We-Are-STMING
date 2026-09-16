@@ -23,7 +23,9 @@ and the driver LEDs flickered during a move and went dark after it.** `sessions/
 tip **out** (`SAID`, Jacob, on video). **The sample plate rides on the screws under rubber-band
 tension, and the tip sits 1.00 mm on the motor side of the pivot screws** (measured from
 `PiezoPlate.stl` — the notes had said the other side), **so pushing out moves the sample away.**
-Only provisional because 1 mm is a thin margin. **A move cannot be interrupted by command**: that
+Only provisional because 1 mm is a thin margin, **and the tip holder is improvised** — a shaft
+stuck to the piezo with a soldered socket (`SAID`, Jacob) — **so the real tip position is unmeasured.**
+**Only about 1 mm of screw travel outward is demonstrated**; the ±3 mm range is an estimate. **A move cannot be interrupted by command**: that
 3-turn move ran to completion while Jacob asked for it to stop. **Keep moves to a few hundred steps.**
 Screw returned to base. §3.6.
 
