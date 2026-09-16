@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16 (ADC chain works; tip lead passes; cover on with shields to "universal ground" made the spread worse, 294.9 counts; move shield bonds to AGND next)
+**Last updated:** 2026-09-16 (paused, powered off; ADC chain works; tip lead passes; cover on with shields to "universal ground" made the spread worse, 294.9 counts; move shield bonds to AGND next)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
