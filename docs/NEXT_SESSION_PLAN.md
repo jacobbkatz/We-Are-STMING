@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-16 (tip lead and cover on, operator away: standard deviation 12.7 counts; next, repeat with the operator close to name the earlier noise)
+**Last updated:** 2026-09-16 (dummy junction passes, 320.5 counts per nA, sign measured; next, the firmware red-then-green test and upload)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -347,7 +347,12 @@ near zero counts.**
 > is significant, so **iron off for every capture that matters.** `sessions/2026-09-16-bench.md`
 > §3.2j and §3.2k.
 >
-> ## THEN: THE DUMMY JUNCTION TEST — blocked on clips, 2026-09-16
+> **DONE 2026-09-16, AND IT PASSES.** 100 MΩ dummy, bias jumper to tip holder: **−3,205 ± 37
+> counts per volt, 320.5 counts per nA, R² 0.993; positive sample voltage reads NEGATIVE.**
+> `sessions/2026-09-16-bench.md` §3.4. **The procedure below is kept for re-running after any
+> change to the current path.**
+>
+> ## ~~THEN: THE DUMMY JUNCTION TEST — blocked on clips, 2026-09-16~~ DONE
 >
 > **The payoff test, planned since 2026-08-31 and never run.** Procedure: `sessions/2026-09-06-plan.md`
 > Block F, with the commands sent from Claude and `py` in place of `python` on Jacob's machine.

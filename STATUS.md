@@ -1,7 +1,20 @@
 # Current status
 
-**Last updated:** 2026-09-16 (ADC chain works; tip lead passes; quiet with cover on and iron off; CCON and motor firmware fixes written and built, NOT uploaded; dummy junction waits on clips)
+**Last updated:** 2026-09-16 (DUMMY JUNCTION PASSES: whole current path works, 320.5 counts per nA, positive sample bias reads negative; CCON and motor fixes built, NOT uploaded)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
+
+# THE DUMMY JUNCTION TEST PASSES — 2026-09-16, evening
+
+**A 100 MΩ resistor between the bias wire and the tip holder, no tip, bias stepped across ±3 V:
+−3,205 ± 37 counts per volt against −3,200 predicted, 53 readings, R² 0.993, and zero bias
+returning to +36, −6 and +39.** **The whole current path works end to end for the first time: 320.5
+counts per nA.** **The sign is now measured: a positive voltage on the sample gives NEGATIVE
+counts**, so under positive sample bias a tunnelling current drives the reading down. **Safety rule 2
+is annotated, not lifted.** The 320-count scatter is not a noise figure: cover off, clips on the tip
+holder. `sessions/2026-09-16-bench.md` §3.4.
+
+**Firmware fixes for the `CCON` jump and the powered motor are written and build, but are NOT on the
+Teensy** — faults 2 and 3.
 
 # THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
 
@@ -1724,6 +1737,12 @@ which sign of `MTMV` advances.
 2. **Do not run `APRH`** until the sign of the tunneling current is known. `approach()` tests
    `read_adc() > target` against a baseline that has been negative all project, so if tunneling
    drives the reading more negative it will never trigger and the tip will drive into the sample.
+   > **The sign was MEASURED 2026-09-16** by the dummy junction test: **positive sample voltage
+   > gives negative counts.** **So under positive sample bias this rule's failure case is exactly
+   > what happens** — tunnelling drives the reading down and `APRH` never triggers. Under negative
+   > sample bias, `BIAS` above 32768, the reading rises. **The baseline is also no longer negative**:
+   > about −3 counts with the repaired preamp. **The rule is NOT lifted** by this note; that is Jacob
+   > and Nuh's call, and `Code/pc/stm_approach.py` remains the route.
 3. **Do not raise either SPI clock above 1 MHz.** Both buses were at 40 MHz and the ribbon cannot
    carry it.
 4. ~~**Do not run a wire between JP1 pins** on the old board.~~ **RETIRED 2026-09-06.** This rule

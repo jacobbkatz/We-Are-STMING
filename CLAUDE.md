@@ -299,6 +299,8 @@ was assembled, what a supplier did or asked:**
   taken with one lit is void. **There is no software way to detect this** — the ALERT pins are not
   wired to the Teensy, and `GSTS` reports firmware bookkeeping, not measurements.
 - **Never tell the user to run `APRH`** until the sign of the tunneling current is known.
+  **Measured 2026-09-16: positive sample voltage gives negative counts** (`STATUS.md` safety rule 2,
+  which has not been lifted).
   `approach()` compares `read_adc() > target` against a baseline that has been negative all
   project. If tunneling drives the reading more negative it never triggers, and the tip drives into
   the sample.

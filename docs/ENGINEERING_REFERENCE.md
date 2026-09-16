@@ -710,7 +710,11 @@ and nothing depends on it** — all three give 90–130 steps across the Z range
 
 **How does a current become a displayed number?**
 I × 100 MΩ = volts; volts ÷ 0.3125 mV = counts. **1 nA = 0.1 V = 320 counts.** Ceiling 102.4 nA.
-**The PC tools print every current 2.5× too large** because they use 10.24 V full scale.
+**MEASURED end to end 2026-09-16 by the dummy junction test: 320.5 counts per nA. Current flowing
+into the tip reads NEGATIVE**, so a positive sample bias gives negative counts. `docs/FACTS.md`.
+~~**The PC tools print every current 2.5× too large** because they use 10.24 V full scale.~~
+**Wrong, and stale since 2026-09-07: 10.24 V is the correct full scale and the PC tools are right.**
+Found still standing here on 2026-09-16.
 
 **If a printed dimension changed by 2 mm, what breaks?**
 See the impact map in §8. Short answer: `box_mount` and `6_shield_cover` share a footprint;
@@ -723,8 +727,8 @@ the DAC reference, the 119 nA offset, the ADC counts.** Everything about displac
 from someone else's scanner.
 
 **What still cannot be answered?**
-Our nm/V. Our lever ratio. Which Z direction approaches the sample. The sign of the tunnelling
-current. Whether the isolation stage is even hanging. How the cables leave the platform. The disc
+Our nm/V. Our lever ratio. Which Z direction approaches the sample. ~~The sign of the tunnelling
+current~~ — **measured 2026-09-16, see above.** Whether the isolation stage is even hanging. How the cables leave the platform. The disc
 diameter actually fitted. The print material actually used.
 
 ---
