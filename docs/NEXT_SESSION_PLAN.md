@@ -50,7 +50,7 @@ is what stopped the 2026-09-16 session at the moment of plugging in.
 > ## 2026-09-16: THE FIRST ATTEMPT AT STEP 3 HIT A CURRENT LIMIT. Do this before powering again
 >
 > **One channel went into constant-current mode at about 2 V and the other held 18 V.** Switched off.
-> **The limits were still at the preamp tests' 20 mA** (`SAID`, Jacob): the controller draws about
+> **One channel's limit was still at the preamp tests' 20 mA, the other at 200 mA** (`SAID`, Jacob): the controller draws about
 > **60 mA from V++ and 36 mA from V--** (measured 2026-08-29, `docs/PROJECT_HANDOFF_SUMMARY.md`
 > §A.1.11). **But raising the limit is what would let a wiring mistake do damage, so prove the
 > wiring first:**

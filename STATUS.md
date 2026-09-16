@@ -9,8 +9,9 @@
 > on. **One channel dropped into constant-current mode at about 2 V; the other held 18 V. Both were
 > switched off.** Which channel, **not yet reported.**
 >
-> **The limits were 20 mA** (`SAID`, Jacob), left over from the preamp tests, which is the
-> preamp-alone setting. **That explains the event; the supply wiring is still unproven.** The controller was **measured on 2026-08-29 drawing 60 mA from V++ and 36 mA from V--**
+> **One channel's limit was 20 mA and the other's 200 mA** (`SAID`, Jacob). The 20 mA is the
+> preamp-alone setting, left over from the preamp tests, and that channel is the one that limited.
+> **That explains the event; the supply wiring is still unproven.** Both now set to 200 mA. The controller was **measured on 2026-08-29 drawing 60 mA from V++ and 36 mA from V--**
 > (`docs/PROJECT_HANDOFF_SUMMARY.md` §A.1.11), and V++ feeds three regulators, so it limits first.
 > **A wiring fault at the supply is the other live explanation**, so **prove the wiring at the plug
 > before raising the limit** — the steps are in `sessions/2026-09-16-bench.md` §3.1a and at the top
