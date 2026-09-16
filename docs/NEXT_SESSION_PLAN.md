@@ -1,9 +1,50 @@
 # Next session plan
 
-**Last updated:** 2026-09-16 (tip fitted; Z direction unknown on paper, approach tool's new unknown mode finds it safely; next, sample mounting)
+**Last updated:** 2026-09-16, 21:55 UTC wrap (first approach attempt, no contact; next: tip side of the pivot line, gold-to-bias continuity, find contact by hand and back off)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
+
+---
+
+# START HERE — after the 2026-09-16 approach attempt
+
+**State left:** powered off. Tip fitted, a placeholder. Gold leaf on the sample plate in front of the
+tip. **Coarse screw at +6144 motor steps, about 1 mm out, from the position set by hand** — the
+firmware counter resets at restart, so carry this number by hand. **Motor direction provisional and
+disputed; Z direction unknown.** `sessions/2026-09-16-bench.md` §3.8–§3.11.
+
+**Why the approach found nothing is not known.** Do these, in order, before approaching again:
+
+1. **Motor direction, by looking.** Sample plate off. Look straight at the head's face: **is the tip on
+   the motor-driven screw's side of the straight line through the two side-by-side ball ends, or
+   beyond it?** Photo with a ruler in frame. **On the driven screw's side: negative approaches. Beyond:
+   positive approaches.** This also tells the lever ratio: 40 mm divided by that distance.
+2. **Gold to bias, with a meter**, powered off: the gold leaf to the orange sample-plate wire must
+   beep. Touch the leaf lightly at an edge away from the tip. **Last session checked plate-to-ground
+   and plate-to-tip only.**
+3. **Replace the crumpled wad with a flat piece** patted onto clean copper tape in front of the tip,
+   if it will stay. A crumpled high point meets the tip first.
+4. **Find contact by hand, then back off a known amount.** Powered off, **preamp DB9 unplugged**, meter
+   on continuity from the tip holder to the orange wire. **Turn the two side-by-side screws in tiny
+   equal amounts until it beeps**, then back both off **1/16 turn — about 20 µm** of a 1/4"-80 screw.
+   The screws sit close to the tip, so that is roughly the gap. **It costs the placeholder tip a
+   touch.** Plug the DB9 back in.
+5. **Power up**: supply at 200 mA limits, then USB. LED1–LED4 dark. `DACZ 32768`, `BIAS 32768`.
+   **20 `ADCR` baseline; then `BIAS 38229`, sample −0.5 V, 10 `ADCR` as a touch check** — near the
+   baseline means no contact; a reading near its limit means contact, so set `BIAS 32768` and stop.
+6. **Approach** with `py Code/pc/stm_approach.py --z-retracted unknown --motor-toward-sample <from
+   step 1> --motor-step 10 --max-steps 1000 -y`, in 1000-step chunks of about 5 minutes. **Cap the
+   total at twice the steps that cover the back-off at the step-1 lever ratio**: 20 µm at a ratio of 40
+   is 800 µm of screw, about 5,200 steps, so a cap of about 10,400. **Mind the screw's range**: from
+   +6144 there is about 2 mm left outward and 4 mm inward, **if** Jacob's ±3 mm estimate holds; only
+   about 1 mm outward from base has been demonstrated. **Operator a metre away, iron off.**
+7. **At first contact the tool prints the Z direction. Record it** in `docs/OPEN_QUESTIONS.md` and use
+   `--z-retracted low|high` from then on.
+
+**Do not:** send a single motor move of more than a few hundred steps outside the tool; retract by
+hand relying on an unconfirmed direction; `APRH`; `CCON` with a tip in range (safety rule 8 is
+annotated, not lifted).
 
 > **Written 2026-09-07. Refreshed at the end of every session from 2026-09-09 onward** — `/wrap`
 > step 3 updates it, and `check_facts.py` fails if a session log is newer than the date above.
@@ -423,6 +464,9 @@ near zero counts.**
 >    doubted it; **only about 1 mm outward, 6144 steps, is demonstrated.**
 > 3. **Keep a running total of steps from base**, because the firmware's counter resets at every
 >    restart.
+>
+> **ATTEMPTED 2026-09-16 with no contact — the current procedure is START HERE at the top of this
+> file.** This list is kept as it stood before the attempt.
 >
 > ## STILL NEEDED BEFORE A FIRST APPROACH
 >

@@ -1,7 +1,36 @@
 # Current status
 
-**Last updated:** 2026-09-16 (dummy junction passes; CCON and motor faults FIXED; motor direction provisional; TIP FITTED; Z direction unknown, approach tool can now find it safely)
+**Last updated:** 2026-09-16, 21:55 UTC wrap (first approach attempt, no contact; screw left at +6144 steps from the hand-set start; powered down)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
+
+# END OF 2026-09-16 — WHERE THE INSTRUMENT IS LEFT
+
+| | |
+|---|---|
+| **Power** | **Off**: USB out, then supplies off (`SAID`, Jacob) |
+| **Tip** | **Fitted** — a blunt, bent placeholder in the improvised holder |
+| **Sample** | **Gold leaf on the sample plate, in front of the tip** (`SAID`); crumpled; plate on its screws under rubber bands |
+| **Coarse screw** | **+6144 motor steps, about 1 mm out, from the position Jacob set by hand.** The firmware counter resets at restart; **this number exists only here and in the log** |
+| **Firmware** | Faults 2 and 3 fixed and bench-tested |
+| **Motor direction** | **Provisional and disputed**: the design says negative approaches, Jacob reads the build as positive |
+| **Z direction** | **Unknown**; `stm_approach.py --z-retracted unknown` finds it safely at first contact |
+
+# FIRST APPROACH ATTEMPT — NO CONTACT, 2026-09-16
+
+**Checks first:** sample plate to ground silent, sample plate to tip silent (`SAID`); at power-up with
++3 V on the sample the reading was −237, **no contact**; baseline mean +2.0, sd 25.0; **touch check at
+−0.5 V mean +1.4, sd 27.2, no contact, no leak.** **The approach tool was fixed first**: reads took
+0.208 s each, now 0.5 ms; contact needs 2 of 3 reads.
+
+**Approach, unknown-Z mode, 10 motor steps per cycle, bias −0.5 V, threshold 4.7 nA:** **−2000 steps
+negative, then +8144 positive, ending +6144 past the hand-set start — no contact anywhere.** Jacob
+switched direction mid-way, reading the tilted plate as "positive approaches"; **tilt alone does not
+decide it; which side of the pivot line the tip sits on does**, and neither of us can see that yet.
+
+**Candidate explanations, none tested:** the hand-set gap was wider than the motor's reach at the
+tip; **the gold is not joined to the bias**; the tip sits almost on the pivot line so it barely moves;
+the Z range is far smaller than the inferred 680 nm. **Nothing was damaged.** **Next steps are in
+`docs/NEXT_SESSION_PLAN.md`.** `sessions/2026-09-16-bench.md` §3.8–§3.11.
 
 # THE DUMMY JUNCTION TEST PASSES — 2026-09-16, evening
 
@@ -900,18 +929,29 @@ bench-tested 2026-09-16** — faults 2 and 3.
 | 4 DACs and ADC | PASS | |
 | 5 Piezo drive | PASS | −10 V at the scan head for `DACZ 65535`. **The scanner itself is now built and working** — Jacob, 2026-09-09 |
 | Bias path to sample | PASS | −3 V at the sample holder for `BIAS 65535`, gain −1 as per schematic |
-| 6 Preamp | **FAIL** | PAD1 = 11.905 V on 2026-09-07. **Not a valid current measurement: IC1 +IN floats on both boards** (fault 0d, 2026-09-13). The "~119 nA" is unproven |
-| **Spare preamp board** | **GROUND REPAIR + PART B PASS, WASHED, DRYING — still never powered** | 2026-09-14: 4 of 4 wires on, all four ground points beep to hole 1, no shorts, C2 reads 4.7 µF in circuit. **Part B passed the same evening — all six lead free-end readings as expected** (`docs/preamp_partB_probe_map.html`). **Then washed in 99% IPA and left to dry overnight**, the first preamp board in this project to be cleaned. **Next is Part C, the smoke test** — the first time this board is powered by anything, and only once it is dry. **C2 is still the reused part** — safety rule 14 before the controller |
-| **Measurement chain** | **NEW FAIL** | **`PREAMP-` floating** — the ADC's reference is undefined. **Not over range after all:** span is ±10.24 V and the differential is ~9.2 V |
-| **Preamp box** shielding | **REBUILT, unverified** | All copper, seams soldered, one ground wire, 2026-09-06. **Continuity not yet metered — VERIFY first thing** |
-| DAC config stability | **FAIL** | All four DACs drop config roughly hourly |
+| 6 Preamp | ~~**FAIL**~~ **PASS on the repaired spare board**, 2026-09-15 | ~4 pA boxed at 45 minutes; spliced to the controller. ~~PAD1 = 11.905 V on 2026-09-07. **Not a valid current measurement: IC1 +IN floats on both boards** (fault 0d, 2026-09-13). The "~119 nA" is unproven~~ — that was the **old** board, now retired |
+| **Measurement chain end to end** | **PASS, 2026-09-16** | ADC reads the preamp at −1.7 counts; **dummy junction: 320.5 counts per nA, positive sample voltage reads negative** |
+| **Tip lead** | **PASS, 2026-09-16** | Adds under ~0.2 nA; holder open to the piezo brass |
+| **Firmware faults 2 and 3** | **FIXED, 2026-09-16** | `CCON` no longer jumps Z; motor coils off after moves. Bench-tested red then green |
+| **Tip** | **Fitted, placeholder**, 2026-09-16 | Blunt and bent, in an improvised holder |
+| **Motor direction** | **PROVISIONAL, disputed** | Positive pushes the driven screw out; which way that moves the sample depends on the tip's side of the pivot line, unmeasured |
+| **Z direction** | **UNKNOWN** | `stm_approach.py --z-retracted unknown` finds it at first contact |
+| **Coarse approach** | **Attempted 2026-09-16, no contact** | −2000 then +6144 steps about the hand-set start. **Screw left at +6144** |
+| **Spare preamp board** | ~~**GROUND REPAIR + PART B PASS, WASHED, DRYING — still never powered**~~ **In service** — powered, boxed, on the controller since 2026-09-16 | 2026-09-14: 4 of 4 wires on, all four ground points beep to hole 1, no shorts, C2 reads 4.7 µF in circuit. **Part B passed the same evening — all six lead free-end readings as expected** (`docs/preamp_partB_probe_map.html`). **Then washed in 99% IPA and left to dry overnight**, the first preamp board in this project to be cleaned. **Next is Part C, the smoke test** — the first time this board is powered by anything, and only once it is dry. **C2 is still the reused part** — safety rule 14 before the controller |
+| **Measurement chain** | ~~**NEW FAIL**~~ **FIXED** — see the end-to-end row above | ~~**`PREAMP-` floating** — the ADC's reference is undefined.~~ On the spare board `PREAMP−` is grounded at the preamp through the DSUB2 splice. **Not over range after all:** span is ±10.24 V |
+| **Preamp box** shielding | ~~**REBUILT, unverified**~~ **Metered end to end 2026-09-15; bonded once to `AGND`** at the supply junction (2026-09-16) | All copper, seams soldered, one ground wire, 2026-09-06 |
+| DAC config stability | **FAIL** | All four DACs drop config roughly hourly. **2026-09-16:** about three hours powered in stretches, LED1–LED4 dark every time they were checked — **not a controlled test**, so not a retraction |
 | JP1 grounds | **FAIL on the old board, FIXED on the spare** | Pin 4 is one of **six** GND points left unconnected by the missing ground pour (fault 0d). **On the spare, four are now wired, verified 2026-09-14**; IC1 pin 8 is skipped by design (no-connect on an OPA627) and hole 4 is left empty. The spare uses hole 1 only |
 
 ---
 
 ## Open faults
 
-### 0. THE MEASUREMENT CHAIN IS BROKEN — fix this before anything else
+### 0. ~~THE MEASUREMENT CHAIN IS BROKEN — fix this before anything else~~ FIXED 2026-09-16
+
+> **Resolved on the repaired spare board:** `PREAMP−` grounded at the preamp through the DSUB2 splice;
+> the ADC reads the preamp at −1.7 counts; the dummy junction gives 320.5 counts per nA end to end.
+> **Everything below describes the old board and is kept as history.**
 
 **Found 2026-09-07 with a meter. This outranks every other fault in this file, because it is the
 instrument all the others were diagnosed with.**
