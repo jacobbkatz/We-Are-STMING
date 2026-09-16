@@ -331,8 +331,10 @@ near zero counts.**
 >
 > ## NEXT: name what made §3.2e noisy — twenty readings with the operator CLOSE
 >
-> 1. **Ask whether the soldering iron, or anything else on the bench, was on earlier and is off
->    now.** If so, that is a candidate in its own right.
+> 1. ~~**Ask whether the soldering iron, or anything else on the bench, was on earlier and is off
+>    now.**~~ **ANSWERED: the soldering iron was on during both noisy captures** (`SAID`, Jacob,
+>    2026-09-16) **and fits all four runs.** Leading candidate. **Also run the reverse test: iron on,
+>    in its stand where it was, operator a metre away**, and see whether the spread returns.
 > 2. **Power up with the steps at the top of this file.** After the LEDs go dark, **Jacob stands
 >    where Jacob stood during §3.2e**, near the scan head, **touching nothing.** Twenty `ADCR`.
 > 3. **Compare with 12.7 counts.** A jump toward 131 or 295 names the operator, and safety rule 9
