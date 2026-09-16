@@ -97,8 +97,8 @@ schematic's ADC sheet.
 
 | Node | Path to AGND | Confidence |
 |---|---|---|
-| **Preamp box shield** | One soldered ground wire, added 2026-09-06 | CONFIRMED it exists; **continuity across the box UNKNOWN — the acceptance test was never run** |
-| **Scan head shield cover** | Grounded at one point | **MEASURED** — `SAID` 2026-09-15, all shielding metered end to end. Was INFERRED from 2026-09-06 |
+| **Preamp box shield** | One soldered ground wire, added 2026-09-06. **Lands on the junction of the two supply channels, which is `AGND`** — `SAID` 2026-09-16, Jacob | CONFIRMED it exists; **continuity across the box UNKNOWN — the acceptance test was never run** |
+| **Scan head shield cover** | Grounded at one point. **Same landing: the supply channels' junction, `AGND`** — `SAID` 2026-09-16, Jacob. The two shields do not touch | **MEASURED** — `SAID` 2026-09-15, all shielding metered end to end. Was INFERRED from 2026-09-06 |
 | **DSUB1 shell** | **NONE.** Sits alone on its own net | CONFIRMED from netlist |
 | **DSUB2 shell** | **NONE.** Same | CONFIRMED |
 | **H1 pins 24, 26** | **NONE.** Each alone on its own net | CONFIRMED |

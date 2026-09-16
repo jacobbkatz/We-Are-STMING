@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-16 (the ADC chain works, mean −1.7 counts; next is the tip lead)
+**Last updated:** 2026-09-16 (tip lead and cover on, operator away: standard deviation 12.7 counts; next, repeat with the operator close to name the earlier noise)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -324,7 +324,23 @@ near zero counts.**
 > called "universal ground": **standard deviation 294.9 counts, against 131.5 without the cover.**
 > `sessions/2026-09-16-bench.md` §3.2e.
 >
-> ## NEXT: move each shield's ONE bond to `AGND`, then the same twenty readings
+> **SUPERSEDED THE SAME EVENING.** "Universal ground" is the junction of the two supply channels,
+> which **is** `AGND` — the bonds were already right. **With nothing changed but Jacob a metre away
+> after a break and a power cycle: standard deviation 12.7 counts, about 40 pA, mean −3.0.**
+> `sessions/2026-09-16-bench.md` §3.2g and §3.2h.
+>
+> ## NEXT: name what made §3.2e noisy — twenty readings with the operator CLOSE
+>
+> 1. **Ask whether the soldering iron, or anything else on the bench, was on earlier and is off
+>    now.** If so, that is a candidate in its own right.
+> 2. **Power up with the steps at the top of this file.** After the LEDs go dark, **Jacob stands
+>    where Jacob stood during §3.2e**, near the scan head, **touching nothing.** Twenty `ADCR`.
+> 3. **Compare with 12.7 counts.** A jump toward 131 or 295 names the operator, and safety rule 9
+>    becomes a hard rule for every capture. **No change** points at the room or the power cycle:
+>    then switch the suspect equipment on, standing away, and repeat.
+> 4. **Always capture with the operator a metre away** until this is settled.
+>
+> ## ~~NEXT: move each shield's ONE bond to `AGND`, then the same twenty readings~~ MOOT — already on `AGND`
 >
 > 1. **Find out what "universal ground" is.** If it is mains earth, that is the suspect.
 > 2. **Power down**: USB out, then supply off.

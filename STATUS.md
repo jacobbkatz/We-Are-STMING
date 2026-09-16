@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16 (paused, powered off; ADC chain works; tip lead passes; cover on with shields to "universal ground" made the spread worse, 294.9 counts; move shield bonds to AGND next)
+**Last updated:** 2026-09-16 (ADC chain works; tip lead passes; cover on, shields on AGND, operator a metre away: standard deviation 12.7 counts, about 40 pA; cause of the earlier noise not yet named)
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # THE ADC CHAIN WORKS. The preamp on the controller reads −1.7 counts — 2026-09-16
@@ -29,9 +29,20 @@ figure, cover off.** §3.2d.
 **Then the shield cover went on, with both shields bonded to what Jacob calls "universal ground" —
 and the spread MORE THAN DOUBLED, to 294.9 counts, about 0.9 nA.** Mean +69.3, not a significant
 change. Readings bunch near ±480, which is suggestive of mains hum. **"Universal ground" is
-undefined here; read as mains earth, NOT CONFIRMED.** **Leading suspect: shields bonded to a ground
+undefined here; read as mains earth, NOT CONFIRMED.** ~~**Leading suspect: shields bonded to a ground
 other than `AGND`, which injects hum rather than blocking it.** **Next: move each shield's one bond
-to `AGND` and repeat the twenty readings, operator a metre away.** §3.2e.
+to `AGND` and repeat the twenty readings, operator a metre away.**~~ §3.2e. **WRONG: Jacob confirmed
+"universal ground" is the junction of the two supply channels, which IS `AGND`.** The shields were
+bonded correctly all along.
+
+**THEN, after a break, SAME HARDWARE with Jacob a metre away: standard deviation 12.7 COUNTS, about
+40 pA, mean −3.0.** **The quietest capture of the night, and quieter than before the tip lead or the
+cover went on** — about 25 times below a 1 nA tunnelling current. **The first capture in the
+configuration the instrument will image in.** **Not yet a clean noise figure**: operator distance, a
+possible soldering iron left on earlier, a power cycle and the time of day all changed at once.
+**Next: the same twenty readings with Jacob standing close again**, to name the cause. Supply
+currents this power-up 0.056 A and 0.07 A, higher than expected and unexplained; LEDs dark at
+power-on for the first time. §3.2g, §3.2h.
 
 > ## 2026-09-16, later — FIRST CONTROLLER POWER-ON: ONE SUPPLY CHANNEL WENT INTO CURRENT LIMIT
 >
