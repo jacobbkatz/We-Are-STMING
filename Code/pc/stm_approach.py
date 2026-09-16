@@ -150,7 +150,13 @@ class Device(object):
         deadline = time.time() + timeout
         buf = b""
         while time.time() < deadline:
-            chunk = self._port.read(256)
+            # Read only what has arrived, or wait for ONE byte. Changed
+            # 2026-09-16: read(256) waited out the full 0.2 s port timeout on
+            # every call, because a GSTS reply is ~40 bytes, never 256. Measured
+            # 0.208 s per read on the bench, which made a two-way Z search take
+            # most of a minute per cycle.
+            waiting = getattr(self._port, "in_waiting", 0)
+            chunk = self._port.read(waiting if waiting else 1)
             if chunk:
                 buf += chunk
                 if buf.endswith(b"\n"):
@@ -269,15 +275,28 @@ class Approach(object):
     def _is_contact(self, value):
         return value is not None and abs(value - self.baseline) >= self.threshold
 
+    def _confirmed(self, first_value):
+        """Two more reads at the same Z; contact only if at least 2 of the 3
+        cross the threshold. Added 2026-09-16: the raw single conversions this
+        tool reads have shown isolated spikes of ~1000 counts on the bench, and
+        in unknown-direction mode one spike would be recorded as the Z
+        direction. Costs two reads, a few milliseconds, at a real contact."""
+        hits = 1 if self._is_contact(first_value) else 0
+        for _ in range(2):
+            if self._is_contact(self.dev.read_adc()):
+                hits += 1
+        return hits >= 2
+
     def _sweep_segment(self, z_from, z_to):
         """Step Z from z_from to z_to reading the ADC. Returns (z, value) at the
-        first contact, or None. Does NOT retract: the caller does, at once."""
+        first confirmed contact, or None. Does NOT retract: the caller does, at
+        once."""
         for z in z_sweep_points(z_from, z_to, self.z_step):
             self.dev.set_z(z)
             value = self.dev.read_adc()
             if value is None:
                 continue  # a malformed reply is not evidence of anything
-            if self._is_contact(value):
+            if self._is_contact(value) and self._confirmed(value):
                 return z, value
         return None
 
@@ -303,7 +322,7 @@ class Approach(object):
         # Z left at midscale and say so.
         self.dev.set_z(Z_PARK)
         value = self.dev.read_adc()
-        if self._is_contact(value):
+        if self._is_contact(value) and self._confirmed(value):
             self.found = True
             self.found_at = (Z_PARK, value)
             return Z_PARK

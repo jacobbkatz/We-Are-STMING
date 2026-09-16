@@ -519,6 +519,26 @@ class TestUnknownZDirection(unittest.TestCase):
             app.run()
         self.assertEqual(scope.z, A.Z_PARK, "must fall back to midscale")
 
+    def test_a_single_noise_spike_is_not_contact(self):
+        """One glitched read above threshold must not be taken as contact --
+        in this mode it would also be recorded as the Z direction."""
+        for spike_at in (40, 41, 150, 333):
+            scope = FakeScope(gap=10**9)
+            real_read = scope.read_adc
+            calls = {"n": 0}
+
+            def spiky_read():
+                calls["n"] += 1
+                value = real_read()
+                return value + 5000 if calls["n"] == spike_at else value
+
+            app = self._unknown(scope, max_steps=4)
+            app.measure_baseline(n=5)
+            app.threshold = 2000
+            scope.read_adc = spiky_read
+            self.assertFalse(app.run(), "spike at read %d taken as contact" % spike_at)
+            self.assertIsNone(app.z_toward_sample)
+
     def test_one_z_end_without_the_other_rejected(self):
         with self.assertRaises(ValueError):
             make_approach(FakeScope(), z_retracted=A.Z_MIN, z_extended=None)
