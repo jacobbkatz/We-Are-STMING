@@ -347,6 +347,24 @@ near zero counts.**
 > is significant, so **iron off for every capture that matters.** `sessions/2026-09-16-bench.md`
 > §3.2j and §3.2k.
 >
+> ## THEN: THE DUMMY JUNCTION TEST — blocked on clips, 2026-09-16
+>
+> **The payoff test, planned since 2026-08-31 and never run.** Procedure: `sessions/2026-09-06-plan.md`
+> Block F, with the commands sent from Claude and `py` in place of `python` on Jacob's machine.
+>
+> **Needs, and not confirmed in the room:** **a resistor of 100 MΩ or more** (anything up to about
+> 1 GΩ; **never 1 MΩ**, which overloads the preamp), and **clip leads or mini-grabbers** — **none
+> owned** (`docs/INVENTORY.md`). **Also ask whether the sample holder is still wired to the black
+> `BIAS` wire**; if not, the resistor goes to that wire's bare end.
+>
+> **Order:** powered off; handle the resistor by its leads only, gloved; one lead gently to the tip
+> holder with no pull on the piezo or the tip lead; the other to the sample holder or black wire;
+> nothing else touching. **Power up, `RSET`, `DACZ 32768`, LEDs dark**, then `BIAS` at 32768, 40000,
+> 50000, 25000, 15000 and back to 32768, **five `ADCR` at each.** With 100 MΩ, expect about **3,200
+> counts per volt at the sample holder**: roughly 2,100 counts at 40000 and 5,000 at 50000, with the
+> sign to be measured. **`RSET` alone puts about +3 V on the sample holder**, about 9,600 counts with
+> 100 MΩ, which is inside the range.
+>
 > ## NEXT SESSION: first capture of the day, before any soldering
 >
 > **Leading candidate for the earlier noise: the freshly soldered, IPA-cleaned input node still drying
