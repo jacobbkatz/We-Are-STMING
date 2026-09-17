@@ -273,7 +273,7 @@
 <div class="wide hero">
   <div class="panel">
     <div class="masthead">
-      <p class="kicker">Build state &middot; 16 September 2026 &middot; day 19</p>
+      <p class="kicker">Build state &middot; 16 September 2026 &middot; bring-up day 19</p>
       <h1>We Are STMing</h1>
       <p class="standfirst">Two people, neither of whom writes code, are building a microscope that
       sees at the scale of <strong>single atoms</strong> &mdash; out of a 3D printer, a hobby
@@ -628,16 +628,46 @@
 <!-- ====================== STORY ====================== -->
 <section><div class="col">
   <p class="eyebrow">09 &mdash; how we got here</p>
-  <h2>Nineteen days</h2>
-  <p>Every working session is written up the same night &mdash; the measurements, the dead ends, and
-  what was ruled out. <strong>The two best days were the two where we found out we had been
-  wrong.</strong></p>
+  <h2>Eleven weeks of building, nineteen days of switching on</h2>
+  <p>The instrument was <strong>designed, printed, ordered and wired before a single volt went
+  through it.</strong> At the first power-up the build notes record the hardware as &ldquo;fully
+  built and wired&rdquo; &mdash; everything after that date is bring-up.</p>
+  <p>Every working session since is written up the same night &mdash; the measurements, the dead
+  ends, and what was ruled out. <strong>The two best days were the two where we found out we had
+  been wrong.</strong></p>
 
   <div class="timeline">
 
-    <div class="ev"><div class="when">29 Aug</div><div>
-      <h4>First power-on</h4>
-      <p>The controller board is assembled and characterised.</p></div></div>
+    <div class="ev"><div class="when">3 Jul</div><div>
+      <h4>The parts go to the printer</h4>
+      <p>The five print plates are sliced &mdash; frame, scan head, isolation stack, enclosures. They
+      specify carbon-filled nylon, which proves too difficult to print reliably at these tolerances;
+      carbon-filled PETG is what actually gets built.</p></div></div>
+
+    <div class="ev"><div class="when">5 Jul</div><div>
+      <h4>The amplifier board goes to manufacture</h4>
+      <p>Manufacturing files generated for the preamplifier &mdash; a board 20&nbsp;mm long carrying
+      six components. <strong>The missing ground layer that would cost two weeks in September is
+      already in these files</strong>, and nobody would find it for another ten weeks.</p></div></div>
+
+    <div class="ev"><div class="when">2 Aug</div><div>
+      <h4>Parts ordering</h4>
+      <p>Components on order. Among them a PTFE standoff for the amplifier's input node &mdash; which
+      would turn out, six weeks later, to be the wrong part number and not fit the board at
+      all.</p></div></div>
+
+    <div class="ev"><div class="when">Mid-Aug</div><div>
+      <h4>Printed, populated, wired</h4>
+      <p>Print material settled at carbon-filled PETG. Five controller boards come back assembled
+      from the fab at about $64 each, and the amplifier boards come back populated. The scan head,
+      the isolation platform and every connection go together <strong>by hand, by two people who had
+      never soldered before this project.</strong></p></div></div>
+
+    <div class="ev turn"><div class="when">29 Aug</div><div>
+      <h4>The first volt</h4>
+      <p><strong>Nothing had ever been powered before this day.</strong> Months of printing,
+      ordering, soldering and wiring, and then the real question &mdash; does any of it work? &mdash;
+      gets asked for the first time. The controller board comes up and is characterised.</p></div></div>
 
     <div class="ev"><div class="when">31 Aug</div><div>
       <h4>One thing works, two things don't</h4>
@@ -691,6 +721,11 @@
       looking for the surface.</p></div></div>
 
   </div>
+
+  <p class="sub" style="margin-top:20px"><strong>The record starts on 3 July</strong>, because that is
+  the earliest dated file in the repository. <strong>The design, the research and the CAD work came
+  before that and is not dated anywhere</strong> &mdash; so rather than guess, this page begins where
+  the evidence does.</p>
 </div></section>
 
 <div class="wide"><div class="divider"></div></div>
@@ -774,7 +809,7 @@
   actually goes.</p>
 
   <footer>
-    <p class="meta">Build state 16 September 2026 &middot; page revised 17 September &middot; 16 session logs &middot; 7 of 7 stages passing</p>
+    <p class="meta">Build state 16 September 2026 &middot; page revised 17 September &middot; building since July &middot; 16 session logs &middot; 7 of 7 stages passing</p>
     <p>Built by Jacob and Nuh Shaheer. The full build log &mdash; every measurement, every mistake
     &mdash; is at <a href="https://github.com/jacobbkatz/We-Are-STMING">github.com/jacobbkatz/We-Are-STMING</a>.
     This page is assembled from that repository; where the two disagree, the repository is right.</p>
