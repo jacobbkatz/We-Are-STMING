@@ -113,8 +113,9 @@
 <header>
   <p class="eyebrow">Bench card &middot; for 17 September 2026 &middot; unpowered work</p>
   <h1>Gold leaf onto copper tape, copper tape onto the plate</h1>
-  <p class="lede">Everything here is done with the power <b>off</b> and the sample plate
-  <b>off the instrument</b>. Nothing in this card can damage anything electrically. The two things
+  <p class="lede"><b>Parts 0 and 1 are two quick tests that decide whether the rest is worth
+  doing</b> &mdash; is the leaf really gold, and does the copper tape's glue conduct. Everything here
+  is done with the power <b>off</b> and the sample plate <b>off the instrument</b>. Nothing in this card can damage anything electrically. The two things
   you can lose are the gold leaf and the tip &mdash; and both are protected by doing the work on the
   bench rather than on the microscope.</p>
 </header>
@@ -156,9 +157,14 @@
   <li><b>Copper tape</b>
     <span class="q">UNKNOWN: whether ours has conductive adhesive. Part 1 settles it.</span></li>
   <li><b>The gold leaf</b>
-    <span class="q">UNKNOWN: how much you have, and whether it is loose leaf or transfer (backed)
-    leaf. Check before you start &mdash; you want at least two pieces' worth, because the first one
-    may tear.</span></li>
+    <span class="q">You have <b>four 1-inch squares</b> (Jacob, 17 Sept). That is about 100 usable
+    5 mm pieces &mdash; spend them freely. Still UNKNOWN: whether it is real gold at all, and whether
+    it is loose or backed. Part 0 settles the first.</span></li>
+  <li><b>A lighter</b>, steel tweezers and a ceramic tile &mdash; for Part 0</li>
+  <li><b>Household bleach and white vinegar</b>, if you want the chemical confirmation. <b>Never the
+  two together, and never either one near the microscope</b></li>
+  <li><b>The sharpest scissors you own</b>, or a fresh scalpel and a steel rule.
+    <span class="q">Blunt scissors are the single most common reason a piece of leaf is ruined.</span></li>
   <li><b>A sheet of clean white paper</b> to work on, and a phone to photograph the plate before you
   remove it</li>
 </ul>
@@ -168,6 +174,94 @@
 off any fan, and <b>do not talk over it or breathe on it.</b> Turn the soldering iron off and let it
 cool &mdash; you will not need it unless Part 1 fails, and a hot iron near gold leaf is a good way
 to lose the leaf to convection.</p>
+
+<h2><span class="n">Part 0</span>Prove it is actually gold <span style="font-family:var(--mono);font-size:.62em;color:var(--ink-soft)">10 MIN &middot; AWAY FROM THE INSTRUMENT</span></h2>
+
+<div class="why"><b>Why it matters, and it is not vanity.</b> Gold is the standard sample for this
+<i>because it does not oxidise</i> &mdash; a clean gold surface stays conductive in air forever.
+<b>Imitation leaf &mdash; sold as Dutch metal, composition leaf or schlagmetal &mdash; is brass</b>,
+copper and zinc. Brass grows a tarnish layer within days, <b>and that layer is an electrical
+insulator</b>. You would be trying to tunnel through a film that does not conduct, on a surface that
+keeps changing. <b>It would not stop you getting contact, but it would make every image
+untrustworthy.</b></div>
+
+<div class="danger">
+  <h3>Chemical safety &mdash; three hard rules</h3>
+  <p><b>1. Never mix bleach with any acid, or with ammonia.</b> Bleach plus acid makes chlorine gas.
+  Bleach plus ammonia makes chloramine. Both are genuinely dangerous in a small room.</p>
+  <p><b>2. Never make aqua regia</b> &mdash; nitric plus hydrochloric acid. It is the one mixture
+  that <i>does</i> dissolve gold, so it cannot tell you anything, and it releases chlorine and
+  nitrosyl chloride while it does it. <b>There is no reason to make it for this test, ever.</b></p>
+  <p><b>3. Do every chemical test in a different room from the microscope</b>, and wash your hands
+  and tools before you go back to it. <b>Acid mist, chloride and dissolved metal salts are exactly
+  the contamination that makes an amplifier input leak</b> &mdash; and this project has already lost
+  two weeks to a leaking input once.</p>
+</div>
+
+<h3>Test 1 &mdash; the flame test. Do this one. No chemicals at all.</h3>
+
+<ol class="steps">
+  <li><b>Take a scrap of leaf</b> about 2&ndash;3 mm &mdash; a torn corner is perfect. <b>Not a
+  whole sheet.</b></li>
+  <li><b>Hold it in the steel tweezers</b>, over a ceramic tile or a sink, <b>away from the gold
+  leaf book</b> (the tissue pages are flammable) and away from the instrument.
+    <p>Open a window. The quantities are tiny but brass gives off zinc oxide smoke.</p></li>
+  <li><b>Pass a lighter flame over it for one or two seconds.</b> Do not hold it in the flame and
+  walk away.</li>
+  <li><b>Read the result immediately.</b>
+    <div class="expect">
+      <div class="exp"><span class="what"><b>Stays bright yellow.</b> May shrink or ball up. Does not
+      darken &mdash; <b>that is real gold</b></span><span class="chip beep">Gold</span></div>
+      <div class="exp"><span class="what"><b>Goes black or brown within a second</b>, possibly a green
+      flash and a wisp of white smoke &mdash; <b>that is brass</b></span><span class="chip stop">Not gold</span></div>
+    </div>
+    <p><b>Why it works:</b> copper oxidises to black copper oxide at a few hundred degrees, long
+    before anything melts. Gold does not oxidise at any temperature. <b>The colour change is the
+    answer, not whether it melts.</b></p></li>
+</ol>
+
+<p><b>If the leaf blows out of the tweezers</b>, lay the scrap on a ceramic tile instead and bring
+the flame down onto it.</p>
+
+<h3>Test 2 &mdash; bleach spot test. Safe, and a good second opinion.</h3>
+
+<ol class="steps">
+  <li><b>Put a scrap on a glass saucer or a white tile.</b></li>
+  <li><b>One drop of ordinary household bleach on it.</b> Gloves on.</li>
+  <li><b>Watch for five minutes.</b>
+    <div class="expect">
+      <div class="exp"><span class="what">Unchanged, still bright &mdash; <b>gold</b></span>
+        <span class="chip beep">Gold</span></div>
+      <div class="exp"><span class="what">Darkens, dulls or goes patchy &mdash; <b>brass</b></span>
+        <span class="chip stop">Not gold</span></div>
+    </div></li>
+  <li><b>Rinse it away with plenty of water</b> and wash your hands.</li>
+</ol>
+
+<h3>Test 3 &mdash; vinegar and salt. The gentlest thing that works.</h3>
+<p>A good pinch of table salt stirred into white vinegar makes a weak acid. A drop on a scrap will
+<b>dull and etch brass over ten to thirty minutes</b>, sometimes turning faintly blue-green as
+copper dissolves. <b>Gold is untouched.</b> Slower and less dramatic than the flame, and completely
+safe.</p>
+
+<h3>Test 4 &mdash; nitric acid. The jeweller's standard. Only if you already handle nitric.</h3>
+
+<div class="gate">
+  <h3>Read before you reach for the nitric</h3>
+  <p><b>This is the textbook test and it is completely decisive:</b> one drop of concentrated nitric
+  acid on a scrap. <b>Brass fizzes, dissolves and turns the drop green-blue, giving off brown
+  fumes. Gold does nothing whatsoever</b> &mdash; that is what "the acid test" means.</p>
+  <p><b>The hazard is the brown fumes.</b> That is nitrogen dioxide. It is acutely toxic, and the
+  serious effect &mdash; fluid on the lungs &mdash; <b>can be delayed for hours after you feel
+  fine.</b> It needs to be done outdoors or under real extraction, with splash goggles, and with
+  gloves rated for nitric acid &mdash; <b>ordinary nitrile is attacked by concentrated nitric.</b></p>
+  <p><b>The flame test gives you the same answer in two seconds with none of this.</b> Only use
+  nitric if you are already set up for it and want the confirmation.</p>
+</div>
+
+<div class="why"><b>Whatever the answer, write it down.</b> If it is brass, that is a real finding
+and it changes the plan &mdash; not a failure. <b>Tell me the result and I will record it in
+<code>docs/INVENTORY.md</code>, where it should have been all along.</b></div>
 
 <h2><span class="n">Part 1</span>Does the copper tape's glue conduct? <span style="font-family:var(--mono);font-size:.62em;color:var(--ink-soft)">5 MIN</span></h2>
 
@@ -263,6 +357,61 @@ plate to come off anyway.</div>
 firmly held and electrically joined. <b>You do not need the whole plate covered and you do not need
 it perfect.</b> The tip will look at an area smaller than a full stop. One good flat patch beats a
 big wrinkled sheet.</div>
+
+<div class="gate">
+  <h3>The sheet is far bigger than you need &mdash; and that is the easy problem, not the hard one</h3>
+  <p><b>Work out how small you can go.</b> The scanner's whole range is <b>about 0.5 micrometres
+  across</b> &mdash; roughly a hundred-and-fortieth of the width of a human hair. <b>A 5 mm square of
+  gold is already ten thousand times wider than anything the tip will ever look at.</b></p>
+  <p><b>You have four one-inch squares left, and that is not four attempts. It is about a
+  hundred.</b> A one-inch square is 25 mm, so it cuts into <b>five by five = 25 pieces</b> of 5 mm.
+  Four squares is <b>roughly 100 usable pieces.</b> <b>Spend them freely</b> &mdash; the expensive
+  thing tomorrow is your patience, not the gold.</p>
+</div>
+
+<h3>Getting a small piece &mdash; two ways, and both beat cutting loose leaf</h3>
+
+<p><b>The mistake is trying to cut a free-floating sheet.</b> Unsupported leaf has no strength at
+all; scissors crumple it and tweezers tear it. <b>Never cut leaf that is not sandwiched between
+something.</b></p>
+
+<h4>Way 1 &mdash; sandwich a square and cut through it. Do this first.</h4>
+<ol class="steps">
+  <li><b>Take ONE square out. Leave the other three sealed</b> where they are.
+    <p>You are about to get 25 pieces out of this one. There is no reason to expose the rest.</p></li>
+  <li><b>Lay it between two sheets of clean paper</b> &mdash; printer paper is fine, baking parchment
+  is better. If the squares came interleaved with tissue, <b>use that tissue and do not remove
+  it.</b>
+    <p>You now have a paper-gold-paper sandwich. <b>Handle only the paper from here on.</b></p></li>
+  <li><b>Cut the whole sandwich into strips</b> about 5 mm wide, with your sharpest scissors.
+    <p>You are cutting paper, gold, paper together. <b>Blunt scissors crush and drag; sharp ones
+    shear cleanly.</b> A fresh scalpel against a steel rule on glass is even better.</p></li>
+  <li><b>Cut the strips into squares</b>, the same way. <b>Leave them in the sandwich</b> until the
+  moment each one is used.
+    <p>Slide one out by tilting the paper, or peel the top sheet off just that one piece.</p></li>
+</ol>
+
+<h4>Way 2 &mdash; gold the tape first, then cut the tape. Best for a precise final size.</h4>
+<div class="why"><b>The trick:</b> gold that is stuck down to copper is <i>supported</i>, and
+supported gold cuts like paper. <b>So do the delicate part on an oversized piece where mistakes do
+not matter, then cut the result down.</b></div>
+<ol class="steps">
+  <li><b>Cut a piece of copper tape about 15 mm square</b> and <b>lay it back onto its own backing
+  paper</b>, copper side up.
+    <p>The backing is designed to release cleanly, so it makes a perfect temporary work surface.</p></li>
+  <li><b>Put the gold onto that copper</b> by whichever method below suits your leaf, and burnish it
+  down. <b>Do not worry about the edges</b> &mdash; you are going to cut them off.</li>
+  <li><b>Cut the gold-on-copper down to 3&ndash;5 mm</b> with sharp scissors, choosing the flattest,
+  cleanest region to keep.</li>
+  <li><b>Peel it off the backing and stick it onto the plate.</b>
+    <p>You now have a small, flat, pre-made gold sample with its own adhesive &mdash; and you never
+    had to handle bare leaf at final size.</p></li>
+</ol>
+
+<h3>Keeping static under control</h3>
+<p>Gold leaf jumps to anything charged. <b>Use metal tweezers and paper, not plastic tools</b>, do
+not work in a fleece, and if the room is very dry a bowl of hot water nearby for ten minutes helps
+more than you would expect. <b>Cut on glass or a ceramic tile</b>, not on paper that sheds fibres.</p>
 
 <h3>Handling gold leaf &mdash; read before you open the book</h3>
 <p>It is about a ten-thousandth of a millimetre thick. It tears if you look at it wrong, it will

@@ -96,6 +96,20 @@ fitted" line and by Jacob 2026-09-09.
 
 ---
 
+### Sample material — added 2026-09-17
+
+| What | Qty | How we know | Notes |
+|---|---|---|---|
+| **Gold leaf** | **4 squares, about 1 inch each** | `SAID` 2026-09-17, Jacob: *"I have 4 inch by inch squares left pretty much"* | **Whether it is real gold or imitation (brass "Dutch metal") is UNKNOWN and has never been tested.** It matters: gold does not oxidise, brass grows an insulating tarnish within days. **Test in `docs/gold_leaf_procedure.html` Part 0** — a flame test settles it in two seconds with no chemicals. **Whether it is loose leaf or transfer (backed) leaf is also UNKNOWN** |
+
+> **Four squares is not four attempts.** A 1-inch square is 25 mm, so it cuts into 5 × 5 = **25
+> pieces of 5 mm**, and the scanner's whole range is **0.5 µm** — a 5 mm piece is ten thousand times
+> wider than anything the tip ever sees. **The budget is roughly 100 usable pieces.**
+
+| **Copper tape** | — | `BENCH` — it is visibly on the sample plate, the scan head and the preamp box in the 2026-09-16 photographs | **Whether its adhesive is conductive is STILL UNKNOWN**, open since 2026-09-09 and now blocking. **If it is not conductive the gold carries no bias and no tunnelling current can exist.** `docs/gold_leaf_procedure.html` Part 1 tests it in five minutes |
+
+---
+
 ## Known gaps
 
 **Recorded here rather than guessed.** Also in `docs/OPEN_QUESTIONS.md`.

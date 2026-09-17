@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-17 — code-only session. Gold leaf bench card written; **new fault 6: the approach tool's Z sweep is ~10x too coarse to stop in tunnelling.** Instrument unchanged and still powered down, screw at +6144 steps
+**Last updated:** 2026-09-17 — code-only session. Gold leaf bench card written, now covering **whether the leaf is real gold** and **how to cut it to size**; **new fault 6: the approach tool's Z sweep is ~10x too coarse to stop in tunnelling.** Instrument unchanged and still powered down, screw at +6144 steps
 **Updated by:** Jacob, with Claude Code **on the web** — a cloud session with **no hardware attached**. Nothing in this update was measured; fault 6 is arithmetic on figures already in this repository. The last machine that could reach the Teensy was Jacob's Windows machine on 2026-09-16.
 
 # A PUBLIC PROGRESS PAGE NOW EXISTS — 2026-09-16
