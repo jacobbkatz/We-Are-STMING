@@ -28,7 +28,16 @@ Z clamped and a retract on every exit. **It holds the current to about 0.06 of a
 images of the same patch show no reproducible structure** — trace against retrace r = 0.00 to 0.09,
 image against image −0.09 to +0.27. **An apparent r = +0.75 between two earlier images was the
 loop's settling transient on the first line of each**, and vanished when that line was dropped.
-**The one reproducible thing is a tilt: −0.17 counts of Z per count of X.** `STATUS.md` fault 6's
+**The one reproducible thing is a tilt: −0.17 counts of Z per count of X.**
+
+**WHY, tested rather than guessed.** A control run with **identical timing but X never moving**
+produced MORE apparent structure than a real scan, and **the same line scanned ten times running
+correlates at +0.11 with itself.** A noise spectrum settles the cause: with no junction the
+electronics are flat white noise at 8-14 counts, and **with a junction everything extra sits below
+about 30 Hz — 353 counts at 5 Hz — with no peak at 60 or 120 Hz.** **It is mechanical, not
+electrical.** **The electronics, the software and the feedback are not what stands between this
+instrument and an image: a rigid tip holder, a sharper tip and damping at 5-20 Hz are.**
+`sessions/2026-09-17-bench.md` §3.24. `STATUS.md` fault 6's
 concern about Z resolution is not what stopped it; the tip holder and the drift are.
 
 **What is NOT established: whether this is vacuum tunnelling or contact through something soft.** The

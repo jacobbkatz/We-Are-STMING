@@ -34,8 +34,11 @@ history:**
    junction is vacuum tunnelling or a pressed contact. `docs/OPEN_QUESTIONS.md`.
 2. **Decide about `CCON`** — safety rule 8. The drift is what stops an image, feedback is the
    designed answer, and the firmware fix passed its bench test on 2026-09-16.
-3. **Decide about the tip holder.** `SAID`: it bends to any touch. It makes the meter method
-   unreliable and is a prime suspect for the junction's instability.
+3. **The tip holder and the mechanics — this is now the top engineering job.** `SAID`: the holder
+   bends to any touch. **Tested 2026-09-17: the junction is shaken at 5-20 Hz, and a control scan
+   with X never moving produced as much apparent structure as a real one.** The electronics are flat
+   white noise by comparison. **A rigid holder, a sharper tip and damping at 5-20 Hz are what stand
+   between this instrument and an image** — not the preamp, the ADC, the loop or the software.
 4. **A fresh, sharper tip** once the mechanics are settled. Tonight's has taken several hard contacts.
 5. **Then approach:** `py Code/pc/stm_approach.py --z-retracted low --motor-toward-sample negative
    --motor-step 5 --max-steps 600 --z-step 200 -y`, operator a metre away, iron off. **Confirm any
