@@ -1,6 +1,6 @@
 # Current status
 
-**Last updated:** 2026-09-16, 21:55 UTC wrap (first approach attempt, no contact; screw left at +6144 steps from the hand-set start; powered down)
+**Last updated:** 2026-09-17 — code-only session. Gold leaf bench card written; **new fault 6: the approach tool's Z sweep is ~10x too coarse to stop in tunnelling.** Instrument unchanged and still powered down, screw at +6144 steps
 **Updated by:** Jacob, with Claude Code desktop on Jacob's Windows machine.
 
 # A PUBLIC PROGRESS PAGE NOW EXISTS — 2026-09-16
@@ -1046,6 +1046,40 @@ It was recorded as: with 11.9 V on its input the ADC should be pinned at 32767, 
 **Full scale is ±10.24 V.** So ~29,500 counts is **9.22 V**, PAD1 is 11.905 V, and `PREAMP-` sits
 at about **2.7 V** — which is what the meter read. **Nothing is saturated and nothing is over
 range.** The "about 13 V" estimate was the right instinct pointing at a constant that was wrong.
+
+---
+
+### 6. The approach tool's Z sweep steps over the tunnelling regime — NEW 2026-09-17, a tip hazard
+
+**Found by arithmetic, not at the bench. Nothing was measured; every number below is already in this
+repository.**
+
+`Code/pc/stm_approach.py` ships `DEFAULT_Z_STEP = 200` counts, and the 2026-09-16 approach ran at
+that default. **200 counts is 2.08 nm of tip travel per sample point.**
+
+The window in which a tunnelling current is both above the noise floor and below the contact
+threshold used that night is **0.21 nm wide** — 12.7 counts of noise is 0.040 nA, the threshold was
+4.7 nA, that is 2.07 decades, and tunnelling current moves about a decade per 0.1 nm.
+
+**So the sweep takes 0.10 samples inside the window it has to detect.** About **one approach in ten**
+lands a reading in tunnelling range. **The other nine go from no current to contact between two
+consecutive samples** — the tool's first sight of any current would be a tip that has already
+touched the surface.
+
+**The fix is a flag that already exists, not a code change: `--z-step 5`** gives 0.052 nm per point
+and about four samples inside the window, costing about 3.3 s per half sweep at the 0.5 ms read time
+measured on 2026-09-16. **`docs/NEXT_SESSION_PLAN.md` step 6 now carries it.**
+
+**This does NOT explain the 2026-09-16 failure** — that found nothing at all, and this fault would
+produce a crash rather than silence. **It is waiting for the first approach that does reach the
+surface.**
+
+**One assumption is load-bearing and is INFERRED, not measured:** 0.0104 nm per DAC count comes from
+Berard's 34 nm/V disc, not our scanner (`docs/FACTS.md`). If ours is *less* sensitive the problem
+shrinks, but the Z half-sweep of 341 nm shrinks with it and must stay above one motor step
+(38.8–77.5 nm) — checked, and it holds unless our scanner is more than about 4x less sensitive. If
+ours is *more* sensitive, this is worse than stated. **Measuring our own nm per volt would settle
+it.** Full working: `sessions/2026-09-17.md` §3.1.
 
 ---
 

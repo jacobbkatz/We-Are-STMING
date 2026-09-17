@@ -1,0 +1,381 @@
+<title>Gold Leaf Bench Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+  :root {
+    --ground: #E9ECEA; --surface: #FFFFFF; --ink: #141A18; --ink-soft: #57625E; --rule: #CFD6D2;
+    --probe: #C3281F; --probe-bg: #FBEDE9; --probe-edge: #E3AD9C;
+    --beep: #1D7A4B; --beep-bg: #E2EFE8; --beep-edge: #A9CDB9;
+    --warn: #9A5B00; --warn-bg: #FFF6E4; --warn-edge: #E0C48D;
+    --chip-bg: #DFE5E2; --sunk: #E1E6E3;
+    --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #97A39E; --rule: #2A3430;
+    --probe: #FF5A4C; --probe-bg: #2C1712; --probe-edge: #6B3324;
+    --beep: #53C98F; --beep-bg: #14291F; --beep-edge: #2B5240;
+    --warn: #E3A64A; --warn-bg: #2A2313; --warn-edge: #5C4A22;
+    --chip-bg: #1F2724; --sunk: #121817;
+    color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #97A39E; --rule: #2A3430;
+    --probe: #FF5A4C; --probe-bg: #2C1712; --probe-edge: #6B3324;
+    --beep: #53C98F; --beep-bg: #14291F; --beep-edge: #2B5240;
+    --warn: #E3A64A; --warn-bg: #2A2313; --warn-edge: #5C4A22;
+    --chip-bg: #1F2724; --sunk: #121817;
+    color-scheme: dark; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body);
+    font-size: 17px; line-height: 1.6; padding-inline: 16px; padding-block: 0 72px; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  p { margin: 0 0 12px; }
+  code { font-family: var(--mono); font-size: .9em; }
+
+  header { padding-block: 30px 6px; display: grid; gap: 10px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--ink-soft); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 6vw, 2.9rem);
+    line-height: 1.02; margin: 0; letter-spacing: -.012em; text-wrap: balance; }
+  .lede { margin: 0; color: var(--ink-soft); font-size: 1.05rem; }
+
+  h2 { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin: 38px 0 4px;
+    padding-top: 18px; border-top: 2px solid var(--rule); letter-spacing: -.005em; }
+  h2 .n { font-family: var(--mono); font-size: .62em; font-weight: 700; color: var(--ink-soft);
+    display: block; letter-spacing: .1em; margin-bottom: 3px; }
+  h3 { font-size: 1.05rem; margin: 22px 0 4px; }
+
+  .why { background: var(--sunk); border-radius: 10px; padding: 16px 18px; margin: 16px 0;
+    font-size: 15.5px; color: var(--ink-soft); }
+  .why b { color: var(--ink); }
+
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 18px 0; display: grid; gap: 10px; }
+  ol.steps > li { counter-increment: s; background: var(--surface); border: 1px solid var(--rule);
+    border-radius: 10px; padding: 14px 16px 14px 52px; position: relative; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 14px; top: 13px;
+    font-family: var(--mono); font-weight: 700; font-size: 15px; color: var(--ink-soft);
+    background: var(--chip-bg); width: 26px; height: 26px; border-radius: 50%;
+    display: grid; place-items: center; }
+  ol.steps > li > b:first-child { display: block; margin-bottom: 2px; }
+  ol.steps p { margin: 4px 0 0; font-size: 15.5px; color: var(--ink-soft); }
+  ol.steps p b, ol.steps li b { color: var(--ink); }
+
+  .chip { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 5px; white-space: nowrap;
+    border: 1px solid transparent; display: inline-block; }
+  .chip.beep { background: var(--beep-bg); color: var(--beep); border-color: var(--beep-edge); }
+  .chip.silent { background: var(--chip-bg); color: var(--ink-soft); border-color: var(--rule); }
+  .chip.stop { background: var(--probe-bg); color: var(--probe); border-color: var(--probe-edge); }
+
+  .expect { margin: 12px 0 0; display: grid; gap: 8px; }
+  .exp { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: center;
+    background: var(--sunk); border-radius: 8px; padding: 10px 13px; font-size: 15px; }
+  .exp .what b { color: var(--ink); }
+  @media (max-width: 460px) { .exp { grid-template-columns: minmax(0,1fr); gap: 6px; }
+    .exp .chip { justify-self: start; } }
+
+  .danger { background: var(--probe-bg); border: 2px solid var(--probe-edge); border-radius: 10px;
+    padding: 16px 18px; margin: 18px 0; }
+  .danger h3 { margin: 0 0 6px; color: var(--probe); font-family: var(--display);
+    font-weight: 700; font-size: 1.2rem; }
+  .danger p { margin: 0 0 8px; font-size: 15.5px; }
+  .danger p:last-child { margin-bottom: 0; }
+
+  .gate { background: var(--warn-bg); border: 2px solid var(--warn-edge); border-radius: 10px;
+    padding: 16px 18px; margin: 18px 0; }
+  .gate h3 { margin: 0 0 6px; color: var(--warn); font-family: var(--display);
+    font-weight: 700; font-size: 1.2rem; }
+  .gate p { margin: 0 0 8px; font-size: 15.5px; }
+  .gate p:last-child { margin-bottom: 0; }
+
+  ul.kit { list-style: none; padding: 0; margin: 14px 0; display: grid; gap: 6px; }
+  ul.kit li { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+    padding: 10px 14px; font-size: 15.5px; }
+  ul.kit li b { color: var(--ink); }
+  ul.kit li .q { display: block; font-size: 13.5px; color: var(--warn); margin-top: 2px; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 15px; margin: 14px 0; }
+  th, td { text-align: left; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--rule);
+    vertical-align: top; }
+  th { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ink-soft); }
+
+  footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule);
+    font-size: 14px; color: var(--ink-soft); }
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Bench card &middot; for 17 September 2026 &middot; unpowered work</p>
+  <h1>Gold leaf onto copper tape, copper tape onto the plate</h1>
+  <p class="lede">Everything here is done with the power <b>off</b> and the sample plate
+  <b>off the instrument</b>. Nothing in this card can damage anything electrically. The two things
+  you can lose are the gold leaf and the tip &mdash; and both are protected by doing the work on the
+  bench rather than on the microscope.</p>
+</header>
+
+<div class="danger">
+  <h3>Read this first &mdash; it may be why the last approach found nothing</h3>
+  <p><b>The gold has to be electrically joined to the bias wire, or no tunneling current can
+  ever flow</b> &mdash; the tip would come down, touch, and read nothing. That is one of the four
+  untested explanations for the failed approach on 16 September.</p>
+  <p><b>The weak link is the glue on the copper tape.</b> Some copper tape has conductive adhesive
+  and some does not. <b>Ours has never been checked</b> &mdash; it is an open question in
+  <code>docs/INVENTORY.md</code>. If the glue does not conduct, the gold sits on an island: it looks
+  perfect, meters fine to itself, and is electrically connected to nothing.</p>
+  <p><b>That is what Part 1 tests, and it takes five minutes. Do it before you touch the gold.</b></p>
+</div>
+
+<div class="gate">
+  <h3>Two hard rules for this job</h3>
+  <p><b>1. No superglue. None. Not near the plate, not in the room with the amplifier open.</b>
+  Cyanoacrylate vapour travels and settles on the amplifier's input, and that is the part that took
+  two weeks to fix. Standing safety rule 5. If something needs sticking, it is copper tape or
+  nothing.</p>
+  <p><b>2. Loose gold flakes are conductive dust.</b> A flake that lands on the tip holder or the
+  amplifier bridges things that must stay apart. Work away from the scan head, on a sheet of paper
+  you can fold up and bin afterwards.</p>
+</div>
+
+<h2><span class="n">Kit</span>What to have on the table</h2>
+
+<ul class="kit">
+  <li><b>Your multimeter, set to continuity</b> (the setting with the sound-wave symbol, that beeps)</li>
+  <li><b>Fine tweezers</b> &mdash; in the inventory, you have these</li>
+  <li><b>Nitrile gloves</b> &mdash; in the inventory. <b>Wear them.</b> Skin oil ruins gold leaf and
+  contaminates everything it touches</li>
+  <li><b>The magnifier</b> &mdash; you will not be able to judge flatness with the naked eye</li>
+  <li><b>Something smooth to burnish with</b>: a clean cotton ball, a soft make-up brush, or the back
+  of a plastic spoon. <b>Not your finger</b></li>
+  <li><b>Sharp scissors or a fresh scalpel blade</b>, and a cutting surface</li>
+  <li><b>Copper tape</b>
+    <span class="q">UNKNOWN: whether ours has conductive adhesive. Part 1 settles it.</span></li>
+  <li><b>The gold leaf</b>
+    <span class="q">UNKNOWN: how much you have, and whether it is loose leaf or transfer (backed)
+    leaf. Check before you start &mdash; you want at least two pieces' worth, because the first one
+    may tear.</span></li>
+  <li><b>A sheet of clean white paper</b> to work on, and a phone to photograph the plate before you
+  remove it</li>
+</ul>
+
+<h3>Conditions</h3>
+<p><b>Still air.</b> Gold leaf this thin moves in a draught you cannot feel. Close the window, turn
+off any fan, and <b>do not talk over it or breathe on it.</b> Turn the soldering iron off and let it
+cool &mdash; you will not need it unless Part 1 fails, and a hot iron near gold leaf is a good way
+to lose the leaf to convection.</p>
+
+<h2><span class="n">Part 1</span>Does the copper tape's glue conduct? <span style="font-family:var(--mono);font-size:.62em;color:var(--ink-soft)">5 MIN</span></h2>
+
+<div class="why"><b>Why this first.</b> Everything downstream depends on it, and it costs one scrap
+of tape. <b>If you skip it and the answer is "no", you will spend tomorrow chasing a tunneling
+current that physically cannot exist.</b></div>
+
+<ol class="steps">
+  <li><b>Cut two small scraps of copper tape</b>, about a fingernail each.
+    <p>Peel the backing off both.</p></li>
+  <li><b>Stick one scrap down</b> on the paper, shiny copper side up, glue side down.</li>
+  <li><b>Stick the second scrap on top of the first</b>, overlapping by about half &mdash; so the
+  second one's <b>glue</b> is pressed onto the first one's <b>copper</b>.
+    <p>Press it down firmly with your thumbnail through a bit of paper. Give it a good rub.</p></li>
+  <li><b>Meter across the join.</b> One probe on the exposed copper of the bottom scrap, the other
+  probe on the copper of the top scrap.
+    <div class="expect">
+      <div class="exp"><span class="what"><b>Glue conducts</b> &mdash; the easy case</span>
+        <span class="chip beep">Beeps</span></div>
+      <div class="exp"><span class="what"><b>Glue does not conduct</b> &mdash; you must add a metal-to-metal bond, see below</span>
+        <span class="chip silent">Silent</span></div>
+    </div></li>
+</ol>
+
+<h3>If it was silent &mdash; the fix, and it is easy</h3>
+<p>Nothing is wrong with the tape; you just cannot rely on the glue to carry the connection. You
+make the connection <b>metal to metal</b> instead. Either:</p>
+<ul>
+  <li><b>Fold-over:</b> cut your tape long enough to wrap around the edge of the plate, so the
+  copper on the front touches the copper already on the back. Press the fold hard.</li>
+  <li><b>Or solder:</b> a single small blob joining the new tape to the copper already on the plate.
+  Copper takes solder easily. <b>Do this with the plate off the instrument and the iron nowhere near
+  the amplifier</b>, then let it cool completely.</li>
+</ul>
+<p><b>Either way you re-meter afterwards and it must beep before you go on.</b></p>
+
+<h2><span class="n">Part 2</span>Take the sample plate off the instrument</h2>
+
+<div class="why"><b>Why.</b> <b>There is a tip fitted</b> &mdash; blunt and bent, but fitted, and it
+is the thing that turns a fumble into a rebuild. Gold work needs two hands, tweezers and a
+burnishing motion. <b>Do none of that within reach of the tip.</b> The plan already calls for the
+plate to come off anyway.</div>
+
+<ol class="steps">
+  <li><b>Confirm the power is off</b> and the USB is unplugged. It should already be.</li>
+  <li><b>Photograph the plate in place</b>, from the front and from one side.
+    <p><b>You need to put it back the same way round.</b> Get the rubber bands and which screws it
+    sits on into the picture.</p></li>
+  <li><b>Ease the rubber bands off</b> and lift the plate away.
+    <p>Lift it <b>straight back and away from the tip</b>, not sideways past it.</p></li>
+  <li><b>Carry it to a different part of the bench</b> and set it on your sheet of paper.
+    <p>Far enough that gold flakes and tape offcuts cannot reach the scan head or the amplifier.</p></li>
+</ol>
+
+<h2><span class="n">Part 3</span>Fresh copper tape onto the plate</h2>
+
+<ol class="steps">
+  <li><b>Look at what is already there</b> under the magnifier.
+    <p>If the existing copper is clean and flat where the tip will land, you can lay the gold
+    straight onto it and skip to Part 4. If it is creased, dirty or lifting, put a fresh strip
+    down.</p></li>
+  <li><b>Wipe the area with IPA</b> on a cotton bud and <b>let it dry completely</b>.
+    <p>You are removing finger oil. Do not soak it.</p></li>
+  <li><b>Cut a strip of copper tape</b> a bit bigger than the area you want gold on.
+    <p>Cut it with scissors on the paper. <b>Handle it by the edges.</b></p></li>
+  <li><b>Lay it down from one edge, rolling it flat</b> as you go, so no air gets trapped.
+    <p>Then burnish the whole strip hard with the back of the spoon. <b>Flat matters</b> &mdash; a
+    ripple is a hill the tip has to climb.</p></li>
+  <li><b>Meter it now, before the gold goes on.</b> One probe on the new copper, the other on the
+  wire that runs to the sample plate.
+    <div class="expect">
+      <div class="exp"><span class="what">New copper &rarr; sample-plate wire</span>
+        <span class="chip beep">Must beep</span></div>
+    </div>
+    <p><b>Silent means stop and fix it</b> with the fold-over or the solder blob from Part 1. Do not
+    carry on and hope.</p></li>
+</ol>
+
+<div class="gate">
+  <h3>Which wire is the sample-plate wire?</h3>
+  <p>It is the lead that lands on the <b>sample plate</b> at the scan head &mdash; recorded in our own
+  bench log as the <b>orange</b> one at that end.</p>
+  <p><b>Do not confuse it with the orange wire in the DSUB cable, which is &minus;15 V.</b> The
+  bias wire inside the DSUB2 cable is <b>black</b>; the orange is the local jumper at the plate.
+  <b>If there is any doubt about which physical wire you have hold of, stop and ask before you
+  meter.</b> Nothing is at risk from metering, but a wrong identification here quietly invalidates
+  every reading that follows.</p>
+</div>
+
+<h2><span class="n">Part 4</span>The gold leaf onto the copper</h2>
+
+<div class="why"><b>What you are aiming for.</b> A <b>flat patch a few millimetres across</b> that is
+firmly held and electrically joined. <b>You do not need the whole plate covered and you do not need
+it perfect.</b> The tip will look at an area smaller than a full stop. One good flat patch beats a
+big wrinkled sheet.</div>
+
+<h3>Handling gold leaf &mdash; read before you open the book</h3>
+<p>It is about a ten-thousandth of a millimetre thick. It tears if you look at it wrong, it will
+wrap itself around tweezers, and <b>it sticks permanently to skin.</b> The rules are: <b>gloves on,
+never touch it directly, keep it on its backing paper as long as possible, and move slowly.</b></p>
+
+<h3>If your leaf is on a backing sheet (transfer leaf) &mdash; much easier</h3>
+<ol class="steps">
+  <li><b>Cut through leaf and backing together</b> with scissors, a piece slightly larger than the
+  patch you want. Do not separate them.</li>
+  <li><b>Lay it gold-side-down onto the copper</b>, holding only the backing paper.</li>
+  <li><b>Burnish through the backing</b> &mdash; small circles with the cotton ball, light and even,
+  for fifteen or twenty seconds.</li>
+  <li><b>Peel the backing away slowly</b>, from one corner, at a shallow angle.
+    <p>The gold should stay on the copper. If it lifts with the backing, lay it back and burnish
+    longer.</p></li>
+</ol>
+
+<h3>If your leaf is loose (between tissue pages)</h3>
+<ol class="steps">
+  <li><b>Open the book flat</b> and lift the top tissue.</li>
+  <li><b>Do not grab the gold with tweezers.</b> Instead, cut a piece of the tissue with the gold
+  still lying on it, and use the <b>tissue</b> as the carrier.</li>
+  <li><b>Lower it gold-side-down onto the copper</b>, tissue on top.</li>
+  <li><b>Press gently through the tissue</b> with the cotton ball, then lift the tissue straight up
+  and away.</li>
+</ol>
+
+<h3>Then, either way</h3>
+<ol class="steps">
+  <li><b>Burnish the gold down</b> with the cotton ball, small light circles.
+    <p>Gold cold-welds to clean metal when you rub it. It will go from loose-looking to bonded and
+    shiny. <b>Light pressure</b> &mdash; you are smoothing, not scrubbing.</p></li>
+  <li><b>Brush the loose bits away</b> with the soft brush, off the plate and onto the paper.
+    <p>Little torn scraps at the edges will lift later and move under the tip. Get rid of them
+    now.</p></li>
+  <li><b>Look through the magnifier.</b> You want one region at least <b>2&ndash;3 mm across</b> with
+  no wrinkle, no crease, and no loose flap standing proud.
+    <p><b>A high point is what the tip meets first</b>, and that is exactly what made the last sample
+    useless.</p></li>
+</ol>
+
+<h2><span class="n">Part 5</span>Pin the edge down</h2>
+
+<div class="why"><b>Why bother.</b> Burnished gold usually holds, but "usually" is not good enough for
+something that must not move under the tip. A tab of copper tape over one edge does two jobs at
+once: <b>it clamps the gold mechanically, and it guarantees the electrical connection</b> even if
+the burnished contact is poor.</div>
+
+<ol class="steps">
+  <li><b>Cut a small tab of copper tape</b>, a few millimetres.</li>
+  <li><b>Decide where the tip will land</b> &mdash; roughly the middle of your flat patch.</li>
+  <li><b>Stick the tab over the gold at the edge furthest from that spot</b>, so it overlaps the
+  gold by a millimetre or two and lands on the copper beyond it.
+    <p><b>Keep it well clear of the imaging area.</b> You are pinning a corner, not framing a
+    picture.</p></li>
+  <li><b>Press it down firmly</b> and burnish the tab.</li>
+</ol>
+
+<h2><span class="n">Part 6</span>The three readings that decide whether it goes back on</h2>
+
+<div class="why">Power still off. Plate still off the instrument for the first reading. <b>Take the
+gold reading at a corner, gently, away from your flat patch</b> &mdash; a meter probe will dent
+gold leaf.</div>
+
+<table>
+  <thead><tr><th>Probe from</th><th>Probe to</th><th>Expect</th></tr></thead>
+  <tbody>
+    <tr><td><b>The gold surface</b>, at a corner</td><td>The sample-plate wire</td>
+      <td><span class="chip beep">Beeps</span></td></tr>
+    <tr><td><b>The gold surface</b></td><td>The instrument's ground / frame</td>
+      <td><span class="chip silent">Silent</span></td></tr>
+    <tr><td><b>The gold surface</b></td><td>The tip holder</td>
+      <td><span class="chip silent">Silent</span></td></tr>
+  </tbody>
+</table>
+
+<p>The last two are checked <b>after</b> the plate is back on, and they are the same two checks that
+passed on 16 September. <b>Silent on both means there is still a gap</b> &mdash; which is what you
+want before you start closing it.</p>
+
+<div class="danger">
+  <h3><span class="chip stop">Stop</span> &nbsp;Stop and ask if any of these happen</h3>
+  <p><b>Gold to sample-plate wire is silent</b> after the tab is on. The connection is broken
+  somewhere and guessing where will waste the session.</p>
+  <p><b>Gold to the tip holder beeps</b> once the plate is refitted. That means the tip is
+  <em>touching</em> the gold. Back the plate off immediately &mdash; do not power anything up.</p>
+  <p><b>The leaf will not lie flat</b> after two attempts. Better to stop with a known-bad sample
+  than to image a wrinkle for an hour.</p>
+  <p><b>You run out of gold leaf.</b> Say so before ordering anything &mdash; there may be a simpler
+  answer.</p>
+</div>
+
+<h2><span class="n">Part 7</span>Put it back</h2>
+
+<ol class="steps">
+  <li><b>Check your photograph</b> and match the orientation exactly.</li>
+  <li><b>Bring the plate in straight from behind</b>, not swinging past the tip.</li>
+  <li><b>Rubber bands back on</b>, same as they were.</li>
+  <li><b>Take the last two readings from Part 6</b> &mdash; gold to ground, gold to tip holder. Both
+  silent.</li>
+  <li><b>Stop there.</b>
+    <p><b>Do not wind the screws in yet.</b> Closing the gap by hand is the next job and it has its
+    own procedure in <code>docs/NEXT_SESSION_PLAN.md</code> &mdash; turn the two side-by-side screws in
+    tiny equal amounts until the meter beeps tip-to-gold, then back both off <b>1/16 of a turn</b>,
+    which is about 20&nbsp;µm.</p></li>
+</ol>
+
+<footer>
+  <p><b>Everything on this card is unpowered.</b> Nothing here can damage the electronics. Written
+  17 September 2026 from <code>STATUS.md</code>, <code>docs/NEXT_SESSION_PLAN.md</code> step 3,
+  <code>docs/ENGINEERING_REFERENCE.md</code> §3 and <code>docs/UPSTREAM_BERARD.md</code> §5.
+  <b>If this card and the repository disagree, the repository wins.</b></p>
+</footer>
+
+</div>

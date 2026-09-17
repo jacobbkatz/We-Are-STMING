@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-16, 21:55 UTC wrap (first approach attempt, no contact; next: tip side of the pivot line, gold-to-bias continuity, find contact by hand and back off)
+**Last updated:** 2026-09-17 — gold leaf bench card added ahead of step 3; **`--z-step 5` added to step 6** (STATUS.md fault 6)
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -25,6 +25,10 @@ disputed; Z direction unknown.** `sessions/2026-09-16-bench.md` §3.8–§3.11.
    and plate-to-tip only.**
 3. **Replace the crumpled wad with a flat piece** patted onto clean copper tape in front of the tip,
    if it will stay. A crumpled high point meets the tip first.
+   > **Step by step, with the meter checks: [`gold_leaf_procedure.html`](gold_leaf_procedure.html)**,
+   > written 2026-09-17. **Its Part 1 — does the copper tape's adhesive conduct — comes before
+   > everything else**, because if it does not then the gold carries no bias and no tunnelling
+   > current can exist whatever else is right.
 4. **Find contact by hand, then back off a known amount.** Powered off, **preamp DB9 unplugged**, meter
    on continuity from the tip holder to the orange wire. **Turn the two side-by-side screws in tiny
    equal amounts until it beeps**, then back both off **1/16 turn — about 20 µm** of a 1/4"-80 screw.
@@ -34,7 +38,11 @@ disputed; Z direction unknown.** `sessions/2026-09-16-bench.md` §3.8–§3.11.
    **20 `ADCR` baseline; then `BIAS 38229`, sample −0.5 V, 10 `ADCR` as a touch check** — near the
    baseline means no contact; a reading near its limit means contact, so set `BIAS 32768` and stop.
 6. **Approach** with `py Code/pc/stm_approach.py --z-retracted unknown --motor-toward-sample <from
-   step 1> --motor-step 10 --max-steps 1000 -y`, in 1000-step chunks of about 5 minutes. **Cap the
+   step 1> --motor-step 10 --max-steps 1000 --z-step 5 -y`, in 1000-step chunks of about 5 minutes.
+   > **`--z-step 5` is not optional — added 2026-09-17, `STATUS.md` fault 6.** At the tool's default
+   > of 200 the sweep moves **2.08 nm per sample point** against a detectable tunnelling window of
+   > **0.21 nm**, so about nine approaches in ten would step from no current straight into contact.
+   > `--z-step 5` gives four samples inside the window and costs about 3.3 s per half sweep. **Cap the
    total at twice the steps that cover the back-off at the step-1 lever ratio**: 20 µm at a ratio of 40
    is 800 µm of screw, about 5,200 steps, so a cap of about 10,400. **Mind the screw's range**: from
    +6144 there is about 2 mm left outward and 4 mm inward, **if** Jacob's ±3 mm estimate holds; only
