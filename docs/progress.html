@@ -257,6 +257,15 @@
     font-size: 14px; color: var(--ink-soft); display: grid; gap: 10px; }
   footer .meta { font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
     color: var(--ink-faint); text-transform: uppercase; }
+
+  /* =========== real photographs of our own hardware =========== */
+  .shots { display: grid; gap: 14px; margin: 26px 0 8px; }
+  .shot { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px;
+    overflow: hidden; box-shadow: var(--sh-m); }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot .cap { padding: 14px 18px 16px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+  .shot .cap b { color: var(--ink); font-weight: 700; }
+  .shot .cap .prov { margin-left: 4px; }
 </style>
 
 <!-- ====================== HERO ====================== -->
@@ -304,6 +313,34 @@
 
   <p>That current has no business existing. It is worth understanding why, because
   <strong>the whole instrument is built on it.</strong></p>
+</div></section>
+
+<!-- ====================== THE REAL THING ====================== -->
+<section><div class="wide">
+  <div class="col">
+    <p class="eyebrow">01a &mdash; the actual object</p>
+    <h2>And this is what it really looks like</h2>
+    <p class="lede">The picture above is the goal. <strong>This is the hardware.</strong> Copper tape,
+    rubber bands, a foil-wrapped block and three screws &mdash; hanging on springs on a kitchen
+    table.</p>
+  </div>
+  <div class="shots">
+    <figure class="shot">
+      <img src="img/scanhead-platform.jpg"
+           alt="The scan head: a foil-wrapped aluminium block held by rubber bands on a copper-clad plate, sitting on a black 3D-printed platform suspended on springs, with an orange wire running to it.">
+      <div class="cap"><b>The scan head on its suspension platform.</b> The foil-wrapped block carries
+      the needle and the fine screws; the copper under it is the ground plane and the sample mount.
+      The springs at the left are the vibration isolation &mdash; the whole platform hangs on three of
+      them. <b>The rubber bands are load, not improvisation</b>: they hold the sample plate down onto
+      its screws. <span class="prov">OURS</span> Frame from Jacob's video, 16 September 2026.</div>
+    </figure>
+  </div>
+  <div class="col">
+    <p class="sub" style="margin-top:14px">Everything on this page that carries an
+    <span class="prov">OURS</span> mark is a photograph of our own instrument. <strong>We do not put
+    anyone else's hardware on this page</strong> &mdash; a photograph of somebody else's build is not
+    evidence about ours, and mistaking one for the other has already cost this project a day.</p>
+  </div>
 </div></section>
 
 <!-- ====================== TUNNELING ====================== -->
@@ -455,7 +492,8 @@
     <span class="prov">CALC</span>&nbsp;calculated &middot;
     <span class="prov">INFER</span>&nbsp;inferred from a similar part &middot;
     <span class="prov">MESH</span>&nbsp;from the CAD model &middot;
-    <span class="prov">REF</span>&nbsp;a standard published figure, not ours.
+    <span class="prov">REF</span>&nbsp;a standard published figure, not ours &middot;
+    <span class="prov">OURS</span>&nbsp;a photograph of our own hardware.
     <strong>Anything we have not measured says so.</strong> That rule has saved this project more than once.</p>
   </div>
 </div></section>

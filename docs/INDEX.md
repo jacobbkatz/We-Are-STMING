@@ -209,6 +209,7 @@ n = struct.unpack('<I', d[80:84])[0]          # binary STL: facet count at byte 
 | `Code/teensy/lib/LTC2326/LTC2326_16.hpp` | Full **MIT licence text** in the header, and the `4.096` **REFBUF** constant — **not** the input span, which is 2.5x it |
 | `docs/PROJECT_HANDOFF_SUMMARY.md` | 1918 lines. **Its header banner is a live correction log** — the newest corrections get written there. Read the top even though the body is ranked last |
 | `Images/*.bmp` | Mech Panda's own atomic-resolution HOPG scans. Reference images, not our data |
+| `Images/ours/*` | **Photographs of OUR hardware.** Everything in this subdirectory is our own instrument, with the date in the filename. **The files directly in `Images/` are NOT ours** — see the row above. Added 2026-09-17 |
 
 ---
 
