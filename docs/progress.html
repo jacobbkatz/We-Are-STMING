@@ -259,10 +259,11 @@
     color: var(--ink-faint); text-transform: uppercase; }
 
   /* =========== real photographs of our own hardware =========== */
-  .shots { display: grid; gap: 14px; margin: 26px 0 8px; }
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px; margin: 26px 0 8px; align-items: start; }
   .shot { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px;
     overflow: hidden; box-shadow: var(--sh-m); }
-  .shot img { display: block; width: 100%; height: auto; }
+  .shot img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; max-width: 100%; }
   .shot .cap { padding: 14px 18px 16px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
   .shot .cap b { color: var(--ink); font-weight: 700; }
   .shot .cap .prov { margin-left: 4px; }
@@ -326,13 +327,22 @@
   </div>
   <div class="shots">
     <figure class="shot">
-      <img src="img/scanhead-platform.jpg"
-           alt="The scan head: a foil-wrapped aluminium block held by rubber bands on a copper-clad plate, sitting on a black 3D-printed platform suspended on springs, with an orange wire running to it.">
-      <div class="cap"><b>The scan head on its suspension platform.</b> The foil-wrapped block carries
-      the needle and the fine screws; the copper under it is the ground plane and the sample mount.
-      The springs at the left are the vibration isolation &mdash; the whole platform hangs on three of
-      them. <b>The rubber bands are load, not improvisation</b>: they hold the sample plate down onto
-      its screws. <span class="prov">OURS</span> Frame from Jacob's video, 16 September 2026.</div>
+      <img src="img/scanhead.jpg"
+           alt="The scan head: a foil-wrapped aluminium block on a copper-clad plate, with black screws held under rubber-band tension and an orange wire running to the sample.">
+      <div class="cap"><b>The scan head.</b> The foil-wrapped block carries the needle and the fine
+      screws that bring it in. <b>The rubber bands are not improvisation</b> &mdash; they hold the
+      sample plate down onto its screws under tension. The orange wire carries the voltage that
+      drives the tunneling current, and the copper underneath is the ground the whole measurement is
+      referenced to. <span class="prov">OURS</span> 16 September 2026.</div>
+    </figure>
+    <figure class="shot">
+      <img src="img/controller.jpg"
+           alt="The controller board: a green circuit board in a hand-made copper-taped enclosure, with two D-connectors on its left edge and a threaded rod of the suspension frame behind it.">
+      <div class="cap"><b>The controller.</b> Four digital-to-analog converters and the 16-bit
+      converter that reads the current back, in a copper enclosure taped by hand. <b>The two
+      D-connectors are the instrument's whole nervous system</b>: one carries the drive to the
+      scanner, the other carries power out to the amplifier and the measured signal back.
+      <span class="prov">OURS</span> 16 September 2026.</div>
     </figure>
   </div>
   <div class="col">
