@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-17 evening, at the bench — **the first junction. Motor direction settled (NEGATIVE approaches), Z direction settled (HIGH extends toward the sample), and the sample plate turned out not to be resting on the motor screw at all.** See the block immediately below; everything under "START HERE — after the 2026-09-16 approach attempt" is now history.
+**Last updated:** 2026-09-17, about 21:55 UTC wrap — **the first junction; motor and Z directions settled; imaging attempted at length and there is no image.** The blocker is mechanical and quantified. **Start with the gold, the straightedge and the springs.**
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -9,10 +9,11 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 
 # START HERE — after the 2026-09-17 bench session
 
-**State left, 20:38 UTC:** Z, X, Y and bias all parked at midscale, **tip backed off 300 motor steps
-from the junction**, readings at baseline. **The screw is 14,694 steps out** from where it stood at
-the start of `sessions/2026-09-16-bench.md` §3.6 — the firmware counter resets at every restart, so
-that number lives only here and in the log. Powered down after that in the documented order.
+**State left, about 21:55 UTC:** **powered down — USB out, then supplies off.** Z, X, Y and bias
+parked at midscale, tip backed off 300 motor steps. **The screw is 14,722 steps out** from where it
+stood at the start of `sessions/2026-09-16-bench.md` §3.6 — the firmware counter resets at every
+restart, so carry this number by hand. **The tip is probably landing on the COPPER tape beside the
+gold patch** (`SAID`, Jacob).
 
 **Settled at the bench 2026-09-17, and everything below in the older block that contradicts this is
 history:**
@@ -34,6 +35,13 @@ history:**
    junction is vacuum tunnelling or a pressed contact. `docs/OPEN_QUESTIONS.md`.
 2. **Decide about `CCON`** — safety rule 8. The drift is what stops an image, feedback is the
    designed answer, and the firmware fix passed its bench test on 2026-09-16.
+0aa. **GET THE GOLD UNDER THE TIP — first job, and it carries a prediction.** `SAID` 2026-09-17:
+   the tip is **probably on the copper** beside the gold. Copper grows an oxide; gold does not, and
+   an oxide film is exactly the barrier the step-response asymmetry pointed at. **Shift the plate so
+   the existing patch sits where the tip lands** rather than re-laying leaf. **Two numbers from
+   2026-09-17 to beat:** the Z step response, −1.13 decades pulling back against **+0.36** pushing
+   in for ∓400 counts, and the hold wobble of **287-419 counts**. **A symmetric response and a
+   steadier hold would mean the surface was limiting us; no change pins it all on the mechanics.**
 0. **Use the AVERAGED read and scan WIDE.** Both were faults found late on 2026-09-17 and both are
    fixed in `Code/pc/stm_feedback_scan.py`: the loop steers on `ADCR` (46 counts of noise, not 188),
    and a scan of **±400 X counts covers about ±0.6 nm** — smaller than an atom. **Scan ±15,000.**

@@ -1,7 +1,19 @@
 # Current status
 
-**Last updated:** 2026-09-17 evening — **THE FIRST TIP-SAMPLE JUNCTION. Current that follows the bias and follows Z: 0.85 nA at 0.05 V rising to 32 nA at 0.5 V.** **The motor direction was backwards all along — NEGATIVE approaches.** **The Z direction is answered: the HIGH end extends toward the sample.** **The sample plate was not resting on the motor screw at all**, which explains 2026-09-16's null result; fixed with one more rubber band.
+**Last updated:** 2026-09-17, about 21:55 UTC wrap — **THE FIRST TIP-SAMPLE JUNCTION.** Current that follows the bias and follows Z: 0.85 nA at 0.05 V rising to 32 nA at 0.5 V. **The motor direction was backwards all along — NEGATIVE approaches.** **Z: the HIGH end extends toward the sample.** **The sample plate was not resting on the motor screw at all**, which explains 2026-09-16's null result; fixed with one more rubber band. **Imaging attempted at length and there is NO image — the reason is mechanical and is now quantified.** Powered down, USB out, screw at 14,722 steps out.
 **Updated by:** Jacob at the bench, with Claude Code desktop on Jacob's Windows machine. **Everything in the block below was measured tonight.** `sessions/2026-09-17-bench.md`.
+
+# WHERE THE INSTRUMENT IS LEFT — 2026-09-17
+
+| | |
+|---|---|
+| **Power** | **Off.** USB out, then supplies off (`SAID`, Jacob) |
+| **Tip** | The same blunt, bent placeholder. **It has taken several hard contacts tonight** |
+| **Sample** | Fresh gold leaf on copper tape in the plate's window. **The tip is probably landing on the COPPER beside the gold** (`SAID`) |
+| **Coarse screw** | **14,722 steps out** from the start of `sessions/2026-09-16-bench.md` §3.6. The firmware counter resets at restart, so this number lives only here and in the log |
+| **Axes at power-down** | Z, X, Y and bias all parked at midscale; tip backed off 300 motor steps |
+| **Motor direction** | **SETTLED: negative approaches.** Expect 100-250 steps of backlash on reversal |
+| **Z direction** | **SETTLED: the HIGH end extends toward the sample.** Use `--z-retracted low` |
 
 # 2026-09-17 BENCH — THE FIRST JUNCTION
 
