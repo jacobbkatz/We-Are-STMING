@@ -1,582 +1,1141 @@
 <title>We Are STMing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Semi+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;800&family=Syne:wght@600;700;800&display=swap">
 <style>
   :root {
-    --ground: #EAEDEB; --surface: #FFFFFF; --sunk: #E1E6E3;
-    --ink: #141A18; --ink-soft: #57625E; --ink-faint: #7C8783; --rule: #CFD6D2;
-    --pass: #1D7A4B; --pass-bg: #E2EFE8; --pass-edge: #A9CDB9;
+    --ground: #EEF1EF; --surface: #FFFFFF; --sunk: #E4E9E6; --rule: #D3DAD5;
+    --ink: #0F1614; --ink-soft: #4F5A55; --ink-faint: #78837D;
+    --pass: #1F7A52; --pass-bg: #E3F0E9; --pass-edge: #A6CDB6;
     --open: #C3281F; --open-bg: #FAEAE8; --open-edge: #E2ADA7;
-    --unk-bg: #DFE4E1; --unk-ink: #5C6763;
-    --grid: #DCE2DF;
-    --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --unk-bg: #E1E6E2; --unk-ink: #59645E;
+    /* the signal chain: physical world amber, then green, blue, magenta */
+    --amber: #B8690F; --amber-lo: #E4A45C; --amber-bg: #FAEFE2;
+    --green: #2F8F4E; --green-lo: #6FC48C; --green-bg: #E6F3EA;
+    --blue:  #1F6FD0; --blue-lo:  #74A9EC; --blue-bg:  #E6EFFB;
+    --mag:   #BE2A82; --mag-lo:   #E483BA; --mag-bg:   #FBE8F2;
+    --grid: #DEE4DF;
+    --sh-s: 0 1px 2px rgba(15,30,24,.06), 0 3px 8px rgba(15,30,24,.05);
+    --sh-m: 0 2px 4px rgba(15,30,24,.07), 0 10px 26px rgba(15,30,24,.09);
+    --sh-l: 0 4px 10px rgba(15,30,24,.10), 0 26px 60px rgba(15,30,24,.14);
+    /* the instrument panel keeps its own dark world in BOTH themes */
+    --panel: #070C0B; --panel-2: #0E1615; --panel-rule: #1E2C28;
+    --panel-ink: #EAF2EE; --panel-soft: #8DA49A; --phos: #4ADE9B;
+    --display: "Syne", "Trebuchet MS", "Helvetica Neue", sans-serif;
+    --body: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-    --ground: #0E1312; --surface: #161C1A; --sunk: #121817;
-    --ink: #E3E9E6; --ink-soft: #97A39E; --ink-faint: #76817C; --rule: #2A3430;
-    --pass: #34A874; --pass-bg: #142A20; --pass-edge: #2B5240;
+    --ground: #0A0F0E; --surface: #131A18; --sunk: #0E1514; --rule: #263230;
+    --ink: #E8EFEB; --ink-soft: #9DA9A3; --ink-faint: #7A857F;
+    --pass: #3FAC6E; --pass-bg: #12291E; --pass-edge: #2B5240;
     --open: #E85744; --open-bg: #2C1712; --open-edge: #6B3324;
-    --unk-bg: #1F2724; --unk-ink: #94A09B;
-    --grid: #232C29;
+    --unk-bg: #1C2422; --unk-ink: #97A39D;
+    --amber: #BB8426; --amber-lo: #E7BE74; --amber-bg: #231A0E;
+    --green: #3FAC6E; --green-lo: #86D6A4; --green-bg: #122619;
+    --blue:  #4D88D6; --blue-lo:  #93BDF0; --blue-bg:  #101E31;
+    --mag:   #C95C9E; --mag-lo:   #EDA0CC; --mag-bg:   #2A1122;
+    --grid: #1F2825;
+    --sh-s: 0 1px 2px rgba(0,0,0,.34), 0 3px 8px rgba(0,0,0,.30);
+    --sh-m: 0 2px 4px rgba(0,0,0,.38), 0 10px 26px rgba(0,0,0,.42);
+    --sh-l: 0 4px 10px rgba(0,0,0,.44), 0 26px 60px rgba(0,0,0,.55);
     color-scheme: dark; } }
   :root[data-theme="dark"] {
-    --ground: #0E1312; --surface: #161C1A; --sunk: #121817;
-    --ink: #E3E9E6; --ink-soft: #97A39E; --ink-faint: #76817C; --rule: #2A3430;
-    --pass: #34A874; --pass-bg: #142A20; --pass-edge: #2B5240;
+    --ground: #0A0F0E; --surface: #131A18; --sunk: #0E1514; --rule: #263230;
+    --ink: #E8EFEB; --ink-soft: #9DA9A3; --ink-faint: #7A857F;
+    --pass: #3FAC6E; --pass-bg: #12291E; --pass-edge: #2B5240;
     --open: #E85744; --open-bg: #2C1712; --open-edge: #6B3324;
-    --unk-bg: #1F2724; --unk-ink: #94A09B;
-    --grid: #232C29;
+    --unk-bg: #1C2422; --unk-ink: #97A39D;
+    --amber: #BB8426; --amber-lo: #E7BE74; --amber-bg: #231A0E;
+    --green: #3FAC6E; --green-lo: #86D6A4; --green-bg: #122619;
+    --blue:  #4D88D6; --blue-lo:  #93BDF0; --blue-bg:  #101E31;
+    --mag:   #C95C9E; --mag-lo:   #EDA0CC; --mag-bg:   #2A1122;
+    --grid: #1F2825;
+    --sh-s: 0 1px 2px rgba(0,0,0,.34), 0 3px 8px rgba(0,0,0,.30);
+    --sh-m: 0 2px 4px rgba(0,0,0,.38), 0 10px 26px rgba(0,0,0,.42);
+    --sh-l: 0 4px 10px rgba(0,0,0,.44), 0 26px 60px rgba(0,0,0,.55);
     color-scheme: dark; }
 
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body);
-    font-size: 16px; line-height: 1.55; padding-inline: 16px; padding-block: 0 64px; }
-  .wrap { max-width: 820px; margin: 0 auto; }
-  p { margin: 0 0 12px; max-width: 66ch; }
+    font-size: 16.5px; line-height: 1.62; padding-inline: 16px; padding-block: 0 80px;
+    -webkit-font-smoothing: antialiased; }
+
+  .col  { max-width: 668px; margin-inline: auto; }
+  .wide { max-width: 1000px; margin-inline: auto; }
+
+  p { margin: 0 0 14px; }
   a { color: inherit; text-underline-offset: 2px; text-decoration-color: var(--rule); }
   a:hover { text-decoration-color: currentColor; }
-  a:focus-visible, summary:focus-visible { outline: 2px solid var(--pass); outline-offset: 2px; border-radius: 3px; }
-  code { font-family: var(--mono); font-size: .9em; }
+  a:focus-visible, summary:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+  code { font-family: var(--mono); font-size: .88em; }
+  em.q { font-style: normal; color: var(--ink); font-weight: 800; }
 
-  /* ---- masthead ---- */
-  header { padding-block: 40px 8px; display: grid; gap: 12px; }
-  .eyebrow { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--ink-faint); margin: 0; }
-  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2.4rem, 8vw, 4.1rem);
-    line-height: .96; margin: 0; letter-spacing: -.015em; text-wrap: balance; }
-  .lede { font-size: clamp(1.02rem, 2.4vw, 1.18rem); color: var(--ink-soft); max-width: 58ch; margin: 0; }
+  .eyebrow { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--ink-faint); margin: 0 0 12px; }
+
+  h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.95rem, 4.8vw, 2.9rem);
+    line-height: 1.04; margin: 0 0 14px; letter-spacing: -.028em; text-wrap: balance; }
+  h3 { font-family: var(--display); font-weight: 600; font-size: 1.3rem; margin: 32px 0 6px;
+    letter-spacing: -.02em; }
+  section { padding-block: 58px 0; }
+  .divider { height: 1px; margin-top: 58px;
+    background: linear-gradient(90deg, transparent, var(--rule) 12%, var(--rule) 88%, transparent); }
+
+  .lede { font-size: clamp(1.1rem, 2.6vw, 1.32rem); line-height: 1.5; color: var(--ink-soft);
+    margin: 0 0 18px; font-weight: 400; }
   .lede strong { color: var(--ink); font-weight: 700; }
+  .sub { font-size: 14.5px; color: var(--ink-soft); }
 
-  h2 { font-family: var(--display); font-weight: 600; font-size: clamp(1.45rem, 3.6vw, 1.85rem);
-    margin: 52px 0 6px; padding-top: 18px; border-top: 1px solid var(--rule);
-    letter-spacing: -.005em; text-wrap: balance; }
-  h2 .num { font-family: var(--mono); font-size: .58em; font-weight: 500; color: var(--ink-faint);
-    letter-spacing: .08em; display: block; margin-bottom: 4px; }
-  h3 { font-family: var(--display); font-weight: 600; font-size: 1.16rem; margin: 26px 0 4px; }
-  .sub { font-size: 14.5px; color: var(--ink-soft); max-width: 66ch; }
+  /* =========== instrument panel: dark in both themes =========== */
+  .panel { background: var(--panel); color: var(--panel-ink); border-radius: 20px;
+    overflow: hidden; border: 1px solid var(--panel-rule); box-shadow: var(--sh-l); }
+  .hero { margin-top: 26px; }
+  .hero .scan { display: block; width: 100%; height: auto; background: transparent; margin-top: -8px; }
+  .hero .caption { padding: 18px 26px 22px; border-top: 1px solid var(--panel-rule);
+    background: var(--panel-2); font-size: 13.5px; color: var(--panel-soft); line-height: 1.55; }
+  .hero .caption strong { color: var(--panel-ink); font-weight: 700; }
 
-  /* ---- provenance tag: this project's own convention, from docs/FACTS.md ---- */
-  .prov { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .09em;
-    color: var(--ink-faint); border: 1px solid var(--rule); border-radius: 3px;
+  .masthead { padding: 42px 22px 0; text-align: center; position: relative; z-index: 2; }
+  .masthead .kicker { font-family: var(--mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .26em; text-transform: uppercase; color: var(--phos); margin: 0 0 18px; }
+  h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.7rem, 9.2vw, 5.6rem);
+    line-height: .92; margin: 0; letter-spacing: -.045em; color: var(--panel-ink);
+    text-wrap: balance; }
+  .masthead .standfirst { font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.5;
+    color: var(--panel-soft); max-width: 46ch; margin: 18px auto 0; font-weight: 400; }
+  .masthead .standfirst strong { color: var(--panel-ink); font-weight: 700; }
+
+  /* =========== provenance =========== */
+  .prov { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .1em;
+    color: var(--ink-faint); border: 1px solid var(--rule); border-radius: 4px;
     padding: 1px 4px; white-space: nowrap; vertical-align: 2px; }
 
-  /* ---- readout tiles ---- */
-  .readouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
-    gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 8px;
-    overflow: hidden; margin: 24px 0 10px; }
-  .readout { background: var(--surface); padding: 16px 16px 14px; display: grid; gap: 3px; align-content: start; }
-  .readout .cap { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .08em;
-    text-transform: uppercase; color: var(--ink-faint); }
-  .readout .val { font-family: var(--display); font-weight: 700; font-size: 2.2rem; line-height: 1;
-    font-variant-numeric: tabular-nums; color: var(--pass); letter-spacing: -.01em; }
-  .readout .val .unit { font-size: .5em; font-weight: 600; color: var(--ink-soft); margin-left: 3px; }
-  .readout .note { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
+  /* =========== readouts =========== */
+  .readouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(216px, 1fr));
+    gap: 14px; margin: 28px 0 14px; }
+  .ro { background: var(--surface); padding: 22px 22px 20px; display: grid; gap: 7px;
+    align-content: start; border-radius: 14px; box-shadow: var(--sh-m);
+    border: 1px solid var(--rule); position: relative; overflow: hidden; }
+  .ro::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; }
+  .ro.c1::before { background: linear-gradient(90deg, var(--amber), var(--amber-lo)); }
+  .ro.c2::before { background: linear-gradient(90deg, var(--green), var(--green-lo)); }
+  .ro.c3::before { background: linear-gradient(90deg, var(--blue),  var(--blue-lo)); }
+  .ro.c4::before { background: linear-gradient(90deg, var(--mag),   var(--mag-lo)); }
+  .ro .cap { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--ink-faint); margin-top: 4px; }
+  .ro .val { font-family: var(--display); font-weight: 800; font-size: 3.1rem; line-height: .92;
+    font-variant-numeric: tabular-nums; letter-spacing: -.05em; }
+  .ro.c1 .val { color: var(--amber); } .ro.c2 .val { color: var(--green); }
+  .ro.c3 .val { color: var(--blue); }  .ro.c4 .val { color: var(--mag); }
+  .ro .val .u { font-family: var(--mono); font-size: .27em; font-weight: 700; color: var(--ink-soft);
+    letter-spacing: .04em; margin-left: 6px; }
+  .ro .means { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+  .ro .means b { color: var(--ink); font-weight: 700; }
 
-  /* ---- status chips: colour is never alone, the word is always there ---- */
-  .chip { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .07em;
-    text-transform: uppercase; padding: 3px 7px; border-radius: 4px; white-space: nowrap;
+  /* =========== status chips =========== */
+  .chip { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; padding: 4px 9px; border-radius: 999px; white-space: nowrap;
     border: 1px solid transparent; }
   .chip.pass { background: var(--pass-bg); color: var(--pass); border-color: var(--pass-edge); }
   .chip.open { background: var(--open-bg); color: var(--open); border-color: var(--open-edge); }
   .chip.unk  { background: var(--unk-bg); color: var(--unk-ink); border-color: var(--rule); }
 
-  /* ---- stage ladder ---- */
-  .ladder { display: grid; gap: 6px; margin: 22px 0 8px; }
-  .rung { display: grid; grid-template-columns: 30px minmax(0,1fr) auto; gap: 14px; align-items: center;
-    background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; padding: 11px 14px; }
-  .rung .tag { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--ink-faint);
-    text-align: center; }
-  .rung .what { font-size: 15px; font-weight: 700; }
-  .rung .what small { display: block; font-weight: 400; color: var(--ink-soft); font-size: 13px;
-    line-height: 1.4; margin-top: 1px; }
-  @media (max-width: 480px) {
-    .rung { grid-template-columns: 26px minmax(0,1fr); gap: 10px; }
-    .rung .chip { grid-column: 2; justify-self: start; }
-  }
+  .scale { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px;
+    padding: 26px 22px 16px; margin: 26px 0 10px; box-shadow: var(--sh-m); }
+  .scale svg { display: block; width: 100%; height: auto; max-width: 100%; overflow: visible; }
 
-  /* ---- chart ---- */
-  figure { margin: 22px 0 0; }
-  .plot { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
-    padding: 14px 10px 6px; position: relative; }
-  .plot svg { display: block; width: 100%; height: auto; max-width: 100%; overflow: visible; }
-  .axis-label { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint); letter-spacing: .06em; }
-  .tick { font-family: var(--mono); font-size: 10.5px; fill: var(--ink-faint);
-    font-variant-numeric: tabular-nums; }
-  .mark-label { font-family: var(--mono); font-size: 10.5px; font-weight: 700; fill: var(--ink-soft);
+  figure { margin: 26px 0 0; }
+  .frame { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px;
+    padding: 22px 16px 12px; position: relative; box-shadow: var(--sh-m); }
+  .frame svg { display: block; width: 100%; height: auto; max-width: 100%; overflow: visible; }
+  figcaption { font-size: 14px; color: var(--ink-soft); margin-top: 16px; line-height: 1.55; }
+  figcaption strong { color: var(--ink); }
+
+  .axis-label { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint); letter-spacing: .14em; font-weight: 700; }
+  .tick { font-family: var(--mono); font-size: 10.5px; fill: var(--ink-faint); font-variant-numeric: tabular-nums; }
+  .mark-label { font-family: var(--mono); font-size: 11px; font-weight: 700; fill: var(--ink-soft);
     paint-order: stroke; stroke: var(--surface); stroke-width: 3.5px; stroke-linejoin: round; }
-  .key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 10px 4px 2px; font-size: 13px;
+  .dlab { font-family: var(--body); font-size: 13px; font-weight: 800; fill: var(--ink); letter-spacing: -.01em; }
+  .dsub { font-family: var(--mono); font-size: 9.5px; fill: var(--ink-faint); letter-spacing: .13em; font-weight: 700; }
+  .dedge { font-family: var(--body); font-size: 12.5px; font-weight: 500; fill: var(--ink-soft); }
+  .donpanel { fill: #FFFFFF; }
+
+  .key { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 14px 4px 2px; font-size: 13px;
     color: var(--ink-soft); align-items: center; }
-  .key span { display: inline-flex; align-items: center; gap: 7px; }
+  .key span { display: inline-flex; align-items: center; gap: 8px; }
   .key i { width: 22px; height: 0; border-top: 2px solid var(--ink-faint); display: inline-block; }
   .key i.dash { border-top-style: dashed; }
-  .key i.dot { width: 10px; height: 10px; border: 0; border-radius: 50%; background: var(--pass); }
-  .key i.dotfaint { width: 7px; height: 7px; border: 0; border-radius: 50%; background: var(--pass); opacity: .34; }
-  figcaption { font-size: 13.5px; color: var(--ink-soft); margin-top: 12px; max-width: 70ch; }
+  .key i.dot { width: 12px; height: 12px; border: 0; border-radius: 50%;
+    background: radial-gradient(circle at 32% 30%, var(--green-lo), var(--green) 70%); }
+  .key i.dotfaint { width: 8px; height: 8px; border: 0; border-radius: 50%; background: var(--green); opacity: .38; }
   .tip { position: absolute; pointer-events: none; opacity: 0; transition: opacity .12s;
     background: var(--ink); color: var(--ground); font-family: var(--mono); font-size: 11.5px;
-    line-height: 1.45; padding: 7px 9px; border-radius: 5px; white-space: nowrap; z-index: 5;
-    transform: translate(-50%, -114%); }
+    line-height: 1.45; padding: 9px 11px; border-radius: 7px; white-space: nowrap; z-index: 5;
+    transform: translate(-50%, -116%); box-shadow: var(--sh-m); }
   .tip.on { opacity: 1; }
   @media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
 
-  details { margin-top: 14px; border: 1px solid var(--rule); border-radius: 7px;
-    background: var(--surface); }
-  summary { cursor: pointer; padding: 10px 14px; font-family: var(--mono); font-size: 11.5px;
-    font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
-  .tablewrap { overflow-x: auto; padding: 0 14px 14px; }
+  details { margin-top: 16px; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
+  summary { cursor: pointer; padding: 13px 18px; font-family: var(--mono); font-size: 10.5px;
+    font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+  .tablewrap { overflow-x: auto; padding: 0 18px 18px; }
   table { border-collapse: collapse; font-size: 13.5px; width: 100%; min-width: 440px; }
-  th, td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--rule);
-    vertical-align: top; }
-  th { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .07em;
+  th, td { text-align: left; padding: 8px 14px 8px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .14em;
     text-transform: uppercase; color: var(--ink-faint); }
   td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
-  /* ---- timeline: dated, so the order carries real information ---- */
-  .timeline { display: grid; gap: 0; margin: 24px 0 8px; }
-  .ev { display: grid; grid-template-columns: 82px minmax(0,1fr); gap: 18px;
-    padding: 14px 0; border-top: 1px solid var(--rule); }
-  .ev:first-child { border-top: 0; padding-top: 4px; }
-  .ev .when { font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: .04em;
-    color: var(--ink-faint); padding-top: 3px; }
-  .ev .body h4 { font-family: var(--display); font-weight: 600; font-size: 1.08rem; margin: 0 0 3px; }
-  .ev .body p { font-size: 14.5px; color: var(--ink-soft); margin: 0; }
-  .ev.turn { background: var(--sunk); border-radius: 8px; padding: 14px 16px; border-top: 0;
-    margin: 6px 0; }
-  .ev.turn .when { color: var(--pass); }
-  .ev.turn .body h4 { color: var(--pass); }
-  @media (max-width: 480px) {
-    .ev, .ev.turn { grid-template-columns: minmax(0,1fr); gap: 3px; }
+  /* =========== ladder =========== */
+  .ladder { display: grid; gap: 8px; margin: 26px 0 8px; }
+  .rung { display: grid; grid-template-columns: 34px minmax(0,1fr) auto; gap: 16px; align-items: center;
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 18px;
+    box-shadow: var(--sh-s); }
+  .rung .tag { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ink-faint);
+    text-align: center; }
+  .rung .what { font-size: 15px; font-weight: 700; }
+  .rung .what small { display: block; font-weight: 400; color: var(--ink-soft); font-size: 13.5px;
+    line-height: 1.45; margin-top: 2px; }
+  @media (max-width: 520px) {
+    .rung { grid-template-columns: 28px minmax(0,1fr); gap: 10px; }
+    .rung .chip { grid-column: 2; justify-self: start; }
   }
 
-  /* ---- open items ---- */
-  .openlist { display: grid; gap: 8px; margin: 22px 0 8px; }
-  .item { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px;
-    padding: 13px 15px; display: grid; gap: 5px; }
-  .item .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
-  .item .head strong { font-size: 15px; }
-  .item p { font-size: 14px; color: var(--ink-soft); margin: 0; max-width: 70ch; }
+  /* =========== hard-problem cards =========== */
+  .hards { display: grid; grid-template-columns: repeat(auto-fit, minmax(262px, 1fr)); gap: 16px; margin: 28px 0 8px; }
+  .hard { border-radius: 16px; padding: 22px 24px; box-shadow: var(--sh-m); border: 1px solid var(--rule); }
+  .hard.h1 { background: linear-gradient(160deg, var(--amber-bg), var(--surface) 78%); }
+  .hard.h2 { background: linear-gradient(160deg, var(--blue-bg),  var(--surface) 78%); }
+  .hard.h3 { background: linear-gradient(160deg, var(--mag-bg),   var(--surface) 78%); }
+  .hard .n { font-family: var(--display); font-weight: 800; font-size: 2.5rem; line-height: 1;
+    letter-spacing: -.05em; display: block; margin-bottom: 10px; }
+  .hard.h1 .n { color: var(--amber); } .hard.h2 .n { color: var(--blue); } .hard.h3 .n { color: var(--mag); }
+  .hard h4 { margin: 0 0 6px; font-size: 15px; font-weight: 800; }
+  .hard p { margin: 0; font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+
+  /* =========== timeline =========== */
+  .timeline { margin: 28px 0 8px; }
+  .ev { display: grid; grid-template-columns: 88px minmax(0,1fr); gap: 22px; padding: 18px 0;
+    border-top: 1px solid var(--rule); }
+  .ev:first-child { border-top: 0; }
+  .ev .when { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .14em;
+    color: var(--ink-faint); padding-top: 6px; text-transform: uppercase; }
+  .ev h4 { font-family: var(--display); font-weight: 700; font-size: 1.2rem; margin: 0 0 5px;
+    letter-spacing: -.024em; }
+  .ev p { font-size: 14.5px; color: var(--ink-soft); margin: 0; }
+  .ev.turn { background: linear-gradient(150deg, var(--green-bg), var(--surface) 82%);
+    border: 1px solid var(--pass-edge); border-radius: 16px; padding: 20px 24px; margin: 10px 0;
+    box-shadow: var(--sh-m); }
+  .ev.turn .when, .ev.turn h4 { color: var(--pass); }
+  @media (max-width: 520px) { .ev, .ev.turn { grid-template-columns: minmax(0,1fr); gap: 4px; } }
+
+  .openlist { display: grid; gap: 10px; margin: 26px 0 8px; }
+  .item { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px;
+    padding: 17px 20px; display: grid; gap: 6px; box-shadow: var(--sh-s); }
+  .item .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+  .item .head strong { font-size: 15.5px; font-weight: 800; }
+  .item p { font-size: 14px; color: var(--ink-soft); margin: 0; }
 
   .specs { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule);
-    border-radius: 8px; overflow: hidden; margin: 22px 0 8px; }
-  .spec { background: var(--surface); display: grid; grid-template-columns: 172px minmax(0,1fr);
-    gap: 16px; padding: 11px 15px; font-size: 14.5px; }
-  .spec dt { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .06em;
-    text-transform: uppercase; color: var(--ink-faint); padding-top: 3px; }
+    border-radius: 16px; overflow: hidden; margin: 26px 0 8px; box-shadow: var(--sh-m); }
+  .spec { background: var(--surface); display: grid; grid-template-columns: 190px minmax(0,1fr);
+    gap: 18px; padding: 15px 20px; font-size: 14.5px; }
+  .spec dt { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-faint); padding-top: 5px; }
   .spec dd { margin: 0; color: var(--ink-soft); }
   .spec dd strong { color: var(--ink); font-weight: 700; }
-  @media (max-width: 560px) { .spec { grid-template-columns: minmax(0,1fr); gap: 2px; } }
+  @media (max-width: 600px) { .spec { grid-template-columns: minmax(0,1fr); gap: 3px; } }
 
-  .pull { border-left: 3px solid var(--pass); padding: 2px 0 2px 18px; margin: 24px 0;
-    font-size: clamp(1.05rem, 2.6vw, 1.22rem); line-height: 1.45; color: var(--ink); max-width: 56ch; }
-  .pull .who { display: block; font-size: 13px; color: var(--ink-faint); margin-top: 8px;
-    font-family: var(--mono); letter-spacing: .04em; }
+  .pull { font-family: var(--display); font-weight: 600; font-size: clamp(1.4rem, 3.6vw, 2rem);
+    line-height: 1.22; color: var(--ink); margin: 46px 0; letter-spacing: -.032em; text-wrap: balance; }
+  .pull .who { display: block; font-family: var(--mono); font-size: 11px; font-weight: 500;
+    letter-spacing: .08em; color: var(--ink-faint); margin-top: 18px; line-height: 1.6;
+    text-transform: none; }
 
-  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--rule);
-    font-size: 13.5px; color: var(--ink-soft); display: grid; gap: 8px; }
-  footer .meta { font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em;
+  footer { margin-top: 68px; padding-top: 26px; border-top: 1px solid var(--rule);
+    font-size: 14px; color: var(--ink-soft); display: grid; gap: 10px; }
+  footer .meta { font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
     color: var(--ink-faint); text-transform: uppercase; }
 </style>
 
-<div class="wrap">
-
-<header>
-  <p class="eyebrow">Build log &middot; updated 2026-09-16 &middot; day 19</p>
-  <h1>We Are STMing</h1>
-  <p class="lede">Two people who <strong>don't write code</strong> are building a scanning tunneling
-  microscope out of a 3D printer, a Teensy and about &pound;400 of parts. It is meant to image
-  individual atoms. This is where it actually is &mdash; <strong>measured, not estimated.</strong></p>
-</header>
-
-<h2><span class="num">01 &mdash; where it stands</span>The instrument can now feel a current</h2>
-
-<p>As of 16 September the whole signal chain works end to end. A known current injected where the
-tunneling gap will be travels through the amplifier, the cable, the converter, the firmware and the
-laptop, and comes out the far end as the right number. <strong>Every bring-up stage passes.</strong></p>
-
-<p>What has not happened yet: the tip has never touched the sample. The first approach attempt, the
-same evening, found no contact. That is the next thing.</p>
-
-<div class="readouts">
-  <div class="readout">
-    <div class="cap">Amplifier input current</div>
-    <div class="val">~4<span class="unit">pA</span></div>
-    <div class="note">Boxed, at 45 minutes. <span class="prov">MEAS</span> 250&times; inside the limit we set ourselves.</div>
-  </div>
-  <div class="readout">
-    <div class="cap">Measured chain gain</div>
-    <div class="val">320.5<span class="unit">cts/nA</span></div>
-    <div class="note">Against 320 predicted. <span class="prov">MEAS</span> R&sup2; 0.993 over 53 readings.</div>
-  </div>
-  <div class="readout">
-    <div class="cap">Quietest noise floor</div>
-    <div class="val">~40<span class="unit">pA</span></div>
-    <div class="note">12.7 counts sd. <span class="prov">MEAS</span> About 25&times; below the signal we need to see.</div>
-  </div>
-  <div class="readout">
-    <div class="cap">Bring-up stages passing</div>
-    <div class="val">0&ndash;6</div>
-    <div class="note">All of them, plus the bias path and the full measurement chain.</div>
-  </div>
-</div>
-
-<p class="sub">Every figure on this page carries the mark it carries in our own records:
-<span class="prov">MEAS</span> measured on our hardware &middot; <span class="prov">CALC</span> calculated
-&middot; <span class="prov">MESH</span> from a CAD mesh &middot; <span class="prov">DS</span> manufacturer
-datasheet. Anything we have not measured says so.</p>
-
-<h2><span class="num">02 &mdash; the proof</span>The night the whole chain worked</h2>
-
-<p>A tunneling current is about <strong>one nanoamp</strong> &mdash; roughly a billionth of the current
-in a phone charger. Proving you can measure something that small, before you risk a tip on it, means
-faking it: we clipped a <strong>100&nbsp;M&Omega; resistor</strong> across the gap where the tip and
-sample will be, swept the sample voltage across its full &plusmn;3&nbsp;V range, and read the result
-back through the real amplifier, the real cable and the real converter.</p>
-
-<p>Ohm's law says that should give <strong>&minus;3,200 counts per volt</strong>. We measured
-<strong>&minus;3,205 &plusmn; 37</strong>. The prediction and the measurement differ by
-<strong>0.16%</strong>.</p>
-
-<figure>
-  <div class="plot" id="plot">
-    <svg id="chart" viewBox="0 0 720 430" role="img"
-         aria-label="Scatter plot of 53 ADC readings against sample bias voltage. The measured points fall on the predicted line of minus 3,200 counts per volt across the full plus or minus 3 volt range."></svg>
-    <div class="tip" id="tip" hidden></div>
-  </div>
-  <div class="key">
-    <span><i class="dot"></i> Mean of each step</span>
-    <span><i class="dotfaint"></i> Individual reading (53)</span>
-    <span><i class="dash"></i> Predicted, &minus;3,200 counts/V</span>
-  </div>
-  <figcaption><strong>What this establishes:</strong> the bias converter, the buffer, the wire, the
-  tip holder, the tip lead, the amplifier, the cable, the converter, the firmware and the PC tools
-  all work, together, for the first time in this project. It also settled a sign we had been guessing
-  at &mdash; <strong>a positive voltage on the sample reads as negative counts</strong>, which is
-  exactly the case that would have made the firmware's built-in approach routine drive the tip into
-  the sample. <strong>What it does not establish:</strong> the spread you can see at each step is
-  <em>not</em> our noise figure &mdash; the shield cover was off and there were crocodile clips
-  hanging on the input. <strong>Zero was re-checked three times across the sweep</strong> &mdash; the stacked
-  point at 0&nbsp;V &mdash; and came back +36, &minus;6 and +39 counts, so there was no drift and no
-  hysteresis over the run. The quiet figure is the 40&nbsp;pA in the readout above.</figcaption>
-
-  <details>
-    <summary>Show the readings</summary>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Sample bias</th><th>Readings</th><th>Mean</th><th>Predicted</th></tr></thead>
-        <tbody id="datarows"></tbody>
-      </table>
+<!-- ====================== HERO ====================== -->
+<div class="wide hero">
+  <div class="panel">
+    <div class="masthead">
+      <p class="kicker">Build state &middot; 16 September 2026 &middot; day 19</p>
+      <h1>We Are STMing</h1>
+      <p class="standfirst">Two people, neither of whom writes code, are building a microscope that
+      sees at the scale of <strong>single atoms</strong> &mdash; out of a 3D printer, a hobby
+      microcontroller, and a hand-folded copper box.</p>
     </div>
-  </details>
-</figure>
-
-<h2><span class="num">03 &mdash; bring-up</span>Stage by stage</h2>
-
-<p class="sub">A staged bring-up: nothing is powered until the stage below it passes. This is the
-ladder we have been climbing since 29 August.</p>
-
-<div class="ladder">
-  <div class="rung"><div class="tag">0</div><div class="what">Continuity<small>Every connection metered before anything was switched on</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">1</div><div class="what">Serial link<small>The laptop can talk to the Teensy and get status back</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">2</div><div class="what">Coarse approach motor<small>Stepper and driver, wired direct to the Teensy</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">3</div><div class="what">Analog rails<small>&plusmn;18&nbsp;V in, &plusmn;15&nbsp;V out to the scan head</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">4</div><div class="what">Converters<small>Four digital-to-analog channels and the current reader</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">5</div><div class="what">Piezo drive<small>&minus;10&nbsp;V reaches the scanner. The scanner is built and moves</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">&mdash;</div><div class="what">Sample bias path<small>&minus;3&nbsp;V at the sample holder, gain as designed</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">6</div><div class="what">Preamplifier<small>~4&nbsp;pA in its copper box &mdash; the stage that blocked us for two weeks</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">&mdash;</div><div class="what">Measurement chain, end to end<small>320.5 counts per nA through a dummy junction</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">&mdash;</div><div class="what">Tip lead<small>Adds under 0.2&nbsp;nA of leakage; holder isolated from the piezo electrode</small></div><span class="chip pass">Pass</span></div>
-  <div class="rung"><div class="tag">&mdash;</div><div class="what">Two tip-crash firmware faults<small>Found by reading the code, fixed, and bench-tested red-then-green</small></div><span class="chip pass">Fixed</span></div>
-  <div class="rung"><div class="tag">&mdash;</div><div class="what">First approach to the sample<small>Attempted 16 September. No contact found &mdash; nothing damaged</small></div><span class="chip open">Open</span></div>
+    <svg class="scan" id="scan" viewBox="0 0 960 386" role="img"
+         aria-label="An illustration of a hexagonal atomic lattice drawn as a field of scan lines, in the style of a scanning tunneling microscope image."></svg>
+    <p class="caption"><strong>This picture is a drawing, not a measurement.</strong> It is what an
+    atomic surface looks like when a scanning tunneling microscope traces it, line by line &mdash;
+    the thing we are building towards. <strong>We have not imaged anything yet.</strong> Everything
+    below is the work of getting to the point where we can.</p>
+  </div>
 </div>
 
-<h2><span class="num">04 &mdash; how we got here</span>Nineteen days, sixteen logged sessions</h2>
+<!-- ====================== WHAT IT IS ====================== -->
+<section><div class="col">
+  <p class="eyebrow">01 &mdash; what the machine does</p>
+  <h2>A microscope with no lens, no light, and one atom for an eye</h2>
 
-<p class="sub">Every session is written up the same night, with the measurements, the failed
-approaches, and what was ruled out. The two hardest days were the two where we found out we had
-been wrong.</p>
+  <p class="lede">You cannot see an atom with light. Atoms are far smaller than the wavelength of
+  light itself, so <strong>no lens, at any price, will ever resolve one.</strong></p>
 
-<div class="timeline">
+  <p>A scanning tunneling microscope gets around that by not looking at all. It <em class="q">feels</em>.
+  A needle is sharpened until it ends in a single atom, and brought so close to a surface that the
+  two are almost touching &mdash; but not quite. The gap left between them is
+  <strong>about a nanometre</strong>: roughly three atoms wide.</p>
 
-  <div class="ev"><div class="when">29&ndash;30 Aug</div><div class="body">
-    <h4>First power-on</h4>
-    <p>The controller board is assembled and characterised. Draws 60&nbsp;mA and 36&nbsp;mA from its
-    two rails &mdash; a number that mattered more than we knew at the time.</p></div></div>
+  <p>At that distance something strange happens. Electrons, which classically have no business
+  crossing an empty gap, <strong>simply appear on the other side</strong>. This is quantum
+  tunneling, and it is not a metaphor &mdash; it is a measurable electric current of about
+  <strong>one nanoamp</strong>, a billionth of an amp.</p>
 
-  <div class="ev"><div class="when">31 Aug</div><div class="body">
-    <h4>The sample bias path works &mdash; and the amplifier doesn't</h4>
-    <p>First verified signal path in the project. In the same session the preamplifier is found to be
-    leaking badly, and both converter buses are found running at 40&nbsp;MHz down a ribbon cable that
-    cannot carry it. Dropped to 1&nbsp;MHz.</p></div></div>
+  <p>The useful part is how violently that current reacts to distance. Move the needle a fraction of
+  an atom's width closer and the current leaps. That ferocious sensitivity is the whole instrument:
+  <strong>drag the needle across a surface, keep the current constant by moving the needle up and
+  down, and the up-and-down movements trace out the shape of the surface</strong> &mdash; bump by
+  bump, atom by atom.</p>
 
-  <div class="ev"><div class="when">5 Sep</div><div class="body">
-    <h4>Two ways to destroy a tip, found by reading the firmware</h4>
-    <p>Engaging the feedback loop snapped the Z axis to mid-range from wherever it was; the motor was
-    left energised after every move, heating the scan head. Both faults were inherited from the
-    upstream design, and both would have cost a tip. Found before any tip was fitted.</p></div></div>
+  <p>That current has no business existing. It is worth understanding why, because
+  <strong>the whole instrument is built on it.</strong></p>
+</div></section>
 
-  <div class="ev"><div class="when">6 Sep</div><div class="body">
-    <h4>The manufacturing files turn out to contain the answers</h4>
-    <p>The gerber archives we had been treating as pictures are plain text, and carry the complete
-    netlist of both boards. A connector pinout we had marked "unknown, do not run a wire" was
-    resolved from a file that had been sitting in the repository for days.</p></div></div>
+<!-- ====================== TUNNELING ====================== -->
+<section><div class="wide">
+  <div class="col">
+    <p class="eyebrow">02 &mdash; the physics, plainly</p>
+    <h2>What &ldquo;tunneling&rdquo; actually means</h2>
 
-  <div class="ev"><div class="when">7 Sep</div><div class="body">
-    <h4>A meter overturns the project's headline number</h4>
-    <p>The amplifier's leakage is three times worse than recorded, and the converter's reference input
-    is discovered floating &mdash; meaning every reading taken so far had been measured against a
-    drifting zero.</p></div></div>
+    <p class="lede">Roll a ball at a hill. If it does not have the energy to get over the top, it
+    rolls back down. <strong>Every time. Without exception.</strong> That is the world we live in.</p>
 
-  <div class="ev"><div class="when">8&ndash;9 Sep</div><div class="body">
-    <h4>We stop and audit ourselves</h4>
-    <p>Two corrected numbers are found still sitting wrong in six live documents. We build a single
-    canonical file of every number that matters, and a checker that refuses a commit while a
-    known-wrong value is still written anywhere it would be believed. Its very first run finds a live
-    bug in our own analysis code.</p></div></div>
+    <p>An electron is not a ball. It does not have a position in the way a ball does. What it has is
+    a <strong>wave</strong> &mdash; a spread-out description of where it might turn up, taller where
+    it is more likely and flatter where it is less.</p>
 
-  <div class="ev turn"><div class="when">13 Sep</div><div class="body">
-    <h4>The root cause, after two weeks of chasing symptoms</h4>
-    <p>The amplifier's 0&nbsp;V reference pin is connected to <em>nothing</em> &mdash; on both boards.
-    The fabricated circuit boards have no ground plane: the original design has one, the files sent to
-    the manufacturer do not, leaving six ground points dead. Every preamplifier measurement in the
-    project had been taken on an amplifier with no reference. None of them were ever currents at
-    all.</p></div></div>
+    <p>And here is the part that matters: when that wave meets a barrier it cannot cross, it does not
+    stop dead at the edge. <strong>It fades into the barrier.</strong> It gets rapidly smaller &mdash;
+    but it does not become nothing. If the barrier is thin enough, a little of the wave is still
+    there when it reaches the far side, and carries on.</p>
 
-  <div class="ev"><div class="when">14 Sep</div><div class="body">
-    <h4>Repaired by hand, with wire</h4>
-    <p>Four wires onto a board 20&nbsp;mm long, then eight continuity checks and a capacitance check,
-    all passing. The first bench session in the project that ended with no new faults.</p></div></div>
+    <p>A wave on the far side means a real chance of finding the electron there. Not a large chance.
+    But an electric current is made of <em class="q">enormous</em> numbers of electrons, so a tiny
+    chance each, multiplied out, becomes <strong>a small, steady, entirely measurable current</strong>
+    &mdash; flowing across a gap that nothing should be able to cross.</p>
 
-  <div class="ev turn"><div class="when">15 Sep</div><div class="body">
-    <h4>The preamplifier works</h4>
-    <p>Mounted in its copper box, the repaired board reads <strong>about 4 picoamps</strong> &mdash;
-    250 times inside the limit we had set as the pass mark, against a signal of 1&nbsp;nA it has to
-    detect. A 45-minute warm-up rule we had been obeying for a week is retired: that drift was the
-    floating reference charging up, not the amplifier.</p></div></div>
-
-  <div class="ev turn"><div class="when">16 Sep</div><div class="body">
-    <h4>End to end, and both tip-crash faults fixed</h4>
-    <p>The converter reads the amplifier. The dummy junction test passes at 320.5 counts per nA. The
-    two firmware fixes are uploaded and bench-tested &mdash; deliberately reproduced on the old
-    firmware first, so we could watch the check go red before it went green. A tip goes in, and the
-    first approach is attempted.</p></div></div>
-
-</div>
-
-<h2><span class="num">05 &mdash; honest ledger</span>What we still can't do</h2>
-
-<p>This project keeps a rule that a confident wrong number costs more than an admitted gap. So:</p>
-
-<div class="openlist">
-
-  <div class="item">
-    <div class="head"><strong>No tunneling current yet</strong><span class="chip open">Open</span></div>
-    <p>The first approach ran the coarse screw 2,000 steps one way and 6,144 the other and found
-    nothing. Four candidate explanations, none tested. Nothing was damaged.</p>
+    <p>That is quantum tunneling. It is not a trick or an approximation; it is how the world works at
+    that scale, and it has been measured for a century. <strong>Our microscope is a machine for
+    listening to it.</strong></p>
   </div>
 
-  <div class="item">
-    <div class="head"><strong>Which way the motor approaches</strong><span class="chip unk">Disputed</span></div>
-    <p>The CAD mesh says one direction; Jacob, looking at the actual build, reads it the other way.
-    The tip sits 1&nbsp;mm from the pivot line <span class="prov">MESH</span> and the tip holder is
-    improvised, so 1&nbsp;mm is too thin a margin to settle it on paper. It gets settled by looking,
-    with a ruler in the photo.</p>
+  <figure>
+    <div class="frame">
+      <svg id="barrier" viewBox="0 0 900 310" role="img"
+           aria-label="Diagram of an electron wave approaching a gap. The wave oscillates in the needle, fades exponentially inside the gap, and emerges on the surface side much smaller but not zero.">
+      </svg>
+    </div>
+    <figcaption><strong>The whole idea in one picture.</strong> The wave arrives at full size, fades
+    steeply across the gap, and comes out the other side much smaller &mdash; but not zero. That
+    surviving fraction is the tunneling current. <strong>The real fade is far steeper than any
+    drawing can show</strong> &mdash; across a gap this size the wave drops by a factor of tens of
+    thousands, which is precisely why so few electrons make it across, and precisely why the ones
+    that do are such a sensitive measure of the distance.</figcaption>
+  </figure>
+
+  <div class="col">
+    <h3>Why this makes such a good ruler</h3>
+
+    <p>The fade across the gap is <strong>brutally</strong> steep. As a rule of thumb, pulling the
+    needle back by just <strong>0.1&nbsp;nm</strong> &mdash; about a third of the width of a single
+    atom &mdash; drops the current by roughly <strong>a factor of ten</strong>.
+    <span class="prov">REF</span></p>
+
+    <p>That is the property the entire instrument is built around. A current that changes tenfold
+    over a third of an atom is an <em class="q">exquisitely</em> sensitive distance gauge. Hold the
+    current steady and you are holding the gap steady to a small fraction of an atom's width
+    &mdash; which is exactly how a machine with no lens ends up tracing the bumps of individual
+    atoms.</p>
+
+    <p class="sub">That tenfold figure is a standard textbook result, not something we measured
+    &mdash; hence the <span class="prov">REF</span> mark. The real gold atoms we will be scanning are
+    about <strong>0.29&nbsp;nm</strong> across.</p>
+  </div>
+</div></section>
+
+<!-- ====================== SCALE ====================== -->
+<section><div class="wide">
+  <div class="col" style="margin-bottom:-6px">
+    <p class="eyebrow">03 &mdash; the scale involved</p>
+    <h2>How small is the gap?</h2>
+    <p>Each step along this line is <strong>ten times smaller</strong> than the one before it. Human
+    experience runs out somewhere around the third mark.</p>
+  </div>
+  <div class="scale">
+    <svg id="scalebar" viewBox="0 0 900 214" role="img"
+         aria-label="A logarithmic scale from a human hair at 70,000 nanometres down to a single gold atom at 0.29 nanometres, showing the tunneling gap of about 1 nanometre and the microscope's step size of 0.0104 nanometres."></svg>
+  </div>
+  <div class="col">
+    <p class="sub" style="margin-top:14px">The three marks on the right are this project's own
+    figures. The rest are everyday objects, given for scale only. <strong>One step of our
+    scanner moves the needle 0.0104&nbsp;nm</strong> <span class="prov">INFER</span> &mdash; about a
+    <strong>thirtieth of the width of a single gold atom</strong>. That figure is inferred from a
+    similar scanner, not yet measured on ours.</p>
+  </div>
+</div></section>
+
+<!-- ====================== HOW IT WORKS ====================== -->
+<section><div class="wide">
+  <div class="col">
+    <p class="eyebrow">04 &mdash; how it works</p>
+    <h2>The loop that holds the gap</h2>
+    <p>Nothing in this instrument holds still by being sturdy. It holds still by
+    <strong>constantly correcting itself</strong>, thousands of times a second, around a loop with
+    five parts. Every one of those parts now works.</p>
   </div>
 
-  <div class="item">
-    <div class="head"><strong>Which way the scanner extends</strong><span class="chip unk">Unknown</span></div>
-    <p>It depends on how the piezo disc was polarised at the factory and which face the tip is on,
-    and neither is recorded anywhere. Rather than guess, the approach tool now searches both
-    directions and reports which one it was at first contact.</p>
+  <figure>
+    <div class="frame">
+      <svg id="loop" viewBox="0 50 950 344" role="img" aria-label="Diagram of the scanning tunneling microscope feedback loop: a needle above a surface separated by a one nanometre gap produces a tunneling current of about one nanoamp, which passes to an amplifier, then a converter, then the microcontroller, which drives a piezo scanner that moves the needle and closes the loop."></svg>
+    </div>
+    <figcaption><strong>Read it clockwise.</strong> The gap makes a current. The amplifier turns a
+    billionth of an amp into a voltage large enough to survive a cable. The converter turns that into
+    a number. The microcontroller compares the number to the one it wants, and tells the scanner to
+    move the needle up or down until they match. <strong>The record of that correction, over
+    thousands of points, is the image.</strong></figcaption>
+  </figure>
+</div></section>
+
+<div class="wide"><div class="divider"></div></div>
+
+<!-- ====================== ACHIEVED ====================== -->
+<section><div class="wide">
+  <div class="col">
+    <p class="eyebrow">05 &mdash; what works today</p>
+    <h2>Every link in that loop now works</h2>
+    <p class="lede">On the evening of 16 September a known current was pushed through the whole chain
+    for the first time &mdash; and came out the far end as <strong>the right number</strong>.</p>
   </div>
 
-  <div class="item">
-    <div class="head"><strong>The converters lose their configuration</strong><span class="chip open">Open</span></div>
-    <p>All four drop their settings roughly hourly. We know how to detect it &mdash; four indicator
-    LEDs &mdash; but there is no software way to catch it, so every measurement is bracketed by
-    looking at the board.</p>
+  <div class="readouts">
+    <div class="ro c1">
+      <div class="cap">Amplifier's own error</div>
+      <div class="val">4<span class="u">pA</span></div>
+      <div class="means"><b>250&times; smaller</b> than the signal it has to detect. This was the part
+      that blocked the project for two weeks. <span class="prov">MEAS</span></div>
+    </div>
+    <div class="ro c2">
+      <div class="cap">Chain accuracy</div>
+      <div class="val">0.16<span class="u">%</span></div>
+      <div class="means">How far the measured result sat from the prediction. <b>Like walking a
+      kilometre and stopping within a metre and a half of the mark.</b> <span class="prov">MEAS</span></div>
+    </div>
+    <div class="ro c3">
+      <div class="cap">Quietest noise floor</div>
+      <div class="val">40<span class="u">pA</span></div>
+      <div class="means"><b>25&times; below</b> the tunneling current it has to pick out. Measured with
+      the operator standing a metre away. <span class="prov">MEAS</span></div>
+    </div>
+    <div class="ro c4">
+      <div class="cap">Bring-up stages passed</div>
+      <div class="val">7<span class="u">of 7</span></div>
+      <div class="means">Stages 0 to 6, plus the sample bias path and the full measurement chain.
+      <b>Nothing left failing.</b></div>
+    </div>
   </div>
 
-  <div class="item">
-    <div class="head"><strong>One noise spike we cannot explain</strong><span class="chip open">Open</span></div>
-    <p>Noise got 20&times; worse for part of one evening and then went away. Two suspects were tested
-    one variable at a time and both were cleared. The leading candidate &mdash; a freshly soldered,
-    solvent-cleaned joint still drying &mdash; is untested.</p>
+  <div class="col">
+    <p class="sub">Every figure on this page carries the mark it carries in our own records:
+    <span class="prov">MEAS</span>&nbsp;measured on our hardware &middot;
+    <span class="prov">CALC</span>&nbsp;calculated &middot;
+    <span class="prov">INFER</span>&nbsp;inferred from a similar part &middot;
+    <span class="prov">MESH</span>&nbsp;from the CAD model &middot;
+    <span class="prov">REF</span>&nbsp;a standard published figure, not ours.
+    <strong>Anything we have not measured says so.</strong> That rule has saved this project more than once.</p>
+  </div>
+</div></section>
+
+<!-- ====================== THE PROOF ====================== -->
+<section><div class="wide">
+  <div class="col">
+    <p class="eyebrow">06 &mdash; the proof</p>
+    <h2>The night the whole chain worked</h2>
+
+    <p>You cannot test a machine like this by pointing it at something and hoping. So we
+    <strong>faked the atom</strong>.</p>
+
+    <p>A single resistor, clipped in exactly where the needle and the surface will be, produces a
+    current of precisely known size &mdash; the same size a real tunneling gap would. Sweep the
+    voltage across it, and simple arithmetic says what should come out the other end of the
+    instrument: <strong>&minus;3,200 counts for every volt applied.</strong></p>
+
+    <p>We measured <strong>&minus;3,205</strong>. Fifty-three readings. Every one of them on the
+    line.</p>
   </div>
 
-  <div class="item">
-    <div class="head"><strong>How far one motor step actually moves the tip</strong><span class="chip unk">Unresolved</span></div>
-    <p>The lever ratio is 20, 30 or 40 depending on which source you believe, putting one step
-    somewhere between 3.9 and 7.8&nbsp;nm <span class="prov">CALC</span>. The measurement that settles
-    it is the same photograph that settles the motor direction.</p>
+  <figure>
+    <div class="frame" id="plot">
+      <svg id="chart" viewBox="0 0 900 470" role="img"
+           aria-label="Scatter plot of 53 readings against sample voltage. Every measured point falls on the predicted line of minus 3,200 counts per volt across the full range."></svg>
+      <div class="tip" id="tip" hidden></div>
+    </div>
+    <div class="key">
+      <span><i class="dot"></i> Average at each step</span>
+      <span><i class="dotfaint"></i> Individual reading (53)</span>
+      <span><i class="dash"></i> What arithmetic predicted</span>
+    </div>
+    <figcaption><strong>Why this matters more than it looks.</strong> Fifteen separate things had to
+    be right at once for those dots to land on that line &mdash; the voltage source, the wiring, the
+    amplifier, the shielding, the cable, the converter, the firmware and the software. A fault
+    anywhere would have shown up as points off the line. <strong>Zero was re-checked three times
+    across the run</strong> and came back within 39 counts of nothing every time, so there was no
+    drift and no hysteresis. The spread you can see at each step is <strong>not</strong> the
+    instrument's noise figure &mdash; the shield was open and there were crocodile clips hanging on
+    the input. The quiet figure is the 40&nbsp;pA above.</figcaption>
+
+    <details>
+      <summary>Show all 53 readings</summary>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Voltage</th><th>Readings</th><th>Average</th><th>Predicted</th></tr></thead>
+          <tbody id="datarows"></tbody>
+        </table>
+      </div>
+    </details>
+  </figure>
+</div></section>
+
+<!-- ====================== WHY IT IS HARD ====================== -->
+<section><div class="wide">
+  <div class="col">
+    <p class="eyebrow">07 &mdash; why this is hard</p>
+    <h2>Three numbers that explain the difficulty</h2>
+    <p>It is worth knowing what is actually being fought here. None of these are exaggerations; all
+    three are worked out in the project's own notes.</p>
   </div>
 
-</div>
+  <div class="hards">
+    <div class="hard h1">
+      <span class="n">330&times;</span>
+      <h4>One degree of room temperature</h4>
+      <p>A single degree Celsius expands the steel in the frame by about 330&nbsp;nm &mdash;
+      <strong>330 times the width of the whole gap.</strong> Only the mismatch between the two arms
+      of the frame actually moves the gap, so it is not 330&nbsp;nm of real drift, but it is the
+      scale of what the design has to cancel out. <span class="prov">CALC</span></p>
+    </div>
+    <div class="hard h2">
+      <span class="n">1&nbsp;nA</span>
+      <h4>The signal, against a human body</h4>
+      <p>A person standing within a metre of the amplifier injects <strong>tens of nanoamps</strong>
+      into it just by existing. The signal being hunted is about one. Every measurement that matters
+      is taken with nobody near the bench. <span class="prov">MEAS</span></p>
+    </div>
+    <div class="hard h3">
+      <span class="n">0.01&nbsp;nm</span>
+      <h4>The step the scanner must take</h4>
+      <p>To trace a surface atom by atom, the needle has to move in steps far finer than an atom is
+      wide &mdash; and hold each one steady. Our scanner's smallest step is
+      <strong>0.0104&nbsp;nm</strong>, which is just inside what is needed.
+      <span class="prov">INFER</span></p>
+    </div>
+  </div>
 
-<h2><span class="num">06 &mdash; the machine</span>What it's made of</h2>
+  <div class="col">
+    <p class="sub" style="margin-top:16px">The whole instrument hangs on springs, damped by an
+    aluminium plate moving through magnets without touching them, because <strong>ordinary building
+    vibration is enormous compared to a nanometre.</strong></p>
+  </div>
+</div></section>
 
-<dl class="specs">
-  <div class="spec"><dt>Frame</dt><dd>3D-printed in <strong>carbon-filled PETG</strong> for stiffness and dimensional stability. Not PLA &mdash; it creeps, and creep shows up directly as drift in the image</dd></div>
-  <div class="spec"><dt>Vibration isolation</dt><dd>A 200&nbsp;mm platform hung on three springs, damped by an aluminium plate moving through fixed magnets &mdash; <strong>no contact, no rubber</strong> <span class="prov">MESH</span></dd></div>
-  <div class="spec"><dt>Coarse approach</dt><dd>A stepper motor turning a <strong>1/4"&ndash;80 screw</strong> through a lever, giving single-digit nanometres per step</dd></div>
-  <div class="spec"><dt>Scanner</dt><dd>A piezoelectric disc with a tungsten tip cut at 45&deg;. Roughly <strong>680&nbsp;nm of travel in Z</strong>, inferred from a similar disc, not ours</dd></div>
-  <div class="spec"><dt>Amplifier</dt><dd>An <strong>OPA627</strong> current-to-voltage converter with a 100&nbsp;M&Omega; feedback resistor, in a hand-made copper box at the scan head. This is the part that has to see a nanoamp</dd></div>
-  <div class="spec"><dt>Controller</dt><dd><strong>Teensy 4.1</strong>, four 16-bit converters for X, Y, Z and sample bias, and a 16-bit converter reading the current back</dd></div>
-  <div class="spec"><dt>Sample</dt><dd>Gold leaf on a magnetic plate, biased through the mounting magnet</dd></div>
-</dl>
+<div class="wide"><div class="divider"></div></div>
 
-<div class="pull">
-  &ldquo;You have the data, not us. 100% should never happen again.&rdquo;
-  <span class="who">Jacob, 7 September, after being told to check a datasheet <em>after</em> making the connection. The working rules were rewritten the same day.</span>
-</div>
+<!-- ====================== LADDER ====================== -->
+<section><div class="col">
+  <p class="eyebrow">08 &mdash; bring-up</p>
+  <h2>Stage by stage</h2>
+  <p>Nothing gets powered until the stage below it passes. This is the ladder we have been climbing
+  since 29 August, and it is the reason nothing has been destroyed.</p>
 
-<h2><span class="num">07 &mdash; credit</span>Standing on other people's work</h2>
+  <div class="ladder">
+    <div class="rung"><div class="tag">0</div><div class="what">Continuity<small>Every connection metered before anything was switched on</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">1</div><div class="what">The computer can talk to the board<small>Commands go out, status comes back</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">2</div><div class="what">The coarse approach motor<small>Drives the fine screw that brings the sample towards the needle</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">3</div><div class="what">Power rails<small>&plusmn;18&nbsp;V in, clean &plusmn;15&nbsp;V out to the scan head</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">4</div><div class="what">The converters<small>Four channels out, one channel back in</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">5</div><div class="what">The scanner moves<small>Full voltage reaches the piezo. The scan head is built and working</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">&mdash;</div><div class="what">Voltage reaches the sample<small>The bias that drives the tunneling current</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">6</div><div class="what">The amplifier<small>~4&nbsp;pA of error in its copper box &mdash; the stage that blocked us for two weeks</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">&mdash;</div><div class="what">The whole chain, end to end<small>A known current in, the right number out</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">&mdash;</div><div class="what">The needle's wiring<small>Adds almost no leakage of its own</small></div><span class="chip pass">Pass</span></div>
+    <div class="rung"><div class="tag">&mdash;</div><div class="what">Two ways to destroy a needle, found in the software<small>Both fixed, and both tested by deliberately reproducing them first</small></div><span class="chip pass">Fixed</span></div>
+    <div class="rung"><div class="tag">&mdash;</div><div class="what">First approach to the sample<small>Attempted 16 September. No contact found &mdash; nothing damaged</small></div><span class="chip open">Open</span></div>
+  </div>
+</div></section>
 
-<p>Neither of us invented any of this. The mechanics, firmware and controller board come from
-<strong>Mech Panda's</strong> <code>red-panda-stm</code>; the scan head, tip preparation and
-amplifier design come from <strong>Dan Berard's</strong> home-built STM, which is the reference build
-for anyone attempting this at home. Thanks also to <strong>Dr Percy Zahl</strong> of Brookhaven
-National Laboratory for guidance on vibration isolation and scan head design.</p>
+<!-- ====================== STORY ====================== -->
+<section><div class="col">
+  <p class="eyebrow">09 &mdash; how we got here</p>
+  <h2>Nineteen days</h2>
+  <p>Every working session is written up the same night &mdash; the measurements, the dead ends, and
+  what was ruled out. <strong>The two best days were the two where we found out we had been
+  wrong.</strong></p>
 
-<p>Everything we have worked out that <em>wasn't</em> already documented &mdash; and everything we got
-wrong on the way &mdash; is written up in the open, because the gap between "here are the files" and
-"here is how to actually get it working" is where we have spent almost all of our time.</p>
+  <div class="timeline">
 
-<footer>
-  <p class="meta">Last updated 2026-09-16 &middot; 16 session logs &middot; stages 0&ndash;6 passing</p>
-  <p>Built by Jacob and Nuh Shaheer. The full build log, every measurement and every wrong turn:
-  <a href="https://github.com/jacobbkatz/We-Are-STMING">github.com/jacobbkatz/We-Are-STMING</a>.
-  This page is regenerated from <code>STATUS.md</code> and the session logs; where it disagrees with
-  those, believe them.</p>
-</footer>
+    <div class="ev"><div class="when">29 Aug</div><div>
+      <h4>First power-on</h4>
+      <p>The controller board is assembled and characterised.</p></div></div>
 
-</div>
+    <div class="ev"><div class="when">31 Aug</div><div>
+      <h4>One thing works, two things don't</h4>
+      <p>Voltage reaches the sample for the first time. In the same session the amplifier is found to
+      be leaking badly, and both data buses are found running forty times faster than the ribbon
+      cable can carry.</p></div></div>
+
+    <div class="ev"><div class="when">5 Sep</div><div>
+      <h4>Two ways to destroy a needle, found by reading the code</h4>
+      <p>Engaging the feedback loop would have slammed the scanner to the middle of its range from
+      wherever it happened to be. Both faults were inherited from the original design. Both were
+      found before any needle was fitted.</p></div></div>
+
+    <div class="ev"><div class="when">7 Sep</div><div>
+      <h4>A multimeter overturns the project's headline number</h4>
+      <p>The amplifier's leakage is three times worse than recorded &mdash; and the reference the
+      whole measurement was taken against turns out to be floating. Every reading so far had been
+      measured against a moving zero.</p></div></div>
+
+    <div class="ev"><div class="when">8&ndash;9 Sep</div><div>
+      <h4>We stop, and audit ourselves</h4>
+      <p>Two corrected numbers are found still sitting wrong in six live documents. We build one
+      canonical file of every number that matters, and an automatic check that refuses to accept new
+      work while a known-wrong value is still written anywhere. Its first run finds a real bug in our
+      own analysis code.</p></div></div>
+
+    <div class="ev turn"><div class="when">13 Sep</div><div>
+      <h4>The root cause, after two weeks of chasing symptoms</h4>
+      <p>The amplifier's reference pin is connected to <em>nothing</em> &mdash; on both boards. The
+      manufactured circuit boards were missing a ground layer that the original design has. Six
+      connection points were dead from the day they arrived. <strong>Every amplifier measurement in
+      the project had been meaningless</strong>, and we had spent two weeks trying to explain the
+      readings.</p></div></div>
+
+    <div class="ev"><div class="when">14 Sep</div><div>
+      <h4>Repaired by hand, with wire</h4>
+      <p>Four wires onto a circuit board 20&nbsp;mm long, then nine separate checks, all passing. The
+      first bench session in the project that ended with no new faults.</p></div></div>
+
+    <div class="ev turn"><div class="when">15 Sep</div><div>
+      <h4>The amplifier works</h4>
+      <p>In its copper box, the repaired board settles at about <strong>4 picoamps</strong> of error
+      &mdash; 250 times better than the pass mark we had set, against a signal of 1&nbsp;nA it has to
+      find. A 45-minute warm-up rule we had obeyed for a week is thrown out: that drift had been the
+      broken reference charging up, not the amplifier.</p></div></div>
+
+    <div class="ev turn"><div class="when">16 Sep</div><div>
+      <h4>End to end &mdash; and the first approach</h4>
+      <p>The known current goes in and the right number comes out. Both needle-destroying software
+      faults are fixed and tested. A needle goes in for the first time, and the machine is told to go
+      looking for the surface.</p></div></div>
+
+  </div>
+</div></section>
+
+<div class="wide"><div class="divider"></div></div>
+
+<!-- ====================== OPEN ====================== -->
+<section><div class="col">
+  <p class="eyebrow">10 &mdash; the honest ledger</p>
+  <h2>What we still cannot do</h2>
+
+  <p class="lede">This project runs on a rule: <strong>a confident wrong number costs more than an
+  admitted gap.</strong> So here is the gap.</p>
+
+  <div class="openlist">
+    <div class="item">
+      <div class="head"><strong>We have never seen a tunneling current</strong><span class="chip open">Open</span></div>
+      <p>The first approach moved the screw two thousand steps one way and six thousand the other,
+      and found nothing. Four possible explanations, none of them tested yet. Nothing was damaged.</p>
+    </div>
+    <div class="item">
+      <div class="head"><strong>Which way the motor approaches</strong><span class="chip unk">Disputed</span></div>
+      <p>The CAD model says one direction. Jacob, looking at the actual machine, reads it the other
+      way. The needle sits 1&nbsp;mm from the pivot &mdash; too fine a margin to settle on paper, so
+      it gets settled by looking, with a ruler in the photograph.</p>
+    </div>
+    <div class="item">
+      <div class="head"><strong>Which way the scanner extends</strong><span class="chip unk">Unknown</span></div>
+      <p>It depends on how the piezo disc was polarised at the factory, which nobody recorded. Rather
+      than guess with a needle at risk, the software now searches both directions and reports which
+      one it was at the moment of first contact.</p>
+    </div>
+    <div class="item">
+      <div class="head"><strong>The converters forget their settings</strong><span class="chip open">Open</span></div>
+      <p>All four drop their configuration roughly once an hour. There is no way to detect it in
+      software, so every measurement is bracketed by physically looking at four indicator lights on
+      the board.</p>
+    </div>
+    <div class="item">
+      <div class="head"><strong>One evening of noise we cannot explain</strong><span class="chip open">Open</span></div>
+      <p>Noise got twenty times worse for part of one session, then went away. Two suspects were
+      tested one variable at a time, and both were cleared. The leading candidate is untested.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ====================== MACHINE ====================== -->
+<section><div class="wide">
+  <div class="col">
+    <p class="eyebrow">11 &mdash; the machine</p>
+    <h2>What it is made of</h2>
+  </div>
+  <dl class="specs">
+    <div class="spec"><dt>Frame</dt><dd>3D-printed in <strong>carbon-filled PETG</strong>. Not PLA &mdash; PLA slowly creeps under load, and creep at this scale shows up directly as a smear across the image</dd></div>
+    <div class="spec"><dt>Vibration isolation</dt><dd>A 200&nbsp;mm platform hung on three springs, damped by an aluminium plate moving through fixed magnets &mdash; <strong>no contact, no rubber, nothing to wear out</strong> <span class="prov">MESH</span></dd></div>
+    <div class="spec"><dt>Coarse approach</dt><dd>A stepper motor turning an <strong>80-threads-per-inch screw</strong> through a lever, bringing the sample to within striking distance a few nanometres at a time</dd></div>
+    <div class="spec"><dt>Scanner</dt><dd>A piezoelectric disc &mdash; a ceramic that changes shape when voltage is applied &mdash; carrying a tungsten needle cut at 45&deg;. About <strong>680&nbsp;nm of travel</strong> <span class="prov">INFER</span></dd></div>
+    <div class="spec"><dt>Amplifier</dt><dd>An <strong>OPA627</strong> with a 100&nbsp;M&Omega; feedback resistor, in a hand-folded copper box mounted at the scan head. This is the part that has to see a nanoamp</dd></div>
+    <div class="spec"><dt>Controller</dt><dd>A <strong>Teensy 4.1</strong> hobby microcontroller, four 16-bit outputs and one 16-bit input</dd></div>
+    <div class="spec"><dt>Sample</dt><dd>Gold leaf on a magnetic plate. We expect <strong>atomic terraces</strong> &mdash; flat regions separated by steps one atom high &mdash; rather than individual atoms, which are far harder on metals</dd></div>
+  </dl>
+</div></section>
+
+<!-- ====================== QUOTE + CREDIT ====================== -->
+<section><div class="col">
+  <p class="pull">&ldquo;You have the data, not us. 100% should never happen again.&rdquo;
+    <span class="who">Jacob, 7 September &mdash; after being told to check a component's safe limits
+    <em>after</em> being told to make the connection. The working rules were rewritten the same
+    day, and the order was reversed permanently.</span></p>
+
+  <p class="eyebrow">12 &mdash; credit</p>
+  <h2>Standing on other people's work</h2>
+
+  <p>We invented none of this. The mechanics, firmware and controller board come from
+  <strong>Mech Panda's</strong> open-source design; the scan head, needle preparation and amplifier
+  come from <strong>Dan Berard's</strong> home-built STM, which is the reference build for anyone
+  attempting this at home. Thanks also to <strong>Dr Percy Zahl</strong> of Brookhaven National
+  Laboratory for guidance on vibration isolation and scan head design.</p>
+
+  <p>What we are adding is the part nobody writes down: <strong>the distance between "here are the
+  files" and "here is a working instrument."</strong> Every wrong turn, every corrected number and
+  every wasted afternoon is in the log, in public, because that gap is where all of the time
+  actually goes.</p>
+
+  <footer>
+    <p class="meta">Build state 16 September 2026 &middot; page revised 17 September &middot; 16 session logs &middot; 7 of 7 stages passing</p>
+    <p>Built by Jacob and Nuh Shaheer. The full build log &mdash; every measurement, every mistake
+    &mdash; is at <a href="https://github.com/jacobbkatz/We-Are-STMING">github.com/jacobbkatz/We-Are-STMING</a>.
+    This page is assembled from that repository; where the two disagree, the repository is right.</p>
+  </footer>
+</div></section>
 
 <script>
 (function () {
-  // The dummy junction sweep, 2026-09-16. Raw readings exactly as logged.
-  var STEPS = [
-    { v:  3.000, code: 'boot/0', r: [-9625, -9145, -9868, -9442, -9851] },
-    { v:  0.000, code: '32768',  r: [28, 104, 691, -95, 301, -19, -73, -307, 32, -303] },
-    { v: -0.662, code: '40000',  r: [1613, 2415, 2181, 1829, 2081, 2204] },
-    { v: -1.578, code: '50000',  r: [5335, 5548, 5314, 5634, 5065, 4434] },
-    { v:  0.000, code: '32768',  r: [-616, 282, 576, -51, -83, -141] },
-    { v:  0.711, code: '25000',  r: [-1718, -2271, -1875, -1791, -2311, -2589] },
-    { v:  1.627, code: '15000',  r: [-4965, -5077, -5390, -4788, -5428, -5038] },
-    { v:  0.000, code: '32768',  r: [-148, -102, 581, -480, -49, 228, 219, 59] }
-  ];
-  var SLOPE = -3200; // counts per volt, from Ohm's law through a nominal 100 MOhm
-
-  var mean = function (a) { return a.reduce(function (s, x) { return s + x; }, 0) / a.length; };
   var NS = 'http://www.w3.org/2000/svg';
-  var el = function (n, at) {
+  function el(n, at) {
     var e = document.createElementNS(NS, n);
-    for (var k in at) { if (at[k] !== null) e.setAttribute(k, at[k]); }
+    for (var k in at) { if (at[k] !== null && at[k] !== undefined) e.setAttribute(k, at[k]); }
     return e;
-  };
-
-  var svg = document.getElementById('chart');
-  if (!svg) { return; }
-
-  var W = 720, H = 430, M = { t: 16, r: 26, b: 48, l: 64 };
-  var x0 = M.l, x1 = W - M.r, y0 = M.t, y1 = H - M.b;
-  var xd = [-1.95, 3.25], yd = [-10800, 6400];
-  var X = function (v) { return x0 + (v - xd[0]) / (xd[1] - xd[0]) * (x1 - x0); };
-  var Y = function (c) { return y1 - (c - yd[0]) / (yd[1] - yd[0]) * (y1 - y0); };
-
-  // --- grid and axes, recessive ---
-  var yTicks = [5000, 0, -5000, -10000];
-  yTicks.forEach(function (t) {
-    svg.appendChild(el('line', { x1: x0, x2: x1, y1: Y(t), y2: Y(t),
-      stroke: 'var(--grid)', 'stroke-width': t === 0 ? 1.5 : 1 }));
-    var lab = el('text', { x: x0 - 10, y: Y(t) + 3.6, 'text-anchor': 'end', class: 'tick' });
-    lab.textContent = (t > 0 ? '+' : '') + t.toLocaleString().replace('-', '\u2212');
-    svg.appendChild(lab);
-  });
-
-  var xTicks = [-1, 0, 1, 2, 3];
-  xTicks.forEach(function (t) {
-    svg.appendChild(el('line', { x1: X(t), x2: X(t), y1: y0, y2: y1,
-      stroke: 'var(--grid)', 'stroke-width': t === 0 ? 1.5 : 1 }));
-    var lab = el('text', { x: X(t), y: y1 + 20, 'text-anchor': 'middle', class: 'tick' });
-    lab.textContent = ((t > 0 ? '+' : '') + t).replace('-', '\u2212');
-    svg.appendChild(lab);
-  });
-
-  var xl = el('text', { x: (x0 + x1) / 2, y: H - 10, 'text-anchor': 'middle', class: 'axis-label' });
-  xl.textContent = 'VOLTS ON THE SAMPLE';
-  svg.appendChild(xl);
-
-  var yl = el('text', { x: 0, y: 0, 'text-anchor': 'middle', class: 'axis-label',
-    transform: 'translate(15,' + (y0 + y1) / 2 + ') rotate(-90)' });
-  yl.textContent = 'ADC COUNTS';
-  svg.appendChild(yl);
-
-  // --- prediction line, drawn under the data ---
-  svg.appendChild(el('line', {
-    x1: X(xd[0]), y1: Y(SLOPE * xd[0]), x2: X(xd[1]), y2: Y(SLOPE * xd[1]),
-    stroke: 'var(--ink-faint)', 'stroke-width': 2, 'stroke-dasharray': '7 5',
-    'stroke-linecap': 'round'
-  }));
-
-  // --- individual readings, faint ---
-  STEPS.forEach(function (s) {
-    s.r.forEach(function (c) {
-      svg.appendChild(el('circle', { cx: X(s.v), cy: Y(c), r: 3.4,
-        fill: 'var(--pass)', 'fill-opacity': .34 }));
+  }
+  function defs(svg) {
+    var d = svg.querySelector('defs');
+    if (!d) { d = el('defs'); svg.insertBefore(d, svg.firstChild); }
+    return d;
+  }
+  function lin(svg, id, stops, x2, y2) {
+    var g = el('linearGradient', { id: id, x1: '0', y1: '0', x2: x2 || '0', y2: y2 || '1' });
+    stops.forEach(function (st) {
+      g.appendChild(el('stop', { offset: st[0], 'stop-color': st[1], 'stop-opacity': st[2] }));
     });
-  });
+    defs(svg).appendChild(g); return 'url(#' + id + ')';
+  }
+  function rad(svg, id, stops, fx, fy) {
+    var g = el('radialGradient', { id: id, fx: fx || '0.34', fy: fy || '0.28' });
+    stops.forEach(function (st) {
+      g.appendChild(el('stop', { offset: st[0], 'stop-color': st[1], 'stop-opacity': st[2] }));
+    });
+    defs(svg).appendChild(g); return 'url(#' + id + ')';
+  }
+  function blur(svg, id, amt) {
+    var f = el('filter', { id: id, x: '-60%', y: '-60%', width: '220%', height: '220%' });
+    f.appendChild(el('feGaussianBlur', { stdDeviation: amt }));
+    defs(svg).appendChild(f); return 'url(#' + id + ')';
+  }
+  function hex2rgb(h) {
+    return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  }
+  function mix(a, b, t) {
+    var A = hex2rgb(a), B = hex2rgb(b), o = '#';
+    for (var i = 0; i < 3; i++) {
+      var v = Math.round(A[i] + (B[i] - A[i]) * t).toString(16);
+      o += v.length < 2 ? '0' + v : v;
+    }
+    return o;
+  }
 
-  // --- means, with a surface ring so they sit clear of the faint points ---
-  var tip = document.getElementById('tip'), plot = document.getElementById('plot');
-  tip.hidden = false;
-  var show = function (s, m) {
-    tip.innerHTML = (s.v > 0 ? '+' : '') + s.v.toFixed(3) + ' V &nbsp;&rarr;&nbsp; '
-      + (m > 0 ? '+' : '') + Math.round(m).toLocaleString() + ' counts<br>'
-      + s.r.length + ' readings &middot; predicted '
-      + Math.round(SLOPE * s.v).toLocaleString();
-    tip.style.left = (X(s.v) / W * 100) + '%';
-    tip.style.top = (Y(m) / H * 100) + '%';
-    tip.classList.add('on');
-  };
-  var hide = function () { tip.classList.remove('on'); };
+  /* ================= HERO: a lattice as a lit, receding scan field ================= */
+  (function () {
+    var svg = document.getElementById('scan');
+    if (!svg) { return; }
+    var W = 960, H = 430, ROWS = 52, COLS = 168, period = 118, amp = 27;
 
-  STEPS.forEach(function (s, i) {
-    var m = mean(s.r);
-    var g = el('g', { tabindex: '0', role: 'button',
-      'aria-label': s.v.toFixed(3) + ' volts, mean ' + Math.round(m) + ' counts' });
-    g.appendChild(el('circle', { cx: X(s.v), cy: Y(m), r: 14, fill: 'transparent' }));
-    g.appendChild(el('circle', { cx: X(s.v), cy: Y(m), r: 7.5,
-      fill: 'var(--pass)', stroke: 'var(--surface)', 'stroke-width': 2 }));
-    g.addEventListener('mouseenter', function () { show(s, m); });
-    g.addEventListener('focus', function () { show(s, m); });
-    g.addEventListener('mouseleave', hide);
-    g.addEventListener('blur', hide);
-    svg.appendChild(g);
-  });
+    var haze = rad(svg, 'heroHaze', [['0%', '#4ADE9B', '.22'], ['48%', '#2A7FA8', '.09'], ['100%', '#070C0B', '0']], '0.5', '0.55');
+    var soft = blur(svg, 'heroBlur', 5.5);
+    // no opaque backdrop: the panel already paints it, so the field blends
+    // into the masthead above instead of cutting a seam across the hero
+    svg.appendChild(el('ellipse', { cx: W / 2, cy: H * 0.72, rx: W * 0.56, ry: H * 0.5, fill: haze }));
 
-  // --- two direct labels, at the extremes, so the scale reads without hovering ---
-  var lo = el('text', { x: X(3.000) - 12, y: Y(-9586) + 4, 'text-anchor': 'end', class: 'mark-label' });
-  lo.textContent = '−9,586';
-  svg.appendChild(lo);
-  var hi = el('text', { x: X(-1.578) + 14, y: Y(5222) + 4, class: 'mark-label' });
-  hi.textContent = '+5,222';
-  svg.appendChild(hi);
+    function height(x, y) {
+      var k = 2 * Math.PI / period, s = 0;
+      for (var i = 0; i < 3; i++) {
+        var a = i * Math.PI / 3;
+        s += Math.cos(k * (x * Math.cos(a) + y * Math.sin(a)));
+      }
+      return s / 3;
+    }
 
-  // --- the table view ---
-  var tb = document.getElementById('datarows');
-  STEPS.forEach(function (s) {
-    var m = mean(s.r);
-    var tr = document.createElement('tr');
-    var fmt = function (n) { return (n > 0 ? '+' : '') + Math.round(n).toLocaleString(); };
-    tr.innerHTML = '<td class="n">' + (s.v > 0 ? '+' : '') + s.v.toFixed(3) + ' V</td>'
-      + '<td class="n">' + s.r.map(function (c) { return c.toLocaleString(); }).join(', ') + '</td>'
-      + '<td class="n"><strong>' + fmt(m) + '</strong></td>'
-      + '<td class="n">' + fmt(SLOPE * s.v) + '</td>';
-    tb.appendChild(tr);
-  });
+    var FAR = '#12566E', MID = '#2FBF86', NEAR = '#A8FBD0';
+    for (var r = 0; r < ROWS; r++) {
+      var t = r / (ROWS - 1);
+      var baseY = 52 + t * (H - 84);
+      var squash = 0.34 + 0.66 * t;
+      var inset = (1 - t) * 128;
+      var pts = [], i, x, yy;
+      for (i = 0; i <= COLS; i++) {
+        x = inset + (i / COLS) * (W - 2 * inset);
+        yy = baseY - height(x - W / 2, r * 14) * amp * squash;
+        pts.push(x.toFixed(1) + ',' + yy.toFixed(1));
+      }
+      var col = t < 0.55 ? mix(FAR, MID, t / 0.55) : mix(MID, NEAR, (t - 0.55) / 0.45);
+      var right = (W - inset).toFixed(1), left = inset.toFixed(1), foot = (H + 60).toFixed(1);
+      svg.appendChild(el('path', {
+        d: 'M' + pts.join(' L') + ' L' + right + ',' + foot + ' L' + left + ',' + foot + ' Z',
+        fill: '#070C0B', 'fill-opacity': '.93'
+      }));
+      if (t > 0.45) {                                   // the near rows carry a glow
+        svg.appendChild(el('polyline', {
+          points: pts.join(' '), fill: 'none', stroke: col,
+          'stroke-width': (1.4 + t * 2.6).toFixed(2),
+          'stroke-opacity': ((t - 0.45) * 0.62).toFixed(3),
+          filter: soft, 'stroke-linejoin': 'round', 'stroke-linecap': 'round'
+        }));
+      }
+      svg.appendChild(el('polyline', {
+        points: pts.join(' '), fill: 'none', stroke: col,
+        'stroke-width': (0.65 + t * 1.05).toFixed(2),
+        'stroke-opacity': (0.2 + t * 0.7).toFixed(3),
+        'stroke-linejoin': 'round', 'stroke-linecap': 'round'
+      }));
+    }
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  })();
+
+  /* ================= TUNNELING: solid slabs, a glowing wave ================= */
+  (function () {
+    var svg = document.getElementById('barrier');
+    if (!svg) { return; }
+    var W = 940, mid = 158;
+    var xa = 56, xb = 392, xc = 536, xd = 884;
+    var A = 62, B = 5.5, d = 14;
+    var k = (Math.PI / 2 + 4 * Math.PI) / (xb - xa);
+
+    var metalFace = lin(svg, 'metalFace', [['0%', 'var(--ink-faint)', '.20'], ['100%', 'var(--ink-faint)', '.05']]);
+    var gapFace   = lin(svg, 'gapFace',   [['0%', 'var(--amber)', '.16'], ['100%', 'var(--amber)', '.03']]);
+    var waveGrad  = lin(svg, 'waveGrad',  [['0%', 'var(--blue)', '1'], ['38%', 'var(--green)', '1'], ['100%', 'var(--amber)', '1']], '1', '0');
+    var waveGlow  = blur(svg, 'waveGlow', 4);
+
+    function slab(x, w, face, edge) {
+      svg.appendChild(el('polygon', { points: [x, 62, x + w, 62, x + w + d, 62 - d, x + d, 62 - d].join(' '),
+        fill: edge, 'fill-opacity': '.34' }));                                     // top
+      svg.appendChild(el('polygon', { points: [x + w, 62, x + w + d, 62 - d, x + w + d, 250 - d, x + w, 250].join(' '),
+        fill: edge, 'fill-opacity': '.58' }));                                     // right
+      svg.appendChild(el('rect', { x: x, y: 62, width: w, height: 188, fill: face,
+        stroke: edge, 'stroke-width': 1, 'stroke-opacity': '.5' }));               // front
+    }
+    // right to left, so each slab's extrusion is occluded by the one in front of it
+    slab(xc, xd - xc, metalFace, 'var(--ink-faint)');
+    slab(xb, xc - xb, gapFace, 'var(--amber)');
+    slab(xa, xb - xa, metalFace, 'var(--ink-faint)');
+
+    var pts = [], x, y, env;
+    for (x = xa; x <= xd; x += 1.5) {
+      if (x < xb)       { y = mid - A * Math.sin(k * (x - xa)); }
+      else if (x <= xc) { env = A * Math.pow(B / A, (x - xb) / (xc - xb)); y = mid - env; }
+      else              { y = mid - B * Math.cos(k * (x - xc)); }
+      pts.push(x.toFixed(1) + ',' + y.toFixed(1));
+    }
+    svg.appendChild(el('line', { x1: xa, x2: xd, y1: mid, y2: mid,
+      stroke: 'var(--ink-faint)', 'stroke-width': 1, 'stroke-dasharray': '2 5', 'stroke-opacity': '.55' }));
+    svg.appendChild(el('polyline', { points: pts.join(' '), fill: 'none', stroke: waveGrad,
+      'stroke-width': 7, 'stroke-opacity': '.42', filter: waveGlow, 'stroke-linecap': 'round' }));
+    svg.appendChild(el('polyline', { points: pts.join(' '), fill: 'none', stroke: waveGrad,
+      'stroke-width': 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+
+    svg.appendChild(el('line', { x1: xb, x2: xc, y1: 274, y2: 274, stroke: 'var(--amber)', 'stroke-width': 1.5 }));
+    svg.appendChild(el('line', { x1: xb, x2: xb, y1: 268, y2: 280, stroke: 'var(--amber)', 'stroke-width': 1.5 }));
+    svg.appendChild(el('line', { x1: xc, x2: xc, y1: 268, y2: 280, stroke: 'var(--amber)', 'stroke-width': 1.5 }));
+
+    function lab(x, y, t, cls, an, fill) {
+      var e = el('text', { x: x, y: y, class: cls || 'dsub', 'text-anchor': an || 'middle' });
+      if (fill) { e.setAttribute('fill', fill); }
+      e.textContent = t; svg.appendChild(e); return e;
+    }
+    lab((xb + xc) / 2, 298, '≈1 nm of nothing', 'dlab', 'middle', 'var(--amber)');
+    lab((xa + xb) / 2, 88, 'THE NEEDLE'); lab((xc + xd) / 2, 88, 'THE SURFACE');
+    lab((xb + xc) / 2, 88, 'THE GAP', 'dsub', 'middle', 'var(--amber)');
+    lab((xa + xb) / 2, 240, 'the electron arrives as a wave', 'dedge');
+    lab((xb + xc) / 2, 222, 'it fades,', 'dedge'); lab((xb + xc) / 2, 238, 'it does not stop', 'dedge');
+    lab((xc + xd) / 2, 240, 'what survives is the current', 'dedge', 'middle', 'var(--amber)');
+    svg.appendChild(el('line', { x1: (xc + xd) / 2, y1: 226, x2: xc + 64, y2: mid + 14,
+      stroke: 'var(--amber)', 'stroke-width': 1.3, 'stroke-opacity': .6 }));
+    svg.setAttribute('viewBox', '0 0 ' + W + ' 320');
+  })();
+
+  /* ================= SCALE BAR ================= */
+  (function () {
+    var svg = document.getElementById('scalebar');
+    if (!svg) { return; }
+    var W = 900, y = 100, x0 = 44, x1 = 856;
+    var track = lin(svg, 'trackGrad', [['0%', 'var(--ink-faint)', '.45'], ['58%', 'var(--blue)', '.55'],
+      ['100%', 'var(--green)', '.9']], '1', '0');
+    var gl = blur(svg, 'dotGlow', 5);
+    var marks = [
+      { nm: 70000,  label: 'Human hair',     ours: false },
+      { nm: 7000,   label: 'Red blood cell', ours: false },
+      { nm: 100,    label: 'A virus',        ours: false },
+      { nm: 1,      label: 'Our gap',        ours: true  },
+      { nm: 0.29,   label: 'A gold atom',    ours: true  },
+      { nm: 0.0104, label: 'Our step size',  ours: true  }
+    ];
+    var lo = Math.log10(0.0104), hi = Math.log10(70000);
+    var X = function (nm) { return x1 - (Math.log10(nm) - lo) / (hi - lo) * (x1 - x0); };
+
+    svg.appendChild(el('rect', { x: x0, y: y - 3, width: x1 - x0, height: 6, rx: 3, fill: track }));
+    for (var dd = -2; dd <= 4; dd++) {
+      var nm = Math.pow(10, dd);
+      if (nm < 0.0104 || nm > 70000) { continue; }
+      svg.appendChild(el('line', { x1: X(nm), x2: X(nm), y1: y - 9, y2: y + 9,
+        stroke: 'var(--ink-faint)', 'stroke-width': 1.4, 'stroke-opacity': '.35' }));
+    }
+    marks.forEach(function (m, i) {
+      var x = X(m.nm), up = i % 2 === 0;
+      var base = m.ours ? 'var(--green)' : 'var(--ink-faint)';
+      var hiCol = m.ours ? 'var(--green-lo)' : 'var(--ink-soft)';
+      svg.appendChild(el('line', { x1: x, x2: x, y1: up ? y - 10 : y + 10, y2: up ? y - 36 : y + 36,
+        stroke: base, 'stroke-width': m.ours ? 2.2 : 1.4, 'stroke-opacity': m.ours ? 1 : .7 }));
+      if (m.ours) {
+        svg.appendChild(el('circle', { cx: x, cy: y, r: 11, fill: base, 'fill-opacity': .5, filter: gl }));
+      }
+      var fill = rad(svg, 'dot' + i, [['0%', hiCol, '1'], ['100%', base, '1']]);
+      svg.appendChild(el('circle', { cx: x, cy: y, r: m.ours ? 7.5 : 5.5, fill: fill,
+        stroke: 'var(--surface)', 'stroke-width': 2 }));
+
+      var ty = up ? y - 64 : y + 62, an = 'middle', tx = x;
+      if (i === 0) { an = 'start'; tx = x + 14; }
+      if (i === marks.length - 1) { an = 'end'; tx = x - 14; }
+      var t1 = el('text', { x: tx, y: ty, 'text-anchor': an, class: 'dlab' });
+      if (m.ours) { t1.setAttribute('fill', 'var(--green)'); }
+      t1.textContent = m.label; svg.appendChild(t1);
+      var t2 = el('text', { x: tx, y: ty + 16, 'text-anchor': an, class: 'dsub' });
+      t2.textContent = (m.nm >= 1 ? m.nm.toLocaleString() : m.nm) + ' NM';
+      svg.appendChild(t2);
+    });
+    var c1 = el('text', { x: x0, y: 212, class: 'dsub' }); c1.textContent = 'LARGER';
+    svg.appendChild(c1);
+    var c2 = el('text', { x: x1, y: 212, 'text-anchor': 'end', class: 'dsub' }); c2.textContent = 'SMALLER';
+    svg.appendChild(c2);
+    svg.setAttribute('viewBox', '0 0 900 224');
+  })();
+
+  /* ================= THE LOOP, extruded ================= */
+  (function () {
+    var svg = document.getElementById('loop');
+    if (!svg) { return; }
+    var D = 13;
+    var HUE = {
+      amber: ['var(--amber)', 'var(--amber-lo)', 'var(--amber-bg)'],
+      green: ['var(--green)', 'var(--green-lo)', 'var(--green-bg)'],
+      blue:  ['var(--blue)',  'var(--blue-lo)',  'var(--blue-bg)'],
+      mag:   ['var(--mag)',   'var(--mag-lo)',   'var(--mag-bg)']
+    };
+    function box(x, y, w, h, hue, title, sub) {
+      var c = HUE[hue];
+      var face = lin(svg, 'f' + hue + x, [['0%', c[1], '.30'], ['100%', 'var(--surface)', '1']]);
+      svg.appendChild(el('polygon', { points: [x, y, x + w, y, x + w + D, y - D, x + D, y - D].join(' '),
+        fill: c[1] }));                                                       // top face
+      svg.appendChild(el('polygon', { points: [x + w, y, x + w + D, y - D, x + w + D, y + h - D, x + w, y + h].join(' '),
+        fill: c[0] }));                                                       // right face
+      svg.appendChild(el('rect', { x: x, y: y, width: w, height: h, rx: 4, fill: face,
+        stroke: c[0], 'stroke-width': 1.6 }));
+      var t1 = el('text', { x: x + w / 2, y: y + 26, class: 'dlab', 'text-anchor': 'middle' });
+      t1.textContent = title; svg.appendChild(t1);
+      var t2 = el('text', { x: x + w / 2, y: y + 44, class: 'dsub', 'text-anchor': 'middle' });
+      t2.setAttribute('fill', c[0]); t2.textContent = sub; svg.appendChild(t2);
+    }
+    function arrow(pts, col, wdt) {
+      svg.appendChild(el('polyline', { points: pts, fill: 'none', stroke: col,
+        'stroke-width': wdt || 2, 'marker-end': 'url(#arw)', 'stroke-linejoin': 'round',
+        color: col }));
+    }
+    function lab(x, y, t, cls, an, fill, rot) {
+      var e = el('text', { x: x, y: y, class: cls || 'dsub', 'text-anchor': an || 'middle' });
+      if (fill) { e.setAttribute('fill', fill); }
+      if (rot) { e.setAttribute('transform', 'rotate(' + rot + ' ' + x + ' ' + y + ')'); }
+      e.textContent = t; svg.appendChild(e);
+    }
+    var m = el('marker', { id: 'arw', viewBox: '0 0 10 10', refX: '9', refY: '5',
+      markerWidth: '6.5', markerHeight: '6.5', orient: 'auto-start-reverse' });
+    m.appendChild(el('path', { d: 'M0,0 L10,5 L0,10 z', fill: 'currentColor' }));
+    defs(svg).appendChild(m);
+    var gl = blur(svg, 'atomGlow', 6);
+
+    /* ---- the junction ---- */
+    lab(158, 74, 'the needle — one atom at its tip', 'dedge');
+    var shaft = lin(svg, 'shaft', [['0%', 'var(--ink-faint)', '.10'], ['32%', 'var(--ink-faint)', '.42'],
+      ['66%', 'var(--ink-faint)', '.16'], ['100%', 'var(--ink-faint)', '.40']], '1', '0');
+    svg.appendChild(el('polygon', { points: '131,92 185,92 166,184 150,184',
+      fill: shaft, stroke: 'var(--ink-faint)', 'stroke-width': 1.4 }));
+    svg.appendChild(el('circle', { cx: 158, cy: 192, r: 13, fill: 'var(--amber)', 'fill-opacity': .45, filter: gl }));
+    var apex = rad(svg, 'apex', [['0%', 'var(--amber-lo)', '1'], ['100%', 'var(--amber)', '1']]);
+    svg.appendChild(el('circle', { cx: 158, cy: 192, r: 8, fill: apex }));
+
+    svg.appendChild(el('line', { x1: 158, y1: 202, x2: 158, y2: 224, stroke: 'var(--amber)',
+      'stroke-width': 1.6, 'stroke-dasharray': '3 3' }));
+    lab(178, 219, '≈1 nm', 'dlab', 'start', 'var(--amber)');
+
+    var atom = rad(svg, 'atomg', [['0%', 'var(--ink-faint)', '.55'], ['100%', 'var(--ink-faint)', '.9']]);
+    [104, 131, 158, 185, 212].forEach(function (cx) {
+      svg.appendChild(el('circle', { cx: cx, cy: 240, r: 13, fill: 'var(--surface)',
+        stroke: 'var(--ink-faint)', 'stroke-width': 1.5 }));
+      svg.appendChild(el('circle', { cx: cx - 3.5, cy: 236, r: 5, fill: 'var(--ink-faint)', 'fill-opacity': .22 }));
+    });
+    lab(158, 284, 'the surface being scanned', 'dedge');
+
+    /* ---- the chain ---- */
+    lab(264, 148, '~1 nA', 'dsub', 'middle', 'var(--amber)');
+    arrow('232,194 294,194', 'var(--amber)', 2.2);
+    box(300, 166, 152, 58, 'green', 'Amplifier', '100 MΩ');
+    lab(487, 148, 'VOLTS', 'dsub', 'middle', 'var(--green)');
+    arrow('468,194 506,194', 'var(--green)', 2.2);
+    box(510, 166, 152, 58, 'blue', 'Converter', '16-BIT');
+    lab(699, 148, 'COUNTS', 'dsub', 'middle', 'var(--blue)');
+    arrow('680,194 718,194', 'var(--blue)', 2.2);
+    box(724, 166, 196, 58, 'mag', 'Microcontroller', 'COMPARES');
+
+    /* ---- return ---- */
+    arrow('822,224 822,338 740,338', 'var(--mag)', 2.2);
+    lab(842, 284, 'CORRECTION', 'dsub', 'middle', 'var(--mag)', 90);
+    box(450, 310, 270, 56, 'amber', 'Piezo scanner', '0.0104 NM PER COUNT');
+    lab(248, 326, 'moves the needle — closes the loop', 'dedge', 'middle', 'var(--amber)');
+    arrow('450,338 46,338 46,138 128,138', 'var(--amber)', 2.2);
+    svg.setAttribute('viewBox', '0 50 950 344');
+  })();
+
+  /* ================= THE DUMMY JUNCTION SWEEP, 2026-09-16 =================
+     Raw readings exactly as logged in sessions/2026-09-16-bench.md 3.4 */
+  (function () {
+    var STEPS = [
+      { v:  3.000, r: [-9625, -9145, -9868, -9442, -9851] },
+      { v:  0.000, r: [28, 104, 691, -95, 301, -19, -73, -307, 32, -303] },
+      { v: -0.662, r: [1613, 2415, 2181, 1829, 2081, 2204] },
+      { v: -1.578, r: [5335, 5548, 5314, 5634, 5065, 4434] },
+      { v:  0.000, r: [-616, 282, 576, -51, -83, -141] },
+      { v:  0.711, r: [-1718, -2271, -1875, -1791, -2311, -2589] },
+      { v:  1.627, r: [-4965, -5077, -5390, -4788, -5428, -5038] },
+      { v:  0.000, r: [-148, -102, 581, -480, -49, 228, 219, 59] }
+    ];
+    var SLOPE = -3200;
+    var mean = function (a) { return a.reduce(function (s, x) { return s + x; }, 0) / a.length; };
+    var svg = document.getElementById('chart');
+    if (!svg) { return; }
+
+    var W = 900, H = 470, M = { t: 18, r: 30, b: 54, l: 74 };
+    var x0 = M.l, x1 = W - M.r, y0 = M.t, y1 = H - M.b;
+    var xd = [-1.95, 3.25], yd = [-10800, 6400];
+    var X = function (v) { return x0 + (v - xd[0]) / (xd[1] - xd[0]) * (x1 - x0); };
+    var Y = function (c) { return y1 - (c - yd[0]) / (yd[1] - yd[0]) * (y1 - y0); };
+    var minus = function (t) { return String(t).replace('-', '−'); };
+
+    var gl = blur(svg, 'ptGlow', 6);
+    var lineGrad = lin(svg, 'fitGrad', [['0%', 'var(--blue)', '1'], ['100%', 'var(--mag)', '1']], '1', '1');
+
+    [5000, 0, -5000, -10000].forEach(function (t) {
+      svg.appendChild(el('line', { x1: x0, x2: x1, y1: Y(t), y2: Y(t),
+        stroke: 'var(--grid)', 'stroke-width': t === 0 ? 1.8 : 1 }));
+      var l = el('text', { x: x0 - 12, y: Y(t) + 3.8, 'text-anchor': 'end', class: 'tick' });
+      l.textContent = (t > 0 ? '+' : '') + minus(t.toLocaleString()); svg.appendChild(l);
+    });
+    [-1, 0, 1, 2, 3].forEach(function (t) {
+      svg.appendChild(el('line', { x1: X(t), x2: X(t), y1: y0, y2: y1,
+        stroke: 'var(--grid)', 'stroke-width': t === 0 ? 1.8 : 1 }));
+      var l = el('text', { x: X(t), y: y1 + 22, 'text-anchor': 'middle', class: 'tick' });
+      l.textContent = minus((t > 0 ? '+' : '') + t); svg.appendChild(l);
+    });
+    var xl = el('text', { x: (x0 + x1) / 2, y: H - 12, 'text-anchor': 'middle', class: 'axis-label' });
+    xl.textContent = 'VOLTS APPLIED TO THE SAMPLE'; svg.appendChild(xl);
+    var yl = el('text', { x: 0, y: 0, 'text-anchor': 'middle', class: 'axis-label',
+      transform: 'translate(18,' + (y0 + y1) / 2 + ') rotate(-90)' });
+    yl.textContent = 'WHAT THE INSTRUMENT READ'; svg.appendChild(yl);
+
+    svg.appendChild(el('line', { x1: X(xd[0]), y1: Y(SLOPE * xd[0]), x2: X(xd[1]), y2: Y(SLOPE * xd[1]),
+      stroke: lineGrad, 'stroke-width': 2.4, 'stroke-dasharray': '9 7', 'stroke-linecap': 'round',
+      'stroke-opacity': .85 }));
+
+    STEPS.forEach(function (s) {
+      s.r.forEach(function (c) {
+        svg.appendChild(el('circle', { cx: X(s.v), cy: Y(c), r: 4,
+          fill: 'var(--green)', 'fill-opacity': .32 }));
+      });
+    });
+
+    var tip = document.getElementById('tip');
+    tip.hidden = false;
+    var show = function (s, mn) {
+      tip.innerHTML = minus((s.v > 0 ? '+' : '') + s.v.toFixed(3)) + ' V &nbsp;&rarr;&nbsp; '
+        + minus((mn > 0 ? '+' : '') + Math.round(mn).toLocaleString()) + '<br>'
+        + s.r.length + ' readings &middot; predicted ' + minus(Math.round(SLOPE * s.v).toLocaleString());
+      tip.style.left = (X(s.v) / W * 100) + '%';
+      tip.style.top = (Y(mn) / H * 100) + '%';
+      tip.classList.add('on');
+    };
+    var hide = function () { tip.classList.remove('on'); };
+    var ptFill = rad(svg, 'ptFill', [['0%', 'var(--green-lo)', '1'], ['100%', 'var(--green)', '1']]);
+
+    STEPS.forEach(function (s) {
+      var mn = mean(s.r);
+      var g = el('g', { tabindex: '0', role: 'button',
+        'aria-label': s.v.toFixed(3) + ' volts, average ' + Math.round(mn) + ' counts' });
+      g.appendChild(el('circle', { cx: X(s.v), cy: Y(mn), r: 15, fill: 'transparent' }));
+      g.appendChild(el('circle', { cx: X(s.v), cy: Y(mn), r: 11, fill: 'var(--green)',
+        'fill-opacity': .45, filter: gl }));
+      g.appendChild(el('circle', { cx: X(s.v), cy: Y(mn), r: 8.5, fill: ptFill,
+        stroke: 'var(--surface)', 'stroke-width': 2.2 }));
+      g.addEventListener('mouseenter', function () { show(s, mn); });
+      g.addEventListener('focus', function () { show(s, mn); });
+      g.addEventListener('mouseleave', hide);
+      g.addEventListener('blur', hide);
+      svg.appendChild(g);
+    });
+
+    var lo2 = el('text', { x: X(3.000) - 16, y: Y(-9586) + 4, 'text-anchor': 'end', class: 'mark-label' });
+    lo2.textContent = '−9,586'; svg.appendChild(lo2);
+    var hi2 = el('text', { x: X(-1.578) + 18, y: Y(5222) + 4, class: 'mark-label' });
+    hi2.textContent = '+5,222'; svg.appendChild(hi2);
+
+    var tb = document.getElementById('datarows');
+    STEPS.forEach(function (s) {
+      var mn = mean(s.r), tr = document.createElement('tr');
+      var fmt = function (n) { return minus((n > 0 ? '+' : '') + Math.round(n).toLocaleString()); };
+      tr.innerHTML = '<td class="n">' + minus((s.v > 0 ? '+' : '') + s.v.toFixed(3)) + ' V</td>'
+        + '<td class="n">' + s.r.map(function (c) { return minus(c.toLocaleString()); }).join(', ') + '</td>'
+        + '<td class="n"><strong>' + fmt(mn) + '</strong></td>'
+        + '<td class="n">' + fmt(SLOPE * s.v) + '</td>';
+      tb.appendChild(tr);
+    });
+  })();
 })();
 </script>

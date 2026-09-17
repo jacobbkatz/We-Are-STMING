@@ -14,6 +14,14 @@ or a session log. **If it ever disagrees with this file, this file wins** — fi
 one. It is regenerated at the end of each week, updated in place and republished to the same URL so
 the link keeps working for anyone it has been sent to.
 
+**Rebuilt twice on 2026-09-17** on Jacob's direction: a plain-language explanation of quantum
+tunneling was added, and the whole visual treatment was redone. **Three figures from this repository
+appear on it** — the ~1 nm gap, the 0.0104 nm Z step (`INFER`, on Berard's disc, not ours) and the
+330 nm-per-degree expansion (`CALC`, with its "only the mismatch moves the gap" caveat intact). **One
+figure on it is not ours at all** — the tenfold-per-0.1 nm rule of thumb — **and carries a new `REF`
+mark** meaning a standard published figure. **No photograph appears on the page**, because nothing in
+this repository is confirmed to show our own hardware.
+
 **`Code/pc/check_facts.py` now scans `.html`**, which it never did before. That was not a
 theoretical gap: `docs/preamp_next_steps.html` was still telling the bench the **Keystone 11301
 "drops into our hole"** — retired at the bench on 2026-09-15 — **while the same page carried the
