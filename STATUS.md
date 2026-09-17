@@ -1,7 +1,42 @@
 # Current status
 
-**Last updated:** 2026-09-17 — **code only, nothing powered, nothing measured.** Gold leaf bench card written and rewritten in plain language; **new fault 6: the approach tool's Z sweep is ~10x too coarse to stop in tunnelling.** Instrument unchanged, powered down, screw at +6144 steps. **See the HANDOVER block below**
-**Updated by:** Jacob, with Claude Code **on the web** — a cloud session with **no hardware attached**. Nothing in this update was measured; fault 6 is arithmetic on figures already in this repository. The last machine that could reach the Teensy was Jacob's Windows machine on 2026-09-16.
+**Last updated:** 2026-09-17 evening — **THE FIRST TIP-SAMPLE JUNCTION. Current that follows the bias and follows Z: 0.85 nA at 0.05 V rising to 32 nA at 0.5 V.** **The motor direction was backwards all along — NEGATIVE approaches.** **The Z direction is answered: the HIGH end extends toward the sample.** **The sample plate was not resting on the motor screw at all**, which explains 2026-09-16's null result; fixed with one more rubber band.
+**Updated by:** Jacob at the bench, with Claude Code desktop on Jacob's Windows machine. **Everything in the block below was measured tonight.** `sessions/2026-09-17-bench.md`.
+
+# 2026-09-17 BENCH — THE FIRST JUNCTION
+
+| | |
+|---|---|
+| **The junction** | **Found repeatedly.** At −0.5 V on the sample it draws about **32 nA**, a junction resistance of 16 MΩ; at 0.05 V, **0.85 nA** and 59 MΩ. **Symmetric in both polarities and superlinear, roughly as V²** — a barrier, not a metallic short, and not an open circuit |
+| **Motor direction** | **NEGATIVE `MTMV` APPROACHES, positive retracts.** Contact appeared while driving positive in the opposite belief; every later approach in the negative direction found the surface. **The design file was right and the bench reading of the lever was inverted** |
+| **Z direction** | **The HIGH end of the Z range extends the tip TOWARD the sample.** Use `--z-retracted low` from now on |
+| **Scale** | **About 250 Z DAC counts per motor step**, and one motor step is 155 nm of screw. **What that is in nanometres at the tip depends on the lever ratio, which is still unmeasured** |
+| **Backlash** | **100 to 250 motor steps of lost motion after any reversal.** Measured twice |
+| **Stability** | At fixed Z and bias the current went **from 3 nA to hard contact in 10 seconds** with nothing commanded. After about half a minute of settling the gap held to ±200 Z counts over 20 s |
+| **The sample** | **Real gold** (flame test) on copper tape whose **adhesive conducts** (overlap test). Both `SAID`, Jacob |
+| **Noise** | **48 counts, 0.15 nA, with the room empty.** Handling the tip holder raised it to 210-330 counts for about half an hour |
+
+**THE MECHANICAL FAULT THAT EXPLAINS 2026-09-16: the sample plate was not touching the motor screw.**
+Both rubber bands pulled in line with the two side-by-side ball ends — the line the plate tips about
+— so nothing held the motor end down and the screw turned in free space. **One more band fixed it**,
+and it was verified under motor drive, 400 steps out and back.
+
+**AN IMAGE WAS ATTEMPTED AND THERE IS NO IMAGE.** Constant height saturates within a few lines
+because the surface is rougher than the current can report at a fixed height, so a **PC-side
+constant-current loop** was written, simulation-tested and run: `Code/pc/stm_feedback_scan.py`, with
+Z clamped and a retract on every exit. **It holds the current to about 0.06 of a decade, and four
+images of the same patch show no reproducible structure** — trace against retrace r = 0.00 to 0.09,
+image against image −0.09 to +0.27. **An apparent r = +0.75 between two earlier images was the
+loop's settling transient on the first line of each**, and vanished when that line was dropped.
+**The one reproducible thing is a tilt: −0.17 counts of Z per count of X.** `STATUS.md` fault 6's
+concern about Z resolution is not what stopped it; the tip holder and the drift are.
+
+**What is NOT established: whether this is vacuum tunnelling or contact through something soft.** The
+current falls about a decade per 200 Z counts. **At the design's 40:1 lever that is a decade per
+3 nm, thirty times too slow for tunnelling. At a lever of 130 to 400 — which Jacob's own reading of
+where the tip sits allows — it lands close to the textbook decade per 0.1 nm.** **One straightedge
+across the two ball ends settles it**, and that is the most valuable measurement left in the
+instrument. `docs/OPEN_QUESTIONS.md`.
 
 # HANDOVER — WHAT IS HAPPENING RIGHT NOW, 2026-09-17
 

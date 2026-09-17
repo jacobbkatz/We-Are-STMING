@@ -96,17 +96,26 @@ fitted" line and by Jacob 2026-09-09.
 
 ---
 
+### Piezo discs — added 2026-09-17
+
+| What | Qty | How we know | Notes |
+|---|---|---|---|
+| **Piezo disc, Jessinie `91410_30_JE`** | — | `SAID` 2026-09-17, Jacob: *"we are using a difference peizo than both dan bernard and mechpanda, our peizos are made by jessinie sku being 91410_30_JE"* | **This is the scanner disc actually fitted.** **It is NOT Berard's disc**, so **`docs/FACTS.md`'s 34 nm/V and the 0.0104 nm per DAC count derived from it do not describe our scanner** — they were always marked INFER. **Measured 2026-09-17 against the motor, which is the only mechanical ruler we have: about 250 Z DAC counts per motor step**, and one motor step is 155 nm of screw, or 3.9 nm at the tip at the assumed 40:1 lever. **That is roughly 0.016 nm per Z count and a full Z range near 1 um** — the same order as the inherited figure, **not** the 50x smaller value estimated earlier the same evening from the current-versus-Z slope, which is retracted. **The lever ratio is itself unmeasured, so this scales with it.** See `sessions/2026-09-17-bench.md`. **Datasheet not yet obtained** |
+
+---
+
 ### Sample material — added 2026-09-17
 
 | What | Qty | How we know | Notes |
 |---|---|---|---|
-| **Gold leaf** | **4 squares, about 1 inch each** | `SAID` 2026-09-17, Jacob: *"I have 4 inch by inch squares left pretty much"* | **Whether it is real gold or imitation (brass "Dutch metal") is UNKNOWN and has never been tested.** It matters: gold does not oxidise, brass grows an insulating tarnish within days. **Test in `docs/gold_leaf_procedure.html` Part 0** — a flame test settles it in two seconds with no chemicals. **Whether it is loose leaf or transfer (backed) leaf is also UNKNOWN** |
+| **Gold leaf** | **4 squares, about 1 inch each** | `SAID` 2026-09-17, Jacob: *"I have 4 inch by inch squares left pretty much"* | ~~**Whether it is real gold or imitation (brass "Dutch metal") is UNKNOWN and has never been tested.**~~ **REAL GOLD — flame test, `SAID` 2026-09-17, Jacob: *"Flame test done its real gold"*.** It mattered: gold does not oxidise, brass grows an insulating tarnish within days. **Whether it is loose leaf or transfer (backed) leaf is still UNKNOWN**. Minus one scrap for the test |
 
 > **Four squares is not four attempts.** A 1-inch square is 25 mm, so it cuts into 5 × 5 = **25
 > pieces of 5 mm**, and the scanner's whole range is **0.5 µm** — a 5 mm piece is ten thousand times
 > wider than anything the tip ever sees. **The budget is roughly 100 usable pieces.**
 
-| **Copper tape** | — | `BENCH` — it is visibly on the sample plate, the scan head and the preamp box in the 2026-09-16 photographs | **Whether its adhesive is conductive is STILL UNKNOWN**, open since 2026-09-09 and now blocking. **If it is not conductive the gold carries no bias and no tunnelling current can exist.** `docs/gold_leaf_procedure.html` Part 1 tests it in five minutes |
+| **Copper tape** | — | `BENCH` — it is visibly on the sample plate, the scan head and the preamp box in the 2026-09-16 photographs | ~~**Whether its adhesive is conductive is STILL UNKNOWN**, open since 2026-09-09 and now blocking.~~ **THE ADHESIVE CONDUCTS — `SAID` 2026-09-17, Jacob: *"the glue is conductive"*.** Read as the `docs/gold_leaf_procedure.html` Part 1 overlap test beeping; the method was not stated. **Checked on a scrap of the tape on the bench, not on the tape already fitted to the preamp box or scan head**, which may be from the same roll but that is not confirmed |
+| **Sample plate, as rebuilt 2026-09-17** | 1 | `SAID` 2026-09-17, Jacob, with a photo in the conversation (not in the repository) | **Face covered in ALUMINIUM tape** (`SAID`: *"the silver tape you see is aluminium tape"*), with a square window cut in it showing **copper tape**, and **fresh gold leaf** on that copper. Copper tape also along one edge. The orange sample-plate wire enters under the aluminium at the top edge. **Aluminium tape's adhesive usually does not conduct** (`docs/ENGINEERING_REFERENCE.md` §3) **and its surface oxide is an insulator**, so **a tip landing on the aluminium would most likely read nothing even in contact** — the gold must be what is in front of the tip. **Whether the aluminium is joined to the bias wire, to ground, or to nothing is UNKNOWN.** Gold to orange wire: not yet reported |
 
 ---
 
@@ -118,7 +127,7 @@ fitted" line and by Jacob 2026-09-09.
 |---|---|
 | **Which other parts did JLCPCB leave off the preamp PCBA?** | Decides what has to be hand-fitted on the spare board before it can be used |
 | **How was JLCPCB's C1/C2 polarity question answered?** | Would settle fault 1d from the order thread instead of needing the boards in hand |
-| ~~**Do we own M2 screws, copper tape, heat shrink?**~~ **M2 screws and heat shrink ORDERED 2026-09-09.** **Copper tape is still unchecked** | The shield rebuild needs copper tape with conductive adhesive. Aluminium will not do — `docs/ENGINEERING_REFERENCE.md` §3 |
+| ~~**Do we own M2 screws, copper tape, heat shrink?**~~ **M2 screws and heat shrink ORDERED 2026-09-09.** **Copper tape is still unchecked** **Copper tape: owned, and its adhesive conducts** (`SAID` 2026-09-17, see the sample material table above) | The shield rebuild needs copper tape with conductive adhesive. Aluminium will not do — `docs/ENGINEERING_REFERENCE.md` §3 |
 | ~~**Do we own low-temp Sn42/Bi58 solder paste?**~~ **MOOT — the piezo is built.** See below | Nothing to buy |
 | **The piezo disc part number and diameter** | Ø20.500 mm seat vs a 25–27 mm disc in the BOM — see `docs/OPEN_QUESTIONS.md` |
 

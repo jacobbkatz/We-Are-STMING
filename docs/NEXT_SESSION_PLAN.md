@@ -1,18 +1,58 @@
 # Next session plan
 
-**Last updated:** 2026-09-17, second pass — gold leaf card now also covers **proving the leaf is real gold** and **cutting it to size**; **`--z-step 5` in step 6** (STATUS.md fault 6)
+**Last updated:** 2026-09-17 evening, at the bench — **the first junction. Motor direction settled (NEGATIVE approaches), Z direction settled (HIGH extends toward the sample), and the sample plate turned out not to be resting on the motor screw at all.** See the block immediately below; everything under "START HERE — after the 2026-09-16 approach attempt" is now history.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# START HERE — after the 2026-09-16 approach attempt
+# START HERE — after the 2026-09-17 bench session
 
-**State left:** powered off. Tip fitted, a placeholder. Gold leaf on the sample plate in front of the
+**State left, 20:38 UTC:** Z, X, Y and bias all parked at midscale, **tip backed off 300 motor steps
+from the junction**, readings at baseline. **The screw is 14,694 steps out** from where it stood at
+the start of `sessions/2026-09-16-bench.md` §3.6 — the firmware counter resets at every restart, so
+that number lives only here and in the log. Powered down after that in the documented order.
+
+**Settled at the bench 2026-09-17, and everything below in the older block that contradicts this is
+history:**
+
+| | |
+|---|---|
+| **Motor** | **NEGATIVE `MTMV` approaches**, positive retracts. Expect **100 to 250 steps of backlash** after any reversal |
+| **Z** | **The HIGH end extends toward the sample.** Use `--z-retracted low` |
+| **Scale** | **About 250 Z counts per motor step, and about 250 Z counts per decade of current** |
+| **Junction** | Found repeatedly: 0.85 nA at 0.05 V, 32 nA at 0.5 V, symmetric, superlinear |
+| **Drift** | Closes the gap in about 10 s at fixed Z; settles to about −45 counts/s after half a minute |
+| **Imaging** | Attempted with a PC-side feedback loop. **The loop works; there is no reproducible structure.** `sessions/2026-09-17-bench.md` §3.22 |
+
+**The next session, in order:**
+
+1. **Measure where the tip sits relative to the line through the two side-by-side ball ends.** Plate
+   off, straightedge across both ball ends, note which side the tip stands on and by how much. **This
+   is the most valuable measurement left**: it fixes the lever ratio, and with it whether the
+   junction is vacuum tunnelling or a pressed contact. `docs/OPEN_QUESTIONS.md`.
+2. **Decide about `CCON`** — safety rule 8. The drift is what stops an image, feedback is the
+   designed answer, and the firmware fix passed its bench test on 2026-09-16.
+3. **Decide about the tip holder.** `SAID`: it bends to any touch. It makes the meter method
+   unreliable and is a prime suspect for the junction's instability.
+4. **A fresh, sharper tip** once the mechanics are settled. Tonight's has taken several hard contacts.
+5. **Then approach:** `py Code/pc/stm_approach.py --z-retracted low --motor-toward-sample negative
+   --motor-step 5 --max-steps 600 --z-step 200 -y`, operator a metre away, iron off. **Confirm any
+   contact by flipping the bias before believing it** — that test rejected two false contacts and
+   confirmed the real one.
+6. **To image:** `py Code/pc/stm_feedback_scan.py 400 40 12 3000 scan.csv`. **Run
+   `stm_feedback_scan_test.py` first if the loop has been edited.**
+
+---
+
+# HISTORY — the plan as it stood after the 2026-09-16 approach attempt
+
+**State then:** powered off. Tip fitted, a placeholder. Gold leaf on the sample plate in front of the
 tip. **Coarse screw at +6144 motor steps, about 1 mm out, from the position set by hand** — the
-firmware counter resets at restart, so carry this number by hand. **Motor direction provisional and
-disputed; Z direction unknown.** `sessions/2026-09-16-bench.md` §3.8–§3.11.
+firmware counter resets at restart, so carry this number by hand. ~~**Motor direction provisional and
+disputed; Z direction unknown.**~~ **Both settled 2026-09-17, see above.**
+`sessions/2026-09-16-bench.md` §3.8–§3.11.
 
 **Why the approach found nothing is not known.** Do these, in order, before approaching again:
 
