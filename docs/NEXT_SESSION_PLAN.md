@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-17, about 21:55 UTC wrap — **the first junction; motor and Z directions settled; imaging attempted at length and there is no image.** The blocker is mechanical and quantified. **Start with the gold, the straightedge and the springs.**
+**Last updated:** 2026-09-17, about 22:05 UTC wrap, corrected after an independent review of the committed data — **the first junction; motor and Z directions settled; imaging attempted at length and there is no image.** The blocker is mechanical and quantified. **Start with the gold, the straightedge and the springs.**
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -35,6 +35,16 @@ history:**
    junction is vacuum tunnelling or a pressed contact. `docs/OPEN_QUESTIONS.md`.
 2. **Decide about `CCON`** — safety rule 8. The drift is what stops an image, feedback is the
    designed answer, and the firmware fix passed its bench test on 2026-09-16.
+0a. **RUN THE CONTROL THAT WAS BOTCHED — ten minutes, and it decides whether we already have an
+   image.** On 2026-09-17, twelve passes of one line at **±15,000 X counts** reproduced: consecutive
+   passes r **+0.515**, odd-against-even averages **+0.923**, profile amplitude **636 counts**,
+   against a fixed-point height wobble of 287-419. **The control run against it was invalid** — it
+   used ±8,000 and compared averages against single passes. **Do this instead:** the same line, six
+   passes, at three Y positions separated by about 3,000 counts, **all at ±15,000 X counts**, then
+   compare **split-half averages within each place against split-half averages between places — the
+   same statistic on both sides.** **If within beats between, the profile is the surface and it is an
+   image. If they match, it is the scanner's bow.** Re-find the surface after each Y move: Y shifts
+   the gap as much as X does.
 0aa. **GET THE GOLD UNDER THE TIP — first job, and it carries a prediction.** `SAID` 2026-09-17:
    the tip is **probably on the copper** beside the gold. Copper grows an oxide; gold does not, and
    an oxide film is exactly the barrier the step-response asymmetry pointed at. **Shift the plate so

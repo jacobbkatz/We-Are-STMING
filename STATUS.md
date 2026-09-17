@@ -33,7 +33,13 @@ Both rubber bands pulled in line with the two side-by-side ball ends — the lin
 — so nothing held the motor end down and the screw turned in free space. **One more band fixed it**,
 and it was verified under motor drive, 400 steps out and back.
 
-**AN IMAGE WAS ATTEMPTED AND THERE IS NO IMAGE.** Constant height saturates within a few lines
+> **READ THIS BEFORE THE NEXT BENCH SESSION.** The session's own verdict of "no image" was
+> **overstated and is corrected below**: no image was demonstrated, and the narrow scans contain
+> nothing, **but the ±15,000-count data has a reproducible 636-count profile that has NOT been
+> tested against a valid control.** **The first job next session is that control — ten minutes** —
+> before any conclusion about imaging is carried forward. `sessions/2026-09-17-bench.md` §3.25.
+
+**AN IMAGE WAS ATTEMPTED AND NONE WAS DEMONSTRATED.** Constant height saturates within a few lines
 because the surface is rougher than the current can report at a fixed height, so a **PC-side
 constant-current loop** was written, simulation-tested and run: `Code/pc/stm_feedback_scan.py`, with
 Z clamped and a retract on every exit. **It holds the current to about 0.06 of a decade, and four
@@ -52,7 +58,8 @@ measurements say why:
 | Measured | Number |
 |---|---|
 | **Height wobble with the loop holding still at ONE point** | **287-419 counts RMS**, at every setpoint from 1.6 to 47 nA — **as large as the apparent structure in any image** |
-| **Same line at three separate places** | repeats at the same place agree at **+0.03 to +0.26**; *different* places agree at **+0.34 to +0.65**. **The scan traces the scanner's own bow, not the sample** |
+| ~~**Same line at three separate places**~~ **THIS CONTROL IS INVALID — corrected at the wrap** | It compared five-pass AVERAGES between places against SINGLE passes within a place, and it ran at **±8,000** X counts while the result it was testing ran at **±15,000**. **Like for like: within a place +0.133, between places +0.146, difference −0.013 ± 0.088 — no effect.** **The question it was meant to settle is still open** |
+| **The wide-scan result it was meant to kill, re-verified** | 12 passes of one line at ±15,000: consecutive **+0.515**, odd-against-even averages **+0.923**, profile amplitude **636 counts** — **larger than the 287-419 count wobble.** At ±400 the same analysis gives +0.124, +0.369 and 17 counts. **Whether this is the sample or the scanner's bow is UNDETERMINED** |
 | **Z creep, approach against retract** | current appears at Z 35,000 going in and vanishes at **36,200** coming out: **1,200 counts, four cycles of six** |
 | Z fidelity | a **+400** count step delivers **+0.36** decades where **+1.60** is due; **−400** delivers **−1.13**. Pressed contact, not a gap |
 | Leakage, tip retracted, ±2 V | **under 0.06 nA, over 8 GΩ.** Not a floor |
