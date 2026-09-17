@@ -54,7 +54,48 @@ MAX_STEP = 300                 # counts of Z per pixel. Raised from 150 on
 GAIN = 0.35                    # fraction of the log error corrected per step
 ITERS = 5                      # feedback iterations per pixel
 SAT = 32760                    # counts; at or past this the ADC is railed
+# Noise on the reading the loop steers on: 46 counts (0.14 nA) averaged,
+# 188 counts (0.59 nA) single-conversion. MEASURED 2026-09-17.
 FLOOR = 60                     # counts; below this the log means nothing
+
+
+def read_averaged(dev, timeout=0.15):
+    """`ADCR` — the firmware's AVERAGED reading, not a single conversion.
+
+    MEASURED 2026-09-17: 0.24 ms per read against 0.23 ms for a single
+    conversion, and **46 counts of noise against 188** — four times quieter for
+    the same time. Everything before this measurement ran the feedback loop on
+    single conversions, at 0.59 nA of noise, which is most of a tunnelling
+    current. Use this.
+    """
+    dev._write(b"ADCR")
+    deadline = time.time() + timeout
+    buf = b""
+    while time.time() < deadline:
+        waiting = getattr(dev._port, "in_waiting", 0)
+        chunk = dev._port.read(waiting if waiting else 1)
+        if chunk:
+            buf += chunk
+            if b"\n" in buf:
+                try:
+                    return int(buf.split(b"\n")[0].strip())
+                except ValueError:
+                    return None
+    return None
+
+
+def read_junction(dev):
+    """The reading the loop steers on. Averaged when there is a real port.
+
+    The simulated scope in the test harness has no port, so it falls back to its
+    own read_adc and the tests still exercise the loop.
+    """
+    if getattr(dev, "_port", None) is None:
+        return dev.read_adc()
+    v = read_averaged(dev)
+    if v is not None:
+        return v
+    return fast_read(dev)
 
 
 def fast_read(dev):
@@ -98,7 +139,7 @@ class Loop:
         """Run the loop at the current X, Y. Returns (z, last reading)."""
         last = 0
         for _ in range(ITERS):
-            v = fast_read(self.dev)
+            v = read_junction(self.dev)
             if v is None:
                 self.lost += 1
                 continue
@@ -119,7 +160,10 @@ def locate(dev, setpoint):
     """Sweep Z up from the retracted end until the current crosses setpoint."""
     for z in range(Z_LOCATE_START, Z_LOCATE_END + 1, Z_LOCATE_STEP):
         dev._write(("DACZ %d\n" % z).encode())
-        v = fast_read(dev)
+        # Averaged, like the loop. On a single conversion the noise is 188
+        # counts, so a setpoint near a real tunnelling current would be found on
+        # a noise spike rather than on the surface.
+        v = read_junction(dev)
         if v is not None and abs(v) >= setpoint:
             return z
     return None
@@ -132,6 +176,10 @@ def main(argv=None):
         return 2
     half, step, nlines = int(argv[0]), int(argv[1]), int(argv[2])
     setpoint, out = float(argv[3]), argv[4]
+    # Optional 6th argument: the bias DAC code. 38229 is -0.5 V at the sample,
+    # 43691 is -1.0 V. More volts holds the same current at a LARGER gap, which
+    # is how a real STM stays out of contact.
+    bias_code = int(argv[5]) if len(argv) > 5 else 38229
 
     xs = list(range(MID - half, MID + half + 1, step))
     ys = [MID - half + round(i * (2.0 * half) / max(nlines - 1, 1))
@@ -163,8 +211,9 @@ def main(argv=None):
 
             loop = Loop(dev, setpoint)
             loop.set_z(onset)
-            print("onset Z=%d, setpoint %d counts (%.1f nA), %d x %d pixels"
-                  % (onset, setpoint, setpoint / COUNTS_PER_NANOAMP,
+            print("onset Z=%d, setpoint %d counts (%.2f nA), bias code %d, "
+                  "%d x %d pixels"
+                  % (onset, setpoint, setpoint / COUNTS_PER_NANOAMP, bias_code,
                      len(xs), len(ys)))
 
             t0 = time.time()

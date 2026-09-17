@@ -34,6 +34,13 @@ history:**
    junction is vacuum tunnelling or a pressed contact. `docs/OPEN_QUESTIONS.md`.
 2. **Decide about `CCON`** — safety rule 8. The drift is what stops an image, feedback is the
    designed answer, and the firmware fix passed its bench test on 2026-09-16.
+0. **Use the AVERAGED read and scan WIDE.** Both were faults found late on 2026-09-17 and both are
+   fixed in `Code/pc/stm_feedback_scan.py`: the loop steers on `ADCR` (46 counts of noise, not 188),
+   and a scan of **±400 X counts covers about ±0.6 nm** — smaller than an atom. **Scan ±15,000.**
+0b. **Before believing any image, run the two controls that cost nothing.** Scan once with **X held
+   still** — if it shows as much structure as a real scan, there is no image. And run the same line
+   at **three separated Y positions**: if different places agree better than one place agrees with
+   itself, you are looking at the scanner, not the sample. **Both failed on 2026-09-17.**
 3. **The tip holder and the mechanics — this is now the top engineering job.** `SAID`: the holder
    bends to any touch. **Tested 2026-09-17: the junction is shaken at 5-20 Hz, and a control scan
    with X never moving produced as much apparent structure as a real one.** The electronics are flat

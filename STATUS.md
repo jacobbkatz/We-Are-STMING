@@ -30,6 +30,21 @@ image against image −0.09 to +0.27. **An apparent r = +0.75 between two earlie
 loop's settling transient on the first line of each**, and vanished when that line was dropped.
 **The one reproducible thing is a tilt: −0.17 counts of Z per count of X.**
 
+**A SECOND ATTEMPT, AFTER EVERY FIX: STILL NO IMAGE, AND NOW THE REASON IS QUANTIFIED.** Mid-session
+the loop was switched from single ADC conversions to the firmware's **averaged** read — same speed,
+**188 counts of noise down to 46** — and the scans were widened forty-fold after a finer
+current-versus-Z curve showed the earlier ones covered about **±0.6 nm of sample, smaller than an
+atom**. Both were real faults and both are fixed. **The image still does not reproduce**, and three
+measurements say why:
+
+| Measured | Number |
+|---|---|
+| **Height wobble with the loop holding still at ONE point** | **287-419 counts RMS**, at every setpoint from 1.6 to 47 nA — **as large as the apparent structure in any image** |
+| **Same line at three separate places** | repeats at the same place agree at **+0.03 to +0.26**; *different* places agree at **+0.34 to +0.65**. **The scan traces the scanner's own bow, not the sample** |
+| **Z creep, approach against retract** | current appears at Z 35,000 going in and vanishes at **36,200** coming out: **1,200 counts, four cycles of six** |
+| Z fidelity | a **+400** count step delivers **+0.36** decades where **+1.60** is due; **−400** delivers **−1.13**. Pressed contact, not a gap |
+| Leakage, tip retracted, ±2 V | **under 0.06 nA, over 8 GΩ.** Not a floor |
+
 **WHY, tested rather than guessed.** A control run with **identical timing but X never moving**
 produced MORE apparent structure than a real scan, and **the same line scanned ten times running
 correlates at +0.11 with itself.** A noise spectrum settles the cause: with no junction the
