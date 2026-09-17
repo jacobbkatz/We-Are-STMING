@@ -9,6 +9,7 @@
     --beep: #1D7A4B; --beep-bg: #E2EFE8; --beep-edge: #A9CDB9;
     --warn: #9A5B00; --warn-bg: #FFF6E4; --warn-edge: #E0C48D;
     --chip-bg: #DFE5E2; --sunk: #E1E6E3;
+    --gold: #C9971C; --copper: #B06B3A; --paper: #C8CFCA;
     --display: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
     --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
@@ -20,6 +21,7 @@
     --beep: #53C98F; --beep-bg: #14291F; --beep-edge: #2B5240;
     --warn: #E3A64A; --warn-bg: #2A2313; --warn-edge: #5C4A22;
     --chip-bg: #1F2724; --sunk: #121817;
+    --gold: #E0B84A; --copper: #D08A50; --paper: #3A4541;
     color-scheme: dark; } }
   :root[data-theme="dark"] {
     --ground: #0E1312; --surface: #161C1A; --ink: #E3E9E6; --ink-soft: #97A39E; --rule: #2A3430;
@@ -27,6 +29,7 @@
     --beep: #53C98F; --beep-bg: #14291F; --beep-edge: #2B5240;
     --warn: #E3A64A; --warn-bg: #2A2313; --warn-edge: #5C4A22;
     --chip-bg: #1F2724; --sunk: #121817;
+    --gold: #E0B84A; --copper: #D08A50; --paper: #3A4541;
     color-scheme: dark; }
 
   * { box-sizing: border-box; }
@@ -104,6 +107,16 @@
   th { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .08em;
     text-transform: uppercase; color: var(--ink-soft); }
 
+  figure { margin: 20px 0 0; }
+  .fig { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 16px 14px 10px; }
+  .fig svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  figcaption { font-size: 14.5px; color: var(--ink-soft); margin-top: 12px; }
+  figcaption b { color: var(--ink); }
+  .plab { font-family: var(--display); font-size: 15px; font-weight: 700; fill: var(--ink); }
+  .slab { font-family: var(--body); font-size: 12px; fill: var(--ink-soft); }
+  .mlab { font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .06em; }
+
   footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule);
     font-size: 14px; color: var(--ink-soft); }
 </style>
@@ -151,7 +164,7 @@
   <li><b>Nitrile gloves</b> &mdash; in the inventory. <b>Wear them.</b> Skin oil ruins gold leaf and
   contaminates everything it touches</li>
   <li><b>The magnifier</b> &mdash; you will not be able to judge flatness with the naked eye</li>
-  <li><b>Something smooth to burnish with</b>: a clean cotton ball, a soft make-up brush, or the back
+  <li><b>Something smooth to rub the gold down with</b>: a clean cotton ball, a soft make-up brush, or the back
   of a plastic spoon. <b>Not your finger</b></li>
   <li><b>Sharp scissors or a fresh scalpel blade</b>, and a cutting surface</li>
   <li><b>Copper tape</b>
@@ -179,7 +192,7 @@ to lose the leaf to convection.</p>
 
 <div class="why"><b>Why it matters, and it is not vanity.</b> Gold is the standard sample for this
 <i>because it does not oxidise</i> &mdash; a clean gold surface stays conductive in air forever.
-<b>Imitation leaf &mdash; sold as Dutch metal, composition leaf or schlagmetal &mdash; is brass</b>,
+<b>Imitation leaf &mdash; sold as Dutch metal, composition leaf or schlagmetal (all names for the same thing) &mdash; is brass</b>,
 copper and zinc. Brass grows a tarnish layer within days, <b>and that layer is an electrical
 insulator</b>. You would be trying to tunnel through a film that does not conduct, on a surface that
 keeps changing. <b>It would not stop you getting contact, but it would make every image
@@ -302,7 +315,7 @@ make the connection <b>metal to metal</b> instead. Either:</p>
 
 <div class="why"><b>Why.</b> <b>There is a tip fitted</b> &mdash; blunt and bent, but fitted, and it
 is the thing that turns a fumble into a rebuild. Gold work needs two hands, tweezers and a
-burnishing motion. <b>Do none of that within reach of the tip.</b> The plan already calls for the
+rubbing motion. <b>Do none of that within reach of the tip.</b> The plan already calls for the
 plate to come off anyway.</div>
 
 <ol class="steps">
@@ -328,7 +341,7 @@ plate to come off anyway.</div>
   <li><b>Cut a strip of copper tape</b> a bit bigger than the area you want gold on.
     <p>Cut it with scissors on the paper. <b>Handle it by the edges.</b></p></li>
   <li><b>Lay it down from one edge, rolling it flat</b> as you go, so no air gets trapped.
-    <p>Then burnish the whole strip hard with the back of the spoon. <b>Flat matters</b> &mdash; a
+    <p>Then rub the whole strip down hard with the back of the spoon. <b>Flat matters</b> &mdash; a
     ripple is a hill the tip has to climb.</p></li>
   <li><b>Meter it now, before the gold goes on.</b> One probe on the new copper, the other on the
   wire that runs to the sample plate.
@@ -369,6 +382,16 @@ big wrinkled sheet.</div>
   thing tomorrow is your patience, not the gold.</p>
 </div>
 
+<h3>Two words I used that you may not know</h3>
+<div class="why">
+  <p><b>&ldquo;Rub it down&rdquo;</b> (gilders say <i>burnish</i>) just means <b>press and smooth it
+  with something soft, in small circles</b>, until it lies flat and sticks. A cotton ball or a soft
+  brush. <b>Not hard pressure</b> &mdash; you are smoothing, not scrubbing.</p>
+  <p><b>&ldquo;The shiny backing paper&rdquo;</b> is the waxy sheet on the back of the copper tape
+  that you peel off and normally throw away. <b>Don't throw it away</b> &mdash; it is a perfect
+  work surface, because tape lets go of it cleanly.</p>
+</div>
+
 <h3>Getting a small piece &mdash; two ways, and both beat cutting loose leaf</h3>
 
 <p><b>The mistake is trying to cut a free-floating sheet.</b> Unsupported leaf has no strength at
@@ -396,14 +419,15 @@ something.</b></p>
 supported gold cuts like paper. <b>So do the delicate part on an oversized piece where mistakes do
 not matter, then cut the result down.</b></div>
 <ol class="steps">
-  <li><b>Cut a piece of copper tape about 15 mm square</b> and <b>lay it back onto its own backing
-  paper</b>, copper side up.
-    <p>The backing is designed to release cleanly, so it makes a perfect temporary work surface.</p></li>
-  <li><b>Put the gold onto that copper</b> by whichever method below suits your leaf, and burnish it
+  <li><b>Cut a piece of copper tape about 15 mm square</b> and <b>lay it back onto the shiny backing paper it
+  came off</b>, copper side up.
+    <p>That shiny paper is made to let go cleanly, so it is a perfect temporary work surface &mdash;
+    the tape will lift straight off it again when you want it.</p></li>
+  <li><b>Put the gold onto that copper</b> by whichever method below suits your leaf, and rub it
   down. <b>Do not worry about the edges</b> &mdash; you are going to cut them off.</li>
   <li><b>Cut the gold-on-copper down to 3&ndash;5 mm</b> with sharp scissors, choosing the flattest,
   cleanest region to keep.</li>
-  <li><b>Peel it off the backing and stick it onto the plate.</b>
+  <li><b>Peel it off the shiny paper and stick it onto the plate.</b>
     <p>You now have a small, flat, pre-made gold sample with its own adhesive &mdash; and you never
     had to handle bare leaf at final size.</p></li>
 </ol>
@@ -413,38 +437,113 @@ not matter, then cut the result down.</b></div>
 not work in a fleece, and if the room is very dry a bowl of hot water nearby for ten minutes helps
 more than you would expect. <b>Cut on glass or a ceramic tile</b>, not on paper that sheds fibres.</p>
 
-<h3>Handling gold leaf &mdash; read before you open the book</h3>
+<h3>Handling gold leaf &mdash; read this before you unwrap any of it</h3>
 <p>It is about a ten-thousandth of a millimetre thick. It tears if you look at it wrong, it will
 wrap itself around tweezers, and <b>it sticks permanently to skin.</b> The rules are: <b>gloves on,
-never touch it directly, keep it on its backing paper as long as possible, and move slowly.</b></p>
+never touch it directly, keep it between paper for as long as you possibly can, and move slowly.</b></p>
 
-<h3>If your leaf is on a backing sheet (transfer leaf) &mdash; much easier</h3>
+<h3>The transfer, in one method &mdash; the flip</h3>
+
+<div class="why"><b>The whole idea in one sentence: never let the gold touch anything except paper
+and the copper.</b> You keep it on its paper, turn the paper upside-down onto the copper, rub the
+back of the paper, and lift the paper off. <b>The gold stays behind on the copper.</b>
+<br><br><b>This works whether your leaf is loose or already stuck to a backing sheet</b>, so there is
+only one thing to learn.</div>
+
+<figure>
+  <div class="fig">
+    <svg viewBox="0 0 620 420" role="img" aria-label="Four side-view panels. One: a sandwich of paper, gold leaf and paper. Two: the top paper is peeled off, leaving gold on the lower paper. Three: the paper and gold are turned over and lowered gold-side-down onto the copper tape on the sample plate. Four: the paper is rubbed and lifted away, leaving the gold stuck to the copper.">
+      <defs>
+        <marker id="ga" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="currentColor"></path>
+        </marker>
+      </defs>
+
+      <!-- ============ 1 ============ -->
+      <text x="14" y="28" class="plab">1 &nbsp;What you start with</text>
+      <rect x="30" y="64" width="150" height="22" rx="3" fill="var(--paper)"></rect>
+      <text x="105" y="79" class="mlab" text-anchor="middle" fill="var(--ink-soft)">PAPER</text>
+      <rect x="30" y="90" width="150" height="8" rx="2" fill="var(--gold)"></rect>
+      <rect x="30" y="102" width="150" height="22" rx="3" fill="var(--paper)"></rect>
+      <text x="105" y="117" class="mlab" text-anchor="middle" fill="var(--ink-soft)">PAPER</text>
+      <line x1="184" y1="94" x2="208" y2="94" stroke="var(--gold)" stroke-width="1.6"></line>
+      <text x="214" y="98" class="slab" fill="var(--gold)">gold leaf</text>
+      <text x="14" y="152" class="slab">A sandwich. Hold the paper, never the gold.</text>
+
+      <!-- ============ 2 ============ -->
+      <text x="330" y="28" class="plab">2 &nbsp;Peel the top paper off</text>
+      <g transform="translate(350,66) rotate(-12)">
+        <rect x="0" y="0" width="128" height="20" rx="3" fill="var(--paper)" opacity=".8"></rect>
+      </g>
+      <path d="M400,88 C396,82 394,78 391,73" fill="none" stroke="currentColor" stroke-width="1.6" marker-end="url(#ga)"></path>
+      <rect x="346" y="90" width="150" height="8" rx="2" fill="var(--gold)"></rect>
+      <rect x="346" y="102" width="150" height="22" rx="3" fill="var(--paper)"></rect>
+      <text x="421" y="117" class="mlab" text-anchor="middle" fill="var(--ink-soft)">PAPER</text>
+      <text x="330" y="152" class="slab">The gold is bare now, still lying on paper.</text>
+
+      <!-- ============ 3 ============ -->
+      <text x="14" y="232" class="plab">3 &nbsp;Turn it over onto the copper</text>
+      <rect x="30" y="264" width="150" height="22" rx="3" fill="var(--paper)"></rect>
+      <text x="105" y="279" class="mlab" text-anchor="middle" fill="var(--ink-soft)">PAPER</text>
+      <rect x="30" y="290" width="150" height="8" rx="2" fill="var(--gold)"></rect>
+      <line x1="105" y1="306" x2="105" y2="326" stroke="currentColor" stroke-width="1.8" marker-end="url(#ga)"></line>
+      <rect x="20" y="334" width="170" height="12" rx="2" fill="var(--copper)"></rect>
+      <text x="196" y="344" class="slab" fill="var(--copper)">copper tape</text>
+      <rect x="20" y="348" width="170" height="18" rx="2" fill="currentColor" opacity=".16"></rect>
+      <text x="196" y="362" class="slab">the plate</text>
+      <text x="14" y="394" class="slab">Gold side DOWN. Lower it straight.</text>
+
+      <!-- ============ 4 ============ -->
+      <text x="330" y="232" class="plab">4 &nbsp;Rub, then lift the paper</text>
+      <g transform="translate(350,268) rotate(-12)">
+        <rect x="0" y="0" width="128" height="20" rx="3" fill="var(--paper)" opacity=".8"></rect>
+      </g>
+      <path d="M404,312 C400,304 398,298 395,290" fill="none" stroke="currentColor" stroke-width="1.6" marker-end="url(#ga)"></path>
+      <rect x="336" y="322" width="150" height="8" rx="2" fill="var(--gold)"></rect>
+      <text x="492" y="330" class="slab" fill="var(--gold)">gold stays</text>
+      <rect x="336" y="334" width="150" height="12" rx="2" fill="var(--copper)"></rect>
+      <rect x="336" y="348" width="150" height="18" rx="2" fill="currentColor" opacity=".16"></rect>
+      <text x="330" y="394" class="slab">Gold grips metal. It does not grip paper.</text>
+    </svg>
+  </div>
+  <figcaption><b>Why the gold stays on the copper and not on the paper.</b> Gold is soft enough that
+  rubbing presses it into contact with clean metal, and the two metals grip each other. Paper has
+  nothing to grip with &mdash; it was only ever holding the gold by static.</figcaption>
+</figure>
+
 <ol class="steps">
-  <li><b>Cut through leaf and backing together</b> with scissors, a piece slightly larger than the
-  patch you want. Do not separate them.</li>
-  <li><b>Lay it gold-side-down onto the copper</b>, holding only the backing paper.</li>
-  <li><b>Burnish through the backing</b> &mdash; small circles with the cotton ball, light and even,
-  for fifteen or twenty seconds.</li>
-  <li><b>Peel the backing away slowly</b>, from one corner, at a shallow angle.
-    <p>The gold should stay on the copper. If it lifts with the backing, lay it back and burnish
-    longer.</p></li>
+  <li><b>Get one piece ready</b>, still in its paper sandwich from the cutting step.</li>
+  <li><b>Peel off the top sheet of paper only.</b> Go slowly and lift from one corner.
+    <p>The gold should stay lying on the bottom sheet. <b>If it lifts with the top sheet instead,
+    that is fine</b> &mdash; that sheet is now your carrier, just carry on with it.</p></li>
+  <li><b>Hold the paper by two opposite edges and turn it upside-down</b>, so the gold is
+  underneath, facing the plate.</li>
+  <li><b>Lower it straight down onto the copper.</b>
+    <p><b>Straight down, not sliding sideways.</b> Sliding is what tears it. Once it touches, it has
+    landed &mdash; do not try to reposition it.</p></li>
+  <li><b>Rub the back of the paper</b> with the cotton ball &mdash; small circles, light and even,
+  for about twenty seconds.
+    <p>You are pressing the gold onto the metal through the paper. <b>You will not see anything
+    happen yet.</b></p></li>
+  <li><b>Lift the paper off slowly</b>, from one corner, keeping it low and peeling rather than
+  pulling upward.
+    <p><b>The gold should stay on the copper.</b> If it comes away with the paper, lay it back down
+    and rub for longer before trying again.</p></li>
+  <li><b>Rub the gold itself</b>, very lightly, with the clean cotton ball.
+    <p>It will go from dull and loose-looking to bright and flat. <b>That change is how you know it
+    has taken.</b></p></li>
 </ol>
 
-<h3>If your leaf is loose (between tissue pages)</h3>
-<ol class="steps">
-  <li><b>Open the book flat</b> and lift the top tissue.</li>
-  <li><b>Do not grab the gold with tweezers.</b> Instead, cut a piece of the tissue with the gold
-  still lying on it, and use the <b>tissue</b> as the carrier.</li>
-  <li><b>Lower it gold-side-down onto the copper</b>, tissue on top.</li>
-  <li><b>Press gently through the tissue</b> with the cotton ball, then lift the tissue straight up
-  and away.</li>
-</ol>
+<div class="gate">
+  <h3>The one thing that must not touch the gold</h3>
+  <p><b>Nothing sticky, and no fingers, on the face that ends up pointing up.</b> That is the surface
+  the tip has to read. <b>Sticky residue or skin oil on it is an insulating film</b>, and the
+  microscope would be trying to feel through it.</p>
+  <p><b>Paper is fine. Cotton is fine. Tape adhesive and fingers are not.</b></p>
+</div>
 
-<h3>Then, either way</h3>
+<h3>Tidying up before it goes anywhere near the microscope</h3>
 <ol class="steps">
-  <li><b>Burnish the gold down</b> with the cotton ball, small light circles.
-    <p>Gold cold-welds to clean metal when you rub it. It will go from loose-looking to bonded and
-    shiny. <b>Light pressure</b> &mdash; you are smoothing, not scrubbing.</p></li>
   <li><b>Brush the loose bits away</b> with the soft brush, off the plate and onto the paper.
     <p>Little torn scraps at the edges will lift later and move under the tip. Get rid of them
     now.</p></li>
@@ -456,10 +555,10 @@ never touch it directly, keep it on its backing paper as long as possible, and m
 
 <h2><span class="n">Part 5</span>Pin the edge down</h2>
 
-<div class="why"><b>Why bother.</b> Burnished gold usually holds, but "usually" is not good enough for
+<div class="why"><b>Why bother.</b> Rubbed-down gold usually holds, but "usually" is not good enough for
 something that must not move under the tip. A tab of copper tape over one edge does two jobs at
 once: <b>it clamps the gold mechanically, and it guarantees the electrical connection</b> even if
-the burnished contact is poor.</div>
+the rubbed-down contact is poor.</div>
 
 <ol class="steps">
   <li><b>Cut a small tab of copper tape</b>, a few millimetres.</li>
@@ -468,7 +567,7 @@ the burnished contact is poor.</div>
   gold by a millimetre or two and lands on the copper beyond it.
     <p><b>Keep it well clear of the imaging area.</b> You are pinning a corner, not framing a
     picture.</p></li>
-  <li><b>Press it down firmly</b> and burnish the tab.</li>
+  <li><b>Press it down firmly</b> and rub the tab down.</li>
 </ol>
 
 <h2><span class="n">Part 6</span>The three readings that decide whether it goes back on</h2>
