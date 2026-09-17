@@ -1,7 +1,29 @@
 # Current status
 
-**Last updated:** 2026-09-17 — code-only session. Gold leaf bench card written, now covering **whether the leaf is real gold** and **how to cut it to size**; **new fault 6: the approach tool's Z sweep is ~10x too coarse to stop in tunnelling.** Instrument unchanged and still powered down, screw at +6144 steps
+**Last updated:** 2026-09-17 — **code only, nothing powered, nothing measured.** Gold leaf bench card written and rewritten in plain language; **new fault 6: the approach tool's Z sweep is ~10x too coarse to stop in tunnelling.** Instrument unchanged, powered down, screw at +6144 steps. **See the HANDOVER block below**
 **Updated by:** Jacob, with Claude Code **on the web** — a cloud session with **no hardware attached**. Nothing in this update was measured; fault 6 is arithmetic on figures already in this repository. The last machine that could reach the Teensy was Jacob's Windows machine on 2026-09-16.
+
+# HANDOVER — WHAT IS HAPPENING RIGHT NOW, 2026-09-17
+
+**For whoever picks this up next, on either computer. Read this block before anything else.**
+
+| | |
+|---|---|
+| **The instrument** | **Untouched since 2026-09-16.** Powered down, tip fitted (blunt placeholder), gold leaf on the plate, **coarse screw at +6144 motor steps** from the hand-set start. **Nothing has been powered or measured since** |
+| **What Jacob is doing next, at the bench** | **Mounting fresh gold leaf on the sample plate**, following **[`docs/gold_leaf_procedure.html`](docs/gold_leaf_procedure.html)**. Unpowered, plate off the instrument |
+| **Two gates come before any gold is mounted** | **(1) Is the leaf actually gold?** Never tested. A flame test on a 2 mm scrap settles it — brass blackens instantly, gold never darkens. **(2) Does the copper tape's adhesive conduct?** Open since 2026-09-09. **If it does not, the gold carries no bias and no tunnelling current can exist** — one of the four untested explanations for the failed approach |
+| **Before any approach is run again** | **Use `--z-step 5`.** New **fault 6**: at the tool's default the Z sweep moves 2.08 nm per sample point against a 0.21 nm detectable window, so about nine approaches in ten would step from no current straight into contact |
+| **Still disputed, still unmeasured** | **Motor direction** — needs one photo of the head's face with all three screws, the tip and the motor in frame. **Z direction** — unknown, the approach tool finds it safely |
+
+**Sessions 2026-09-16 (showcase) and 2026-09-17 were code-only, on the web, with no hardware
+attached. Nothing in either was measured.** Fault 6 is arithmetic on figures already in this
+repository, not a bench result.
+
+**Also new:** a public progress page, `docs/progress.html`; the first photographs of our own hardware
+in `Images/ours/`; and `check_facts.py` now scans `.html`, which caught a live bench page still
+telling the bench a retired value.
+
+---
 
 # A PUBLIC PROGRESS PAGE NOW EXISTS — 2026-09-16
 
