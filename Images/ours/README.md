@@ -1,4 +1,96 @@
+# `Images/ours/` — photographs of this instrument
 
+**Everything in this folder is our own hardware.** The other folder, `Images/`, contains Mech
+Panda's HOPG scans and is not ours — see [`../README.md`](../README.md) before using anything from
+there.
+
+---
+
+## The build record, 2026-07-25 to 2026-09-17
+
+**Added 2026-09-18** from Jacob's phone, via a Drive folder he shared. Twenty-four frames, resized
+to 1600 px on the long edge and **stripped of EXIF** — the originals carried the camera's metadata
+and the repository gets shown to other people. **Full-resolution originals stay in Jacob's Drive**;
+these are the working copies.
+
+### How to read the "Confirmed by" column
+
+**This project has a rule about photographs**, in `CLAUDE.md`: *a photograph is not a measurement
+of our hardware — ask whose board it is before reading anything off it.* It exists because on
+2026-09-09 a session read a part marking off a shared photo and edited five documents before
+anyone asked whose board it was. It was Dan Berard's.
+
+These are all Jacob's own photographs of our own bench, so *whose* is settled. **What is not
+settled is what each one shows** — that is a reading of an image, and readings have been wrong
+here. So every caption is marked:
+
+- **`SAID`** — Jacob told me what it is, in the conversation of 2026-09-18.
+- **`READ`** — my reading of the frame. **Plausible, not confirmed.** One word from Jacob or Nuh
+  settles any of these, and the caption should then be changed to `SAID` with the date.
+
+**Nothing in this folder has had a number taken off it**, and the section below this one records
+in detail why one particular attempt to do so failed.
+
+| File | What it shows | Confirmed by |
+|---|---|---|
+| `2026-07-25_controller_pcb_as_delivered.jpg` | The controller PCB, held, as it arrived. Four DAC packages, the ADC, the two DSUB footprints along the top edge and the 26-way ribbon header at the left. **It arrived populated** — JLCPCB PCBA, not hand-built (`docs/INVENTORY.md`) | `READ` |
+| `2026-07-25_second_board_as_delivered.jpg` | The second board from the same delivery, held up to the camera | `READ` — **which board this is has not been confirmed.** It is smaller than the controller and was photographed the same minute |
+| `2026-07-26_frame_and_suspension_assembled.jpg` | The printed frame standing on the bench with the three suspension posts up, parts still bagged around it | `READ` |
+| `2026-08-01_printed_platform_and_mount.jpg` | The printed circular platform and the scan-head mount plate, loose on the bench, with the hole grids visible | `READ` |
+| `2026-08-01_nuh_soldering.jpg` | **Nuh**, soldering at the bench | `SAID` 2026-09-18 |
+| `2026-08-02_frame_assembled.jpg` | The frame with the platform hung on its three suspension rods | `READ` |
+| `2026-08-07_uln2003_stepper_driver.jpg` | The ULN2003 driver board for the 28BYJ-48 coarse-approach stepper, held in hand. IN1-IN7 labels legible | `READ` |
+| `2026-08-07_first_electronics_hookup.jpg` | **The first full electronics hookup.** Controller board, 26-way ribbon, stepper and its driver, all wired together on the bench | `SAID` 2026-09-18 |
+| `2026-08-07_teensy_carrier_protoboard.jpg` | The Teensy 4.1 on its protoboard carrier with the ribbon attached | `READ` |
+| `2026-08-19_preamp_board.jpg` | The OPA627 transimpedance preamp board, held against an anti-static bag | `READ` |
+| `2026-08-21_preamp_with_coax.jpg` | The preamp with its coax tail attached, on a bench mat | `READ` |
+| `2026-08-24_scanhead_on_copper_ground_plane.jpg` | The scan head assembled on the copper-covered base plate, on the suspended platform, orange coax running off | `READ` |
+| `2026-08-26_bench_full_rig.jpg` | The whole bench: frame, suspension, supplies, laptop, someone working | `READ` — **which of the two people this is has not been confirmed** |
+| `2026-08-29_rig_on_suspension.jpg` | The instrument on its suspension with both bench supplies live | `READ` |
+| `2026-08-30_ribbon_wiring_diagram_in_use.jpg` | **A screen showing this repository's own 26-way ribbon wiring diagram**, being used at the bench. Title legible: *Teensy 4.1 <-> STM Controller — 26-way Ribbon Wiring* | `READ` |
+| `2026-09-15_bench_before_powered_session.jpg` | The bench set up before the 2026-09-16 powered session: supplies, meter, the rig, tools laid out | `READ` |
+| `2026-09-16_faraday_enclosure_on_suspension.jpg` | The copper-foil-wrapped enclosure over the scan head, hanging on the suspension, with the wiring loom coming out of it | `READ` |
+| `2026-09-16_tip_protrusion_measurement_1.jpg` | **The tip-protrusion measurement**, tape measure against the head face. This is the provenance for the **1.8 cm** figure in `docs/INVENTORY.md`: measured from the plate face, halfway along the side-by-side screws | `SAID` 2026-09-18 |
+| `2026-09-16_tip_protrusion_measurement_2.jpg` | The same measurement, closer, with the three ball ends and the tape in one frame | `SAID` 2026-09-18 |
+| `2026-09-16_scan_module_top_down.jpg` | **Top-down view of the scanning module on the suspension. The preamp is the little copper box in the middle** | `SAID` 2026-09-18 |
+| `2026-09-16_first_gold_attempt_removed.jpg` | **The first gold-leaf attempt, made on 2026-09-16 and then removed.** It was never reported at the time and only came to light on 2026-09-18 when Jacob identified this frame. See `docs/INVENTORY.md` | `SAID` 2026-09-18 |
+| `2026-09-16_gold_leaf.jpg` | Loose gold leaf flakes on the bench surface, for scale | `READ` |
+| `2026-09-17_sample_plate_rebuilt.jpg` | The sample plate off the head: aluminium tape over the face, a square window cut in it, gold leaf inside the window. **This looks like the plate `docs/INVENTORY.md` describes as "rebuilt 2026-09-17"** — that entry records its photo as being "in the conversation, not in the repository", and this is dated the same day | `READ` — **worth one word from Jacob**, because if it is that plate the inventory entry should point here |
+| `2026-09-17_head_and_coax_on_suspension.jpg` | The head on the suspended platform with the orange coax looping down to the preamp | `READ` |
+
+### What was deliberately left out
+
+- **Two video clips** were the only ones small enough to fetch. One was 0.2 s of a laptop screen and
+  one was a 2.4 s personal selfie with no hardware in it. **Neither is project content and neither
+  was kept.**
+- **The other twenty videos could not be fetched at all** — see "The videos" below.
+- Duplicate frames of the same subject taken seconds apart: one of each was kept.
+
+### The videos — NOT AVAILABLE, and this is a tooling limit, not a decision
+
+Jacob's Drive folder holds **22 video clips, about 3.6 GB**, including what look like the whole of
+the 2026-09-16 and 2026-09-17 bench sessions. **Twenty of them could not be retrieved.**
+
+**The reason is a hard 10 MB cap on the Drive connector's download.** Files above it return
+*"File too large for download, over limit of 10 MB"* and no partial read is offered. The other
+routes were checked and are closed too:
+
+| Route | Result |
+|---|---|
+| Connector download | **10 MB cap.** 20 of 22 clips are over it, the largest 1.19 GB |
+| Anonymous fetch of the share link | **Closed.** The folder is shared to the `quis.com` domain, not to anyone with the link |
+| A thumbnail or preview frame from the file metadata | **Not offered** by the connector |
+
+**So the only clips in this repository's reach are the two that were under 10 MB, and neither was
+useful.** To get the bench videos in, one of these has to happen at Jacob's end:
+
+1. **Trim them on the phone** to the few seconds that matter and re-share — a 10 s clip at phone
+   bitrate is comfortably under 10 MB.
+2. **Export them at a lower resolution** (720p) before uploading.
+3. **Screenshot the moment** out of the video on the phone and drop the image in the folder. A still
+   is what would end up in a write-up anyway.
+
+---
 ## 2026-09-18 — the rebuilt tip holder and the scan head face
 
 Sent by Jacob from the bench, taken to settle **d**, the distance from the line through the two

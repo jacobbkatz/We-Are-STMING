@@ -90,6 +90,25 @@ header .wrap{padding-block:clamp(48px,9vw,88px) 0}
 .stat .v small{font-size:15px; font-weight:400; color:var(--ink-2); letter-spacing:0}
 .stat .n{font-size:13px; line-height:1.45; color:var(--ink-3); margin-top:9px}
 
+/* photographs */
+.shots{display:grid; grid-template-columns:repeat(auto-fit,minmax(228px,1fr));
+  gap:14px; margin-top:30px}
+.shot{margin:0; background:var(--panel); border:1px solid var(--rule); border-radius:6px;
+  overflow:hidden; box-shadow:var(--shadow)}
+.shot img{display:block; width:100%; aspect-ratio:3/4; object-fit:cover;
+  background:var(--sunk)}
+.shot figcaption{padding:13px 15px 15px; font-size:13.5px; line-height:1.48; max-width:none}
+.arc{display:grid; grid-template-columns:repeat(auto-fit,minmax(134px,1fr));
+  gap:10px; margin-top:24px}
+.arc figure{margin:0; border-radius:5px}
+.arc img{display:block; width:100%; aspect-ratio:1; object-fit:cover; background:var(--sunk)}
+.arc .when{font-family:var(--mono); font-size:10.5px; font-weight:600; letter-spacing:.09em;
+  color:var(--gold); padding:10px 11px 0}
+.arc .what{font-size:12.5px; line-height:1.4; color:var(--ink-2); padding:2px 11px 12px;
+  margin:0}
+.shotnote{margin-top:22px; font-size:13.5px; color:var(--ink-3); max-width:74ch}
+
+
 /* sections */
 section{padding-block:clamp(48px,6.5vw,80px); border-bottom:1px solid var(--rule)}
 section:last-of-type{border-bottom:none}
@@ -237,6 +256,102 @@ footer code{font-size:12.5px; color:var(--ink-2)}
 </header>
 
 <main>
+
+<section id="built">
+  <div class="wrap">
+    <p class="q">The hardware</p>
+    <h2>Every part of this was designed, ordered, assembled and instrumented by two people
+      in eight weeks</h2>
+    <p class="lede">There was no kit. The circuit boards were laid out and sent to a fabricator,
+      the frame and scan head were printed, and the analog chain &mdash; four 16-bit
+      digital-to-analog converters, a 16-bit converter reading back, and a
+      100&nbsp;M&#8486; transimpedance amplifier &mdash; was built up and characterised one
+      stage at a time. Everything measured on this page was measured on the instrument in
+      these photographs.</p>
+
+    <div class="shots">
+      <figure class="shot">
+        <img src="../Images/ours/2026-09-16_faraday_enclosure_on_suspension.jpg" loading="lazy"
+          decoding="async"
+          alt="A copper-foil-wrapped enclosure hanging on three suspension rods above the bench,
+               with a bundle of coloured wires leaving it.">
+        <figcaption><b>The instrument, shielded and suspended.</b> The scan head sits inside a
+          copper Faraday enclosure, hanging on a three-rod suspension that isolates it from the
+          building. The current it has to read is about one billionth of an amp &mdash; a person
+          standing a metre away injects more than that.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="../Images/ours/2026-09-16_scan_module_top_down.jpg" loading="lazy"
+          decoding="async"
+          alt="Top-down view of the scanning module on its suspended platform: a copper ground
+               plane, the scan head, and a small copper-taped box at the centre.">
+        <figcaption><b>Inside, from above.</b> The scan head on its copper ground plane. <b>The
+          small copper box in the middle is the amplifier</b> &mdash; it sits as close to the tip
+          as it physically can, because every extra centimetre of wire before the first gain stage
+          is picked-up noise that can never be removed later.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="../Images/ours/2026-09-17_sample_plate_rebuilt.jpg" loading="lazy"
+          decoding="async"
+          alt="A rectangular plate faced with aluminium tape, with a square window cut in it
+               revealing gold leaf, and an orange wire entering at the top edge.">
+        <figcaption><b>The sample.</b> Gold leaf about 100&nbsp;nm thick, in a window cut through
+          the plate's tape facing, with the bias wire entering at the top. Gold is used because it
+          does not grow an oxide &mdash; the surface a tip meets is the surface that was laid
+          down.</figcaption>
+      </figure>
+    </div>
+
+    <div class="arc">
+      <figure>
+        <img src="../Images/ours/2026-07-25_controller_pcb_as_delivered.jpg" loading="lazy"
+          decoding="async" alt="A green printed circuit board held in one hand, populated with
+          surface-mount chips and connectors.">
+        <p class="when">25 JUL</p>
+        <p class="what">Controller board back from the fabricator</p>
+      </figure>
+      <figure>
+        <img src="../Images/ours/2026-07-26_frame_and_suspension_assembled.jpg" loading="lazy"
+          decoding="async" alt="A black printed frame standing on a workbench with three vertical
+          suspension posts, parts still in bags around it.">
+        <p class="when">26 JUL</p>
+        <p class="what">Printed frame and suspension standing up</p>
+      </figure>
+      <figure>
+        <img src="../Images/ours/2026-08-07_first_electronics_hookup.jpg" loading="lazy"
+          decoding="async" alt="The controller board wired to a ribbon cable, a stepper motor and
+          a small driver board on a workbench.">
+        <p class="when">7 AUG</p>
+        <p class="what">First full electronics hookup</p>
+      </figure>
+      <figure>
+        <img src="../Images/ours/2026-08-19_preamp_board.jpg" loading="lazy"
+          decoding="async" alt="A small circuit board held between finger and thumb next to an
+          anti-static bag.">
+        <p class="when">19 AUG</p>
+        <p class="what">The 100&nbsp;M&#8486; amplifier board</p>
+      </figure>
+      <figure>
+        <img src="../Images/ours/2026-08-24_scanhead_on_copper_ground_plane.jpg" loading="lazy"
+          decoding="async" alt="The scan head being assembled on a copper-covered base plate on
+          the suspended platform, with an orange coaxial cable attached.">
+        <p class="when">24 AUG</p>
+        <p class="what">Scan head onto the copper ground plane</p>
+      </figure>
+      <figure>
+        <img src="../Images/ours/2026-09-15_bench_before_powered_session.jpg" loading="lazy"
+          decoding="async" alt="A workbench with two bench power supplies, a multimeter, hand
+          tools and the assembled instrument.">
+        <p class="when">15 SEP</p>
+        <p class="what">Set up for the powered runs on this page</p>
+      </figure>
+    </div>
+
+    <p class="shotnote">Photographs are our own hardware, taken at our bench. The full set, with a
+      note on which captions are confirmed and which are a reading of the frame, is in
+      <code>Images/ours/README.md</code>.</p>
+  </div>
+</section>
 
 <section id="chain">
   <div class="wrap">
