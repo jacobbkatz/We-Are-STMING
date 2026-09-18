@@ -1,13 +1,98 @@
 # Next session plan
 
-**Last updated:** 2026-09-18 — the three-Y control tool now exists and is wired in at 0a below. Bench state unchanged from the 2026-09-17, about 22:05 UTC wrap, corrected after an independent review of the committed data — **the first junction; motor and Z directions settled; imaging attempted at length and there is no image.** The blocker is mechanical and quantified. **Start with the gold, the straightedge and the springs.**
+**Last updated:** 2026-09-18 wrap — **mechanical session, nothing powered.** The whole plate is gold, the tip holder is rebuilt, and **the suspension is measured and is the wrong springs: droop ~2 mm, f0 ~11 Hz.** **Four checks are owed before power-up and they come first.** The three-Y control tool now exists.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# START HERE — after the 2026-09-17 bench session
+# START HERE — 2026-09-18, BEFORE ANYTHING IS POWERED
+
+**State:** powered down since 2026-09-17, about 21:55 UTC. USB out, supplies off, Z/X/Y/bias at
+midscale, tip backed off 300 motor steps, **screw 14,722 steps out** — the firmware counter resets
+at restart, so carry that by hand. **2026-09-18 was mechanical only: nothing was switched on.**
+
+**Changed 2026-09-18:** the **entire sample plate face is now gold**, and the **tip holder has been
+rebuilt** (continuous to the standoff; method not recorded). **The tip is unchanged** — still the
+blunt, bent placeholder.
+
+## FOUR CHECKS FIRST. All are minutes, none needs power, and two of them are gates.
+
+**A. Which feature is the tip, and how far is it from the CENTRE OF THE BRASS DISC?**
+Ruler or caliper against the disc rim. **`docs/FACTS.md` fixes the disc centre at 1.000 mm from the
+pivot line, so d follows from that one number.** **Do NOT try to get this from a photograph** —
+three attempts on 2026-09-18 gave three answers a factor of two apart; `Images/ours/README.md` has
+the four reasons. **The threshold that matters is d under about 0.13 mm**: below it the height
+wobble is 0.6-0.8 nm and 2026-09-17 was tunnelling; at d = 1 mm it is 4.4-6.5 nm and the tip was
+resting on something.
+
+**B. Is anything touching the suspended platform?** A cable on the base, a rod, a tie. **A bypass
+makes every spring calculation moot and no spring change fixes it.**
+
+**C. GATE — does the new gold sheet carry the bias?** Gold to the orange bias wire must beep. A
+fresh sheet laid over aluminium tape may be joined to nothing, and **aluminium tape's adhesive
+usually does not conduct.** **If the gold is not on the bias, no tunnelling current can exist and
+nothing else in this plan will work.**
+
+**D. GATE — safety rule 7, against the REBUILT holder.** Tip holder to the brass piezo electrode
+must read **OPEN**. It passed on 2026-09-16 **against the old holder**, and a rebuild is exactly
+what can bridge it. That path is a shunt straight across the preamp input. **A meter's "OL" only
+proves more than about 60 MΩ** — safety rule 12.
+
+## THEN, in order
+
+**1. Fit the sharper tip**, if one has been made. Tonight's has taken several hard contacts.
+**If the holder is opened again to do it, centre the tip on the piezo disc** — a disc deflects most
+at its centre and not at all at its rim, so an off-centre tip gets less Z throw, picks up tilt, and
+**may be the source of the −0.17 Z-per-X tilt that reproduced in every 2026-09-17 scan.**
+HYPOTHESIS, not a finding.
+
+**2. Approach:** `py Code/pc/stm_approach.py --z-retracted low --motor-toward-sample negative
+--motor-step 5 --max-steps 600 --z-step 200 -y`, operator a metre away, **hands away from the head**
+(a hand at 5 cm adds 370 pA). **Confirm any contact by flipping the bias before believing it** —
+that test rejected two false contacts and confirmed the real one. Expect **100 to 250 steps of
+backlash** after any reversal.
+
+**3. Re-test the gold prediction.** Two numbers from 2026-09-17 to beat, now that the tip must be on
+gold: the Z step response, **−1.13 decades pulling back against +0.36 pushing in** for ∓400 counts,
+and the hold wobble of **287-419 counts**. **A symmetric response and a steadier hold mean the
+surface was limiting us. No change pins it all on the mechanics.**
+
+**4. RUN THE CONTROL — the tool now exists and has never been run on hardware.**
+
+```
+py Code/pc/stm_y_control_test.py          # run this first
+py Code/pc/stm_y_control.py 15000 1500 6 3000 3000 control.csv
+```
+
+Six passes at each of three places 3,000 counts apart, all at **±15,000 X counts**, interleaved, a
+throwaway sweep after every Y move, and **it prints the verdict itself**. **If within beats between,
+the 636-count profile is the surface and this project has its first topography. If they match, it is
+the scanner's bow.**
+
+**5. The stamp test — and it decides whether to spend money on springs.** One scan with the room
+still, one while someone stamps on the floor a couple of metres away. **If the noise jumps, the
+building is getting through the stage and softer springs are the fix. If it does not, the 5-20 Hz is
+generated inside the instrument** — the tip holder, or the sample plate on its rubber bands — **and
+softer suspension springs would do nothing.** **Do not buy springs before this test.**
+
+**The springs, when it comes to that:** droop must exceed **20 mm** to isolate the 5 Hz peak, and
+62 mm gives 2 Hz, against **2 mm now**. That is ten to thirty times softer, or ten to thirty times
+the mass. **The coin cups cannot do it** — about 100 g against a requirement of kilograms. Berard
+used **2 ft springs** against our 300 mm, `docs/OTHER_BUILDERS.md` §5.
+
+**6. Decide about `CCON`** — safety rule 8. The drift is what stops an image, feedback is the
+designed answer, and the firmware fix passed its bench test on 2026-09-16. **Jacob and Nuh's call.**
+
+**Do not:** no `APRH`; no `CCON` with a tip in range until the rule is lifted; no bare or
+out-of-range `DACZ`; no Y offsets beyond a few thousand counts without re-finding the surface.
+
+---
+
+# HISTORY — the plan as it stood after the 2026-09-17 bench session
+
+## ~~START HERE~~ — superseded 2026-09-18 by the block above, kept for its detail
 
 **State left, about 21:55 UTC:** **powered down — USB out, then supplies off.** Z, X, Y and bias
 parked at midscale, tip backed off 300 motor steps. **The screw is 14,722 steps out** from where it

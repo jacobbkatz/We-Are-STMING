@@ -1,7 +1,126 @@
 # Current status
 
-**Last updated:** 2026-09-17, about 21:55 UTC wrap — **THE FIRST TIP-SAMPLE JUNCTION.** Current that follows the bias and follows Z: 0.85 nA at 0.05 V rising to 32 nA at 0.5 V. **The motor direction was backwards all along — NEGATIVE approaches.** **Z: the HIGH end extends toward the sample.** **The sample plate was not resting on the motor screw at all**, which explains 2026-09-16's null result; fixed with one more rubber band. **Imaging attempted at length and there is NO image — the reason is mechanical and is now quantified.** Powered down, USB out, screw at 14,722 steps out.
-**Updated by:** Jacob at the bench, with Claude Code desktop on Jacob's Windows machine. **Everything in the block below was measured tonight.** `sessions/2026-09-17-bench.md`.
+**Last updated:** 2026-09-18, wrap — **MECHANICAL WORK, NOTHING POWERED.** **The whole sample plate is now gold**, so the tip lands on gold wherever it lands. **The tip holder was rebuilt** and reads continuous to the standoff. **THE SUSPENSION IS NOT ISOLATING ANYTHING: droop ~2 mm, f0 ~11 Hz**, so it only isolates above 15.8 Hz while every bit of the measured noise sits below 30 Hz, worst at 5 Hz — **it amplifies near 11 Hz.** **d is still unmeasured and the photograph route is dead.** The three-Y control tool now exists.
+**Updated by:** Jacob at the bench, with Claude Code on the web. **Nothing was switched on and no electrical measurement was taken today.** `sessions/2026-09-18.md`.
+
+# 2026-09-18 — WHAT CHANGED, AND THE FOUR CHECKS OWED BEFORE POWER-UP
+
+| | |
+|---|---|
+| **Power** | **Never switched on today.** Still as 2026-09-17 left it: USB out, supplies off, axes at midscale, tip backed off 300 steps, screw 14,722 steps out |
+| **Sample** | **THE ENTIRE PLATE FACE IS GOLD** — a second sheet laid over everything (`SAID`). **The copper-oxide confound of 2026-09-17 §3.27 is gone** |
+| **Tip holder** | **REBUILT** (`SAID`). **Continuous to the standoff**, so the input signal path survived. **Method not recorded** — adhesive, tip removability and tip position are all UNKNOWN |
+| **Tip** | **Unchanged** — the same blunt, bent placeholder. Sharper tips deferred |
+| **Suspension** | **Droop ~2 mm, f0 ~11 Hz** (`SAID` + CALC). **Characterised for the first time** |
+
+**FOUR CHECKS ARE OWED BEFORE ANYTHING IS POWERED. Two are unpowered measurements, two are meter
+checks, and all four are minutes:**
+
+1. **Which feature is the tip, and how far is it from the CENTRE OF THE BRASS DISC?** Ruler or
+   caliper against the disc rim. **`docs/FACTS.md` fixes the disc centre at 1.000 mm from the pivot
+   line, so d follows from that one number.** **Do not try to get this from a photograph** — see
+   below.
+2. **Is anything touching the suspended platform?** A cable on the base, a rod, a tie. **A bypass
+   makes every spring calculation moot and no spring change fixes it.**
+3. **Does the new gold sheet carry the bias?** Gold to the orange bias wire must beep. **A fresh
+   sheet laid over aluminium tape may be joined to nothing, and if the gold is not on the bias no
+   tunnelling current can exist at all.**
+4. **Safety rule 7, against the REBUILT holder:** tip holder to the brass piezo electrode must read
+   **OPEN**. It passed on 2026-09-16 **against the old holder**, and a rebuild is exactly what can
+   bridge it. That path is a shunt across the preamp input.
+
+# THE SUSPENSION IS THE WRONG SPRINGS — 2026-09-18
+
+**`SAID`, Jacob:** *"the drop is maybe 2mm its barley hanging the springs are not very stretchy"* —
+lifted until the springs went slack, then released. A by-eye figure, not a caliper reading.
+
+**`f0 = 15.76 / sqrt(droop in mm)` = 11.1 Hz.** A suspension **amplifies at f0** and only isolates
+above about **1.4 x f0 = 15.8 Hz**. **Every bit of the 2026-09-17 mechanical noise sits below 30 Hz
+and is worst at 5 Hz.** So **the suspension contributes nothing in the band that matters and
+amplifies near 11 Hz.**
+
+**This moves a hypothesis 2026-09-17 explicitly could not test.** That session's spectrum showed
+*"no sharp peak — a smooth rise with soft bumps near 10 and 20 Hz"* and filed *"the suspension is
+resonating in the noise band"* as not ruled out but not supported, because **the droop measurement
+"needs hands and was not done"**. **11 Hz sits on that bump. Supported, not proven** — a soft bump
+is not a matched peak.
+
+**To isolate the 5 Hz peak the droop must exceed 20 mm**; 62 mm gives 2 Hz. That is **ten to thirty
+times softer springs, or ten to thirty times the mass**. **The three coin cups cannot do it** — at
+about 100 g against a requirement of kilograms they were sized to trim, not to move f0 tenfold.
+Berard hung his stack on **2 ft springs** against our 300 mm (`docs/OTHER_BUILDERS.md` §5).
+
+> **Robust to the "barely hanging" caveat.** If something else is taking weight the springs stretch
+> less, the droop reads smaller, and the real isolation is **worse**. The conclusion holds either
+> way — but check it, because a bypass is free to fix and no spring change works around it.
+>
+> **Do not buy springs yet.** The stamp test decides whether the noise even comes through the floor,
+> and it needs a junction, so it is a next-session job. If stamping does not move the noise, the
+> 5-20 Hz is generated inside the instrument — the tip holder, or the sample plate on its rubber
+> bands — and softer suspension springs would do nothing.
+
+# d IS STILL UNMEASURED, AND THE THRESHOLD IS 0.13 mm — 2026-09-18
+
+**`SAID`, Jacob:** *"its between 1mm and 0mm its really hard to measure"*. **A 5 mm figure was
+stated and retracted within minutes as a mis-measurement; it was never written into any document.**
+
+**That range gives the lever ratio as 40 or better** — the design value is its upper bound rather
+than the answer. **It does not settle the tunnelling question.**
+
+**The current falls one decade per 50 to 100 Z counts at the onset. Vacuum tunnelling falls one
+decade per 0.1 nm. Those meet only if d is under about 0.13 mm** — 0.065 mm on the shallower slope.
+**So this is a threshold test, not a precision measurement: is the tip within a tenth of a
+millimetre of the line, or clearly further?**
+
+**The two ends of the range tell opposite stories:**
+
+| If d is | The 287-419 count wobble becomes | Reading |
+|---|---|---|
+| **0.13 mm** | **0.6 to 0.8 nm** | Just under the ~1 nm at which a vacuum gap stops conducting. **Tunnelling, and being shaken out of it** |
+| **1.0 mm** | **4.4 to 6.5 nm** | Far too large for a gap to survive. **The tip is resting on something** |
+
+**THE PHOTOGRAPH ROUTE IS DEAD.** Five photographs are committed to `Images/ours/` and **Jacob
+confirmed the layout** — the TOP and BOTTOM ball ends are the side-by-side pair, so the pivot line
+is vertical in those frames and the motor screw is the one on the RIGHT. **That part is settled and
+is safe to rely on.** But **three attempts to measure d from the frames gave three answers a factor
+of more than two apart** and were abandoned. Four reasons, in `Images/ours/README.md`: the tip is a
+soldered structure rather than a point and which feature is the working tip cannot be told from the
+image; brass, aluminium and copper all sit in one hue band under warm light; the balls stand proud
+toward the camera while the tip is recessed, so the camera must be square to **half a degree** for
+the apparent offset to stay under 0.13 mm; and the threshold is **three pixels** at this scale.
+
+> **HYPOTHESIS, not a finding: the tip is mounted well off the CENTRE of the piezo disc.** That much
+> is visible in the frames. **A piezo disc deflects most at its centre and not at all at its clamped
+> rim**, so an off-centre tip gets less Z throw and picks up **tilt as well as displacement** — and
+> because X, Y and Z all drive the same disc, **it would couple X into Z.** **That is a candidate
+> explanation for the −0.17 counts of Z per count of X that reproduced in every single scan on
+> 2026-09-17 and was never explained.** Nothing was measured to support it. **If the holder is
+> rebuilt again, centring the tip on the disc is free** and buys maximum Z throw, less X-to-Z
+> coupling, and d fixed at 1.000 mm by construction.
+
+# THE THREE-Y CONTROL TOOL EXISTS — 2026-09-18
+
+**`Code/pc/stm_y_control.py`.** `docs/NEXT_SESSION_PLAN.md` item 0a — the ten-minute test that
+decides whether the 636-count wide profile is the sample or the scanner's bow — **had no committed
+tool to run it.** The scratch script that produced `line_three_y_positions.csv` was deliberately not
+committed on 2026-09-17, and `stm_feedback_scan.py` cannot stand in: it rasters Y across the same
+span as X, so at ±15,000 it would swing Y by ±15,000, and ±12,000 already drove 59-83% of pixels
+into a clamp.
+
+```
+py Code/pc/stm_y_control.py 15000 1500 6 3000 3000 control.csv
+```
+
+**Both defects that invalidated the original control are designed out**: every statistic uses the
+same averaging depth on both sides, two are reported, the half-width is recorded in the file, and a
+run narrower than ±10,000 warns that it may have no power. **Every pass is detrended first** —
+undetrended, the same data reads +0.741 where the honest figure is +0.124. It **prints a verdict**.
+**Never run on hardware.** Run `py Code/pc/stm_y_control_test.py` first.
+
+> **A FIX CLAIMED AT A WRAP WAS NOT IN THE FILE.** `sessions/2026-09-17-bench.md` §7 records that
+> `stm_feedback_scan.py`'s bias argument was *"now an optional sixth argument and is actually
+> used"*. **It was not** — the literal `BIAS 38229` was still there, so every scan ran at −0.5 V
+> whatever was typed. **Fixed 2026-09-18.** Grep the file for the thing you claimed to change.
 
 # WHERE THE INSTRUMENT IS LEFT — 2026-09-17
 
