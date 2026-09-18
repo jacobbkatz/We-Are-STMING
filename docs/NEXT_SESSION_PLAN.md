@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-17, about 22:05 UTC wrap, corrected after an independent review of the committed data — **the first junction; motor and Z directions settled; imaging attempted at length and there is no image.** The blocker is mechanical and quantified. **Start with the gold, the straightedge and the springs.**
+**Last updated:** 2026-09-18 — the three-Y control tool now exists and is wired in at 0a below. Bench state unchanged from the 2026-09-17, about 22:05 UTC wrap, corrected after an independent review of the committed data — **the first junction; motor and Z directions settled; imaging attempted at length and there is no image.** The blocker is mechanical and quantified. **Start with the gold, the straightedge and the springs.**
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -45,6 +45,29 @@ history:**
    same statistic on both sides.** **If within beats between, the profile is the surface and it is an
    image. If they match, it is the scanner's bow.** Re-find the surface after each Y move: Y shifts
    the gap as much as X does.
+
+   > **THE TOOL NOW EXISTS — written 2026-09-18, never yet run on hardware.**
+   > After an approach has found the junction:
+   >
+   > ```
+   > py Code/pc/stm_y_control.py 15000 1500 6 3000 3000 control.csv
+   > ```
+   >
+   > Six passes at each of three places 3,000 counts apart, all at **±15,000 X counts**, interleaved
+   > so drift cannot fake a difference, with a throwaway sweep after every Y move so the loop's
+   > settling transient is never recorded. It re-finds the surface itself after each Y move, retracts
+   > Z on every exit path including Ctrl-C, and **prints the verdict when it finishes.**
+   >
+   > **It reports two statistics and both use the same averaging depth on each side**, which is the
+   > defect that invalidated the 2026-09-17 control. It also **detrends every pass first** — without
+   > that the tilt correlates with itself and the same data reads +0.741 instead of +0.124.
+   >
+   > To re-analyse a file with nothing plugged in:
+   > `py Code/pc/stm_y_control.py --analyse <file.csv>`
+   >
+   > **Run `py Code/pc/stm_y_control_test.py` first.** It checks the statistic against three
+   > simulated worlds with a known answer, re-injects the 2026-09-17 bug and requires that it gives
+   > the wrong one, and reproduces the +0.133 / +0.146 figures from the committed file of that night.
 0aa. **GET THE GOLD UNDER THE TIP — first job, and it carries a prediction.** `SAID` 2026-09-17:
    the tip is **probably on the copper** beside the gold. Copper grows an oxide; gold does not, and
    an oxide film is exactly the barrier the step-response asymmetry pointed at. **Shift the plate so
