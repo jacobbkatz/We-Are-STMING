@@ -4,6 +4,29 @@
 **Updated by:** Jacob at the bench with Claude Code desktop; **Claude ran the second half alone with Jacob's authority.** `sessions/2026-09-18-bench.md`.
 
 
+# A SHOWCASE PAGE FOR PEOPLE OUTSIDE THE PROJECT — 2026-09-18
+
+**[`docs/showcase.html`](docs/showcase.html)**, published at
+<https://claude.ai/artifact/GzwmmzMEgVPsFke5iHWYpD>. **Written for a reader who has to judge the
+work in five minutes** — a professor, a reviewer, a prospective collaborator — and structured as
+four questions with their evidence rather than as a fault list.
+
+**It leads with what the instrument demonstrably does**, which the bench documents do not: the
+**53-point end-to-end calibration agreeing with theory to 0.13 sigma**, the **barrier-shaped I-V**,
+the **noise spectroscopy that located the limit**, and the **electrostatic pull-in prediction** that
+explained the snap. A closing section covers the working practices — controls designed to kill our
+own results, simulated-junction tests before hardware, one canonical value per fact with a checker
+that gates the commit, and withdrawn claims kept in the record.
+
+> **The framing is different. No number is.** Every figure is the same measurement the session logs
+> carry, and the page says plainly that **no image has been produced and it does not claim one**.
+> **`STATUS.md` remains the live record and the page has no independent authority.**
+
+**Distinct from [`docs/progress.html`](docs/progress.html)**, which is the public explainer — what an
+STM is, how tunnelling works, where the build has reached. **The showcase assumes the reader already
+knows what a microscope is and wants to know whether the work is any good.** Both cite from here;
+neither is a second register.
+
 # A STEP-BY-STEP CARD FOR THE NEXT BENCH SESSION — 2026-09-18
 
 **[`docs/bench_card_2026-09-19.html`](docs/bench_card_2026-09-19.html)**, published at
