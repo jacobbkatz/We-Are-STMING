@@ -57,6 +57,67 @@ the magnets are doing nothing they were put there for, but they are still in the
 | **Can the magnets move the gold leaf?** | **NO, by a factor of about a thousand.** Gold is diamagnetic, χ ≈ −3.4e-5. The force is `(χ/μ0)·B·dB/dz`, which even at **0.5 T and 1,000 T/m** reaches only **7% of the leaf's own weight** — and the leaf's own weight is **0.019 Pa**, already 58x smaller than the bias pull at a micron gap. **This is the second time this has been asked and the second time the answer is no** — `sessions/2026-09-17-bench.md` §3.1 answered it for why the leaf would not stick. **It does not stick because there is no adhesive under it** |
 | **Can the magnets make the 7x noise?** | **NO, by five orders of magnitude.** Motion in a field induces an EMF. A 1 cm² input loop vibrating 10 µm at 10 Hz in a 10 T/m gradient gives **6.3e-7 V**, which through 100 MΩ is **0.0063 pA** against a tunnelling current of about **1,000 pA** |
 
+## Adding mass to the suspension makes the 5 Hz noise WORSE, not better, `CALC` 2026-09-19
+
+**Jacob proposed 3 sets of 18 quarters, 306 g, onto the suspension platform. The instinct is right
+and the lever is the wrong one by a factor of ten — and it moves the number in the wrong
+direction.**
+
+**The mechanism.** A hanging mass sags until the springs carry it, so `f0 = 15.76 / sqrt(droop in
+mm)` needs neither the spring rate nor the mass. Droop is proportional to mass, so **f0 falls as
+1/sqrt(mass)**. A suspension **amplifies** below about **1.4 x f0** and only isolates above it.
+**Our noise peaks at 5 Hz and f0 is 11 Hz, so 5 Hz is already on the amplifying side.** Adding mass
+drags f0 DOWN TOWARD 5 Hz, which increases the amplification there.
+
+| Assume the platform + head is | New droop | New f0 | 5 Hz gets through |
+|---|---|---|---|
+| **(now, no quarters)** | **2.00 mm** | **11.14 Hz** | **x1.25** |
+| 300 g | 4.04 mm | 7.84 Hz | **x1.69** |
+| 500 g | 3.22 mm | 8.78 Hz | **x1.48** |
+| 800 g | 2.77 mm | 9.48 Hz | **x1.39** |
+| 1,200 g | 2.51 mm | 9.95 Hz | **x1.34** |
+| 2,000 g | 2.31 mm | 10.38 Hz | **x1.30** |
+
+**Every row is worse than the top one.** Undamped transmissibility, `T = 1 / |1 - (f/f0)^2|`. **The
+platform mass has never been weighed** (`docs/ENGINEERING_REFERENCE.md` §7b) so the bracket is the
+honest answer; the sign is the same across all of it. **How much worse depends on how well damped
+the suspension is** — the isolation stage lists 18 magnets and an aluminium plate for eddy damping
+and **whether they are fitted and engaged is itself an open question**, so the undamped figures are
+the pessimistic bound, not a prediction.
+
+**What it would actually take, by mass alone:**
+
+| Target droop | f0 | 5 Hz | Mass needed |
+|---|---|---|---|
+| 20 mm | 3.52 Hz | **x0.99**, break-even | **10x** everything now |
+| 50 mm | 2.23 Hz | **x0.25**, real isolation | **25x** |
+
+**If the platform is 800 g, break-even needs +7.2 kg. That is 1,270 quarters, about $317.** **This
+is a spring problem.** The springs need to be roughly **10 to 30 times softer**; Berard hung his
+stack on 2 ft springs against our 300 mm (`docs/OTHER_BUILDERS.md` §5).
+
+> **AND THE QUARTERS DO NOT PHYSICALLY FIT THE CUPS.** A US quarter is **Ø24.26 mm**. The cups are
+> **Ø24.00 mm on the OUTSIDE** with a **Ø21.40 mm bore** — the coin is wider than the whole cup.
+> **The bore is a US nickel clearance fit** (nickel Ø21.21 mm), which is what the part was designed
+> for, and at 10.0 mm deep it holds **5 nickels per cup, 15 in all, 75 g** — that is the ceiling.
+> Jacob has 10 in already. Measured from `CAD/prints/isolation/coin_weights.stl`, `docs/FACTS.md`.
+
+### The part of it that IS worth doing, and it is free
+
+**Adding a known mass and measuring the droop before and after closes two things that have been
+UNKNOWN since the BOM:**
+
+    spring rate  k = m * g / (droop2 - droop1)        platform mass  M = k * droop1 / g
+
+306 g taking the droop from 2.0 to 3.0 mm means **k = 3,000 N/m and a 612 g platform**; to 4.0 mm
+means **1,500 N/m and 306 g**. **The droop reading is the deliverable, not the coins** — and with
+`k` known, the spring needed to reach 20 mm can be specified and ordered instead of guessed.
+
+**If the coins go on anyway: secure them.** Loose coins that can slide are a new stick-slip source
+on the exact stage whose stability is the open problem, and **the isolation stage carries magnets**
+— US nickels and quarters are cupronickel and non-magnetic, but **Canadian coins are steel-cored
+and are attracted**, so check any stray ones with a magnet first.
+
 ## NOT ruled out, and both are untested
 
 > ### ~~1. A DC pull on the tip~~ — **CLOSED 2026-09-18: THE TIP IS TUNGSTEN** (`SAID`, Jacob)
