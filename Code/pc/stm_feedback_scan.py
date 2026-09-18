@@ -199,7 +199,12 @@ def main(argv=None):
             dev.set_z(Z_LOCATE_START)
             dev._write(("DACX %d\n" % MID).encode())
             dev._write(("DACY %d\n" % MID).encode())
-            dev._write(b"BIAS 38229\n")      # -0.5 V at the sample
+            # MUST use bias_code, not a literal. Until 2026-09-18 this line
+            # wrote 38229 unconditionally while the banner printed whatever
+            # was typed, so every scan ran at -0.5 V whatever the 6th
+            # argument said. The wrap of 2026-09-17 recorded this as fixed;
+            # the fix was not in the committed file.
+            dev._write(("BIAS %d\n" % bias_code).encode())
             time.sleep(0.1)
 
             onset = locate(dev, setpoint)
