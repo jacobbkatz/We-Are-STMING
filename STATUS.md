@@ -120,7 +120,7 @@ above the magnets again."*
 
 **That he HAD to raise it is the evidence.** The platform sagged when the coin went on — and a
 close-wound extension spring only sags once the load beats its initial tension. **Below the knee
-the coils are shut and nothing moves at all.** So the 356 to 458 g of coin crossed it, which is
+the coils are shut and nothing moves at all.** So the 356.2 g of coin crossed it, which is
 what the 610 to 910 g band predicted for a 250 to 400 g bare platform.
 
 **He then trimmed the droop out with the printed height adjusters and put the damping plate back
