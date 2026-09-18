@@ -1,7 +1,45 @@
 # Current status
 
-**Last updated:** 2026-09-18 bench, wrap (evening of 2026-09-17 local, named by UTC) — **POWERED BENCH SESSION.** **All four owed checks passed.** **The rebuilt holder had left the tip ~2.2 mm further back** (7 turns of the side screws). **A real junction on gold, confirmed by the bias flip — but it SNAPS into contact rather than tunnelling, and THE STAGE IS NOT UNDER CONTROL:** the gold wanders by thousands to over 15,000 Z counts within seconds and the motor's effect is erratic. **2026-09-17's "250 Z counts per motor step" is now suspect; the nm scale is unmeasured.** **Clear-tip noise 7x 2026-09-17's, cause unknown.** Parked at midscale with the tip clear, then **powered down by Jacob** (`SAID`).
-**Updated by:** Jacob at the bench with Claude Code desktop; **Claude ran the second half alone with Jacob's authority.** `sessions/2026-09-18-bench.md`.
+**Last updated:** 2026-09-19 (written 23:44 UTC 2026-09-18, named for the bench run it prepares) — **NO POWER, NOTHING MEASURED. Jacob rebuilt at the bench and Claude did the arithmetic.** **NEW TIP** (shorter, thinner). **NEW GOLD STACK, and the tip lands on GOLD** — the copper strip touches only the leaf's edge. **356.2 g of coin loaded onto the suspension, the platform SAGGED, and Jacob trimmed the height back over the magnets.** **THE SPRINGS HAVE PROBABLY OPENED FOR THE FIRST TIME.** **THE SPRINGS WERE IDENTIFIED FROM AN ORDER LISTING — ~58 N/m each, ~173 N/m for three, a rate UNKNOWN since the BOM.** **They were never too stiff; they were SHUT below their initial tension — which REVERSES yesterday's conclusion that adding mass would make things worse.** **Expected `f0` 2.1 to 2.4 Hz against 5 Hz noise, versus a stage that was doing nothing. NONE OF IT IS MEASURED** — the bounce test is tonight's first job. **`~11 Hz` and everything built on it is RETIRED.** **Two bugs fixed in `check_facts.py`, which reported `clean` with 14 stale copies in 5 files.** **A portable, tested noise tool is ready for tonight's run on Nuh's computer.**
+**Updated by:** Jacob at the bench reporting to Claude Code on the web. Every hardware fact is `SAID`. `sessions/2026-09-19.md`.
+
+# TONIGHT, ON NUH'S COMPUTER — THE THREE THINGS, IN ORDER
+
+**Full procedure with conditions and what each outcome means:
+[`docs/NEXT_SESSION_PLAN.md` STEP N](docs/NEXT_SESSION_PLAN.md).**
+
+**1. COUNT THE BOUNCES — thirty seconds, and it measures `f0` directly.**
+Nudge the platform **gently** — the clearance under it is small — and watch.
+**About twice a second, roughly 7 cycles in 3 seconds, means the springs are OPEN and `f0` really
+is about 2 Hz.** A hard, fast, barely-there return means **still shut**. Film it if counting is
+awkward. **No theory needed and it settles the whole day's arithmetic.**
+
+**2. THE PAPER SLIP.** Try to slide a slip of paper between the platform underside and the stack
+below it, and **write down whether it goes.** Jacob: *"its not sitting on the tower is just about
+its a perfect fit."* **A platform that nearly touches can touch INTERMITTENTLY, and a chattering
+contact is worse than a solid one** — it is a new suspect for the erratic stage on 2026-09-18.
+
+**3. THE NOISE, tip clear, nobody within a metre, LEDs dark, 45 minutes warm.**
+
+    py Code/pc/stm_noise_spectrum.py 10 --out still.csv
+    (someone stamps on the floor a couple of metres away)
+    py Code/pc/stm_noise_spectrum.py 10 --out stamp.csv
+    py Code/pc/stm_noise_spectrum.py --compare still.csv stamp.csv
+
+**DO NOT use `sessions/data/2026-09-18-bench/scripts/spectrum.py`** — it hardcodes a path to
+Jacob's Desktop and `COM3` and **fails on the first two lines on Nuh's machine.**
+
+**The still-versus-stamping comparison is the reliable one** and the tool says so. If stamping puts
+much more into 2-30 Hz, the building is getting in and the suspension is the lever. **If stamping
+changes little, the floor is not the route at all** — the 5-20 Hz is made inside the instrument and
+no suspension change helps. **That would be the most valuable negative result available tonight.**
+
+**Commit both CSVs to `sessions/data/2026-09-19-bench/`** — 2026-09-18's raw samples were never
+kept, which is exactly why tonight's cross-night comparison has to be hedged.
+
+**DO NOT ADD MORE MASS.** The height adjusters are at maximum, so another sag could not be
+corrected, and 0.8 to 1.2 kg buys only 20% on `f0`.
+
 
 
 # A SHOWCASE PAGE FOR PEOPLE OUTSIDE THE PROJECT — 2026-09-18

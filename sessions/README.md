@@ -68,6 +68,7 @@ not present. Delete it together, or leave it as an archive — but **do not push
 will diverge onto a history `main` cannot see. That is how the JP1 finding nearly went unnoticed:
 it was on `main` all along, in the handoff's header, and a later session re-derived it from scratch.
 
+| [2026-09-19](2026-09-19.md) | **Jacob's bench rebuild reported; Claude did analysis and tooling. Nothing powered, nothing measured.** New tip (shorter, thinner), new gold sandwich with **the tip landing on gold**, and **356.2 g of coin loaded onto the suspension**. **THE SPRINGS WERE IDENTIFIED FROM AN ORDER LISTING: ~58 N/m each, a rate UNKNOWN since the BOM.** They were never too stiff — **they were SHUT, below their initial tension** — which **REVERSES the 2026-09-18 conclusion that adding mass would make things worse.** The platform sagged when the coin went on and had to be raised, which is the evidence they opened; expected `f0` **2.1 to 2.4 Hz**, unmeasured. **Retired the ~11 Hz resonance and everything built on it.** **Two bugs found in `check_facts.py`** — it reported `clean` with **14 stale copies in 5 files**. New portable, tested noise tool for tonight's run on Nuh's computer. |
 ---
 
 Sessions 1 and 2, on 2026-08-29 and 2026-08-30, predate this directory. They are written up as

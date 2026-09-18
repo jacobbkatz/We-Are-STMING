@@ -65,6 +65,12 @@ def find_teensy():
             return p.device
     ports = list_ports.comports()
     if len(ports) == 1:
+        # A GUESS, not a match. Tested 2026-09-19 on a machine with no Teensy:
+        # it silently picked /dev/ttyS0 and the only clue was 0 samples. Say so.
+        sys.stderr.write("No device with the Teensy's vendor ID (0x16C0).\n")
+        sys.stderr.write("GUESSING the only port present: %s  (%s)\n"
+                         % (ports[0].device, ports[0].description))
+        sys.stderr.write("If that is wrong, re-run with --port.\n")
         return ports[0].device
     if ports:
         sys.stderr.write("Could not identify the Teensy. Ports seen:\n")
