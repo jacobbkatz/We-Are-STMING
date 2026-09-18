@@ -113,6 +113,52 @@ is currently doing nothing. **The suspension is not too stiff. It is not loaded 
 > numbers will be worse than the table — **x0.3 to x0.5 at 5 Hz is a fairer expectation than x0.17**.
 > Still a large win. The damping ratio has never been measured.
 
+### 2026-09-19 EVENING: THE SPRINGS HAVE PROBABLY OPENED, AND ONE 30-SECOND TEST CONFIRMS IT
+
+**`SAID`, Jacob:** *"I raised up the platform after adding the weight so that the platform is right
+above the magnets again."*
+
+**That he HAD to raise it is the evidence.** The platform sagged when the coin went on — and a
+close-wound extension spring only sags once the load beats its initial tension. **Below the knee
+the coils are shut and nothing moves at all.** So the 356 to 458 g of coin crossed it, which is
+what the 610 to 910 g band predicted for a 250 to 400 g bare platform.
+
+**He then trimmed the droop out with the printed height adjusters and put the damping plate back
+over the magnets. That is the right order, and it costs nothing**, because:
+
+> **`f0` DOES NOT DEPEND ON THE DROOP.** Once the coils are open, `f0 = (1/2pi)·sqrt(k_total/M)` —
+> the rate and the mass, nothing else. **The droop is a consequence, not the goal.** Trimming it
+> out with the adjusters moves the resting position and leaves the rate untouched.
+>
+> **This corrects a claim made earlier the same day** that 12 to 24 mm of droop ROOM was required.
+> **It is not.** Enough clearance to sit past the knee is all that is needed, and that is
+> millimetres. The 24 mm figure was the droop at 1.2 kg, quoted as if it were a requirement.
+
+| Total mass | f0 | 5 Hz gets through |
+|---|---|---|
+| 0.7 kg | 2.50 Hz | **x0.33** |
+| **0.8 kg** | **2.34 Hz** | **x0.28** |
+| 1.0 kg | 2.09 Hz | **x0.21** |
+| 1.2 kg | 1.91 Hz | x0.17 |
+
+**Going 0.8 to 1.2 kg buys 20% on f0 for 23 mm of travel that does not exist. DO NOT ADD MORE
+MASS** — and the adjusters are at max, so another sag could not be corrected anyway.
+
+### The confirmation: count the bounces
+
+**This measures `f0` directly and needs no spring theory at all.**
+
+**Nudge the platform gently and watch it.** Film it on a phone if counting is hard.
+
+| What it does | What it means |
+|---|---|
+| **Bobs about twice a second** — roughly 7 cycles in 3 seconds, ~450 ms each | **The springs are OPEN. f0 is about 2 Hz and the isolation is working** |
+| **Hard, fast, barely-there return** — no countable bounce | **Still shut.** The coils have not opened and it is behaving as stiff wire |
+| **Sinks back over one or two cycles and stops** | Open, and **the eddy damping is doing its job.** Time the first full cycle |
+
+**Push gently, or nudge sideways.** The clearance under the platform is small and a hard push
+downward could land it on the magnets.
+
 ### CHECK ZERO, FROM THE 2026-09-19 PHOTOGRAPHS: IS THE PLATFORM SITTING ON THE TOWER?
 
 **READ from Jacob's photographs, NOT confirmed, and it would explain everything.**
