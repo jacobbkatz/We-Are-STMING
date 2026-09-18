@@ -3,6 +3,69 @@
 **Last updated:** 2026-09-18 bench, wrap (evening of 2026-09-17 local, named by UTC) — **POWERED BENCH SESSION.** **All four owed checks passed.** **The rebuilt holder had left the tip ~2.2 mm further back** (7 turns of the side screws). **A real junction on gold, confirmed by the bias flip — but it SNAPS into contact rather than tunnelling, and THE STAGE IS NOT UNDER CONTROL:** the gold wanders by thousands to over 15,000 Z counts within seconds and the motor's effect is erratic. **2026-09-17's "250 Z counts per motor step" is now suspect; the nm scale is unmeasured.** **Clear-tip noise 7x 2026-09-17's, cause unknown.** Parked at midscale with the tip clear, then **powered down by Jacob** (`SAID`).
 **Updated by:** Jacob at the bench with Claude Code desktop; **Claude ran the second half alone with Jacob's authority.** `sessions/2026-09-18-bench.md`.
 
+
+# THE GOLD WAS NOT STUCK DOWN — 2026-09-18, after the bench session
+
+**`SAID`, Jacob, after the 2026-09-18 bench session:** *"the seccond session today the gold wasnt as
+stuck on as the first with whole gold foil on it was moveing a bit if i blew on it versus it didnt
+the first session"*, and then: *"so maybe it was the gold lifting off when the tip got close becuase
+it wasnt attached as much as it was before"*.
+
+**THIS IS NOW THE LEADING EXPLANATION FOR EVERYTHING ERRATIC IN `sessions/2026-09-18-bench.md`**,
+ahead of the sample plate sticking and slipping on its supports, which that log named as its leading
+hypothesis. **Not proven. But it is the only candidate with a mechanism that quantitatively predicts
+a snap.**
+
+**The arithmetic, `CALC` 2026-09-18.** Gold leaf is about **100 nm thick**, so it weighs
+**0.019 Pa**. The gold is on the bias and the tip is a virtual earth, so the full bias sits across
+the gap. Electrostatic pressure is `0.5 * eps0 * (V/gap)^2`:
+
+| Gap | Pull at 0.5 V | Against the leaf's own weight |
+|---|---|---|
+| 10 um | 0.011 Pa | 0.6x |
+| **1 um** | **1.11 Pa** | **58x** |
+| 300 nm | 12.3 Pa | 650x |
+| **100 nm** | **111 Pa** | **5,800x** |
+
+**And the pull rises as 1 / gap squared, so it runs away**: the closer the leaf gets, the harder it
+is pulled. **That is a pull-in instability, and a pull-in instability is a SNAP.**
+`sessions/2026-09-18-bench.md` measured exactly that — under 1,000 counts to over 10,000 in
+**25 to 75 Z counts**.
+
+> **The blow test is itself the calibration, which is why it is such a good observation.** A gentle
+> breath is **0.6 to 15 Pa**. If the sheet moves when blown on, it responds to about a pascal — **the
+> same order as the electrostatic pull at a micron gap.** The test Jacob ran by eye proves the bias
+> can move this leaf.
+
+**It also accounts for the rest of that night, which stick-slip does not do as well:**
+
+| Observed 2026-09-18 | A loose sheet explains it as |
+|---|---|
+| Onset wander sd **7,548 counts** with the motor held still for 90 s | A floppy membrane drifting in front of the tip |
+| One motor step moving the onset **14,000-29,000 counts**, other steps nothing | The leaf's position is not tied to the plate |
+| **Retract steps bringing the gold INTO contact** | The leaf lifting to meet the tip, or flapping when disturbed |
+| Scattered stray contacts at several Z with nothing in between | A crumpled unsupported sheet has many high points |
+| Clear-tip noise **7x** the 2026-09-17 figure, no decay, not the operator | A large, loose, MOVING conductor next to a 100 MΩ input node modulates stray capacitance. That log already listed whole-plate gold as an untested noise candidate; **loose makes it worse** |
+
+**Honest limits.** **Three things changed between 2026-09-17 and 2026-09-18** — the gold came loose,
+the tip holder was rebuilt, and the side-by-side screws were turned in about 7 turns. **It is not a
+clean single-variable experiment**, the tip is still blunt and bent, and a floppy tip also snaps.
+**Plate stick-slip is not ruled out and both can be true at once.**
+
+**But the natural experiment is suggestive:** on 2026-09-17 the gold did not move when blown on, and
+the instrument held still enough for an eight-round I-V curve, a 90-pass drift series and four
+scans. **On 2026-09-18 the gold moved, and nothing would hold still.**
+
+**THE FIX, AND IT COMES BEFORE ANYTHING ELSE.** `docs/gold_leaf_procedure.html` requires
+**burnishing** — press and smooth with something soft in small circles until the leaf goes from dull
+and loose-looking to **bright and flat**; that change is how you know it has taken. **The method that
+demonstrably held is 2026-09-17's: leaf onto copper tape with the adhesive under it.** A sheet laid
+over aluminium tape has nothing to stick to.
+
+> **Also a hazard, from the procedure's own warning:** loose gold flakes are **conductive dust**. A
+> flake landing on the tip holder or in the preamp is a short across the input node. **An unadhered
+> sheet a millimetre from the tip is a flake source.**
+
 # 2026-09-18 BENCH — A REAL JUNCTION ON A STAGE THAT WILL NOT HOLD STILL
 
 | | |

@@ -1,9 +1,38 @@
 # Next session plan
 
-**Last updated:** 2026-09-18 bench wrap (evening of 2026-09-17 local) — **a powered session. All four checks passed and a real junction was found on gold, but the tip SNAPS into contact and THE STAGE IS NOT UNDER CONTROL: the gold wanders by thousands of Z counts within seconds and the motor's effect is erratic.** **The stage comes first now.** The 2026-09-17 motor calibration is suspect.
+**Last updated:** 2026-09-18, after the bench session — **THE GOLD WAS NOT STUCK DOWN.** `SAID`: the whole-plate sheet moves if you blow on it; the 2026-09-17 patch did not. **That is now the leading explanation for the snap and the wander, and stick it down BEFORE anything else** — see `STATUS.md`.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
+
+---
+
+# START HERE — 2026-09-18, AFTER THE BENCH SESSION
+
+## STEP 0, AND IT COMES BEFORE EVERY OTHER STEP IN THIS FILE: STICK THE GOLD DOWN
+
+**`SAID` after the session:** the whole-plate sheet *"was moveing a bit if i blew on it"*; the
+2026-09-17 patch did not. **An unadhered leaf is pulled toward the tip by the bias at 58 times its
+own weight at a micron gap and 5,800 times at 100 nm, and the pull runs away as 1/gap squared.
+That is a snap, and a snap is what the session measured.** `STATUS.md` has the arithmetic.
+
+**Until this is fixed, nothing else in this plan can be trusted** — not an approach, not a
+calibration, not a noise measurement, and certainly not an image. **A surface that is not attached
+to anything cannot be imaged.**
+
+**Do it the way that demonstrably held:** leaf onto **copper tape with the adhesive under it**, as
+2026-09-17's patch was, then **burnish** — press and smooth with something soft in small circles
+until it goes from dull and loose-looking to **bright and flat**
+(`docs/gold_leaf_procedure.html`). **A sheet laid over aluminium tape has nothing to stick to.**
+
+**Then blow on it. If it moves, it is not stuck.** That test costs a second and it is now a
+documented gate.
+
+**Record in `docs/INVENTORY.md` what is under the new sheet and whether it was burnished** — neither
+is written down for the 2026-09-18 sheet.
+
+> **Hazard while you are in there:** loose gold flakes are conductive dust, and a flake on the tip
+> holder or in the preamp shorts the input node. `docs/gold_leaf_procedure.html` warning 2.
 
 ---
 
