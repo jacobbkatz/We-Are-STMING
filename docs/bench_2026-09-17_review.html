@@ -656,15 +656,37 @@ footer code{font-family:var(--mono); font-size:12.5px; color:var(--ink-2)}
             <tr><td>1.0 mm &mdash; the design file</td><td>40</td><td>3.9 nm</td><td>~1.0 &micro;m</td>
               <td>A decade per 3 nm. <b>30&times; too slow for tunnelling</b></td></tr>
             <tr><td>0.3 mm</td><td>133</td><td>1.2 nm</td><td>~310 nm</td><td>Borderline</td></tr>
-            <tr class="hi"><td class="hi">0.1 mm &mdash; what tonight's arithmetic implies</td>
+            <tr class="hi"><td class="hi">0.1 mm</td>
               <td class="hi">400</td><td class="hi">0.39 nm</td><td class="hi">~100 nm</td>
               <td class="hi">Close to the textbook decade per 0.1 nm</td></tr>
           </tbody>
         </table>
       </div>
-      <p style="margin-top:18px"><strong>A straightedge across the two ball ends settles it in five
-        minutes, with the power off.</strong> It is the most valuable measurement left in the
-        instrument, and it needs no electronics at all.</p>
+      <p style="margin-top:18px"><strong>Measured at the bench, 2026-09-18, and it came back as a
+        range: d is between 0 and 1 mm</strong> &mdash; Jacob, <em>&ldquo;its between 1mm and 0mm its
+        really hard to measure&rdquo;</em>. So the lever ratio is <strong>40 or better</strong>, and
+        the design value is the worst case rather than the answer. Every row of the table below is
+        still live.</p>
+
+      <div class="call" style="margin-top:22px; border-left-color:var(--s1)">
+        <h3>It is not a precision measurement. It is a threshold, and the threshold is 0.13 mm</h3>
+        <p>The current falls one decade per 50 to 100 Z counts at the onset. Vacuum tunnelling falls
+          one decade per 0.1 nm. Those two only meet if <strong>d is under about 0.13 mm</strong>
+          &mdash; 0.065 mm on the shallower of the two slopes. So the question is not
+          &ldquo;what is d&rdquo; but <strong>&ldquo;is the tip within a tenth of a millimetre of the
+          line, or clearly further?&rdquo;</strong></p>
+        <p><strong>At that end of the range everything becomes consistent at once.</strong> With d
+          near 0.13 mm the height wobble of 287&ndash;419 counts works out at
+          <strong>0.6 to 0.8 nm</strong> &mdash; just under the nanometre at which a vacuum gap stops
+          conducting. That is a machine that is <em>tunnelling and being shaken out of it</em>, which
+          fits everything else measured: the barrier-shaped I&ndash;V, the ten-second collapse into
+          contact, and the fact that the junction kept coming back.</p>
+        <p>At the other end, d = 1 mm, the same wobble is <strong>4.4 to 6.5 nm</strong> &mdash; far
+          too large for any gap to survive, and the junction has to be something the tip is resting
+          on. <strong>The two ends of a range that is hard to see tell opposite stories</strong>,
+          which is why this one number is still the most valuable measurement left in the
+          instrument.</p>
+      </div>
     </div>
   </div>
 </section>
