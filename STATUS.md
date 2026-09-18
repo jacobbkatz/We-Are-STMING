@@ -4,6 +4,18 @@
 **Updated by:** Jacob at the bench with Claude Code desktop; **Claude ran the second half alone with Jacob's authority.** `sessions/2026-09-18-bench.md`.
 
 
+# A STEP-BY-STEP CARD FOR THE NEXT BENCH SESSION — 2026-09-18
+
+**[`docs/bench_card_2026-09-19.html`](docs/bench_card_2026-09-19.html)**, published at
+<https://claude.ai/artifact/GaE6pZ19sDiqmfc9mWBRQ9>. **Ten steps in order**, written to be followed
+with no memory of any conversation: stick the gold down (a gate, with the blow test), the magnet
+test on the holder's stake, watch the plate under motor drive, fit a sharper tungsten tip, power up
+and check the LEDs, approach, the two numbers to beat, the control, the stamp test, park.
+
+**It has no independent authority.** `docs/NEXT_SESSION_PLAN.md` stays canonical and the card is a
+view of it. **If the card disagrees with this file or the plan, they win and the card is the one to
+fix.**
+
 # THE SAMPLE-PLATE MAGNETS: TWO THINGS THEY CANNOT DO, TWO THEY MIGHT — 2026-09-18
 
 **`SAID`, Jacob:** *"like mechpandas design we have magnets below the copper on the sample bank
@@ -24,7 +36,24 @@ the magnets are doing nothing they were put there for, but they are still in the
 
 ## NOT ruled out, and both are untested
 
-**1. A DC pull on the tip, if the tip or its holder is ferromagnetic.** Magnets sit right behind the
+> ### ~~1. A DC pull on the tip~~ — **CLOSED 2026-09-18: THE TIP IS TUNGSTEN** (`SAID`, Jacob)
+>
+> **Tungsten is paramagnetic and very weakly so** — χ ≈ +7.8e-5, about the same size as gold's
+> diamagnetism with the opposite sign. At 0.5 T and 1,000 T/m the force reaches **16% of the tip's
+> own weight**, about **15 µN** on a 0.25 x 10 mm wire. **But the decisive point is not the size, it
+> is the shape: the magnets are Ø4.2 mm, so their field varies over MILLIMETRES, while the approach
+> happens over MICRONS. Over the gap range the force is essentially constant — a fixed DC offset,
+> not a rising one. No runaway, so no snap.**
+>
+> **Tungsten also weakens the "a floppy tip snaps" explanation.** Its Young's modulus is about
+> 400 GPa, roughly twice steel's, so a tungsten tip is far stiffer than the **100 nm** unsupported
+> gold leaf. **That leaves the loose leaf as the compliant thing in the gap, which strengthens the
+> explanation above.**
+>
+> **Still open, and it is a different part: the "metal stake" the holder is soldered to.** Its
+> material is not recorded. The magnet test still applies to it.
+
+**1b. A DC pull on the HOLDER, if the metal stake is ferromagnetic.** Magnets sit right behind the
 sample, a millimetre or two from the tip at contact. **A magnetic attraction rises steeply as the
 gap closes, so like the electrostatic pull on the leaf it is a runaway — a SECOND snap mechanism,
 independent of the first.** And a force on the holder deflects the piezo: a 20 mm diaphragm needs

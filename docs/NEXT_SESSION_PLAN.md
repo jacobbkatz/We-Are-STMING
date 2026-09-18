@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-18, after the bench session — **THE GOLD WAS NOT STUCK DOWN.** `SAID`: the whole-plate sheet moves if you blow on it; the 2026-09-17 patch did not. **That is now the leading explanation for the snap and the wander, and stick it down BEFORE anything else** — see `STATUS.md`.
+**Last updated:** 2026-09-18 followup — **THE GOLD WAS NOT STUCK DOWN** and that is now the leading explanation for the snap; **the tip is TUNGSTEN**, which closes the magnetic-tip question. **A step-by-step card for the next session is at [`bench_card_2026-09-19.html`](bench_card_2026-09-19.html)** — this file stays canonical, the card is a view of it.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.

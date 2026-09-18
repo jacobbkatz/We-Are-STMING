@@ -1,0 +1,550 @@
+<title>Tomorrow at the Bench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600&display=swap">
+<style>
+:root{
+  --paper:#f7f8f7; --card:#ffffff; --sunk:#eef1f0;
+  --ink:#10171a; --ink-2:#48555a; --ink-3:#7d8b90;
+  --rule:#dbe2e1; --rule-2:#eaefee;
+  --accent:#0d6b6b; --accent-soft:#e2f0ef;
+  --stop:#b3271c; --stop-soft:#fbeae8;
+  --go:#17703f; --go-soft:#e4f3ea;
+  --warn:#8a5a00; --warn-soft:#fbf1dd;
+  --shadow:0 1px 2px rgba(16,23,26,.06), 0 10px 26px -18px rgba(16,23,26,.35);
+  --sans:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --disp:"Archivo", ui-sans-serif, system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])){
+    --paper:#0e1413; --card:#161d1c; --sunk:#1d2625;
+    --ink:#eef3f2; --ink-2:#a6b3b1; --ink-3:#71807e;
+    --rule:#28322f; --rule-2:#1f2826;
+    --accent:#4bb8ad; --accent-soft:#16302f;
+    --stop:#ef6f60; --stop-soft:#2e1a17;
+    --go:#54b57a; --go-soft:#142a1d;
+    --warn:#d9a441; --warn-soft:#2b2312;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 26px -18px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1413; --card:#161d1c; --sunk:#1d2625;
+  --ink:#eef3f2; --ink-2:#a6b3b1; --ink-3:#71807e;
+  --rule:#28322f; --rule-2:#1f2826;
+  --accent:#4bb8ad; --accent-soft:#16302f;
+  --stop:#ef6f60; --stop-soft:#2e1a17;
+  --go:#54b57a; --go-soft:#142a1d;
+  --warn:#d9a441; --warn-soft:#2b2312;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 26px -18px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:760px; margin:0 auto; padding-inline:20px; padding-block:0}
+p{margin:0 0 .85em}
+p:last-child{margin-bottom:0}
+strong{font-weight:600}
+code{font-family:var(--mono); font-size:.88em; background:var(--sunk);
+  padding:1px 5px; border-radius:3px; word-break:break-word}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+
+h1{font-family:var(--disp); font-weight:800; font-size:clamp(34px,7vw,54px);
+  line-height:1.02; letter-spacing:-.025em; margin:0 0 14px; text-wrap:balance}
+h2{font-family:var(--disp); font-weight:700; font-size:clamp(21px,3.4vw,26px);
+  line-height:1.15; letter-spacing:-.015em; margin:0; text-wrap:balance}
+.eyebrow{font-family:var(--mono); font-size:11.5px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); margin:0 0 12px}
+
+/* header */
+header{background:var(--card); border-bottom:1px solid var(--rule)}
+header .wrap{padding-block:clamp(34px,7vw,56px) 30px}
+.lede{font-size:19px; line-height:1.5; color:var(--ink-2); max-width:58ch}
+.state{margin-top:26px; background:var(--sunk); border:1px solid var(--rule);
+  border-radius:6px; padding:16px 18px}
+.state h3{font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 10px; font-weight:600}
+.state ul{margin:0; padding-left:20px}
+.state li{margin-bottom:5px; font-size:15.5px; color:var(--ink-2)}
+.state li:last-child{margin-bottom:0}
+.state b{color:var(--ink)}
+
+/* steps */
+main .wrap{padding-block:8px 0}
+.step{background:var(--card); border:1px solid var(--rule); border-radius:8px;
+  box-shadow:var(--shadow); margin-top:20px; overflow:hidden}
+.step-head{display:flex; gap:16px; align-items:flex-start; padding:20px 22px 0}
+.n{font-family:var(--disp); font-weight:800; font-size:26px; line-height:1;
+  color:var(--card); background:var(--ink); min-width:42px; height:42px;
+  display:grid; place-items:center; border-radius:6px; flex:none;
+  font-variant-numeric:tabular-nums}
+.step.gate .n{background:var(--stop); color:#fff}
+.step.gate{border-color:var(--stop)}
+.step-head .t{flex:1; min-width:0}
+.time{font-family:var(--mono); font-size:11.5px; letter-spacing:.06em;
+  color:var(--ink-3); margin-top:5px; display:block}
+.body{padding:14px 22px 22px}
+.body > :first-child{margin-top:0}
+
+.why{background:var(--accent-soft); border-left:3px solid var(--accent);
+  border-radius:0 5px 5px 0; padding:12px 16px; margin:0 0 14px;
+  font-size:15.5px; line-height:1.5; color:var(--ink-2)}
+.why b{color:var(--ink)}
+
+ol.do{margin:0 0 14px; padding-left:22px}
+ol.do li{margin-bottom:9px}
+ol.do li:last-child{margin-bottom:0}
+
+.expect{display:grid; grid-template-columns:auto 1fr; gap:8px 12px;
+  background:var(--sunk); border-radius:6px; padding:14px 16px; margin:14px 0 0;
+  font-size:15.5px; align-items:start}
+.expect dt{font-family:var(--mono); font-size:11px; letter-spacing:.09em;
+  text-transform:uppercase; font-weight:600; padding-top:3px; white-space:nowrap}
+.expect dd{margin:0; color:var(--ink-2)}
+.expect .p{color:var(--go)}
+.expect .f{color:var(--stop)}
+
+.stop{background:var(--stop-soft); border:1px solid var(--stop); border-radius:6px;
+  padding:14px 16px; margin:14px 0 0; font-size:15.5px; line-height:1.5}
+.stop b{color:var(--stop)}
+.note{background:var(--warn-soft); border-left:3px solid var(--warn);
+  border-radius:0 5px 5px 0; padding:12px 16px; margin:14px 0 0;
+  font-size:15px; line-height:1.5; color:var(--ink-2)}
+
+pre{background:var(--ink); color:var(--paper); border-radius:6px;
+  padding:14px 16px; overflow-x:auto; margin:14px 0 0;
+  font-family:var(--mono); font-size:13.5px; line-height:1.55}
+pre code{background:none; padding:0; color:inherit; font-size:inherit}
+
+/* tick */
+.tick{display:flex; align-items:center; gap:10px; padding:13px 22px;
+  border-top:1px solid var(--rule-2); background:var(--sunk); cursor:pointer;
+  font-family:var(--mono); font-size:12px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-3); user-select:none}
+.tick input{width:19px; height:19px; accent-color:var(--accent); cursor:pointer; margin:0}
+.tick:hover{color:var(--accent)}
+.step.done{opacity:.62}
+.step.done .tick{color:var(--go)}
+
+/* do-not */
+.donot{margin-top:26px; background:var(--card); border:1px solid var(--rule);
+  border-radius:8px; box-shadow:var(--shadow); overflow:hidden}
+.donot h2{padding:20px 22px 0}
+.donot ul{margin:14px 0 0; padding:0 22px 22px 42px}
+.donot li{margin-bottom:9px; font-size:15.5px; color:var(--ink-2)}
+.donot li:last-child{margin-bottom:0}
+.donot li b{color:var(--ink)}
+
+footer{padding-block:34px 56px; color:var(--ink-3); font-size:14px; line-height:1.55}
+footer .wrap{max-width:62ch}
+
+@media (max-width:520px){
+  body{font-size:16px}
+  .step-head{padding:16px 16px 0; gap:12px}
+  .body,.tick,.donot h2{padding-left:16px; padding-right:16px}
+  .donot ul{padding-left:36px; padding-right:16px}
+  .n{min-width:36px; height:36px; font-size:21px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">We-Are-STMING &middot; bench card &middot; 19 September 2026</p>
+    <h1>Tomorrow at the Bench</h1>
+    <p class="lede">In order. The first two need no power and either one could explain everything
+      that went wrong last night. Do not skip to the approach.</p>
+
+    <div class="state">
+      <h3>How you left it</h3>
+      <ul>
+        <li>Powered down. USB out, supplies off. Z, X, Y and bias parked at midscale.</li>
+        <li>Coarse screw <b>14,649 steps out</b> by the motor's count &mdash; but the side-by-side
+          screws were also turned in <b>about 7 turns by hand</b>, so that number no longer says
+          where the plate sits.</li>
+        <li>Sample: <b>gold over the whole plate, and it is not stuck down.</b></li>
+        <li>Tip: the same blunt, bent tungsten placeholder. It has taken about a dozen snap contacts.</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <section class="step gate" id="s1">
+      <div class="step-head">
+        <div class="n">1</div>
+        <div class="t">
+          <h2>Stick the gold down</h2>
+          <span class="time">Unpowered &middot; plate off the instrument &middot; this is a gate</span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="why"><b>Why this is first.</b> An unstuck gold leaf is pulled toward the tip by
+          the bias at <b>58 times its own weight</b> at a micron gap, and <b>5,800 times</b> at
+          100 nm &mdash; and the pull grows as the gap shrinks, so it runs away and <b>snaps</b>.
+          That is exactly what last night measured. <b>A surface that is not attached to anything
+          cannot be imaged.</b></div>
+
+        <ol class="do">
+          <li>Take the plate off. Lift the old loose sheet away &mdash; <b>gloves on</b>, and do it
+            away from the scan head.</li>
+          <li>Lay fresh <b>copper tape, adhesive side under the gold</b>. That is how the
+            17 September patch was done, and that one did not move.</li>
+          <li>Lay the leaf on, then <b>burnish it</b>: press and smooth with something soft &mdash;
+            cotton ball, soft brush &mdash; in small circles.</li>
+          <li>Keep going until it changes from <b>dull and loose-looking</b> to <b>bright and
+            flat</b>. That change is how you know it has taken.</li>
+        </ol>
+
+        <dl class="expect">
+          <dt class="p">Pass</dt><dd>You blow on it and <b>nothing moves.</b></dd>
+          <dt class="f">Fail</dt><dd>Any movement at all. Burnish more, or re-lay it.</dd>
+        </dl>
+
+        <div class="stop"><b>Do not go past this step until the blow test passes.</b> Everything
+          after it &mdash; the approach, the calibration, the noise, the image &mdash; is measuring
+          a surface that is moving on its own.</div>
+
+        <div class="note"><b>Loose gold flakes are conductive dust.</b> A flake landing on the tip
+          holder or inside the preamp is a short across the amplifier input. Do the peeling and
+          burnishing away from the head, and look for strays before the plate goes back on.
+          <br><br><b>Write down two things afterwards:</b> what is underneath the sheet, and that you
+          burnished it. Neither is recorded for the current one.</div>
+      </div>
+      <label class="tick"><input type="checkbox" id="c1"> Gold stuck down, blow test passed</label>
+    </section>
+
+    <section class="step" id="s2">
+      <div class="step-head">
+        <div class="n">2</div>
+        <div class="t">
+          <h2>Hold a magnet near the metal stake</h2>
+          <span class="time">Ten seconds &middot; unpowered</span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="why"><b>Why.</b> There are <b>four disc magnets in the sample plate</b>, a
+          millimetre or two behind the gold &mdash; from Mech Panda's design, meant to hold a
+          magnetic sample puck you do not use. <b>The tungsten tip is already cleared</b>: tungsten
+          is barely magnetic, and the magnets' field varies over millimetres while the approach
+          happens over microns, so there is no runaway. <b>But the stake the holder is soldered to
+          has never been identified.</b></div>
+
+        <ol class="do">
+          <li>Bring a spare magnet near the metal stake behind the piezo. Gently &mdash; do not let
+            it snap onto anything.</li>
+        </ol>
+
+        <dl class="expect">
+          <dt class="p">No pull</dt><dd>Not magnetic. One hypothesis closed for free.</dd>
+          <dt class="f">Pulls</dt><dd>It is steel, and the magnets tug on the holder. Tell Claude
+            &mdash; it becomes a second snap mechanism.</dd>
+        </dl>
+
+        <div class="note"><b>Either way, write the stake's material into the inventory.</b> Nobody
+          has ever recorded it.</div>
+      </div>
+      <label class="tick"><input type="checkbox" id="c2"> Stake tested, material written down</label>
+    </section>
+
+    <section class="step" id="s3">
+      <div class="step-head">
+        <div class="n">3</div>
+        <div class="t">
+          <h2>Watch the plate while the motor runs</h2>
+          <span class="time">A few minutes &middot; power on the motor only &middot; eyes, not numbers</span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="why"><b>Why.</b> Last night one motor step sometimes moved the surface
+          <b>14,000&ndash;29,000 Z counts</b>, other times 20 to 40 steps moved nothing, and
+          <b>twice a retract step brought the gold into contact</b>. The leading mechanical
+          explanation is that the plate sticks and slips on its three ball supports. The 7-turn
+          hand-set changed how it sits.</div>
+
+        <ol class="do">
+          <li>Plate back on, tip well clear. Send the motor a few hundred steps each way.</li>
+          <li>Watch three things: does the <b>motor screw's ball stay touching</b> the plate? Does
+            the plate <b>rock</b> on the two side-by-side screws? Does it move <b>smoothly or in
+            jerks</b>?</li>
+        </ol>
+
+        <div class="note">If it jerks or the ball lifts, that is the fault, and it has to be fixed
+          before any calibration means anything. <b>More rubber-band tension is the cheap first
+          thing to try</b> &mdash; that is what fixed the same class of problem on 17 September.</div>
+      </div>
+      <label class="tick"><input type="checkbox" id="c3"> Plate motion watched</label>
+    </section>
+
+    <section class="step" id="s4">
+      <div class="step-head">
+        <div class="n">4</div>
+        <div class="t">
+          <h2>Make and fit a sharper tungsten tip</h2>
+          <span class="time">However long it takes &middot; unpowered</span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="why"><b>Tungsten is the right material</b> &mdash; it is the standard STM tip
+          metal, it is stiff (about twice steel), and it is not meaningfully magnetic. Keep using it.
+          The current one is blunt, bent, and has taken about a dozen hard contacts.</div>
+
+        <ol class="do">
+          <li>Make it <b>short</b>. A shorter tip is a stiffer tip, and stiffness is what stops a
+            snap.</li>
+          <li>Fit it. <b>If you open the holder, put the tip as close to the centre of the piezo
+            disc as you can</b> &mdash; a disc flexes most at its middle, so a central tip gets the
+            most Z travel and the least tilt.</li>
+        </ol>
+
+        <div class="note"><b>No superglue anywhere near the piezo or the preamp.</b> The tip holder
+          is part of the amplifier's input node, and glue there is the fault that cost this project
+          weeks.</div>
+      </div>
+      <label class="tick"><input type="checkbox" id="c4"> Fresh tip fitted</label>
+    </section>
+
+    <section class="step" id="s5">
+      <div class="step-head">
+        <div class="n">5</div>
+        <div class="t">
+          <h2>Power up, and check the lights</h2>
+          <span class="time">Two minutes</span>
+        </div>
+      </div>
+      <div class="body">
+        <ol class="do">
+          <li><b>Supplies on first, then the USB.</b></li>
+          <li><b>Look at LED1&ndash;LED4.</b> They light at every power-on. <code>RSET</code> clears
+            them.</li>
+          <li>Send <code>RSET</code>, then park Z at the <b>retracted</b> end and bias at midscale.</li>
+          <li>Let it sit about two minutes.</li>
+        </ol>
+
+        <dl class="expect">
+          <dt class="p">Good</dt><dd>All four LEDs <b>dark</b> after <code>RSET</code>. Tip clear,
+            readings within a few hundred counts of zero.</dd>
+          <dt class="f">Stop</dt><dd>Any LED still lit. <b>Every reading taken with one lit is
+            void</b>, and no software can detect it.</dd>
+        </dl>
+
+        <div class="note"><b>Last night's noise with the tip clear was 7&times; worse than
+          17 September</b> &mdash; about 341 counts against 46 &mdash; and it never recovered. If it
+          is still high after the gold is fixed, that is worth chasing on its own: plate off, then
+          bias wire off, reading each time.</div>
+      </div>
+      <label class="tick"><input type="checkbox" id="c5"> Powered up, LEDs dark</label>
+    </section>
+
+    <section class="step" id="s6">
+      <div class="step-head">
+        <div class="n">6</div>
+        <div class="t">
+          <h2>Approach</h2>
+          <span class="time">Hands away from the head</span>
+        </div>
+      </div>
+      <div class="body">
+        <pre><code>py Code/pc/stm_approach.py --z-retracted low \
+   --motor-toward-sample negative --motor-step 5 \
+   --max-steps 600 --z-step 200 -y</code></pre>
+
+        <div class="note" style="margin-top:14px"><b>Negative approaches. Positive retracts.</b>
+          Settled 17 September, and it was backwards for two sessions before that.</div>
+
+        <ol class="do" style="margin-top:14px">
+          <li>Sit back. <b>A hand 5 cm from the head adds 370 pA</b> &mdash; about a third of a
+            tunnelling current. Sitting at the bench normally is fine; reaching in is not.</li>
+          <li><b>When it reports contact, flip the bias before believing it.</b> Negative sample
+            voltage should read positive, positive should read negative, and both about the same
+            size.</li>
+        </ol>
+
+        <dl class="expect">
+          <dt class="p">Real</dt><dd>The reading <b>follows the sign of the bias</b>. Noise cannot
+            do that.</dd>
+          <dt class="f">False</dt><dd>Same sign both ways, or it only appeared when someone moved.
+            <b>It has fooled us twice.</b></dd>
+        </dl>
+      </div>
+      <label class="tick"><input type="checkbox" id="c6"> Contact found and bias-flip confirmed</label>
+    </section>
+
+    <section class="step" id="s7">
+      <div class="step-head">
+        <div class="n">7</div>
+        <div class="t">
+          <h2>Two numbers to beat</h2>
+          <span class="time">This is the real test of whether fixing the gold worked</span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="why">These are from 17 September, on gold that was stuck down but possibly on
+          copper oxide. <b>If the surface was what limited us, both should improve. If neither
+          moves, it is all mechanics.</b></div>
+
+        <dl class="expect">
+          <dt>Z response</dt><dd>Was <b>&minus;1.13 decades</b> pulling back against <b>+0.36</b>
+            pushing in, for the same &plusmn;400 counts. <b>A real gap is symmetric.</b></dd>
+          <dt>Hold steady</dt><dd>Was <b>287&ndash;419 counts</b> of wobble with the loop holding one
+            point and nothing scanning.</dd>
+        </dl>
+
+        <div class="note"><b>And watch the shape of the approach.</b> Last night the current went
+          from under 1,000 counts to over 10,000 in <b>25&ndash;75 Z counts</b> &mdash; a snap. If
+          the gold is properly stuck and it still snaps, the leaf was not the cause.</div>
+      </div>
+      <label class="tick"><input type="checkbox" id="c7"> Both numbers re-measured</label>
+    </section>
+
+    <section class="step" id="s8">
+      <div class="step-head">
+        <div class="n">8</div>
+        <div class="t">
+          <h2>Run the control</h2>
+          <span class="time">Ten minutes &middot; only if the gap will hold still</span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="why">This decides whether the reproducible 636-count profile from 17 September
+          is <b>the sample</b> or <b>the scanner's own bow</b>. The tool is new and has never touched
+          hardware.</div>
+
+        <pre><code>py Code/pc/stm_y_control_test.py
+py Code/pc/stm_y_control.py 15000 1500 6 3000 3000 control.csv</code></pre>
+
+        <ol class="do" style="margin-top:14px">
+          <li>Run the test first. It must say <code>FAILURES: none</code>.</li>
+          <li>Then the real run. <b>It prints its own verdict</b> &mdash; you do not have to
+            interpret anything.</li>
+        </ol>
+
+        <dl class="expect">
+          <dt>Verdict</dt><dd><b>Surface</b> &rarr; that is your first topography.
+            <b>Scanner</b> &rarr; it was an instrument artefact.
+            <b>No effect</b> &rarr; not enough signal to tell.</dd>
+        </dl>
+      </div>
+      <label class="tick"><input type="checkbox" id="c8"> Control run, verdict recorded</label>
+    </section>
+
+    <section class="step" id="s9">
+      <div class="step-head">
+        <div class="n">9</div>
+        <div class="t">
+          <h2>The stamp test</h2>
+          <span class="time">Two minutes &middot; decides whether to buy springs</span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="why"><b>Your suspension is not isolating anything.</b> 2 mm of droop means it
+          bounces at 11 Hz and only isolates above 15.8 Hz, while all your noise is below 30 Hz and
+          worst at 5 Hz. <b>It amplifies near 11 Hz.</b> But before spending money, find out whether
+          the shaking even comes through the floor.</div>
+
+        <ol class="do">
+          <li>One measurement with the room still.</li>
+          <li>One while someone stamps on the floor a couple of metres away.</li>
+        </ol>
+
+        <dl class="expect">
+          <dt>Noise jumps</dt><dd>The building is getting through. <b>Softer springs are the fix</b>
+            &mdash; you need <b>10&times;</b> softer, and the coin cups cannot do it.</dd>
+          <dt>No change</dt><dd>The shaking is made inside the instrument. <b>Springs would not
+            help</b>; the tip holder and the plate are the suspects.</dd>
+        </dl>
+
+        <div class="note">Adding weight is blocked anyway until the damping magnets can come down
+          with the platform.</div>
+      </div>
+      <label class="tick"><input type="checkbox" id="c9"> Stamp test done</label>
+    </section>
+
+    <section class="step" id="s10">
+      <div class="step-head">
+        <div class="n">10</div>
+        <div class="t">
+          <h2>Park and power down</h2>
+          <span class="time">In this order</span>
+        </div>
+      </div>
+      <div class="body">
+        <ol class="do">
+          <li>Back the tip off a few hundred motor steps.</li>
+          <li>Park Z, X, Y and bias at <b>midscale</b>.</li>
+          <li><b>USB out first, then the supplies off.</b></li>
+          <li>Write down the motor step count. <b>The firmware forgets it at every restart</b> &mdash;
+            it only exists where you write it.</li>
+        </ol>
+      </div>
+      <label class="tick"><input type="checkbox" id="c10"> Parked and powered down</label>
+    </section>
+
+    <div class="donot">
+      <h2>Do not</h2>
+      <ul>
+        <li><b>Never send <code>APRH</code>.</b> It compares against a baseline that has been the
+          wrong sign all project, so it can drive the tip into the sample without ever triggering.</li>
+        <li><b>Never send <code>CCON</code> with the tip in range</b> until you and Nuh decide to
+          lift that rule.</li>
+        <li><b>Never send a Z value outside 0&ndash;65535.</b> It does not error &mdash; it wraps and
+          slams the axis to the opposite rail.</li>
+        <li><b>Never read a meter's "OL" as ruled out.</b> It only proves more than about 60 M&#8486;,
+          and what matters here is 100 M&#8486; to 10 G&#8486;.</li>
+        <li><b>No cyanoacrylate near the preamp or the piezo.</b></li>
+        <li><b>Do not judge the piezo by ear.</b> There is no usable resonance when it is mounted.</li>
+      </ul>
+    </div>
+
+    <div class="donot" style="border-color:var(--accent)">
+      <h2>One rule that has a deliberate exception</h2>
+      <ul>
+        <li><b>The written rule says park Z at midscale before the motor moves.</b> Last night's
+          session parked it at the <b>fully retracted</b> end instead and wrote down why: the
+          <b>high</b> end of Z extends the tip toward the sample, so midscale leaves the tip
+          half-extended while the motor is running. The retracted end serves the rule's purpose
+          better.
+          <br><br><b>Use the retracted end tomorrow.</b> Whether to reword the rule itself is yours
+          and Nuh's call, not Claude's.</li>
+      </ul>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Every number on this card is cited from <code>STATUS.md</code>,
+      <code>docs/NEXT_SESSION_PLAN.md</code> or a session log. <strong>If anything here disagrees
+      with those files, they win and this card is the one to fix.</strong></p>
+    <p>The ticks are only for you, on this device. They are not saved anywhere else and nobody else
+      sees them.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var K = "stming-bench-2026-09-19";
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(K) || "{}") || {}; } catch (e) { saved = {}; }
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.tick input'));
+  function paint(b){
+    var sec = b.closest('.step');
+    if (sec) sec.classList.toggle('done', b.checked);
+  }
+  boxes.forEach(function(b){
+    if (saved[b.id]) b.checked = true;
+    paint(b);
+    b.addEventListener('change', function(){
+      paint(b);
+      var out = {};
+      boxes.forEach(function(x){ if (x.checked) out[x.id] = 1; });
+      try { localStorage.setItem(K, JSON.stringify(out)); } catch (e) {}
+    });
+  });
+})();
+</script>
