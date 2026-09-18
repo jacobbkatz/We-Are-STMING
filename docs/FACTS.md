@@ -89,7 +89,9 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | BasePlate hole grid | **30.0 × 27.0 mm**, offset −7.5 mm in X | MESH |
 | Tower rods | **M8**, 3 off (Ø8.200 bores) | MESH |
 | Platform | **Ø200.00 × 6.00 mm disc** | MESH |
-| Suspension springs | 3 off, ~300 mm. **Rate UNKNOWN** | BOM |
+| Suspension springs | 3 off, ~300 mm. ~~**Rate UNKNOWN**~~ **Rate still unknown in N/mm, but its CONSEQUENCE is now measured — see the two rows below** | BOM |
+| **Suspension droop, platform on its own springs** | **~2 mm** | **SAID** 2026-09-18, Jacob: *"the drop is maybe 2mm its barley hanging the springs are not very stretchy"*. Lifted until the springs went slack, then released. **A single by-eye figure, not a caliper reading** |
+| **Suspension vertical resonance** | **~11 Hz** | **CALC** 2026-09-18 | `f0 = 15.76 / sqrt(droop in mm)` = 15.76/sqrt(2). **A suspension amplifies at f0 and only isolates above about 1.4x f0, so this one does nothing below 15.8 Hz** — and every bit of the 2026-09-17 mechanical noise sits below 30 Hz, worst at 5 Hz. **To isolate the 5 Hz peak the droop must exceed 20 mm**, which is 10x softer springs or 10x the mass; 62 mm would give 2 Hz. **Consistent with the soft bump near 10 Hz** in `sessions/2026-09-17-bench.md` §6, which that session left explicitly unexplained. If anything else is touching the platform the springs carry less weight, the droop reads smaller and the real isolation is worse still, so the conclusion holds either way |
 | Spring hanger tubes | **9 solids**: 3 × 8 mm, 3 × 50 mm, 3 × 85 mm, all Ø25.00 | MESH |
 | Coin weights | **3 cups**, Ø24.00 × 15.00 mm | MESH |
 | Print settings | 0.08 mm layers, 2 walls, 40% scan head / 15% isolation infill | 3MF |
