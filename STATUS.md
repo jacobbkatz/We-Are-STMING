@@ -1,7 +1,34 @@
 # Current status
 
-**Last updated:** 2026-09-18, wrap — **MECHANICAL WORK, NOTHING POWERED.** **The whole sample plate is now gold**, so the tip lands on gold wherever it lands. **The tip holder was rebuilt** and reads continuous to the standoff. **THE SUSPENSION IS NOT ISOLATING ANYTHING: droop ~2 mm, f0 ~11 Hz**, so it only isolates above 15.8 Hz while every bit of the measured noise sits below 30 Hz, worst at 5 Hz — **it amplifies near 11 Hz.** **d is still unmeasured and the photograph route is dead.** The three-Y control tool now exists.
-**Updated by:** Jacob at the bench, with Claude Code on the web. **Nothing was switched on and no electrical measurement was taken today.** `sessions/2026-09-18.md`.
+**Last updated:** 2026-09-18 bench, wrap (evening of 2026-09-17 local, named by UTC) — **POWERED BENCH SESSION.** **All four owed checks passed.** **The rebuilt holder had left the tip ~2.2 mm further back** (7 turns of the side screws). **A real junction on gold, confirmed by the bias flip — but it SNAPS into contact rather than tunnelling, and THE STAGE IS NOT UNDER CONTROL:** the gold wanders by thousands to over 15,000 Z counts within seconds and the motor's effect is erratic. **2026-09-17's "250 Z counts per motor step" is now suspect; the nm scale is unmeasured.** **Clear-tip noise 7x 2026-09-17's, cause unknown.** Left powered, parked at midscale, tip clear.
+**Updated by:** Jacob at the bench with Claude Code desktop; **Claude ran the second half alone with Jacob's authority.** `sessions/2026-09-18-bench.md`.
+
+# 2026-09-18 BENCH — A REAL JUNCTION ON A STAGE THAT WILL NOT HOLD STILL
+
+| | |
+|---|---|
+| **Power** | **Left ON, parked**: Z, X, Y, bias at midscale (0 V). Tip clear across the whole Z range (worst 339 counts). **LED1-LED4 dark** at the start and on Jacob's return (`SAID`). **Power down in the usual order: USB out, then supplies off** |
+| **Coarse screw** | **14,649 steps out** by the motor's count. **The side-by-side screws were also turned ~7 turns in by hand**, so this number no longer places the plate |
+| **The four checks** | **All passed** (`SAID`): gold to bias beeps; tip holder OPEN to the brass (**safety rule 7 passes on the rebuilt holder**); only jumper wires touch the platform; d "1ish mm" |
+| **Tip holder** | **Attachment unchanged in kind** — soldered to a metal stake, stake superglued to the piezo — and **the tip is roughly in the middle of the disc** (`SAID`). **The off-centre hypothesis below is withdrawn** |
+| **Junction** | **Real, and on gold**: the bias flip passed, −0.5 V giving +6,126 to +15,511 and +0.5 V giving −8,430 to −11,170. **But it snaps**: under 1,000 to over 10,000 counts in **25-75 Z counts**, and a hard contact reads full scale **even at 0 V bias** |
+| **Stage** | **Not under control.** Single motor steps shifted the surface 14,000-29,000 Z counts when they shifted it at all; **runs of 20-40 steps did nothing**; **retract steps twice brought the gold INTO contact**; with the motor still the surface wanders over most of the Z window. **Leading hypothesis: the plate sticks and slips on its ball supports.** |
+| **Noise, tip clear** | **`ADCR` sd 341-350 counts, about 1.1 nA, against 46 on 2026-09-17.** Not the operator; no decay in 30 min; white plus a 60 Hz line. **Cause unknown** |
+| **Not done** | The gold re-test, the hold wobble, the three-Y control and the stamp test. **None is meaningful on a stage that moves by itself** |
+
+**WHAT THIS CHANGES.** **2026-09-17's motor calibration — about 250 Z counts per step, and the lever
+ratio near 400 and 0.0016 nm per count derived from it — is suspect**: the staircase ran in the
+retract direction straight after a reversal, inside that night's own 100-250 steps of slack.
+**The Z scale in nm is unmeasured.** Treat every nm figure for this instrument as unsupported
+until the stage is fixed and the calibration is redone. `docs/OPEN_QUESTIONS.md` §2.
+
+**NEXT, IN ORDER: the stage, the suspension, a stiffer tip, then the noise.** Watch the sample plate
+while the motor moves — does the motor-screw ball stay seated, does the plate rock on the pair?
+`docs/NEXT_SESSION_PLAN.md`.
+
+> **Two claims made to Jacob mid-session were withdrawn before anything was written**: that the gap
+> wobble settles once the motor stops, and that the fast tracker's onsets were artefacts. **Both
+> caught by the next measurement.** `sessions/2026-09-18-bench.md` §3.8.
 
 # 2026-09-18 — WHAT CHANGED, AND THE FOUR CHECKS OWED BEFORE POWER-UP
 
@@ -13,8 +40,7 @@
 | **Tip** | **Unchanged** — the same blunt, bent placeholder. Sharper tips deferred |
 | **Suspension** | **Droop ~2 mm, f0 ~11 Hz** (`SAID` + CALC). **Characterised for the first time** |
 
-**FOUR CHECKS ARE OWED BEFORE ANYTHING IS POWERED. Two are unpowered measurements, two are meter
-checks, and all four are minutes:**
+~~**FOUR CHECKS ARE OWED BEFORE ANYTHING IS POWERED.**~~ **ALL FOUR DONE AND PASSED at the 2026-09-18 bench session** (`SAID`) — see the block above. Kept for the record:
 
 1. **Which feature is the tip, and how far is it from the CENTRE OF THE BRASS DISC?** Ruler or
    caliper against the disc rim. **`docs/FACTS.md` fixes the disc centre at 1.000 mm from the pivot
@@ -89,7 +115,9 @@ image; brass, aluminium and copper all sit in one hue band under warm light; the
 toward the camera while the tip is recessed, so the camera must be square to **half a degree** for
 the apparent offset to stay under 0.13 mm; and the threshold is **three pixels** at this scale.
 
-> **HYPOTHESIS, not a finding: the tip is mounted well off the CENTRE of the piezo disc.** That much
+> **WITHDRAWN 2026-09-18 bench: `SAID` Jacob, the tip sits roughly in the middle of the disc.** The text below is kept as the record of a photographic reading that did not stand.
+>
+> ~~**HYPOTHESIS, not a finding: the tip is mounted well off the CENTRE of the piezo disc.**~~ That much
 > is visible in the frames. **A piezo disc deflects most at its centre and not at all at its clamped
 > rim**, so an off-centre tip gets less Z throw and picks up **tilt as well as displacement** — and
 > because X, Y and Z all drive the same disc, **it would couple X into Z.** **That is a candidate
@@ -141,7 +169,7 @@ undetrended, the same data reads +0.741 where the honest figure is +0.124. It **
 | **The junction** | **Found repeatedly.** At −0.5 V on the sample it draws about **32 nA**, a junction resistance of 16 MΩ; at 0.05 V, **0.85 nA** and 59 MΩ. **Symmetric in both polarities and superlinear, roughly as V²** — a barrier, not a metallic short, and not an open circuit |
 | **Motor direction** | **NEGATIVE `MTMV` APPROACHES, positive retracts.** Contact appeared while driving positive in the opposite belief; every later approach in the negative direction found the surface. **The design file was right and the bench reading of the lever was inverted** |
 | **Z direction** | **The HIGH end of the Z range extends the tip TOWARD the sample.** Use `--z-retracted low` from now on |
-| **Scale** | **About 250 Z DAC counts per motor step**, and one motor step is 155 nm of screw. **What that is in nanometres at the tip depends on the lever ratio, which is still unmeasured** |
+| **Scale** | ~~**About 250 Z DAC counts per motor step**~~ **SUSPECT since 2026-09-18 bench — measured inside the reversal slack on a stage that sticks**, and one motor step is 155 nm of screw. **What that is in nanometres at the tip depends on the lever ratio, which is still unmeasured** |
 | **Backlash** | **100 to 250 motor steps of lost motion after any reversal.** Measured twice |
 | **Stability** | At fixed Z and bias the current went **from 3 nA to hard contact in 10 seconds** with nothing commanded. After about half a minute of settling the gap held to ±200 Z counts over 20 s |
 | **The sample** | **Real gold** (flame test) on copper tape whose **adhesive conducts** (overlap test). Both `SAID`, Jacob |

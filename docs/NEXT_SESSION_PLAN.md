@@ -1,13 +1,80 @@
 # Next session plan
 
-**Last updated:** 2026-09-18 wrap — **mechanical session, nothing powered.** The whole plate is gold, the tip holder is rebuilt, and **the suspension is measured and is the wrong springs: droop ~2 mm, f0 ~11 Hz.** **Four checks are owed before power-up and they come first.** The three-Y control tool now exists.
+**Last updated:** 2026-09-18 bench wrap (evening of 2026-09-17 local) — **a powered session. All four checks passed and a real junction was found on gold, but the tip SNAPS into contact and THE STAGE IS NOT UNDER CONTROL: the gold wanders by thousands of Z counts within seconds and the motor's effect is erratic.** **The stage comes first now.** The 2026-09-17 motor calibration is suspect.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# START HERE — 2026-09-18, BEFORE ANYTHING IS POWERED
+# START HERE — after the 2026-09-18 bench session
+
+**State:** **left POWERED**, parked: Z, X, Y and bias at midscale (0 V), tip clear across the whole
+Z range. **If it is still on, power down in the usual order: USB out, then supplies off.** Motor
+count **14,649 steps out** — but **the side-by-side screws were turned about 7 turns in by hand**
+during the hand-set, so that number no longer places the plate. `sessions/2026-09-18-bench.md`.
+
+**What that session established:** the four checks all pass; the rebuilt holder had put the tip
+about 2.2 mm further back; **a real junction on gold** (bias flip passed); **it snaps into contact**
+rather than passing through a tunnelling range; **the surface wanders by thousands to over 15,000
+Z counts within seconds**; and **the motor's effect is erratic** — single steps shifting the
+surface 14,000-29,000 counts, runs of 20-40 steps doing nothing, retract steps twice bringing the
+gold into contact. **Clear-tip noise is 341-350 counts against 2026-09-17's 46, cause unknown.**
+
+## 1. THE STAGE — first, and it decides everything after it
+
+**Watch the sample plate while the motor moves.** This needs the motor, so power up in the usual
+order (supplies, then USB, then the LED check), **retract the tip well back first**, keep Z at 0,
+and look from the side while `MTMV` steps a few tens of steps each way:
+
+- **Does the motor-screw ball stay in contact with the plate** through a reversal? 2026-09-17 found
+  it had been turning in free space once before, and one more rubber band fixed it.
+- **Does the plate rock on the side-by-side pair**, or slide on any ball?
+- **Did the 7-turn hand-set change how the plate sits?** The side screws now stand well out.
+
+**Leading hypothesis: the plate sticks and slips on its supports.** It explains the erratic motor,
+the retract steps that closed the gap, and probably much of the wander. **Not proven.** Until it is
+fixed, **no calibration and no approach result means much.**
+
+## 2. The suspension — as planned
+
+**The damping magnets sit right under the platform** (`SAID`), so **measure the gap to them first**
+and lower them with the platform. Droop must exceed 20 mm to isolate 5 Hz. `docs/INVENTORY.md`.
+
+## 3. A stiffer, shorter, sharper tip
+
+**The snap into contact is what a floppy tip does.** The placeholder has taken perhaps a dozen snaps
+on top of 2026-09-17's contacts.
+
+## 4. The noise, one variable at a time
+
+Compare each against **46 counts** (`ADCR` sd, room empty, 2026-09-17) and **341-350** (2026-09-18).
+**Every change is made powered down**, then supplies on, USB, LED check, 20 s of `ADCR` with the
+tip clear and the room empty:
+
+1. As left (repeat the 341-350 first — **it may simply have recovered overnight**).
+2. **Sample plate off the head.**
+3. **Bias wire disconnected at the plate.**
+
+## 5. Only then: calibrate the motor against Z properly
+
+**Take up the slack in one direction first**, then single steps, a slow onset search after each
+(250-count Z steps, readings confirmed a few milliseconds later), several passes each way.
+**Never trust a fast Z climb's "onset" without checking it at 0 V bias**: a hard contact reads
+full scale at 0 V from the DAC offset, and on 2026-09-18 that made a fast tracker look like it had
+found a surface it was actually pressing into.
+
+**Then** the gold re-test, the hold wobble and the three-Y control, as below.
+
+**Do not:** no `APRH`; no `CCON` with a tip in range; every DAC value in range; **when moving the
+motor with a contact present, hold Z at 0 (fully retracted), not midscale** — midscale extends the
+tip. `sessions/2026-09-18-bench.md` §3.4.
+
+---
+
+# HISTORY — the plan as it stood before the 2026-09-18 bench session
+
+## ~~START HERE — 2026-09-18, BEFORE ANYTHING IS POWERED~~ — superseded, the four checks all passed
 
 **State:** powered down since 2026-09-17, about 21:55 UTC. USB out, supplies off, Z/X/Y/bias at
 midscale, tip backed off 300 motor steps, **screw 14,722 steps out** — the firmware counter resets
@@ -107,7 +174,7 @@ history:**
 |---|---|
 | **Motor** | **NEGATIVE `MTMV` approaches**, positive retracts. Expect **100 to 250 steps of backlash** after any reversal |
 | **Z** | **The HIGH end extends toward the sample.** Use `--z-retracted low` |
-| **Scale** | **About 250 Z counts per motor step, and about 250 Z counts per decade of current** |
+| **Scale** | **About 250 Z counts per motor step, and about 250 Z counts per decade of current** **[the per-step figure is SUSPECT since 2026-09-18 bench — measured inside the reversal slack on a stage that sticks]** |
 | **Junction** | Found repeatedly: 0.85 nA at 0.05 V, 32 nA at 0.5 V, symmetric, superlinear |
 | **Drift** | Closes the gap in about 10 s at fixed Z; settles to about −45 counts/s after half a minute |
 | **Imaging** | Attempted with a PC-side feedback loop. **The loop works; there is no reproducible structure.** `sessions/2026-09-17-bench.md` §3.22 |

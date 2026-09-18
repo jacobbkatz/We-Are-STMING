@@ -45,6 +45,10 @@ Z_LOCATE_START, Z_LOCATE_END, Z_LOCATE_STEP = 10000, 48000, 200
 
 # MEASURED 2026-09-17: the current changes tenfold per about 250 Z counts, and
 # one motor step is also about 250 Z counts. Both in sessions/2026-09-17-bench.md.
+# The motor figure is SUSPECT since sessions/2026-09-18-bench.md (measured inside
+# the reversal slack; the stage sticks). On 2026-09-18 the current also rose
+# 1,000 -> 10,000 counts within 25-75 Z counts at a snap-in, so this constant
+# describes the 2026-09-17 junction only. Re-measure before trusting the loop.
 COUNTS_PER_DECADE = 250.0
 COUNTS_PER_NANOAMP = 320.5     # docs/FACTS.md, dummy junction 2026-09-16
 

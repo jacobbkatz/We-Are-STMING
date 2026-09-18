@@ -1,0 +1,26 @@
+====================================================================
+  COARSE APPROACH -- this moves a real tip toward a real sample
+====================================================================
+  port              COM3
+  Z retracted at    10000      extends toward sample to 50000
+  motor step        -5 per cycle, up to 3500 steps (~27.3 um)
+
+  BEFORE YOU CONTINUE:
+   - LED1 to LED4 must be DARK. If any is lit the DACs have lost
+     configuration, every Z command below does nothing, and the
+     motor would advance with no piezo protection at all.
+   - Nobody within a metre of the preamp.
+   - Ctrl-C stops at any time and retracts Z.
+
+
+  Measuring baseline with Z retracted...
+  baseline -3 counts, noise 1821 counts RMS (5.69 nA)
+  threshold 10923 counts (34.14 nA) of deviation either way
+  A high threshold costs almost no depth: tunneling current rises
+  about 10x per Angstrom, so 6 nA is under an Angstrom past 1 nA.
+
+  5/3500 motor steps, no contact yet
+
+  TUNNELING at Z = 25800 after 5 motor steps
+  reading 20878 counts, baseline -3, deviation 20881
+  Z retracted. Motor stopped.

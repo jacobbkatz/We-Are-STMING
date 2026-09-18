@@ -1,0 +1,70 @@
+====================================================================
+  COARSE APPROACH -- this moves a real tip toward a real sample
+====================================================================
+  port              COM3
+  Z retracted at    10000      extends toward sample to 50000
+  motor step        -3 per cycle, up to 900 steps (~7.0 um)
+
+  BEFORE YOU CONTINUE:
+   - LED1 to LED4 must be DARK. If any is lit the DACs have lost
+     configuration, every Z command below does nothing, and the
+     motor would advance with no piezo protection at all.
+   - Nobody within a metre of the preamp.
+   - Ctrl-C stops at any time and retracts Z.
+
+
+  Measuring baseline with Z retracted...
+  baseline -497 counts, noise 1275 counts RMS (3.98 nA)
+  threshold 6000 counts (18.75 nA) of deviation either way
+  A high threshold costs almost no depth: tunneling current rises
+  about 10x per Angstrom, so 6 nA is under an Angstrom past 1 nA.
+
+  3/900 motor steps, no contact yet
+  6/900 motor steps, no contact yet
+  9/900 motor steps, no contact yet
+  12/900 motor steps, no contact yet
+  15/900 motor steps, no contact yet
+  18/900 motor steps, no contact yet
+  21/900 motor steps, no contact yet
+  24/900 motor steps, no contact yet
+  27/900 motor steps, no contact yet
+  30/900 motor steps, no contact yet
+  33/900 motor steps, no contact yet
+  36/900 motor steps, no contact yet
+  39/900 motor steps, no contact yet
+  42/900 motor steps, no contact yet
+  45/900 motor steps, no contact yet
+  48/900 motor steps, no contact yet
+  51/900 motor steps, no contact yet
+  54/900 motor steps, no contact yet
+  57/900 motor steps, no contact yet
+  60/900 motor steps, no contact yet
+  63/900 motor steps, no contact yet
+  66/900 motor steps, no contact yet
+  69/900 motor steps, no contact yet
+  72/900 motor steps, no contact yet
+  75/900 motor steps, no contact yet
+  78/900 motor steps, no contact yet
+  81/900 motor steps, no contact yet
+  84/900 motor steps, no contact yet
+  87/900 motor steps, no contact yet
+  90/900 motor steps, no contact yet
+  93/900 motor steps, no contact yet
+  96/900 motor steps, no contact yet
+  99/900 motor steps, no contact yet
+  102/900 motor steps, no contact yet
+  105/900 motor steps, no contact yet
+  108/900 motor steps, no contact yet
+  111/900 motor steps, no contact yet
+  114/900 motor steps, no contact yet
+  117/900 motor steps, no contact yet
+  120/900 motor steps, no contact yet
+  123/900 motor steps, no contact yet
+  126/900 motor steps, no contact yet
+  129/900 motor steps, no contact yet
+  132/900 motor steps, no contact yet
+  135/900 motor steps, no contact yet
+
+  TUNNELING at Z = 10200 after 135 motor steps
+  reading 11693 counts, baseline -497, deviation 12190
+  Z retracted. Motor stopped.

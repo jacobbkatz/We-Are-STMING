@@ -1,0 +1,145 @@
+====================================================================
+  COARSE APPROACH -- this moves a real tip toward a real sample
+====================================================================
+  port              COM3
+  Z retracted at    10000      extends toward sample to 50000
+  motor step        -5 per cycle, up to 600 steps (~4.7 um)
+
+  BEFORE YOU CONTINUE:
+   - LED1 to LED4 must be DARK. If any is lit the DACs have lost
+     configuration, every Z command below does nothing, and the
+     motor would advance with no piezo protection at all.
+   - Nobody within a metre of the preamp.
+   - Ctrl-C stops at any time and retracts Z.
+
+
+  Measuring baseline with Z retracted...
+  baseline 250 counts, noise 1436 counts RMS (4.49 nA)
+  threshold 8614 counts (26.92 nA) of deviation either way
+  A high threshold costs almost no depth: tunneling current rises
+  about 10x per Angstrom, so 6 nA is under an Angstrom past 1 nA.
+
+  5/600 motor steps, no contact yet
+  10/600 motor steps, no contact yet
+  15/600 motor steps, no contact yet
+  20/600 motor steps, no contact yet
+  25/600 motor steps, no contact yet
+  30/600 motor steps, no contact yet
+  35/600 motor steps, no contact yet
+  40/600 motor steps, no contact yet
+  45/600 motor steps, no contact yet
+  50/600 motor steps, no contact yet
+  55/600 motor steps, no contact yet
+  60/600 motor steps, no contact yet
+  65/600 motor steps, no contact yet
+  70/600 motor steps, no contact yet
+  75/600 motor steps, no contact yet
+  80/600 motor steps, no contact yet
+  85/600 motor steps, no contact yet
+  90/600 motor steps, no contact yet
+  95/600 motor steps, no contact yet
+  100/600 motor steps, no contact yet
+  105/600 motor steps, no contact yet
+  110/600 motor steps, no contact yet
+  115/600 motor steps, no contact yet
+  120/600 motor steps, no contact yet
+  125/600 motor steps, no contact yet
+  130/600 motor steps, no contact yet
+  135/600 motor steps, no contact yet
+  140/600 motor steps, no contact yet
+  145/600 motor steps, no contact yet
+  150/600 motor steps, no contact yet
+  155/600 motor steps, no contact yet
+  160/600 motor steps, no contact yet
+  165/600 motor steps, no contact yet
+  170/600 motor steps, no contact yet
+  175/600 motor steps, no contact yet
+  180/600 motor steps, no contact yet
+  185/600 motor steps, no contact yet
+  190/600 motor steps, no contact yet
+  195/600 motor steps, no contact yet
+  200/600 motor steps, no contact yet
+  205/600 motor steps, no contact yet
+  210/600 motor steps, no contact yet
+  215/600 motor steps, no contact yet
+  220/600 motor steps, no contact yet
+  225/600 motor steps, no contact yet
+  230/600 motor steps, no contact yet
+  235/600 motor steps, no contact yet
+  240/600 motor steps, no contact yet
+  245/600 motor steps, no contact yet
+  250/600 motor steps, no contact yet
+  255/600 motor steps, no contact yet
+  260/600 motor steps, no contact yet
+  265/600 motor steps, no contact yet
+  270/600 motor steps, no contact yet
+  275/600 motor steps, no contact yet
+  280/600 motor steps, no contact yet
+  285/600 motor steps, no contact yet
+  290/600 motor steps, no contact yet
+  295/600 motor steps, no contact yet
+  300/600 motor steps, no contact yet
+  305/600 motor steps, no contact yet
+  310/600 motor steps, no contact yet
+  315/600 motor steps, no contact yet
+  320/600 motor steps, no contact yet
+  325/600 motor steps, no contact yet
+  330/600 motor steps, no contact yet
+  335/600 motor steps, no contact yet
+  340/600 motor steps, no contact yet
+  345/600 motor steps, no contact yet
+  350/600 motor steps, no contact yet
+  355/600 motor steps, no contact yet
+  360/600 motor steps, no contact yet
+  365/600 motor steps, no contact yet
+  370/600 motor steps, no contact yet
+  375/600 motor steps, no contact yet
+  380/600 motor steps, no contact yet
+  385/600 motor steps, no contact yet
+  390/600 motor steps, no contact yet
+  395/600 motor steps, no contact yet
+  400/600 motor steps, no contact yet
+  405/600 motor steps, no contact yet
+  410/600 motor steps, no contact yet
+  415/600 motor steps, no contact yet
+  420/600 motor steps, no contact yet
+  425/600 motor steps, no contact yet
+  430/600 motor steps, no contact yet
+  435/600 motor steps, no contact yet
+  440/600 motor steps, no contact yet
+  445/600 motor steps, no contact yet
+  450/600 motor steps, no contact yet
+  455/600 motor steps, no contact yet
+  460/600 motor steps, no contact yet
+  465/600 motor steps, no contact yet
+  470/600 motor steps, no contact yet
+  475/600 motor steps, no contact yet
+  480/600 motor steps, no contact yet
+  485/600 motor steps, no contact yet
+  490/600 motor steps, no contact yet
+  495/600 motor steps, no contact yet
+  500/600 motor steps, no contact yet
+  505/600 motor steps, no contact yet
+  510/600 motor steps, no contact yet
+  515/600 motor steps, no contact yet
+  520/600 motor steps, no contact yet
+  525/600 motor steps, no contact yet
+  530/600 motor steps, no contact yet
+  535/600 motor steps, no contact yet
+  540/600 motor steps, no contact yet
+  545/600 motor steps, no contact yet
+  550/600 motor steps, no contact yet
+  555/600 motor steps, no contact yet
+  560/600 motor steps, no contact yet
+  565/600 motor steps, no contact yet
+  570/600 motor steps, no contact yet
+  575/600 motor steps, no contact yet
+  580/600 motor steps, no contact yet
+  585/600 motor steps, no contact yet
+  590/600 motor steps, no contact yet
+  595/600 motor steps, no contact yet
+  600/600 motor steps, no contact yet
+
+  Step limit reached (600) with no contact.
+  Nothing is wrong -- this is the safe outcome. Re-run to
+  continue, or raise --max-steps if you know the gap is large.

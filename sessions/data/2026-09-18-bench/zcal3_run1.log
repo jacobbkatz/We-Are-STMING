@@ -1,0 +1,21 @@
+02:09:00 pass 0 step -4: onset Z 32500 | slope pts 31900:8534 31925:11512
+02:09:01 pass 0 step -5: onset Z 3250 | slope pts 2650:4635 2675:17802
+02:09:01 pass 0 done: onsets [(4, 32500), (5, 3250)]; retracted +6
+02:09:02 pass 1 step -0: onset Z 28000 | slope pts 27400:4033 27475:14661
+02:09:03 pass 1 step -1: onset Z 36000 | slope pts 35400:4498 35450:15329
+02:09:04 pass 1 step -2: onset Z 34750 | slope pts 34150:4022 34250:7121 34275:13012
+02:09:07 pass 1 step -5: onset Z 16000 | slope pts 15400:757 15425:11937
+02:09:07 pass 1 step -6: onset Z 1750 | slope pts 1150:3865 1200:28397
+02:09:08 pass 1 done: onsets [(0, 28000), (1, 36000), (2, 34750), (5, 16000), (6, 1750)]; retracted +6
+02:09:08 pass 2 step -0: onset Z 23000 | slope pts 22400:2329 22500:9 22600:6571 22625:21330
+02:09:09 pass 2 step -1: onset Z 30000 | slope pts 29400:3625 29475:12290
+02:09:10 pass 2 step -2: onset Z 32750 | slope pts 32150:5514 32225:10997
+02:09:11 pass 2 step -3: onset Z 30000 | slope pts 29400:12125 29400:12125
+02:09:12 pass 2 step -4: onset Z 31750 | slope pts 31150:13610 31150:13610
+02:09:13 pass 2 step -5: onset Z 34750 | slope pts 34150:19847 34150:19847
+02:09:14 pass 2 step -6: onset Z 0 | slope pts 0:32767 0:32767
+02:09:14 pass 2 done: onsets [(0, 23000), (1, 30000), (2, 32750), (3, 30000), (4, 31750), (5, 34750), (6, 0)]; retracted +6
+02:09:21 X offsets -> onset Z: [(0, 41700), (10000, 36900), (0, 44300), (-10000, 49200), (0, None)]
+02:09:28 Y offsets -> onset Z: [(0, None), (10000, None), (0, None), (-10000, 48600), (0, 28300)]
+02:09:29 end: Z 0, X/Y mid, bias 0 V
+wrote zcal3_run1.csv

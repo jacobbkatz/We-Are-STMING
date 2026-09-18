@@ -1,0 +1,40 @@
+02:16:55 positioned: onset 32750 after motor +0
+02:17:05 t=  10s median 19150 sd 3089 below 83 (n 920) motor adj +0
+02:17:15 t=  20s median 19200 sd 3267 below 95 (n 910) motor adj +0
+02:17:25 t=  30s median 19200 sd 3162 below 91 (n 908) motor adj +0
+02:17:35 t=  40s median 18400.0 sd 3333 below 82 (n 932) motor adj +0
+02:17:45 t=  50s median 19200 sd 2792 below 134 (n 927) motor adj +0
+02:17:55 t=  60s median 19200 sd 3019 below 117 (n 926) motor adj +0
+02:18:05 t=  70s median 9600.0 sd 5866 below 61 (n 957) motor adj +0
+02:18:15 t=  80s median 18400.0 sd 4586 below 101 (n 899) motor adj +0
+02:18:25 t=  90s median 12800.0 sd 4563 below 72 (n 931) motor adj +0
+02:18:35 t= 100s median 9600.0 sd 3791 below 59 (n 979) motor adj +0
+02:18:45 t= 110s median 10400.0 sd 4764 below 71 (n 1005) motor adj +0
+02:18:55 t= 120s median 4800 sd 2244 below 72 (n 1127) motor adj +0
+02:18:55   onset below 8000: motor +6
+02:19:05 t= 131s median 3200.0 sd 1063 below 80 (n 1252) motor adj +6
+02:19:06   onset below 8000: motor +1
+02:19:16 t= 141s median 4800 sd 1392 below 31 (n 1064) motor adj +7
+02:19:16   onset below 8000: motor +1
+02:19:26 t= 152s median 2400.0 sd 2509 below 77 (n 1395) motor adj +8
+02:19:27   onset below 8000: motor +1
+02:19:37 t= 162s median 4000 sd 1814 below 58 (n 1079) motor adj +9
+02:19:37   onset below 8000: motor +1
+02:19:47 t= 173s median 4000.0 sd 2113 below 2488 (n 2884) motor adj +10
+02:19:48   onset below 8000: motor +1
+02:19:58 t= 183s median 6400.0 sd 2097 below 45 (n 1005) motor adj +11
+02:19:58   onset below 8000: motor +1
+02:20:08 t= 194s median 19600.0 sd 3943 below 136 (n 882) motor adj +12
+02:20:18 t= 204s median 8000 sd 6466 below 148 (n 923) motor adj +12
+02:20:28 t= 214s median 8800 sd 4171 below 122 (n 957) motor adj +12
+02:20:38 t= 224s median 9600 sd 3087 below 126 (n 933) motor adj +12
+02:20:48 t= 234s median 12800.0 sd 4763 below 163 (n 863) motor adj +12
+02:20:58 t= 244s median 21600.0 sd 3454 below 128 (n 879) motor adj +12
+02:21:08 t= 254s median 21600.0 sd 5443 below 174 (n 850) motor adj +12
+02:21:18 t= 264s median 19200 sd 4490 below 161 (n 860) motor adj +12
+02:21:28 t= 274s median 24000 sd 1910 below 169 (n 856) motor adj +12
+02:21:38 t= 284s median 17600 sd 4189 below 127 (n 890) motor adj +12
+02:21:49 t= 294s median 17600 sd 4150 below 101 (n 904) motor adj +12
+02:21:59 t= 304s median 16000.0 sd 3785 below 65 (n 927) motor adj +12
+02:21:59 spectrum of last chunk: 1:134 2:354 3:263 4:404 5:380 6:662 7:394 8:58 9:295 10:238 11:261 12:310 13:154 14:26 15:300 16:311 17:390 18:177 19:416 20:170 21:249 22:254 23:162 24:132 25:241 26:222 27:410 28:243 29:266 30:219
+02:22:00 end: Z 0, X/Y mid, motor +20, bias 0 V

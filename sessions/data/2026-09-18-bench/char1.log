@@ -1,0 +1,3 @@
+A. baseline at Z 10000, -0.5 V: mean 32767, sd 0 (n=200)
+ABORT: current already present at HOME (mean 32767). Bias zeroed, Z left at 10000. Back the motor off (positive) before anything else.
+wrote char1.csv (200 rows)
