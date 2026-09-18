@@ -1,13 +1,13 @@
 # Current status
 
-**Last updated:** 2026-09-18 bench, wrap (evening of 2026-09-17 local, named by UTC) — **POWERED BENCH SESSION.** **All four owed checks passed.** **The rebuilt holder had left the tip ~2.2 mm further back** (7 turns of the side screws). **A real junction on gold, confirmed by the bias flip — but it SNAPS into contact rather than tunnelling, and THE STAGE IS NOT UNDER CONTROL:** the gold wanders by thousands to over 15,000 Z counts within seconds and the motor's effect is erratic. **2026-09-17's "250 Z counts per motor step" is now suspect; the nm scale is unmeasured.** **Clear-tip noise 7x 2026-09-17's, cause unknown.** Left powered, parked at midscale, tip clear.
+**Last updated:** 2026-09-18 bench, wrap (evening of 2026-09-17 local, named by UTC) — **POWERED BENCH SESSION.** **All four owed checks passed.** **The rebuilt holder had left the tip ~2.2 mm further back** (7 turns of the side screws). **A real junction on gold, confirmed by the bias flip — but it SNAPS into contact rather than tunnelling, and THE STAGE IS NOT UNDER CONTROL:** the gold wanders by thousands to over 15,000 Z counts within seconds and the motor's effect is erratic. **2026-09-17's "250 Z counts per motor step" is now suspect; the nm scale is unmeasured.** **Clear-tip noise 7x 2026-09-17's, cause unknown.** Parked at midscale with the tip clear, then **powered down by Jacob** (`SAID`).
 **Updated by:** Jacob at the bench with Claude Code desktop; **Claude ran the second half alone with Jacob's authority.** `sessions/2026-09-18-bench.md`.
 
 # 2026-09-18 BENCH — A REAL JUNCTION ON A STAGE THAT WILL NOT HOLD STILL
 
 | | |
 |---|---|
-| **Power** | **Left ON, parked**: Z, X, Y, bias at midscale (0 V). Tip clear across the whole Z range (worst 339 counts). **LED1-LED4 dark** at the start and on Jacob's return (`SAID`). **Power down in the usual order: USB out, then supplies off** |
+| **Power** | **OFF.** ~~Left ON, parked~~ — **powered down by Jacob after the wrap** (`SAID`: *"its off everything is done"*). Parked first: Z, X, Y, bias at midscale (0 V). Tip clear across the whole Z range (worst 339 counts). **LED1-LED4 dark** at the start and on Jacob's return (`SAID`). |
 | **Coarse screw** | **14,649 steps out** by the motor's count. **The side-by-side screws were also turned ~7 turns in by hand**, so this number no longer places the plate |
 | **The four checks** | **All passed** (`SAID`): gold to bias beeps; tip holder OPEN to the brass (**safety rule 7 passes on the rebuilt holder**); only jumper wires touch the platform; d "1ish mm" |
 | **Tip holder** | **Attachment unchanged in kind** — soldered to a metal stake, stake superglued to the piezo — and **the tip is roughly in the middle of the disc** (`SAID`). **The off-centre hypothesis below is withdrawn** |

@@ -9,8 +9,8 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 
 # START HERE — after the 2026-09-18 bench session
 
-**State:** **left POWERED**, parked: Z, X, Y and bias at midscale (0 V), tip clear across the whole
-Z range. **If it is still on, power down in the usual order: USB out, then supplies off.** Motor
+**State:** **powered OFF** (`SAID`, Jacob, after the wrap), having been parked first: Z, X, Y and
+bias at midscale (0 V), tip clear across the whole Z range. **Power up in the usual order: supplies, then USB, then the LED check.** Motor
 count **14,649 steps out** — but **the side-by-side screws were turned about 7 turns in by hand**
 during the hand-set, so that number no longer places the plate. `sessions/2026-09-18-bench.md`.
 
