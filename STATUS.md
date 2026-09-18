@@ -4,6 +4,57 @@
 **Updated by:** Jacob at the bench with Claude Code desktop; **Claude ran the second half alone with Jacob's authority.** `sessions/2026-09-18-bench.md`.
 
 
+# THE SAMPLE-PLATE MAGNETS: TWO THINGS THEY CANNOT DO, TWO THEY MIGHT — 2026-09-18
+
+**`SAID`, Jacob:** *"like mechpandas design we have magnets below the copper on the sample bank
+becuase his hopg carbon sample came on a magnet plate so we intended to do the same"*.
+
+**Confirmed in the design files, and they were already there:** `docs/BOM.md` lists **4 small disc
+magnets "for the sample pocket"**, size UNKNOWN, and `CAD/prints/README.md` finds **four blind
+pockets in `SamplePlate`, Ø4.200 x 6 mm deep, 4 along Y at X centre**. The intent was Mech Panda's:
+hold a magnetic sample puck. **We are not using a puck — the gold goes straight onto the plate — so
+the magnets are doing nothing they were put there for, but they are still in the plate.**
+
+## Ruled out with arithmetic, `CALC` 2026-09-18
+
+| Question | Answer |
+|---|---|
+| **Can the magnets move the gold leaf?** | **NO, by a factor of about a thousand.** Gold is diamagnetic, χ ≈ −3.4e-5. The force is `(χ/μ0)·B·dB/dz`, which even at **0.5 T and 1,000 T/m** reaches only **7% of the leaf's own weight** — and the leaf's own weight is **0.019 Pa**, already 58x smaller than the bias pull at a micron gap. **This is the second time this has been asked and the second time the answer is no** — `sessions/2026-09-17-bench.md` §3.1 answered it for why the leaf would not stick. **It does not stick because there is no adhesive under it** |
+| **Can the magnets make the 7x noise?** | **NO, by five orders of magnitude.** Motion in a field induces an EMF. A 1 cm² input loop vibrating 10 µm at 10 Hz in a 10 T/m gradient gives **6.3e-7 V**, which through 100 MΩ is **0.0063 pA** against a tunnelling current of about **1,000 pA** |
+
+## NOT ruled out, and both are untested
+
+**1. A DC pull on the tip, if the tip or its holder is ferromagnetic.** Magnets sit right behind the
+sample, a millimetre or two from the tip at contact. **A magnetic attraction rises steeply as the
+gap closes, so like the electrostatic pull on the leaf it is a runaway — a SECOND snap mechanism,
+independent of the first.** And a force on the holder deflects the piezo: a 20 mm diaphragm needs
+only tens of micronewtons to move a nanometre, and a small neodymium magnet at a few millimetres
+exerts millinewtons on steel.
+
+**2. Magnetic stiction between the plate and the steel ball screws.** The plate carries four magnets
+and rests on three steel balls. **That is a concrete mechanism for the stick-and-slip that
+`sessions/2026-09-18-bench.md` named as its leading hypothesis** for the erratic motor response.
+
+> **AND BOTH GOT STRONGER ON 2026-09-18.** The hand-set turned the side-by-side screws in about
+> **7 turns, ~2.2 mm**, which brings the plate — and its magnets — **2.2 mm closer to the head and
+> its steel.** **Magnetic force falls off very steeply**, roughly as 1/z³ to 1/z⁴ beyond a couple of
+> magnet diameters, and these are Ø4.2 mm pockets. **A 2.2 mm approach can change the force by a
+> large factor.** **The magnets may have gone from negligible on 2026-09-17 to significant on
+> 2026-09-18, which is exactly when the behaviour changed.** HYPOTHESIS.
+
+## THE UNKNOWN THAT DECIDES IT, AND IT IS NOT RECORDED ANYWHERE
+
+**What is the tip made of, and what is the "metal stake" the holder is soldered to?**
+`docs/INVENTORY.md` describes the tip only as *"a blunt, bent placeholder"* and the holder as
+*"a metal shaft"* / *"a metal stake"*. **Neither material is written down.**
+
+**A ten-second test settles it: hold a spare magnet near the tip and the holder.** Attracted means
+ferromagnetic and both hypotheses above are live. Not attracted and mechanism 1 is dead.
+
+**And it is timely, because sharper tips are being made.** **Tungsten and platinum-iridium — the two
+standard STM tip materials — are effectively non-magnetic.** Steel is not. **Choosing a non-magnetic
+wire removes this whole class of problem for free.**
+
 # THE GOLD WAS NOT STUCK DOWN — 2026-09-18, after the bench session
 
 **`SAID`, Jacob, after the 2026-09-18 bench session:** *"the seccond session today the gold wasnt as

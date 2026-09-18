@@ -35,6 +35,29 @@ is written down for the 2026-09-18 sheet.
 > holder or in the preamp shorts the input node. `docs/gold_leaf_procedure.html` warning 2.
 
 ---
+## STEP 0b, TEN SECONDS, AND IT CHANGES WHAT TIP WIRE TO BUY
+
+**Hold a spare magnet near the tip, and near the metal stake the holder is soldered to.**
+
+**The sample plate has four disc magnets in it**, a millimetre or two behind the gold — Mech Panda's
+design, meant to hold a magnetic sample puck we do not use. **They cannot move the gold and cannot
+make the noise; both are ruled out by arithmetic in `STATUS.md`.** **But if the tip or the stake is
+ferromagnetic, the magnets pull on it, and that pull rises steeply as the gap closes — a second snap
+mechanism on top of the loose leaf.**
+
+- **Attracted** → ferromagnetic, the mechanism is live, and it got stronger when the plate came
+  ~2.2 mm closer on 2026-09-18.
+- **Not attracted** → dead, and one hypothesis is closed for free.
+
+**Either way, write the tip and holder materials into `docs/INVENTORY.md` — neither is recorded
+anywhere.**
+
+> **And it decides the wire for the new tips. Tungsten and platinum-iridium, the two standard STM
+> tip materials, are effectively non-magnetic. Steel is not.** Choosing a non-magnetic wire removes
+> this whole class of problem for free.
+
+---
+
 
 # START HERE — after the 2026-09-18 bench session
 
