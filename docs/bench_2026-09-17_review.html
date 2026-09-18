@@ -928,18 +928,137 @@ footer code{font-family:var(--mono); font-size:12.5px; color:var(--ink-2)}
       </div>
       <div class="step">
         <div>
-          <h3>Get the gold under the tip</h3>
-          <p>Shift the sample plate so the existing gold patch sits where the tip lands, rather than
-            re-laying leaf. Two numbers from tonight to beat: a junction on clean gold should give a
-            more symmetric response to Z than &minus;1.13 against +0.36 decades, and a steadier hold
-            than 287&ndash;419 counts of wobble.</p>
-          <span class="cost">Cheap &middot; and it is a real prediction, so it is a real test</span>
+          <h3><s>Get the gold under the tip</s> &mdash; done 2026-09-18. Now prove it carries the bias</h3>
+          <p><strong>A second sheet was laid so the whole plate face is gold</strong>, so the tip
+            lands on gold wherever it lands and the copper-oxide confound is gone. <strong>What
+            replaces this step is one meter check:</strong> gold to the orange bias wire must beep.
+            A fresh sheet laid over aluminium tape may not be joined to anything &mdash; aluminium
+            tape's adhesive usually does not conduct, and if the gold is not on the bias then no
+            tunnelling current can exist at all.</p>
+          <p>The prediction from 17 September is now testable: a junction on clean gold should give a
+            <strong>more symmetric response to Z</strong> than &minus;1.13 against +0.36 decades, and
+            a <strong>steadier hold</strong> than 287&ndash;419 counts of wobble. If neither improves,
+            the surface was never the limit and it is all mechanics.</p>
+          <span class="cost">One meter check &middot; then it is a real prediction, so it is a real test</span>
         </div>
       </div>
+      <figure class="measfig" id="droop">
+        <div class="fig-head">
+          <div class="figno">The measurement &mdash; the springs</div>
+          <h3>Droop is how far the platform sags onto its own springs</h3>
+          <p class="fig-read">That one distance gives the bounce frequency of the whole stage,
+            without needing the spring rate or the platform's weight. And the bounce frequency is
+            what decides whether the suspension is helping you or making things worse.</p>
+        </div>
+        <div class="diag">
+          <div class="dpanel">
+            <svg viewBox="0 0 370 300" role="img" aria-label="Two states of the platform: held up until the springs go slack, and hanging free. The difference in height is the droop.">
+              <defs>
+                <marker id="sA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6"
+                        markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" fill="var(--copper)"/>
+                </marker>
+              </defs>
+
+              <line x1="30" y1="40" x2="340" y2="40" stroke="currentColor" stroke-width="2.5"/>
+              <text x="185" y="30" text-anchor="middle" font-family="var(--mono)" font-size="11"
+                    fill="var(--ink-3)">top of the tower &mdash; fixed</text>
+
+              <path d="M78 40 l0 14 l-9 5 l18 6 l-18 6 l18 6 l-18 6 l18 6 l-9 5 l0 12"
+                    fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M118 40 l0 14 l-9 5 l18 6 l-18 6 l18 6 l-18 6 l18 6 l-9 5 l0 12"
+                    fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <rect x="52" y="146" width="92" height="12" rx="2" fill="var(--panel-2)"
+                    stroke="currentColor" stroke-width="1.6"/>
+              <text x="98" y="176" text-anchor="middle" font-family="var(--mono)" font-size="11"
+                    fill="var(--ink-2)">HELD UP</text>
+              <text x="98" y="191" text-anchor="middle" font-family="var(--mono)" font-size="10.5"
+                    fill="var(--ink-3)">springs slack</text>
+              <text x="98" y="206" text-anchor="middle" font-family="var(--mono)" font-size="10.5"
+                    fill="var(--ink-3)">weight in your hands</text>
+
+              <path d="M252 40 l0 30 l-9 7 l18 8 l-18 8 l18 8 l-18 8 l18 8 l-9 7 l0 28"
+                    fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M292 40 l0 30 l-9 7 l18 8 l-18 8 l18 8 l-18 8 l18 8 l-9 7 l0 28"
+                    fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <rect x="226" y="218" width="92" height="12" rx="2" fill="var(--panel-2)"
+                    stroke="currentColor" stroke-width="1.6"/>
+              <text x="272" y="248" text-anchor="middle" font-family="var(--mono)" font-size="11"
+                    fill="var(--ink-2)">LET GO</text>
+              <text x="272" y="263" text-anchor="middle" font-family="var(--mono)" font-size="10.5"
+                    fill="var(--ink-3)">hanging on the springs</text>
+
+              <line x1="150" y1="152" x2="220" y2="152" stroke="var(--rule)" stroke-width="1"
+                    stroke-dasharray="4 4"/>
+              <line x1="186" y1="152" x2="186" y2="224" stroke="var(--copper)" stroke-width="2"
+                    marker-start="url(#sA)" marker-end="url(#sA)"/>
+              <text x="194" y="192" text-anchor="start" font-family="var(--mono)" font-size="13"
+                    fill="var(--copper)" font-weight="600">droop</text>
+              <line x1="150" y1="224" x2="220" y2="224" stroke="var(--rule)" stroke-width="1"
+                    stroke-dasharray="4 4"/>
+            </svg>
+            <p class="mtitle">measure the drop between these two</p>
+          </div>
+
+          <div class="dpanel">
+            <svg viewBox="0 0 370 300" role="img" aria-label="A suspension amplifies vibration at its own bounce frequency and only isolates above about one and a half times it, so a five hertz stage makes the measured five hertz noise worse">
+              <rect x="56" y="48" width="103" height="176" fill="var(--band)"/>
+              <text x="107" y="40" text-anchor="middle" font-family="var(--mono)" font-size="10"
+                    fill="var(--crit)" font-weight="600">MAKES IT WORSE</text>
+              <text x="252" y="40" text-anchor="middle" font-family="var(--mono)" font-size="10"
+                    fill="var(--good)" font-weight="600">ISOLATES</text>
+
+              <line x1="56" y1="224" x2="340" y2="224" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="56" y1="48" x2="56" y2="224" stroke="currentColor" stroke-width="1.5"/>
+
+              <path d="M56 176 L100 168 L128 96 L150 150 L175 178 L215 195 L260 205 L310 212 L340 215"
+                    fill="none" stroke="var(--s1)" stroke-width="2.5"/>
+              <text x="120" y="82" text-anchor="end" font-family="var(--mono)" font-size="10.5"
+                    fill="var(--s1)" font-weight="600">resonance</text>
+
+              <line x1="159" y1="48" x2="159" y2="224" stroke="var(--copper)" stroke-width="1.5"
+                    stroke-dasharray="5 4"/>
+              <text x="166" y="62" text-anchor="start" font-family="var(--mono)" font-size="10.5"
+                    fill="var(--copper)" font-weight="600">1.4 x f0</text>
+
+              <line x1="128" y1="228" x2="128" y2="236" stroke="currentColor" stroke-width="1.5"/>
+              <text x="128" y="250" text-anchor="middle" font-family="var(--mono)" font-size="11"
+                    fill="var(--ink-2)">f0</text>
+              <text x="198" y="250" text-anchor="middle" font-family="var(--mono)" font-size="11"
+                    fill="var(--ink-3)">frequency &rarr;</text>
+              <text x="40" y="136" text-anchor="middle" font-family="var(--mono)" font-size="11"
+                    fill="var(--ink-3)" transform="rotate(-90 40 136)">what gets through</text>
+
+              <text x="198" y="278" text-anchor="middle" font-family="var(--mono)" font-size="11"
+                    fill="var(--ink-2)">your noise is worst at 5 Hz &mdash; keep f0 well below it</text>
+            </svg>
+            <p class="mtitle">why the number matters</p>
+          </div>
+        </div>
+        <figcaption><b>f&#8320; = 15.76 / &radic;(droop in mm).</b> That is all the arithmetic there
+          is, and it needs nothing else &mdash; not the spring rate, not the weight of the platform.
+          A hanging mass sags until the springs carry it, and how far it sags already contains both.
+          <br><br>
+          <b>A suspension does not attenuate everything. It amplifies at its own bounce frequency</b>
+          and only starts isolating above about 1.4 times it. Last night's noise was worst at
+          <b>5 Hz</b>. So a stage that bounces at 5 Hz is not merely failing to help &mdash; it is
+          <b>amplifying the exact frequency that is stopping the image</b>.
+          <br><br>
+          <b>Which is why the number is worth five minutes.</b> 10 mm of droop puts f&#8320; at 5.0 Hz,
+          right on the peak. 50 mm puts it at 2.2 Hz, isolating everything above about 3 Hz. The
+          three coin cups in the design are the intended cure: more weight means more droop means a
+          lower f&#8320;.</figcaption>
+        <details>
+          <summary>Droop against bounce frequency</summary>
+          <div class="tw"><table id="tbl-droop"></table></div>
+        </details>
+      </figure>
+
       <div class="step">
         <div>
           <h3>Measure the suspension's droop, and do the stamp test</h3>
-          <p>Lift the platform until the springs go slack and measure how far it rises:
+          <p><strong>There is a drawing of this just above.</strong> Lift the platform until the
+            springs go slack and measure how far it rises:
             <span class="num">f&#8320; = 15.76 / &radic;(droop in mm)</span> Hz. 10 mm gives 5 Hz,
             which sits on the very worst of the measured noise; 50 mm gives 2.2 Hz, which is clear of
             it. Then run one scan with the room still and one while someone stamps on the floor a
@@ -1406,5 +1525,17 @@ const OP=[{n:"Seated",s:"block 1",v:186.2},{n:"A metre away",s:"block 1",v:188.0
   tbl("tbl-operator",["Block","Detail","Noise (counts)","In current (nA)","Against seated average"],
     OP.map(o=>[o.n,o.s||"&mdash;",o.v.toFixed(1),(o.v/320).toFixed(3),
       ((o.v-187.3)>0?"+":"")+(o.v-187.3).toFixed(1)]));
+})();
+
+/* ---------------- droop table ---------------- */
+(function(){
+  const rows=[5,10,20,30,50,75,100,150].map(d=>{
+    const f=15.76/Math.sqrt(d);
+    const iso=1.414*f;
+    return [d, f.toFixed(2), iso.toFixed(1),
+      iso<3.5 ? "isolates the 5 Hz noise" :
+      (f>=3.5&&f<=8 ? "RESONATES ON THE WORST NOISE" : "marginal at 5 Hz")];
+  });
+  tbl("tbl-droop",["Droop (mm)","Bounce f0 (Hz)","Isolates above (Hz)","Verdict at 5 Hz"],rows);
 })();
 </script>
