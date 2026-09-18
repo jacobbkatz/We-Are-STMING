@@ -113,6 +113,41 @@ is currently doing nothing. **The suspension is not too stiff. It is not loaded 
 > numbers will be worse than the table — **x0.3 to x0.5 at 5 Hz is a fairer expectation than x0.17**.
 > Still a large win. The damping ratio has never been measured.
 
+### CHECK ZERO, FROM THE 2026-09-19 PHOTOGRAPHS: IS THE PLATFORM SITTING ON THE TOWER?
+
+**READ from Jacob's photographs, NOT confirmed, and it would explain everything.**
+
+In the three side-on frames the suspended platform appears to be **resting on the damping stack on
+top of the black tower** — there is a bright band right under the platform's edge and **no daylight
+visible between them.** If that is what it is, **the springs are carrying almost nothing**, which
+on its own accounts for the 2 mm, for the suspension doing nothing, and for the "barely hanging"
+feel — **without needing the initial-tension explanation at all.**
+
+**Both explanations are live and they are not exclusive.** A platform that is part-supported AND
+below initial tension gives the same reading.
+
+> **THIS IS A READING OF A PHOTOGRAPH AND NOTHING HAS BEEN WRITTEN AS FACT FROM IT.** `CLAUDE.md`
+> is explicit that a photograph is not a measurement of our hardware, after 2026-09-09. **One look
+> at the bench settles it and it takes ten seconds.**
+
+**The check, three ways, any one will do:**
+
+1. **Try to slide a slip of paper** between the platform underside and the stack below it. If it
+   will not go, the platform is sitting on it.
+2. **Lift the platform 5 mm by hand.** Does it come free immediately, or does it feel supported
+   until it clears something?
+3. **The droop test already done answers it too** — when it was lifted until the springs went slack
+   and released, **what did it land ON?** If it landed on the tower, that 2 mm is the gap, not the
+   spring extension.
+
+**If it IS resting: this is the single highest-value fix in the project and it costs nothing.** It
+is the *"is anything touching the suspended platform?"* check that has been owed since 2026-09-18 —
+**a bypass makes every spring calculation moot and no spring change and no added mass works around
+it.** Free the platform first, then load the springs.
+
+**And the eddy damping needs an air gap to work at all.** A plate resting on its magnets is not
+damping; it is a clamp.
+
 ### Before any mass goes on — three things to check, and one of them can break the instrument
 
 1. **CLEARANCE BELOW THE PLATFORM.** Once past `F_i` the droop runs at **5.7 mm per 100 g**. Going
