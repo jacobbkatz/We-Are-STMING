@@ -436,26 +436,56 @@ py Code/pc/stm_y_control.py 15000 1500 6 3000 3000 control.csv</code></pre>
       <div class="step-head">
         <div class="n">9</div>
         <div class="t">
-          <h2>The stamp test</h2>
-          <span class="time">Two minutes &middot; decides whether to buy springs</span>
+          <h2>Load the suspension, then the stamp test</h2>
+          <span class="time">Ten minutes &middot; the biggest single win available right now</span>
         </div>
       </div>
       <div class="body">
-        <div class="why"><b>Your suspension is not isolating anything.</b> 2 mm of droop means it
-          bounces at 11 Hz and only isolates above 15.8 Hz, while all your noise is below 30 Hz and
-          worst at 5 Hz. <b>It amplifies near 11 Hz.</b> But before spending money, find out whether
-          the shaking even comes through the floor.</div>
+        <div class="why"><b>Corrected 2026-09-19. Your springs are not too stiff &mdash; they are
+          SHUT.</b> A close-wound extension spring does not stretch at all until the load beats its
+          initial tension, and yours needs roughly <b>600 to 900 g</b>. At the rate these springs
+          actually have, the 2 mm of droop you measured would mean the whole hanging assembly weighs
+          <b>35 g</b> &mdash; there are 50 g of nickels in the cups alone, so that is impossible.
+          <b>They have not opened.</b> Your own words on the 18th were right: <em>"these springs are
+          more strechy than I thought adding more wieght could help I think."</em>
+          <b>Once they open, they give about 2 Hz &mdash; real isolation, roughly a five-fold cut in
+          your worst noise.</b></div>
+
+        <div class="warn"><b>CHECK THESE THREE FIRST. The platform will drop about 25 mm once the
+          springs open.</b>
+          <ol>
+            <li><b>Clearance.</b> Is there 30 to 50 mm of free space under everything that hangs?</li>
+            <li><b>Wire slack.</b> The orange coax, the loom, the stepper leads. <b>A wire pulled
+              taut across the suspension is a rigid bypass &mdash; it kills the isolation completely
+              and can pull on the preamp input.</b></li>
+            <li><b>The eddy-damping plate.</b> If the platform drops 25 mm, does the aluminium plate
+              leave the magnet gap or hit the magnets?</li>
+          </ol>
+        </div>
 
         <ol class="do">
-          <li>One measurement with the room still.</li>
-          <li>One while someone stamps on the floor a couple of metres away.</li>
+          <li><b>Measure the droop now</b>, before adding anything. Lift until the springs go slack,
+            release, measure the drop.</li>
+          <li><b>Add mass in stages</b> &mdash; roughly 100 g at a time &mdash; and <b>write down the
+            droop after each one.</b> Quarters do not fit the cups (they are wider than the cup's
+            outside); fasten the mass to the platform some other way, and <b>fasten it, do not rest
+            it.</b></li>
+          <li>Stop at about <b>1.2 kg total</b>, or sooner if anything runs out of clearance.</li>
+          <li>Then the stamp test: one measurement with the room still, one while someone stamps on
+            the floor a couple of metres away.</li>
         </ol>
 
         <dl class="expect">
-          <dt>Noise jumps</dt><dd>The building is getting through. <b>Softer springs are the fix</b>
-            &mdash; you need <b>10&times;</b> softer, and the coin cups cannot do it.</dd>
-          <dt>No change</dt><dd>The shaking is made inside the instrument. <b>Springs would not
-            help</b>; the tip holder and the plate are the suspects.</dd>
+          <dt>Droop stays flat, then takes off</dt><dd><b>That knee is the initial tension, and
+            finding it is the whole point.</b> Past it you get about 5.7 mm more droop per 100 g.</dd>
+          <dt>Droop rises from the very first gram</dt><dd>Initial tension is small and <b>something
+            else was carrying the weight</b> &mdash; a taut cable, the platform touching the tower,
+            the damping plate resting on a magnet. <b>Find it and free it. No amount of mass helps
+            until it is free.</b></dd>
+          <dt>Noise jumps on the stamp</dt><dd>The building is getting through, and loading the
+            springs is exactly the fix. <b>Do not buy springs &mdash; the ones fitted are fine.</b></dd>
+          <dt>No change on the stamp</dt><dd>The shaking is made inside the instrument. The tip
+            holder and the sample plate are the suspects.</dd>
         </dl>
 
         <div class="note">Adding weight is blocked anyway until the damping magnets can come down

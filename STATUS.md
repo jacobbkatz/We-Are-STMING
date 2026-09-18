@@ -57,66 +57,96 @@ the magnets are doing nothing they were put there for, but they are still in the
 | **Can the magnets move the gold leaf?** | **NO, by a factor of about a thousand.** Gold is diamagnetic, χ ≈ −3.4e-5. The force is `(χ/μ0)·B·dB/dz`, which even at **0.5 T and 1,000 T/m** reaches only **7% of the leaf's own weight** — and the leaf's own weight is **0.019 Pa**, already 58x smaller than the bias pull at a micron gap. **This is the second time this has been asked and the second time the answer is no** — `sessions/2026-09-17-bench.md` §3.1 answered it for why the leaf would not stick. **It does not stick because there is no adhesive under it** |
 | **Can the magnets make the 7x noise?** | **NO, by five orders of magnitude.** Motion in a field induces an EMF. A 1 cm² input loop vibrating 10 µm at 10 Hz in a 10 T/m gradient gives **6.3e-7 V**, which through 100 MΩ is **0.0063 pA** against a tunnelling current of about **1,000 pA** |
 
-## Adding mass to the suspension makes the 5 Hz noise WORSE, not better, `CALC` 2026-09-19
+## THE SUSPENSION SPRINGS ARE SHUT, NOT STIFF — `CALC` 2026-09-19, and it REVERSES yesterday's advice
 
-**Jacob proposed 3 sets of 18 quarters, 306 g, onto the suspension platform. The instinct is right
-and the lever is the wrong one by a factor of ten — and it moves the number in the wrong
-direction.**
+> **Corrected 2026-09-19.** This section said adding mass would make the 5 Hz noise WORSE and that
+> the springs needed to be 10 to 30 times softer. **Both were wrong, from the same mistake:
+> `f0 = 15.76/sqrt(droop)` assumes `droop = Mg/k`, a linear spring through the origin. These springs
+> have INITIAL TENSION, so the 2 mm droop was never a spring extension and every number built on it
+> is void.** The retired values are in `docs/FACTS.md`. **Jacob had already said the right thing at
+> the bench on 2026-09-18** — *"these springs are more strechy than I thought adding more wieght
+> could help I think"* — and `docs/INVENTORY.md` had the initial-tension hypothesis in writing the
+> same day. **It was written down and then contradicted.**
 
-**The mechanism.** A hanging mass sags until the springs carry it, so `f0 = 15.76 / sqrt(droop in
-mm)` needs neither the spring rate nor the mass. Droop is proportional to mass, so **f0 falls as
-1/sqrt(mass)**. A suspension **amplifies** below about **1.4 x f0** and only isolates above it.
-**Our noise peaks at 5 Hz and f0 is 11 Hz, so 5 Hz is already on the amplifying side.** Adding mass
-drags f0 DOWN TOWARD 5 Hz, which increases the amplification there.
+**The springs are identified.** Jacob supplied the listing 2026-09-19: FOCMKEAS, **304 stainless,
+wire Ø0.50 mm, OD Ø3.00 mm, free length 300 mm**, double hook, ordered 2026-06-21. **The rate has
+been UNKNOWN since the BOM and it only ever needed the part number.**
 
-| Assume the platform + head is | New droop | New f0 | 5 Hz gets through |
+| | |
+|---|---|
+| Mean coil diameter | **2.50 mm** (OD − wire) |
+| Spring index `C = D/d` | **5.0** — a low index, tightly wound |
+| Active coils, close-wound | **~600** |
+| **Rate, `k = G·d⁴/(8·D³·n)`** | **~58 N/m each, ~173 N/m for three** (G = 69 GPa; 73 GPa gives 61) |
+| **Initial tension, `F_i = π·d³·τ_i/(8·D)`** | **~2.0 to 3.0 N each — 610 to 910 g of total load before ANY extension** |
+
+### The arithmetic that proves they are shut
+
+**A close-wound extension spring does not stretch at all until the load beats its initial tension.**
+
+**At 173 N/m, 2 mm of droop would mean the whole hanging assembly weighs 35 g.** There are **50 g of
+nickels in the coin cups alone**, plus a Ø200 × 6 mm printed disc, the scan head and the preamp.
+**35 g is impossible.** So the springs are **not extending**. They are shut, below initial tension,
+behaving as stiff wire — which is exactly what Jacob described when he measured it:
+
+> *"the drop is maybe 2mm its barley hanging the springs are not very stretchy"*
+
+**"Barely hanging" was literally correct. The coils have not opened.**
+
+### Once the load beats `F_i`, these springs are very soft
+
+**The real formula is `f0 = (1/2π)·sqrt(k_total/M)`.** The droop shortcut does not apply here.
+
+| Total suspended mass | Droop | f0 | 5 Hz gets through |
 |---|---|---|---|
-| **(now, no quarters)** | **2.00 mm** | **11.14 Hz** | **x1.25** |
-| 300 g | 4.04 mm | 7.84 Hz | **x1.69** |
-| 500 g | 3.22 mm | 8.78 Hz | **x1.48** |
-| 800 g | 2.77 mm | 9.48 Hz | **x1.39** |
-| 1,200 g | 2.51 mm | 9.95 Hz | **x1.34** |
-| 2,000 g | 2.31 mm | 10.38 Hz | **x1.30** |
+| 0.6 kg | **springs still shut** | — | — |
+| 0.8 kg | 1 mm | **2.34 Hz** | **x0.28** |
+| 1.0 kg | 12 mm | **2.09 Hz** | **x0.21** |
+| 1.2 kg | 24 mm | **1.91 Hz** | **x0.17** |
+| 1.6 kg | 47 mm | **1.65 Hz** | **x0.12** |
 
-**Every row is worse than the top one.** Undamped transmissibility, `T = 1 / |1 - (f/f0)^2|`. **The
-platform mass has never been weighed** (`docs/ENGINEERING_REFERENCE.md` §7b) so the bracket is the
-honest answer; the sign is the same across all of it. **How much worse depends on how well damped
-the suspension is** — the isolation stage lists 18 magnets and an aluminium plate for eddy damping
-and **whether they are fitted and engaged is itself an open question**, so the undamped figures are
-the pessimistic bound, not a prediction.
+**That is real isolation — a five- to six-fold cut in the dominant noise**, from a suspension that
+is currently doing nothing. **The suspension is not too stiff. It is not loaded enough to engage.**
 
-**What it would actually take, by mass alone:**
+> **Undamped figures.** `SAID` 2026-09-19, Jacob: **the isolation stage is engaged**, so the eddy
+> damping is in play. **Damping caps the peak at f0 but flattens the rolloff above it**, so the real
+> numbers will be worse than the table — **x0.3 to x0.5 at 5 Hz is a fairer expectation than x0.17**.
+> Still a large win. The damping ratio has never been measured.
 
-| Target droop | f0 | 5 Hz | Mass needed |
-|---|---|---|---|
-| 20 mm | 3.52 Hz | **x0.99**, break-even | **10x** everything now |
-| 50 mm | 2.23 Hz | **x0.25**, real isolation | **25x** |
+### Before any mass goes on — three things to check, and one of them can break the instrument
 
-**If the platform is 800 g, break-even needs +7.2 kg. That is 1,270 quarters, about $317.** **This
-is a spring problem.** The springs need to be roughly **10 to 30 times softer**; Berard hung his
-stack on 2 ft springs against our 300 mm (`docs/OTHER_BUILDERS.md` §5).
+1. **CLEARANCE BELOW THE PLATFORM.** Once past `F_i` the droop runs at **5.7 mm per 100 g**. Going
+   from threshold to 1.2 kg is about **24 mm of drop**. **Is there 30 to 50 mm of free space under
+   everything that hangs?**
+2. **SLACK IN EVERY WIRE.** The orange coax to the preamp, the loom, the stepper leads. **A wire
+   that goes taut across the suspension is a rigid bypass and kills the isolation completely** —
+   and it could pull on the preamp input node. This is the check that matters most.
+3. **THE EDDY-DAMPING PLATE.** The isolation stage is engaged (`SAID` 2026-09-19). **If the platform
+   drops 25 mm, does the aluminium plate leave the magnet gap, or crash into the magnets?** Either
+   ruins it — one loses the damping, the other makes everything rigid again.
 
-> **AND THE QUARTERS DO NOT PHYSICALLY FIT THE CUPS.** A US quarter is **Ø24.26 mm**. The cups are
-> **Ø24.00 mm on the OUTSIDE** with a **Ø21.40 mm bore** — the coin is wider than the whole cup.
-> **The bore is a US nickel clearance fit** (nickel Ø21.21 mm), which is what the part was designed
-> for, and at 10.0 mm deep it holds **5 nickels per cup, 15 in all, 75 g** — that is the ceiling.
-> Jacob has 10 in already. Measured from `CAD/prints/isolation/coin_weights.stl`, `docs/FACTS.md`.
+**Headroom is not the problem.** At ~13.5 N per spring at the body stress limit, three springs carry
+**~4 kg**; derating to ~60% for the hooks, which usually fail first, gives **~2.5 kg**. A 1.2 kg
+target sits at about half that.
 
-### The part of it that IS worth doing, and it is free
+### Add it in stages, because the staged loading IS the measurement
 
-**Adding a known mass and measuring the droop before and after closes two things that have been
-UNKNOWN since the BOM:**
+**Add mass in steps and read the droop at each step.** The curve answers everything:
 
-    spring rate  k = m * g / (droop2 - droop1)        platform mass  M = k * droop1 / g
+- **A knee** — flat, then rising — is initial tension, and the knee IS `F_i`.
+- **Rising from the first gram** means `F_i` is small and **something else was carrying the weight**
+  — a taut cable, the platform touching the tower, the damping plate resting on a magnet. **Find it
+  and free it; no amount of mass helps until it is free.**
+- **The slope gives `k` directly**, and `M = k·droop/g` then gives the platform mass. **Both have
+  been UNKNOWN since the BOM.**
 
-306 g taking the droop from 2.0 to 3.0 mm means **k = 3,000 N/m and a 612 g platform**; to 4.0 mm
-means **1,500 N/m and 306 g**. **The droop reading is the deliverable, not the coins** — and with
-`k` known, the spring needed to reach 20 mm can be specified and ordered instead of guessed.
-
-**If the coins go on anyway: secure them.** Loose coins that can slide are a new stick-slip source
-on the exact stage whose stability is the open problem, and **the isolation stage carries magnets**
-— US nickels and quarters are cupronickel and non-magnetic, but **Canadian coins are steel-cored
-and are attracted**, so check any stray ones with a magnet first.
+> **THE QUARTERS STILL DO NOT FIT THE CUPS.** A US quarter is **Ø24.26 mm**; the cups are **Ø24.00 mm
+> on the OUTSIDE** with a **Ø21.40 mm bore**, which is a **US nickel clearance fit** — the part was
+> designed for nickels and holds **5 per cup, 15 in all, 75 g**. Measured from
+> `CAD/prints/isolation/coin_weights.stl`, `docs/FACTS.md`. **The mass has to be fastened to the
+> platform some other way** — and fastened, not loose: sliding coins are a stick-slip source on the
+> exact stage whose stability is the problem. **US coins are cupronickel and non-magnetic; Canadian
+> coins are steel-cored and are attracted**, and this stage has magnets in it.
 
 ## NOT ruled out, and both are untested
 
@@ -265,7 +295,7 @@ while the motor moves — does the motor-screw ball stay seated, does the plate 
 | **Sample** | **THE ENTIRE PLATE FACE IS GOLD** — a second sheet laid over everything (`SAID`). **The copper-oxide confound of 2026-09-17 §3.27 is gone** |
 | **Tip holder** | **REBUILT** (`SAID`). **Continuous to the standoff**, so the input signal path survived. **Method not recorded** — adhesive, tip removability and tip position are all UNKNOWN |
 | **Tip** | **Unchanged** — the same blunt, bent placeholder. Sharper tips deferred |
-| **Suspension** | **Droop ~2 mm, f0 ~11 Hz** (`SAID` + CALC). **Characterised for the first time** |
+| **Suspension** | **Droop ~2 mm** (`SAID`), and **2026-09-19 the springs were identified and the droop explained: they are SHUT, below their initial tension.** The f0 previously carried here was computed with the wrong model and is retired |
 
 ~~**FOUR CHECKS ARE OWED BEFORE ANYTHING IS POWERED.**~~ **ALL FOUR DONE AND PASSED at the 2026-09-18 bench session** (`SAID`) — see the block above. Kept for the record:
 
@@ -282,35 +312,25 @@ while the motor moves — does the motor-screw ball stay seated, does the plate 
    **OPEN**. It passed on 2026-09-16 **against the old holder**, and a rebuild is exactly what can
    bridge it. That path is a shunt across the preamp input.
 
-# THE SUSPENSION IS THE WRONG SPRINGS — 2026-09-18
+# ~~THE SUSPENSION IS THE WRONG SPRINGS~~ — SUPERSEDED 2026-09-19
 
-**`SAID`, Jacob:** *"the drop is maybe 2mm its barley hanging the springs are not very stretchy"* —
-lifted until the springs went slack, then released. A by-eye figure, not a caliper reading.
+**They are not the wrong springs.** See the section near the top of this file: at ~58 N/m each they
+are soft enough to give **2 Hz once loaded**, and the reason the platform barely moves is that the
+load has not beaten their **initial tension**. **Everything this section said about needing springs
+ten to thirty times softer is retired** (`docs/FACTS.md`).
 
-**`f0 = 15.76 / sqrt(droop in mm)` = 11.1 Hz.** A suspension **amplifies at f0** and only isolates
-above about **1.4 x f0 = 15.8 Hz**. **Every bit of the 2026-09-17 mechanical noise sits below 30 Hz
-and is worst at 5 Hz.** So **the suspension contributes nothing in the band that matters and
-amplifies near 11 Hz.**
+**What survives from it, and it still matters:**
 
-**This moves a hypothesis 2026-09-17 explicitly could not test.** That session's spectrum showed
-*"no sharp peak — a smooth rise with soft bumps near 10 and 20 Hz"* and filed *"the suspension is
-resonating in the noise band"* as not ruled out but not supported, because **the droop measurement
-"needs hands and was not done"**. **11 Hz sits on that bump. Supported, not proven** — a soft bump
-is not a matched peak.
+> **Is anything touching the suspended platform?** A cable on the base, a rod, a tie. **A bypass
+> makes every spring calculation moot and no spring change fixes it.** This was already owed as one
+> of the four pre-power checks, and the staged-loading measurement now tests it directly: if the
+> droop rises from the first gram added, something else was carrying the weight.
 
-**To isolate the 5 Hz peak the droop must exceed 20 mm**; 62 mm gives 2 Hz. That is **ten to thirty
-times softer springs, or ten to thirty times the mass**. **The three coin cups cannot do it** — at
-about 100 g against a requirement of kilograms they were sized to trim, not to move f0 tenfold.
-Berard hung his stack on **2 ft springs** against our 300 mm (`docs/OTHER_BUILDERS.md` §5).
-
-> **Robust to the "barely hanging" caveat.** If something else is taking weight the springs stretch
-> less, the droop reads smaller, and the real isolation is **worse**. The conclusion holds either
-> way — but check it, because a bypass is free to fix and no spring change works around it.
->
-> **Do not buy springs yet.** The stamp test decides whether the noise even comes through the floor,
-> and it needs a junction, so it is a next-session job. If stamping does not move the noise, the
-> 5-20 Hz is generated inside the instrument — the tip holder, or the sample plate on its rubber
-> bands — and softer suspension springs would do nothing.
+> **Do not buy springs.** Even more so now — the ones fitted are fine. **The stamp test still
+> decides whether the noise comes through the floor at all**; it needs a junction, so it is a
+> next-session job. If stamping does not move the noise, the 5 to 20 Hz is generated inside the
+> instrument — the tip holder, or the sample plate on its rubber bands — and no suspension change
+> would help.
 
 # d IS STILL UNMEASURED, AND THE THRESHOLD IS 0.13 mm — 2026-09-18
 

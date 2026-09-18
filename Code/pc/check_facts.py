@@ -398,8 +398,22 @@ def main():
                     continue
                 # If the corrected value is on the same line, the line is a
                 # correction table or a sentence saying "X, not Y". Not stale.
-                num = re.search(r'[\d.]+', replacement)
-                if num and num.group(0) in line:
+                #
+                # THE PATTERN MUST START WITH A DIGIT. It was `[\d.]+`, which
+                # also matches a bare "." -- so any replacement whose prose
+                # reached a full stop before its first digit matched ".", and
+                # "." is in nearly every line, so nearly every hit was
+                # suppressed. Found 2026-09-19 retiring the 11 Hz suspension
+                # resonance: the checker reported ONE stale line while TWELVE
+                # sat in five files, and the one it found was the only line in
+                # the repository with no full stop in it.
+                #
+                # Same shape as the 2026-09-09 safety-rule checker bug: green
+                # because it had never been run against a fault of this kind.
+                # Every RETIRED row before this one had a short numeric
+                # replacement ("119 nA", "10.24 V"), so none of them exposed it.
+                num = re.search(r'\d[\d.]*', replacement)
+                if num and num.group(0).rstrip('.') in line:
                     continue
                 # A qualified entry ("`4.096` as the ADC full scale") only counts
                 # when its qualifying words are nearby -- so 4.096 as REFBUF, and
