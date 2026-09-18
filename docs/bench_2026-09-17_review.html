@@ -1,0 +1,1278 @@
+<title>The First Junction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600&display=swap">
+<style>
+:root{
+  --paper:#f5f7f6; --panel:#ffffff; --panel-2:#eef1f0;
+  --ink:#131718; --ink-2:#4e5658; --ink-3:#828b8d;
+  --rule:#dde2e1; --rule-2:#eaeeed;
+  --copper:#a0512a; --gold:#8d6a1c;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --good:#1b7f4b; --warn:#8a5c00; --crit:#b93b2f;
+  --band:rgba(19,23,24,.075); --band-line:rgba(19,23,24,.22);
+  --faint:rgba(42,120,214,.20);
+  --shadow:0 1px 2px rgba(19,23,24,.05), 0 8px 24px -16px rgba(19,23,24,.30);
+  --sans:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --serif:"Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])){
+    --paper:#101413; --panel:#181d1c; --panel-2:#202625;
+    --ink:#eef2f1; --ink-2:#a3adab; --ink-3:#6f7a78;
+    --rule:#2a3130; --rule-2:#212726;
+    --copper:#dd8c5e; --gold:#d3a94b;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+    --good:#3aa96e; --warn:#cf9a22; --crit:#e06b5e;
+    --band:rgba(238,242,241,.085); --band-line:rgba(238,242,241,.26);
+    --faint:rgba(57,135,229,.26);
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101413; --panel:#181d1c; --panel-2:#202625;
+  --ink:#eef2f1; --ink-2:#a3adab; --ink-3:#6f7a78;
+  --rule:#2a3130; --rule-2:#212726;
+  --copper:#dd8c5e; --gold:#d3a94b;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --good:#3aa96e; --warn:#cf9a22; --crit:#e06b5e;
+  --band:rgba(238,242,241,.085); --band-line:rgba(238,242,241,.26);
+  --faint:rgba(57,135,229,.26);
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px; margin:0 auto; padding-inline:20px; padding-block:0}
+p{margin:0 0 1em}
+a{color:var(--copper); text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--copper); outline-offset:3px; border-radius:2px}
+
+/* ---------- type ---------- */
+.eyebrow{
+  font-family:var(--mono); font-size:11.5px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3);
+  margin:0 0 14px;
+}
+h1{
+  font-family:var(--serif); font-variation-settings:"opsz" 120,"wght" 600;
+  font-size:clamp(46px,9.5vw,88px); line-height:.96; letter-spacing:-.022em;
+  margin:0 0 22px; text-wrap:balance;
+}
+h2{
+  font-family:var(--serif); font-variation-settings:"opsz" 60,"wght" 600;
+  font-size:clamp(28px,4.6vw,40px); line-height:1.08; letter-spacing:-.016em;
+  margin:0 0 10px; text-wrap:balance;
+}
+h3{
+  font-family:var(--sans); font-weight:600; font-size:17px; line-height:1.35;
+  letter-spacing:-.005em; margin:0 0 8px;
+}
+.deck{font-size:clamp(17px,2.3vw,20px); line-height:1.5; color:var(--ink-2); max-width:62ch}
+.prose{max-width:66ch}
+.lede{font-size:17.5px; line-height:1.55; color:var(--ink-2); max-width:66ch}
+strong{font-weight:600; color:var(--ink)}
+.num{font-family:var(--mono); font-variant-numeric:tabular-nums; font-feature-settings:"zero" 1}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative; overflow:hidden;
+  border-bottom:1px solid var(--rule);
+  background:
+    repeating-linear-gradient(to right, var(--rule-2) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(to bottom, var(--rule-2) 0 1px, transparent 1px 28px),
+    var(--panel);
+}
+.hero .wrap{padding-block:clamp(48px,9vw,86px) 40px; position:relative}
+.hero-rule{
+  width:56px; height:3px; background:var(--copper); border-radius:2px;
+  margin:0 0 20px;
+}
+.hero-meta{
+  display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:26px;
+  font-family:var(--mono); font-size:12px; color:var(--ink-3);
+}
+.hero-meta span{white-space:nowrap}
+
+/* ---------- stat strip ---------- */
+.stats{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+  gap:1px; background:var(--rule); border:1px solid var(--rule);
+  border-radius:4px; overflow:hidden; margin-top:34px;
+}
+.stat{background:var(--panel); padding:18px 18px 16px}
+.stat .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:9px}
+.stat .v{font-family:var(--mono); font-variant-numeric:tabular-nums;
+  font-size:27px; font-weight:600; line-height:1; letter-spacing:-.02em}
+.stat .v small{font-size:14px; font-weight:400; color:var(--ink-2); letter-spacing:0}
+.stat .n{font-size:12.5px; line-height:1.4; color:var(--ink-3); margin-top:8px}
+.stat.hot .v{color:var(--copper)}
+.stat.cold .v{color:var(--crit)}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(44px,6vw,72px); border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:none}
+.shead{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:8px}
+.snum{
+  font-family:var(--mono); font-size:12px; font-weight:500; letter-spacing:.1em;
+  color:var(--copper); padding-top:6px;
+}
+
+/* ---------- verdict chips ---------- */
+.chip{
+  display:inline-flex; align-items:center; gap:6px; vertical-align:middle;
+  font-family:var(--mono); font-size:10.5px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; padding:3px 8px 3px 7px; border-radius:3px;
+  border:1px solid currentColor; white-space:nowrap;
+}
+.chip::before{content:""; width:7px; height:7px; flex:none}
+.chip.settled{color:var(--good)}
+.chip.settled::before{background:currentColor; border-radius:50%}
+.chip.open{color:var(--warn)}
+.chip.open::before{background:currentColor; clip-path:polygon(50% 0,100% 100%,0 100%)}
+.chip.ruled{color:var(--ink-3)}
+.chip.ruled::before{background:currentColor; border-radius:1px}
+.chip.limit{color:var(--crit)}
+.chip.limit::before{background:currentColor; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+
+/* ---------- findings ---------- */
+.finds{display:grid; gap:14px; margin-top:30px}
+.find{
+  display:grid; grid-template-columns:44px 1fr; gap:0 20px;
+  background:var(--panel); border:1px solid var(--rule); border-radius:5px;
+  padding:20px 22px; box-shadow:var(--shadow);
+}
+.find .rank{
+  font-family:var(--serif); font-variation-settings:"opsz" 40,"wght" 600;
+  font-size:30px; line-height:1; color:var(--rule);
+  grid-row:1/span 3; padding-top:2px;
+}
+.find h3{margin-bottom:0}
+.find .chiprow{margin:9px 0 10px}
+.find p{margin:0; color:var(--ink-2); font-size:15.5px; line-height:1.55; max-width:70ch}
+.find.headline{border-color:var(--copper); border-width:1px}
+.find.headline .rank{color:var(--copper)}
+
+/* ---------- units panel ---------- */
+.units{
+  background:var(--panel-2); border:1px solid var(--rule); border-radius:5px;
+  padding:22px 24px; margin-top:30px;
+}
+.units h3{margin-bottom:14px}
+.units dl{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:16px 28px; margin:0}
+.units dt{font-family:var(--mono); font-size:13px; font-weight:600; color:var(--ink);
+  margin-bottom:3px}
+.units dd{margin:0; font-size:14px; line-height:1.5; color:var(--ink-2)}
+
+/* ---------- figures ---------- */
+figure{
+  margin:30px 0 0; background:var(--panel); border:1px solid var(--rule);
+  border-radius:5px; box-shadow:var(--shadow); overflow:hidden;
+}
+.fig-head{padding:20px 22px 0}
+.figno{font-family:var(--mono); font-size:10.5px; font-weight:600; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:7px}
+.fig-head h3{margin-bottom:6px; font-size:18px}
+.fig-read{font-size:14.5px; line-height:1.5; color:var(--ink-2); margin:0; max-width:74ch}
+.plot{position:relative; padding:14px 14px 4px}
+.plot svg{display:block; width:100%; height:auto; overflow:visible}
+.multi{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:4px}
+.multi .mpanel{padding:4px}
+.mtitle{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3); text-align:center; margin:4px 0 0}
+
+/* legend */
+.legend{display:flex; flex-wrap:wrap; gap:6px 20px; padding:4px 22px 0;
+  font-family:var(--mono); font-size:12px; color:var(--ink-2)}
+.legend i{display:inline-block; width:18px; height:3px; border-radius:2px;
+  margin-right:7px; vertical-align:middle}
+.legend i.dash{background:none; border-top:2px dashed var(--ink-3); height:0}
+
+/* caption + table */
+figcaption{padding:12px 22px 0; font-size:14px; line-height:1.55; color:var(--ink-2);
+  max-width:78ch}
+figcaption b{color:var(--ink); font-weight:600}
+details{margin:14px 0 0; border-top:1px solid var(--rule-2)}
+summary{
+  cursor:pointer; list-style:none; padding:11px 22px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-3);
+}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+ "; font-weight:600}
+details[open] summary::before{content:"- "}
+summary:hover{color:var(--copper)}
+.tw{overflow-x:auto; padding:0 22px 20px}
+table{border-collapse:collapse; font-family:var(--mono);
+  font-variant-numeric:tabular-nums; font-size:12.5px; width:100%; min-width:320px}
+th,td{text-align:right; padding:6px 10px; border-bottom:1px solid var(--rule-2);
+  white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{color:var(--ink-3); font-weight:500; border-bottom:1px solid var(--rule)}
+
+/* tooltip */
+.tip{
+  position:absolute; pointer-events:none; opacity:0; transition:opacity .09s;
+  background:var(--ink); color:var(--paper); border-radius:4px;
+  padding:7px 10px; font-family:var(--mono); font-size:11.5px; line-height:1.45;
+  white-space:nowrap; z-index:20; transform:translate(-50%,-115%);
+  box-shadow:0 4px 14px rgba(0,0,0,.28);
+}
+.tip b{font-weight:600}
+
+/* ---------- scorecard ---------- */
+.score{
+  margin-top:30px; background:var(--panel); border:1px solid var(--rule);
+  border-radius:5px; overflow:hidden; box-shadow:var(--shadow);
+}
+.srow{
+  display:grid; grid-template-columns:1fr auto; gap:6px 18px; align-items:center;
+  padding:15px 22px; border-bottom:1px solid var(--rule-2);
+}
+.srow:last-child{border-bottom:none}
+.srow .what{font-weight:500; font-size:15.5px}
+.srow .ev{grid-column:1/-1; font-family:var(--mono); font-size:12.5px; color:var(--ink-3)}
+.srow.is-limit{background:color-mix(in srgb, var(--crit) 5%, var(--panel))}
+
+/* ---------- next steps ---------- */
+.steps{counter-reset:s; display:grid; gap:0; margin-top:30px;
+  border:1px solid var(--rule); border-radius:5px; background:var(--panel);
+  box-shadow:var(--shadow); overflow:hidden}
+.step{display:grid; grid-template-columns:34px 1fr; gap:0 16px;
+  padding:18px 22px; border-bottom:1px solid var(--rule-2)}
+.step:last-child{border-bottom:none}
+.step::before{
+  counter-increment:s; content:counter(s);
+  font-family:var(--mono); font-size:13px; font-weight:600; color:var(--copper);
+  padding-top:2px;
+}
+.step h3{margin-bottom:5px}
+.step p{margin:0; font-size:15px; color:var(--ink-2); max-width:70ch}
+.step .cost{font-family:var(--mono); font-size:11.5px; color:var(--ink-3);
+  display:block; margin-top:7px}
+
+/* ---------- callout ---------- */
+.call{
+  margin-top:30px; border-left:3px solid var(--copper); background:var(--panel);
+  border-top:1px solid var(--rule); border-right:1px solid var(--rule);
+  border-bottom:1px solid var(--rule); border-radius:0 5px 5px 0;
+  padding:22px 24px; box-shadow:var(--shadow);
+}
+.call h3{margin-bottom:8px}
+.call p:last-child{margin-bottom:0}
+.call.gold{border-left-color:var(--gold)}
+
+/* fork table */
+.fork{margin-top:26px; overflow-x:auto}
+.fork table{font-size:13px}
+.fork td.hi{color:var(--copper); font-weight:600}
+.fork th:last-child,.fork td:last-child{white-space:normal; min-width:190px}
+.fork th:first-child,.fork td:first-child{white-space:normal; min-width:180px}
+
+footer{padding-block:44px 60px; color:var(--ink-3); font-size:13.5px; line-height:1.6}
+footer .wrap{max-width:70ch}
+footer code{font-family:var(--mono); font-size:12.5px; color:var(--ink-2)}
+
+@media (max-width:560px){
+  .find{grid-template-columns:1fr; gap:0}
+  .find .rank{grid-row:auto; font-size:22px; margin-bottom:6px; color:var(--copper)}
+  .plot{padding:10px 6px 2px}
+  .tw,figcaption,.fig-head,summary,.legend{padding-left:16px; padding-right:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-rule"></div>
+    <p class="eyebrow">Bench session &middot; 17 September 2026 &middot; We-Are-STMING</p>
+    <h1>The First Junction</h1>
+    <p class="deck">Tonight the tip and the sample were electrically joined for the first time in
+      this project &mdash; a barrier that passes current, follows the bias, and follows Z. There is
+      still no image, and the evening measured exactly why. It is not the electronics.</p>
+    <div class="hero-meta">
+      <span>16:16 &ndash; 21:55 UTC</span>
+      <span>Jacob at the bench</span>
+      <span>19 raw scan files</span>
+      <span>Source: <code>sessions/2026-09-17-bench.md</code></span>
+    </div>
+
+    <div class="stats">
+      <div class="stat hot">
+        <div class="k">Junction current</div>
+        <div class="v">31.7<small> nA</small></div>
+        <div class="n">at &minus;0.5 V on the sample. 0.85 nA at 0.05 V</div>
+      </div>
+      <div class="stat">
+        <div class="k">Junction resistance</div>
+        <div class="v">16&ndash;59<small> M&#8486;</small></div>
+        <div class="n">the range real tunnelling occupies</div>
+      </div>
+      <div class="stat cold">
+        <div class="k">Images produced</div>
+        <div class="v">0</div>
+        <div class="n">out of 15 scans, across two attempts</div>
+      </div>
+      <div class="stat">
+        <div class="k">Height-channel wobble</div>
+        <div class="v">287&ndash;419</div>
+        <div class="n">Z counts RMS with nothing scanning &mdash; the floor everything is judged against</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="takeaways">
+  <div class="wrap">
+    <div class="shead"><span class="snum">01</span><h2>The five things that actually happened</h2></div>
+    <p class="lede">Ranked by how much they change what you do next.</p>
+
+    <div class="finds">
+      <article class="find headline">
+        <div class="rank">1</div>
+        <h3>You made a real junction, and it is a barrier rather than a short</h3>
+        <div class="chiprow"><span class="chip settled">Settled &middot; measured</span></div>
+        <p>Current rose from 0.85 nA at 0.05 V to 31.7 nA at 0.5 V &mdash; about four times faster
+          than a plain resistor would. It is symmetric in both bias polarities to within 10%. A
+          metallic short would be a straight line; an open circuit would give nothing. This is the
+          shape tunnelling has.</p>
+      </article>
+
+      <article class="find">
+        <div class="rank">2</div>
+        <h3>The motor was driving the wrong way the whole time</h3>
+        <div class="chiprow"><span class="chip settled">Settled &middot; by a crash</span></div>
+        <p>Negative <code>MTMV</code> approaches; positive retracts. The design file was right and
+          the reading of the lever at the bench was inverted. Every approach before 19:22 tonight,
+          and all 8,000 steps on 16 September, drove the sample <em>away</em> from the tip. Cost:
+          roughly two hours.</p>
+      </article>
+
+      <article class="find">
+        <div class="rank">3</div>
+        <h3>The sample plate was never touching the motor screw</h3>
+        <div class="chiprow"><span class="chip settled">Settled &middot; fixed at the bench</span></div>
+        <p>Both rubber bands pulled in line with the two ball ends, so nothing held the motor end
+          down and the screw turned in free space with about a millimetre of air in front of it.
+          One more rubber band fixed it. This is the best explanation for 16 September's null
+          result &mdash; a mechanical assumption nobody had ever written down, let alone checked.</p>
+      </article>
+
+      <article class="find">
+        <div class="rank">4</div>
+        <h3>There is no image, and the electronics are not why</h3>
+        <div class="chiprow"><span class="chip limit">The limit is mechanical</span></div>
+        <p>Amplifier noise, leakage, the feedback loop and the read path were each measured and each
+          ruled out with a number. What remains is a junction being shaken below 30 Hz and a height
+          channel that wobbles by as much as any picture in it. A rigid tip holder, a sharper tip and
+          damping at 5&ndash;20 Hz are what stand between this instrument and an image.</p>
+      </article>
+
+      <article class="find">
+        <div class="rank">5</div>
+        <h3>One question was left genuinely open, and it costs ten minutes</h3>
+        <div class="chiprow"><span class="chip open">Open &middot; first job next session</span></div>
+        <p>At the widest scans there <em>is</em> a repeatable 636-count profile, bigger than the
+          wobble floor. The control that would say whether that is the sample or the scanner's own
+          bow was run at the wrong width and analysed unfairly, so it proved nothing. Re-running it
+          properly is the first thing to do.</p>
+      </article>
+    </div>
+
+    <div class="units">
+      <h3>Reading the numbers on this page</h3>
+      <dl>
+        <div>
+          <dt>Z counts</dt>
+          <dd>The height command sent to the piezo. Bigger number pushes the tip toward the sample
+            &mdash; settled tonight.</dd>
+        </div>
+        <div>
+          <dt>320 counts = 1 nA</dt>
+          <dd>The current channel, measured end to end on 16 September. See
+            <code>docs/FACTS.md</code>.</dd>
+        </div>
+        <div>
+          <dt>~250 Z counts</dt>
+          <dd>One motor step, and also about one tenfold change in current. The two came out the
+            same, which is how the scale was pinned down at all.</dd>
+        </div>
+        <div>
+          <dt>Counts, not nanometres</dt>
+          <dd>Deliberate. Turning counts into nanometres needs the lever ratio, and that is still
+            unmeasured &mdash; see section 03.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="junction">
+  <div class="wrap">
+    <div class="shead"><span class="snum">02</span><h2>Is it a real junction?</h2></div>
+    <p class="lede">Two independent shapes say yes. The current bends the right way against voltage,
+      and it climbs the right way against height.</p>
+
+    <figure>
+      <div class="fig-head">
+        <div class="figno">Figure 1</div>
+        <h3>Current against bias voltage &mdash; a barrier, not a short</h3>
+        <p class="fig-read">Read the gap between the two lines. If the junction were an ordinary
+          resistor it would follow the dashed line. It does not: it accelerates.</p>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--s1)"></i>Measured</span>
+        <span><i class="dash"></i>If it were a plain 59 M&#8486; resistor</span>
+      </div>
+      <div class="plot" id="fig-iv"></div>
+      <figcaption>At 0.5 V the junction passes <b>31.7 nA</b> where a plain resistor of its
+        low-voltage value would pass 8.5 nA &mdash; <b>3.7 times more</b>. The effective resistance
+        falls from 59 M&#8486; to 16 M&#8486; as the voltage rises. That curvature is what a barrier
+        does, and it was the same in both polarities to about 10%. Eight rounds were taken with the
+        polarities interleaved so that drift could not fake the slope; this is round 7, the cleanest.
+        <span class="num">19:54:51 UTC</span></figcaption>
+      <details>
+        <summary>The numbers</summary>
+        <div class="tw"><table id="tbl-iv"></table></div>
+      </details>
+    </figure>
+
+    <figure>
+      <div class="fig-head">
+        <div class="figno">Figure 2</div>
+        <h3>Current against height &mdash; a steep, orderly climb</h3>
+        <p class="fig-read">The current axis is logarithmic, so a straight line here means a fixed
+          multiplication per step of height. It multiplies by about 2.5 for every 200 counts.</p>
+      </div>
+      <div class="plot" id="fig-iz"></div>
+      <figcaption>Pushing the tip 600 counts further in took the current from <b>5.5 nA to
+        79.7 nA</b> &mdash; a factor of 14. Nothing else was touched. A junction that responds to
+        height like this, and to voltage like Figure 1, is a genuine tip&ndash;sample contact rather
+        than pickup or a leak. <b>Leakage was separately measured and excluded:</b> with the tip
+        retracted and the bias swept &plusmn;2 V, every reading stayed inside 0.06 nA, which is over
+        8 G&#8486;. <span class="num">19:28:36 UTC</span></figcaption>
+      <details>
+        <summary>The numbers</summary>
+        <div class="tw"><table id="tbl-iz"></table></div>
+      </details>
+    </figure>
+
+    <div class="call gold">
+      <h3>One caveat worth carrying: the tip was probably on copper, not gold</h3>
+      <p>Asked at the end of the session where the tip was sitting, Jacob's answer was that it was
+        probably over the copper tape beside the gold patch. Nothing measured tonight can tell them
+        apart &mdash; both are conductive and both connect to the bias wire.</p>
+      <p>It matters because copper grows an oxide skin in air within hours and gold does not. An
+        oxide film is exactly the &ldquo;barrier you press into&rdquo; that Figure 3 shows, and it
+        would explain why the junction never fell below about 5 M&#8486; even when the amplifier
+        saturated: the tip never metallically shorted, it was always conducting through something.
+        <strong>Getting the gold under the tip is cheap and is step 1 next session.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section id="gap">
+  <div class="wrap">
+    <div class="shead"><span class="snum">03</span><h2>Is it a tunnelling gap, or is the tip pressing on something?</h2></div>
+    <p class="lede">This is the one the evening could not settle, and the reason is a single
+      unmeasured distance.</p>
+
+    <figure>
+      <div class="fig-head">
+        <div class="figno">Figure 3</div>
+        <h3>The Z axis does not deliver what it is told, and it is lopsided</h3>
+        <p class="fig-read">Grey is what each Z step should have done. Colour is what it actually
+          did. Pulling away roughly works; pushing in gives about a quarter of its due.</p>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--ink-3)"></i>Expected, from the measured slope</span>
+        <span><i style="background:var(--s2)"></i>Actually delivered</span>
+      </div>
+      <div class="plot" id="fig-zfid"></div>
+      <figcaption>A vacuum gap is exponential and <b>symmetric</b>: a step in and the same step out
+        should change the current by the same amount in opposite directions. Here, &minus;400 counts
+        gave <b>&minus;1.13 decades</b> against &minus;1.60 due, while +400 counts gave only
+        <b>+0.36</b> against +1.60 due. That asymmetry is the signature of a contact being pressed
+        into something soft, not a gap being opened and closed. Separately, the piezo shows about
+        <b>1,200 counts of creep</b> &mdash; current appears at Z 35,000 going in and vanishes at
+        36,200 coming back out, in four cycles of six.</figcaption>
+      <details>
+        <summary>The numbers</summary>
+        <div class="tw"><table id="tbl-zfid"></table></div>
+      </details>
+    </figure>
+
+    <div class="call">
+      <h3>Everything in nanometres hangs on one measurement nobody has taken</h3>
+      <p>The tip sits somewhere near the line between the two side-by-side ball ends. How near
+        decides the lever ratio, and the lever ratio converts every count on this page into a
+        distance. The design file says 1.00 mm. Jacob's own reading is that it is &ldquo;in the
+        middle of the line&rdquo;, which would be far closer. The two answers differ by a factor of
+        ten, and they lead to opposite conclusions about whether tonight was tunnelling.</p>
+      <div class="fork">
+        <table>
+          <thead><tr><th>If the tip is this far from the pivot line</th><th>Lever ratio</th>
+            <th>One motor step at the tip</th><th>Full Z range</th><th>Verdict on tonight</th></tr></thead>
+          <tbody>
+            <tr><td>1.0 mm &mdash; the design file</td><td>40</td><td>3.9 nm</td><td>~1.0 &micro;m</td>
+              <td>A decade per 3 nm. <b>30&times; too slow for tunnelling</b></td></tr>
+            <tr><td>0.3 mm</td><td>133</td><td>1.2 nm</td><td>~310 nm</td><td>Borderline</td></tr>
+            <tr class="hi"><td class="hi">0.1 mm &mdash; what tonight's arithmetic implies</td>
+              <td class="hi">400</td><td class="hi">0.39 nm</td><td class="hi">~100 nm</td>
+              <td class="hi">Close to the textbook decade per 0.1 nm</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:18px"><strong>A straightedge across the two ball ends settles it in five
+        minutes, with the power off.</strong> It is the most valuable measurement left in the
+        instrument, and it needs no electronics at all.</p>
+    </div>
+  </div>
+</section>
+
+<section id="image">
+  <div class="wrap">
+    <div class="shead"><span class="snum">04</span><h2>Is there an image in the data?</h2></div>
+    <p class="lede">The honest answer is: no, except possibly at the very widest scans, where the
+      question is still open. Here is the ruler that decides it.</p>
+
+    <figure>
+      <div class="fig-head">
+        <div class="figno">Figure 4</div>
+        <h3>Every claimed structure, measured against the noise it has to beat</h3>
+        <p class="fig-read">The grey band is what the height channel does <em>with nothing
+          scanning at all</em>. Anything inside it cannot be surface. Orange bars are controls: runs
+          where the tip was never moved sideways, so they must contain nothing.</p>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--s1)"></i>Real scan</span>
+        <span><i style="background:var(--s2)"></i>Control &mdash; X never moved</span>
+        <span><i style="background:var(--band-line)"></i>Noise floor, 287&ndash;419 counts</span>
+      </div>
+      <div class="plot" id="fig-ruler"></div>
+      <figcaption>Two things to take from this. First, <b>the control beats the real scans</b>: with
+        X held perfectly still the height channel produced 87 counts of apparent structure, more than
+        any narrow scan's 29&ndash;43. Whatever those images showed, moving the tip sideways is not
+        what made it. Second, <b>only one bar clears the floor</b> &mdash; the 636-count profile from
+        averaging twelve passes of one line at &plusmn;15,000 counts. That one is not disposed of.
+        Every bar here was recomputed directly from the committed CSV files for this page, not
+        copied from the log.</figcaption>
+      <details>
+        <summary>The numbers</summary>
+        <div class="tw"><table id="tbl-ruler"></table></div>
+      </details>
+    </figure>
+
+    <figure>
+      <div class="fig-head">
+        <div class="figno">Figure 5</div>
+        <h3>The same three results drawn at the same scale</h3>
+        <p class="fig-read">All three panels share one height axis, so they are directly comparable.
+          Each line is the average of every pass taken. Only the wide scan has anything in it.</p>
+      </div>
+      <div class="plot multi" id="fig-profiles"></div>
+      <figcaption>The narrow scans and the X-held control are not <em>small</em> at this scale
+        &mdash; they are flat. This is what the first imaging attempt spent the evening on: a window
+        about <b>&plusmn;0.6 nm wide</b>, narrower than a single atom, because the lateral range had
+        been set from an inherited figure that the same evening's own data contradicted. Widening the
+        scan forty-fold was a real fix, and the left-hand panel is what it bought.</figcaption>
+      <details>
+        <summary>The numbers</summary>
+        <div class="tw"><table id="tbl-profiles"></table></div>
+      </details>
+    </figure>
+
+    <figure>
+      <div class="fig-head">
+        <div class="figno">Figure 6</div>
+        <h3>Twelve passes over one line, and the shape that survives averaging</h3>
+        <p class="fig-read">Faint lines are the twelve individual passes. The bold line is their
+          average. The grey band is the noise floor from Figure 4.</p>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--faint)"></i>Individual passes (12)</span>
+        <span><i style="background:var(--s1)"></i>Average of all twelve</span>
+        <span><i style="background:var(--band-line)"></i>Noise floor, &plusmn;419 counts</span>
+      </div>
+      <div class="plot" id="fig-passes"></div>
+      <figcaption>Consecutive passes agree at <b>r = +0.52</b>; the average of the odd passes against
+        the average of the even passes agrees at <b>r = +0.92</b>. The surviving profile is
+        <b>636 counts RMS</b>, comfortably above the floor. The same analysis on the narrow
+        &plusmn;400 data gives +0.12, +0.37 and 17 counts &mdash; nothing.
+        <b>This looked like the breakthrough of the night, and it may yet be one.</b> What it is not
+        is proven: a fixed bow in the scanner, traced identically wherever the instrument points,
+        would reproduce exactly like this.</figcaption>
+      <details>
+        <summary>The numbers</summary>
+        <div class="tw"><table id="tbl-passes"></table></div>
+      </details>
+    </figure>
+
+    <div class="call">
+      <h3>The control that was supposed to settle this, and why it did not</h3>
+      <p>The test is simple: run the same line at three separated Y positions. If the profile is the
+        <em>sample</em>, three different places must give three different shapes. If it is the
+        <em>scanner</em>, all three give the same shape.</p>
+      <p>It was run, and it reported that different places agreed better than one place agreed with
+        itself &mdash; which killed the result. <strong>That comparison was broken in two ways.</strong>
+        It compared five-pass averages between places against single passes within a place, and
+        averaging raises a correlation all by itself. And it ran at &plusmn;8,000 counts while the
+        result it was testing ran at &plusmn;15,000 &mdash; a width at which nothing reproduces
+        anywhere, so it could only ever have returned &ldquo;no effect&rdquo;.</p>
+      <p>Recomputed like for like from the committed file: <span class="num">within a place
+        r = +0.133, between places r = +0.146</span>, a difference of 0.013. There is no effect
+        either way. <strong>The question is open, not answered.</strong> This was caught by an
+        independent review of the committed data rather than at the bench, and the correction is
+        already in <code>STATUS.md</code>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="shead"><span class="snum">05</span><h2>Why there is no image</h2></div>
+    <p class="lede">One chart settles the cause. It is not mains hum, not the amplifier, and not the
+      software.</p>
+
+    <figure>
+      <div class="fig-head">
+        <div class="figno">Figure 7</div>
+        <h3>Where the noise lives &mdash; and it is not at 60 Hz</h3>
+        <p class="fig-read">Both axes are logarithmic. The flat grey trace at the bottom is the
+          electronics alone. Everything the junction adds piles up on the left, below 30 Hz.</p>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--s3)"></i>No junction, tip retracted</span>
+        <span><i style="background:var(--s2)"></i>Junction present, bias off</span>
+        <span><i style="background:var(--s1)"></i>Junction present, bias on</span>
+      </div>
+      <div class="plot" id="fig-spectrum"></div>
+      <figcaption>With no junction the electronics are <b>flat white noise at 8&ndash;14 counts</b>
+        across the whole band &mdash; the sign of a clean measurement chain. Bring a junction into
+        existence and <b>353 counts appear at 5 Hz</b>, falling away by 60 Hz. There is
+        <b>no peak at 60 or 120 Hz</b>, so it is not mains pickup, and nothing at 1,200 Hz, so it is
+        not the digital side. Noise that lives between 5 and 20 Hz and only exists when something is
+        touching is <b>a mechanical vibration</b>. Turning the bias off with the geometry unchanged
+        halves the excess but does not remove it, which fits a junction being physically shaken while
+        a contact potential drives a small current through it.</figcaption>
+      <details>
+        <summary>The numbers</summary>
+        <div class="tw"><table id="tbl-spectrum"></table></div>
+      </details>
+    </figure>
+
+    <figure>
+      <div class="fig-head">
+        <div class="figno">Figure 8</div>
+        <h3>The gap drifts hard for half a minute, then settles</h3>
+        <p class="fig-read">Each point is where the current appeared, averaged over a 30-second
+          window. The bars show how much it scattered inside that window.</p>
+      </div>
+      <div class="plot" id="fig-drift"></div>
+      <figcaption>Ninety passes of finding the junction over and over, with the motor untouched and
+        the room empty. The first half-minute drifts at <b>&minus;175 counts per second</b> and
+        scatters by 1,316; by the fifth window the scatter is down to <b>198 counts</b>. That fast
+        early drift is mechanical relaxation after the big screw moves, and it goes away on its own.
+        <b>Practical consequence: wait about a minute after any motor move before trusting
+        anything.</b> Separately measured: with Z and bias held completely fixed, the junction went
+        from 3 nA to hard contact in <b>ten seconds</b> with nothing commanded &mdash; which is the
+        case for closing the feedback loop.</figcaption>
+      <details>
+        <summary>The numbers</summary>
+        <div class="tw"><table id="tbl-drift"></table></div>
+      </details>
+    </figure>
+
+    <figure>
+      <div class="fig-head">
+        <div class="figno">Figure 9</div>
+        <h3>Sitting at the bench is fine. Reaching for the scan head is not</h3>
+        <p class="fig-read">Five blocks of 30 seconds each, alternated so that slow drift could not
+          fake the result. Lower is quieter.</p>
+      </div>
+      <div class="plot" id="fig-operator"></div>
+      <figcaption>Seated against standing a metre away came out at <b>+1.6 &plusmn; 0.3 counts</b>
+        &mdash; under 1%, and very slightly <em>quieter</em> with Jacob in the chair, so if anything
+        a body nearby shields a little. A hand 5 cm from the scan head added <b>35 counts,
+        16 sigma</b> &mdash; about <b>370 pA</b> in quadrature, roughly a third of a tunnelling
+        current. <b>You can sit and watch. Keep hands away from the head during anything that
+        matters.</b> One caveat: this was measured with the tip retracted and no junction, and a live
+        tunnel gap is a much higher impedance that could couple more.</figcaption>
+      <details>
+        <summary>The numbers</summary>
+        <div class="tw"><table id="tbl-operator"></table></div>
+      </details>
+    </figure>
+  </div>
+</section>
+
+<section id="scorecard">
+  <div class="wrap">
+    <div class="shead"><span class="snum">06</span><h2>What is ruled out, and what is left</h2></div>
+    <p class="lede">The value of the evening is mostly here. Six candidate explanations were
+      eliminated with numbers, which is why the remaining three are worth spending money and bench
+      time on.</p>
+
+    <div class="score">
+      <div class="srow"><span class="what">Amplifier and electronics noise</span>
+        <span class="chip ruled">Ruled out</span>
+        <span class="ev">Flat white noise, 8&ndash;14 counts across the whole band &mdash; Figure 7</span></div>
+      <div class="srow"><span class="what">Leakage through the tip lead or holder</span>
+        <span class="chip ruled">Ruled out</span>
+        <span class="ev">Under 0.06 nA from &minus;2 V to +2 V, over 8 G&#8486;</span></div>
+      <div class="srow"><span class="what">Mains hum at 60 or 120 Hz</span>
+        <span class="chip ruled">Ruled out</span>
+        <span class="ev">No peak at either frequency in the spectrum</span></div>
+      <div class="srow"><span class="what">The feedback loop lagging or mistracking</span>
+        <span class="chip ruled">Ruled out</span>
+        <span class="ev">Holds the current to ~0.06 of a decade; 5, 15 and 250 corrections per pixel all gave the same answer</span></div>
+      <div class="srow"><span class="what">Read noise in the measurement path</span>
+        <span class="chip ruled">Fixed, not decisive</span>
+        <span class="ev">Loop was steering on single conversions (188 counts); switched to the firmware's averaged read (46 counts) for the same 0.24 ms</span></div>
+      <div class="srow"><span class="what">Scan window far too small</span>
+        <span class="chip ruled">Fixed</span>
+        <span class="ev">Was &plusmn;0.6 nm, smaller than one atom; widened forty-fold to &plusmn;25 nm</span></div>
+      <div class="srow"><span class="what">The operator sitting at the bench</span>
+        <span class="chip ruled">Ruled out</span>
+        <span class="ev">Under 1% of the noise, and in the wrong direction &mdash; Figure 9</span></div>
+
+      <div class="srow is-limit"><span class="what">Mechanical vibration at 5&ndash;20 Hz</span>
+        <span class="chip limit">This is the limit</span>
+        <span class="ev">353 counts at 5 Hz, present only when a junction exists</span></div>
+      <div class="srow is-limit"><span class="what">The improvised tip holder, and a blunt bent tip</span>
+        <span class="chip limit">This is the limit</span>
+        <span class="ev">A shaft stuck to the piezo with a soldered socket; it bends under a meter probe</span></div>
+      <div class="srow is-limit"><span class="what">Piezo creep and the pressed, asymmetric contact</span>
+        <span class="chip limit">This is the limit</span>
+        <span class="ev">1,200 counts of creep; a +400 step delivers a quarter of its due &mdash; Figure 3</span></div>
+
+      <div class="srow"><span class="what">Whether the wide-scan profile is the sample or the scanner's bow</span>
+        <span class="chip open">Open</span>
+        <span class="ev">The deciding control was run at the wrong width; ten minutes to redo</span></div>
+      <div class="srow"><span class="what">Where the tip sits relative to the pivot line</span>
+        <span class="chip open">Open</span>
+        <span class="ev">Sets every distance on this page. A straightedge, five minutes, power off</span></div>
+      <div class="srow"><span class="what">Whether the junction was on gold or on copper oxide</span>
+        <span class="chip open">Open</span>
+        <span class="ev">Electrically indistinguishable; the physics leans toward copper oxide</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="next">
+  <div class="wrap">
+    <div class="shead"><span class="snum">07</span><h2>What to do next, in order</h2></div>
+    <p class="lede">Three of these five need no electronics at all, and the two cheapest come first
+      on purpose.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div>
+          <h3>Re-run the three-Y control, at &plusmn;15,000 counts this time</h3>
+          <p>The same line at three separated Y positions, five passes each, analysed single-pass
+            against single-pass at both places. If the three places give different shapes, the
+            636-count profile is the sample and this project has its first topography. If they give
+            the same shape, it is the scanner's bow and the matter is closed.</p>
+          <span class="cost">Ten minutes &middot; settles the biggest open question on this page</span>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <h3>Lay a straightedge across the two ball ends and measure where the tip is</h3>
+          <p>Plate off, power off. This single distance converts every count on this page into
+            nanometres and decides whether tonight's junction was tunnelling at all. Tonight's
+            arithmetic implies about 0.1 mm against the design file's 1.00 mm.</p>
+          <span class="cost">Five minutes &middot; no electronics &middot; sets every scale in the project</span>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <h3>Get the gold under the tip</h3>
+          <p>Shift the sample plate so the existing gold patch sits where the tip lands, rather than
+            re-laying leaf. Two numbers from tonight to beat: a junction on clean gold should give a
+            more symmetric response to Z than &minus;1.13 against +0.36 decades, and a steadier hold
+            than 287&ndash;419 counts of wobble.</p>
+          <span class="cost">Cheap &middot; and it is a real prediction, so it is a real test</span>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <h3>Measure the suspension's droop, and do the stamp test</h3>
+          <p>Lift the platform until the springs go slack and measure how far it rises:
+            <span class="num">f&#8320; = 15.76 / &radic;(droop in mm)</span> Hz. 10 mm gives 5 Hz,
+            which sits on the very worst of the measured noise; 50 mm gives 2.2 Hz, which is clear of
+            it. Then run one scan with the room still and one while someone stamps on the floor a
+            couple of metres away. If the noise jumps, the building is getting through the stage.</p>
+          <span class="cost">Five minutes &middot; aims the vibration fix instead of guessing at it</span>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <h3>Decide about the tip holder, and about closing the loop</h3>
+          <p>Both are yours and Nuh's calls, not Claude's, and both are now the limiting items rather
+            than anything electrical. The holder is improvised and bends under a meter probe. The
+            firmware's own constant-current loop is still barred by safety rule 8, even though its
+            bug was fixed and bench-tested on 16 September &mdash; and Figure 8's ten-second close is
+            exactly the case for using it.</p>
+          <span class="cost">A decision, not a measurement</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="call" style="margin-top:34px">
+      <h3>Two controls that cost nothing and would have saved an hour each</h3>
+      <p>Before believing any image, run a scan with <strong>X held still</strong> and the same line
+        at <strong>three separated Y positions</strong>. Both failed tonight, and either one alone
+        would have caught the result early instead of after it had been half-believed. The X-held
+        control in Figure 4 is the clearest thing on this page.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Every figure on this page was recomputed from the raw CSV files committed in
+      <code>sessions/data/2026-09-17-bench/</code>, and independently reproduces the corrected
+      figures in <code>sessions/2026-09-17-bench.md</code>. Bench values that are not in those CSVs
+      &mdash; the I&ndash;V curve, the spectrum, the drift windows, the operator test &mdash; are
+      cited from that log.</p>
+    <p><strong>This page has no independent authority.</strong> If anything here disagrees with
+      <code>STATUS.md</code> or <code>docs/FACTS.md</code>, those files win and this page is the one
+      to fix. Distances are given in DAC counts throughout, because converting them to nanometres
+      needs a lever ratio that has not been measured.</p>
+  </div>
+</footer>
+
+<script>
+const RAW={"wide":{"x":[-15000,-13500,-12000,-10500,-9000,-7500,-6000,-4500,-3000,-1500,0,1500,3000,4500,6000,7500,9000,10500,12000,13500,15000],"p":[[-5,804,795,203,-69,-878,-712,-942,-463,-91,240,676,369,443,-358,-39,-322,-380,67,207,455],[-2058,-726,834,437,857,586,520,459,109,-304,109,-160,-3,180,-249,-85,270,122,-532,-540,174],[-823,535,1835,1652,1240,819,-279,-835,-1208,-227,-218,-432,-2071,-1947,-1977,-1116,-1409,45,739,2532,3145],[-1797,-758,385,658,522,719,261,917,221,-229,-231,-105,109,163,9,133,-96,-428,-164,-87,-202],[-2933,-1147,29,671,845,968,844,638,507,400,357,165,165,165,245,361,339,-47,-597,-929,-1046],[-1452,5,978,828,534,336,208,70,101,-160,-202,-332,-724,-243,-791,-462,-206,-154,405,425,834],[-1047,428,1373,333,221,351,-110,69,-300,-320,-583,-315,-536,-182,-566,-164,-2,-70,-151,357,1214],[-3257,-1391,125,428,1714,1110,1218,695,443,94,257,279,318,108,54,-76,-107,-401,-328,-511,-773],[-2441,-152,358,911,578,554,498,231,115,214,163,16,-104,55,-80,-90,-256,-168,-47,-277,-79],[-2080,-58,834,349,444,294,366,189,238,186,-29,4,-43,-16,-12,56,-113,-221,-175,-291,78],[-5726,-3425,-1310,224,2544,3515,3608,1932,-5,1507,1980,1082,43,-324,-540,-517,-647,-844,-942,-995,-1160],[-3451,-898,46,1162,1352,1542,661,58,293,341,316,333,214,30,-115,-148,-288,-312,-372,-361,-403]]},"narrow":{"x":[-400,-360,-320,-280,-240,-200,-160,-120,-80,-40,0,40,80,120,160,200,240,280,320,360,400],"p":[[-133,188,20,6,-36,34,51,107,120,-82,-215,-145,-90,-31,22,37,71,-36,-46,46,112],[27,-28,-31,10,27,32,5,3,37,53,-27,-68,-70,-49,-8,3,9,19,17,27,12],[-23,-16,4,-10,0,12,22,15,4,7,34,15,19,6,-38,-28,-39,-15,-26,20,38],[56,38,-56,-57,-70,-11,-24,15,36,69,49,-5,33,-3,-21,-32,8,-6,-18,-15,14],[98,38,45,-18,-65,-26,-52,-8,12,-17,-28,0,9,-11,-39,-16,-38,-81,14,79,104],[18,-16,12,28,40,27,-16,-48,-32,-12,-15,-21,-30,9,-7,34,2,-28,3,14,37],[14,7,1,-23,-22,-22,13,44,28,-8,-17,-4,-4,-1,24,-13,-20,-29,-15,6,41],[16,-13,-13,2,13,15,16,-1,-9,-9,-20,-11,-2,3,17,19,-2,-52,-12,23,21],[-2,-2,4,-5,7,16,19,2,-16,-6,10,-19,-11,-13,5,-8,-9,-9,31,-15,23],[-10,-7,-1,4,0,16,2,8,9,-1,-48,0,17,34,40,7,-71,-34,6,14,15]]},"held":{"x":[-400,-360,-320,-280,-240,-200,-160,-120,-80,-40,0,40,80,120,160,200,240,280,320,360,400],"p":[[72,-5,-8,-4,13,5,-15,-23,-42,-47,-43,2,-7,25,30,30,14,5,0,4,-6],[24,173,236,13,-72,-70,-140,-166,-175,-191,-129,-66,50,147,204,271,86,-12,-32,-77,-73],[69,58,3,-15,-72,-128,-306,269,205,9,-91,-69,1,-3,149,190,-116,-396,125,114,3],[66,0,-56,-73,-109,-116,-32,51,100,107,65,67,19,-3,13,64,56,-5,-44,-75,-95],[29,88,99,98,122,66,-159,-135,-145,-109,-110,-54,-30,-29,-25,-7,45,68,49,55,86],[23,17,19,37,-49,-39,-35,-22,-26,3,-22,3,10,34,27,43,45,16,-8,-16,-59],[304,-26,312,-230,-252,-312,90,35,55,49,-39,-52,-110,-250,71,169,89,114,52,-77,8],[-29,-9,32,15,19,-7,-18,-9,-30,-19,-14,-18,26,26,33,45,33,27,-15,-22,-65]]}};
+
+/* ---------------- chart toolkit ---------------- */
+const NS="http://www.w3.org/2000/svg";
+const S=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const cv=n=>getComputedStyle(document.body).getPropertyValue(n).trim();
+const lin=(d0,d1,r0,r1)=>v=>r0+(v-d0)/(d1-d0)*(r1-r0);
+const lg =(d0,d1,r0,r1)=>{const a=Math.log10(d0),b=Math.log10(d1);
+  return v=>r0+(Math.log10(Math.max(v,d0*1e-6))-a)/(b-a)*(r1-r0);};
+const fmt=(v,d=0)=>v.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
+
+function frame(host,o){
+  const w=o.w||780,h=o.h||330,m=Object.assign({t:16,r:20,b:46,l:62},o.m||{});
+  const svg=S("svg",{viewBox:`0 0 ${w} ${h}`,role:"img","aria-label":o.alt||""});
+  if(o.ratio===false) svg.setAttribute("preserveAspectRatio","none");
+  const g=S("g",{});svg.appendChild(g);
+  host.appendChild(svg);
+  const pw=w-m.l-m.r, ph=h-m.t-m.b;
+  return {svg,g,m,w,h,pw,ph,x0:m.l,x1:m.l+pw,y0:m.t,y1:m.t+ph};
+}
+function axText(f,x,y,t,o={}){
+  const e=S("text",{x,y,fill:o.fill||cv("--ink-3"),"font-family":'var(--mono)',
+    "font-size":o.size||11,"text-anchor":o.anchor||"middle","dominant-baseline":o.base||"auto"});
+  if(o.weight)e.setAttribute("font-weight",o.weight);
+  e.textContent=t; f.g.appendChild(e); return e;
+}
+function gridY(f,sy,ticks,fmtFn){
+  ticks.forEach(t=>{
+    const y=sy(t);
+    f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:y,y2:y,stroke:cv("--rule-2"),"stroke-width":1}));
+    axText(f,f.x0-9,y+4,fmtFn?fmtFn(t):fmt(t),{anchor:"end"});
+  });
+}
+function axisX(f,sx,ticks,fmtFn){
+  f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:f.y1,y2:f.y1,stroke:cv("--rule"),"stroke-width":1}));
+  ticks.forEach(t=>{
+    const x=sx(t);
+    f.g.appendChild(S("line",{x1:x,x2:x,y1:f.y1,y2:f.y1+5,stroke:cv("--rule"),"stroke-width":1}));
+    axText(f,x,f.y1+19,fmtFn?fmtFn(t):fmt(t));
+  });
+}
+function label(f,txt,which){
+  if(which==="x") axText(f,f.x0+f.pw/2,f.h-6,txt,{size:11,fill:cv("--ink-3")});
+  else{const e=axText(f,0,0,txt,{size:11,fill:cv("--ink-3")});
+    e.setAttribute("transform",`translate(13,${f.y0+f.ph/2}) rotate(-90)`);}
+}
+function path(f,pts,o){
+  const d=pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(2)+" "+p[1].toFixed(2)).join(" ");
+  const e=S("path",{d,fill:"none",stroke:o.stroke,"stroke-width":o.w||2,
+    "stroke-linejoin":"round","stroke-linecap":"round"});
+  if(o.dash)e.setAttribute("stroke-dasharray",o.dash);
+  if(o.op)e.setAttribute("opacity",o.op);
+  f.g.appendChild(e); return e;
+}
+function tipFor(host){
+  const t=document.createElement("div"); t.className="tip"; host.appendChild(t);
+  return {
+    show(cx,cy,html){t.innerHTML=html; t.style.left=cx+"px"; t.style.top=cy+"px"; t.style.opacity=1;},
+    hide(){t.style.opacity=0;}
+  };
+}
+function hoverLine(host,f,xs,rows,render){
+  const tip=tipFor(host);
+  const cur=S("line",{y1:f.y0,y2:f.y1,stroke:cv("--ink-3"),"stroke-width":1,
+    "stroke-dasharray":"3 3",opacity:0}); f.g.appendChild(cur);
+  const hit=S("rect",{x:f.x0,y:f.y0,width:f.pw,height:f.ph,fill:"transparent"});
+  f.g.appendChild(hit);
+  function at(ev){
+    const r=f.svg.getBoundingClientRect();
+    const px=(ev.clientX-r.left)/r.width*f.w;
+    let bi=0,bd=1e9;
+    xs.forEach((x,i)=>{const d=Math.abs(x-px); if(d<bd){bd=d;bi=i;}});
+    cur.setAttribute("x1",xs[bi]); cur.setAttribute("x2",xs[bi]); cur.setAttribute("opacity",1);
+    tip.show((xs[bi]/f.w)*r.width, (f.y0/f.h)*r.height+8, render(bi));
+  }
+  hit.addEventListener("mousemove",at);
+  hit.addEventListener("touchstart",e=>{at(e.touches[0]);},{passive:true});
+  hit.addEventListener("touchmove",e=>{at(e.touches[0]);},{passive:true});
+  hit.addEventListener("mouseleave",()=>{cur.setAttribute("opacity",0);tip.hide();});
+  return tip;
+}
+function tbl(id,head,rows){
+  const t=document.getElementById(id); if(!t)return;
+  const th=S; const H=document.createElement("thead");
+  H.innerHTML="<tr>"+head.map(h=>"<th>"+h+"</th>").join("")+"</tr>";
+  const B=document.createElement("tbody");
+  B.innerHTML=rows.map(r=>"<tr>"+r.map(c=>"<td>"+c+"</td>").join("")+"</tr>").join("");
+  t.innerHTML=""; t.appendChild(H); t.appendChild(B);
+}
+
+/* ---------------- Figure 1: I-V ---------------- */
+const IV={v:[0.05,0.10,0.15,0.25,0.35,0.50], i:[0.85,2.0,3.3,7.5,14.6,31.7],
+  r:[59,50,45,33,24,16]};
+IV.ohm=IV.v.map(v=>v/0.05*0.85);
+(function(){
+  const host=document.getElementById("fig-iv");
+  const f=frame(host,{w:780,h:330,m:{t:18,r:26,b:50,l:66},
+    alt:"Current against bias voltage, measured against an ohmic reference"});
+  const sx=lin(0,0.55,f.x0,f.x1), sy=lin(0,34,f.y1,f.y0);
+  gridY(f,sy,[0,5,10,15,20,25,30]);
+  axisX(f,sx,[0,0.1,0.2,0.3,0.4,0.5],t=>t.toFixed(2));
+  label(f,"Voltage on the sample (V)","x"); label(f,"Current (nA)","y");
+  path(f,IV.v.map((v,i)=>[sx(v),sy(IV.ohm[i])]),{stroke:cv("--ink-3"),w:2,dash:"6 5",op:.85});
+  path(f,IV.v.map((v,i)=>[sx(v),sy(IV.i[i])]),{stroke:cv("--s1"),w:2.5});
+  IV.v.forEach((v,i)=>{
+    f.g.appendChild(S("circle",{cx:sx(v),cy:sy(IV.i[i]),r:4.5,fill:cv("--s1"),
+      stroke:cv("--panel"),"stroke-width":2}));
+  });
+  axText(f,sx(0.5)-8,sy(31.7)-12,"31.7 nA",{anchor:"end",fill:cv("--s1"),weight:600,size:12});
+  axText(f,sx(0.5)-8,sy(8.47)+20,"8.5 nA if ohmic",{anchor:"end",size:11});
+  hoverLine(host,f,IV.v.map(sx),null,i=>
+    `<b>${IV.v[i].toFixed(2)} V</b><br>measured ${IV.i[i]} nA<br>ohmic ${IV.ohm[i].toFixed(1)} nA<br>${IV.r[i]} M&#8486;`);
+  tbl("tbl-iv",["Bias (V)","Measured (nA)","If ohmic (nA)","Ratio","Resistance (M&#8486;)"],
+    IV.v.map((v,i)=>[v.toFixed(2),IV.i[i].toFixed(2),IV.ohm[i].toFixed(2),
+      (IV.i[i]/IV.ohm[i]).toFixed(1)+"x",IV.r[i]]));
+})();
+
+/* ---------------- Figure 2: current vs Z ---------------- */
+const IZ={z:[42600,42800,43000,43200], na:[5.5,14.6,35.5,79.7], c:[1760,4684,11373,25553]};
+(function(){
+  const host=document.getElementById("fig-iz");
+  const f=frame(host,{w:780,h:320,m:{t:20,r:26,b:50,l:66},
+    alt:"Current on a logarithmic scale against Z height command"});
+  const sx=lin(42500,43300,f.x0,f.x1), sy=lg(1,120,f.y1,f.y0);
+  [1,2,5,10,20,50,100].forEach(t=>{
+    const y=sy(t);
+    f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:y,y2:y,stroke:cv("--rule-2")}));
+    axText(f,f.x0-9,y+4,String(t),{anchor:"end"});
+  });
+  axisX(f,sx,[42600,42800,43000,43200]);
+  label(f,"Z command (DAC counts) \u2014 higher pushes the tip toward the sample","x");
+  label(f,"Current (nA, log scale)","y");
+  path(f,IZ.z.map((z,i)=>[sx(z),sy(IZ.na[i])]),{stroke:cv("--s1"),w:2.5});
+  IZ.z.forEach((z,i)=>{
+    f.g.appendChild(S("circle",{cx:sx(z),cy:sy(IZ.na[i]),r:5,fill:cv("--s1"),
+      stroke:cv("--panel"),"stroke-width":2}));
+    axText(f,sx(z),sy(IZ.na[i])-14,IZ.na[i]+" nA",{fill:cv("--s1"),weight:600,size:11.5});
+  });
+  axText(f,sx(42900),f.y0+8,"x2.5 for every 200 counts",{size:11.5,fill:cv("--ink-3")});
+  hoverLine(host,f,IZ.z.map(sx),null,i=>
+    `<b>Z ${fmt(IZ.z[i])}</b><br>${IZ.na[i]} nA<br>${fmt(IZ.c[i])} ADC counts`);
+  tbl("tbl-iz",["Z command","ADC counts","Current (nA)","x from previous"],
+    IZ.z.map((z,i)=>[fmt(z),fmt(IZ.c[i]),IZ.na[i],i?(IZ.na[i]/IZ.na[i-1]).toFixed(1)+"x":"&mdash;"]));
+})();
+
+/* ---------------- Figure 3: Z fidelity ---------------- */
+const ZF={step:[-400,-200,200,400], exp:[-1.60,-0.80,0.80,1.60], got:[-1.13,-0.32,0.22,0.36]};
+(function(){
+  const host=document.getElementById("fig-zfid");
+  const f=frame(host,{w:780,h:330,m:{t:22,r:26,b:56,l:70},
+    alt:"Expected against delivered change in current for four Z steps"});
+  const sy=lin(-1.9,1.9,f.y1,f.y0);
+  const band=f.pw/4, bw=Math.min(26,band*0.26);
+  gridY(f,sy,[-1.5,-1,-0.5,0,0.5,1,1.5],t=>t.toFixed(1));
+  f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:sy(0),y2:sy(0),stroke:cv("--rule"),"stroke-width":1.5}));
+  label(f,"Z step commanded (DAC counts)","x");
+  label(f,"Change in current (decades)","y");
+  const tip=tipFor(host);
+  ZF.step.forEach((s,i)=>{
+    const cx=f.x0+band*(i+0.5);
+    [["exp",cv("--ink-3"),-1],["got",cv("--s2"),1]].forEach(([k,col,side])=>{
+      const v=ZF[k][i], y0=sy(0), y1=sy(v);
+      const x=cx+side*(bw/2+2)-bw/2;
+      const r=S("rect",{x,y:Math.min(y0,y1),width:bw,height:Math.abs(y1-y0),
+        fill:col,rx:3,stroke:cv("--panel"),"stroke-width":2});
+      r.style.cursor="pointer";
+      r.addEventListener("mouseenter",e=>{
+        const br=f.svg.getBoundingClientRect(), hb=host.getBoundingClientRect();
+        tip.show(e.currentTarget.getBoundingClientRect().left-hb.left+bw/2*(br.width/f.w)/1,
+          e.currentTarget.getBoundingClientRect().top-hb.top,
+          `<b>${s>0?"+":""}${s} counts</b><br>${k==="exp"?"expected":"delivered"} ${v>0?"+":""}${v.toFixed(2)} decades`);
+      });
+      r.addEventListener("mouseleave",()=>tip.hide());
+      f.g.appendChild(r);
+    });
+    axText(f,cx,f.y1+20,(s>0?"+":"")+s);
+    const pct=Math.round(Math.abs(ZF.got[i]/ZF.exp[i])*100);
+    const lx=cx+2+bw/2;
+    axText(f,lx,ZF.got[i]>0?sy(ZF.got[i])-9:sy(ZF.got[i])+17,pct+"%",
+      {fill:cv("--s2"),weight:600,size:12});
+  });
+  axText(f,f.x0+band*0.5,f.y0+4,"pulling away",{size:11,fill:cv("--ink-3")});
+  axText(f,f.x0+band*3.5,f.y0+4,"pushing in",{size:11,fill:cv("--ink-3")});
+  tbl("tbl-zfid",["Z step","Expected (decades)","Delivered (decades)","Fraction delivered"],
+    ZF.step.map((s,i)=>[(s>0?"+":"")+s,ZF.exp[i].toFixed(2),ZF.got[i].toFixed(2),
+      Math.round(Math.abs(ZF.got[i]/ZF.exp[i])*100)+"%"]));
+})();
+
+/* ---------------- Figure 4: the ruler ---------------- */
+const RUL=[
+  {n:"Repeated line, &plusmn;400 counts",s:"average of 10 passes",v:17,k:"scan"},
+  {n:"Scan at &plusmn;400 counts",s:"per line, 4 images",v:34,k:"scan"},
+  {n:"CONTROL: X never moved",s:"average of 8 passes",v:47,k:"ctl"},
+  {n:"CONTROL: X never moved",s:"per line",v:87,k:"ctl"},
+  {n:"Scan at &plusmn;15,000 counts",s:"per line, 2 images",v:447,k:"scan"},
+  {n:"Repeated line, &plusmn;15,000 counts",s:"average of 12 passes",v:636,k:"scan"}
+];
+(function(){
+  const host=document.getElementById("fig-ruler");
+  const L=268, f=frame(host,{w:840,h:326,m:{t:24,r:34,b:48,l:L},
+    alt:"Bar chart of apparent structure in each scan against the noise floor"});
+  const sx=lin(0,700,f.x0,f.x1);
+  const rowH=f.ph/RUL.length, bh=Math.min(24,rowH*0.56);
+  f.g.appendChild(S("rect",{x:sx(287),y:f.y0-6,width:sx(419)-sx(287),height:f.ph+6,
+    fill:cv("--band")}));
+  [287,419].forEach(v=>f.g.appendChild(S("line",{x1:sx(v),x2:sx(v),y1:f.y0-6,y2:f.y1,
+    stroke:cv("--band-line"),"stroke-width":1,"stroke-dasharray":"4 4"})));
+  axText(f,sx(353),f.y0-12,"NOISE FLOOR 287-419",{size:10.5,fill:cv("--ink-3"),weight:600});
+  [0,200,400,600].forEach(t=>{
+    f.g.appendChild(S("line",{x1:sx(t),x2:sx(t),y1:f.y0-6,y2:f.y1,stroke:cv("--rule-2")}));
+    axText(f,sx(t),f.y1+19,fmt(t));
+  });
+  f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:f.y1,y2:f.y1,stroke:cv("--rule")}));
+  axText(f,f.x0+f.pw/2,f.h-6,"Apparent structure (Z counts RMS)",{size:11});
+  const tip=tipFor(host);
+  RUL.forEach((r,i)=>{
+    const cy=f.y0+rowH*(i+0.5);
+    const col=r.k==="ctl"?cv("--s2"):cv("--s1");
+    const bar=S("rect",{x:f.x0,y:cy-bh/2,width:Math.max(2,sx(r.v)-f.x0),height:bh,
+      fill:col,rx:4});
+    bar.style.cursor="pointer";
+    bar.addEventListener("mouseenter",e=>{
+      const hb=host.getBoundingClientRect(), bb=e.currentTarget.getBoundingClientRect();
+      tip.show(bb.right-hb.left,bb.top-hb.top+bh/2,
+        `<b>${r.v} counts</b><br>${r.n.replace(/&plusmn;/g,"+/-")}<br>${r.s}`);
+    });
+    bar.addEventListener("mouseleave",()=>tip.hide());
+    f.g.appendChild(bar);
+    const t1=S("text",{x:f.x0-14,y:cy-1,fill:cv("--ink"),"font-family":"var(--sans)",
+      "font-size":12.5,"text-anchor":"end","font-weight":r.k==="ctl"?600:500});
+    t1.innerHTML=r.n; f.g.appendChild(t1);
+    axText(f,f.x0-14,cy+13,r.s,{anchor:"end",size:10.5});
+    axText(f,sx(r.v)+9,cy+4,String(r.v),{anchor:"start",size:12,weight:600,
+      fill:r.v>419?cv("--s1"):cv("--ink-3")});
+  });
+  tbl("tbl-ruler",["What","Basis","Z counts RMS","Above the 287-419 floor?"],
+    RUL.map(r=>[r.n,r.s,r.v,r.v>419?"YES":"no"]));
+})();
+
+/* ---------------- shared helpers for raw curves ---------------- */
+function meanOf(ps){return ps[0].map((_,i)=>ps.reduce((a,p)=>a+p[i],0)/ps.length);}
+function rms(a){const m=a.reduce((x,y)=>x+y,0)/a.length;
+  return Math.sqrt(a.reduce((s,v)=>s+(v-m)*(v-m),0)/a.length);}
+const MEANS={wide:meanOf(RAW.wide.p),narrow:meanOf(RAW.narrow.p),held:meanOf(RAW.held.p)};
+
+/* ---------------- Figure 5: three profiles, shared scale ---------------- */
+(function(){
+  const host=document.getElementById("fig-profiles");
+  const panels=[
+    {k:"wide",t:"Scan &plusmn;15,000 &middot; 12 passes",col:"--s1"},
+    {k:"narrow",t:"Scan &plusmn;400 &middot; 10 passes",col:"--s1"},
+    {k:"held",t:"Control: X held still &middot; 8 passes",col:"--s2"}
+  ];
+  panels.forEach((p,pi)=>{
+    const div=document.createElement("div"); div.className="mpanel"; host.appendChild(div);
+    const f=frame(div,{w:300,h:250,m:{t:16,r:14,b:38,l:pi===0?54:20},
+      alt:p.t.replace(/&middot;/g,"-")});
+    const xs=RAW[p.k].x, sx=lin(xs[0],xs[xs.length-1],f.x0,f.x1), sy=lin(-2400,1000,f.y1,f.y0);
+    [-2000,-1000,0,1000].forEach(t=>{
+      const y=sy(t);
+      f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:y,y2:y,
+        stroke:t===0?cv("--rule"):cv("--rule-2"),"stroke-width":t===0?1.4:1}));
+      if(pi===0) axText(f,f.x0-8,y+4,fmt(t),{anchor:"end",size:10.5});
+    });
+    f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:f.y1,y2:f.y1,stroke:cv("--rule")}));
+    [xs[0],0,xs[xs.length-1]].forEach(t=>axText(f,sx(t),f.y1+17,
+      Math.abs(t)>=1000?(t/1000)+"k":String(t),{size:10.5}));
+    path(f,MEANS[p.k].map((v,i)=>[sx(xs[i]),sy(v)]),{stroke:cv(p.col),w:2.4});
+    if(pi===0) label(f,"Height (Z counts)","y");
+    const cap=document.createElement("p"); cap.className="mtitle"; cap.innerHTML=p.t;
+    div.appendChild(cap);
+    axText(f,f.x1-4,f.y0+12,rms(MEANS[p.k]).toFixed(0)+" RMS",
+      {anchor:"end",size:11,weight:600,fill:cv(p.col)});
+    hoverLine(div,f,xs.map(sx),null,i=>
+      `<b>X ${fmt(xs[i])}</b><br>${MEANS[p.k][i].toFixed(0)} counts`);
+  });
+  const rows=RAW.wide.x.map((_,i)=>[
+    fmt(RAW.wide.x[i]),MEANS.wide[i].toFixed(0),
+    fmt(RAW.narrow.x[i]),MEANS.narrow[i].toFixed(0),MEANS.held[i].toFixed(0)]);
+  tbl("tbl-profiles",["X (wide)","Wide mean","X (narrow)","Narrow mean","X-held mean"],rows);
+})();
+
+/* ---------------- Figure 6: twelve passes ---------------- */
+(function(){
+  const host=document.getElementById("fig-passes");
+  const f=frame(host,{w:840,h:380,m:{t:20,r:26,b:50,l:70},
+    alt:"Twelve individual passes over one line and their average"});
+  const xs=RAW.wide.x, sx=lin(xs[0],xs[xs.length-1],f.x0,f.x1), sy=lin(-6000,4000,f.y1,f.y0);
+  f.g.appendChild(S("rect",{x:f.x0,y:sy(419),width:f.pw,height:sy(-419)-sy(419),
+    fill:cv("--band")}));
+  gridY(f,sy,[-6000,-4000,-2000,0,2000,4000]);
+  axisX(f,sx,[-15000,-10000,-5000,0,5000,10000,15000],t=>t/1000+"k");
+  label(f,"X position (DAC counts)","x"); label(f,"Height (Z counts, tilt removed)","y");
+  RAW.wide.p.forEach(p=>path(f,p.map((v,i)=>[sx(xs[i]),sy(v)]),
+    {stroke:cv("--s1"),w:1.1,op:.26}));
+  path(f,MEANS.wide.map((v,i)=>[sx(xs[i]),sy(v)]),{stroke:cv("--s1"),w:3});
+  axText(f,f.x1-4,sy(419)-7,"noise floor +/-419",{anchor:"end",size:10.5,weight:600});
+  axText(f,sx(-9000),sy(MEANS.wide[4])-16,"average of 12 passes, 636 RMS",
+    {size:11.5,weight:600,fill:cv("--s1"),anchor:"start"});
+  hoverLine(host,f,xs.map(sx),null,i=>{
+    const col=RAW.wide.p.map(p=>p[i]);
+    return `<b>X ${fmt(xs[i])}</b><br>average ${MEANS.wide[i].toFixed(0)} counts<br>`+
+      `passes ${fmt(Math.min(...col))} to ${fmt(Math.max(...col))}`;
+  });
+  tbl("tbl-passes",["X counts","Average","Lowest pass","Highest pass","Spread"],
+    xs.map((x,i)=>{const c=RAW.wide.p.map(p=>p[i]);
+      return [fmt(x),MEANS.wide[i].toFixed(0),fmt(Math.min(...c)),fmt(Math.max(...c)),
+        fmt(Math.max(...c)-Math.min(...c))];}));
+})();
+
+/* ---------------- Figure 7: spectrum ---------------- */
+const SP={f:[5,10,20,60,120,1200],
+  none:[11,8,11,14,11,7], off:[174,58,29,22,13,9], on:[353,166,86,35,17,7]};
+(function(){
+  const host=document.getElementById("fig-spectrum");
+  const f=frame(host,{w:840,h:360,m:{t:22,r:30,b:52,l:66},
+    alt:"Noise against frequency on log axes for three conditions"});
+  const sx=lg(4,1500,f.x0,f.x1), sy=lg(5,450,f.y1,f.y0);
+  [5,10,20,50,100,200,400].forEach(t=>{
+    const y=sy(t);
+    f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:y,y2:y,stroke:cv("--rule-2")}));
+    axText(f,f.x0-9,y+4,String(t),{anchor:"end"});
+  });
+  f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:f.y1,y2:f.y1,stroke:cv("--rule")}));
+  SP.f.forEach(t=>{
+    f.g.appendChild(S("line",{x1:sx(t),x2:sx(t),y1:f.y1,y2:f.y1+5,stroke:cv("--rule")}));
+    axText(f,sx(t),f.y1+19,String(t));
+  });
+  label(f,"Frequency (Hz, log scale)","x"); label(f,"Noise (ADC counts, log scale)","y");
+  [60,120].forEach(t=>{
+    f.g.appendChild(S("line",{x1:sx(t),x2:sx(t),y1:f.y0,y2:f.y1,
+      stroke:cv("--ink-3"),"stroke-dasharray":"2 5",opacity:.5}));
+  });
+  axText(f,sx(85),f.y0+10,"mains 60 / 120 Hz - no peak here",{size:11,fill:cv("--ink-3")});
+  const series=[["none","--s3","No junction",-12],["off","--s2","Junction, bias off",24],
+    ["on","--s1","Junction, bias on",-14]];
+  series.forEach(([k,c,nm,dy])=>{
+    path(f,SP.f.map((x,i)=>[sx(x),sy(SP[k][i])]),{stroke:cv(c),w:2.5});
+    SP.f.forEach((x,i)=>f.g.appendChild(S("circle",{cx:sx(x),cy:sy(SP[k][i]),r:4,
+      fill:cv(c),stroke:cv("--panel"),"stroke-width":1.5})));
+    axText(f,sx(5)+11,sy(SP[k][0])+dy,nm,{anchor:"start",size:11.5,weight:600,fill:cv(c)});
+  });
+  hoverLine(host,f,SP.f.map(sx),null,i=>
+    `<b>${SP.f[i]} Hz</b><br>no junction ${SP.none[i]}<br>bias off ${SP.off[i]}<br>bias on ${SP.on[i]}`);
+  tbl("tbl-spectrum",["Frequency (Hz)","No junction","Junction, bias off","Junction, bias on"],
+    SP.f.map((x,i)=>[x,SP.none[i],SP.off[i],SP.on[i]]));
+})();
+
+/* ---------------- Figure 8: drift ---------------- */
+const DR={mid:[15,45,75,105,135,165], win:["0-30","30-60","60-90","90-120","120-150","150-180"],
+  z:[48429,47560,47627,46733,44375,43825], sd:[1316,650,1457,1342,198,574],
+  rate:[-175,2,73,-132,-15,-55]};
+(function(){
+  const host=document.getElementById("fig-drift");
+  const f=frame(host,{w:840,h:330,m:{t:22,r:30,b:52,l:74},
+    alt:"Where the junction was found, averaged in 30-second windows, with scatter bars"});
+  const sx=lin(0,180,f.x0,f.x1), sy=lin(42500,50500,f.y1,f.y0);
+  gridY(f,sy,[43000,45000,47000,49000]);
+  axisX(f,sx,[0,30,60,90,120,150,180]);
+  label(f,"Time since the motor stopped (seconds)","x");
+  label(f,"Z where the current appeared","y");
+  DR.mid.forEach((m,i)=>{
+    const x=sx(m);
+    f.g.appendChild(S("line",{x1:x,x2:x,y1:sy(DR.z[i]-DR.sd[i]),y2:sy(DR.z[i]+DR.sd[i]),
+      stroke:cv("--s1"),"stroke-width":2,opacity:.35,"stroke-linecap":"round"}));
+    [-1,1].forEach(s=>f.g.appendChild(S("line",{x1:x-5,x2:x+5,
+      y1:sy(DR.z[i]+s*DR.sd[i]),y2:sy(DR.z[i]+s*DR.sd[i]),
+      stroke:cv("--s1"),"stroke-width":2,opacity:.35})));
+  });
+  path(f,DR.mid.map((m,i)=>[sx(m),sy(DR.z[i])]),{stroke:cv("--s1"),w:2.5});
+  DR.mid.forEach((m,i)=>f.g.appendChild(S("circle",{cx:sx(m),cy:sy(DR.z[i]),r:5,
+    fill:cv("--s1"),stroke:cv("--panel"),"stroke-width":2})));
+  axText(f,sx(15),sy(48429+1316)-12,"scatter 1,316",{size:11,fill:cv("--ink-3")});
+  axText(f,sx(135),sy(44375-198)+20,"scatter 198",{size:11,weight:600,fill:cv("--s1")});
+  hoverLine(host,f,DR.mid.map(sx),null,i=>
+    `<b>${DR.win[i]} s</b><br>mean Z ${fmt(DR.z[i])}<br>scatter ${fmt(DR.sd[i])} counts<br>drift ${DR.rate[i]>0?"+":""}${DR.rate[i]} counts/s`);
+  tbl("tbl-drift",["Window (s)","Mean onset Z","Scatter (counts)","Drift (counts/s)"],
+    DR.win.map((w,i)=>[w,fmt(DR.z[i]),fmt(DR.sd[i]),(DR.rate[i]>0?"+":"")+DR.rate[i]]));
+})();
+
+/* ---------------- Figure 9: operator ---------------- */
+const OP=[{n:"Seated",s:"block 1",v:186.2},{n:"A metre away",s:"block 1",v:188.0},
+  {n:"Seated",s:"block 2",v:186.9},{n:"A metre away",s:"block 2",v:188.2},
+  {n:"Hand 5 cm from the head",s:"",v:221.5,hot:true}];
+(function(){
+  const host=document.getElementById("fig-operator");
+  const f=frame(host,{w:840,h:320,m:{t:22,r:26,b:64,l:66},
+    alt:"Noise in each 30-second block, seated, a metre away, and with a hand near the head"});
+  const sy=lin(0,240,f.y1,f.y0);
+  gridY(f,sy,[0,50,100,150,200]);
+  label(f,"Noise (ADC counts in a 30-second block)","y");
+  const band=f.pw/OP.length, bw=Math.min(76,band*0.56);
+  const tip=tipFor(host);
+  OP.forEach((o,i)=>{
+    const cx=f.x0+band*(i+0.5);
+    const col=o.hot?cv("--s2"):cv("--s1");
+    const r=S("rect",{x:cx-bw/2,y:sy(o.v),width:bw,height:f.y1-sy(o.v),fill:col,rx:4,
+      stroke:cv("--panel"),"stroke-width":2});
+    r.style.cursor="pointer";
+    r.addEventListener("mouseenter",e=>{
+      const hb=host.getBoundingClientRect(), bb=e.currentTarget.getBoundingClientRect();
+      tip.show(bb.left-hb.left+bb.width/2,bb.top-hb.top,
+        `<b>${o.v} counts</b><br>${o.n}${o.s?" &middot; "+o.s:""}<br>${(o.v/320).toFixed(2)} nA`);
+    });
+    r.addEventListener("mouseleave",()=>tip.hide());
+    f.g.appendChild(r);
+    axText(f,cx,sy(o.v)-9,o.v.toFixed(1),{size:12,weight:600,fill:col});
+    const t=S("text",{x:cx,y:f.y1+20,fill:cv("--ink-2"),"font-family":"var(--sans)",
+      "font-size":12,"text-anchor":"middle","font-weight":o.hot?600:500});
+    t.textContent=o.n; f.g.appendChild(t);
+    if(o.s) axText(f,cx,f.y1+35,o.s,{size:10.5});
+  });
+  f.g.appendChild(S("line",{x1:f.x0,x2:f.x1,y1:f.y1,y2:f.y1,stroke:cv("--rule")}));
+  f.g.appendChild(S("line",{x1:f.x0,x2:f.x0+band*4,y1:sy(187.3),y2:sy(187.3),
+    stroke:cv("--ink-3"),"stroke-dasharray":"5 4",opacity:.8}));
+  axText(f,f.x0+band*2,sy(187.3)-31,"no difference: 187.3 average",{size:11,fill:cv("--ink-3")});
+  tbl("tbl-operator",["Block","Detail","Noise (counts)","In current (nA)","Against seated average"],
+    OP.map(o=>[o.n,o.s||"&mdash;",o.v.toFixed(1),(o.v/320).toFixed(3),
+      ((o.v-187.3)>0?"+":"")+(o.v-187.3).toFixed(1)]));
+})();
+</script>

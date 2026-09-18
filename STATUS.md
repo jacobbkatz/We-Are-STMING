@@ -81,6 +81,26 @@ where the tip sits allows — it lands close to the textbook decade per 0.1 nm.*
 across the two ball ends settles it**, and that is the most valuable measurement left in the
 instrument. `docs/OPEN_QUESTIONS.md`.
 
+# A CHARTED READING OF THE 2026-09-17 BENCH DATA — added after the wrap
+
+**[`docs/bench_2026-09-17_review.html`](docs/bench_2026-09-17_review.html)**, published at
+<https://claude.ai/artifact/TKrAma2igREMEuYHFzFF6V>. Nine figures covering the I-V curve, current
+against Z, the Z-step asymmetry, every claimed structure measured against the 287-419 count height
+wobble, the noise spectrum, the drift settling, and the operator test. Written for a reader who
+does not read code.
+
+**It has no independent authority.** Every figure drawn from `sessions/data/2026-09-17-bench/` was
+recomputed from the CSVs rather than copied, and **all six of the wrap's corrected figures
+reproduce exactly** — including the three-Y control like for like at **+0.133 within a place
+against +0.146 between places**, which confirms the independent review's correction above.
+**If the page ever disagrees with this file, this file wins** — fix the page.
+
+**One number newly quantified from the committed data:** the **X-held control produces 87 counts
+of apparent structure per line against 29-43 counts for the real narrow scans.** The control beats
+the measurement. **And a trap worth carrying: none of the correlations reproduce unless the tilt is
+removed from each pass first** — undetrended, the same tests give +0.741 and +0.880 and look like a
+breakthrough. `sessions/2026-09-17-charts.md`.
+
 # HANDOVER — WHAT IS HAPPENING RIGHT NOW, 2026-09-17
 
 **For whoever picks this up next, on either computer. Read this block before anything else.**
