@@ -1,9 +1,95 @@
 # Next session plan
 
-**Last updated:** 2026-09-18 followup — **THE GOLD WAS NOT STUCK DOWN** and that is now the leading explanation for the snap; **the tip is TUNGSTEN**, which closes the magnetic-tip question. **A step-by-step card for the next session is at [`bench_card_2026-09-19.html`](bench_card_2026-09-19.html)** — this file stays canonical, the card is a view of it.
+**Last updated:** 2026-09-19 evening — **RUN TONIGHT ON NUH'S COMPUTER: RE-MEASURE THE LOW-FREQUENCY NOISE.** The step-by-step is **[STEP N, below](#step-n-tonight-re-measure-the-low-frequency-noise)** and the tool is **`Code/pc/stm_noise_spectrum.py`**, which is new and runs on either machine. Everything below this line is the 2026-09-18 followup — **THE GOLD WAS NOT STUCK DOWN** and that is now the leading explanation for the snap; **the tip is TUNGSTEN**, which closes the magnetic-tip question. **A step-by-step card for the next session is at [`bench_card_2026-09-19.html`](bench_card_2026-09-19.html)** — this file stays canonical, the card is a view of it.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
+
+---
+
+<a id="step-n-tonight-re-measure-the-low-frequency-noise"></a>
+# STEP N — TONIGHT, 2026-09-19, ON NUH'S COMPUTER: RE-MEASURE THE LOW-FREQUENCY NOISE
+
+**Why.** The suspension was loaded today: **54 quarters in three rolls plus 10 nickels, 356.2 g**,
+and the platform **sagged and had to be raised back up** — which means the springs crossed their
+initial tension and **opened for the first time.** Expected `f0` is now about **2.1 to 2.4 Hz**
+against **5 Hz** noise. `STATUS.md` has the arithmetic. **Nothing about it has been measured.**
+
+## The tool, and it is NEW
+
+    py Code/pc/stm_noise_spectrum.py --help
+
+**Do not use `sessions/data/2026-09-18-bench/scripts/spectrum.py`.** It carries a hardcoded path to
+Jacob's Desktop and a hardcoded `COM3`, and **it will fail on the first two lines on Nuh's
+machine.** The new tool finds the Teensy by its USB vendor ID, takes `--port` if that guesses
+wrong, and **writes its raw samples to CSV** so the run can be re-analysed later — which the
+2026-09-18 run cannot be, because its samples were never kept.
+
+**It only reads.** No `DACZ`, no motor, no bias. Nothing moves.
+
+## Conditions — get these right or the comparison means nothing
+
+- **TIP CLEAR.** Retracted, well away from the sample. This measures the instrument's own noise,
+  not anything about the junction. **It is the only comparison that is clean**, because the tip,
+  the gold and the sample plate have ALL changed since 2026-09-18 and the suspension has not been
+  isolated from them in any other measurement.
+- **NOBODY WITHIN A METRE.** A human body injects tens of nA; the whole signal is about 1 nA.
+- **45 MINUTES OF WARM-UP** before any preamp number is believed — `STATUS.md` safety rule 0.
+- **LED1-LED4 dark**, before and after. Any reading with one lit is void.
+
+## Do this, in order
+
+    py Code/pc/stm_noise_spectrum.py 10 --out still.csv
+
+Then, **with everything else identical, someone stamps on the floor a couple of metres away**:
+
+    py Code/pc/stm_noise_spectrum.py 10 --out stamp.csv
+
+Then:
+
+    py Code/pc/stm_noise_spectrum.py --compare still.csv stamp.csv
+
+**Commit both CSVs** to `sessions/data/2026-09-19-bench/`.
+
+## What each result means
+
+**The single run prints two separate questions, and they are independent:**
+
+| | |
+|---|---|
+| **The broadband floor** — `ADCR` sd | **46-48** on 2026-09-17, **341-350** on 2026-09-18, a **7x rise nobody explained**. Is it still there? This is electrical and **the suspension cannot touch it** |
+| **The low-frequency content** — 2-30 Hz with the white floor taken out | **This is the suspension's business and nothing else acts only down there** |
+
+> **THE CROSS-NIGHT COMPARISON IS THE WEAK ONE AND THE TOOL SAYS SO.** 2026-09-18's raw samples
+> were never kept, so its side is reconstructed from published band means with a different
+> estimator. On synthetic data where the truth is 10.0 counts this reads 7.4 at a high floor and
+> 9.7 at a low one — **so if the 7x is fixed tonight, the comparison is biased toward "it got
+> worse" by up to about 30%.** The tool refuses a confident verdict when the floors differ by more
+> than 2x. **Do not act on that number alone.**
+
+**THE STILL-VERSUS-STAMPING COMPARISON IS THE RELIABLE ONE.** Same night, same floor, same gain,
+same estimator on both sides, nothing reconstructed:
+
+| `--compare still.csv stamp.csv` says | What it means |
+|---|---|
+| **stamping puts much MORE into 2-30 Hz** | **The building is getting in**, and the suspension is the thing that has to improve. This is the number to watch from now on |
+| **stamping changes little** | **The floor is not the route.** The 5-20 Hz is made INSIDE the instrument — the tip holder, the sample plate, the rubber bands — and **no suspension change will help.** That would be the most valuable negative result available tonight |
+
+## Before the noise run, two things that take a minute
+
+1. **Count the bounces.** Nudge the platform gently — **not hard, the clearance under it is small**
+   — and watch. **About twice a second, roughly 7 cycles in 3 seconds, means the springs are open
+   and `f0` really is about 2 Hz.** A hard, fast, barely-there return means they are still shut.
+   Film it on a phone if counting is awkward. **This measures `f0` directly and needs no theory.**
+2. **Check the platform hangs FREE.** Jacob: *"its not sitting on the tower is just about its a
+   perfect fit."* **A platform that nearly touches can touch intermittently, and a chattering
+   contact is worse than a solid one.** Try to slide a slip of paper into the gap and write down
+   whether it goes.
+
+## Do NOT add more mass
+
+The height adjusters are **at maximum** (`SAID`), so another sag could not be corrected. And it is
+not worth it: **0.8 to 1.2 kg buys 20% on `f0`** for travel that does not exist.
 
 ---
 
