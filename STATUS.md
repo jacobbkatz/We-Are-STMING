@@ -1,12 +1,13 @@
 # Current status
 
-**Last updated:** 2026-09-19 bench, wrap (00:54-03:55 UTC, the evening of 2026-09-18 local) — **POWERED, ON JACOB'S LAPTOP.** **Electronics quiet again (40-42 counts).** **Springs open.** **The first tip was BENT and was replaced with a very blunt one.** **With the new tip Z controls the current and HIGH Z extends toward the sample (4.2σ, and the loop held with that sign).** **Feedback scans, the three-Y control and wide images all ran — NO IMAGE; every pattern is matched by its X-held control.** **Mechanics are the blocker: the gap slips and drifts, one motor step spans nothing to metal contact, the junction snaps in.**
+**Last updated:** 2026-09-19 bench, final wrap (00:54-04:00 UTC, the evening of 2026-09-18 local) — **POWERED DOWN at the end: side screws backed off ~1/4 turn, USB out, supplies off (`SAID`).** **Electronics quiet again (40-42 counts).** **Springs open.** **The first tip was BENT and was replaced with a very blunt one.** **With the new tip Z controls the current and HIGH Z extends toward the sample (4.2σ, and the loop held with that sign).** **Feedback scans, the three-Y control and wide images all ran — NO IMAGE; every pattern is matched by its X-held control.** **Mechanics are the blocker: the gap slips and drifts, one motor step spans nothing to metal contact, the junction snaps in.**
 **Updated by:** Claude Code desktop on Jacob's laptop, the second half run alone with Jacob's authority. `sessions/2026-09-19-bench.md`.
 
 # 2026-09-19 BENCH — READ THIS FIRST
 
 | | |
 |---|---|
+| **Power** | **OFF.** Side screws backed off about a quarter turn after parking (Z retracted, bias 0 V), then USB out and supplies off (`SAID`). **The gap is therefore large: start the next session with the live back-off** |
 | **Noise, tip clear** | **`ADCR` sd 40-42** — back to 2026-09-17's 46. **2026-09-18's 341-350 is gone.** 60 Hz line 10 counts, was 87 |
 | **Noise floor with a junction, X held** | **9-19 counts** (three-Y control, X held). **The tools still quote 2026-09-17's 287-419 — stale for this tip** |
 | **Suspension** | **Springs open** (`SAID`: ~3 bounces a second, dying in ~3). **Stamping changed nothing — with the tip clear, which cannot see the suspension.** The real stamp test needs a junction |

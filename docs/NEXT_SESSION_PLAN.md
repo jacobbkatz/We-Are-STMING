@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-19 bench wrap — **the first tip was bent and was replaced; with the new, very blunt tip Z controls the current and HIGH extends toward the sample; feedback scans and the three-Y control ran and showed no image.** The blocker is mechanical. Start at the block below.
+**Last updated:** 2026-09-19 bench, final wrap — **powered down; the side screws were backed off about a quarter turn, so the gap is large.** **the first tip was bent and was replaced; with the new, very blunt tip Z controls the current and HIGH extends toward the sample; feedback scans and the three-Y control ran and showed no image.** The blocker is mechanical. Start at the block below.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -8,6 +8,10 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 ---
 
 # START HERE — after the 2026-09-19 bench session (wrap)
+
+**State:** powered down (`SAID`). **The side screws were backed off about a quarter turn at the end**, so
+the gold is far from the tip: **power up in the usual order (supplies, USB, LED check), then begin with
+step 2's live back-off.** The tip is the "very blunt" replacement fitted at ~03:00 UTC on 2026-09-19.
 
 **1. Z direction: HIGH extends toward the sample for the tip fitted at ~03:00 on 2026-09-19.**
 Lock-in 4.2σ at a clean touch, and the feedback loop held the junction with that sign for 8 runs.
