@@ -139,15 +139,19 @@ def main():
     vmax = max(float(np.abs(m[2]).max()) for m in maps.values())
 
     S.set_theme("light")
-    fig = S.plt.figure(figsize=(11.2, 6.6))
-    gs = fig.add_gridspec(1, 3, width_ratios=[1.0, 1.0, 1.55],
-                          left=0.052, right=0.985, top=0.755, bottom=0.255, wspace=0.34)
+    fig = S.plt.figure(figsize=(11.6, 7.8))
+    gs = fig.add_gridspec(2, 3, width_ratios=[1.0, 1.0, 1.5], height_ratios=[1.0, 0.052],
+                          left=0.055, right=0.985, top=0.745, bottom=0.300,
+                          wspace=0.30, hspace=0.50)
     axa = fig.add_subplot(gs[0, 0])
     axb = fig.add_subplot(gs[0, 1])
+    cax = fig.add_subplot(gs[1, 0:2])
     axc = fig.add_subplot(gs[0, 2])
 
-    for ax, name, head in ((axa, show_scan, "A feedback scan"),
-                           (axb, show_ctrl, "Its X-held control")):
+    for ax, name, head, sub in ((axa, show_scan, "A feedback scan",
+                                 "the tip swept across X"),
+                                (axb, show_ctrl, "Its X-held control",
+                                 "X never moved at all")):
         X, Y, Z = maps[name]
         ext = [X.min(), X.max(), Y.min(), Y.max()]
         im = ax.imshow(Z, cmap=ccm.vik, vmin=-vmax, vmax=+vmax, origin="lower",
@@ -158,53 +162,52 @@ def main():
         ax.set_xticklabels([format(int(X.min()), ","), format(int(X.max()), ",")])
         ax.set_yticklabels([format(int(Y.min()), ","), format(int(Y.max()), ",")])
         ax.set_xlabel("X piezo counts", labelpad=6)
-        ax.set_title("%s\n%s\ncorrugation %.0f counts"
-                     % (head, "the tip swept across X" if name == show_scan
-                        else "X never moved at all",
-                        stats[name]["corrugation"]))
+        ax.set_title("%s\n%s \u00b7 corrugation %.0f counts"
+                     % (head, sub, stats[name]["corrugation"]))
     axa.set_ylabel("Y piezo counts", labelpad=6)
 
-    cb = fig.colorbar(im, ax=[axa, axb], orientation="horizontal", fraction=0.075,
-                      pad=0.17, aspect=38)
-    cb.set_label("Z the loop needed, after each line's tilt is removed (counts)."
-                 "  Zero is that line's own average.",
-                 color=S.C["ink2"], fontsize=S.TYPE["small"], labelpad=7)
-    cb.ax.tick_params(colors=S.C["muted"], labelsize=S.TYPE["small"])
+    cb = fig.colorbar(im, cax=cax, orientation="horizontal")
+    cb.set_label("NEITHER PANEL IS AN IMAGE OF A SURFACE. Each is the Z code the feedback "
+                 "loop asked for at that point,\nafter the line's own tilt is removed "
+                 "(counts). Zero is that line's own average.",
+                 color=S.C["ink2"], fontsize=S.TYPE["small"], labelpad=8)
+    cb.ax.tick_params(colors=S.C["muted"], labelsize=S.TYPE["small"], length=3)
     cb.outline.set_visible(False)
 
     # ---- panel C: every image-to-image correlation, with its uncertainty -------------
     rows = [(1.0, sp, S.series(0), "Feedback scans"),
             (0.0, cp, S.series(1), "X-held controls")]
-    axc.axvline(0, color=S.C["ink"], lw=1.4, zorder=2)
+    axc.axvspan(-se, se, color=S.C["band"], zorder=1)
+    axc.axvline(0, color=S.C["axis"], lw=1.2, zorder=2)
     for y, ps, col, lab in rows:
         vals = [c for _a, _b, c, _n in ps]
-        for k, v in enumerate(vals):
-            yy = y + (k - (len(vals) - 1) / 2.0) * 0.16
-            axc.errorbar([v], [yy], xerr=[se], fmt="o", color=col, ms=9,
+        axc.plot([-0.44, 0.44], [y, y], "-", color=S.C["grid"], lw=1.0, zorder=1)
+        for v in vals:
+            axc.errorbar([v], [y], xerr=[se], fmt="o", color=col, ms=10,
                          markeredgecolor=S.C["surface"], markeredgewidth=2.0,
-                         ecolor=col, elinewidth=2.0, capsize=0, zorder=5, alpha=0.95)
+                         ecolor=col, elinewidth=2.2, capsize=0, zorder=5)
         m = sum(vals) / len(vals)
-        axc.plot([m, m], [y - 0.30, y + 0.30], "-", color=S.C["ink"], lw=2.0, zorder=6)
-        S.key(axc, m, y + 0.345, "mean %+.2f" % m, ha="center", va="bottom")
-        S.note(axc, -0.44, y, "%s\n%d pairs" % (lab, len(ps)), ha="left", va="center",
-               color=S.C["ink"], fontweight=S.W_EMPH)
+        axc.plot([m, m], [y - 0.17, y + 0.17], "-", color=S.C["ink"], lw=2.4, zorder=6)
+        S.key(axc, m, y + 0.22, "mean %+.2f" % m, ha="center", va="bottom")
+        S.key(axc, -0.44, y + 0.50, "%s, %d pairs" % (lab, len(ps)), ha="left",
+              va="center")
 
-    axc.set_ylim(-0.62, 1.62)
+    axc.set_ylim(-0.55, 1.78)
     axc.set_xlim(-0.46, 0.46)
     axc.set_yticks([])
     axc.spines["left"].set_visible(False)
     S.tidy(axc, xlabel="How well one image repeats the next (correlation)", grid="x")
-    axc.set_title("Both sit on zero. Bars are ±1 standard error\n"
-                  "on each pair (231 points each).")
-    S.note(axc, 0.0, -0.50, "no repeatability", ha="center", va="center",
+    axc.set_title("Both groups sit on zero. Bars are \u00b11 standard error per pair;\n"
+                  "the grey stripe is one standard error either side of zero.")
+    S.note(axc, 0.0, -0.40, "0 = no repeatability at all", ha="center", va="center",
            fontsize=S.TYPE["small"])
 
     S.titles_keyed(
         fig,
         "The control that stopped us fooling ourselves",
-        "After every scan we ran the same scan again with the lateral sweep switched off, so <the control> could "
-        "not contain surface\nstructure at all. <The real scans> repeat no better than those controls do. That "
-        "single test is what settles the imaging question —\nand running it was the right thing to do.",
+        "After every scan we ran it again with the lateral sweep switched off, so <the control> could not contain "
+        "surface structure at all.\n<The real scans> repeat no better than those controls do. That one test is "
+        "what settles the imaging question — and running it was the right call.",
         [{"color": S.word(1), "fontweight": S.W_EMPH},
          {"color": S.word(0), "fontweight": S.W_EMPH}])
 

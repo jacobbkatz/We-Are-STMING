@@ -471,3 +471,57 @@ is lost — **and scan X boustrophedon between passes as well as within a line**
 already do and which is why they have no transient. Both are small changes to
 `Code/pc/stm_y_control.py` and `Code/pc/stm_feedback_scan.py`, and between them they remove the
 artefact that produced this project's most convincing false positive.
+
+---
+
+## V9. **The three-Y runs are MINUTES apart, not thirty. And the logs record the gap position nobody used**
+
+**Both subagents, and I repeating one of them to Jacob, stated an interval that the data do not
+support.** Subagent 2's `VERDICT.md` says run 4 came "half an hour later"; Subagent 1's `FINDINGS.md`
+says "nine minutes later". **Neither is evidenced, and both are almost certainly too long.**
+
+**What the record actually fixes.** `sessions/2026-09-19-bench.md` is chronological. §3.14 is
+timestamped **03:48**, §3.16 is timestamped **03:53**, and §3.15 — all four three-Y runs — sits
+between them. **All four runs fit inside about five minutes**, which is consistent with the work:
+each run is 3 places × 6 passes × 21 points, and a 21 × 11 image on the same night took about 5 s.
+**So run 2 to run 4 is a couple of minutes.** Neither log carries its own timestamp, which is why
+this was guessable in the first place.
+
+### The measurement nobody used
+
+**Every `ycontrol_run*.log` records the onset Z at which the loop found the surface, on its first
+line.** That is a direct measurement of gap position at the start of each run:
+
+| Run | Onset Z | |
+|---|---|---|
+| 1 | 44,200 | ±3,000 places |
+| **2** | **48,600** | the run that looked like a surface |
+| 3 | 52,000 | X-held control |
+| **4** | **50,800** | the repeat that did not reproduce |
+
+**Between run 2 and run 4 the onset moved 2,200 counts — about 3% of the 65,536-count Z range.**
+
+### Why this matters, and it does not go the way anyone expected
+
+**The claim on record — mine included — is that "between run 2 and run 4 the gap moved by most of
+the Z range", which is why "it did not repeat" and "the surface moved out from under it" cannot be
+separated.** For this pair of runs **that premise is not supported by the instrument's own record.**
+The gap was comparatively steady across exactly the interval in question.
+
+**That weakens the candidate rather than strengthening it.** If the surface did not move much, then
+"the surface moved out from under it" is a weaker explanation for the non-reproduction, and genuine
+non-reproduction — i.e. there was no surface signal — becomes the better-supported reading.
+
+**But it does not close it, for a reason that is specific and worth stating.** **Onset Z measures
+the GAP, not lateral position.** A lateral drift in X or Y would carry the tip onto a different
+patch of gold while barely changing the Z at which it finds the surface. **Nothing in this data set
+measures lateral drift**, and the project has never measured it. So the candidate stays open — but
+on the grounds that *lateral* position is unmeasured, not on the grounds that the gap moved wildly.
+
+**This is a sharper open question than the one it replaces**, and it changes what the settling
+experiment must include: **the interleaved-control repeat must also record onset Z at every run**,
+so that gap motion is separated from whatever else is happening.
+
+**Corrections owed:** `deliverables/2026-09-19-pause/candidates/VERDICT.md` ("half an hour later"),
+`deliverables/2026-09-19-pause/analysis/FINDINGS.md` ("nine minutes later"), and I told Jacob "half
+an hour" in conversation and have corrected it to him directly.

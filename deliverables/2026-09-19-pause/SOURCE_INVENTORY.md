@@ -13,6 +13,10 @@ the canonical record of what is physically in the room, and it is not a register
 | `2026-09-19-bench` | 38 | 42 | 0 | 4327696 | yes |
 | `2026-09-19-morning` | 19 | 29 | 0 | 2753735 | yes |
 
+> **Corrected 2026-09-19 by Subagent 1's independent count.** The per-directory CSV/LOG/JSON
+> columns above sum to **163 raw data files** (78 csv, 83 log, 2 json), not the 161 first written
+> here. With 4 READMEs, 2 console notes and the scripts, the directories hold 251 files in all.
+
 **Scripts that produced the data** live in `sessions/data/<session>/scripts/` and are
 read-only history: 82 files.
 
