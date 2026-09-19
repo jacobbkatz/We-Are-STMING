@@ -83,6 +83,34 @@ Jacob Katz
 
 ---
 
+## 1b. ADD THIS PARAGRAPH — the open question, and it is the most interesting thing in the note
+
+**Added 2026-09-19 after `LEAD_VERIFICATION.md` V10.** The note above does not yet carry the
+project's sharpest open result. **For a reader at a national lab this is the paragraph they will
+actually respond to**, because it is a well-posed question with a cheap experiment attached rather
+than a status report. Drop it in after the paragraph about the junction:
+
+> One junction we made on 17 September is still undecided, and we can say precisely why. Its
+> current fell by a decade for about every 250 Z counts of piezo travel. Whether that is vacuum
+> tunnelling or a tip pressing through a contaminant film depends entirely on one distance we never
+> measured: how far the tip sits from the line joining the two fixed screws, which sets the lever
+> ratio between the coarse screw and the tip. At the design's 1.00 mm the decay is about thirty
+> times too slow for tunnelling. At 0.1 to 0.3 mm the same measurement lands near the textbook
+> decade per 0.1 nm. The threshold is around 0.13 mm and our own estimate of the distance is
+> "somewhere between 0 and 1 mm" — so it straddles the answer. It needs a straightedge and no
+> electronics, and it is the first thing we will do when the instrument is rebuilt.
+
+**Why this is worth sending rather than hiding.** It is honest, it is specific, and it shows a team
+that knows which single measurement stands between them and an answer. **It is also the one place
+where an experienced reader can help cheaply** — somebody who has built an STM will have an opinion
+about that lever ratio, and may simply tell you.
+
+**Do not soften it into "we think we saw tunnelling".** The whole value of the paragraph is that it
+is undecided and that the deciding measurement is named. `docs/OPEN_QUESTIONS.md` puts it as *"this
+one distance decides whether we are tunnelling or pressing through a soft contact."*
+
+---
+
 ## 2. What to attach, and why each one earns its place
 
 **Four attachments is a good maximum for a cold-ish email; six if they asked for detail.** All

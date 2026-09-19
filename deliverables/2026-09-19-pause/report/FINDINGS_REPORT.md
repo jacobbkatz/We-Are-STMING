@@ -555,8 +555,18 @@ short of the corrected threshold — **its repeat half an hour later is p = 0.26
 control, which cannot contain a surface, scores p = 0.020 on the same statistic.**
 
 **This one cannot be settled with the data that exist**, and that is stated as a limit rather than
-buried: the two runs are half an hour apart, and in between the gap demonstrably moved by most of
-the Z range. **"It did not repeat" and "the surface moved out from under it" are not
+buried &mdash; **though the reason is not the one first written here.** ~~The two runs are half an hour
+apart, and in between the gap demonstrably moved by most of the Z range.~~ **CORRECTED 2026-09-19:
+both halves of that were inferred and neither survived checking.** Neither `ycontrol` log carries a
+timestamp, and all five runs sit between §3.14 at 03:48 and §3.16 at 03:53, so **the interval is
+UNKNOWN and bounded by about five minutes.** And every one of those logs records the onset Z at
+which the loop found the surface &mdash; 44,200 / 47,000 / **48,600** / 52,000 / **50,800** &mdash;
+so **the gap moved 2,200 counts between run 2 and run 4, about 3% of the Z range, not most of it.**
+**That WEAKENS this candidate**: if the surface barely moved and the shape still failed to
+reproduce, genuine non-reproduction is the better-supported reading. **What keeps it open is
+narrower and more useful: onset Z measures the GAP, not LATERAL position**, and a drift in X or Y
+would carry the tip onto a different patch of gold while barely changing it. **Lateral drift has
+never been measured in this project.** **"It did not repeat" and "the surface moved out from under it" are not
 distinguishable here.** It is the strongest form of the hypothesis that a real image was dismissed,
 and **it is not refuted.** It has a four-image test, which is the top scientific priority in
 `PAUSE_POINT_HANDOFF.md`.
@@ -628,7 +638,7 @@ of the ones that matter most to the science, not a second list.
 5. **The three-Y candidate — the one measurement this project has made that looked like
    topography** (section 7.3). It is presented in the gallery beside **its repeat and its X-held
    control**, with its honest statistics: within-place +0.239, between-place −0.135, difference
-   **+0.374 ± 0.097**, permutation **p = 0.0036**; the repeat half an hour later **+0.056,
+   **+0.374 ± 0.097**, permutation **p = 0.0036**; the repeat, minutes later rather than ~~half an hour~~ (corrected), **+0.056,
    p = 0.26**; an X-held control, which cannot contain a surface, **p = 0.020**. **It is an open
    question with a specified four-run experiment, not an image** — and an open question a team can
    name precisely is a stronger thing to show than a pretty picture. Figures:

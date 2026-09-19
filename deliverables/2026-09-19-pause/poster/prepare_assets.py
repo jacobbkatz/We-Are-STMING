@@ -51,16 +51,23 @@ PHOTO_FILES = [
     "11_tip_etching_setup.jpg",
     "13_poster_module_portrait.jpg",
     "14_poster_team_at_bench.jpg",
+    "15_workshop_room.jpg",
 ]
 
-# The figures this poster uses. These are copied byte for byte.
+# The figures this poster uses. These are copied byte for byte from the PRINT
+# versions (300 dpi), which is why they can be placed a foot wide and still look
+# sharp. All nine exist; the poster itself does not have room for all of them, and
+# poster.html says beside each one which is in and which is spare.
 FIGURE_FILES = [
     "fig01_calibration.png",
     "fig02_iv_curve.png",
     "fig03_gap_motion.png",
     "fig04_control.png",
-    "fig05_ztest.png",          # only if the figures agent produced it
-    "fig06_flyback.png",        # only if the figures agent produced it
+    "fig05_ztest.png",
+    "fig06_noise.png",
+    "fig07_signal_chain.png",
+    "fig08_scale.png",
+    "fig09_timeline.png",
 ]
 
 
