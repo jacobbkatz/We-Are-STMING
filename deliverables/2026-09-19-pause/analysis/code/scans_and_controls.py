@@ -100,18 +100,46 @@ def flat_of(path, drop_first=0):
     return [v for f in fwd for v in detrend(f)]
 
 
-def image_to_image(group, res, drop_first=0):
+def image_to_image(group, res, drop_first=0, full_only=True):
+    """Correlation of each consecutive pair of detrended forward images.
+
+    THE DEFECT THIS GUARDS AGAINST. The project's own analyze_scans.py truncates each
+    pair to the shorter file with no shape check (its lines 50-51). Where one file of a
+    pair ABORTED after a line or two, the resulting 'image-to-image correlation' is
+    computed over 21 or 42 pixels - one or two lines - while a pair of complete images is
+    computed over 231. Those are not the same statistic, and the short one is dominated by
+    the first line, which is the one line guaranteed to agree because it carries the
+    loop's settling transient (see the drop-line check below).
+
+    full_only=True therefore DROPS any file with fewer than the modal number of forward
+    lines for its group before pairing, so every correlation is over complete images.
+    full_only=False reproduces the published, truncating behaviour for comparison.
+
+    Returns (correlations, notes) where notes names any pair that was dropped or truncated.
+    """
+    flats = [(g, res[g]["n_fwd"] if drop_first == 0 else res[g]["n_fwd"] - drop_first,
+              res[g]["flat"] if drop_first == 0 else flat_of(g, drop_first))
+             for g in group]
+    notes = []
+    if full_only and flats:
+        modal = max(n for _, n, _ in flats)
+        short = [(g, n) for g, n, _ in flats if n < modal]
+        for g, n in short:
+            notes.append("%s dropped: %d forward line(s) of %d"
+                         % (os.path.basename(g), n, modal))
+        flats = [f for f in flats if f[1] >= modal]
     out = []
-    for a, b in zip(group, group[1:]):
-        fa = res[a]["flat"] if drop_first == 0 else flat_of(a, drop_first)
-        fb = res[b]["flat"] if drop_first == 0 else flat_of(b, drop_first)
+    for (ga, na, fa), (gb, nb, fb) in zip(flats, flats[1:]):
         n = min(len(fa), len(fb))
         if n < 6:
             continue
+        if not full_only and na != nb:
+            notes.append("%s vs %s TRUNCATED to %d line(s)"
+                         % (os.path.basename(ga), os.path.basename(gb), n // 21))
         c = pearson(fa[:n], fb[:n])
         if c is not None:
             out.append(c)
-    return out
+    return out, notes
 
 
 # Every scan-shaped file, grouped into the comparisons the sessions actually made.

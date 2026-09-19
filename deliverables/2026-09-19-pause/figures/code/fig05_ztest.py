@@ -182,13 +182,13 @@ def main():
     ax.set_title("One cycle, chosen as the one closest to the run's median slope.\n"
                  "Going in takes %.0f counts per ten-fold change; coming out, %.0f."
                  % (pick["cpd_in"], pick["cpd_out"]))
-    S.key(ax, zin_pts[-1][0] + padx * 0.12, zin_pts[-1][1], "going in",
+    S.key(ax, zin_pts[-1][0] + padx * 0.14, zin_pts[-1][1] * 0.70, "going in",
           ha="left", va="center", color=S.word(0))
-    S.key(ax, zout_pts[0][0] + padx * 0.12, zout_pts[0][1], "coming out",
+    S.key(ax, zout_pts[0][0] + padx * 0.14, zout_pts[0][1] * 1.30, "coming out",
           ha="left", va="center", color=S.word(1))
-    S.note(ax, z0 - (hi - lo) * 0.025, 2300,
-           "a tunnelling gap would be\nthis steep: the green stripe\n"
-           "is only 6\u201313 counts wide",
+    S.note(ax, z0 - (hi - lo) * 0.03, 2450,
+           "a tunnelling gap would be this steep \u2014\n"
+           "the green stripe is only 6\u201313 counts wide",
            ha="right", va="top", color=S.word(2))
 
     # ---- panel B: counts per decade, every run, against the tunnelling band ----------
@@ -219,9 +219,8 @@ def main():
           color=S.word(0))
     S.key(axb, summary[0]["cpd_out"] * 1.05, ys[0] + 0.30, "coming out", ha="left",
           va="bottom", color=S.word(1))
-    S.note(axb, math.sqrt(TUNNEL_LO * TUNNEL_HI), -0.85,
-           "6–13 counts:\ntunnelling, calculated", ha="center", va="center",
-           fontsize=S.TYPE["small"], color=S.word(2))
+    S.note(axb, 17, -0.85, "6–13 counts: what tunnelling would need,\ncalculated",
+           ha="left", va="center", fontsize=S.TYPE["small"], color=S.word(2))
 
     S.titles_keyed(
         fig,
