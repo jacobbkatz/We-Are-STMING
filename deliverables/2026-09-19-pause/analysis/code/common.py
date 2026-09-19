@@ -140,17 +140,20 @@ def ols(xs, ys):
     mx, my = st.mean(xs), st.mean(ys)
     sxx = sum((x - mx) ** 2 for x in xs)
     sxy = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
+    if sxx == 0:
+        raise ValueError("ols: no spread in x")
     b = sxy / sxx
     a = my - b * mx
     resid = [y - (a + b * x) for x, y in zip(xs, ys)]
     sse = sum(r * r for r in resid)
     sst = sum((y - my) ** 2 for y in ys)
-    dof = n - 2
+    dof = max(1, n - 2)
     s2 = sse / dof
     return dict(slope=b, intercept=a,
                 se_slope=math.sqrt(s2 / sxx),
                 se_intercept=math.sqrt(s2 * (1.0 / n + mx * mx / sxx)),
-                r2=1.0 - sse / sst, n=n, resid_sd=math.sqrt(s2), resid=resid)
+                r2=(1.0 - sse / sst) if sst > 0 else float("nan"),
+                n=n, resid_sd=math.sqrt(s2), resid=resid)
 
 
 def detrend(vals):

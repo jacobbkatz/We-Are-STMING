@@ -1,0 +1,42 @@
+A. THE 2026-09-17 PROFILE AGAINST THE BACKWARD PASSES, AT EVERY LAG
+   lag is in pixels; each pixel is 1500 X DAC counts
+     lag vs forward vs backward
+      -8     -0.545     -0.416
+      -7     -0.658     -0.344
+      -6     -0.627     -0.359
+      -5     -0.582     -0.264
+      -4     -0.449     -0.274
+      -3     -0.199     -0.237
+      -2      0.032     -0.363
+      -1      0.413     -0.377
+       0      0.760     -0.265
+       1      0.749      0.174
+       2      0.447      0.617
+       3      0.259      0.794
+       4     -0.004      0.848
+       5     -0.151      0.843
+       6     -0.202      0.583
+       7     -0.181      0.374
+       8     -0.248      0.117
+
+   best against forward:  lag +0, r +0.760
+   best against backward: lag +4, r +0.848
+
+   The forward match needs NO shift. The backward match never gets near it at
+   any lag inside +-8 pixels, which is +-12,000 X counts - most of the scan.
+   No lag rescues it, so the "a lag hid it" escape is closed.
+
+B. THE 2026-09-19 WIDE IMAGES' TRACE/RETRACE ANTI-CORRELATION, AT EVERY LAG
+   if a lag caused it, some shift turns it positive
+   img_scan_2.csv     scan     lag 0: -0.854   best lag +8: +0.780
+   img_scan_1.csv     scan     lag 0: -0.917   best lag +8: +0.926
+   img_xheld_0.csv    CONTROL  lag 0: +0.241   best lag +3: +0.316
+   img_xheld_1.csv    CONTROL  lag 0: +0.153   best lag +2: +0.176
+
+   No shift turns the real scans' anti-correlation positive, and the X-held
+   controls do not show it at any lag. So it is not a simple lag: it needs X
+   motion to appear, and it is not a surface (a surface gives trace/retrace
+   POSITIVE). This is consistent with the 2026-09-19 morning correction - the
+   loop hunting, driven by X motion - and does not settle the mechanism.
+
+-> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/lag_fairness.csv

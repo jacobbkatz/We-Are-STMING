@@ -1,0 +1,21 @@
+null,source,what,a,b,c
+N1 place permutation,2026-09-19-bench/ycontrol_run2_ysep12000.csv,the 3.9 sigma run,18 passes,observed +0.523,null sd 0.139,p = 0.0036
+N1 place permutation,2026-09-19-bench/ycontrol_run4_ysep12000_repeat.csv,its repeat,18 passes,observed +0.059,null sd 0.108,p = 0.2575
+N1 place permutation,2026-09-19-bench/ycontrol_run3_ysep12000_xheld.csv,X-HELD CONTROL,18 passes,observed +0.096,null sd 0.096,p = 0.1493
+N1 place permutation,2026-09-19-bench/ycontrol_run1.csv,y_sep 3000,18 passes,observed +0.023,null sd 0.024,p = 0.1598
+N1 place permutation,2026-09-19-bench/ycontrol_xheld_run1.csv,X-HELD CONTROL,18 passes,observed +0.226,null sd 0.092,p = 0.0202
+N1 place permutation,2026-09-17-bench/line_three_y_positions.csv,"2026-09-17, +-8000 X",15 passes,observed +0.007,null sd 0.092,p = 0.3996
+N2 Y-label permutation,scan_wide_25nm_1/2,forward,observed +0.142,null sd 0.193,p = 0.2400
+N2 Y-label permutation,scan_wide_25nm_1/2,backward,observed +0.113,null sd 0.175,p = 0.2785
+N3 phase surrogate,line_repeated_wide.csv,profile RMS,observed 636,surrogate 255+-55,p = 0.0000
+N3 phase surrogate,line_repeated_wide.csv,consecutive r,observed +0.647,surrogate +0.001+-0.095,p = 0.0000
+search budget,"raster recordings examined (scans, controls, aborted runs, chmaps)",43,,,
+search budget,"trace/retrace position tests, one per file (script 02)",34,,,
+search budget,"trace/retrace time tests, one per file (script 02)",34,,,
+search budget,within/between place tests (script 03),6,,,
+search budget,cross-night profile comparisons (script 03),15,,,
+search budget,place tests on the 2026-09-17 wide image pair (script 04),2,,,
+search budget,pass-separation correlations (script 04),11,,,
+search budget,profile-versus-Y comparisons (script 05),36,,,
+search budget,image-to-image correlations reported in the session logs,20,,,
+search budget,TOTAL,201,Bonferroni 5% threshold p < 2.5e-04,,

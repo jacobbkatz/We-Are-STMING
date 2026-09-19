@@ -1,0 +1,44 @@
+group,session,file,kind,lines,x_pixels,corrugation,trace_retrace,clamped_fraction,identical_passes
+"2026-09-17 narrow, 4 fast images",2026-09-17-bench,scan_fast_1.csv,scan,12,21,42.807064514083386,0.05107133378717596,0.0,0
+"2026-09-17 narrow, 4 fast images",2026-09-17-bench,scan_fast_2.csv,scan,12,21,32.476108179417395,0.011373893293921553,0.0,0
+"2026-09-17 narrow, 4 fast images",2026-09-17-bench,scan_fast_3.csv,scan,12,21,32.06290590218024,0.04160037391384441,0.0,0
+"2026-09-17 narrow, 4 fast images",2026-09-17-bench,scan_fast_4.csv,scan,12,21,29.30735924625763,-0.05366402716679332,0.0,0
+"2026-09-17 narrow, 2 slow images",2026-09-17-bench,scan_slow_1.csv,scan,12,21,86.12822561738838,-0.23226463653130744,0.0,0
+"2026-09-17 narrow, 2 slow images",2026-09-17-bench,scan_slow_2.csv,scan,12,21,90.94057629794086,-0.1804808384274488,0.0,0
+"2026-09-17 narrow, 250 corrections per pixel",2026-09-17-bench,scan_slow_dwell_1.csv,scan,7,9,29.531997021729033,-0.3916845172457737,0.0,0
+"2026-09-17 narrow, 250 corrections per pixel",2026-09-17-bench,scan_slow_dwell_2.csv,scan,7,9,42.90683489306681,0.047447266473767985,0.0,0
+"2026-09-17 diagnostic: 15 corrections, vs X HELD",2026-09-17-bench,diag_scan_normal_1.csv,scan,8,21,132.54368402192426,0.12565688220406027,0.0,0
+"2026-09-17 diagnostic: 15 corrections, vs X HELD",2026-09-17-bench,diag_scan_normal_2.csv,scan,8,21,56.85752003688349,0.06603647209782143,0.0,0
+"2026-09-17 diagnostic: 15 corrections, vs X HELD",2026-09-17-bench,diag_scan_x_held.csv,control,8,21,86.88299753083533,0.1541953206832943,0.0,0
+2026-09-17 wide +-4000 X,2026-09-17-bench,scan_wide_slow_1.csv,scan,5,21,105.28088515137226,0.028584156552343316,0.0,0
+2026-09-17 wide +-4000 X,2026-09-17-bench,scan_wide_slow_2.csv,scan,5,21,198.35132010471318,-0.016132261661115116,0.0,0
+2026-09-17 wide +-15000 X,2026-09-17-bench,scan_wide_25nm_1.csv,scan,9,21,436.271103107508,-0.023251005370547,0.0,0
+2026-09-17 wide +-15000 X,2026-09-17-bench,scan_wide_25nm_2.csv,scan,9,21,457.8454902335029,-0.05269782850175043,0.0,0
+2026-09-19 bench cas8 constant-height maps (SATURATED),2026-09-19-bench,cas8_chmap_t1_scan_1789789628.csv,scan,11,21,0.0,,1.0,11
+2026-09-19 bench cas8 constant-height maps (SATURATED),2026-09-19-bench,cas8_chmap_t1_scan_1789789632.csv,scan,11,21,0.0,,1.0,11
+2026-09-19 bench cas8 constant-height maps (SATURATED),2026-09-19-bench,cas8_chmap_t2_scan_1789789635.csv,scan,11,21,0.0,,1.0,11
+2026-09-19 bench cas8 constant-height maps (SATURATED),2026-09-19-bench,cas8_chmap_t2_scan_1789789639.csv,scan,11,21,0.0,,1.0,11
+2026-09-19 bench cas8 constant-height maps (SATURATED),2026-09-19-bench,cas8_chmap_t3_scan_1789789643.csv,scan,11,21,0.0,,1.0,11
+2026-09-19 bench cas8 constant-height maps (SATURATED),2026-09-19-bench,cas8_chmap_t3_scan_1789789646.csv,scan,11,21,0.0,,1.0,11
+2026-09-19 bench cas8 constant-height maps (SATURATED),2026-09-19-bench,cas8_chmap_t1_xheld_1789789630.csv,control,11,21,0.0,,1.0,11
+2026-09-19 bench cas8 constant-height maps (SATURATED),2026-09-19-bench,cas8_chmap_t2_xheld_1789789638.csv,control,11,21,0.0,,1.0,11
+2026-09-19 bench cas8 constant-height maps (SATURATED),2026-09-19-bench,cas8_chmap_t3_xheld_1789789645.csv,control,11,21,0.0,,1.0,11
+2026-09-19 bench cas9 feedback scans vs X-held controls,2026-09-19-bench,cas9_scan0.csv,scan,11,21,81.65131521916892,-0.1012718069699619,0.0,0
+2026-09-19 bench cas9 feedback scans vs X-held controls,2026-09-19-bench,cas9_scan1.csv,scan,11,21,126.32640528842936,0.4319651052742693,0.0,0
+2026-09-19 bench cas9 feedback scans vs X-held controls,2026-09-19-bench,cas9_scan2.csv,scan,11,21,146.87302760837616,-0.44965437191076996,0.0,0
+2026-09-19 bench cas9 feedback scans vs X-held controls,2026-09-19-bench,cas9_scan3.csv,scan,11,21,101.45115915668099,-0.0709719356835604,0.0,0
+2026-09-19 bench cas9 feedback scans vs X-held controls,2026-09-19-bench,cas9_xheld0.csv,control,11,21,82.22725515537076,-0.37811986825310795,0.0,0
+2026-09-19 bench cas9 feedback scans vs X-held controls,2026-09-19-bench,cas9_xheld1.csv,control,11,21,40.57678214304246,-0.05407783246309506,0.0,0
+2026-09-19 bench cas9 feedback scans vs X-held controls,2026-09-19-bench,cas9_xheld2.csv,control,1,21,236.82475827221856,0.12186004233294928,0.0,0
+2026-09-19 bench cas9 feedback scans vs X-held controls,2026-09-19-bench,cas9_xheld3.csv,control,11,21,59.08046682174299,0.3123621972174056,0.0,0
+2026-09-19 bench wide images vs X-held controls,2026-09-19-bench,img_scan_0.csv,scan,1,21,382.0371551294485,-0.9369088667296439,0.0,0
+2026-09-19 bench wide images vs X-held controls,2026-09-19-bench,img_scan_1.csv,scan,2,21,438.2629994692478,-0.9095243937858408,0.0,0
+2026-09-19 bench wide images vs X-held controls,2026-09-19-bench,img_scan_2.csv,scan,11,21,416.25037273506257,-0.748545016592073,0.0021645021645021645,0
+2026-09-19 bench wide images vs X-held controls,2026-09-19-bench,img_xheld_0.csv,control,11,21,181.2062591846159,0.13529825521563946,0.0,0
+2026-09-19 bench wide images vs X-held controls,2026-09-19-bench,img_xheld_1.csv,control,11,21,132.51815903178883,0.1291804353521478,0.0,0
+2026-09-19 morning tuned scans (loop constant 1800) vs controls,2026-09-19-morning,tuned_s3k_scan0.csv,scan,1,21,1884.7603988901321,0.24693577788351997,0.6428571428571429,0
+2026-09-19 morning tuned scans (loop constant 1800) vs controls,2026-09-19-morning,tuned_s3k_scan1.csv,scan,8,21,1183.1728847305537,-0.1024018727874297,0.20535714285714285,0
+2026-09-19 morning tuned scans (loop constant 1800) vs controls,2026-09-19-morning,tuned_s3k_scan2.csv,scan,9,21,1309.6318192464996,-0.4674422155469186,0.20634920634920634,0
+2026-09-19 morning tuned scans (loop constant 1800) vs controls,2026-09-19-morning,tuned_s3k_xheld0.csv,control,2,21,1372.6759610653178,-0.08479040585219227,0.40476190476190477,0
+2026-09-19 morning tuned scans (loop constant 1800) vs controls,2026-09-19-morning,tuned_s3k_xheld1.csv,control,8,21,921.0144395763149,0.48135421671258855,0.2113095238095238,1
+2026-09-19 morning tuned scans (loop constant 1800) vs controls,2026-09-19-morning,tuned_s3k_xheld2.csv,control,9,21,970.0817926138883,0.07233619700229273,0.2275132275132275,2

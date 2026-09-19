@@ -69,8 +69,18 @@ def retired_patterns():
         if not m:
             continue
         literal = m.group(1)
-        # "as the ADC full scale" means only flag it near those words
-        qual = re.search(r'as the \*\*?([^*|]+?)\*\*?\s*$', cells[0])
+        # "as the ADC full scale" means only flag it near those words.
+        #
+        # "for the" added 2026-09-19. The regex accepted only "as the", so the
+        # `drops in` row -- phrased "`drops in` for the **Keystone 11301 in our
+        # board hole**" -- was UNQUALIFIED and matched that literal as a bare
+        # substring anywhere in the repository. "drops into constant-current
+        # mode", an ordinary sentence about a bench supply, tripped it. A
+        # retired literal that is a common English phrase needs its narrowing
+        # to work, or the checker cries wolf and gets ignored -- which is the
+        # failure this whole file exists to prevent, arriving from the other
+        # direction.
+        qual = re.search(r'(?:as|for) the \*\*?([^*|]+?)\*\*?\s*$', cells[0])
         rows.append((literal, qual.group(1).strip().lower() if qual else None,
                      re.sub(r'[*`]', '', cells[1])))
     return rows

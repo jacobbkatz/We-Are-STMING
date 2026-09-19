@@ -55,20 +55,22 @@ RNG = np.random.default_rng(20260919)
 NPERM = 20000
 
 
-def wb_difference(D, labels):
-    """within-place minus between-place mean correlation, Fisher-z averaged."""
-    n = len(D)
-    within, between = [], []
-    for a, b in itertools.combinations(range(n), 2):
-        c = corr(D[a], D[b])
-        if c is None:
-            continue
-        (within if labels[a] == labels[b] else between).append(c)
-    mw, _, _ = fisher_mean(within)
-    mb, _, _ = fisher_mean(between)
-    if mw is None or mb is None:
-        return None
-    return mw - mb
+def corr_matrix(D):
+    """Pearson r between every pair of rows, computed once."""
+    Z = (D - D.mean(axis=1, keepdims=True))
+    Z = Z / np.maximum(Z.std(axis=1, keepdims=True), 1e-12)
+    return (Z @ Z.T) / D.shape[1]
+
+
+def wb_from_matrix(C, labels, iu):
+    """within-place minus between-place mean r, Fisher-z averaged, from a
+    precomputed correlation matrix. iu is the upper-triangle index pair."""
+    same = labels[iu[0]] == labels[iu[1]]
+    r = np.clip(C[iu], -0.999999, 0.999999)
+    z = np.arctanh(r)
+    if same.all() or (~same).any() is False:
+        return np.nan
+    return float(np.tanh(z[same].mean()) - np.tanh(z[~same].mean()))
 
 
 def perm_test_place(path):
@@ -80,10 +82,12 @@ def perm_test_place(path):
             labels.append(p)
     D = np.array(D)
     labels = np.array(labels)
-    obs = wb_difference(D, labels)
+    C = corr_matrix(D)
+    iu = np.triu_indices(len(D), 1)
+    obs = wb_from_matrix(C, labels, iu)
     null = np.empty(NPERM)
     for k in range(NPERM):
-        null[k] = wb_difference(D, RNG.permutation(labels))
+        null[k] = wb_from_matrix(C, RNG.permutation(labels), iu)
     p_one = float((null >= obs).mean())
     return obs, null, p_one, len(D), len(places)
 
@@ -149,12 +153,20 @@ def main():
         ph[0] = 0
         return np.fft.irfft(np.abs(F) * np.exp(1j * ph), n=len(row))
 
-    sp, sc = [], []
-    for _ in range(5000):
-        S = np.array([detrend(surrogate(r)) for r in D])
-        sp.append(rms(S.mean(axis=0)))
-        sc.append(fisher_mean([corr(S[i], S[i + 1]) for i in range(len(S) - 1)])[0])
-    sp, sc = np.array(sp), np.array(sc)
+    nsur = 5000
+    mag = np.abs(np.fft.rfft(D, axis=1))
+    sp, sc = np.empty(nsur), np.empty(nsur)
+    t = np.arange(D.shape[1], dtype=float)
+    A = np.vstack([t, np.ones_like(t)]).T
+    Pdet = np.eye(len(t)) - A @ np.linalg.pinv(A)      # detrend as a matrix
+    for k in range(nsur):
+        ph = RNG.uniform(0, 2 * np.pi, mag.shape)
+        ph[:, 0] = 0
+        S = np.fft.irfft(mag * np.exp(1j * ph), n=D.shape[1], axis=1) @ Pdet.T
+        sp[k] = rms(S.mean(axis=0))
+        Cs = corr_matrix(S)
+        sc[k] = float(np.tanh(np.mean(np.arctanh(
+            np.clip(np.diag(Cs, 1), -0.999999, 0.999999)))))
     print("    averaged-profile RMS   observed %.0f counts, surrogate %.0f +- %.0f, p = %.4f"
           % (obs_prof, sp.mean(), sp.std(), (sp >= obs_prof).mean()))
     print("    consecutive-pass r     observed %+.3f,      surrogate %+.3f +- %.3f, p = %.4f"
@@ -190,9 +202,15 @@ def main():
     print("""
     At %d tests, a 5%% threshold is expected to throw up about %.0f apparent
     findings from noise alone. A Bonferroni-corrected 5%% threshold is
-    p < %.1e, which is about %.1f sigma. The only result in this whole body of
-    data that ever reached that was the y_sep 12000 run, and it did not repeat.""" % (
-        tot, 0.05 * tot, 0.05 / tot, abs(np.sqrt(2) * 1.0) * 0 + 4.1))
+    p < %.1e, about 3.7 sigma. NOTHING in this body of data reaches it. The
+    best place-dependence ever seen - the y_sep 12000 run, called 3.9 sigma on
+    the night - is p = 0.0036 under its own permutation null, which is a factor
+    of %.0f short of the corrected threshold, AND its repeat gave p = 0.26, AND
+    an X-HELD CONTROL, which cannot contain any sample structure at all, scored
+    p = 0.02 on the same statistic. The only result that clears the corrected
+    threshold is the 2026-09-17 profile's existence (N3, p < 2e-4), and scripts
+    04 and 05 show that what it is a picture of is the forward scan direction.""" % (
+        tot, 0.05 * tot, 0.05 / tot, 0.0036 / (0.05 / tot)))
     rows.append(["search budget", "TOTAL", str(tot),
                  "Bonferroni 5%% threshold p < %.1e" % (0.05 / tot), "", ""])
 

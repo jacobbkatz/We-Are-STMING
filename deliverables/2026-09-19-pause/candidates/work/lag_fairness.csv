@@ -1,0 +1,24 @@
+test,source,a,b
+0917 profile vs image means,lag -8,-0.545,-0.416
+0917 profile vs image means,lag -7,-0.658,-0.344
+0917 profile vs image means,lag -6,-0.627,-0.359
+0917 profile vs image means,lag -5,-0.582,-0.264
+0917 profile vs image means,lag -4,-0.449,-0.274
+0917 profile vs image means,lag -3,-0.199,-0.237
+0917 profile vs image means,lag -2,0.032,-0.363
+0917 profile vs image means,lag -1,0.413,-0.377
+0917 profile vs image means,lag 0,0.760,-0.265
+0917 profile vs image means,lag 1,0.749,0.174
+0917 profile vs image means,lag 2,0.447,0.617
+0917 profile vs image means,lag 3,0.259,0.794
+0917 profile vs image means,lag 4,-0.004,0.848
+0917 profile vs image means,lag 5,-0.151,0.843
+0917 profile vs image means,lag 6,-0.202,0.583
+0917 profile vs image means,lag 7,-0.181,0.374
+0917 profile vs image means,lag 8,-0.248,0.117
+0917 profile,best lag vs forward,+0,+0.760
+0917 profile,best lag vs backward,+4,+0.848
+0919 wide trace/retrace,img_scan_2.csv,scan,lag0 -0.854 best lag +8 -> +0.780
+0919 wide trace/retrace,img_scan_1.csv,scan,lag0 -0.917 best lag +8 -> +0.926
+0919 wide trace/retrace,img_xheld_0.csv,CONTROL,lag0 +0.241 best lag +3 -> +0.316
+0919 wide trace/retrace,img_xheld_1.csv,CONTROL,lag0 +0.153 best lag +2 -> +0.176

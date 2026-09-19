@@ -1120,3 +1120,716 @@ than a tunnelling gap.** There is no clamp anywhere in the path. **Keep every DA
 4. **Look at LED1 to LED4 again afterwards.** The configuration can drop during a measurement.
 
 ---
+
+# 7. Data collection
+
+## 7.1 The tools, what they do and what they write
+
+**Everything lives in `Code/pc/` and is run from the repository root.** They find the Teensy by
+PJRC's USB vendor ID, so you never have to name a port. `pyserial` alone is enough for the console;
+`numpy` and `matplotlib` are only needed by `adc_stats.py` and the unused GUI.
+
+| Tool | What it does | What it writes |
+|---|---|---|
+| **`Code/pc/stm_console.py`** | **Start here.** Sends any firmware command, one-shot or interactive | Prints to the terminal only |
+| **`Code/pc/adc_stats.py`** | Samples the ADC over time and reports mean, standard deviation, minimum, maximum and range. **Reads `GSTS` field 5, a raw single conversion**, on purpose — `ADCR` averages and would hide the isolated bit-flips a marginal SPI link produces | Prints to the terminal |
+| **`Code/pc/stm_noise_spectrum.py`** | Noise spectrum of the ADC, with a comparison against every previous run printed for you. **It only reads** — no Z, no motor, no bias, nothing moves | A CSV of raw samples, so the run can be re-analysed with no instrument |
+| **`Code/pc/stm_approach.py`** | PC-side coarse approach by the woodpecker method: only the piezo ever closes the gap, and the motor only moves while Z is retracted. **It never sends `APRH`** | A log; CSVs in some modes |
+| **`Code/pc/stm_feedback_scan.py`** | Constant-current imaging with the feedback loop running on this computer. Each pixel records the Z that holds the setpoint current — the height map. **Every line is scanned forward then backward** | A CSV per scan: first column the Y DAC code, header row the X DAC codes, each line appearing twice as `fwd` and `back` |
+| **`Code/pc/stm_y_control.py`** | **The control that decides whether a reproducible profile is the sample or the scanner's own bow.** Runs the same line at three Y positions | A CSV, with the half-width recorded inside it |
+| `Code/pc/stm_control.py` | A library the GUI is built on, not a program. **Four verified bugs, all upstream, none fixed** | — |
+| **`Code/pc/stm_app.py`** | **Do not use.** Its Approach button sends `APRH` and its motor control is broken | — |
+| `Code/pc/stl_features.py` | Measures the printed parts straight out of the STL meshes. **Run this instead of guessing a hole size** | Prints a table, with a fit-error column |
+| `Code/pc/check_facts.py` | Reports anywhere a value `docs/FACTS.md` lists as retired still sits in a live document, plus broken links and miscited safety rules. **Runs automatically at session start** | Exit code and a report |
+
+**Every instrument tool has a matching `*_test.py`** that runs it against a simulated junction with
+no hardware attached. **Run the test first.** If any assertion fails, do not use the tool.
+
+```
+py Code/pc/stm_approach_test.py
+py Code/pc/stm_feedback_scan_test.py
+py Code/pc/stm_y_control_test.py
+py Code/pc/stm_noise_spectrum_test.py
+```
+
+## 7.2 How a run is recorded
+
+**Raw data goes in `sessions/data/<session-name>/`, with its own `README.md` listing every file and
+what it is.** Four such directories exist: `2026-09-17-bench`, `2026-09-18-bench`,
+`2026-09-19-bench` and `2026-09-19-morning`. **Read the README before opening any CSV** — several
+files carry caveats that change what they mean.
+
+**Each session directory also has a `scripts/` folder.** Those are **scratch scripts kept as
+provenance, not tools.** They hard-code a COM port and absolute paths to one laptop, and several
+of them assume a particular Z direction. **They are history. Do not run them on another machine
+without reading them first.**
+
+**Conventions that make runs comparable:**
+
+- Times in UTC.
+- **Say which reading you used**: `ADCR` averaged, or `GSTS` field 5 raw.
+- **Say what the bias code was.** The usual ones are `BIAS 38229` for −0.5 V at the sample and
+  `27307` for +0.5 V.
+- **Say which tip is fitted and when it was fitted**, because the Z direction and every junction
+  figure belong to a tip, not to the instrument.
+- **Say how many minutes since power-on** alongside any noise figure.
+- **Note whether anyone was within a metre of the preamplifier.**
+
+## 7.3 Three traps that have already cost data
+
+1. **Write CSV rows as they are taken, not at the end.** Four CSVs were lost on 2026-09-19 because
+   the scripts wrote their file only on a clean exit, and stopping a task kills the process before
+   that runs. The `.log` files were all that survived.
+2. **Grep the file for the thing you claimed to change.** On 2026-09-17 a wrap recorded that a
+   scan tool's bias argument was "now actually used". **It was not** — a literal value was still
+   there, so every scan that night ran at one bias whatever was typed.
+3. **A tool's built-in comparison figures go stale.** `Code/pc/stm_y_control.py` prints a wobble
+   figure from 2026-09-17; the 2026-09-19 floor with a junction and X held was 9–19 counts.
+   **Check which night and which tip any quoted figure belongs to.**
+
+---
+
+# 8. Analysis
+
+## 8.1 What a scan file contains, and how to read it
+
+**The value in each cell is the Z DAC code the feedback loop needed to hold the setpoint current at
+that pixel.** That is the height map. **Higher is not automatically "taller"** — which direction of
+Z extends toward the sample is a property of the fitted tip.
+
+**Each line appears twice, forward and backward.** Trace against retrace is the first test of
+whether a feature is real.
+
+## 8.2 The tests that decide whether anything is real
+
+**This project's hardest-won lesson is that a convincing image is not evidence.** Four tests are on
+record, and all four have changed a conclusion at least once.
+
+| Test | What it is | What has happened |
+|---|---|---|
+| **Detrend every pass first** | Remove the straight-line tilt before taking any correlation | **There is a fixed tilt of about −0.17 counts of Z per count of X between tip and sample.** Undetrended, the same data gives +0.741 and +0.880 and looks like a breakthrough; detrended, the honest figure is +0.124. **None of the correlations mean anything until this is done** |
+| **The X-held control** | Run the identical scan with identical timing, but never move X | On 2026-09-17 the control produced **more** apparent structure than a real scan: 87 counts per line against 29–43 for the real narrow scans. On 2026-09-19 four controls reproduced better than four feedback scans, +0.37 against +0.04 |
+| **The three-Y control** | Run the same line at three different Y positions. Different places giving **different** shapes means the profile is the surface; the **same** shape everywhere means it is the scanner's own bow | At 3,000 counts apart the same shape appeared everywhere. At 12,000 apart one run said "surface" at 3.9 sigma **and the repeat did not** |
+| **Compare against the height wobble** | Hold the loop at one point and measure how much Z moves | Any apparent structure smaller than that wobble is not structure |
+
+**Two statistical rules the project follows and should keep following:**
+
+- **Compare like with like.** The original three-Y control compared five-pass averages between
+  places against single passes within a place. Averaging raises a correlation on its own, so the
+  comparison was decided before any physics entered it.
+- **Account for multiple comparisons.** If you searched many scans for a feature, say how many, and
+  say what that does to the chance of finding one.
+
+## 8.3 Re-analysing without the instrument
+
+Both control tools can re-read a file they wrote, with nothing plugged in:
+
+```
+py Code/pc/stm_y_control.py --analyse <file.csv>
+py Code/pc/stm_noise_spectrum.py --analyse <file.csv>
+py Code/pc/stm_noise_spectrum.py --compare still.csv stamp.csv
+```
+
+## 8.4 The charts and pages already written
+
+| Page | What it is |
+|---|---|
+| `docs/showcase.html` | For a reader judging the work in five minutes. Leads with what the instrument demonstrably does |
+| `docs/progress.html` | The public explainer: what an STM is, how tunnelling works, where the build reached |
+| `docs/bench_2026-09-17_review.html` | Nine figures reading the 2026-09-17 bench data, written for someone who does not read code |
+
+**None of them has independent authority.** Every number on them is cited from `STATUS.md`,
+`docs/FACTS.md` or a session log. **If one disagrees with those, they win and the page is what gets
+fixed.**
+
+---
+
+# 9. File organisation: which document owns what
+
+**Every kind of information has exactly one authoritative home.** Writing it anywhere else creates
+a copy that will drift, and this project has lost real time to exactly that.
+
+| Information | Canonical home |
+|---|---|
+| **Any constant or measured number** | **`docs/FACTS.md`** |
+| **Any open question, UNKNOWN or VERIFY** | **`docs/OPEN_QUESTIONS.md`** |
+| **What to do next at the bench** | **`docs/NEXT_SESSION_PLAN.md`** |
+| **Current state, faults, numbered safety rules** | **`STATUS.md`** |
+| **Documented conflicts between sources** | **`docs/ENGINEERING_REFERENCE.md`** section 11 |
+| **What happened on a given day** | **`sessions/YYYY-MM-DD.md`**, or `-<name>.md` if there is more than one that day. Append-only, never rewritten, and every log indexed in `sessions/README.md` |
+| **Pinouts and board layout** | **`docs/WIRING.md`** |
+| **Part specs and datasheet facts** | **`docs/COMPONENTS.md`** |
+| **What is inside a zip, PDF or mesh** | **`docs/INDEX.md`** |
+| **What we physically own** | **`docs/INVENTORY.md`** — never `docs/BOM.md`, which is a specification |
+
+**Citing a number in prose is fine and expected.** What is not fine is building a **second
+register** — a table or reference block of constants anywhere but `docs/FACTS.md`. Two registers
+drift apart and nobody can tell which is current. **`python3 Code/pc/check_facts.py` is the
+protection**, and it runs at session start.
+
+**Which document to believe, when two disagree.** Highest first: `STATUS.md`; then every session
+log carrying the newest date; then older session logs; then `docs/PROJECT_HANDOFF_SUMMARY.md`'s
+body, parts of which are known to be wrong.
+
+> **But precedence is about conflicts, not about what to read.** A low-ranked document is still
+> read; it is only outranked when it disagrees with a higher one. On 2026-09-06 a session spent a
+> day re-deriving a pinout that had been sitting in the handoff's header for six days, because
+> "ranked last" was read as "not worth opening" — and the re-derivation was shallower and missed
+> something. **Freshness is a property of a passage, not of a document.** A correction banner at the
+> top of an old file is often the newest thing in the repository. **Check the top of any document
+> before dismissing it on rank.**
+
+**The other files worth knowing:**
+
+| Path | What it is |
+|---|---|
+| `README.md` | The public front page |
+| `SETUP.md` | How to set up a computer to work on this project |
+| `CLAUDE.md` | The working protocol, read automatically by Claude Code |
+| `docs/START_HERE_gotchas.md` | Things that mislead you. Read before touching hardware |
+| `docs/soft_launch_test_procedure.md` | The staged bring-up, stages 0 to 6. **Partly superseded — it carries a banner saying which parts** |
+| `docs/DAC_BOOT_STATE.md` | DAC power-on behaviour. Read before bringing up the analog side |
+| `docs/UPSTREAM_MECHPANDA.md` | The design we are actually building |
+| `docs/UPSTREAM_BERARD.md` | Reading notes from Dan Berard's build. **Context, not our design** |
+| `docs/OTHER_BUILDERS.md` | What independent DIY STM builders have done. Leads to test, not specifications |
+| `docs/BOM.md` | Every part, with CONFIRMED / CHOICE / UNKNOWN status. **A specification** |
+| `docs/archive/` | Superseded procedures, kept with banners. **Not current instructions** |
+| `CAD/prints/README.md` | Every printed part, measured: sizes, hole grids, which screw goes where |
+| `Code/pc/README.md` | The PC tools, and first-time setup on Windows and Mac |
+| `Images/ours/` | Photographs of **our** hardware. **`Images/` at the root is Mech Panda's, not ours** |
+
+---
+
+# 10. Troubleshooting
+
+> **`STATUS.md`'s open-faults section is the authority and it changes.** What follows is a working
+> summary as at 2026-09-19, arranged by what you would actually see.
+
+## 10.1 Faults that are open right now
+
+### The DACs lose their configuration — `STATUS.md` fault 4
+
+**Symptom:** LED1 to LED4 light. All four go at once. Every DAC output goes dead. **Any reading
+taken while one is lit is void.**
+
+**What is established.** They are lit at **every** power-on, before any command is sent, without
+exception. **Thirty minutes powered with no commands sent at all left them dark**, so idle time
+alone does not trigger it — something we do provokes it. Whether it also recurs mid-session is
+**ambiguous and unsettled**: 2026-08-31 recorded it recurring every 30 to 60 minutes; on 2026-09-16
+the board was powered for about three hours in stretches with the LEDs dark every time they were
+checked, **but that was not a controlled test.**
+
+**The explanation for the power-on half** is power sequencing: USB boots the Teensy in
+milliseconds and it writes the DAC configuration into chips whose analog supply is not up yet.
+The setup routine never runs again, because USB keeps the Teensy alive.
+
+**What to do.** Send `RSET`, which restores the configuration, then **re-park Z immediately**
+because `RSET` slams it to a rail. **The operational fix is free: power the analog supply first,
+then plug in the USB.**
+
+**Software cannot detect this.** See section 5.3.
+
+### The approach tool's default Z step is too coarse — `STATUS.md` fault 6, a tip hazard
+
+**Symptom:** an approach goes from no current straight into hard contact between two consecutive
+samples, with nothing in between.
+
+**Found by arithmetic, not at the bench.** `Code/pc/stm_approach.py` ships with a default Z step of
+200 counts, which is about 2.08 nm of tip travel per sample point, while the window in which a
+tunnelling current is above the noise floor and below the contact threshold is about 0.21 nm wide.
+**So the sweep takes about a tenth of a sample inside the window it has to detect** — about one
+approach in ten lands a reading in tunnelling range.
+
+**The fix is a flag that already exists: `--z-step 5`.** That gives about four samples inside the
+window and costs about 3.3 s per half sweep.
+
+> **One assumption behind this is inferred, not measured** — the nanometres-per-count figure comes
+> from Berard's disc, not ours. If our scanner is less sensitive the problem shrinks; if it is more
+> sensitive, this is worse than stated.
+
+### U13's unused op-amp channel floats — `STATUS.md` fault 4b, a lead not a confirmed fault
+
+**U13 is a dual op-amp. Channel A is the bias buffer that drives the sample. Channel B is connected
+to nothing at all.** An op-amp channel with floating inputs can drift to a rail or oscillate, and
+it shares a die and both supply pins with the channel next to it.
+
+**The same package is wired correctly elsewhere on this board**, which is the evidence that this is
+an oversight rather than a normal spare.
+
+**That the pins are open is confirmed from the netlist. That it is causing a problem is UNKNOWN.**
+**Predicted symptom:** noise or slow drift on the bias line that does not track the commanded bias.
+**Test:** put a scope on U13 pin 7 with the board powered — a quiet DC level is fine, a rail or an
+oscillation is not. **Fix:** two short wires, pin 6 to pin 7 and pin 5 to AGND, which makes it a
+unity-gain follower on 0 V. Low risk, no track cutting.
+
+### The old preamp board has no ground pour — `STATUS.md` fault 0d
+
+**This is fixed on the board in service and is unfixed on the old one.** It is here because it
+explains why old numbers cannot be trusted.
+
+**The fabricated gerbers have no copper pour at all**, where Berard's Eagle source has a
+bottom-layer ground polygon. Six points that should be ground each end at a dead via: C2's ground
+end, C3, C4, IC1 pin 3, IC1 pin 8 and JP1 pin 4. **IC1 pin 3 is the amplifier's own 0 V reference.**
+
+**Consequence:** every preamp reading taken before the repair was measured with that reference
+floating, so it cannot be converted to an input current. **The gerbers' net labels still say `GND`
+for every one of those points**, which is why every document in this repository believed they were
+connected. **An upstream conversion defect, not a build fault.**
+
+**Any board reorder must have the pour filled.**
+
+## 10.2 Faults that are fixed, listed so that old documents are not misread
+
+| Fault | Status |
+|---|---|
+| **`STATUS.md` fault 0 — the measurement chain** | **FIXED 2026-09-16.** `PREAMP−` is grounded at the preamp through the DSUB2 splice, the ADC reads the preamp at about −1.7 counts, and the dummy junction gives 320.5 counts per nA end to end |
+| **`STATUS.md` fault 2 — `CCON` jumping Z to midscale** | **FIXED 2026-09-16, uploaded and bench-tested red then green.** The rule against it is kept anyway |
+| **`STATUS.md` fault 3 — the motor left energised** | **FIXED 2026-09-16, uploaded and bench-tested.** The coils switch off after every move |
+| **`STATUS.md` fault 5 — one JP1 ground pin open** | **Explained** — it is one of the six points fault 0d covers, not a one-off |
+| **The preamp offset that blocked the project for weeks** | **The board that showed it is retired.** The reading was real as a voltage but was never a valid current, because that board's amplifier reference floated |
+
+## 10.3 Symptom to cause
+
+### Nothing at all comes back from the board
+
+| Check | |
+|---|---|
+| Is the USB cable a **data** cable? | A charge-only cable connects the Teensy to nothing. **This wastes more first-day hours than anything else in this project** |
+| Are you using `stm_console.py`? | A per-keystroke terminal loses the four-byte race and the command is silently discarded |
+| Did you wait about a second after plugging in? | The boot reset takes roughly half a second |
+| Is `time_millis` climbing between `GSTS` calls? | If it never increases, the board is resetting repeatedly — check power |
+| Garbled characters? | Wrong baud rate. It is 115200 |
+
+### The motor buzzes but does not turn
+
+**The wires are crossed**, undoing the software 1-3-2-4 mapping. Wire it straight across.
+
+### The motor does nothing at all and no LEDs move
+
+The driver's minus terminal is not on Teensy ground. **Or you used the GUI** — `stm_control.py`
+line 127 is missing an f-string prefix, so it sends literal text and the motor moves zero steps.
+That is an upstream bug and it is why the GUI's motor control does nothing.
+
+### The step counter never changes
+
+The command is not reaching the parser. See "nothing at all comes back", above.
+
+### One supply channel goes into constant-current mode
+
+**Check the current limit first.** On 2026-09-16 one channel was still on the 20 mA preamp setting
+and limited at about 2 V. At 200 mA it worked. **A channel still in constant-current mode at 200 mA
+is a real fault: do not retry, prove the wiring at the plug.**
+
+### The ADC always reads exactly 0, or exactly 65535, or wild garbage
+
+The converter is not converting properly. **Check ribbon pin 6 to Teensy pin 38** — the read-enable
+that looks like a data input a read-only chip would not need.
+
+### The preamp reading is noisy
+
+In the order that has actually mattered:
+
+| Cause | Evidence |
+|---|---|
+| **Someone is near the board** | A person injects current into a 100 MOhm node. Keep everyone a metre away. **The rule stands; its number does not** |
+| **A soldering iron is on** | Measured 2026-09-16: about 17 counts. Small but real |
+| **Something was recently soldered or cleaned near the input node** | The leading candidate for two noisy captures on 2026-09-16. **Do not judge noise soon after work at the input node** |
+| **Mechanical, not electrical** | With no junction the electronics are flat white noise at 8 to 14 counts. **With a junction everything extra sits below about 30 Hz, with no peak at 60 or 120 Hz.** That is the instrument moving, not the electronics |
+| **A loose, moving conductor near the input node** | A large sheet of loose gold next to a 100 MOhm input modulates stray capacitance |
+
+### The tip snaps into contact instead of finding a gap
+
+**This is the current blocker and it is not solved.** Measured on the fitted sample: the current
+changes by a factor of ten per roughly 1,650 to 1,970 Z counts going in, against about 6 to 13 for
+tunnelling on the inherited scale, and every run shows 705 to 1,868 counts of in/out hysteresis.
+
+**Candidates, and none is ruled out:**
+
+| Candidate | Status |
+|---|---|
+| The gold leaf lifting electrostatically | **The 2026-09-19 sandwich build was made to fix exactly this.** Leaf held by adhesive cannot lift. **The far edge is still free** |
+| The backing paper under the gold | **Untested.** Roughly 50 to 100 microns of compressible cellulose immediately under the measurement surface |
+| A blunt or bent tip | The fitted tip was "very blunt" when new and has since been pressed into the gold four times |
+| The sample plate sticking and slipping on its three ball supports | **Untested.** Magnetic stiction between the plate's four magnets and the steel balls is a concrete mechanism |
+| Magnetic pull on the tip holder's metal stake | **Untested, and a ten-second magnet test settles it.** Tungsten itself is ruled out — it is paramagnetic and very weakly so, and the magnets' field varies over millimetres while the approach happens over microns, so the force is constant across the gap rather than rising |
+
+### The gap will not hold still
+
+**With the motor and hands still, and only the piezo sweeping, the gap moved by at least 43,000
+counts in 6.4 s and at least 56,000 over about two minutes.** No period was evident, but the data
+are too sparse to exclude one.
+
+**Four untested candidates, not ranked:** the leaf on its paper; the plate on its rubber bands and
+ball contacts; thermal motion of the printed head; **air currents**.
+
+> **The free test comes first:** put a cardboard box over the whole instrument, **standing on the
+> bench and not on the suspended platform**, leave the room, and repeat the stillness measurement.
+> **If the gap holds still with the box and not without, that is the answer and it cost nothing.**
+
+### Drift that appears minutes into a session
+
+**The prime suspect used to be the motor left energised, heating the scan head. That is fixed** —
+the coils switch off after every move on the current firmware. **If drift appears anyway, confirm
+the driver LEDs really are dark between moves**, and then look at the mechanical candidates above.
+
+---
+
+# 11. How to resume the project after the move
+
+> **This is the most important section in the manual, and it is the one with the most UNKNOWNs in
+> it.**
+>
+> **The instrument was taken apart and moved on 2026-09-19.** `SAID`, Jacob, about 14:19 UTC:
+> *"We are now taking it apart and moving it to News House as I'm flying to San Diego for college.
+> We will probably continue a little bit less frequently over the next few months."*
+> **"News House" is read as Nuh's house and is an inference, not confirmed.**
+>
+> **What was taken apart, and how it was packed, is UNKNOWN.** Nobody wrote it down. **So nothing
+> about the parked state can be assumed**, including the two-turn back-off recorded before the
+> move.
+
+**The order below is deliberate: every step is either something that cannot break anything, or
+something that protects the step after it. Do not reorder it.** In particular, **every mechanical
+and continuity check comes before any power**, and the tip goes in last.
+
+## Stage A — the computer, before you touch the hardware
+
+**None of this needs the instrument.**
+
+1. **Pull the repository** on whatever computer will run the session, and install the tools.
+
+   ```
+   git pull --ff-only origin main
+   pip install -r Code/pc/requirements.txt
+   ```
+
+   On Windows use `py -m pip install pyserial`. **Type `py`, never `python` or `python3`.**
+
+2. **Run the fact checker and read its exit code**, as its own command, not inside a chain.
+
+   ```
+   python3 Code/pc/check_facts.py
+   ```
+
+   **If it reports anything, fix it before starting work** — it means a number known to be wrong is
+   sitting somewhere it will be believed.
+
+3. **Prove the tools run with nothing plugged in.**
+
+   ```
+   py Code/pc/stm_console.py GSTS
+   ```
+
+   **The pass is exactly `No Teensy found. Ports seen:` with nothing after it.** It exits with code
+   1, which is normal for this check. An error mentioning `serial` means pyserial went into a
+   different Python.
+
+4. **Run every tool's self-test** (section 7.1). They need no hardware.
+
+5. **Read `STATUS.md`, then every session log carrying the newest date** — there is often more than
+   one file for a date and neither supersedes the other. **Then `docs/NEXT_SESSION_PLAN.md`.**
+
+> **Which computer.** Nuh's machine has run the instrument and every bench session so far; Jacob's
+> Windows machine was set up on 2026-09-16 and works. **Claude Code on the web cannot reach the
+> Teensy from either** — a web session runs in a cloud container and can see only the repository,
+> never a USB port. **The tools only run where the USB is plugged in.**
+>
+> **The 2026-09-19 morning scripts run only on Jacob's laptop.** They carry absolute paths, a
+> hardcoded COM port, `winsound`, and they all assume HIGH Z extends toward the sample. **On any
+> other computer, use the portable tools in `Code/pc/`, or promote the scratch scripts first.**
+
+## Stage B — take stock of what actually came out of the boxes
+
+**Before rebuilding anything, look at what you have and write it down.**
+
+6. **Go through `docs/INVENTORY.md` row by row and re-confirm each one.** That file is the only
+   record of physical reality in this project, and **every row in it describes the instrument as it
+   was before it was taken apart.** Anything that changed in the move — a part that went missing, a
+   wire that came off, a board that got knocked — belongs in that file **the same day**.
+
+7. **Look for damage specifically at these four places**, which are the fragile ones:
+
+   | Where | Why it is fragile |
+   |---|---|
+   | **The preamplifier's input node** | The PTFE standoff **does not sit in its board hole** — it rests on the board surface, held only by the 100 MOhm resistor's own lead in tension. **A knock can lean it onto IC1's grounded leg about 2 mm away and short the input.** This is the single most fragile thing in the instrument |
+   | **The four 40 AWG ground repair wires on the preamp board's underside** | Hair-thin, and the box has a support post 4 mm tall that passes within about 0.6 mm of the nearest one. **Offer the board onto the post and look underneath before screwing it down** |
+   | **The tip and its holder** | The tip pushes into a socket on a stake that is glued to the piezo disc. A bent tip is not obvious by eye and has already fooled this project once |
+   | **The piezo disc itself** | **It is destroyed silently.** It still measures correctly on a meter after it is ruined; it simply stops moving |
+
+8. **Check the rubber bands.** Rubber perishes over weeks. Replace any that are cracked or slack.
+
+9. **Do not repair or rebuild anything yet.** The two standing rules are that **nothing is glued to
+   the spare preamp board** (`STATUS.md` safety rule 10) and **no cyanoacrylate goes anywhere near
+   the preamp or into its enclosure** (`STATUS.md` safety rule 5).
+
+## Stage C — rebuild the mechanics, unpowered
+
+10. **Rebuild the isolation tower and hang the platform.** Three M8 rods, three spring hangers,
+    three springs, the Ø200 mm platform.
+
+11. **Check the platform hangs free.** Nothing may touch it — no cable, no rod, no tie. **A bypass
+    makes every spring calculation meaningless and no spring change works around it.** Check every
+    wire that leaves the platform has slack: the coax to the preamp, the loom, the stepper leads.
+    **A wire that goes taut across the suspension is a rigid bypass, and it could also pull on the
+    preamp input node.**
+
+12. **Measure the clearance under the platform**, and write it down. **This has never been measured
+    and it is the number that decides what the suspension can do.** You need enough room below the
+    platform for it to droop into once the springs are loaded.
+
+13. **Check the eddy-damping gap.** The aluminium plate must sit in the magnet gap without touching.
+    **A plate resting on its magnets is not damping; it is a clamp.** The magnet holder's height is
+    not adjustable, so the platform is the only way to trim this.
+
+14. **Put the coin mass back on and count the bounces.** Nudge the platform gently — **sideways, or
+    very gently downward, because the clearance under it is small** — and watch.
+
+    | What it does | What it means |
+    |---|---|
+    | **Bobs about twice a second**, roughly seven cycles in three seconds | **The springs are OPEN.** The resonance is about 2 Hz and the isolation is working |
+    | **A hard, fast, barely-there return**, no countable bounce | **Still shut.** The coils have not opened and the springs are behaving as stiff wire |
+    | Sinks back over one or two cycles and stops | Open, and the eddy damping is doing its job |
+
+    **This measures the resonance directly and needs no spring theory at all.** Film it on a phone
+    if counting is hard.
+
+15. **Do not add more mass.** The printed height adjusters are already at maximum, so another sag
+    could not be corrected, and going from 0.8 to 1.2 kg buys only about 20% on the resonance.
+
+16. **Rebuild the scan head on the platform**, and confirm the sample plate sits on **all three**
+    ball ends with the **motor-screw ball actually touching the plate**. On 2026-09-17 both rubber
+    bands pulled in line with the two side-by-side balls, so nothing held the motor end down and
+    the screw turned in free space for a whole session.
+
+## Stage D — rewire, unpowered
+
+17. **Rewire from `docs/WIRING.md`, not from memory and not from photographs.**
+
+18. **Verify the DB9s by beeping them out with the connectors unplugged.** That needs no colour
+    table at all and it is the best check available. The procedure is in
+    `docs/NEXT_SESSION_PLAN.md`. **Read the orange trap in section 3.6 of this manual first.**
+
+19. **Meter every shield.** Every point on each shield must beep to its ground wire — near the wire,
+    the far corner, and across every seam. **One bond per shield, to AGND.** Two copper-wrapped
+    parts touching each other is a second path and therefore a loop.
+
+20. **Take the four unpowered checks from section 5.1**, all of them.
+
+## Stage E — first power, with no tip fitted
+
+**Fit no tip for this stage. With no tip, nothing can be crashed, and every test below is
+zero-risk.**
+
+21. **Bring up from cold following `docs/soft_launch_test_procedure.md` stages 0 to 6**, and read
+    `docs/DAC_BOOT_STATE.md` first. **Supplies on first, then USB.**
+
+22. **Stage 1, digital only:** `GSTS` must return ten fields with `time_millis` climbing.
+
+23. **Stage 2, the motor:** `MTMV 512` should take about 7.5 s, the driver LEDs should chase, and
+    `GSTS` field 6 should then read 512. **`MTMV -512` should bring it back.** Confirm **the driver
+    LEDs go dark after the move** — that is the 2026-09-16 firmware fix working.
+
+24. **Stage 3, the analog rails:** LED5 and LED6 both lit, then **LED1 to LED4 checked**, then park
+    every axis at 32768.
+
+25. **Stage 4, DACs and ADC:** `BIAS 33000`, then `GSTS` to see field 1 read back. **That proves the
+    firmware registered the command, not that the chip output the right voltage** — only a meter
+    settles that. Then `ADCR` a few times and look for a plausible number that varies slightly.
+
+26. **Stage 5, the piezo:** use `TONE`, not `TEST`, because `TONE` parks Z at 0 V instead of leaving
+    it at a rail. **Judge it with a meter, not by ear**: `DACZ 65535` should give −10 V at the scan
+    head end of the DSUB1 cable, on the row-of-four signal wires.
+
+27. **The preamplifier, about two minutes after power-on:** `ADCR` should sit within a few tens of
+    counts of zero with the tip lead connected and nobody nearby. **This is the acceptance test for
+    the whole measurement chain, and it is the number to compare against 2026-09-19's 40 to 42
+    counts of standard deviation with the tip clear.**
+
+28. **Re-run the dummy junction test if anything about the preamplifier was disturbed.** A 100 MOhm
+    resistor clipped between the bias wire and the tip holder, bias stepped across its range.
+    **The expected answer is about 320 counts per nA, and a positive sample voltage gives negative
+    counts.** This is the project's strongest single result and it is cheap to repeat.
+
+## Stage F — fit the tip, and only then
+
+29. **Fit a fresh, sharp tip.** The one that was packed is blunt and has been pressed into the gold
+    four times. **`docs/NEXT_SESSION_PLAN.md` asks for a sharper one before the next imaging
+    attempt.**
+
+30. **`STATUS.md` safety rule 7: meter the tip holder against the brass piezo electrode. It must
+    read OPEN.** Do this after every tip change and after every holder rebuild.
+
+31. **Re-check the Z direction.** It belongs to the tip, not to the instrument. Use a +/−2,000 Z
+    lock-in at a clean touch, or `Code/pc/stm_approach.py --z-retracted unknown`, which parks Z at
+    midscale for every motor step and searches both ways until first contact tells it. **Do not run
+    any of the 2026-09-19 morning scripts until this is confirmed** — every one of them assumes HIGH
+    Z extends toward the sample.
+
+32. **Re-check the motor direction is still negative-approaches.** It was settled at the bench and
+    nothing about the move should change it, **but the geometry that decides it is a 1 mm lever arm
+    and the tip has changed.**
+
+33. **Re-do the hand-set.** The two-turn back-off recorded before the move applies to the old tip
+    and the old sample, and **both may have changed.** Turn in from well back with the beeper
+    already running.
+
+## Stage G — the science, in the order the plan sets
+
+**`docs/NEXT_SESSION_PLAN.md` is canonical for this and it is written to be executed with no memory
+of any conversation.** In short:
+
+1. **The free test first: is it air?** A cardboard box over the whole instrument, standing on the
+   bench and not on the platform, then a 15-minute stillness recording. **If the gap holds still
+   with the box and not without, that is the answer and it cost nothing.**
+2. **A stiffer sample.** In order of preference: a rigid gold surface that does not bend (a
+   gold-plated PCB pad, a connector contact); HOPG, which is a purchase and should be decided only
+   after step 1; or the leaf bonded all round with no paper under it. **Check `docs/INVENTORY.md`
+   and ask before assuming any of these is in the room.**
+3. **A sharper tip**, already covered above.
+4. **Get the gold within reach** with the live back-off, then approach in 20-step chunks with a
+   full Z sweep between, and **start the Z test the instant it finds the gold** — on 2026-09-19 a
+   30-second gap between two commands was enough to lose it.
+5. **Prove the gap holds still BEFORE any scanning.** Right after a find, with the motor still, a
+   full sweep every 5 s for 15 minutes. **Pass: the onset stays within about 500 counts for 15
+   minutes.** Any sweep that reads out-of-reach voids the run.
+6. **Only then the Z test, and a scan with the constant it measures.** A real tunnel junction gives
+   a decade of current per tens of counts or fewer, little hysteresis and gradual onsets.
+   **Re-measure the constant immediately before each scan** — on 2026-09-19 it drifted about
+   fivefold inside a single run.
+
+**Do not, at any point:** run `APRH`; send `CCON` with a tip in range; send a DAC value outside
+0 to 65535; or trust the first reading after a large upward Z jump.
+
+## Stage H — write it down the same day
+
+34. **Write the session log**, `sessions/YYYY-MM-DD.md` from `sessions/TEMPLATE.md`, and **add a row
+    to `sessions/README.md`.** **If a log for today already exists, check whose it is** — if it is
+    the other person's, start `sessions/YYYY-MM-DD-<your name>.md` instead of appending to theirs.
+
+35. **Update `STATUS.md`** — the stage table, open faults, next actions, open questions, and the
+    "Last updated" line.
+
+36. **Update `docs/NEXT_SESSION_PLAN.md`**, including its own `Last updated` line. The fact checker
+    fails if a session log is newer than it, and the pre-commit hook then blocks the commit.
+
+37. **Write everything you learned about the physical instrument into `docs/INVENTORY.md`** — what
+    was reassembled, how, by whom, and what changed. **These facts live in Jacob and Nuh's heads and
+    in their email, and anything that stays in a conversation is lost.**
+
+38. **Commit and push.**
+
+    ```
+    git add -A
+    git commit -m "Session YYYY-MM-DD: <one line on what changed>"
+    git pull --rebase origin main && git push origin main
+    ```
+
+    **Work that is not pushed does not exist as far as the other computer is concerned.**
+
+---
+
+# 12. What is still unknown, and what is untested
+
+**`docs/OPEN_QUESTIONS.md` is the authoritative register.** This section lists only the ones that
+would change how you operate the instrument, and marks clearly what is a recommendation nobody has
+tried.
+
+## 12.1 UNKNOWN — nobody has established these
+
+| | Why it matters | What would settle it |
+|---|---|---|
+| **How far the tip is from the line through the two side-by-side ball ends, and on which side** | **The most valuable unmeasured number in the instrument.** It sets the lever ratio and therefore the Z scale in nanometres, and that decides whether the measured current-versus-Z slope is tunnelling or pressing | Plate off, a straightedge laid across the two ball ends, and see which side the tip stands on and by how much. **No electronics needed** |
+| **Our scanner's displacement per volt** | Every nanometre figure for this instrument is inherited from Berard's disc, which is not ours | A real scan calibration, once the gap holds still |
+| **What moves the gap** | It is the blocker | The box test, then a rigid sample, then the plate mounting |
+| **The platform-to-tower clearance, and the eddy-damping gap** | They decide whether the suspension can work at all | A ruler, at reassembly |
+| **The suspended mass, and the actual spring resonance** | The isolation figures are calculated, not measured | The bounce test, thirty seconds. Or staged loading with a ruler, which gives the spring rate and the platform mass together |
+| **What the tip holder's "metal stake" is made of** | If it is ferromagnetic, the sample-plate magnets pull on it with a force that rises steeply as the gap closes — a second snap mechanism | **Hold a spare magnet near it. Ten seconds** |
+| **Whether the DAC configuration loss recurs mid-session** | If it is startup-only, one `RSET` at the start is enough. If it recurs, LED1 to LED4 must be checked around every single measurement | A controlled test: powered, idle, LEDs watched |
+| **The Keystone 11301's actual through-board diameter** | It decides how the input node should be held permanently | Calipers, which **we do not own** |
+| **Whether the preamp box's support post presses on the underside repair wires** | A 3.6 mm post pressing a hair-thin wire against the board could break it or short it, and it would only be found after the board was screwed down | Offer the board onto the post and look underneath |
+| **Whether the new preamp box's wrap is copper with conductive adhesive** | Aluminium will not do | Look, and meter it |
+| **Which parts JLCPCB left off the preamp assembly, beyond the resistor and the standoff** | Decides what has to be hand-fitted on any spare board | The JLCPCB order confirmation email |
+| **What was taken apart in the move, and how it was packed** | Everything in section 11 | Ask, at reassembly, and write it into `docs/INVENTORY.md` |
+
+## 12.2 Recommendations that are untested
+
+**These are on record as good ideas. None has been tried, and none should be presented as a fix.**
+
+| Recommendation | Status |
+|---|---|
+| **A cardboard box over the instrument to test for air currents** | **Untested.** Free, and it is step 1 of the plan |
+| **A rigid gold surface or HOPG instead of gold leaf on paper** | **Untested.** HOPG is a purchase — **decide only after the box test** |
+| **Removing the backing paper by putting gold straight onto the copper tape's adhesive** | **Untested.** It is Jacob's own fallback |
+| **Anchoring more of the gold leaf's perimeter** | **Untested.** The next move if the snap comes back |
+| **Two wires on U13 to tie off its floating op-amp channel** | **Untested.** Low risk, no track cutting, not on the critical path |
+| **Removing the 50 mm spring-hanger section to raise the platform** | **Untested, and which sections are currently fitted is UNKNOWN.** It would give about twice the droop room needed |
+| **Fastening the coin mass to the platform instead of standing it in tubes** | **Untested.** A tube that can tip or slide is a stick-slip source on the one stage whose stability is the problem |
+| **Centring the tip on the piezo disc if the holder is ever rebuilt again** | **Untested, and it is free when the holder is open.** It buys maximum Z throw, less X-to-Z coupling, and fixes the lever arm by construction |
+
+## 12.3 Things that are settled — do not spend bench time re-proving them
+
+| | |
+|---|---|
+| **The piezo scanner** | **Built and working.** Do not re-open it, do not buy low-temperature solder paste, do not spend time on the disc-versus-seat question. **A working scanner exists, so whatever went in fits** |
+| **The ADC full scale and the counts-per-nA** | Settled from the datasheet and **measured end to end** |
+| **The sign of the reading** | **Measured.** A positive sample voltage gives negative counts |
+| **The preamplifier** | **About 4 pA in its box. It is not the problem** |
+| **The motor direction** | **Negative approaches**, settled at the bench |
+| **That the gold leaf is real gold, and that the copper tape's adhesive conducts** | Both settled 2026-09-17 |
+| **The shields** | Printed, wrapped, grounded and metered end to end |
+
+---
+
+# Appendix A: glossary
+
+| Term | What it means here |
+|---|---|
+| **Counts** | The raw number the ADC returns, or the raw code sent to a DAC. DAC codes run 0 to 65535 with 32768 as 0 V. **1 nA of tip current is about 320 ADC counts** |
+| **Setpoint** | The current the feedback loop tries to hold, expressed in ADC counts |
+| **Trace and retrace** | Each scan line is swept forward and then backward. Whether the two agree is the first test of whether a feature is real |
+| **The X-held control** | A run with identical timing to a scan, but with X never moving. Anything the control also produces is not surface structure |
+| **Detrending** | Removing the straight-line tilt from a pass before comparing it with another. **Nothing in this project's correlations means anything until it is done** |
+| **The woodpecker approach** | Coarse approach where only the piezo ever closes the gap: retract Z, step the motor, sweep Z looking for current, repeat |
+| **Hand-set** | Closing the gap by turning the fine screws by hand until a meter or a beeper says the tip is touching, then backing off. **The motor's whole reach at the tip is only about ±75 microns, so this has to get within about a tenth of a millimetre** |
+| **Backlash** | Lost motion after the motor reverses. **100 to 250 steps here**, measured twice |
+| **The lever** | The three-screw geometry that turns a screw movement into a much smaller sample movement. **Design ratio 40, unmeasured** |
+| **Burnishing** | Pressing and smoothing gold leaf with something soft in small circles until it goes from dull and loose-looking to bright and flat. **That change is how you know it has taken** |
+| **ALERT** | The AD5761 pin that says a DAC has lost its configuration. On this board it goes to an LED and nowhere else |
+| **`AGND`** | The controller's single ground net. **There is no separate digital ground on this board** — every ground pin on every chip is the same node |
+| **Virtual ground** | The amplifier's inverting input, held near 0 V by the feedback loop. **The tip sits here. It is not a real ground** |
+| **PAD1** | The bare test pad on the preamp board. **It is the amplifier's OUTPUT, not the tip input** |
+| **`SAID` / `READ` / MEASURED** | Jacob or Nuh told us / somebody's reading of an image, plausible and unconfirmed / read off our own hardware with a date |
+
+---
+
+# Appendix B: figure slots
+
+**Nothing in this manual describes a photograph that has not been opened.** Each slot below says
+what is wanted and why.
+
+| Slot | Section | What is wanted | Status |
+|---|---|---|---|
+| **TODO-PHOTO 1** | 3.9 | The whole instrument on its frame: tower, suspended platform with its coin mass, scan head, supplies and laptop in shot | **Unfilled** |
+| **TODO-PHOTO 2** | 3.9 | The controller board with H1, DSUB1, DSUB2 and U19 all visible | **Unfilled.** `Images/ours/2026-09-16_controller_board.jpg` is a candidate, not opened |
+| **TODO-PHOTO 3** | 3.9 | The preamp box at the centre of the scanning module | **Unfilled.** `Images/ours/2026-09-16_scan_module_top_down.jpg` is identified by Jacob as exactly this |
+| **TODO-PHOTO 4** | 4.5 | The scan head face straight on: piezo disc, tip, tip lead, three ball ends | **Unfilled.** `Images/ours/2026-09-18_scanhead_face_1.jpg` to `_4.jpg` are candidates. **No dimension may be taken off any of them** |
+| **TODO-PHOTO 5** | 4.5 | The sample plate off the head, showing the gold in its window | **Unfilled.** `Images/ours/2026-09-17_sample_plate_rebuilt.jpg` shows the older build |
+| **TODO-PHOTO 6** | 4.5 | The plate mounted, with the rubber bands and three screws visible, to show the band routing | **Unfilled** |
+| **TODO-PHOTO 7** | 11 (Stage C) | The isolation tower and suspension, showing the spring hangers and the damping plate over its magnets | **Unfilled** |
+| **TODO-PHOTO 8** | 11 (Stage D) | The DSUB2 splice at the preamp end, showing the five-way row | **Unfilled.** **Captions must not quote colours read off the frame** — see the rule at the top of section 3 |
+
+---
+
+**End of manual.**
+
+**Written 2026-09-19 at the pause point. It consolidates `STATUS.md`, `docs/FACTS.md`,
+`docs/WIRING.md`, `docs/COMMANDS.md`, `docs/COMPONENTS.md`, `docs/ENGINEERING_REFERENCE.md`,
+`docs/BOM.md`, `docs/INVENTORY.md`, `docs/INDEX.md`, `docs/DAC_BOOT_STATE.md`,
+`docs/NEXT_SESSION_PLAN.md`, `docs/START_HERE_gotchas.md`, `docs/soft_launch_test_procedure.md`,
+`docs/OPEN_QUESTIONS.md`, `README.md`, `SETUP.md`, `Code/pc/README.md`, `CAD/prints/README.md`, the
+four `sessions/data/*/README.md` files, `Images/ours/README.md`, and the firmware in
+`Code/teensy/`.**
+
+**Where it disagrees with any of those, they win and this file is the one to fix.** The
+corrections it makes to them are listed in `CHANGELOG.md`, and the contradictions found between
+them are listed in `INCONSISTENCIES.md`, both in this directory.

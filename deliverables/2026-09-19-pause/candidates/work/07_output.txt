@@ -1,0 +1,47 @@
+N1. PLACE-LABEL PERMUTATION - the three-Y controls
+    observed = within-place r minus between-place r, single pass vs single pass
+    p = fraction of 20,000 random relabellings that do as well or better
+
+    file                                      passes  observed   null sd        p
+    ycontrol_run2_ysep12000.csv                   18    +0.523     0.139   0.0036
+    ycontrol_run4_ysep12000_repeat.csv            18    +0.059     0.108   0.2575
+    ycontrol_run3_ysep12000_xheld.csv             18    +0.096     0.096   0.1493
+    ycontrol_run1.csv                             18    +0.023     0.024   0.1598
+    ycontrol_xheld_run1.csv                       18    +0.226     0.092   0.0202
+    line_three_y_positions.csv                    15    +0.007     0.092   0.3996
+
+    The 2026-09-19 run at y_sep 12000 is the one that was called 3.9 sigma on the
+    night and +4.2 sigma by the parametric statistic in script 03. Under the
+    permutation null it is weaker, because the pairwise correlations share
+    passes and are not independent. Read the permutation p, not the sigma.
+
+N2. Y-LABEL PERMUTATION - the 2026-09-17 two-image place test at +-15,000
+    forward    observed +0.142, null sd 0.193, p = 0.2400 (2,000 permutations)
+    backward   observed +0.113, null sd 0.175, p = 0.2785 (2,000 permutations)
+    Neither direction shows the same place agreeing better than a different one.
+
+N3. PHASE-RANDOMISED SURROGATES - the 2026-09-17 636-count profile
+    averaged-profile RMS   observed 636 counts, surrogate 255 +- 55, p = 0.0000
+    consecutive-pass r     observed +0.647,      surrogate +0.001 +- 0.095, p = 0.0000
+    So the 12 passes DO agree far better than 12 unrelated lines of the same
+    smoothness would. The profile is real and repeatable. What this test cannot
+    say is what it is a picture OF - that is scripts 04 and 05.
+
+HOW MANY TESTS WERE SEARCHED
+    raster recordings examined (scans, controls, aborted runs, chmaps)   43
+    trace/retrace position tests, one per file (script 02)           34
+    trace/retrace time tests, one per file (script 02)               34
+    within/between place tests (script 03)                            6
+    cross-night profile comparisons (script 03)                      15
+    place tests on the 2026-09-17 wide image pair (script 04)         2
+    pass-separation correlations (script 04)                         11
+    profile-versus-Y comparisons (script 05)                         36
+    image-to-image correlations reported in the session logs         20
+    TOTAL                                                           201
+
+    At 201 tests, a 5% threshold is expected to throw up about 10 apparent
+    findings from noise alone. A Bonferroni-corrected 5% threshold is
+    p < 2.5e-04, which is about 4.1 sigma. The only result in this whole body of
+    data that ever reached that was the y_sep 12000 run, and it did not repeat.
+
+-> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/chance.csv
