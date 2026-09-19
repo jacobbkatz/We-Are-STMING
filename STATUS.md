@@ -1,26 +1,28 @@
 # Current status
 
-**Last updated:** 2026-09-19 morning (11:15-13:4x UTC), **the last session before a break** — **THE Z TEST RAN: 130 cycles at four biases. The junction is a soft, sticky contact, not a tunnelling gap; the gold swings by more than the whole Z range in ~30 s with nothing moving.** **Next: a rigid sample and a gap that holds still, BEFORE any scanning.** Shutdown state in the block below. `sessions/2026-09-19-morning.md`.
+**Last updated:** 2026-09-19 morning (11:15-13:30 UTC), **the last session before a break**, corrected after a number-by-number verification — **THE Z TEST RAN: 110 cycles at four biases. The junction is not a clean tunnelling gap (shallow, and hysteretic in every run); the gap moves by most of the Z range within seconds to minutes.** **Next: find what moves it, a stiffer sample, a gap that holds still — BEFORE any scanning.** Parked for the break. `sessions/2026-09-19-morning.md`.
 **Updated by:** Claude Code desktop on Jacob's laptop, most of it run alone with Jacob's authority (motor: single steps, then chunks of up to 20).
 
 # 2026-09-19 MORNING — READ THIS FIRST, AND THE PLAN FOR COMING BACK AFTER THE BREAK
 
 | | |
 |---|---|
-| **Power and storage** | **OFF, PARKED FOR THE BREAK** (`SAID`, 13:27 UTC): **side screws backed off 2 full turns** (away from the tip); LED1-LED4 dark before power-off; **USB out, then supplies off**; **covered against dust**. Last set: Z 0, X/Y 32768, sample −0.5 V. **Before the next power-up: check the rubber bands** (they perish over weeks) and the plate on its three balls. The final noise baseline was not taken |
-| **THE Z TEST** | **Z controls the current, but not like a tunnelling gap.** A decade per **~1,650 and ~1,970** Z counts going in at sample −0.5 V (two runs), **~800-4,600** at other biases, where tunnelling would be ~7-15. **In/out hysteresis ~700-1,900 counts at EVERY bias**; contact often begins with a **snap, 28 → 16,777 counts within one 4-count step**. `docs/FACTS.md`, "The junction and the gap" |
-| **The stickiness is not the bias** | ±0.1 V gave the same hysteresis as ±0.5 V — **mechanical**, a soft pressed contact. The W/Au contact potential is unmeasured, so electrostatics is not fully excluded |
-| **THE GAP DOES NOT HOLD STILL** | **With nothing moving: beyond Z 48,000 to past Z 0 in ~30 s**; ~15,000 counts/s toward the tip after a find; ~7,700 counts/s away after a release; out of reach ~100 s and back. **Aperiodic** — nothing to synchronise a scan to |
-| **Coarse approach** | **Every hand-set lost the gold within minutes of letting go** (a side screw is 0.88 µm per degree; the Z range ~1 µm). **The motor finds it in 20-step chunks** (200 and 180 steps) **but cannot release a hard contact** (+380, +1,200 steps: still railed). The hand releases it |
-| **Last night's scan loop** | Tuned to **100** counts per decade against this junction's **~1,800**: ~18x too weak. In simulation it recovers **141 of a 1,500-count bump**. **Last night's scans could not have shown topography that size** |
-| **Corrections to last night, verified** | **Corrected: the "X-held control swung Z by 28,000 counts" was the tool** (the loop started at its lower clamp and climbed back blind), and the wide images' anti-correlation is the loop hunting, not lag. `sessions/2026-09-19-morning.md` §5 |
-| **Tip** | Unchanged, "very blunt", fitted ~03:00 UTC 2026-09-19 — **pressed hard into the gold four times today**, up to ~3 minutes each. Replace it |
+| **Power and storage** | **OFF, PARKED FOR THE BREAK** (`SAID`, ~13:27 UTC): **side screws backed off 2 full turns** (away from the tip); LED1-LED4 dark before power-off; **USB out, then supplies off**; **covered against dust**. Last set: Z 0, X/Y 32768, sample −0.5 V. **Before the next power-up: check the rubber bands** (they perish over weeks) and the plate on its three balls. The final noise baseline was not taken |
+| **THE Z TEST** | **Not a clean tunnelling gap.** Per-run medians: a decade of current per **~1,650 and ~1,970** Z counts going in at sample −0.5 V (two runs), **~800-4,600** at other biases, where tunnelling on the inherited (unmeasured) scale would be ~6-13. **In/out hysteresis 705-1,868 counts in every run** — this part does not depend on the scale. **1 of 110 onsets was a one-step snap.** `docs/FACTS.md`, "The junction and the gap" |
+| **Not the applied bias** | The hysteresis does not shrink at ±0.1 V against ±0.5 V. **"A soft, pressed, sticky contact" is the interpretation**; the W/Au contact potential is unmeasured, so electrostatics is not excluded |
+| **THE GAP DOES NOT HOLD STILL** | **With the motor and hands still** (piezo sweeping only): ≥ 43,000 counts in 6.4 s, ≥ 56,000 over ~2 min (12:54-12:56). During scans: ≥ 48,000 in 33 s. **No period evident** (the data are too sparse to exclude one). **Cause UNKNOWN — four untested candidates: the leaf on its paper, the plate on its bands and balls, thermal motion, air currents** |
+| **Coarse approach** | **After every Z-0 back-off the gold was out of reach at the first full-range check** (32 s to 2.4 min later); overshoot and drift not separated. **20-step motor chunks found it twice** (200, 180 steps) **but neither find gave a usable gap**. **+380 and +1,200 retract steps did not release hard contacts**; the hand released 3 of 4 |
+| **Scan loop constant** | Last night's scans used **100** counts per decade; this morning's junction measures **~1,800** (median, ~5x drift within a run). **Last night's junction was never Z-tested**, so whether its loop was mistuned is not known. **The tuned loop never held on hardware today** |
+| **Corrections to last night, verified** | **Corrected: the "X-held control swung Z by 28,000 counts" was the tool** (the loop started at its lower clamp and climbed back blind), and the wide images' anti-correlation is the loop hunting, not lag. `sessions/2026-09-19-morning.md` §6 |
+| **Tip** | Unchanged, "very blunt", fitted ~03:00 UTC 2026-09-19 — **pressed into the gold with Z fully retracted for ~9, ~35, ≤ 3.4 and ~5 minutes today.** Replace it |
 | **Plate** | On all three balls (`SAID`) |
+| **SAFETY RULE 6 WAS NOT FOLLOWED AS WRITTEN** | Every motor move today parked Z at the **retracted end (0)**, not midscale — as `stm_approach.py`'s known-direction mode and the 2026-09-18 plan do. **Rule 6 is Jacob and Nuh's to amend or keep**; `sessions/2026-09-19-morning.md` §11 |
 
-**THE ORDER FOR COMING BACK — full procedure in `docs/NEXT_SESSION_PLAN.md`:** (1) a rigid sample — a
-gold-plated flat surface, HOPG, or leaf bonded all round with no paper; (2) a sharper tip; (3) **prove the
-gap holds still for 15 minutes** with `swing_log.py` **before any scanning**; (4) the Z-0 hand-set, then
-20-step motor chunks, then the Z test at once; (5) scan only with the counts per decade the Z test measures.
+**THE ORDER FOR COMING BACK — full procedure in `docs/NEXT_SESSION_PLAN.md`:** (1) the free test first — a
+box over the instrument, standing on the bench, and a 15-minute stillness recording; (2) a stiffer sample —
+a gold-plated flat surface, HOPG, or leaf bonded all round with no paper; (3) a sharper tip, **and re-check
+the Z direction before running any 2026-09-19-morning script**; (4) **prove the gap holds still** after a
+motor find, **before any scanning**; (5) the Z test, then scan with the constant it measures.
 
 # 2026-09-19 BENCH (night) — superseded by the block above where they differ
 
@@ -41,8 +43,8 @@ gap holds still for 15 minutes** with `swing_log.py` **before any scanning**; (4
 
 **THE BLOCKER IS MECHANICAL.** The gap slips and drifts (~~an X-held control swung Z by 28,000 counts
 with nothing moving~~ **corrected 2026-09-19 morning: that swing was the tool** — the loop started at its
-lower clamp and climbed back blind. **The gold's own swing, more than the whole Z range in ~30 s, was then
-measured directly that morning**), the junction snaps in, and the coarse stage has no fine enough step. **A
+lower clamp and climbed back blind. **The gold's own motion, most of the Z range within seconds to
+minutes, was then measured directly that morning**), the junction snaps in, and the coarse stage has no fine enough step. **A
 sharper tip and a stiffer sample-plate mounting come before more scanning.** `docs/NEXT_SESSION_PLAN.md`.
 
 # ~~TONIGHT, ON NUH'S COMPUTER — THE THREE THINGS, IN ORDER~~ — DONE at the 2026-09-19 bench session (on Jacob's laptop; Nuh's computer was abandoned). Results in `sessions/2026-09-19-bench.md` §3.1-3.3

@@ -187,18 +187,21 @@ may get.
 ## The junction and the gap — the tip fitted ~03:00 UTC 2026-09-19, on the 2026-09-19 leaf-on-paper gold
 
 **All MEAS 2026-09-19 morning** (`sessions/2026-09-19-morning.md` §3, data in
-`sessions/data/2026-09-19-morning/`). **For this tip and this sample only. Re-measure after either changes.**
+`sessions/data/2026-09-19-morning/`), **verified number by number against the raw files before commit.**
+**For this tip and this sample only. Re-measure after either changes.**
 
 | Fact | Value | Prov | Notes |
 |---|---|---|---|
-| **Current against Z, going in — sample −0.5 V** | **a decade per ~1,650 and ~1,970 Z counts** (medians, two runs of 30 and 20 cycles) | MEAS | Tunnelling on the inherited 0.016 nm/count would be ~7-15. **This is the loop constant `COUNTS_PER_DECADE` for this junction: ~1,800.** `Code/pc/stm_feedback_scan.py` carries 250 (the 2026-09-17 junction) and the 2026-09-19 bench scans used 100 |
-| Current against Z, coming out — sample −0.5 V | a decade per **~3,440 and ~3,830** | MEAS | Shallower than going in, every run |
-| Current against Z at other biases, going in / out | **−0.1 V: 808 / 4,839 · +0.5 V: 2,243 / 4,975 · +0.1 V: 4,639 / 12,595** | MEAS | 20 cycles each |
-| **In/out hysteresis** | **~700 to 1,900 Z counts at every bias** (medians 705-1,868) | MEAS | The current persists further out on the way back. **No V² trend with bias** |
-| **Contact onset** | **often a snap: 28 → 16,777 counts within one 4-count Z step** | MEAS | `apz_ztest_1789822231.csv`, t 9.68 s |
-| **Gap motion with nothing moving** | **more than the whole Z range in ~30 s, both ways**: beyond Z 48,000 to past Z 0 (13:06:36 → 13:07:11); rush-in **~15,000 counts/s** for ~1 s after a find; recession **~7,700 counts/s** after a release | MEAS | Aperiodic. Cause UNKNOWN (`docs/OPEN_QUESTIONS.md`) |
-| **Z-jump transient on the next `ADCR`** | **up to 3,714 counts** (0 V) and **1,026** (−0.5 V) after a single 0 → 28,000 Z jump; not every time; downward jumps ≤ 155 | MEAS | `zjump_run1.log`. **Ramp Z, or wait, before trusting the first read after a big jump** |
-| **Motor retract against a hard contact** | **+380 and +1,200 steps left it railed at Z 0** | MEAS | The hand on the side screws released it every time |
+| **Current against Z, going in — sample −0.5 V** | **a decade per ~1,650 and ~1,970 Z counts** (per-run medians, 30 and 20 cycles) | MEAS | **Not constant**: within the first run the per-cycle value fell from ~2,090 (cycles 2-11) to ~380 (cycles 25-30); per-cycle values across all runs 233-22,990. **As a loop constant `COUNTS_PER_DECADE`: ~1,800, with a ~5x drift inside a run.** `Code/pc/stm_feedback_scan.py` carries 250 (the 2026-09-17 junction); the 2026-09-19 bench scans used 100 |
+| Tunnelling for comparison | **a decade per ~6-13 Z counts** | CALC | A decade per 1-2 Å at the inherited 0.016 nm/count, **which is itself unmeasured** (`docs/OPEN_QUESTIONS.md`, the Z-scale row) |
+| Current against Z, coming out — sample −0.5 V | a decade per **~3,440 and ~3,830** (medians) | MEAS | Shallower than going in, every run |
+| Current against Z at other biases, going in / out | **−0.1 V: 808 / 4,839 · +0.5 V: 2,243 / 4,975 · +0.1 V: 4,639 / 12,595** (medians) | MEAS | 20 cycles each |
+| **In/out hysteresis** | **705 to 1,868 Z counts** (per-run medians, every bias) | MEAS | The current persists further out on the way back. Survives a drift correction (≤ ~120 counts). **No V² trend with bias.** Per-cycle −4,690 to +5,230 |
+| **Contact onset** | **Gradual in 109 of 110 Z-test onsets**; one one-step snap, the first contact of the −0.5 V run (10 → 9,116 in 4 counts) | MEAS | **The 28 → 16,777 snap in one 4-count step** (`apz_ztest_1789822231.csv`, t 9.68 s) came in a run where the gold was coming in toward a retracting tip |
+| **Gap motion, motor and hands still** (only the piezo sweeping) | **≥ 43,000 counts in 6.4 s; ≥ 56,000 over ~2 min** (12:54-12:56) | MEAS | Onsets at 1,000-count resolution. **No period evident; too sparse to exclude one.** Cause UNKNOWN (`docs/OPEN_QUESTIONS.md`) |
+| Gap motion during the tuned scans | **≥ 48,000 counts in 33 s** (13:06:38 → 13:07:11) | MEAS | X, Y and Z were being driven |
+| **Z-jump transient on the next `ADCR`** | **3,714 counts (0 V) and 1,026 (−0.5 V) on 2 of 4 upward jumps 0 → 28,000**; upward jumps to 60,000 at most −155; downward jumps at most 39 on the first read | MEAS | `zjump_run1.log`. **Ramp Z, or wait, before trusting the first read after a big upward jump** |
+| **Motor retract against a hard contact** | **+380 and +1,200 steps left contacts railed at Z 0** | MEAS | The hand on the side screws released 3 of the 4 hard contacts; the fourth released on its own or after +20 steps |
 
 ---
 
@@ -208,7 +211,7 @@ may get.
 
 | Retired | Replaced by | When | Why |
 |---|---|---|---|
-| `28,000 counts` of Z swing, with nothing moving, reported as the **X-held control** | **a tool artefact, not the gold: that run began at the loop's lower Z clamp and climbed back blind; without the climb it varied like the other controls** | 2026-09-19 | `locate()` accepted a reading of at least a thousand counts near the retracted end, so the loop started at its clamp and climbed with no current. **Verified by two skeptics and a judge against `cas9_*.csv` and `cas9.log`** (`sessions/2026-09-19-morning.md` §5). The gold DID move by more than the Z range on 2026-09-19 morning — **measured separately, not from this run** |
+| `28,000 counts` of Z swing, with nothing moving, reported as the **X-held control** | **a tool artefact, not the gold: that run began at the loop's lower Z clamp and climbed back blind; without the climb it varied like the other controls** | 2026-09-19 | `locate()` accepted a reading of at least a thousand counts near the retracted end, so the loop started at its clamp and climbed with no current. **Verified by two skeptics and a judge against `cas9_*.csv` and `cas9.log`** — verdict "partly": the core holds, the numbers were trimmed, and **what made `locate()` accept that reading is unknown** (`sessions/2026-09-19-morning.md` §6). The gold DID move by most of the Z range on 2026-09-19 morning — **measured separately, not from this run** |
 | `drops in` for the **Keystone 11301 in our board hole** | **it does not enter the hole at all** | 2026-09-15 | Third wrong answer on this part, and the first two were also wrong in opposite directions. The 0.080" pin figure is a distributor parametric table; the part was in the room and one offer-up settled it. **The standoff rests on the board surface instead, held by the feedback resistor's lead** |
 | `11 Hz`, the suspension bounce frequency | **UNKNOWN pending a bench measurement. The springs are ~173 N/m and are SHUT below their initial tension** | 2026-09-19 | `f0 = 15.76/sqrt(droop)` assumes a linear spring through the origin. **These springs have initial tension, so the 2 mm droop was never a spring extension** and every number built on it is void |
 | `10x the mass`, what the suspension was said to need | **very likely only a few hundred grams, to cross the springs' initial tension** | 2026-09-19 | Same cause. **The advice that adding mass would make things worse was wrong.** `docs/INVENTORY.md` had already recorded Jacob's own bench observation — *"these springs are more strechy than I thought adding more wieght could help I think"* — and the initial-tension hypothesis in writing, on 2026-09-18 |

@@ -1,4 +1,5 @@
-"""Where is the gold now? N full sweeps (fastwood.sweep, 250-count steps, DETECT 200), PERIOD s apart.
+"""Where is the gold now? N full sweeps (fastwood.sweep, DETECT 200; 250-count steps intended, but
+the 2026-09-19 runs swept in 1,000-count steps because of the fastwood.sweep default bug, fixed after), PERIOD s apart.
 Read-and-Z only: no motor. Z ends at 0, bias -0.5 V. 2026-09-19 morning."""
 import sys, time, statistics as st
 sys.path.insert(0, r"C:\Users\jacob\OneDrive\Desktop\CUsersyournameSTM\sessions\data\2026-09-19-morning\scripts")
@@ -7,6 +8,12 @@ import fastwood
 fastwood.ZSTEP, fastwood.DETECT = 250, 200
 
 if __name__ == "__main__":
+    # Added 2026-09-19 after a --test run of a script WITHOUT a self-test went straight to its
+    # hardware path (no port was connected, so nothing was sent). Unknown options now refuse.
+    _bad = [a for a in sys.argv[1:] if a.startswith('-') and a not in []]
+    if _bad:
+        sys.exit('refusing unknown option(s) %s: this script drives the instrument%s'
+                 % (_bad, '' if False else ' and has NO self-test'))
     import serial
     from stm_approach import Device, find_teensy
     from stm_feedback_scan import read_averaged

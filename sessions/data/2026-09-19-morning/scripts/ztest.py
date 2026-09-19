@@ -337,6 +337,12 @@ def red_checks():
 
 
 if __name__ == "__main__":
+    # Added 2026-09-19 after a --test run of a script WITHOUT a self-test went straight to its
+    # hardware path (no port was connected, so nothing was sent). Unknown options now refuse.
+    _bad = [a for a in sys.argv[1:] if a.startswith('-') and a not in ['--test', '--analyse']]
+    if _bad:
+        sys.exit('refusing unknown option(s) %s: this script drives the instrument%s'
+                 % (_bad, '' if True else ' and has NO self-test'))
     if "--test" in sys.argv:
         self_test(); red_checks(); sys.exit(0)
     if "--analyse" in sys.argv:

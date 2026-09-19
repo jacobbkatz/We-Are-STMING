@@ -24,8 +24,14 @@ ZSTEP, Z_TOP = 1000, 62000
 WAIT_PERIOD = 10.0
 
 
-def sweep(set_z, read, z_top=Z_TOP, zstep=ZSTEP):
+def sweep(set_z, read, z_top=None, zstep=None):
     """Returns (z, reading) at the first detection (Z already back at 0), or (None, None)."""
+    # FIXED 2026-09-19: these were defaults `z_top=Z_TOP, zstep=ZSTEP`, bound when the function was
+    # defined, so importers that set fastwood.ZSTEP = 250 (approach_then_ztest, release_and_watch,
+    # where) still swept in 1,000-count steps. Every onset they recorded is a multiple of 1,000.
+    # Found by the write-up verification workflow, not by a test.
+    z_top = Z_TOP if z_top is None else z_top
+    zstep = ZSTEP if zstep is None else zstep
     z = 0
     while z <= z_top:
         set_z(z)
@@ -120,8 +126,23 @@ def self_test():
     res, steps, z = run(w.set_z, w.read, w.motor1, w.now, w.sleep, lambda s: None)
     assert res == "found" and w.z == 0 and w.deepest <= ZSTEP, (res, w.z, w.deepest)
     assert 55000 <= z <= 62000, "a chunked approach must meet the gold at the TOP of the range (%d)" % z
+    # The sweep step must follow the module's ZSTEP at CALL time. On 2026-09-19 it was bound at
+    # definition, so importers' ZSTEP = 250 was ignored and every onset was a multiple of 1,000.
+    assert sweep_step_follows_setting(), "sweep ignored ZSTEP set after import"
     print("self-test: pass (found after backlash with <= 1 Z step of press; slip stops; limit; "
-          "--wait; 20-step chunks meet it at the top)")
+          "--wait; 20-step chunks meet it at the top; sweep step follows ZSTEP)")
+
+
+def sweep_step_follows_setting(mod=None):
+    mod = mod or sys.modules[__name__]
+    keep = mod.ZSTEP
+    mod.ZSTEP = 250
+    try:
+        zs = []
+        mod.sweep(lambda z: zs.append(z), lambda: 0.0)
+        return len(zs) > 2 and zs[1] - zs[0] == 250
+    finally:
+        mod.ZSTEP = keep
 
 
 def red_check():
@@ -150,6 +171,12 @@ def red_check():
 
 
 if __name__ == "__main__":
+    # Added 2026-09-19 after a --test run of a script WITHOUT a self-test went straight to its
+    # hardware path (no port was connected, so nothing was sent). Unknown options now refuse.
+    _bad = [a for a in sys.argv[1:] if a.startswith('-') and a not in ['--test', '--wait', '--chunk']]
+    if _bad:
+        sys.exit('refusing unknown option(s) %s: this script drives the instrument%s'
+                 % (_bad, '' if True else ' and has NO self-test'))
     if "--test" in sys.argv:
         self_test(); red_check(); sys.exit(0)
     import serial, csv, statistics as st
