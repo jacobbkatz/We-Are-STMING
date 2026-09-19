@@ -503,8 +503,13 @@ def main():
 
     print("check_facts: %d possible stale value(s).\n" % len(hits))
     print("Each line below still contains a number docs/FACTS.md lists as RETIRED.")
+    # The wording here must name words EXCUSES actually matches. Until 2026-09-19
+    # this line offered 'was', which the regex has never accepted -- it only has
+    # 'was wrong'. Someone following the message literally would add 'was', see the
+    # check fail again, and have no idea why.
     print("If the line is deliberately quoting the old value, add a word like")
-    print("'was', 'corrected' or 'superseded' to it and this will stop flagging it.\n")
+    print("'corrected', 'superseded', 'retired', 'previously' or 'was wrong' to it")
+    print("and this will stop flagging it.\n")
     last = None
     for rel, ln, literal, repl, text in hits:
         if rel != last:
