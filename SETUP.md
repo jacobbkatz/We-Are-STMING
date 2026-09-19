@@ -59,8 +59,15 @@ pip install pyserial numpy matplotlib
 Check it worked by listing the serial ports with the Teensy plugged in:
 
 ```bash
-python Code/pc/stm_console.py GSTS
+python3 Code/pc/stm_console.py GSTS      # macOS and Linux
+py      Code/pc/stm_console.py GSTS      # WINDOWS - see below
 ```
+
+> **On Windows, type `py`, not `python`.** Corrected 2026-09-19. On Jacob's machine `python` and
+> `python3` are **Microsoft Store placeholders**: they exist on the PATH, print *"Python was not
+> found"* and exit non-zero, so a command that looks right fails for a reason that looks like a
+> missing Teensy. `Code/pc/README.md` has recorded this since 2026-09-16; **this file, which is the
+> one a new computer is set up from, did not.**
 
 If it finds the board it prints a line of ten comma-separated numbers. If it says no Teensy found,
 the usual cause is a **charge-only USB cable** — see `docs/START_HERE_gotchas.md`.

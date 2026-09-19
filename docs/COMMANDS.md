@@ -110,7 +110,11 @@ at the top of the range may be off by some percent.**
 >    10000 steps in `main.cpp`, about 4.9 motor revolutions.
 >
 > Use a PC-side approach loop instead, with the threshold on absolute deviation from baseline.
-> `Code/pc/stm_approach.py` is planned but **not yet written.**
+> ~~`Code/pc/stm_approach.py` is planned but **not yet written.**~~ **CORRECTED 2026-09-19: IT EXISTS AND IS
+> THE ONLY APPROACH ROUTE USED AT THE BENCH SINCE 2026-09-16.** `Code/pc/stm_approach.py`, with
+> `Code/pc/stm_approach_test.py` beside it. **This sentence sat directly under the `APRH` warning, so a
+> reader who believed it was left with nothing but the safety rule between them and the hazard the rule
+> describes.** It sets its own bias (default −0.5 V) and refuses 0 V. See `docs/NEXT_SESSION_PLAN.md`.
 
 ### Constant current and scanning
 

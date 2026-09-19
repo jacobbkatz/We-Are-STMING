@@ -230,32 +230,75 @@ def main():
               if os.path.join(DATA, sess, n) in res]
         ct = [os.path.join(DATA, sess, n) for n in ctrls
               if os.path.join(DATA, sess, n) in res]
-        i2i_s, i2i_c = image_to_image(sc, res), image_to_image(ct, res)
+        # FULL IMAGES ONLY is the headline; the truncating version is printed beside it
+        # so the difference is visible rather than silently corrected.
+        i2i_s, note_s = image_to_image(sc, res)
+        i2i_c, note_c = image_to_image(ct, res)
+        pub_s, tn_s = image_to_image(sc, res, full_only=False)
+        pub_c, tn_c = image_to_image(ct, res, full_only=False)
+        for role, vals, notes, pub, tn in (("scans", i2i_s, note_s, pub_s, tn_s),
+                                           ("CONTROLS", i2i_c, note_c, pub_c, tn_c)):
+            if not pub:
+                continue
+            truncated = bool(notes or tn)
+            if vals:
+                print("    image-to-image, %-8s: %s  (mean %+.3f, n = %d pair%s, "
+                      "COMPLETE IMAGES ONLY)"
+                      % (role, " ".join("%+.2f" % c for c in vals), st.mean(vals),
+                         len(vals), "" if len(vals) == 1 else "s"))
+            else:
+                print("    image-to-image, %-8s: **NO PAIR OF COMPLETE IMAGES EXISTS** - "
+                      "only one of them ran to the end" % role)
+            if truncated:
+                print("      as published (truncating to the shorter file): %s "
+                      "(mean %+.3f, n = %d)"
+                      % (" ".join("%+.2f" % c for c in pub), st.mean(pub), len(pub)))
+                for nt in (tn or notes):
+                    print("        %s" % nt)
+                print("        ^ the truncated pairs are computed over one or two LINES,")
+                print("          not a whole image, and the first line is the one that is")
+                print("          guaranteed to agree. They are not the same statistic.")
+            if vals:
+                # standard error of r, optimistic: it treats the 21 pixels of a line as
+                # independent, which the Z ramp along a line makes false.
+                npix = min(len(res[g]["flat"]) for g in (sc if role == "scans" else ct)
+                           if res[g]["n_fwd"] >= max(res[h]["n_fwd"]
+                                                     for h in (sc if role == "scans" else ct)))
+                print("      optimistic s.e. of each r at n = %d pixels: %.3f"
+                      % (npix, 1.0 / math.sqrt(npix - 3)))
         if i2i_s:
-            print("    image-to-image, scans   : %s  (mean %+.2f, n = %d pairs)"
-                  % (" ".join("%+.2f" % c for c in i2i_s), st.mean(i2i_s), len(i2i_s)))
             # The first-line trap, documented in sessions/2026-09-17-bench.md 3.22: the
             # loop's settling transient on line 1 is identical in every image because the
             # procedure is identical, and it alone can carry the whole correlation.
-            d1 = image_to_image(sc, res, 1)
-            d2 = image_to_image(sc, res, 2)
+            d1, _ = image_to_image(sc, res, 1)
+            d2, _ = image_to_image(sc, res, 2)
             if d1 and d2:
-                print("      drop line 1: mean %+.2f    drop lines 1-2: mean %+.2f%s"
+                print("      scans, drop line 1: mean %+.2f    drop lines 1-2: mean %+.2f%s"
                       % (st.mean(d1), st.mean(d2),
                          "   <- the agreement was the loop settling, not the sample"
                          if st.mean(i2i_s) - st.mean(d2) > 0.3 else ""))
         if i2i_c:
-            print("    image-to-image, CONTROLS: %s  (mean %+.2f, n = %d pairs)"
-                  % (" ".join("%+.2f" % c for c in i2i_c), st.mean(i2i_c), len(i2i_c)))
-            d1 = image_to_image(ct, res, 1)
-            d2 = image_to_image(ct, res, 2)
+            d1, _ = image_to_image(ct, res, 1)
+            d2, _ = image_to_image(ct, res, 2)
             if d1 and d2:
-                print("      drop line 1: mean %+.2f    drop lines 1-2: mean %+.2f"
+                print("      controls, drop line 1: mean %+.2f    drop lines 1-2: mean %+.2f"
                       % (st.mean(d1), st.mean(d2)))
+        if not (i2i_s and i2i_c) and (pub_s and pub_c):
+            print("    VERDICT: NO COMPARISON IS POSSIBLE between complete images in this")
+            print("             group. The figures once published for it came entirely")
+            print("             from truncated pairs.")
         if i2i_s and i2i_c:
-            verdict = ("CONTROLS REPRODUCE BETTER - no image"
-                       if st.mean(i2i_c) >= st.mean(i2i_s) else
-                       "scans reproduce better - worth a second look")
+            se = 1.0 / math.sqrt(231 - 3)  # optimistic: pixels along a line are not independent
+            gap = st.mean(i2i_s) - st.mean(i2i_c)
+            if abs(gap) < 2 * se:
+                verdict = ("NEITHER REPRODUCES: scans %+.3f, controls %+.3f, "
+                           "difference %+.3f against an optimistic s.e. of %.3f - "
+                           "indistinguishable, and neither differs from zero"
+                           % (st.mean(i2i_s), st.mean(i2i_c), gap, se))
+            elif gap < 0:
+                verdict = "the controls reproduce better than the scans"
+            else:
+                verdict = "scans reproduce better - worth a second look"
             print("    VERDICT: %s" % verdict)
             summary.append((title, st.mean(i2i_s), st.mean(i2i_c), len(i2i_s), len(i2i_c),
                             st.mean([s["corrugation"] for p, s in res.items()

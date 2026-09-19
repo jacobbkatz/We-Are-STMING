@@ -140,6 +140,16 @@ self.stm_serial.set_buffer_size(rx_size=128000, tx_size=128000)   # Windows only
 
 ## 5. There's a built-in piezo test, and it's the best test available today
 
+> **CORRECTED 2026-09-19 — DO NOT JUDGE THE PIEZO BY EAR, AND DO NOT READ SILENCE AS A FAULT.**
+> This section and the `TEST` step later in this document both tell you to listen for a buzz.
+> **With the disc mounted there is no usable resonance**: a 1-11 kHz sweep found no peak
+> (`docs/COMMANDS.md`), and `CLAUDE.md` retired `TONE 8600` as a standard check for the same reason.
+> **Hearing nothing does NOT mean a depolarised disc.** Treating it as one is a false-negative
+> generator on the single part in this instrument that is destroyed silently and cannot be tested
+> after the fact. **The piezo is BUILT AND WORKING** (`docs/FACTS.md`, the scanner section).
+> **`TEST` is still useful for what it actually proves — that the DAC path drives all three axes —
+> and the re-park warning below is unchanged and still mandatory.**
+
 ```cpp
 if (command == "TEST") { stm.test_piezo(); }
 ```

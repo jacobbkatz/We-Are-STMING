@@ -174,14 +174,15 @@ def main():
         ax.annotate("", xy=(pick["zin"], MID_I), xytext=(pick["zout"], MID_I),
                     arrowprops=dict(arrowstyle="<->", color=S.C["ink"], lw=1.7), zorder=7)
         S.key(ax, (pick["zin"] + pick["zout"]) / 2.0, MID_I * 1.22,
-              "hysteresis\n%d counts" % pick["hyst"], ha="center", va="bottom")
+              "hysteresis\n%s counts" % format(int(pick["hyst"]), ","), ha="center", va="bottom")
 
     S.tidy(ax, xlabel="Z piezo counts (higher is toward the sample)",
            ylabel="Current at the tip (ADC counts, log scale)", grid="both")
     S.thousands(ax, "x")
     ax.set_title("One cycle, chosen as the one closest to the run's median slope.\n"
-                 "Going in takes %.0f counts per ten-fold change; coming out, %.0f."
-                 % (pick["cpd_in"], pick["cpd_out"]))
+                 "Going in takes %s counts per ten-fold change; coming out, %s."
+                 % (format(int(round(pick["cpd_in"])), ","),
+                    format(int(round(pick["cpd_out"])), ",")))
     S.key(ax, zin_pts[-1][0] + padx * 0.14, zin_pts[-1][1] * 0.70, "going in",
           ha="left", va="center", color=S.word(0))
     S.key(ax, zout_pts[0][0] + padx * 0.14, zout_pts[0][1] * 1.30, "coming out",
@@ -219,7 +220,7 @@ def main():
           color=S.word(0))
     S.key(axb, summary[0]["cpd_out"] * 1.05, ys[0] + 0.30, "coming out", ha="left",
           va="bottom", color=S.word(1))
-    S.note(axb, 17, -0.85, "6–13 counts: what tunnelling would need,\ncalculated",
+    S.note(axb, 17, -0.78, "6–13 counts: what tunnelling would need (calculated)",
            ha="left", va="center", fontsize=S.TYPE["small"], color=S.word(2))
 
     S.titles_keyed(
