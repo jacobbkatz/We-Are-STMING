@@ -37,14 +37,15 @@ HOW MANY TESTS WERE SEARCHED
     pass-separation correlations (script 04)                         11
     profile-versus-Y comparisons (script 05)                         36
     image-to-image correlations reported in the session logs         20
-    TOTAL                                                           201
+    cross-run place tests and onset-Z comparisons (script 13)         8
+    TOTAL                                                           209
 
-    At 201 tests, a 5% threshold is expected to throw up about 10 apparent
+    At 209 tests, a 5% threshold is expected to throw up about 10 apparent
     findings from noise alone. A Bonferroni-corrected 5% threshold is
-    p < 2.5e-04, about 3.7 sigma. NOTHING in this body of data reaches it. The
+    p < 2.4e-04, about 3.7 sigma. NOTHING in this body of data reaches it. The
     best place-dependence ever seen - the y_sep 12000 run, called 3.9 sigma on
     the night - is p = 0.0036 under its own permutation null, which is a factor
-    of 14 short of the corrected threshold, AND its repeat gave p = 0.26, AND
+    of 15 short of the corrected threshold, AND its repeat gave p = 0.26, AND
     an X-HELD CONTROL, which cannot contain any sample structure at all, scored
     p = 0.02 on the same statistic. The only result that clears the corrected
     threshold is the 2026-09-17 profile's EXISTENCE (N3, p < 2e-4) - it is a

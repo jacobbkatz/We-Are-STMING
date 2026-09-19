@@ -14,6 +14,30 @@ Canonical numbers live in [`docs/FACTS.md`](../../../docs/FACTS.md); open questi
 [`docs/OPEN_QUESTIONS.md`](../../../docs/OPEN_QUESTIONS.md). This report cites those figures inside
 its arguments, as the project's rules allow, and **is not a second register of constants.**
 
+## The conditions this was built in — read this first
+
+**`SAID`, Jacob, 2026-09-19.** This was missing from every document in this project until today,
+and it is not a disclaimer. **It is the measure of the achievement, and it is part of the science.**
+
+| | |
+|---|---|
+| **Two first-year students** | No lab, no professional context, no supervision on record |
+| **No coding experience** | Neither author writes code |
+| **Very little electronics experience** | **This project was their first real soldering** |
+| **A basement in a lived-in house** | Not a lab and not a clean room |
+| **People moving around, and the air uncontrolled** | No temperature control, no air control, and no isolation from the building beyond what they built themselves |
+
+**Corroborated by the photographs:** a wooden bench standing on a concrete floor, a few metres from
+a breaker panel and a standby-generator transfer switch
+(`deliverables/2026-09-19-pause/photos/MECHANICAL_OBSERVATIONS.md` §6).
+
+**Why this belongs in the results and not in a biography.** An STM is normally a clean-room
+instrument: commercial ones sit on air tables in temperature-controlled labs. **The blocker this
+project identified and measured — the gap moving by most of its range in seconds — is exactly the
+class of problem those rooms exist to remove.** So "the gap would not hold still in a basement" is
+not a failure to explain away. **It is the expected outcome, measured, quantified, and traced to
+named candidate mechanisms — which is what instrument development is.**
+
 ### How to read the marks
 
 | Mark | Means |
@@ -48,6 +72,9 @@ beside them and their full captions in that directory. **They supersede the work
 
 ## 1. The short version
 
+0. **Two first-year students with no coding experience, very little electronics experience and no
+   previous soldering built all of this in a basement.** Everything below was measured in a
+   lived-in house with people moving around and no control of the air or the temperature.
 1. **The whole measurement chain works end to end and agrees with theory to 0.13 of a standard
    error.** A known resistance in place of the tip gave −3,205 ± 37 counts per volt against
    −3,200 predicted before the measurement was taken. MEASURED 2026-09-16.
@@ -406,6 +433,13 @@ parts, and air currents.
 **The thing being measured is smaller than the way the gap moves while it is being measured.**
 That single comparison explains the entire imaging record, and it is a number, not an impression.
 
+**And it is the expected result in this room, which is why the conditions are stated at the top of
+this report.** A commercial STM sits on an air table in a temperature-controlled lab **because this
+is the problem those rooms exist to remove.** This instrument stands on a wooden bench on a
+basement floor in a house people live in. **What this project did was not fail to hold the gap
+still — it measured, in its own units, what that environment costs, and named five mechanisms that
+could be responsible.**
+
 **A real property of the scanner was found on the way.** In the wide images, the forward and
 backward sweeps of each line are −0.85 to −0.92 correlated at zero offset and +0.83 to +0.93 at an
 offset of about ten pixels — a signal roughly periodic over one pass and mirrored between the two
@@ -441,11 +475,15 @@ eliminated, with the measurement that eliminated it:
 
 ---
 
-## 7. What we corrected in our own record at this pause point
+## 7. The self-audit — six corrections we made to our own record
 
-**Six things. Every conclusion survived. Two of the arguments for them did not.** This section is
-here because it is a result: **the errors were found from the inside, by replicating the numbers
-rather than reading them, before anything went on a poster.**
+**This section is a result, and it should be read as one.** A team that re-derives its own
+published numbers from the raw files, finds six of them wrong and withdraws two of its own
+conclusions **is demonstrating exactly the discipline that makes everything else in this report
+believable.** None of it was found by an outsider. All of it was found from the inside, by
+replicating numbers rather than reading them, **before any of it went on a poster.**
+
+**Six things. Every conclusion survived. Two of the arguments for them did not.**
 
 ### 7.1 Two dismissal statistics were withdrawn — both from the same silent bug
 
@@ -587,7 +625,15 @@ of the ones that matter most to the science, not a second list.
 4. **Whether the tip was ever over gold rather than copper.** The sample's window is not all gold;
    copper is exposed to the gold's left and below it in the photograph of the plate. Nothing
    electrical distinguishes them.
-5. **The three-Y candidate** (section 7.3), which has a specific four-image test.
+5. **The three-Y candidate — the one measurement this project has made that looked like
+   topography** (section 7.3). It is presented in the gallery beside **its repeat and its X-held
+   control**, with its honest statistics: within-place +0.239, between-place −0.135, difference
+   **+0.374 ± 0.097**, permutation **p = 0.0036**; the repeat half an hour later **+0.056,
+   p = 0.26**; an X-held control, which cannot contain a surface, **p = 0.020**. **It is an open
+   question with a specified four-run experiment, not an image** — and an open question a team can
+   name precisely is a stronger thing to show than a pretty picture. Figures:
+   `deliverables/2026-09-19-pause/candidates/gallery/03_candidateB_three_y.png` and
+   `deliverables/2026-09-19-pause/candidates/gallery/04_feedback_scans_vs_controls.png`.
 6. **The mechanism of the mirrored signal in the wide images** (section 5), which has a specific
    two-speed test.
 7. **Whether the rebuilt preamp box shield is continuous.** The repository contradicts itself and
@@ -613,7 +659,30 @@ imaging statistic is currently dominated by the gap moving more than the signal.
 
 ---
 
-## 10. What this report does not claim
+## 10. What this report does not claim, and the words that are true instead
+
+**The one claim that cannot be made is "we detected tunnelling current."** It is not a framing
+choice — **this project's own data contradict it.** The Z test is the decisive evidence: a decade
+of current per about 1,650 to 1,970 Z counts where tunnelling needs about 6 to 13, and **705 to
+1,868 counts of in/out hysteresis in every run, which is a mechanical signature and does not depend
+on the Z scale at all.**
+
+**What is true is nearly as strong, and should be said with confidence rather than hedged:**
+
+| Say this | Not this |
+|---|---|
+| **The instrument measures currents of about one nanoamp, proved against a known resistor to 0.13 of a standard error** | We detected tunnelling current |
+| **We made a real tip-and-sample junction and measured its I-V: non-ohmic, bias-symmetric, resistance falling from 59 to 16 MΩ — the signature a tunnelling barrier requires, ruling out both a short and an open circuit** | We observed tunnelling |
+| **The junction's current responds to the tip's height and to the bias, and reverses with it** | We were in the tunnelling regime |
+| **We could not confirm a vacuum tunnelling gap: the distance dependence was far shallower than tunnelling requires and the junction showed mechanical hysteresis. Our reading is a pressed contact — and we measured what stops us getting past it** | — |
+
+**Why hold this line.** The first hard question from anyone who knows what an STM is will be *"how
+did the current vary with distance?"* **The honest answer — a decade per about 1,650 counts, where
+tunnelling needs about ten, which is how we know it was a contact — shows a team that measured the
+right thing and understood it.** The overclaim collapses on that same question and takes the
+calibration, the noise work and the controls down with it.
+
+**And the rest:**
 
 - **No tunnelling.** We have a barrier junction. We have not demonstrated a stable vacuum
   tunnelling gap.

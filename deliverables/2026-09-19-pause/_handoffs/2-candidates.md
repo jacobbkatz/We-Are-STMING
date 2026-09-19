@@ -38,6 +38,7 @@ project**, inventoried in `candidates/work/inventory.csv`. Plus four long fixed-
 | `code/10_gallery_figures.py` | all nine gallery PNGs |
 | `code/11_truncation_audit.py` | **the coordinator's two requests**: defect-class audit and three-Y re-verification |
 | `code/12_start_of_pass_transient.py` | **the finding that closes candidate A** |
+| `code/13_gap_stability_across_runs.py` | **the onset-Z series and the cross-run place test** — added after the lead's correction |
 
 ---
 
@@ -59,13 +60,14 @@ python3 deliverables/2026-09-19-pause/candidates/code/09_lag_aware.py       # ~1
 python3 deliverables/2026-09-19-pause/candidates/code/10_gallery_figures.py
 python3 deliverables/2026-09-19-pause/candidates/code/11_truncation_audit.py
 python3 deliverables/2026-09-19-pause/candidates/code/12_start_of_pass_transient.py
+python3 deliverables/2026-09-19-pause/candidates/code/13_gap_stability_across_runs.py   # ~1 min
 ```
 
-Needs `numpy` and `matplotlib` only. `07` and `09` seed `numpy.random.default_rng(20260919)`, so
-they are bit-reproducible.
+Needs `numpy` and `matplotlib` only. `07`, `09` and `13` seed `numpy.random.default_rng(20260919)`,
+so they are bit-reproducible.
 
 **Deliverables:** `candidates/GALLERY.md`, `candidates/VERDICT.md`, `candidates/gallery/*.png`
-(9 figures, raw and processed side by side, captioned), `candidates/work/*.csv` (the numbers behind
+(10 figures, raw and processed side by side, captioned), `candidates/work/*.csv` (the numbers behind
 every claim).
 
 ---
@@ -106,6 +108,33 @@ passes × 21 points, no truncation**, and every published number reproduces exac
 Under 20,000 place-label permutations: run 2 **p = 0.0036**; run 4 **p = 0.26**;
 **`ycontrol_xheld_run1.csv`, an X-HELD CONTROL, p = 0.020**. `code/07` null N1, `code/11` part 3.
 
+### F3b. The gap held still across the runs that failed to repeat — CORRECTION TO MY OWN VERDICT
+**The lead caught this; my first version was wrong.** I had written that run 4 came "half an hour"
+after run 2 and that the gap "moved by most of the Z range" in between, and concluded the two
+readings could not be separated. **Both were unevidenced inferences and both are wrong.**
+
+**The measurement was on the first line of every `ycontrol_run*.log` the whole time:**
+onset Z **44,200 / 47,000 / 48,600 / 52,000 / 50,800** for runs 1, X-held 1, 2, 3(X-held), 4.
+**Run 2 to run 4: +2,200 counts — 3.4% of the 65,536-count Z range.** All five span 7,800 counts.
+**Interval about two minutes**, bounded by `sessions/2026-09-19-bench.md` §3.14 at 03:48
+(`cas9.log` ends 03:48:56) and §3.16 at 03:53, with all five runs between them.
+**Independent cross-check:** 7,800 counts over that four-minute window is **32 counts/s**, and
+`sessions/2026-09-19-morning.md` §6 measured **~40-41 counts/s over 03:48:13-03:52:58** from the
+`cas9`/`img` data without reference to these logs. **Same rate, different measurement.**
+
+**The test this makes possible, and it goes against the candidate.** Cross-run place test, run 2
+against run 4 (same three places, ~2 min apart): **same place −0.020 (n=108), different place
++0.054 (n=216), difference −0.074, permutation p = 0.70.** Against run 3 (X-held): −0.182,
+p = 0.93. Per place, pass-averaged: **+0.11, +0.50, −0.72** — reproducing §3.15 exactly.
+**Genuine non-reproduction is now the better-supported reading.** `code/13`.
+
+**What keeps candidate B open — one named missing measurement.** Onset Z measures the gap, not
+lateral position. Measured slopes: run 4 dZ/dX **−0.0024**, dZ/dY **−0.0022** — a full-range X
+drift would move its onset by **~150 counts**, invisible. Run 2's dZ/dY is +0.2253 (fitted to three
+places, dominated by one 5,400 counts higher, so weakly determined), on which ~9,800 counts of Y
+drift would account for the whole change. **Either way onset Z bounds the vertical and says nothing
+about the lateral, and lateral drift has never been measured in this project.**
+
 ### F4. A SECOND instance of the truncation defect, in the wide images
 **Found independently by the lead (`LEAD_VERIFICATION.md` V5) and by me on the same day; neither
 was working from the other's result.**
@@ -119,6 +148,18 @@ The lead's cas9 finding is independently confirmed: **as published +0.20/+0.21/+
 **Defect-class audit:** short files in three groups (`cas9` ×1, `img_` ×2, `tuned_s3k` ×4);
 **2026-09-17 is clean** — every set it compared against itself is uniform length, and its other
 figures are per-file statistics no truncation can touch.
+
+### F11. Two averaging conventions reconciled, so one number circulates
+**Consecutive-pass r:** the **arithmetic mean** of the 11 pairwise correlations is **+0.515** —
+the project's convention and §3.25's published figure, and the lead's. The **Fisher-z mean** of the
+same 11 numbers is **+0.647** (what I first quoted); it is the better estimator and larger because
+the pairs run −0.21 to +0.95. **+0.515 is now the headline everywhere in my deliverables**, with
+Fisher-z shown alongside in the drop-leading-points table.
+**"An ordinary step":** the **mean absolute** step over interior points is **376 counts** (the
+lead's 385 on a slightly different interior range). My **−236** was the signed mean of one
+particular step and is the wrong comparison, because signed steps of an undulating line partly
+cancel. **The first-step ratio is therefore 1,533 / 376 = 4.1x, not 6x.** Corrected in `code/12`
+and in both deliverables.
 
 ### F5. The wide images carry a real, X-dependent, roughly line-periodic signal
 `img_scan_2.csv` r_pos **−0.854** at zero shift, **+0.829** at −10 px; `img_scan_1.csv` **−0.917**
@@ -164,6 +205,12 @@ the place test had never been run. **For the lead — `sessions/` is read-only t
 
 ## 5. Where I was wrong before I was right — recorded because it matters
 
+**Three corrections, two of them to my own work.** The interval/gap-motion error in F3b is the
+most consequential: I inferred a quantity instead of bounding one, in a file whose whole purpose is
+to distinguish measurement from inference. **The correction went against the candidate I was
+keeping open**, which is the direction a check should be allowed to run.
+
+
 `code/05_direction_asymmetry.py` originally concluded that the 636-count profile is a
 forward-direction artefact because it matches the forward mean shape of the 2D images (+0.760) and
 not the backward (−0.265). **That argument was unsound and I wrote it before checking.**
@@ -180,11 +227,13 @@ The candidate is closed by F1, not by the direction argument.
 
 ## 6. Uncertainties, blockers, remaining work
 
-1. **Candidate B cannot be settled with existing data.** Run 2 (+0.374) and run 4 (+0.056) are half
-   an hour apart and the gap moved by most of the Z range in between. **"It did not repeat" and
-   "the surface moved out from under it" are not distinguishable here.** This is the strongest form
-   of Jacob's hypothesis and I cannot refute it. `VERDICT.md` §5 gives the one measurement that
-   would.
+1. **Candidate B is weaker than I first wrote, and open on one ground only: lateral drift.** The
+   gap held still across run 2 to run 4 (2,200 counts, ~2 min), and the cross-run same-place test
+   is null at p = 0.70, so non-reproduction is the better-supported reading. **Onset Z is nearly
+   blind to lateral motion and this project has never measured it.** `VERDICT.md` §6 Q1 gives the
+   experiment — and says plainly that the local-plane sweep it proposes is a weak constraint, not a
+   measurement of lateral drift, because measuring that directly needs a trackable feature and
+   getting one needs an image.
 2. **The place test's power is limited** (F2): ±0.47 at 2σ. A weak genuine surface signal is not
    excluded by it.
 3. **The mechanism of the wide images' mirrored signal is unidentified.** Loop hunting, X-piezo
@@ -213,6 +262,11 @@ The candidate is closed by F1, not by the direction argument.
 - **The min-length truncation is in committed scratch code** and is the defect class. If any of it
   is ever promoted to `Code/pc/`, it must refuse a shape mismatch rather than truncate, and the
   check must be **shown red against a one-line file first** (`CLAUDE.md` §7 rule 2).
+- **`Code/pc/stm_y_control.py` should write the onset Z into the CSV**, not only print it on the
+  log's first line. It is the measurement that settled the gap question and it was reachable only
+  by hand.
+- **Conventions, if any of these numbers go on a poster:** consecutive-pass r **+0.515**
+  (arithmetic mean), ordinary step **376 counts** (mean absolute, interior). See F11.
 
 ## 8. Framing
 

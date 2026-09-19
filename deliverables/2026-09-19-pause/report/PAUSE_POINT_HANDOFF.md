@@ -12,6 +12,30 @@ issues no new bench procedure.
 
 ---
 
+## The conditions this was built in — and why whoever picks this up needs to know
+
+**`SAID`, Jacob, 2026-09-19.** **Two first-year students. No coding experience. Very little
+electronics experience — this project was their first real soldering. Built in a basement in a
+lived-in house, with people moving around and no control of the air or the temperature.** The
+photographs corroborate it: a wooden bench standing on a concrete floor, a few metres from a
+breaker panel and a standby-generator transfer switch.
+
+**This matters operationally, not just biographically.** An STM is normally a clean-room
+instrument, and **the blocker measured here — the gap moving by most of its range in seconds — is
+exactly the class of problem those rooms exist to remove.** So:
+
+- **Do not read the gap motion as a mysterious fault.** It is the expected result in this
+  environment, it was measured rather than assumed, and five candidate mechanisms are named.
+- **The move is an uncontrolled change to the single biggest variable in the experiment.** A
+  different house, floor, bench and mains supply may make the gap behave differently, in either
+  direction. **Record the new room in `docs/INVENTORY.md` before the first measurement** — the
+  floor type, the bench, what else is running nearby — so that a change in the numbers can be
+  attributed rather than puzzled over.
+- **Whoever is at the bench may be doing something for the first time.** The procedures in
+  `docs/` are written for that and should stay that way.
+
+---
+
 ## 0. The first fifteen minutes, in order
 
 1. `git pull --ff-only origin main`.
