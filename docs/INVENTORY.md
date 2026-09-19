@@ -11,6 +11,8 @@ sensitivity depends on.
 > shopping list in this repository. If it is not written here, **ask Jacob or Nuh** or mark it
 > UNKNOWN. Do not infer it from a document. See `CLAUDE.md` §3d.
 
+> **LOCATION, 2026-09-19:** `SAID`, Jacob, ~14:19 UTC 2026-09-19: *"We are now taking it apart and moving it to News House as I'm flying to San Diego for college. We will probably continue a little bit less frequently over the next few months."* **"News House" is read as Nuh's house** (speech-to-text) — an inference, not confirmed. **Everything below describes the instrument as it was before it was taken apart.** Re-confirm each row at reassembly and record what changed.
+
 **Provenance marks:** `ORDER` an order confirmation or invoice · `PHOTO` a photograph ·
 `BENCH` seen or measured in the room · `SAID` Jacob or Nuh stated it.
 

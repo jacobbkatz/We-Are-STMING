@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-19 morning, the last session before a break, corrected after a number-by-number verification — **the Z test ran (110 cycles, four biases): not a clean tunnelling gap (shallow, and hysteretic in every run), and the gap moves by most of the Z range within seconds to minutes.** **Find what moves it and prove the gap holds still BEFORE any scanning.** Start at the block below.
+**Last updated:** 2026-09-19, after the morning session — **the instrument is being taken apart and moved (read as to Nuh's house) while Jacob leaves for college: the next session starts with REASSEMBLY, below.** The science: the Z test ran (110 cycles, four biases), not a clean tunnelling gap, and the gap moves by most of the Z range within seconds to minutes. **Find what moves it and prove the gap holds still BEFORE any scanning.** Start at the block below.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -9,7 +9,26 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 
 # START HERE — COMING BACK AFTER THE BREAK (written 2026-09-19 morning, corrected before commit)
 
-**How it was left** (`STATUS.md` top block; `sessions/2026-09-19-morning.md` §10): powered off, **side screws
+## REASSEMBLY FIRST — the instrument was taken apart and moved after this session
+
+`SAID`, Jacob, ~14:19 UTC 2026-09-19: *"We are now taking it apart and moving it to News House as I'm flying to San Diego for college. We will probably continue a little bit less frequently over the next few months."* **"News House" is read as Nuh's house** (speech-to-text) — an inference, not confirmed. **Nothing about the parked state can be assumed.** Before anything is powered:
+
+1. **`git pull` on whatever computer runs the session**, then `pip install -r Code/pc/requirements.txt`.
+   **The 2026-09-19-morning scripts run only on Jacob's laptop** (absolute paths, `winsound`); on another
+   computer use the portable tools in `Code/pc/` (they find the Teensy by USB vendor ID) or promote the
+   scripts first.
+2. **Rewire from `docs/WIRING.md`, not from memory or photographs**, and **verify unpowered** with this
+   file's "BEST verification: unplug the DB9 and beep it" section. Read "The colour trap" first.
+3. **Bring up from cold with `docs/soft_launch_test_procedure.md` stages 0-6**, and `docs/DAC_BOOT_STATE.md`.
+   Supplies first, then USB; LED1-LED4 checked before anything is sent.
+4. **Mechanics, by eye and meter:** the sample plate on all three balls, **the motor-screw ball touching the
+   plate** (2026-09-17 found it turning in free space once), fresh rubber bands, `STATUS.md` safety rule 7 (tip
+   holder OPEN to the brass), the suspension hanging free with its springs open (~3 bounces a second, up and
+   down), and **no cyanoacrylate anywhere near the preamp** (rule 5).
+5. **Re-check the Z direction** before any script that assumes one — the tip may have moved or been changed.
+6. **Record what was reassembled, how, and by whom in `docs/INVENTORY.md`** the same day.
+
+**How it was left before the move** (`STATUS.md` top block; `sessions/2026-09-19-morning.md` §10): powered off, **side screws
 backed off 2 full turns**, covered. **Before powering up, check the rubber bands that hold the sample plate
 on its three balls — rubber perishes over weeks; replace any that are cracked or slack** — and confirm the
 plate still sits on all three balls.
