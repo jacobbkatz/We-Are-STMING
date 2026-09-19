@@ -620,7 +620,7 @@ def main():
 
     # A second panel for the class of defect, since it is the finding that changed a
     # published number.
-    fig, ax = plt.subplots(figsize=(7.2, 2.6))
+    fig, ax = plt.subplots(figsize=(7.6, 3.0))
     groups = ["cas9 controls", "wide images, scans", "tuned scans, scans",
               "tuned scans, controls"]
     published = [0.373, 0.708, -0.246, 0.034]
@@ -628,24 +628,23 @@ def main():
     ys2 = list(range(len(groups)))[::-1]
     ax.barh(ys2, published, 0.5, color=TOL["grey"], label="as published (pairs truncated)")
     for y, g, pv, cv in zip(ys2, groups, published, corrected):
-        ax.text(pv + (0.02 if pv >= 0 else -0.02), y, "%+.2f" % pv,
-                va="center", ha="left" if pv >= 0 else "right", fontsize=8)
+        ax.text(-0.52, y, "%+.2f" % pv, va="center", ha="right", fontsize=8)
         if cv is None:
-            ax.text(0.80, y, "NO pair of complete images exists", va="center",
+            ax.text(0.95, y, "NO pair of complete images exists", va="center",
                     fontsize=7.5, color=TOL["purple"])
         else:
             ax.plot([cv], [y], "o", ms=8, color=TOL["blue"], zorder=3)
-            ax.text(0.80, y, "complete images only: %+.2f" % cv, va="center",
+            ax.text(0.95, y, "complete images only: %+.2f" % cv, va="center",
                     fontsize=7.5, color=TOL["blue"])
     ax.axvline(0, color=TOL["black"], lw=0.9)
     ax.set_yticks(ys2)
     ax.set_yticklabels(groups, fontsize=8)
-    ax.set_xlim(-0.45, 1.65)
+    ax.set_xlim(-0.75, 1.95)
     ax.set_xlabel("image-to-image correlation")
     ax.set_title("The truncation defect is a class, in four groups\n"
-                 "a pair is silently cut to the shorter file, so one aborted image turns "
-                 "an image comparison into a single line")
-    ax.legend(loc="lower right")
+                 "a pair is silently cut to the shorter file, so one aborted image\n"
+                 "turns an image comparison into a single line")
+    ax.legend(loc="lower right", bbox_to_anchor=(1.0, -0.02))
     save(fig, "fig18_truncation_class.png")
     plt.close(fig)
 

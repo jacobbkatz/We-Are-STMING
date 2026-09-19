@@ -76,8 +76,8 @@ def main():
             print("      %5.0f Hz: %.2f counts/sqrt(Hz)" % (f[k], asd[k]))
 
     S.set_theme("light")
-    fig, (ax, axh) = S.plt.subplots(1, 2, figsize=(11.0, 6.2), width_ratios=[1.62, 1.0])
-    fig.subplots_adjust(top=0.760, bottom=0.250, left=0.068, right=0.900, wspace=0.26)
+    fig, (ax, axh) = S.plt.subplots(1, 2, figsize=(11.6, 7.0), width_ratios=[1.62, 1.0])
+    fig.subplots_adjust(top=0.775, bottom=0.300, left=0.066, right=0.880, wspace=0.42)
 
     # ---- panel A: the spectrum ------------------------------------------------------
     for label, name, col, wcol in runs:
@@ -99,12 +99,15 @@ def main():
                                         lambda a: a / PA_PER_COUNT))
     sec.set_ylabel("the same noise, in picoamps per √Hz", color=S.C["muted"],
                    fontsize=S.TYPE["annot"], labelpad=12)
+    sec.set_yticks([1, 2, 5, 10, 20])
+    sec.set_yticklabels(["1", "2", "5", "10", "20"])
+    sec.minorticks_off()
     sec.tick_params(colors=S.C["muted"], labelsize=S.TYPE["small"])
     sec.spines["right"].set_color(S.C["axis"])
 
     for k, h in enumerate((1, 3, 5)):
         ax.axvline(MAINS * h, color=S.C["grid"], lw=1.0, zorder=1)
-    S.key(ax, MAINS, 9.6, "60 Hz mains\nand its odd harmonics", ha="center", va="bottom",
+    S.key(ax, 78, 6.6, "60 Hz mains and\nits odd harmonics", ha="left", va="bottom",
           fontsize=S.TYPE["small"])
     d0 = data["still.csv"]
     S.key(ax, 700, float(np.median(d0["asd"][d0["f"] > 400])) * 2.4,
@@ -124,20 +127,19 @@ def main():
            ylabel="How often a reading landed there", grid="y")
     axh.set_yticks([])
     axh.set_xlim(-180, 180)
+    axh.set_ylim(0, axh.get_ylim()[1] * 1.42)
     axh.set_title("Every reading from both ten-second runs.\n"
                   "The two distributions are the same.")
     sd_still = data["still.csv"]["sd"]
     sd_stamp = data["stamp.csv"]["sd"]
-    axh.text(-172, axh.get_ylim()[1] * 0.93,
-             "room still            %.1f counts  (%.0f pA)\n"
-             "someone stamping   %.1f counts  (%.0f pA)"
+    axh.text(-174, axh.get_ylim()[1] * 0.985,
+             "Spread of a single reading, as a standard deviation\n"
+             "room still                       %.1f counts   (%.0f pA)\n"
+             "someone stamping        %.1f counts   (%.0f pA)"
              % (sd_still, sd_still * PA_PER_COUNT, sd_stamp, sd_stamp * PA_PER_COUNT),
              ha="left", va="top", fontsize=S.TYPE["annot"], fontweight=S.W_EMPH,
              color=S.C["ink"], linespacing=1.9,
              bbox=dict(boxstyle="round,pad=0.6", facecolor=S.C["band"], edgecolor="none"))
-    S.note(axh, 0, axh.get_ylim()[1] * 0.50,
-           "spread of a single reading,\nas a standard deviation", ha="center",
-           va="top", fontsize=S.TYPE["small"])
 
     S.titles_keyed(
         fig,
