@@ -1,0 +1,59 @@
+1. WITHIN-PASS SPECTRUM - where the wiggles sit, in pixels and in hertz
+   pixel index is time inside a pass, so a spatial period converts directly
+
+   set                          passes  peak (px)   dwell ms    peak Hz slow power
+   +-400 feedback scans             96       21.0       10.7        4.4        93%
+   +-400 slow                       48       21.0       97.2        0.5        81%
+   +-400 X-HELD CONTROL             16       21.0       10.7        4.4        51%
+   +-15000 wide images              36       21.0       10.7        4.4        80%
+   +-1500 feedback scans            88       21.0       10.8        4.4        96%
+   +-1500 X-HELD CONTROLS           66       21.0       10.8        4.4        94%
+   +-15000 wide image               22       21.0       10.8        4.4        98%
+   +-15000 X-HELD CONTROLS          44       21.0       10.8        4.4        89%
+
+   EVERY set peaks in the lowest non-DC bin, real scans and X-held controls alike:
+   the structure is as slow as a pass is long. At ~10.8 ms per pixel a 21-pixel
+   pass is ~0.23 s, so the wiggles are ~4-5 Hz - inside the 5-30 Hz band the
+   2026-09-17 noise spectroscopy already blamed (section 3.24: everything above
+   the 8-14 count electrical floor is below ~30 Hz, no line at 60 or 120 Hz).
+   The CONTROLS do the same thing with X standing still, so this is consistency
+   with a mechanical disturbance, not evidence of one. A 21-point pass cannot
+   resolve a line frequency and this test must not be read as if it had.
+
+2. DOES THE APPARENT FEATURE WALK ACROSS THE IMAGE LINE BY LINE?
+   cross-correlation lag between consecutive detrended forward lines.
+   A surface gives lag 0 (features stay put). A disturbance drifting in
+   phase against the raster gives a consistent non-zero lag.
+
+   file                                  lines   mean lag  sd of lag
+   scan_fast_1.csv                          12       2.27       5.14
+   scan_wide_25nm_1.csv                      9      -0.75       9.77
+   scan_wide_25nm_2.csv                      9       1.25       7.12
+   diag_scan_x_held.csv                      8      -3.29       5.44
+   cas9_scan1.csv                           11      -0.60       6.28
+   cas9_xheld3.csv                          11       0.70       5.04
+   img_scan_2.csv                           11      -0.60       4.13
+   img_xheld_0.csv                          11       0.90       3.05
+
+3. THE GAP'S OWN MOTION - onset Z per cycle, 2026-09-19 morning Z tests
+   file                          cycles  span (counts)  drift (cnt/s)  residual sd
+   ztest_1789822585.csv              30          13508          -67.7         1722
+   bias_m01V_1789822770.csv          20           2828           26.6          637
+   bias_p05V_1789822770.csv          20           4502           16.0          849
+   bias_p01V_1789822770.csv          20           5380            9.6         1358
+   bias_m05V_1789822770.csv          20           4190           65.9          396
+   The residual scatter about a straight line is the part that is NOT steady
+   drift. It is the size of the wander that would spoil a scan.
+
+4. COHERENT SPECTRAL LINES IN THE LONG FIXED-POINT RECORDS
+   kept only if present in BOTH halves within a factor of 2
+   tip clear, room still  [CONTROL]   fs 3695 Hz, 34746 samples: 63.6 Hz (5/5)
+   tip clear, stamping    [CONTROL]   fs 3792 Hz, 36071 samples: none
+   junction pinned, Z 2000            fs 3448 Hz, 17088 samples: none
+   a real junction, fixed Z 0         fs 3448 Hz, 46328 samples: none
+
+   Mains lines appear in the tip-clear controls too, so they are electrical.
+   Anything mechanical would have to be present with a junction and absent
+   without one.
+
+-> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/motion_and_timing.csv

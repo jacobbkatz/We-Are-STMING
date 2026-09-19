@@ -833,3 +833,290 @@ been promoted into `Code/pc/`. See section 11.
 > the band routing is what failed on 2026-09-17.
 
 ---
+
+# 5. Startup and shutdown
+
+## 5.1 Before anything is switched on
+
+**Do these unpowered. None takes more than a couple of minutes and two of them are gates.**
+
+| Check | Why | Pass |
+|---|---|---|
+| **Tip out, or the sample well clear** | **The DACs power up at zero scale, not at 0 V.** The instant the analog rails come up, Z sits at one extreme of its range with no command from you. **This is a Stage 3 precaution, not a Stage 5 one** | — |
+| **Tip holder to the brass piezo electrode** | `STATUS.md` safety rule 7 — a bridge there shunts the amplifier input | **OPEN** |
+| **Gold to the sample-plate bias wire** | If the gold is not on the bias, no tunnelling current can exist | **Beeps** |
+| **Gold to the tip holder** | If it beeps, the tip is already touching the sample | **Silent** |
+| **Nothing is touching the suspended platform** | A cable, rod or tie across the suspension is a rigid bypass and no spring change works around it. **Check every wire has slack**: the coax to the preamp, the loom, the stepper leads | Only wires, all slack |
+| **The plate sits on all three balls, and the motor-screw ball touches it** | On 2026-09-17 the motor screw was found turning in free space | — |
+| **The rubber bands** | Rubber perishes in storage | No cracks, not slack |
+| **No cyanoacrylate anywhere near the preamp** | `STATUS.md` safety rule 5 | — |
+
+## 5.2 Power-on, in order
+
+**The order matters, and it is the fix for the DAC configuration fault.**
+
+1. **Bench supply set to about ±18 V, current limit a few hundred mA, polarity checked against your
+   labels, THEN connected** to U19 — the 3-pin JST on the right edge, never DSUB2.
+2. **Switch the supply on. Watch and smell for several seconds.** No smoke, no burning smell,
+   nothing hot. Check the current draw is modest and stable, not pegged.
+3. **Check LED5 and LED6.** Both must be lit. See section 3.2 for what each pattern means.
+4. **Wait, then plug in the USB.** The Teensy boots in milliseconds and immediately writes the DAC
+   configuration; if it does that before the DACs' 3.3 V supply is up, the writes go nowhere.
+   Powering the analog side first is the free fix for that.
+5. **Wait about a second before the first command.** The boot reset does four software resets with
+   a 100 ms wait each, so the board takes roughly half a second before it answers anything. If
+   your first command gets no reply, wait and retry.
+6. **Check LED1 to LED4.** See below.
+7. **Park every axis** (section 5.4).
+8. **Allow about two minutes to settle** before taking any preamp measurement.
+
+> **The 45-minute warm-up rule is RETIRED.** `STATUS.md` safety rule 0 was retired on 2026-09-15:
+> the repaired board settled within about two minutes and then did not move, twice, and showed
+> **zero change between 20 and 45 minutes.** The old climb was the previous board's floating
+> reference charging, not the amplifier. **Allow about two minutes.** Note the minutes since
+> power-on alongside any noise figure anyway, so that runs compare like with like.
+
+## 5.3 The LED check — do this before and after every measurement
+
+**LED1 to LED4 are the four DACs' ALERT pins.**
+
+| | |
+|---|---|
+| **Dark** | The DACs are configured and working |
+| **Lit** | **That DAC is dead. Any reading taken with one lit is void** |
+
+**They are lit at every power-on, before any command is sent, without exception.** That is power
+sequencing, not a random fault — `STATUS.md` fault 4. **`RSET` clears them.**
+
+**There is no software substitute for looking.** The ALERT pins go to the LEDs and nowhere else;
+they are not wired to the Teensy. There is no DAC readback, because the ribbon carries no data
+return line for the DAC bus. **`GSTS` will happily report `dac_z = 65535` while the chip outputs
+nothing** — its fields are firmware bookkeeping, not measurements.
+
+**If any is lit: send `RSET`, then re-park Z immediately**, because `RSET` slams Z to a rail.
+
+## 5.4 Parking the axes
+
+**After power-on, after `RSET`, and after `TEST`, every axis has to be put somewhere sane by hand.**
+
+```
+DACZ 32768
+DACX 32768
+DACY 32768
+BIAS 32768
+```
+
+Then `GSTS` and confirm the fields read back 32768.
+
+> **32768 is 0 V on every axis.** Codes run 0 to 65535. Z is ±10 V, X, Y and bias are ±3 V.
+
+> **Where to park Z is a live disagreement in the repository, and it is Jacob and Nuh's to
+> settle.** `STATUS.md` safety rule 6 says park Z at midscale before the motor moves. **Every motor
+> move on 2026-09-19 parked Z at the retracted end (code 0) instead**, which is what
+> `Code/pc/stm_approach.py`'s known-direction mode does and what the 2026-09-18 plan says.
+> **Midscale leaves the tip half extended during a motor step; the retracted end does not — but
+> "retracted" is only code 0 while HIGH Z extends toward the sample, which is a property of the
+> fitted tip.** **Settle this before the next motor move** and write the decision into `STATUS.md`.
+
+## 5.5 Shutdown
+
+**In this order:**
+
+1. **Park.** Z to the retracted end, X and Y to midscale, bias to 32768 (0 V).
+2. **Back the sample off.** On 2026-09-19 the side screws were backed off **two full turns** before
+   the move; at the end of the previous session it was about a quarter turn. **Either is fine as
+   long as it is written down**, because the next session has to know how far it is starting from.
+3. **Unplug the USB.**
+4. **Switch the supplies off.**
+5. **Write down the coarse screw's step count.** The firmware counter resets at restart, so **that
+   number exists only in `STATUS.md` and the session log.** If it is not written down it is lost.
+6. **Cover the instrument.**
+
+**Then do the five session-closing steps in `CLAUDE.md` section 5** — the session log, `STATUS.md`,
+`docs/NEXT_SESSION_PLAN.md`, commit, push. **Work that is not pushed does not exist as far as the
+other computer is concerned.**
+
+---
+
+# 6. Operation: every command
+
+## 6.1 How to talk to the board
+
+```
+python Code/pc/stm_console.py GSTS          # one command, then exit
+python Code/pc/stm_console.py DACZ 32768
+python Code/pc/stm_console.py               # interactive
+```
+
+**On Windows type `py`, not `python` or `python3`.** On Jacob's machine `python` and `python3` are
+Microsoft Store placeholders that print *"Python was not found"* even though Python is installed.
+**`py` is the Python launcher and it works either way.**
+
+**Use `stm_console.py`, not a generic serial monitor.** The firmware starts reading as soon as one
+byte arrives and then immediately reads four. Anything that sends per-keystroke — PuTTY, screen,
+minicom, the PlatformIO monitor — loses that race, and **the command is silently discarded.**
+`stm_console.py` sends each command as a single write.
+
+**Every command is exactly four characters.** Arguments follow after a space.
+
+**In interactive mode, type `free` to release the serial port** before flashing firmware, otherwise
+the Teensy Loader asks for the PROGRAM button on every upload.
+
+> **The firmware also leaves the line terminator in the buffer after an argument-less command.**
+> `stm_console.py` works around this by sending a newline only when there is an argument. Anything
+> else desynchronises: after `RSET` or `ADCR` the stray newline eats the first character of your
+> next command.
+
+## 6.2 The commands
+
+### Reading
+
+| Command | Arguments | Replies | What it does |
+|---|---|---|---|
+| `GSTS` | — | **yes** | Ten comma-separated fields, see below |
+| `ADCR` | — | **yes** | One ADC reading, as a **5-sample rolling average** |
+| `IVGE` | — | **yes** | Dumps the last I-V curve |
+
+**`GSTS` returns, in order:** `bias, dac_z, dac_x, dac_y, adc, steps, is_approaching,
+is_const_current, is_scanning, time_millis`.
+
+> **Field 5 is a RAW single conversion. `ADCR` is an average.** Use `GSTS` for noise work, because
+> averaging hides exactly the isolated bit-flips a marginal SPI link produces. Use `ADCR` for a
+> settled value.
+>
+> **The other fields are firmware bookkeeping, not measurements.** `time_millis` climbing between
+> calls is the sign the board is alive and not resetting.
+
+### Setting outputs — all four are silent
+
+| Command | Range | Notes |
+|---|---|---|
+| `DACX` | 0–65535, 32768 = 0 V | X piezo, **±3 V** |
+| `DACY` | 0–65535, 32768 = 0 V | Y piezo, **±3 V** |
+| `DACZ` | 0–65535, 32768 = 0 V | Z piezo, **±10 V** |
+| `BIAS` | 0–65535, 32768 = 0 V | Sample bias, **±3 V**. It **inverts**: 65535 gives −3 V at the holder |
+
+> **The firmware's own source comments say X and Y are minus five to plus five volts and they are
+> wrong** — that figure is retired. X, Y and bias use identical range bits, so they cannot differ,
+> and bias measures ±3 V. **Trust the range bits and the measurement, not the comment.**
+
+### Motor
+
+| Command | Arguments | Notes |
+|---|---|---|
+| `MTMV` | steps | **Blocks while moving**, at about 68.3 steps per second, so 512 steps takes about 7.5 s. **Negative approaches, positive retracts** |
+
+**A move cannot be stopped by any command.** The firmware reads nothing until it finishes. The only
+stop is unplugging USB, or opening the port at 134 baud, which drops the Teensy into its bootloader.
+**So keep single moves short — a few hundred steps at most.**
+
+**Since the 2026-09-16 firmware the coils switch off about 20 ms after a move**, so the driver LEDs
+go dark between moves. **That is correct, not a fault.** `MTMV 0` just makes sure they are off.
+
+### Reset and the piezo tests
+
+| Command | Blocks for | Notes |
+|---|---|---|
+| `RSET` | — | Full reset: all four DACs, the stepper counter and the status struct |
+| `TEST` | about 3.5 s | 1 kHz square wave on Z, then X, then Y. **Leaves each axis at a rail** |
+| `TONE` | the requested duration | Square wave on Z, symmetric about midscale, **parks Z at 0 V on exit** |
+
+> **`RSET` and `TEST` both slam Z to a rail.** `RSET` sends a software full reset, which is zero
+> scale, and also zeroes the bias, the step counter and every setpoint. **Re-park Z at 32768 after
+> either.** `STATUS.md` safety rule 6.
+
+> **`RSET` does not de-energise the motor.** It only zeroes the step count.
+
+**Prefer `TONE` over `TEST`**, because it parks Z at 0 V instead of leaving it at a rail.
+
+> **There is no usable resonance to hunt for, and you cannot judge the piezo by ear.** A sweep from
+> 1 kHz to 11 kHz on 2026-08-31 found no loudness peak anywhere once the disc is mounted — clamping
+> at the rim and mass-loading by the tip holder damp it out of existence. **The old advice to use a
+> tone near 8.6 kHz as a standard check is retired**, and the firmware's own source comment still
+> repeats it. **Judge the piezo with a meter:** `DACZ 65535` should give −10 V at the scan head end
+> of the DSUB1 cable, on the row-of-four signal wires.
+
+### Feedback, scanning and I-V
+
+| Command | Arguments | Notes |
+|---|---|---|
+| `CCON` | adc_target | Turn constant-current mode on. **Silent** |
+| `CCOF` | — | Turn it off |
+| `PIDS` | Kp Ki Kd | Set the PID gains. **They boot at 0.0, so constant-current mode does nothing until you send this** |
+| `SCST` | x_start x_end x_res y_start y_end y_res samples_per_pixel | Start a scan. **Blocks for minutes** |
+| `IVME` | bias_start bias_end bias_step | Sweep bias and record an I-V curve, up to 1000 points. Blocks up to about 60 s |
+| `STOP` | — | Clears the approaching, constant-current and scanning flags |
+
+`SCST` streams each line back as `A,<row>,<values...>` for the ADC and `Z,<row>,<values...>` for the
+Z heights, then prints `D` when it is done.
+
+### The one you must not run
+
+| Command | Notes |
+|---|---|
+| `APRH` | **Do not use it.** `STATUS.md` safety rule 2 |
+
+**Two reasons, both in the source.** `approach()` tests `read_adc() > target`, a **signed**
+comparison, against a baseline that has been negative for most of this project — **so if tunnelling
+drives the reading more negative it never triggers and the motor keeps driving the tip into the
+sample.** And the second argument is the step *interval*, not a step count; maximum travel is
+hardcoded at 10000 steps.
+
+**Measured 2026-09-16: a positive sample voltage gives negative counts.** So under positive sample
+bias this failure case is exactly what happens. **Use `Code/pc/stm_approach.py`, which never sends
+`APRH`** and thresholds on absolute deviation from a measured baseline, so it works without knowing
+which way tunnelling moves the reading.
+
+## 6.3 Which commands block, and which reply
+
+**The firmware is single-threaded.** While a blocking command runs, it never reads the serial port,
+so anything you send lands in the buffer and gets misread as garbage. `stm_console.py` waits these
+out for you.
+
+| Command | Blocks for |
+|---|---|
+| `TEST` | about 3.5 s |
+| `TONE` | the requested duration |
+| `MTMV` | steps divided by 68.3, in seconds |
+| `APRH` | up to about 120 s |
+| `IVME` | up to about 60 s |
+| `SCST` | minutes |
+
+**Only `GSTS`, `ADCR` and `IVGE` reply with anything.** Everything else is silent, so waiting for a
+response from them just burns the timeout.
+
+## 6.4 The dangerous commands, in one place
+
+| | Why |
+|---|---|
+| **`APRH`** | `STATUS.md` safety rule 2. It can drive the tip into the sample without ever triggering |
+| **`CCON` with a tip in range** | `STATUS.md` safety rule 8. **The firmware jump was fixed and bench-tested on 2026-09-16**, and the rule is kept anyway until Jacob and Nuh decide otherwise, because with non-zero gains the loop's first step still applies a normal correction and no tip has ever been near a sample. **Keep the target within ±32768** — a larger one reads past the end of the firmware's log table |
+| **Any out-of-range DAC value** | `STATUS.md` safety rule 13. **An out-of-range value does not error — it silently jumps the axis to the opposite rail** |
+| **`RSET` or `TEST` with a tip near the sample** | Both leave Z at a rail |
+| **`SCST` with y_resolution above 2048** | The firmware parses seven integers straight from serial with no bounds check, and writes past the end of two arrays. **Keep y_resolution at 2048 or below.** `samples_per_pixel` of 0 divides by zero |
+| **A big upward Z jump followed immediately by a read** | Measured 2026-09-19: two of four jumps from 0 to 28,000 put 3,714 and 1,026 counts on the very next reading. **Ramp Z, or wait, before trusting the first read after a large upward jump** |
+
+**What an out-of-range DAC value actually does**, because this is a tip hazard and not a typo:
+
+| You type | The firmware sends | The DAC outputs |
+|---|---|---|
+| `DACZ 65535` | 65535 | +10 V, as expected |
+| **`DACZ 70000`** | **4464** | **−8.6 V.** You asked for the top rail and got most of the way to the bottom one |
+| **`DACZ -1`** | **65535** | **+10 V.** You asked for below zero and got the top rail |
+| **`DACZ` with no number** | **0** | **−10 V** |
+
+**From midscale each of those is a jump of roughly 8 to 10 V — hundreds of nanometres, far more
+than a tunnelling gap.** There is no clamp anywhere in the path. **Keep every DAC argument between
+0 and 65535, and never send a bare `DACZ`, `DACX` or `DACY`.**
+
+## 6.5 Before every measurement
+
+1. **Look at LED1 to LED4.** If any is lit, the reading is void. Send `RSET`, then re-park Z.
+2. **Nobody within a metre of the preamplifier.** A person nearby injects current into a 100 MOhm
+   input node; a tunnelling current is about 1 nA. **`STATUS.md` safety rule 9 keeps this rule but
+   flags its number as not established**, because the figure came from the old board whose
+   reference floated.
+3. **Soldering iron off.** Measured 2026-09-16: a hot iron adds about 17 counts. Small, but real.
+4. **Look at LED1 to LED4 again afterwards.** The configuration can drop during a measurement.
+
+---

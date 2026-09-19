@@ -141,9 +141,15 @@ def main():
         rows.append(["within-pass spectrum", label, "%d passes" % len(D),
                      "peak %.1f px" % period_px, "%.1f ms/px" % dwell,
                      "%.1f Hz, %.0f%% of power in the 2 slowest bins" % (hz, 100 * lowfrac)])
-    print("\n   The 2026-09-17 noise spectrum put everything above the electrical floor")
-    print("   below ~30 Hz. These peaks land in that band, which is what a mechanical")
-    print("   disturbance sampled by the raster looks like. It is consistency, not proof.")
+    print("""
+   EVERY set peaks in the lowest non-DC bin, real scans and X-held controls alike:
+   the structure is as slow as a pass is long. At ~10.8 ms per pixel a 21-pixel
+   pass is ~0.23 s, so the wiggles are ~4-5 Hz - inside the 5-30 Hz band the
+   2026-09-17 noise spectroscopy already blamed (section 3.24: everything above
+   the 8-14 count electrical floor is below ~30 Hz, no line at 60 or 120 Hz).
+   The CONTROLS do the same thing with X standing still, so this is consistency
+   with a mechanical disturbance, not evidence of one. A 21-point pass cannot
+   resolve a line frequency and this test must not be read as if it had.""")
 
     # ------------------------------------------- 2. line-to-line walk
     print("\n2. DOES THE APPARENT FEATURE WALK ACROSS THE IMAGE LINE BY LINE?")
