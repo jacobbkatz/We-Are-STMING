@@ -85,7 +85,7 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | Lever arm, front screw line to rear screw | **40.000 mm** | MESH |
 | Front screw pair spacing | **35.000 mm** | MESH |
 | Piezo pocket offset from the pivot line | **1.000 mm** | MESH |
-| **`d`, the TIP's offset from the pivot line** | **~1.000 mm — MEASURED 2026-09-19** | **`SAID`+`BENCH`** |
+| **`d`, the TIP's offset from the pivot line** | **CONTESTED 2026-09-19, DO NOT USE — see note** | **PENDING** |
 | | **Jacob, 2026-09-19, having gone and looked: *"i just measured it, it's smack dab in the middle"*.** **READ AS: the tip sits at the centre of the piezo disc**, which the CAD fixes at 1.000 mm from the pivot line (row above). **If that reading is wrong, say so and every line below changes.** Consistent with `SAID` 2026-09-18, *"tip sits roughly in the middle"*. **This closes what `docs/OPEN_QUESTIONS.md` called "the most valuable unmeasured number in the instrument"** | |
 | **Lever ratio, motor screw to tip** | **~40** | **CALC** from d, 40 mm pivot-to-motor |
 | **Tip travel per motor step** | **3.88 nm** | **CALC** — 155 nm of screw / 40 |
@@ -239,3 +239,18 @@ may get.
 > **`4.096` is still correct as REFBUF and as the driver constant `_ref_buffer_volts`.** The checker
 > only flags it when it appears near the words "full scale". Same for the retired screw part number,
 > which is legitimately named when describing Mech Panda's design.
+
+> **`d` IS NOT ESTABLISHED — flagged 2026-09-19, within the hour of being recorded.** The entry
+> above read Jacob's *"it's smack dab in the middle"* as **the tip at the centre of the piezo disc**,
+> giving `d` = 1.000 mm. **He then clarified: he meant the tip is in the middle BETWEEN THE TWO
+> SIDE-BY-SIDE BALL SCREWS.** Those are two different measurements and they are not interchangeable:
+>
+> - **"Middle between the two screws"** describes the position **ALONG** the line joining them —
+>   equidistant from each. **It says nothing on its own about `d`.**
+> - **`d` is the PERPENDICULAR distance from the tip to that line**, and it is the only one that
+>   sets the lever ratio.
+>
+> **A tip can be exactly midway between the two screws AND 1.000 mm off their line — both statements
+> true at once.** Until the perpendicular distance is stated, **`d` is UNKNOWN and nothing may be
+> derived from it.** The lever ratio, the tip travel per motor step and the own-geometry Z scale
+> recorded here are all **suspended**, and the tunnelling question re-opens with them.
