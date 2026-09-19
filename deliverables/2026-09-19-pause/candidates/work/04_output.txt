@@ -1,0 +1,44 @@
+THE 2026-09-17 PLACE TEST AT +-15,000, from scan_wide_25nm_1/2.csv
+  X grid 17768..47768 (21 points), Y places [17768, 21518, 25268, 29018, 32768, 36518, 40268, 44018, 47768]
+  detrended forward-line RMS: image 1 436 counts, image 2 458 counts
+  SAME place  (image1 Yk vs image2 Yk)  r = +0.216 +- 0.228   n = 9
+  OTHER place (image1 Yj vs image2 Yk)  r = +0.074 +- 0.063   n = 72
+  difference  +0.142 +- 0.236  =  +0.6 sigma
+  a surface needs SAME to beat OTHER. It does not.
+  the same on the BACKWARD passes: same +0.104, other -0.010, +0.7 sigma
+
+IS THE SHAPE LOCKED TO PIXEL INDEX RATHER THAN TO X?
+  X and pixel index are the same axis inside one pass, so they can only be
+  separated by a pass that has NO X motion, or by the backward pass.
+  mean of all 36 detrended passes in the two images: 101 counts RMS
+  scatter about that common mean: 356 counts RMS per pass
+  the one common shape accounts for 5% of the variance of a pass
+
+THE 12-PASS LINE REPEAT: does agreement decay with separation in TIME?
+  lag  mean r    n
+    1  +0.647   11
+    2  +0.587   10
+    3  +0.766    9
+    4  +0.691    8
+    5  +0.495    7
+    6  +0.690    6
+    7  +0.634    5
+    8  +0.578    4
+    9  +0.346    3
+   10  +0.367    2
+   11  -0.217    1
+
+  HOW MUCH OF THE 636-COUNT PROFILE IS A SIMPLE BOW?
+    polynomial degree 2 explains  14.9% of its variance
+    polynomial degree 3 explains  70.7% of its variance
+    polynomial degree 4 explains  89.1% of its variance
+    polynomial degree 6 explains  97.8% of its variance
+
+  DOES THE 12-PASS PROFILE MATCH THE TWO 2D IMAGES AT THE SAME WIDTH?
+    (same night, same tip, same sample, same X grid)
+    vs image 1 forward lines    r = +0.191 +- 0.166 over 9 lines (mean shape r = +0.688)
+    vs image 2 forward lines    r = +0.334 +- 0.135 over 9 lines (mean shape r = +0.724)
+    vs image 1 backward lines   r = +0.046 +- 0.189 over 9 lines (mean shape r = +0.095)
+    vs image 2 backward lines   r = -0.023 +- 0.172 over 9 lines (mean shape r = -0.469)
+
+-> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/0917_wide_place_test.csv

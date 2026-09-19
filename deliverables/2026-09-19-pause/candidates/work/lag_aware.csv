@@ -1,0 +1,26 @@
+test,source,a,b,c,d
+per-line trace/retrace lag,scan_wide_25nm_1.csv,scan,9 lines,median 1.0 px,IQR 8.0,r 0.596
+per-line trace/retrace lag,scan_wide_25nm_2.csv,scan,9 lines,median 2.0 px,IQR 6.0,r 0.660
+per-line trace/retrace lag,scan_wide_slow_1.csv,scan,5 lines,median -1.0 px,IQR 9.0,r 0.534
+per-line trace/retrace lag,scan_wide_slow_2.csv,scan,5 lines,median -3.0 px,IQR 4.0,r 0.445
+per-line trace/retrace lag,scan_fast_1.csv,scan,12 lines,median 1.5 px,IQR 6.0,r 0.763
+per-line trace/retrace lag,diag_scan_x_held.csv,CONTROL,8 lines,median -1.0 px,IQR 3.2,r 0.554
+per-line trace/retrace lag,img_scan_2.csv,scan,11 lines,median 6.0 px,IQR 0.0,r 0.751
+per-line trace/retrace lag,img_xheld_0.csv,CONTROL,11 lines,median 1.0 px,IQR 4.0,r 0.789
+per-line trace/retrace lag,img_xheld_1.csv,CONTROL,11 lines,median 1.0 px,IQR 5.5,r 0.711
+per-line trace/retrace lag,cas9_scan1.csv,scan,11 lines,median 0.0 px,IQR 3.5,r 0.801
+per-line trace/retrace lag,cas9_xheld3.csv,CONTROL,11 lines,median 1.0 px,IQR 3.5,r 0.765
+surrogate best-of-13,12-pass profile vs FORWARD mean,observed 0.760,null 0.516+-0.151,p = 0.0510,
+surrogate best-of-13,12-pass profile vs BACKWARD mean,observed 0.848,null 0.513+-0.151,p = 0.0060,
+lag-allowed place test,forward vs forward,same +0.744+-0.084,other +0.641+-0.024,diff +0.103,
+lag-allowed place test,backward vs backward,same +0.645+-0.063,other +0.623+-0.018,diff +0.022,
+"profile vs Y, lag allowed",Y=17768,0.57 0.73 0.89 0.57,,,
+"profile vs Y, lag allowed",Y=21518,0.39 0.24 0.64 0.87,,,
+"profile vs Y, lag allowed",Y=25268,0.71 0.87 0.45 0.62,,,
+"profile vs Y, lag allowed",Y=29018,0.75 0.61 0.30 0.21,,,
+"profile vs Y, lag allowed",Y=32768,0.71 0.51 0.54 0.66,,,
+"profile vs Y, lag allowed",Y=36518,0.65 0.61 0.70 0.58,,,
+"profile vs Y, lag allowed",Y=40268,0.56 0.83 0.48 0.76,,,
+"profile vs Y, lag allowed",Y=44018,0.40 0.89 0.29 0.62,,,
+"profile vs Y, lag allowed",Y=47768,0.90 0.71 0.37 0.58,,,
+"profile vs 36 lines, lag allowed",mean,+0.642,surrogate +0.532+-0.156,,

@@ -82,21 +82,59 @@ def label(d, xy, text, size=30, anchor="lt"):
     d.text(xy, text, font=f, fill=INK, anchor=anchor)
 
 
+def _wrap(d, text, f, maxw):
+    """Greedy word wrap to a pixel width."""
+    words, lines, cur = text.split(), [], ""
+    for w in words:
+        trial = (cur + " " + w).strip()
+        if d.textlength(trial, font=f) <= maxw or not cur:
+            cur = trial
+        else:
+            lines.append(cur)
+            cur = w
+    if cur:
+        lines.append(cur)
+    return lines
+
+
 def caption_bar(im, lines, size=26):
-    """Add a black bar under the image carrying the caption."""
+    """Add a black bar under the image carrying the caption, word-wrapped.
+
+    The first entry is the headline and is set bold; the rest are body text.
+    """
     f = font(size, bold=False)
     fb = font(size)
-    d0 = ImageDraw.Draw(im)
     pad = size
-    line_h = int(size * 1.45)
-    h = pad * 2 + line_h * len(lines)
+    maxw = im.width - 2 * pad
+    probe = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    # Merge the body entries into paragraphs so the wrap is clean; a "Source:"
+    # entry always starts a new paragraph.
+    paras, cur = [], None
+    for i, ln in enumerate(lines):
+        if i == 0:
+            paras.append(("head", ln))
+            cur = None
+            continue
+        if ln.startswith("Source:") or cur is None:
+            paras.append(["body", ln])
+            cur = paras[-1]
+        else:
+            cur[1] = cur[1] + " " + ln
+    laid = []
+    for kind, ln in paras:
+        head = (kind == "head")
+        use = fb if head else f
+        for sub in _wrap(probe, ln, use, maxw):
+            laid.append((sub, use, head))
+    line_h = int(size * 1.42)
+    h = pad * 2 + line_h * len(laid)
     out = Image.new("RGB", (im.width, im.height + h), BAR)
     out.paste(im, (0, 0))
     d = ImageDraw.Draw(out)
     y = im.height + pad
-    for i, ln in enumerate(lines):
-        d.text((pad, y), ln, font=(fb if i == 0 else f),
-               fill=(255, 255, 255) if i == 0 else (205, 205, 205))
+    for sub, use, head in laid:
+        d.text((pad, y), sub, font=use,
+               fill=(255, 255, 255) if head else (205, 205, 205))
         y += line_h
     return out
 
@@ -114,8 +152,8 @@ def p01():
     c = fit(im, (0.28, 0.28, 0.65, 0.57), 1500)
     d = ImageDraw.Draw(c)
     W, H = c.size
-    arrow(d, (W * 0.78, H * 0.13), (W * 0.60, H * 0.36))
-    label(d, (W * 0.79, H * 0.10), "gold leaf (READ)", 30)
+    arrow(d, (W * 0.84, H * 0.12), (W * 0.52, H * 0.42))
+    label(d, (W * 0.98, H * 0.08), "gold leaf (READ)", 30, anchor="rt")
     arrow(d, (W * 0.10, H * 0.82), (W * 0.33, H * 0.62))
     label(d, (W * 0.02, H * 0.85), "bare copper tape, exposed (READ)", 30)
     arrow(d, (W * 0.06, H * 0.14), (W * 0.24, H * 0.26))
@@ -138,11 +176,12 @@ def p02():
     W, H = c.size
     arrow(d, (W * 0.12, H * 0.05), (W * 0.26, H * 0.30))
     label(d, (W * 0.02, H * 0.02), "suspended platform", 28)
-    arrow(d, (W * 0.52, H * 0.06), (W * 0.47, H * 0.44))
-    label(d, (W * 0.50, H * 0.02), "bright disc under the platform (READ: the damping plate)", 28)
-    arrow(d, (W * 0.35, H * 0.97), (W * 0.40, H * 0.72))
-    label(d, (W * 0.13, H * 0.99), "dark cylinders on the tower top (READ: the damping magnets)",
-          28, anchor="lb")
+    arrow(d, (W * 0.72, H * 0.08), (W * 0.52, H * 0.42))
+    label(d, (W * 0.99, H * 0.03), "bright disc fixed under it (READ: damping plate)",
+          26, anchor="rt")
+    arrow(d, (W * 0.30, H * 0.97), (W * 0.40, H * 0.72))
+    label(d, (W * 0.14, H * 0.99), "cylinders on the tower top (READ: damping magnets)",
+          26, anchor="lb")
     c = caption_bar(c, [
         "The gap under the suspended platform - a photograph cannot measure it.",
         "Two distinct parts are visible: a bright disc fixed under the black platform, and a ring of dark cylinders",
@@ -157,15 +196,15 @@ def p02():
 # ------------------------------------------------------- 03 sample plate retention
 def p03():
     im, src = load("2026-09-19_scan_head_close_bands_3.jpg", "IMG_8653")
-    c = fit(im, (0.06, 0.12, 0.94, 0.80), 1500)
+    c = fit(im, (0.02, 0.02, 0.98, 0.98), 1500)
     d = ImageDraw.Draw(c)
     W, H = c.size
-    arrow(d, (W * 0.16, H * 0.06), (W * 0.36, H * 0.27))
-    label(d, (W * 0.03, H * 0.02), "twisted rubber band", 32)
-    arrow(d, (W * 0.16, H * 0.95), (W * 0.35, H * 0.74))
-    label(d, (W * 0.03, H * 0.98), "second twisted rubber band", 32, anchor="lb")
-    arrow(d, (W * 0.93, H * 0.30), (W * 0.76, H * 0.44))
-    label(d, (W * 0.97, H * 0.26), "screw the band hooks over", 32, anchor="rt")
+    arrow(d, (W * 0.30, H * 0.06), (W * 0.45, H * 0.20))
+    label(d, (W * 0.03, H * 0.02), "twisted rubber band", 30)
+    arrow(d, (W * 0.30, H * 0.94), (W * 0.45, H * 0.80))
+    label(d, (W * 0.03, H * 0.97), "second twisted rubber band", 30, anchor="lb")
+    arrow(d, (W * 0.90, H * 0.30), (W * 0.80, H * 0.21))
+    label(d, (W * 0.97, H * 0.33), "screw the band hooks over", 30, anchor="rt")
     c = caption_bar(c, [
         "What holds the sample plate on: two twisted rubber bands.",
         "The plate is pulled against the head by two elastic bands, each doubled and twisted, hooked over a screw",
@@ -189,8 +228,8 @@ def p04():
     label(d, (W * 0.98, H * 0.26), "suspension spring", 28, anchor="rt")
     arrow(d, (W * 0.14, H * 0.60), (W * 0.30, H * 0.58))
     label(d, (W * 0.02, H * 0.62), "paper coin wrapper", 28)
-    arrow(d, (W * 0.72, H * 0.72), (W * 0.58, H * 0.63))
-    label(d, (W * 0.74, H * 0.74), "scan head, copper taped", 28)
+    arrow(d, (W * 0.80, H * 0.76), (W * 0.58, H * 0.63))
+    label(d, (W * 0.98, H * 0.79), "scan head, copper taped", 28, anchor="rt")
     c = caption_bar(c, [
         "The instrument as it stood on the morning of the move.",
         "Printed frame; a top plate on threaded columns; long fine springs down to eyebolts on the circular",

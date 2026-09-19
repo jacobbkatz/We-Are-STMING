@@ -208,8 +208,9 @@ def main():
     of %.0f short of the corrected threshold, AND its repeat gave p = 0.26, AND
     an X-HELD CONTROL, which cannot contain any sample structure at all, scored
     p = 0.02 on the same statistic. The only result that clears the corrected
-    threshold is the 2026-09-17 profile's existence (N3, p < 2e-4), and scripts
-    04 and 05 show that what it is a picture of is the forward scan direction.""" % (
+    threshold is the 2026-09-17 profile's EXISTENCE (N3, p < 2e-4) - it is a
+    real, repeatable shape and not noise. What it is a picture OF is a separate
+    question, and scripts 04 and 09 answer it: not the place.""" % (
         tot, 0.05 * tot, 0.05 / tot, 0.0036 / (0.05 / tot)))
     rows.append(["search budget", "TOTAL", str(tot),
                  "Bonferroni 5%% threshold p < %.1e" % (0.05 / tot), "", ""])

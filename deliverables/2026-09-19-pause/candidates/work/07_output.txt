@@ -41,7 +41,14 @@ HOW MANY TESTS WERE SEARCHED
 
     At 201 tests, a 5% threshold is expected to throw up about 10 apparent
     findings from noise alone. A Bonferroni-corrected 5% threshold is
-    p < 2.5e-04, which is about 4.1 sigma. The only result in this whole body of
-    data that ever reached that was the y_sep 12000 run, and it did not repeat.
+    p < 2.5e-04, about 3.7 sigma. NOTHING in this body of data reaches it. The
+    best place-dependence ever seen - the y_sep 12000 run, called 3.9 sigma on
+    the night - is p = 0.0036 under its own permutation null, which is a factor
+    of 14 short of the corrected threshold, AND its repeat gave p = 0.26, AND
+    an X-HELD CONTROL, which cannot contain any sample structure at all, scored
+    p = 0.02 on the same statistic. The only result that clears the corrected
+    threshold is the 2026-09-17 profile's EXISTENCE (N3, p < 2e-4) - it is a
+    real, repeatable shape and not noise. What it is a picture OF is a separate
+    question, and scripts 04 and 09 answer it: not the place.
 
 -> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/chance.csv

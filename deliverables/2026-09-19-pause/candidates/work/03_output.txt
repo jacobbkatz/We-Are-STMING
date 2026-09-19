@@ -1,0 +1,44 @@
+A. THE 2026-09-17 +-15,000 LINE REPEAT, re-derived from the committed file
+   sessions/data/2026-09-17-bench/line_repeated_wide.csv
+   fwd/back rows byte-identical in 12 of 12 pairs (the known scratch-tool bug)
+   12 forward passes, consecutive-pass r +0.647 +- 0.118 (n=11)
+   odd-pass average vs even-pass average r +0.923
+   amplitude of the averaged profile: 636 counts RMS
+   (the session log records +0.515, +0.923 and 636 counts)
+
+B. THE THREE-Y DISCRIMINATION AT +-15,000 - single pass vs single pass
+   'within' beating 'between' means the profile belongs to the PLACE (surface).
+   'between' as good as 'within' means one fixed shape wherever it points (scanner).
+
+   file                                       y_sep     passes      within place    between places    sigma
+   --------------------------------------------------------------------------------------------------------
+   ycontrol_run1.csv                          3000          18  +0.761 +- 0.025  +0.738 +- 0.019  +0.7
+   ycontrol_xheld_run1.csv  [CONTROL]         3000          18  +0.388 +- 0.084  +0.162 +- 0.071  +2.1
+   ycontrol_run2_ysep12000.csv                12000         18  +0.373 +- 0.106  -0.151 +- 0.063  +4.2
+   ycontrol_run3_ysep12000_xheld.csv  [CONTROL] 12000         18  +0.145 +- 0.086  +0.049 +- 0.056  +0.9
+   ycontrol_run4_ysep12000_repeat.csv         12000         18  +0.180 +- 0.104  +0.121 +- 0.069  +0.5
+   line_three_y_positions.csv                 4000 (+-8000 X)      15  +0.173 +- 0.093  +0.166 +- 0.051  +0.1
+
+C. THE CROSS-NIGHT TEST: is the 2026-09-17 shape still there on 2026-09-19?
+   Same X grid 17768..47768. Different tip, different gold, powered down between.
+   A shape that survives a tip change is the INSTRUMENT, not any sample.
+
+   mean detrended profile                            RMS  r against 2026-09-17
+   ------------------------------------------------------------------------------------
+   ycontrol_run1.csv                                 195  -0.182
+   ycontrol_xheld_run1.csv                             9  -0.201
+   ycontrol_run2_ysep12000.csv                        51  +0.406
+   ycontrol_run3_ysep12000_xheld.csv                  17  -0.418
+   ycontrol_run4_ysep12000_repeat.csv                 66  +0.312
+   line_repeated_wide.csv (2026-09-17)               636     (self)
+
+   full cross-correlation matrix of the mean profiles
+          P0       P1       P2       P3       P4       P5
+   P0       1.00     0.95     0.50     0.88     0.77    -0.18   ycontrol_run1.csv
+   P1       0.95     1.00     0.56     0.92     0.71    -0.20   ycontrol_xheld_run1.csv
+   P2       0.50     0.56     1.00     0.21     0.86     0.41   ycontrol_run2_ysep12000.csv
+   P3       0.88     0.92     0.21     1.00     0.45    -0.42   ycontrol_run3_ysep12000_xheld.csv
+   P4       0.77     0.71     0.86     0.45     1.00     0.31   ycontrol_run4_ysep12000_repeat.csv
+   P5      -0.18    -0.20     0.41    -0.42     0.31     1.00   line_repeated_wide.csv (2026-09-17)
+
+-> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/wide_profile.csv

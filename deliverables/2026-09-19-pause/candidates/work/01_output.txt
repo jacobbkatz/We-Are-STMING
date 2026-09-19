@@ -1,0 +1,54 @@
+session,file,kind,what,shape,n_passes_or_lines,n_pixels,x_first,x_last,mean_detrended_rms_counts
+2026-09-17-bench,scan_slow_1.csv,scan,first image, pre-timeout-fix,raster,12,21,32368,33168,86
+2026-09-17-bench,scan_slow_2.csv,scan,second image, pre-timeout-fix,raster,12,21,32368,33168,91
+2026-09-17-bench,scan_fast_1.csv,scan,fast image 1 of 4, same patch,raster,12,21,32368,33168,43
+2026-09-17-bench,scan_fast_2.csv,scan,fast image 2 of 4,raster,12,21,32368,33168,32
+2026-09-17-bench,scan_fast_3.csv,scan,fast image 3 of 4,raster,12,21,32368,33168,32
+2026-09-17-bench,scan_fast_4.csv,scan,fast image 4 of 4,raster,12,21,32368,33168,29
+2026-09-17-bench,diag_scan_normal_1.csv,scan,15 loop corrections/pixel,raster,8,21,32368,33168,133
+2026-09-17-bench,diag_scan_normal_2.csv,scan,15 loop corrections/pixel,raster,8,21,32368,33168,57
+2026-09-17-bench,diag_scan_x_held.csv,xheld,CONTROL: identical timing, X never moved,raster,8,21,32368,33168,87
+2026-09-17-bench,scan_slow_dwell_1.csv,scan,250 corrections/pixel,raster,7,9,32368,33168,30
+2026-09-17-bench,scan_slow_dwell_2.csv,scan,250 corrections/pixel,raster,7,9,32368,33168,43
+2026-09-17-bench,scan_wide_25nm_1.csv,scan,wide image, +-15000 X (the 25 nm pair),raster,9,21,17768,47768,436
+2026-09-17-bench,scan_wide_25nm_2.csv,scan,wide image, +-15000 X (the 25 nm pair),raster,9,21,17768,47768,458
+2026-09-17-bench,scan_wide_slow_1.csv,scan,wide +-4000 X, slow loop,raster,5,21,28768,36768,105
+2026-09-17-bench,scan_wide_slow_2.csv,scan,wide +-4000 X, slow loop,raster,5,21,28768,36768,198
+2026-09-19-bench,cas9_scan0.csv,scan,feedback scan 0, +-1500,raster,11,21,31268,34268,82
+2026-09-19-bench,cas9_scan1.csv,scan,feedback scan 1, +-1500,raster,11,21,31268,34268,126
+2026-09-19-bench,cas9_scan2.csv,scan,feedback scan 2, +-1500,raster,11,21,31268,34268,147
+2026-09-19-bench,cas9_scan3.csv,scan,feedback scan 3, +-1500,raster,11,21,31268,34268,101
+2026-09-19-bench,cas9_xheld0.csv,xheld,CONTROL 0, X held,raster,11,21,31268,34268,82
+2026-09-19-bench,cas9_xheld1.csv,xheld,CONTROL 1, X held,raster,11,21,31268,34268,41
+2026-09-19-bench,cas9_xheld2.csv,xheld,CONTROL 2, X held (aborted),raster,1,21,31268,34268,237
+2026-09-19-bench,cas9_xheld3.csv,xheld,CONTROL 3, X held,raster,11,21,31268,34268,59
+2026-09-19-bench,img_scan_0.csv,scan,wide image 0, +-15000 (aborted),raster,1,21,17768,47768,382
+2026-09-19-bench,img_scan_1.csv,scan,wide image 1, +-15000 (aborted),raster,2,21,17768,47768,438
+2026-09-19-bench,img_scan_2.csv,scan,wide image 2, +-15000,raster,11,21,17768,47768,416
+2026-09-19-bench,img_xheld_0.csv,xheld,CONTROL, wide, X held,raster,11,21,17768,47768,181
+2026-09-19-bench,img_xheld_1.csv,xheld,CONTROL, wide, X held,raster,11,21,17768,47768,133
+2026-09-19-morning,tuned_s3k_scan0.csv,scan,tuned loop scan 0 (aborted),raster,1,21,29768,35768,1885
+2026-09-19-morning,tuned_s3k_scan1.csv,scan,tuned loop scan 1 (aborted),raster,8,21,29768,35768,1183
+2026-09-19-morning,tuned_s3k_scan2.csv,scan,tuned loop scan 2 (aborted),raster,9,21,29768,35768,1310
+2026-09-19-morning,tuned_s3k_xheld0.csv,xheld,CONTROL tuned 0 (aborted),raster,2,21,29768,35768,1373
+2026-09-19-morning,tuned_s3k_xheld1.csv,xheld,CONTROL tuned 1 (aborted),raster,8,21,29768,35768,921
+2026-09-19-morning,tuned_s3k_xheld2.csv,xheld,CONTROL tuned 2 (aborted),raster,9,21,29768,35768,970
+2026-09-19-bench,cas8_chmap_t1_scan_1789789628.csv,chmap,constant-height map at hard contact (saturated),raster,11,21,31268,34268,0
+2026-09-19-bench,cas8_chmap_t1_scan_1789789632.csv,chmap,constant-height map at hard contact (saturated),raster,11,21,31268,34268,0
+2026-09-19-bench,cas8_chmap_t1_xheld_1789789630.csv,chmap_xheld,constant-height map at hard contact (saturated),raster,11,21,31268,34268,0
+2026-09-19-bench,cas8_chmap_t2_scan_1789789635.csv,chmap,constant-height map at hard contact (saturated),raster,11,21,31268,34268,0
+2026-09-19-bench,cas8_chmap_t2_scan_1789789639.csv,chmap,constant-height map at hard contact (saturated),raster,11,21,31268,34268,0
+2026-09-19-bench,cas8_chmap_t2_xheld_1789789638.csv,chmap_xheld,constant-height map at hard contact (saturated),raster,11,21,31268,34268,0
+2026-09-19-bench,cas8_chmap_t3_scan_1789789643.csv,chmap,constant-height map at hard contact (saturated),raster,11,21,31268,34268,0
+2026-09-19-bench,cas8_chmap_t3_scan_1789789646.csv,chmap,constant-height map at hard contact (saturated),raster,11,21,31268,34268,0
+2026-09-19-bench,cas8_chmap_t3_xheld_1789789645.csv,chmap_xheld,constant-height map at hard contact (saturated),raster,11,21,31268,34268,0
+2026-09-17-bench,line_repeated_wide.csv,repeat,12 passes of one line, +-15000 X,ycontrol,24,21,17768,47768,864
+2026-09-17-bench,diag_line_repeated.csv,repeat,10 passes of one line, narrow,ycontrol,20,21,32368,33168,34
+2026-09-17-bench,line_three_y_positions.csv,yctrl,three-Y control at +-8000 (wrong width),ycontrol,15,21,24768,40768,425
+2026-09-19-bench,ycontrol_run1.csv,yctrl,three-Y, y_sep 3000, +-15000 X,ycontrol,18,21,17768,47768,231
+2026-09-19-bench,ycontrol_xheld_run1.csv,yctrl_xheld,three-Y CONTROL, X held, y_sep 3000,ycontrol,18,21,17768,47768,22
+2026-09-19-bench,ycontrol_run2_ysep12000.csv,yctrl,three-Y, y_sep 12000 (the 3.9 sigma run),ycontrol,18,21,17768,47768,220
+2026-09-19-bench,ycontrol_run3_ysep12000_xheld.csv,yctrl_xheld,three-Y CONTROL, X held, y_sep 12000,ycontrol,18,21,17768,47768,33
+2026-09-19-bench,ycontrol_run4_ysep12000_repeat.csv,yctrl,three-Y, y_sep 12000, REPEAT,ycontrol,18,21,17768,47768,160
+
+51 recordings inventoried -> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/inventory.csv

@@ -1,0 +1,69 @@
+1. THE TRACE/RETRACE OFFSET, MEASURED LINE BY LINE
+   for each line: the shift of the backward pass that best matches the forward
+   a real offset is CONSISTENT. A fitted artefact scatters.
+
+   file                               kind      lines     median lag   spread (IQR) r at that lag
+   scan_wide_25nm_1.csv               scan          9            1.0            8.0      0.596
+   scan_wide_25nm_2.csv               scan          9            2.0            6.0      0.660
+   scan_wide_slow_1.csv               scan          5           -1.0            9.0      0.534
+   scan_wide_slow_2.csv               scan          5           -3.0            4.0      0.445
+   scan_fast_1.csv                    scan         12            1.5            6.0      0.763
+   diag_scan_x_held.csv               CONTROL       8           -1.0            3.2      0.554
+   img_scan_2.csv                     scan         11            6.0            0.0      0.751
+   img_xheld_0.csv                    CONTROL      11            1.0            4.0      0.789
+   img_xheld_1.csv                    CONTROL      11            1.0            5.5      0.711
+   cas9_scan1.csv                     scan         11            0.0            3.5      0.801
+   cas9_xheld3.csv                    CONTROL      11            1.0            3.5      0.765
+
+   Read this carefully. The per-line best lag scatters across the whole search
+   range in EVERY file, real scans and X-held controls alike, and the controls
+   reach the same correlation at their own best lag. Fitting a lag to each line
+   separately buys a correlation from noise: with 13 lags and 21 smooth points
+   the best of 13 is large whatever the data. So a per-line lag is not evidence
+   of anything, and section 4 puts a number on how large that inflation is.
+
+2. HOW BIG IS 'THE BEST CORRELATION OVER 13 LAGS' FROM NOISE ALONE?
+   phase-randomised surrogates: same power spectrum per row, random phases
+
+   comparison                                     observed surrogate best-of-13        p
+   12-pass profile vs FORWARD mean                   0.760       0.516 +- 0.151   0.0510
+   12-pass profile vs BACKWARD mean                  0.848       0.513 +- 0.151   0.0060
+
+3. THE PLACE TEST AT +-15,000, ALLOWING A TRACE/RETRACE OFFSET
+   image 1 line at Y_k against image 2 line at Y_k, best lag allowed on both sides
+   'same place' must still beat 'different place' - the offset is common to all
+
+   forward vs forward       same place +0.744 +- 0.084   other place +0.641 +- 0.024   diff +0.103
+   backward vs backward     same place +0.645 +- 0.063   other place +0.623 +- 0.018   diff +0.022
+
+   Allowing a lag lifts BOTH sides equally, which is the signature of the lag
+   search buying correlation from noise rather than of a feature being
+   recovered. The same place still does not beat a different place.
+
+4. THE DECIDING QUESTION: IS THE PROFILE THE SAME AT EVERY Y?
+   the 12-pass profile matched the MEAN over nine Y positions. On a
+   surface that means a ridge running along Y. Test it directly:
+   how well does each Y line, at its own best lag, match the profile?
+
+   Y          img1 fwd   img2 fwd  img1 back  img2 back
+   17768          0.57       0.73       0.89       0.57
+   21518          0.39       0.24       0.64       0.87
+   25268          0.71       0.87       0.45       0.62
+   29018          0.75       0.61       0.30       0.21
+   32768          0.71       0.51       0.54       0.66
+   36518          0.65       0.61       0.70       0.58
+   40268          0.56       0.83       0.48       0.76
+   44018          0.40       0.89       0.29       0.62
+   47768          0.90       0.71       0.37       0.58
+
+   mean over all 36 lines +0.642; best 0.898; worst 0.213
+   surrogate best-of-13 for a single line: +0.532 +- 0.156
+
+   Every individual line sits inside the surrogate distribution. The profile
+   only looks matched once nine lines are AVERAGED, and averaging nine lines is
+   what removes anything that varies with Y. So the matched part of the profile
+   is the part common to all nine places - which is what an instrument does and
+   what a surface, unless it is perfectly straight over +-15,000 Y counts,
+   does not.
+
+-> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/lag_aware.csv

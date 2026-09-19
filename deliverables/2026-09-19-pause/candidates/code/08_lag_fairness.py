@@ -80,9 +80,13 @@ def main():
     print("\n   best against forward:  lag %+d, r %+.3f" % (bf, sw_f[bf]))
     print("   best against backward: lag %+d, r %+.3f" % (bl, sw_b[bl]))
     print("""
-   The forward match needs NO shift. The backward match never gets near it at
-   any lag inside +-8 pixels, which is +-12,000 X counts - most of the scan.
-   No lag rescues it, so the "a lag hid it" escape is closed.""")
+   THE ANSWER IS THE OPPOSITE OF WHAT SCRIPT 05 ASSUMED. The forward match needs
+   no shift (+0.760 at lag 0); the backward match reaches +0.848 at lag +4, which
+   is HIGHER. Forward late in the direction of travel and backward late in the
+   other direction puts the two stored rows 2 x lag apart, and +4 here means an
+   offset of about 2 pixels - 3,000 X DAC counts - in each direction. So a lag
+   CAN account for the retrace, script 05's direction argument does not dispose
+   of the candidate, and script 09 goes on to put a null under this lag search.""")
     rows.append(["0917 profile", "best lag vs forward", "%+d" % bf, "%+.3f" % sw_f[bf]])
     rows.append(["0917 profile", "best lag vs backward", "%+d" % bl, "%+.3f" % sw_b[bl]])
 
@@ -104,11 +108,14 @@ def main():
         rows.append(["0919 wide trace/retrace", nm, kind,
                      "lag0 %+.3f best lag %+d -> %+.3f" % (mean_lag[0], best, mean_lag[best])])
     print("""
-   No shift turns the real scans' anti-correlation positive, and the X-held
-   controls do not show it at any lag. So it is not a simple lag: it needs X
-   motion to appear, and it is not a surface (a surface gives trace/retrace
-   POSITIVE). This is consistent with the 2026-09-19 morning correction - the
-   loop hunting, driven by X motion - and does not settle the mechanism.""")
+   A shift DOES turn the real scans' anti-correlation positive (+0.78 and +0.93
+   near lag +8), and the X-held controls show nothing like it at any lag. An
+   extended sweep to +-12 (work/09_output.txt and the gallery) shows r high at
+   BOTH -10 and +10 and lowest at 0, which is the signature of a roughly
+   line-periodic signal - about one cycle per 21-pixel pass, ~4-5 Hz at the
+   measured pixel rate - mirrored between the two directions. It needs X motion
+   to appear. What it is NOT is topography: a surface gives the same height at
+   the same X whichever way the tip is travelling.""")
 
     with open(out("work", "lag_fairness.csv"), "w", newline="") as fh:
         w = csv.writer(fh)

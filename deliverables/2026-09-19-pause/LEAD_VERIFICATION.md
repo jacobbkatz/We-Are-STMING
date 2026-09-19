@@ -139,3 +139,89 @@ one was found bent), different sample (the leaf-on-paper gold), different night.
 **Nothing in the deliverables may say "tunnelling achieved" or "atomic resolution".** The
 qualitative claim that survives everything is the one worth leading with: **the complete measurement
 chain works, end to end, and is calibrated against theory.**
+
+---
+
+## V4. **"The controls reproduce better than the scans" rests on a truncated file.** The conclusion survives; this argument for it does not
+
+**This is the most consequential thing I found, and it was found by replicating the numbers rather
+than reading them.**
+
+**The claim,** in `STATUS.md`'s top block and `sessions/2026-09-19-bench.md` §3.14:
+
+> 4 feedback scans + 4 X-held controls: **the controls reproduce better** (image to image **+0.37**
+> against **+0.04**).
+
+An X-held control has no sample structure in it by construction — X never moves, so every apparent
+feature is the instrument. If the controls reproduce *better* than the real scans, the real scans
+contain nothing the instrument did not make. It is the strongest single argument in the imaging
+case, and it would have gone on the poster.
+
+### I reproduced both numbers exactly, and then found what makes them differ
+
+| Group | Published | My replication | Points per correlation |
+|---|---|---|---|
+| Real scans | +0.09, +0.18, −0.15 (mean **+0.04**) | **+0.09, +0.18, −0.15** | **231, 231, 231** |
+| X-held controls | +0.20, +0.21, +0.70 (mean **+0.37**) | **+0.20, +0.21, +0.70** | **231, 21, 21** |
+
+**`sessions/data/2026-09-19-bench/cas9_xheld2.csv` is not an image. It is a single scan line** —
+one `y` value, `fwd` and `back`, where the other seven files carry eleven. The run aborted after
+the first line.
+
+**Two of the three control correlations are therefore computed over 21 points, not 231**, because
+the comparison silently truncates both images to the shorter one. They are not image-to-image
+correlations at all: they compare one line against the first line of another image.
+
+**The mechanism is in committed code**, `sessions/data/2026-09-19-bench/scripts/analyze_scans.py`
+lines 50-51:
+
+```python
+n = min(len(fa), len(fb))
+c = corr(fa[:n], fb[:n])
+```
+
+**No shape check, no warning, and the group mean folds 231-point and 21-point correlations
+together.** The per-file line count *is* printed above the summary, so a one-line file was visible
+on screen; the summary line is what nobody could have checked by eye.
+
+### The like-for-like comparison
+
+Dropping the one-line file and using only full images:
+
+| Group | Correlations over 231 points each | Mean |
+|---|---|---|
+| Real scans | +0.09, +0.18, −0.15 | **+0.04** |
+| X-held controls | +0.20, −0.06 | **+0.07** |
+
+**+0.07 against +0.04. Indistinguishable.** With three and two pairs respectively, and individual
+standard errors around 0.07, neither mean is distinguishable from zero or from the other. **The
+comparison was never powered to support "better".**
+
+### What changes, and what does not
+
+**THE CONCLUSION "NO IMAGE" STANDS, and it does not need this argument.** The direct evidence is
+that the real scans do not reproduce: +0.09, +0.18 and −0.15 scatter both sides of zero, over full
+images, with no correction needed. That is sufficient on its own.
+
+**What must change is the sentence.** "The controls reproduce better than the scans" is not
+supported. The supported statement is stronger for being simpler:
+
+> **Neither the feedback scans nor the X-held controls reproduce from image to image. The scans
+> show no more reproducible structure than a control in which the tip never moved across the
+> surface.**
+
+**This does not resurrect an image**, and nobody should read it as doing so. It removes one
+overstated argument and leaves the conclusion resting on the evidence that actually carries it.
+
+**It does mean one stated reason for dismissing the scans was weaker than the record says** — which
+is directly relevant to the hypothesis Subagent 2 is testing, and is why it is written down here in
+full rather than quietly fixed.
+
+### Actions taken
+
+- `STATUS.md` corrected — the live document is what the next session reads first.
+- Subagent 2 (candidate images) told, because this is central to its question.
+- Subagent 7 (figures) told, because I had commissioned a figure built on "+0.04 against +0.37".
+- The scratch script is **not** rewritten: `sessions/data/**/scripts/` is provenance, not a tool,
+  and `CLAUDE.md` keeps session history as written. The defect is recorded here and in `STATUS.md`
+  instead.

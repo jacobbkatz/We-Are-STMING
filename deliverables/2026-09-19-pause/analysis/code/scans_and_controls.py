@@ -69,18 +69,27 @@ def stats(path):
     cells = [v for _, _, vv in rows for v in vv]
     filled = [v for v in cells if v is not None]
     is_current = os.path.basename(path).startswith(CURRENT_MAP_PREFIX)
+    header0 = open(path).readline().split(",")[0]
     if is_current:
         stuck = sum(1 for v in filled if abs(v) >= ADC_RAIL)
     else:
         stuck = sum(1 for v in filled if int(v) in Z_CLAMPS)
+    # Two identical passes are a tool defect ONLY if the line was not pinned: where every
+    # pixel of both passes sits on the same clamp or rail they agree for a physical reason.
+    def pinned(v):
+        vv = [x for x in v if x is not None]
+        return bool(vv) and all((abs(x) >= ADC_RAIL) if is_current else (int(x) in Z_CLAMPS)
+                                for x in vv)
     dup = sum(1 for (ya, fa), (yb, fb) in zip(fwd, back) if fa == fb)
+    dup_unexplained = sum(1 for (ya, fa), (yb, fb) in zip(fwd, back)
+                          if fa == fb and not pinned(fa))
     return dict(path=path, n_x=len(xs), n_rows=len(rows), n_fwd=len(fwd),
                 n_back=len(back), cells=len(cells), filled=len(filled),
                 corrugation=st.mean(cor) if cor else None,
                 trace_retrace=st.mean(tr) if tr else None,
-                n_tr=len(tr), flat=flat, is_current=is_current,
+                n_tr=len(tr), flat=flat, is_current=is_current, header0=header0,
                 clamp_frac=stuck / len(filled) if filled else None,
-                identical_passes=dup)
+                identical_passes=dup, identical_unexplained=dup_unexplained)
 
 
 def flat_of(path, drop_first=0):
@@ -179,13 +188,16 @@ def main():
                      "%+.2f" % s["trace_retrace"] if s["trace_retrace"] is not None else "-",
                      "railed" if s["is_current"] else "clamped",
                      "%.0f%%" % (100 * s["clamp_frac"]) if s["clamp_frac"] is not None else "-",
-                     "  IDENTICAL fwd/back passes!" if s["identical_passes"] else ""))
+                     "  IDENTICAL fwd/back passes!" if s["identical_unexplained"]
+                     else ("  (passes identical, but every pixel pinned)"
+                           if s["identical_passes"] else "")))
             allrows.append(dict(group=title, session=sess, file=name, kind=kind,
                                 lines=s["n_fwd"], x_pixels=s["n_x"],
                                 corrugation=s["corrugation"],
                                 trace_retrace=s["trace_retrace"],
                                 clamped_fraction=s["clamp_frac"],
-                                identical_passes=s["identical_passes"]))
+                                identical_passes=s["identical_passes"],
+                                identical_unexplained=s["identical_unexplained"]))
         sc = [os.path.join(DATA, sess, n) for n in scans
               if os.path.join(DATA, sess, n) in res]
         ct = [os.path.join(DATA, sess, n) for n in ctrls
@@ -418,12 +430,21 @@ def main():
                 continue
             s = stats(p)
             issues = []
-            if s["n_rows"] < 4:
-                issues.append("only %d pass rows - aborted" % s["n_rows"])
+            # These tools plan 11 or 12 forward lines; anything much shorter aborted.
+            # y_offset files are three-place controls BY DESIGN: three rows is complete.
+            if s["header0"] != "y_offset" and s["n_fwd"] < 5:
+                issues.append("only %d forward lines of a planned 11-12 - ABORTED"
+                              % s["n_fwd"])
             if s["filled"] < s["cells"]:
                 issues.append("%d of %d cells empty" % (s["cells"] - s["filled"], s["cells"]))
-            if s["identical_passes"]:
-                issues.append("%d identical fwd/back pairs" % s["identical_passes"])
+            if s["identical_unexplained"]:
+                issues.append("%d identical fwd/back pairs the clamp does not explain"
+                              " - the tool stored the forward pass twice"
+                              % s["identical_unexplained"])
+            elif s["identical_passes"]:
+                issues.append("%d identical fwd/back pairs, all fully pinned at a clamp"
+                              " or the rail - physical, not a tool defect"
+                              % s["identical_passes"])
             if s["clamp_frac"] and s["clamp_frac"] > 0.10:
                 issues.append("%.0f%% of pixels %s"
                               % (100 * s["clamp_frac"],

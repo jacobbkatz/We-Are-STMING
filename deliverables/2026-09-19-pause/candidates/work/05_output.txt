@@ -1,0 +1,45 @@
+THE 12-PASS +-15,000 PROFILE (sessions/data/2026-09-17-bench/line_repeated_wide.csv)
+  per-pass detrended RMS  864 counts
+  averaged profile RMS    636 counts
+  the common shape is 42% of a single pass's variance
+
+THE SAME X GRID, BOTH DIRECTIONS (scan_wide_25nm_1.csv and _2.csv)
+  mean shape          RMS  r against the 12-pass profile
+  img1_fwd            128  +0.688
+  img1_back           106  +0.095
+  img2_fwd            196  +0.724
+  img2_back           133  -0.469
+
+  forward mean of both images  vs the 12-pass profile: r = +0.760
+  backward mean of both images vs the 12-pass profile: r = -0.265
+  forward mean vs backward mean:                       r = +0.280
+
+  READ THIS WITH SCRIPT 08 AND 09. The obvious reading - "a surface profile must
+  appear in both directions, this one does not, so it is not a surface" - is
+  what this script originally concluded and it is NOT SOUND. Trace and retrace
+  in a scanning probe are routinely offset from each other by piezo hysteresis
+  and loop delay, so a real feature can sit at a different stored index in the
+  two directions. Script 08 checked and found the backward match reaches +0.848
+  at a shift of 4 pixels, HIGHER than the forward match at zero shift. Script 09
+  then puts a null under that lag search and finds the best-of-13-lags
+  correlation is +0.51 +- 0.15 for phase-randomised noise, so neither number is
+  far from chance. The direction argument alone settles nothing; the place test
+  in script 04 is what carries the weight.
+
+DOES THE PROFILE PREFER ONE Y PLACE? (it should, if it is the surface)
+  Y          img1 fwd   img2 fwd  img1 back  img2 back
+  17768          0.57      -0.42      -0.07      -0.52
+  21518          0.28       0.21      -0.64      -0.51
+  25268          0.71       0.81       0.23      -0.46
+  29018          0.28       0.61       0.00       0.05
+  32768          0.53       0.51       0.37       0.10
+  36518         -0.29       0.22       0.70       0.58
+  40268         -0.15       0.54      -0.73       0.69
+  44018          0.26       0.01       0.29      -0.25
+  47768         -0.64       0.12       0.37       0.04
+
+  mean over the 18 forward lines +0.264 +- 0.105; best single line +0.809
+  No single place stands out at zero lag. Script 09 repeats this with a lag
+  allowed on every line and finds every line inside the surrogate distribution.
+
+-> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/direction_asymmetry.csv

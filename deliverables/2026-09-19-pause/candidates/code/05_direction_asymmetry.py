@@ -69,7 +69,18 @@ def main():
     print("\n  forward mean of both images  vs the 12-pass profile: r = %+.3f" % corr(prof, fwd_mean))
     print("  backward mean of both images vs the 12-pass profile: r = %+.3f" % corr(prof, back_mean))
     print("  forward mean vs backward mean:                       r = %+.3f" % corr(fwd_mean, back_mean))
-    print("\n  A SURFACE PROFILE MUST APPEAR IN BOTH DIRECTIONS. This one does not.")
+    print("""
+  READ THIS WITH SCRIPT 08 AND 09. The obvious reading - "a surface profile must
+  appear in both directions, this one does not, so it is not a surface" - is
+  what this script originally concluded and it is NOT SOUND. Trace and retrace
+  in a scanning probe are routinely offset from each other by piezo hysteresis
+  and loop delay, so a real feature can sit at a different stored index in the
+  two directions. Script 08 checked and found the backward match reaches +0.848
+  at a shift of 4 pixels, HIGHER than the forward match at zero shift. Script 09
+  then puts a null under that lag search and finds the best-of-13-lags
+  correlation is +0.51 +- 0.15 for phase-randomised noise, so neither number is
+  far from chance. The direction argument alone settles nothing; the place test
+  in script 04 is what carries the weight.""")
     rows.append(["scan_wide_25nm", "fwd mean vs profile", "%+.3f" % corr(prof, fwd_mean)])
     rows.append(["scan_wide_25nm", "back mean vs profile", "%+.3f" % corr(prof, back_mean)])
     rows.append(["scan_wide_25nm", "fwd mean vs back mean", "%+.3f" % corr(fwd_mean, back_mean)])
@@ -87,8 +98,8 @@ def main():
     m, s, n = fisher_mean(allf)
     best = max(allf)
     print("\n  mean over the 18 forward lines %+.3f +- %.3f; best single line %+.3f" % (m, s, best))
-    print("  No single place stands out: the profile matches the AVERAGE of all nine,")
-    print("  which is what a fixed forward-direction shape does and a surface cannot.")
+    print("  No single place stands out at zero lag. Script 09 repeats this with a lag")
+    print("  allowed on every line and finds every line inside the surrogate distribution.")
     rows.append(["scan_wide_25nm", "profile vs 18 fwd lines", "mean %+.3f+-%.3f best %+.3f" % (m, s, best)])
 
     with open(out("work", "direction_asymmetry.csv"), "w", newline="") as fh:

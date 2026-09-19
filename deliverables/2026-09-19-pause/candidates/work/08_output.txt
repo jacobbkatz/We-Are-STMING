@@ -22,9 +22,13 @@ A. THE 2026-09-17 PROFILE AGAINST THE BACKWARD PASSES, AT EVERY LAG
    best against forward:  lag +0, r +0.760
    best against backward: lag +4, r +0.848
 
-   The forward match needs NO shift. The backward match never gets near it at
-   any lag inside +-8 pixels, which is +-12,000 X counts - most of the scan.
-   No lag rescues it, so the "a lag hid it" escape is closed.
+   THE ANSWER IS THE OPPOSITE OF WHAT SCRIPT 05 ASSUMED. The forward match needs
+   no shift (+0.760 at lag 0); the backward match reaches +0.848 at lag +4, which
+   is HIGHER. Forward late in the direction of travel and backward late in the
+   other direction puts the two stored rows 2 x lag apart, and +4 here means an
+   offset of about 2 pixels - 3,000 X DAC counts - in each direction. So a lag
+   CAN account for the retrace, script 05's direction argument does not dispose
+   of the candidate, and script 09 goes on to put a null under this lag search.
 
 B. THE 2026-09-19 WIDE IMAGES' TRACE/RETRACE ANTI-CORRELATION, AT EVERY LAG
    if a lag caused it, some shift turns it positive
@@ -33,10 +37,13 @@ B. THE 2026-09-19 WIDE IMAGES' TRACE/RETRACE ANTI-CORRELATION, AT EVERY LAG
    img_xheld_0.csv    CONTROL  lag 0: +0.241   best lag +3: +0.316
    img_xheld_1.csv    CONTROL  lag 0: +0.153   best lag +2: +0.176
 
-   No shift turns the real scans' anti-correlation positive, and the X-held
-   controls do not show it at any lag. So it is not a simple lag: it needs X
-   motion to appear, and it is not a surface (a surface gives trace/retrace
-   POSITIVE). This is consistent with the 2026-09-19 morning correction - the
-   loop hunting, driven by X motion - and does not settle the mechanism.
+   A shift DOES turn the real scans' anti-correlation positive (+0.78 and +0.93
+   near lag +8), and the X-held controls show nothing like it at any lag. An
+   extended sweep to +-12 (work/09_output.txt and the gallery) shows r high at
+   BOTH -10 and +10 and lowest at 0, which is the signature of a roughly
+   line-periodic signal - about one cycle per 21-pixel pass, ~4-5 Hz at the
+   measured pixel rate - mirrored between the two directions. It needs X motion
+   to appear. What it is NOT is topography: a surface gives the same height at
+   the same X whichever way the tip is travelling.
 
 -> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/lag_fairness.csv
