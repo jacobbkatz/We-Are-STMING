@@ -1,0 +1,23 @@
+source,test,a,b,c
+scan_wide_25nm_1/2,"place test, forward passes",+0.216+-0.228,+0.074+-0.063,+0.60
+scan_wide_25nm_1/2,"place test, backward passes",+0.104+-0.164,-0.010+-0.056,+0.65
+scan_wide_25nm_1/2,common shape / pass variance,101 counts,356 counts scatter,0.05
+line_repeated_wide,pass-separation 1,+0.647,,11
+line_repeated_wide,pass-separation 2,+0.587,,10
+line_repeated_wide,pass-separation 3,+0.766,,9
+line_repeated_wide,pass-separation 4,+0.691,,8
+line_repeated_wide,pass-separation 5,+0.495,,7
+line_repeated_wide,pass-separation 6,+0.690,,6
+line_repeated_wide,pass-separation 7,+0.634,,5
+line_repeated_wide,pass-separation 8,+0.578,,4
+line_repeated_wide,pass-separation 9,+0.346,,3
+line_repeated_wide,pass-separation 10,+0.367,,2
+line_repeated_wide,pass-separation 11,-0.217,,1
+line_repeated_wide,poly deg 2 of mean profile,14.9%,,
+line_repeated_wide,poly deg 3 of mean profile,70.7%,,
+line_repeated_wide,poly deg 4 of mean profile,89.1%,,
+line_repeated_wide,poly deg 6 of mean profile,97.8%,,
+line_repeated_wide profile,vs image 1 forward lines,+0.191+-0.166,+0.688,9
+line_repeated_wide profile,vs image 2 forward lines,+0.334+-0.135,+0.724,9
+line_repeated_wide profile,vs image 1 backward lines,+0.046+-0.189,+0.095,9
+line_repeated_wide profile,vs image 2 backward lines,-0.023+-0.172,-0.469,9

@@ -1,0 +1,14 @@
+source,what,x_grid,consecutive_r,split_half_r,profile_rms_counts,within_place_r,between_places_r,sigma_or_r
+2026-09-17-bench/line_repeated_wide.csv,"12 passes, one place",17768..47768,0.647,0.923,636,,,
+2026-09-19-bench/ycontrol_run1.csv,"three-Y 3000, scan",17768..47768,,,,+0.761+-0.025,+0.738+-0.019,+0.74
+2026-09-19-bench/ycontrol_xheld_run1.csv,"three-Y 3000, XHELD",17768..47768,,,,+0.388+-0.084,+0.162+-0.071,+2.06
+2026-09-19-bench/ycontrol_run2_ysep12000.csv,"three-Y 12000, scan",17768..47768,,,,+0.373+-0.106,-0.151+-0.063,+4.24
+2026-09-19-bench/ycontrol_run3_ysep12000_xheld.csv,"three-Y 12000, XHELD",17768..47768,,,,+0.145+-0.086,+0.049+-0.056,+0.94
+2026-09-19-bench/ycontrol_run4_ysep12000_repeat.csv,"three-Y 12000, scan",17768..47768,,,,+0.180+-0.104,+0.121+-0.069,+0.47
+2026-09-17-bench/line_three_y_positions.csv,"three-Y 4000 (+-8000 X), scan",24768..40768,,,,+0.173+-0.093,+0.166+-0.051,+0.07
+profile:ycontrol_run1.csv,mean detrended profile,17768..47768,,,195,,,-0.182
+profile:ycontrol_xheld_run1.csv,mean detrended profile,17768..47768,,,9,,,-0.201
+profile:ycontrol_run2_ysep12000.csv,mean detrended profile,17768..47768,,,51,,,+0.406
+profile:ycontrol_run3_ysep12000_xheld.csv,mean detrended profile,17768..47768,,,17,,,-0.418
+profile:ycontrol_run4_ysep12000_repeat.csv,mean detrended profile,17768..47768,,,66,,,+0.312
+profile:line_repeated_wide.csv (2026-09-17),mean detrended profile,17768..47768,,,636,,,

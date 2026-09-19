@@ -1,0 +1,20 @@
+source,quantity,value
+line_repeated_wide,per-pass RMS,864
+line_repeated_wide,profile RMS,636
+scan_wide_25nm,mean shape img1_fwd,"RMS 128, r vs profile +0.688"
+scan_wide_25nm,mean shape img1_back,"RMS 106, r vs profile +0.095"
+scan_wide_25nm,mean shape img2_fwd,"RMS 196, r vs profile +0.724"
+scan_wide_25nm,mean shape img2_back,"RMS 133, r vs profile -0.469"
+scan_wide_25nm,fwd mean vs profile,+0.760
+scan_wide_25nm,back mean vs profile,-0.265
+scan_wide_25nm,fwd mean vs back mean,+0.280
+scan_wide_25nm,profile vs Y=17768,+0.57 -0.42 -0.07 -0.52
+scan_wide_25nm,profile vs Y=21518,+0.28 +0.21 -0.64 -0.51
+scan_wide_25nm,profile vs Y=25268,+0.71 +0.81 +0.23 -0.46
+scan_wide_25nm,profile vs Y=29018,+0.28 +0.61 +0.00 +0.05
+scan_wide_25nm,profile vs Y=32768,+0.53 +0.51 +0.37 +0.10
+scan_wide_25nm,profile vs Y=36518,-0.29 +0.22 +0.70 +0.58
+scan_wide_25nm,profile vs Y=40268,-0.15 +0.54 -0.73 +0.69
+scan_wide_25nm,profile vs Y=44018,+0.26 +0.01 +0.29 -0.25
+scan_wide_25nm,profile vs Y=47768,-0.64 +0.12 +0.37 +0.04
+scan_wide_25nm,profile vs 18 fwd lines,mean +0.264+-0.105 best +0.809
