@@ -1,0 +1,26 @@
+test,source,a,b,c,d
+within-pass spectrum,+-400 feedback scans,96 passes,peak 21.0 px,10.7 ms/px,"4.4 Hz, 93% of power in the 2 slowest bins"
+within-pass spectrum,+-400 slow,48 passes,peak 21.0 px,97.2 ms/px,"0.5 Hz, 81% of power in the 2 slowest bins"
+within-pass spectrum,+-400 X-HELD CONTROL,16 passes,peak 21.0 px,10.7 ms/px,"4.4 Hz, 51% of power in the 2 slowest bins"
+within-pass spectrum,+-15000 wide images,36 passes,peak 21.0 px,10.7 ms/px,"4.4 Hz, 80% of power in the 2 slowest bins"
+within-pass spectrum,+-1500 feedback scans,88 passes,peak 21.0 px,10.8 ms/px,"4.4 Hz, 96% of power in the 2 slowest bins"
+within-pass spectrum,+-1500 X-HELD CONTROLS,66 passes,peak 21.0 px,10.8 ms/px,"4.4 Hz, 94% of power in the 2 slowest bins"
+within-pass spectrum,+-15000 wide image,22 passes,peak 21.0 px,10.8 ms/px,"4.4 Hz, 98% of power in the 2 slowest bins"
+within-pass spectrum,+-15000 X-HELD CONTROLS,44 passes,peak 21.0 px,10.8 ms/px,"4.4 Hz, 89% of power in the 2 slowest bins"
+line-to-line lag,scan_fast_1.csv,12 lines,mean 2.27 px,sd 5.14 px,
+line-to-line lag,scan_wide_25nm_1.csv,9 lines,mean -0.75 px,sd 9.77 px,
+line-to-line lag,scan_wide_25nm_2.csv,9 lines,mean 1.25 px,sd 7.12 px,
+line-to-line lag,diag_scan_x_held.csv,8 lines,mean -3.29 px,sd 5.44 px,
+line-to-line lag,cas9_scan1.csv,11 lines,mean -0.60 px,sd 6.28 px,
+line-to-line lag,cas9_xheld3.csv,11 lines,mean 0.70 px,sd 5.04 px,
+line-to-line lag,img_scan_2.csv,11 lines,mean -0.60 px,sd 4.13 px,
+line-to-line lag,img_xheld_0.csv,11 lines,mean 0.90 px,sd 3.05 px,
+gap motion,ztest_1789822585.csv,30 cycles,span 13508 counts,"drift -67.7 counts/s, residual sd 1722",
+gap motion,bias_m01V_1789822770.csv,20 cycles,span 2828 counts,"drift 26.6 counts/s, residual sd 637",
+gap motion,bias_p05V_1789822770.csv,20 cycles,span 4502 counts,"drift 16.0 counts/s, residual sd 849",
+gap motion,bias_p01V_1789822770.csv,20 cycles,span 5380 counts,"drift 9.6 counts/s, residual sd 1358",
+gap motion,bias_m05V_1789822770.csv,20 cycles,span 4190 counts,"drift 65.9 counts/s, residual sd 396",
+coherent lines,still.csv,"tip clear, room still  [CONTROL]",fs 3695 Hz,63.6 Hz (5/5),
+coherent lines,stamp.csv,"tip clear, stamping    [CONTROL]",fs 3792 Hz,none,
+coherent lines,touchrec_run1.csv,"junction pinned, Z 2000",fs 3448 Hz,none,
+coherent lines,here_run1.csv,"a real junction, fixed Z 0",fs 3448 Hz,none,

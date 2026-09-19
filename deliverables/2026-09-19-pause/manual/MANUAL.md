@@ -374,3 +374,462 @@ faults were fixed in it, both of which used to be tip hazards:
   moves are now correct.** The old firmware left them powered, which heated the scan head.
 
 ---
+
+# 3. Assembly and connections
+
+> **`docs/WIRING.md` is canonical for everything in this section.** The tables below are a working
+> copy so that the bench does not need two documents open. **If they differ, `docs/WIRING.md` wins
+> and this file is the one to fix.**
+
+> ## Use these colours. Do not read colours off a photograph
+>
+> Jacob and Nuh prefer wire colours to pin numbers and translate them to their own jumper leads
+> themselves. **The colours below are the J1 / J2 cable colours from `docs/WIRING.md`.**
+>
+> **The jumper leads at the preamp board end are different colours from these.** Quoting a colour
+> read off a photograph of the bench is exactly what would cause a mistake. Say "the DSUB2 −15 V
+> wire" using the documented colour and let them translate.
+
+## 3.1 Connector names — read this first
+
+The documents, the silkscreen and ordinary conversation use different names for the same
+connectors, and this has caused repeated confusion.
+
+| Called | Silkscreen | Board | What it is | Where |
+|---|---|---|---|---|
+| J1 | **DSUB1** | Controller | DB9 to the scan head / piezo | bottom **left** |
+| J2 | **DSUB2** | Controller | DB9 to the preamp | bottom **right** |
+| JP1 | JP1 | **Preamp board** | 5-pin header: ±15 V in, signal out | a separate small PCB |
+| — | **H1** | Controller | 26-pin ribbon to the Teensy | top **left** |
+| — | **U19** | Controller | 3-pin JST XH, **power INPUT** | **right edge** |
+| JP2 | — | — | **Does not exist anywhere in this project** | — |
+
+## 3.2 Power — the two things that destroy hardware
+
+**1. Power goes IN at U19, the little 3-pin JST XH on the right edge.** Pin 1 is V−−, pin 2 is
+ground, pin 3 is V++.
+
+**2. The ±15 V pins on DSUB2 are OUTPUTS to the preamplifier.** They look like the obvious place
+for a bench supply and they are not. Feeding a supply in there pushes voltage backwards into
+regulator outputs.
+
+**Feed roughly ±18 V, not ±15 V.** The on-board regulators need headroom above their ±15 V output;
+at ±15 V in they drop out and give low unstable rails that look like a dozen other problems.
+
+**You need two independently adjustable supply channels**, or two supplies stacked in series with
+their junction called ground. A single-output supply physically cannot straddle ground.
+
+> **The 18 V figure is the CONTROLLER's. It is the wrong number for the preamp board.** If the
+> preamp board is ever powered directly from a bench supply, **use 15.0 V**, because ±18 V is
+> exactly its stated limit with no margin and bench supplies can overshoot at switch-on. This was
+> caught before the outputs went on, on 2026-09-15, and nothing was damaged.
+
+**Current limits.** Set a few hundred mA. On 2026-09-16 one channel was still on the preamp-only
+20 mA setting and dropped into constant-current mode at about 2 V; at 200 mA it worked, drawing
+about 40 mA. **A channel still in constant-current mode at 200 mA is a real fault — do not retry,
+prove the wiring at the plug first.** Measured supply currents after a park on 2026-09-16 were
+60 mA on V++ and 47 mA on V−−.
+
+**LED5 and LED6 are the rail indicators.** LED5 means V++ is present, LED6 means V−− is present.
+
+| LED5 | LED6 | Reading |
+|---|---|---|
+| on | on | Both rails up. This is what you want |
+| on | off | **STOP.** V++ present, V−− missing — a half-powered bipolar supply |
+| off | off | Neither rail. Supply off, not connected, or not delivering |
+
+> **One expected exception, so it is not misread as a fault:** with the bench supply **off** but
+> USB connected, LED1 to LED5 light and LED6 stays dark. That is the Teensy backfeeding through the
+> SPI lines' protection diodes into the 3.3 V rail and on into V++. Confirmed by test. The
+> LED5-on/LED6-off pattern only means a fault **when the bench supply is switched on**.
+
+## 3.3 The 26-way ribbon, Teensy to controller (H1)
+
+| Teensy pin | H1 pin | Signal | Purpose |
+|---|---|---|---|
+| 19 | 2 | ADC_CNV | start a conversion |
+| 18 | 4 | ADC_BUSY | conversion status |
+| 38 | **6** | ADC_SDI | the LTC2326's **RDL read-enable** |
+| 27 | 8 | ADC_SCK | second SPI bus clock |
+| 39 | 10 | ADC_SDO | second SPI bus data in |
+| 13 | 12 | SCLK | SPI clock, all four DACs |
+| 11 | 14 | SDI | SPI data, all four DACs |
+| 10 | 16 | SYNC4 | U4, bias |
+| 9 | 18 | SYNC2 | U2, Y |
+| 8 | 20 | SYNC3 | U3, Z |
+| 7 | 22 | SYNC1 | U1, X |
+| — | all 13 odd pins | AGND | ground |
+| — | **24, 26** | — | **unconnected by design.** Leave them alone |
+
+**The rule that avoids counting pins: on H1 the odd pins are all ground and the even pins are
+signals.**
+
+**Pin 6 does get connected.** It is labelled ADC_SDI, which sounds like a data input a read-only
+converter would not need. On this chip it is RDL, a read-enable — effectively the chip select. It
+was left disconnected at first and that was a mistake.
+
+**Teensy pins 8 and 9 are deliberately "swapped" relative to axis order — pin 8 is Z and pin 9 is
+Y. That is correct. Do not fix it.**
+
+> **There is no data-return line for the DACs.** Teensy pin 12 is not on the ribbon, so **the DACs
+> can never be read back.** This is why a DAC that has lost its configuration is invisible to
+> software, and why LED1 to LED4 are the only indicator you have.
+
+## 3.4 DSUB1 — the scan head cable
+
+| Colour | DB9 pin | Function |
+|---|---|---|
+| Black, Brown, Red, Orange, Yellow | 1–5 | AGND |
+| **Green** | 6 | **Z−Y** |
+| **Blue** | 7 | **Z+Y** |
+| **Grey** | 8 | **Z−X** |
+| **White** | 9 | **Z+X** |
+
+**Row rule: on DSUB1 the row of five is all ground and the row of four carries signal.**
+
+## 3.5 DSUB2 — the preamplifier cable
+
+| Colour | DB9 pin | Function |
+|---|---|---|
+| **Black** | 1 | **BIAS**, out to the sample holder |
+| **Brown** | 2 | **PREAMP−**, the ADC's negative reference |
+| **Red** | 3 | **PREAMP+**, the signal |
+| **Orange** | 4 | **−15 V** |
+| **Yellow** | 5 | **+15 V** |
+| Green, Blue, Grey, White | 6–9 | AGND |
+
+**Row rule: on DSUB2 it is the opposite way round — the row of five carries signal and the row of
+four is all ground.**
+
+> **The same colour means different things on the two cables.** Orange is −15 V on the preamp cable
+> and plain ground on the scan head cable. **Check which cable you are holding.**
+
+### Why brown must land on the preamplifier's own ground
+
+**`PREAMP−` is the converter's negative input, not a spare ground.** The LTC2326-16 measures
+`PREAMP+` relative to `PREAMP−`. That input is high impedance, so **brown carries no current at
+all** — it is a sense wire, and a wire carrying no current has no voltage drop along it, so it
+reports the preamplifier's local ground faithfully back to the converter. That is what cancels the
+ground drop along the cable.
+
+**And white has to meet an AGND wire anyway**, or the ±15 V supply has no return path and the
+preamplifier does not run. Brown alone cannot carry it. **So the three-way joint is the minimum,
+not a convenience: white plus one AGND plus brown.** Solder brown and green onto the white lead
+one at a time rather than twisting three together.
+
+## 3.6 JP1, the preamplifier board's 5-pin header
+
+| Pin | Net | Position along the row |
+|---|---|---|
+| 1 | **GND** | one end |
+| 2 | **+ supply** (our +15 V) | second in from that end |
+| 3 | **OUTPUT** | **the middle** |
+| 4 | GND | |
+| 5 | **− supply** (our −15 V) | **the far end** |
+
+**How to tell which end is pin 1 with a meter and no ambiguity:** the layout is asymmetric. **The
+negative supply is at the very END of the row; the positive supply is one in from the other end.**
+So find the two supply pins; the one at an end is pin 5. **The middle pin is always pin 3, the
+output**, whichever way round the board sits.
+
+**On the board in service, hole 4 is left empty and a single ground lead goes in hole 1**, because
+pin 4 has no copper on it at all. At the DSUB2 splice, **green (AGND) and brown (`PREAMP−`) both
+join that ground lead.**
+
+**The board's own jumper-lead colours, recorded at the bench 2026-09-14** — these are NOT the
+J1/J2 colours and are only for the preamp board's own leads:
+
+| Hole | Function | Lead colour |
+|---|---|---|
+| 1 | GND | **white** |
+| 2 | +15 V | **grey** |
+| 3 | OUT | **orange** |
+| 4 | — | **empty** |
+| 5 | −15 V | **tan** |
+
+### The orange trap — read this before the preamp meets the controller
+
+**`orange` means two different things at the two ends of this connection.**
+
+| | Orange means |
+|---|---|
+| At the preamp board | **the amplifier's OUTPUT**, JP1 hole 3 |
+| On the DSUB2 cable | **−15 V**, pin 4 |
+
+**Joining orange to orange puts −15 V onto the amplifier's output through a 220 Ohm resistor.**
+That is roughly 68 mA into an output stage that limits in the tens of mA, and **it would very
+likely destroy IC1.**
+
+**Go by function, never by colour, on this splice.** The verified mapping, made and checked on
+2026-09-15: **white to brown AND green, grey to yellow, orange to RED, tan to ORANGE.** The splice
+row as built, left to right, is: nothing, white, orange, tan, grey — which is BIAS, `PREAMP−`,
+`PREAMP+`, −15 V, +15 V.
+
+> **An expected reading written for that check was wrong, and a correct splice looked like a
+> fault.** It said white should beep to all four ground pins. **With the connector unplugged it
+> beeps to exactly one**, because the four AGND pins are tied together only inside the controller.
+> Jacob reported what he saw instead of what he had been told to expect, which is the only reason
+> it was caught. **Report what you see.**
+
+## 3.7 The motor
+
+**Wire it straight across: Teensy 33 to IN1, 34 to IN2, 35 to IN3, 36 to IN4.**
+
+Sources online will tell you a 28BYJ-48 needs its coils driven in the order 1-3-2-4. That is true,
+**and the firmware already does it** — it declares the motor as `EfficientStepper(steps, IN1, IN3,
+IN2, IN4)`, performing the swap in software. **Swap the wires too and the two swaps cancel: the
+motor buzzes instead of turning.**
+
+**The motor driver does not go through the ribbon.** There is no motor circuitry anywhere on the
+controller PCB.
+
+**Powering the driver.** The Teensy pin labelled 5V is VIN and sits near 5 V when USB-powered, so
+the driver can run off it — which is what Mech Panda appears to do. The catch is that the motor's
+current spikes then ride on the same rail as the microcontroller and can reset it mid-scan. **A
+separate 5 V supply avoids that.**
+
+## 3.8 Shields and grounding
+
+**The rule, and it has bitten this project once already:**
+
+1. **Copper tape only** on the preamp box and the scan head shield cover.
+2. **Buy conductive-adhesive copper tape.** Non-conductive adhesive means the overlaps do not
+   connect.
+3. **Solder the seams.** Do not trust overlap alone.
+4. **Bond to circuit ground at ONE point.** More than one makes a ground loop.
+5. **Then meter it** — every point on the shield must beep to the ground wire: near the wire, the
+   far corner, and across every seam. **A shield you have not metered is not a shield you can
+   reason about.**
+6. **Never put copper and aluminium in contact** anywhere in the assembly.
+
+**Why not aluminium:** it cannot be soldered because of its oxide, its adhesive usually does not
+conduct so overlapping strips may not connect to each other at all, and against copper in humid
+air it forms a galvanic cell — a few hundred millivolts of DC sitting on your shield, millimetres
+from a 100 MOhm input. **On 2026-09-06 the preamp box was found wrapped in both and metered as
+discontinuous and only partly grounded.** It was stripped and rebuilt in copper with soldered
+seams.
+
+**Two places on the instrument are aluminium by Jacob's decision, and that is recorded rather than
+argued with:** the motor mount extenders (aluminium with copper over it — the one place the
+galvanic rule still applies, slow-acting, watch it) and the piezo holding block (aluminium only,
+which matches Mech Panda's build). **Neither is the scan head shield cover.**
+
+**Where the ground bonds land:** both shields go to what Jacob calls "universal ground", which is
+**the junction of the two supply channels — that is AGND**, the controller's single ground net.
+One bond each, and the two shields do not touch. There is no separate chassis or mains-earth ground
+in this design.
+
+> **Both DB9 backshells float by design.** Their shell pins each sit alone on their own net; there
+> is no ground path from a metal hood to the board. If you use metal hoods, their shields float,
+> and a hood touching anything earthed creates a path the netlist cannot show you.
+
+## 3.9 Figures for this section
+
+> **TODO-PHOTO 1 — the whole instrument on its frame.** Wanted: one frame showing the printed
+> tower, the suspended platform with its coin mass, the scan head on top and the supplies and
+> laptop in shot, so that a reader who has never seen it understands the scale and the layout.
+> Candidate source: the 2026-09-19 morning set.
+
+> **TODO-PHOTO 2 — the controller board with its connectors labelled.** Wanted: a frame in which
+> H1 (top left), DSUB1 (bottom left), DSUB2 (bottom right) and U19 (right edge) are all visible,
+> to go beside section 3.1. `Images/ours/2026-09-16_controller_board.jpg` exists and is a
+> candidate; it has not been opened for this manual, so it is not cited as showing this.
+
+> **TODO-PHOTO 3 — the preamp box in place at the centre of the scanning module.** Wanted: the
+> top-down view that shows where the amplifier physically sits relative to the head.
+> `Images/ours/2026-09-16_scan_module_top_down.jpg` is identified by Jacob as exactly this
+> (`SAID` 2026-09-18) and is the best existing candidate.
+
+---
+
+# 4. Sample and tip
+
+**All of this is unpowered work, with the sample plate off the instrument.** Nothing in this
+section can damage the electronics. The two things you can lose are the gold leaf and the tip, and
+both are protected by working on the bench rather than on the microscope.
+
+> **Two hard rules for every job in this section.**
+>
+> **No cyanoacrylate. None.** Not near the plate, not in the same room as an open amplifier. The
+> vapour travels and settles on the amplifier's input node, and that is the fault that cost this
+> project two weeks. `STATUS.md` safety rule 5 forbids it anywhere near the preamp.
+>
+> **Loose gold flakes are conductive dust.** A flake landing on the tip holder or in the amplifier
+> shorts across the input. Work away from the scan head, on a sheet of paper you can fold up and
+> bin afterwards.
+
+## 4.1 The tip
+
+**Material: tungsten, 0.25 mm wire**, cut at about 45 degrees. Tungsten and platinum-iridium are
+the two standard STM tip materials and both are effectively non-magnetic, which removes a whole
+class of problem for free given the magnets sitting behind the sample. **Do not use steel.**
+
+**Tips push into a socket** soldered to the metal stake on the piezo, so changing one does not mean
+rebuilding the scanner.
+
+**After fitting any tip, in this order:**
+
+1. **Meter the tip holder against the brass piezo electrode. It must read OPEN.** This is
+   `STATUS.md` safety rule 7 — a glue bridge or a solder whisker there is a shunt across the
+   amplifier input, and it costs signal and adds noise.
+2. **Re-do the hand-set** (section 4.4). A shorter tip means the three ball ends stand further
+   beyond it, and the sample plate can rest on the balls and never reach the tip.
+3. **Re-check the Z direction** before running anything that assumes one.
+
+> **A meter's "OL" does not clear a leakage path in this project.** `STATUS.md` safety rule 12: what
+> matters here is 100 MOhm to 10 GOhm, and a typical multimeter tops out near 60 MOhm, so OL only
+> proves "more than 60 MOhm". **Never read OL as "ruled out."** Rule 7's check is different — it is
+> looking for a hard short, which a meter does resolve.
+
+## 4.2 Is the leaf actually gold?
+
+**Ours is** — flame-tested on 2026-09-17 (`SAID`, Jacob). Keep the test, because it matters for any
+new leaf: imitation leaf (Dutch metal, composition leaf, schlagmetal) is brass, and **brass grows
+an insulating tarnish within days.** You would be trying to tunnel through a film that does not
+conduct, on a surface that keeps changing.
+
+**The flame test, two seconds, no chemicals.** Hold a 2–3 mm torn scrap in steel tweezers over a
+ceramic tile, away from the leaf book and away from the instrument, and pass a lighter flame over
+it for a second.
+
+| What you see | Answer |
+|---|---|
+| Stays bright yellow, may shrink or ball up, does not darken | **Real gold** |
+| Goes black or brown within a second, maybe a green flash and white smoke | **Brass** |
+
+**Never make aqua regia.** It dissolves gold, so it cannot distinguish anything, and it releases
+chlorine and nitrosyl chloride while it does it. **Do any chemical test in a different room from the
+microscope** — acid mist and metal salts are exactly the contamination that makes an amplifier
+input leak.
+
+## 4.3 Mounting the gold
+
+**The full bench card is `docs/gold_leaf_procedure.html`.** Read it before doing this job; what
+follows is the summary and the difference between what the card says and what is actually fitted.
+
+### The gate that comes first
+
+**The gold must be electrically joined to the bias wire, or no tunnelling current can exist at
+all.** The weak link is the copper tape's adhesive.
+
+**Ours conducts** — `SAID` 2026-09-17, Jacob: *"the glue is conductive"*, checked on a scrap of
+tape. **That was checked on a scrap, not on the tape already fitted to the box or the head**, which
+may be from the same roll but that has not been confirmed.
+
+**The five-minute test, if you ever open a new roll:** stick one scrap of copper tape down glue
+side down, stick a second scrap on top overlapping by half so the second one's glue presses onto
+the first one's copper, rub it hard, and meter across the join. **Beeps means the glue conducts.
+Silent means you must make the connection metal to metal** — either fold the tape around the plate
+edge so copper touches copper, or put one small solder blob on it with the plate off the instrument.
+
+### The method the card describes
+
+Copper tape onto the plate, rubbed flat; then the gold transferred onto that copper by the flip:
+keep the leaf between paper, peel the top sheet off, turn the bottom sheet over onto the copper,
+rub the back of the paper in small circles for about twenty seconds, then peel the paper off
+slowly from one corner. **The gold stays on the copper because gold grips clean metal and paper
+has nothing to grip with.**
+
+**Then burnish it** — press and smooth the gold itself very lightly with a clean cotton ball. **It
+goes from dull and loose-looking to bright and flat, and that change is how you know it has taken.**
+Then pin the far edge with a small tab of copper tape, well clear of where the tip will land.
+
+**Never cut free-floating leaf.** Unsupported leaf has no strength; scissors crumple it and tweezers
+tear it. Cut it inside a paper sandwich, or stick it to oversized copper tape first and cut the
+result down.
+
+**You are not short of gold.** Four one-inch squares cut into roughly a hundred usable 5 mm pieces,
+and the scanner's whole range is about half a micrometre — a 5 mm piece is ten thousand times wider
+than anything the tip will ever look at.
+
+### The method actually fitted, 2026-09-19
+
+**Jacob could not get leaf to transfer onto copper tape by pressure** — *"I was pushing down super
+hard and it just stuck to the paper."* What he built instead, in his own words: copper tape **sticky
+side up**; the gold, **still on its backing paper**, laid onto that adhesive; then a **second copper
+tape pressed sticky-side-down onto the gold** and stuck to the first; then a piece of copper tape
+rolled into a ring to make it double-sided, stuck to the plate, and the whole assembly onto that.
+
+**This keeps what the 2026-09-18 whole-plate sheet won — no copper oxide in front of the tip — and
+adds what it lacked: the leaf is held down by adhesive instead of lying loose.** Leaf that is stuck
+to adhesive cannot lift electrostatically, and that lifting was the leading explanation for the
+snap.
+
+**Its two known weaknesses are in section 2.3: the leaf is anchored along one strip only, and the
+backing paper is still under the gold.**
+
+### The three readings that decide whether it goes back on
+
+Power off, plate off the instrument for the first one. **Take the gold reading at a corner, gently
+— a meter probe dents gold leaf.**
+
+| Probe from | Probe to | Expect |
+|---|---|---|
+| The gold surface, at a corner | The sample-plate wire | **Beeps** |
+| The gold surface | The instrument's ground or frame | **Silent** |
+| The gold surface | The tip holder | **Silent** |
+
+**Stop and ask if:** gold to the sample-plate wire is silent after the tab is on; **gold to the tip
+holder beeps once the plate is refitted** (that means the tip is touching the gold — back the plate
+off immediately and do not power anything up); or the leaf will not lie flat after two attempts.
+
+> **Which wire is the sample-plate wire?** It is the local jumper that lands on the plate at the
+> scan head, recorded in our own bench logs as **orange at that end**. **Do not confuse it with the
+> orange wire in the DSUB2 cable, which is −15 V.** The bias conductor inside DSUB2 is **black**. If
+> there is any doubt about which physical wire you are holding, stop and ask.
+
+## 4.4 Fitting the plate and setting the gap by hand
+
+**The sample plate is held against the ball ends of the three fine screws by rubber bands.** There
+is no other retention.
+
+1. **Photograph the plate in place before removing it**, front and one side, with the rubber bands
+   and which screws it sits on in the frame. You have to put it back the same way round.
+2. **Lift it straight back and away from the tip**, never sideways past it.
+3. **Bring it back in straight from behind**, not swinging past the tip.
+4. **Confirm it sits on all three ball ends.** On 2026-09-17 both rubber bands pulled in line with
+   the two side-by-side balls — the line the plate tips about — so nothing held the motor end down
+   and **the motor screw was turning in free space.** One more band fixed it, and it was verified
+   under motor drive over 400 steps out and back. **Check the motor-screw ball is actually touching
+   the plate.**
+5. **Replace any rubber band that is cracked or slack.** Rubber perishes over weeks, and the
+   instrument has been in storage.
+
+**Then close the gap by hand**, which is the step that decides whether a motor approach can find
+anything at all. The motor's whole reach at the tip is only about ±75 microns, **so the sample has
+to be set by hand to within about a tenth of a millimetre before any motor approach.**
+
+**Two documented ways to do it. They differ and both are on record:**
+
+| Method | What it says |
+|---|---|
+| The gold card, 2026-09-17 | Turn the two side-by-side screws in **tiny equal amounts** until a meter beeps tip-to-gold, then **back both off 1/16 of a turn**, which is about 20 microns |
+| **The live back-off, 2026-09-19 — the one that worked** | Run the laptop beeper script with Z parked. **Turn in until it beeps, then back off in the tiniest nudges while it ticks, and stop at the silence.** The laptop ticks while the tip is touching and goes quiet when it is clear |
+
+**The live back-off is the one to use**, because it watches the actual current rather than a meter,
+and because on 2026-09-19 it was the only method that reliably left the gold within reach. **Its
+script is scratch code on Jacob's laptop** (`sessions/data/2026-09-19-morning/scripts/`) and has not
+been promoted into `Code/pc/`. See section 11.
+
+> **One motor step spans nothing to metal contact.** The motor cannot park the tip at a moderate
+> current. This is measured, not suspected, and it is why the hand-set matters so much.
+
+## 4.5 Figures for this section
+
+> **TODO-PHOTO 4 — the scan head face, straight on.** Wanted: the piezo disc recessed in its bore,
+> the tip, the tip lead crossing the face, and all three ball-end screws in one frame.
+> `Images/ours/2026-09-18_scanhead_face_1.jpg` through `_4.jpg` are existing candidates.
+> **No dimension may be taken off any of them** — three attempts to measure the tip-to-pivot
+> distance from these frames gave three answers more than a factor of two apart.
+
+> **TODO-PHOTO 5 — the sample plate off the head, showing the gold.** Wanted: the aluminium tape
+> over the face, the window cut in it, and the gold assembly inside the window with the bias wire
+> entering at the top. `Images/ours/2026-09-17_sample_plate_rebuilt.jpg` shows the 2026-09-17
+> build; **a frame of the 2026-09-19 sandwich build would be more useful** and may be in the new
+> 2026-09-19 set.
+
+> **TODO-PHOTO 6 — the plate mounted, with the rubber bands and the three screws visible.**
+> Wanted specifically to show which way round the plate goes and how the bands are routed, because
+> the band routing is what failed on 2026-09-17.
+
+---

@@ -229,11 +229,11 @@ def main():
     print("  5th/95th percentile %.5f/%.5f s, longest gap %.4f s, %.1f%% of intervals more"
           % (float(np.percentile(d, 5)), float(np.percentile(d, 95)), float(d.max()),
              100.0 * float((d > 2 * np.median(d)).mean())))
-    print("  than twice the median. An FFT treats the samples as evenly spaced, so timing")
-    print("  jitter smears every line and lowers its apparent height, unevenly from one")
-    print("  segment to the next. That is the most likely reason even 60 Hz is not steady")
-    print("  across the four quarters above, and it is a reason to treat all of these")
-    print("  amplitudes as indicative rather than calibrated.")
+    print("  than twice the median. An FFT treats the samples as evenly spaced. At 60 Hz a")
+    print("  jitter of ~0.1 ms is only a few degrees of phase, so this does NOT explain")
+    print("  the unsteady 60 Hz line above; the simpler reading is that a 3-count line in")
+    print("  a 2.5 s segment sits barely above the 1.1-count floor. Either way the")
+    print("  amplitudes here are indicative, not calibrated.")
     print()
     print("  WHAT THIS CANNOT DO: the record is %.1f s long, so its lowest resolved"
           % (ts[-1] - ts[0]))

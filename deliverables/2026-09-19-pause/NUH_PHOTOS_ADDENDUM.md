@@ -84,3 +84,31 @@ EXIF read from the originals before stripping. Camera-local time, no offset tag.
 | `IMG_4917.JPG` | 2026:09:19 10:15:42 | 4032x3024 | 2815799 |
 | `IMG_4918.JPG` | 2026:09:19 10:15:53 | 4032x3024 | 3153721 |
 | `IMG_4919.JPG` | 2026:09:19 10:15:59 | 4032x3024 | 3560771 |
+
+---
+
+## WHO IS WHO — settled by Jacob, 2026-09-19
+
+**`SAID`, Jacob, 2026-09-19, this session, unprompted after being asked:**
+
+> *"white guy is jacob brown guy with beared is nuh"*
+
+| In a frame | Is | Mark |
+|---|---|---|
+| The lighter-skinned person, no beard | **Jacob Katz** | `SAID` 2026-09-19 |
+| The darker-skinned person with a beard | **Nuh Shaheer** | `SAID` 2026-09-19 |
+
+**This is the SECOND person identification the project has ever had.** The first and only other one
+is `2026-08-01_nuh_soldering.jpg`, `SAID` by Jacob on 2026-09-18.
+
+**Write it down everywhere it is needed now.** This is exactly the class of fact `CLAUDE.md` §3d
+warns about: it lives in Jacob's and Nuh's heads, and anything left only in a conversation is lost
+the moment the context is compacted. It is recorded here and must be carried into
+`Images/ours/README.md` against every frame it settles.
+
+**What it does NOT license.** It settles *which person is which* in a frame that shows a person. It
+does not settle whose hands appear in a close-up, who took any photograph, or who performed any
+step shown. A hand in frame is still UNKNOWN unless Jacob or Nuh says otherwise.
+
+**Publication permission is separate and was given separately:** Jacob confirmed, 2026-09-19, that
+a team photograph may appear on the poster.
