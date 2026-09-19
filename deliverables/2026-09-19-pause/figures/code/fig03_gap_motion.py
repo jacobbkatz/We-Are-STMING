@@ -81,21 +81,21 @@ def main():
               % (a, b, b - a, round((b - a) / PERIOD)))
 
     S.set_theme("light")
-    fig, (ax, axz) = S.plt.subplots(1, 2, figsize=(10.0, 5.6), width_ratios=[3.05, 1.0])
+    fig, (ax, axz) = S.plt.subplots(1, 2, figsize=(10.0, 5.6), width_ratios=[2.85, 1.15])
     fig.subplots_adjust(top=0.775, bottom=0.215, left=0.086, right=0.985, wspace=0.30)
 
     c = S.series(0)          # blue - a contact was found
     c_far = S.series(1)      # orange - nothing found anywhere in the sweep
 
     ax.axhspan(SWEEP_TOP, 70500, color=S.C["band"], zorder=0)
-    S.note(ax, -2, SWEEP_TOP + 1200, "the sweep never went above 62,000",
-           ha="left", va="bottom", fontsize=S.TYPE["small"])
+    S.note(ax, 14, 67600, "above this line the surface was out of reach",
+           ha="left", va="center", fontsize=S.TYPE["small"])
 
     # --- out of reach: every sweep in these spans reported FAR ------------------------
     for k, (a, b) in enumerate(spans):
         ax.plot([a, b], [SWEEP_TOP, SWEEP_TOP], "-", color=c_far, lw=3.0, zorder=4,
                 solid_capstyle="butt",
-                label="out of reach: nothing found anywhere in Z" if k == 0 else None)
+                label="nothing found anywhere in Z" if k == 0 else None)
         for t in (a, b):
             ax.annotate("", xy=(t, 68800), xytext=(t, SWEEP_TOP + 700),
                         arrowprops=dict(arrowstyle="-|>", color=c_far, lw=1.8,
@@ -121,14 +121,14 @@ def main():
             ax.plot([t for t, _ in b], [z for _, z in b], "-", color=c, lw=2.0, zorder=3)
     ax.plot([t for t, _ in found], [z for _, z in found], "o", color=c, ms=10,
             markeredgecolor=S.C["surface"], markeredgewidth=2.0, zorder=6,
-            label="where the surface was found on that sweep")
+            label="where the surface was found")
 
     S.tidy(ax, xlabel="Seconds after the tip was released, with the motor and hands still",
            ylabel="Where the surface was, in Z piezo counts", grid="both")
     S.thousands(ax, "y")
     ax.set_xlim(-6, 138)
     ax.set_ylim(0, 70500)
-    ax.legend(loc="upper left", bbox_to_anchor=(0.31, 0.60), labelspacing=0.55,
+    ax.legend(loc="upper left", bbox_to_anchor=(0.20, 0.34), labelspacing=0.55,
               handletextpad=0.7, frameon=True, facecolor=S.C["surface"],
               edgecolor="none", framealpha=1.0)
 
@@ -151,7 +151,7 @@ def main():
     axz.set_ylim(0, zoom_top)
     axz.set_xticks([])
     axz.spines["bottom"].set_visible(False)
-    axz.annotate("", xy=(0.30, TUNNEL_HI + 0.4), xytext=(0.30, 19.5),
+    axz.annotate("", xy=(0.30, TUNNEL_HI + 0.4), xytext=(0.30, 19.8),
                  arrowprops=dict(arrowstyle="-|>", color=S.C["ink2"], lw=1.5), zorder=5)
     S.note(axz, 0.06, 20.5,
            "%d–%d counts.\nA real tunnelling current\nchanges ten-fold across\n"

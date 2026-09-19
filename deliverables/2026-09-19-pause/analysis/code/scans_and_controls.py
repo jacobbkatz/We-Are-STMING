@@ -464,43 +464,68 @@ def main():
     print("\n  wrote %s" % os.path.relpath(out, REPO))
 
     section("6. FIGURES")
-    fig, ax = plt.subplots(figsize=(7.4, 4.0))
-    labs = [s[0] for s in summary]
+    fig, ax = plt.subplots(figsize=(8.4, 3.8))
+    labs = [s_[0] for s_ in summary]
     ys = list(range(len(labs)))[::-1]
-    w = 0.35
-    ax.barh([y + w / 2 for y in ys], [s[1] for s in summary], w,
+    w = 0.34
+    ax.barh([y + w / 2 for y in ys], [s_[1] for s_ in summary], w,
             color=TOL["blue"], label="real scans (X moving)")
-    ax.barh([y - w / 2 for y in ys], [s[2] for s in summary], w,
+    ax.barh([y - w / 2 for y in ys], [s_[2] for s_ in summary], w,
             color=TOL["red"], label="X-held controls")
+    for y, s_ in zip(ys, summary):
+        ax.text(s_[1] + 0.012 * (1 if s_[1] >= 0 else -1), y + w / 2,
+                "%+.2f  (%d pair%s)" % (s_[1], s_[3], "" if s_[3] == 1 else "s"),
+                va="center", ha="left" if s_[1] >= 0 else "right", fontsize=7.5)
+        ax.text(s_[2] + 0.012, y - w / 2,
+                "%+.2f  (%d pair%s)" % (s_[2], s_[4], "" if s_[4] == 1 else "s"),
+                va="center", fontsize=7.5)
     ax.axvline(0, color=TOL["black"], lw=0.8)
     ax.set_yticks(ys)
-    ax.set_yticklabels([l.replace(" vs ", "\nvs ") for l in labs], fontsize=7)
+    ax.set_yticklabels([l.replace(" vs ", "\nvs ") for l in labs], fontsize=7.5)
+    ax.set_xlim(-0.45, 1.15)
     ax.set_xlabel("image-to-image correlation (mean over consecutive pairs)")
-    ax.set_title("The control reproduces at least as well as the scan, every time\n"
-                 "if the picture were the surface, the blue bar would beat the red one")
+    ax.set_title("A picture of the surface would make the blue bar beat the red one\n"
+                 "it does not, except in one group whose scans aborted after 1 and 2 lines")
+    for y, s_ in zip(ys, summary):
+        if "wide images" in s_[0]:
+            ax.annotate("2 of 3 scans aborted: this blue bar is 21 and 42 pixels,\n"
+                        "the red one 231. Trace and retrace are also anti-correlated\n"
+                        "(-0.75 to -0.94) in the scans and not in the controls.",
+                        xy=(s_[1], y + w / 2), xytext=(0.28, y - 0.78),
+                        fontsize=7, color=TOL["purple"],
+                        arrowprops=dict(arrowstyle="->", color=TOL["purple"], lw=0.9))
     ax.legend(loc="lower right")
     save(fig, "fig14_scan_vs_control.png")
     plt.close(fig)
 
-    # side-by-side images: one cas9 scan and its control
-    fig, axes = plt.subplots(1, 2, figsize=(8.2, 3.4))
-    for ax, name, title in (
-            (axes[0], "cas9_scan0.csv", "a feedback scan (X moving)"),
-            (axes[1], "cas9_xheld0.csv", "its X-held control (X never moved)")):
+    # side-by-side images: one cas9 scan and its control, ON ONE SHARED COLOUR SCALE,
+    # because separate scales would make two different things look alike or unalike for
+    # no physical reason.
+    panels = [("cas9_scan0.csv", "a feedback scan (X moving)"),
+              ("cas9_xheld0.csv", "its X-held control (X never moved)")]
+    arrs, xss = [], []
+    for name, _ in panels:
         xs, rows = read_scan(os.path.join(DATA, "2026-09-19-bench", name))
         img = [detrend(v) for y, d, v in rows if d == "fwd"]
         n = min(len(r) for r in img)
-        arr = [[(r[i] if r[i] is not None else float("nan")) for i in range(n)] for r in img]
-        im = ax.imshow(arr, aspect="auto", cmap="cividis", origin="lower",
-                       extent=[xs[0], xs[n - 1], 0, len(arr)])
+        arrs.append([[(r[i_] if r[i_] is not None else float("nan"))
+                      for i_ in range(n)] for r in img])
+        xss.append(xs[:n])
+    lim = max(max(abs(v) for row in a for v in row) for a in arrs)
+    fig, axes = plt.subplots(1, 2, figsize=(8.6, 3.4))
+    for ax, a, xs, (name, title) in zip(axes, arrs, xss, panels):
+        im = ax.imshow(a, aspect="auto", cmap="cividis", origin="lower",
+                       vmin=-lim, vmax=lim,
+                       extent=[xs[0], xs[-1], 0, len(a)])
         ax.set_xlabel("X DAC code")
-        ax.set_ylabel("line number")
         ax.set_title("%s\n%s" % (title, name), fontsize=9)
         ax.grid(False)
-        cb = fig.colorbar(im, ax=ax, fraction=0.046)
-        cb.set_label("Z the loop needed,\nline tilt removed (counts)", fontsize=7.5)
+    axes[0].set_ylabel("line number")
+    cb = fig.colorbar(im, ax=axes, fraction=0.035, pad=0.02)
+    cb.set_label("Z the loop needed, line tilt removed (counts)\n"
+                 "both panels on the same scale", fontsize=8)
     fig.suptitle("2026-09-19 bench: the two look alike, which is the whole result",
-                 y=1.04, fontsize=10)
+                 y=1.02, fontsize=10)
     save(fig, "fig15_scan_examples.png")
     plt.close(fig)
 

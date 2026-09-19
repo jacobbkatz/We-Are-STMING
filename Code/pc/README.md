@@ -215,5 +215,13 @@ span. **Resolved 2026-09-07 from the datasheet: the input full scale is ±10.24 
 the PC tools are correct.** The older text below argued for 4.096 and was wrong — the schematic
 shows the LTC2326 running on its own internal reference. See `docs/UPSTREAM_MECHPANDA.md` §1.
 
-**Every current these tools print is therefore 2.5x too large.** The constant is deliberately not
-changed yet, because it should land with the meter calibration that proves it.
+~~**Every current these tools print is therefore 2.5x too large.** The constant is deliberately not
+changed yet, because it should land with the meter calibration that proves it.~~
+
+> **STRUCK THROUGH 2026-09-19.** That paragraph is the superseded text the banner above warns
+> about, and it was still readable as a live instruction — in bold, and telling the next session
+> that a constant was waiting to be changed. **Changing it would BREAK correct tools.**
+> **`10.24 V` is right and `stm_control.py` and `stm_console.py` need no change.** The end-to-end
+> proof arrived on 2026-09-16: the 100 MΩ dummy junction measured **320.5 counts per nA against
+> 320 predicted**, which is the meter calibration this paragraph said it was waiting for.
+> `docs/FACTS.md`, measurement chain.

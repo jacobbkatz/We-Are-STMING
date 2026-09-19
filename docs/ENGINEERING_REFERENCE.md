@@ -593,7 +593,7 @@ below about 1 Hz is doing its job against building vibration, which lives around
 **If this changes, check these.**
 
 ### The ADC full-scale constant (10.24 V — corrected 2026-09-07)
-- `Code/pc/stm_control.py:37` and `stm_console.py` — currently 10.24, **wrong by 2.5×**
+- `Code/pc/stm_control.py:37` and `stm_console.py` — ~~currently 10.24, **wrong by 2.5×**~~ **CORRECTED 2026-09-19: 10.24 is RIGHT and these tools need no change.** This bullet was written before the 2026-09-07 resolution and survived it, inside a section whose own heading already says "10.24 V — corrected 2026-09-07". **It told a reader that correct code was wrong by a factor of 2.5.** Proven end to end on 2026-09-16: 320.5 counts per nA measured against 320 predicted (`docs/FACTS.md`). The same stale claim was struck through in `Code/pc/README.md` the same day
 - every current figure in `STATUS.md` and every session log
 - `stm_approach.py --full-scale` default
 - the 119 nA figure, the 0.78 nA noise figure, the 800-counts-per-nA reference
