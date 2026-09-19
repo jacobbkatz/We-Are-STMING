@@ -1,7 +1,19 @@
 # Current status
 
-**Last updated:** 2026-09-19 (written 23:44 UTC 2026-09-18, named for the bench run it prepares) — **NO POWER, NOTHING MEASURED. Jacob rebuilt at the bench and Claude did the arithmetic.** **NEW TIP** (shorter, thinner). **NEW GOLD STACK, and the tip lands on GOLD** — the copper strip touches only the leaf's edge. **356.2 g of coin loaded onto the suspension, the platform SAGGED, and Jacob trimmed the height back over the magnets.** **THE SPRINGS HAVE PROBABLY OPENED FOR THE FIRST TIME.** **THE SPRINGS WERE IDENTIFIED FROM AN ORDER LISTING — ~58 N/m each, ~173 N/m for three, a rate UNKNOWN since the BOM.** **They were never too stiff; they were SHUT below their initial tension — which REVERSES yesterday's conclusion that adding mass would make things worse.** **Expected `f0` 2.1 to 2.4 Hz against 5 Hz noise, versus a stage that was doing nothing. NONE OF IT IS MEASURED** — the bounce test is tonight's first job. **`~11 Hz` and everything built on it is RETIRED.** **Two bugs fixed in `check_facts.py`, which reported `clean` with 14 stale copies in 5 files.** **A portable, tested noise tool is ready for tonight's run on Nuh's computer.**
-**Updated by:** Jacob at the bench reporting to Claude Code on the web. Every hardware fact is `SAID`. `sessions/2026-09-19.md`.
+**Last updated:** 2026-09-19 bench (00:54-02:30 UTC, evening of 2026-09-18 local), **interim — the session is still running** — **POWERED, ON JACOB'S LAPTOP.** **Electronics quiet again (40-42 counts).** **Springs open.** **A real junction on the new gold, steady for 10 s — then THE GOLD CREPT INTO THE TIP REPEATEDLY, about a micron a minute, with nothing moving.** **Z direction of this tip UNKNOWN.** **Two approaches ran at 0 V bias (Claude's error); the tip may be blunted; the approach tool now refuses 0 V.**
+**Updated by:** Claude Code desktop on Jacob's laptop, running the second half alone with Jacob's authority. `sessions/2026-09-19-bench.md`.
+
+# 2026-09-19 BENCH — READ THIS FIRST
+
+| | |
+|---|---|
+| **Noise, tip clear** | **`ADCR` sd 40-42** — back to 2026-09-17's 46. **2026-09-18's 341-350 is gone.** 60 Hz line 10 counts, was 87 |
+| **Suspension** | **Springs open** (`SAID`: ~3 bounces a second, dying in ~3). **Stamping changed nothing — but with the tip clear, which cannot see the suspension at all.** The real stamp test needs a junction |
+| **Junction** | **Real, on gold: 3.3 nA ± 0.3 for 10 s at fixed Z**, bias flip passed, barrier-like I-V asymmetric above ~0.6 V. Wobble mostly below 2 Hz |
+| **THE BLOCKER: CREEP** | **The gold returned into contact 1-2 minutes after each 200-500-step retract, and once after 11 minutes with nothing moving.** More than the whole Z range and more than a few hundred motor steps, repeatedly: **about a micron a minute.** Leading hypothesis, untested: the ball ends sinking into the printed plastic after the hand-set, pulled by the rubber bands; also candidates: thermal, the newly loaded springs settling. **The same happened after the 2026-09-18 hand-set** |
+| **Z DIRECTION OF THIS TIP: UNKNOWN** | Evidence both ways (`sessions/2026-09-19-bench.md` §3.9). **The old tip's "HIGH extends" does not carry over.** **DO NOT RUN the plan's approach command with `--z-retracted low`, `stm_feedback_scan.py` or `stm_y_control.py` on this tip** — each assumes HIGH extends and would drive into the gold if that is wrong. Use `--z-retracted unknown` |
+| **CLAUDE'S ERROR** | **Two approaches ran with the sample at 0 V**, so only metal contact could trip them. **The new tip was driven into the gold at least twice and may be blunted.** **Fixed in `stm_approach.py`**: it sets `--bias` itself (default −0.5 V) and refuses within 0.05 V of zero |
+| **Also found** | The first retract steps after an approach pushed the gold INTO the tip — third time over two sessions. **Jacob walking into the room at ~01:58 coincided with a contact** |
 
 # TONIGHT, ON NUH'S COMPUTER — THE THREE THINGS, IN ORDER
 
@@ -19,7 +31,7 @@ below it, and **write down whether it goes.** Jacob: *"its not sitting on the to
 its a perfect fit."* **A platform that nearly touches can touch INTERMITTENTLY, and a chattering
 contact is worse than a solid one** — it is a new suspect for the erratic stage on 2026-09-18.
 
-**3. THE NOISE, tip clear, nobody within a metre, LEDs dark, 45 minutes warm.**
+**3. THE NOISE, tip clear, nobody within a metre, LEDs dark,** ~~45 minutes warm~~ **about two minutes warm — safety rule 0 was RETIRED on 2026-09-15 (corrected 2026-09-19 bench).**
 
     py Code/pc/stm_noise_spectrum.py 10 --out still.csv
     (someone stamps on the floor a couple of metres away)

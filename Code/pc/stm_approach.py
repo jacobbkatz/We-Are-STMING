@@ -70,6 +70,16 @@ DEFAULT_MOTOR_STEP = 1    # motor steps between sweeps
 DEFAULT_MAX_STEPS = 200   # total motor steps allowed in one run
 DEFAULT_BASELINE_N = 15   # samples used to characterise the resting reading
 
+# Sample bias. Added after the 2026-09-19 bench session, where two approaches ran
+# with the bias at 0 V because the previous script had zeroed it and this tool
+# never set it. At 0 V no tunnelling current flows, so the only thing the
+# threshold can catch is METAL-TO-METAL contact, carried by the DAC's few-mV
+# offset: the tip is driven into the gold before anything trips. So the tool now
+# sets the bias itself, and refuses to approach at (or within 0.05 V of) zero.
+BIAS_DEFAULT = 38229      # sample -0.5 V (sessions/2026-09-17-bench.md)
+BIAS_MIDSCALE = 32768     # 0 V
+BIAS_MIN_OFFSET = 546     # counts, about 0.05 V at 5461 counts per 0.5 V
+
 
 def z_sweep_points(z_from, z_to, step):
     """Inclusive list of Z codes from z_from to z_to, in increments of `step`.
@@ -170,6 +180,15 @@ class Device(object):
             return int(parts[4])
         except ValueError:
             return None
+
+    def set_bias(self, code):
+        """BIAS. Silent command. Range-checked before anything reaches the wire:
+        an out-of-range code would wrap modulo 65536 in the firmware."""
+        code = int(code)
+        if not 0 <= code <= 65535:
+            raise ValueError("bias code out of range: %r" % code)
+        self._write(("BIAS %d\n" % code).encode())
+        time.sleep(0.05)
 
     def move_motor(self, steps):
         """MTMV. Silent AND blocking -- the firmware stops reading serial while
@@ -329,6 +348,16 @@ class Approach(object):
 
         for end in (Z_MIN, Z_MAX):
             hit = self._sweep_segment(Z_PARK, end)
+            if hit is not None and hit[0] == Z_PARK:
+                # The hit is at the segment's FIRST point, which is midscale
+                # itself: no Z motion produced it, so it says nothing about which
+                # end extends. Found on the bench 2026-09-19: the LOW segment found
+                # nothing, the sample crept in, and the HIGH segment's first read
+                # was over threshold -- reported as "HIGH moves toward the sample"
+                # from no evidence at all. Treat it as contact at midscale.
+                self.found = True
+                self.found_at = hit
+                return Z_PARK
             if hit is not None:
                 # Contact while moving toward `end`: that end extends toward the
                 # sample, so the OTHER end retracts. Pull back there at once;
@@ -361,6 +390,13 @@ class Approach(object):
                              % (value, self.baseline, abs(value - self.baseline)))
                     if self.direction_known:
                         self.log("  Z retracted. Motor stopped.")
+                        if z == self.z_retracted:
+                            # 2026-09-19: contact at the sweep's first point, the
+                            # retracted end. "Z retracted" then moves nothing, and
+                            # the tip is still in contact.
+                            self.log("  WARNING: contact was ALREADY there at the retracted end,")
+                            self.log("  so the piezo cannot pull away from it. Back the MOTOR off")
+                            self.log("  before anything else.")
                     elif self.z_toward_sample is not None:
                         self.log("  Z DIRECTION FOUND: the %s end of the Z range moves the"
                                  % self.z_toward_sample.upper())
@@ -400,6 +436,21 @@ class Approach(object):
                 pass
 
 
+def check_bias(code, allow_zero=False):
+    """(ok, message). An approach needs a bias that can drive a tunnelling
+    current; at or near 0 V the threshold can only ever catch metal contact."""
+    if not 0 <= code <= 65535:
+        return False, "--bias %d is outside 0..65535." % code
+    if abs(code - BIAS_MIDSCALE) < BIAS_MIN_OFFSET and not allow_zero:
+        return False, ("--bias %d is within 0.05 V of zero. At 0 V no tunnelling current\n"
+                       "flows, so this tool could only detect METAL-TO-METAL contact --\n"
+                       "the tip would be driven into the sample first. That happened twice\n"
+                       "on 2026-09-19. Use the default (%d, sample -0.5 V), or pass\n"
+                       "--allow-zero-bias if a zero-bias run is truly what you want."
+                       % (code, BIAS_DEFAULT))
+    return True, ""
+
+
 def find_teensy():
     """PJRC vendor ID is 0x16C0."""
     from serial.tools import list_ports
@@ -426,6 +477,12 @@ def build_parser():
                     required=True,
                     help="Which sign of MTMV advances the tip TOWARD the "
                          "sample. Determine this with the tip removed.")
+    ap.add_argument("--bias", type=int, default=BIAS_DEFAULT,
+                    help="BIAS DAC code set before the baseline (default %d, sample "
+                         "-0.5 V). Refused within 0.05 V of zero: a 0 V approach can "
+                         "only detect metal contact." % BIAS_DEFAULT)
+    ap.add_argument("--allow-zero-bias", action="store_true",
+                    help="Permit --bias at or near 0 V. Almost never what you want.")
     ap.add_argument("--threshold", type=int, default=None,
                     help="ADC counts of absolute deviation from baseline that "
                          "count as contact. Default: 6 sigma of the measured "
@@ -467,6 +524,10 @@ def main(argv=None):
     if opts.max_steps <= 0:
         print("--max-steps must be positive.")
         return 2
+    ok, why = check_bias(opts.bias, opts.allow_zero_bias)
+    if not ok:
+        print(why)
+        return 2
 
     if opts.z_retracted == "low":
         z_retracted, z_extended = Z_MIN, Z_MAX
@@ -495,6 +556,8 @@ def main(argv=None):
     else:
         print("  Z retracted at    %d      extends toward sample to %d"
               % (z_retracted, z_extended))
+    print("  sample bias       code %d (%+.2f V at the sample)"
+          % (opts.bias, -(opts.bias - BIAS_MIDSCALE) * 0.5 / 5461.0))
     print("  motor step        %+d per cycle, up to %d steps (~%.1f um)"
           % (motor_step, opts.max_steps, opts.max_steps * 7.8 / 1000.0))
     print("")
@@ -529,6 +592,8 @@ def main(argv=None):
     with port:
         time.sleep(1.0)
         dev = Device(port, dry_run=opts.dry_run)
+        # Set the bias HERE, every run: never inherit whatever the last script left.
+        dev.set_bias(opts.bias)
         app = Approach(dev, z_retracted, z_extended, motor_step,
                        z_step=opts.z_step, max_steps=opts.max_steps)
 

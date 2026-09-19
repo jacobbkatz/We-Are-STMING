@@ -1,0 +1,4 @@
+01:48:37 survey: 10000:29870 16000:56 22000:975 28000:7838 32768:7446 38000:6330 44000:82 50000:88
+01:48:38 Zc 22000, D 1000: I(Zc-D) 789  I(Zc+D) 1571  diff 782 +- 531  -> 0.30 decades per 2000 counts
+01:48:38 Zc 22000, D 3000: I(Zc-D) 10004  I(Zc+D) 10682  diff 678 +- 2281  -> 0.03 decades per 6000 counts
+01:48:38 end: Z parked at 2000 (the side that read less current), bias 0 V

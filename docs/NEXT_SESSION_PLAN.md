@@ -1,9 +1,34 @@
 # Next session plan
 
-**Last updated:** 2026-09-19 evening — **RUN TONIGHT ON NUH'S COMPUTER: RE-MEASURE THE LOW-FREQUENCY NOISE.** The step-by-step is **[STEP N, below](#step-n-tonight-re-measure-the-low-frequency-noise)** and the tool is **`Code/pc/stm_noise_spectrum.py`**, which is new and runs on either machine. Everything below this line is the 2026-09-18 followup — **THE GOLD WAS NOT STUCK DOWN** and that is now the leading explanation for the snap; **the tip is TUNGSTEN**, which closes the magnetic-tip question. **A step-by-step card for the next session is at [`bench_card_2026-09-19.html`](bench_card_2026-09-19.html)** — this file stays canonical, the card is a view of it.
+**Last updated:** 2026-09-19 bench (interim, session still running) — **the gold creeps into the tip at about a micron a minute with nothing moving, and the Z direction of the new tip is UNKNOWN.** Read the block below before anything else. Step N below it was run tonight; its results are in `sessions/2026-09-19-bench.md`.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
+
+---
+
+# START HERE — after the 2026-09-19 bench session
+
+**1. Do not run anything that assumes a Z direction on this tip.** The plan's approach command
+(`--z-retracted low`), `stm_feedback_scan.py` and `stm_y_control.py` all assume the HIGH end of Z
+extends toward the sample, measured on the OLD tip. **For the tip fitted on 2026-09-19 it is
+unknown**, and if it is reversed each of them drives the tip into the gold. **Use
+`stm_approach.py --z-retracted unknown`**, which now also refuses to report a direction from a hit
+at midscale.
+
+**2. The creep comes first.** The gold kept returning into contact within minutes of every retract,
+about a micron a minute. **Before approaching, find out whether it has slowed**: the log's §3.10
+method (a Z sweep every 15 s with the motor still) shows it without touching anything until the
+gold arrives. **Candidates to test, cheapest first:** a cardboard box over the whole instrument
+resting on the BENCH, not the platform (drafts and temperature); time since the last hand-set
+(creep of the ball contacts should slow over hours); nobody entering the room.
+
+**3. The approach tool now sets the bias itself** (default −0.5 V) and refuses 0 V. **Do not zero the
+bias and then approach with any other script.**
+
+**4. The laptop beeper's alarm was not heard.** Fix the sound before relying on it.
+
+**5. The stamp test needs a junction.** With the tip clear it cannot see the suspension.
 
 ---
 
@@ -34,7 +59,7 @@ wrong, and **writes its raw samples to CSV** so the run can be re-analysed later
   the gold and the sample plate have ALL changed since 2026-09-18 and the suspension has not been
   isolated from them in any other measurement.
 - **NOBODY WITHIN A METRE.** A human body injects tens of nA; the whole signal is about 1 nA.
-- **45 MINUTES OF WARM-UP** before any preamp number is believed — `STATUS.md` safety rule 0.
+- ~~**45 MINUTES OF WARM-UP** before any preamp number is believed — `STATUS.md` safety rule 0.~~ **Rule 0 was RETIRED on 2026-09-15** (this file says so itself, further down): about two minutes. **Corrected 2026-09-19 bench.** Note the minutes since power-on anyway.
 - **LED1-LED4 dark**, before and after. Any reading with one lit is void.
 
 ## Do this, in order

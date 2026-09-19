@@ -500,6 +500,36 @@ class TestUnknownZDirection(unittest.TestCase):
         self.assertEqual(scope.motor_steps_sent, 1, "no further motor movement")
         self.assertEqual(scope.z, A.Z_PARK)
 
+    def test_contact_at_the_start_of_a_segment_says_nothing_about_direction(self):
+        """Found on the bench 2026-09-19. The first segment (toward LOW) found
+        nothing; the gold then crept in; the second segment's FIRST point is
+        midscale itself, where the current was already over threshold. No Z
+        motion produced that hit, yet the tool reported "HIGH moves toward the
+        sample". A hit at the segment's starting point must be treated as
+        contact at midscale: no direction learned, Z left at midscale."""
+
+        class CreepScope(FakeScope):
+            visited_min = False
+
+            def set_z(self, code):
+                FakeScope.set_z(self, code)
+                if code == A.Z_MIN:
+                    self.visited_min = True
+
+            def read_adc(self):
+                if self.visited_min and self.z == A.Z_PARK:
+                    self.gap = -10**6        # the sample has crept into contact
+                return FakeScope.read_adc(self)
+
+        scope = CreepScope(gap=10**6, z_retracted=A.Z_MIN)
+        app = self._unknown(scope, max_steps=5)
+        app.measure_baseline(n=5)
+        app.threshold = 2000
+        self.assertTrue(app.run())
+        self.assertIsNone(app.z_toward_sample,
+                          "a hit at midscale must not be read as a direction")
+        self.assertEqual(scope.z, A.Z_PARK)
+
     def test_z_home_even_if_something_throws(self):
         scope = FakeScope(gap=10**9)
         calls = {"n": 0}
@@ -547,6 +577,30 @@ class TestUnknownZDirection(unittest.TestCase):
         opts = A.build_parser().parse_args(
             ["--z-retracted", "unknown", "--motor-toward-sample", "negative"])
         self.assertEqual(opts.z_retracted, "unknown")
+
+
+class TestContactAtTheRetractedEnd(unittest.TestCase):
+    """2026-09-19: a known-direction approach met the sample at the sweep's
+    FIRST point, the retracted end. "Z retracted" then moved nothing and the tip
+    stayed in contact. The operator must be told to back the motor off."""
+
+    def test_warns_when_contact_is_already_at_the_retracted_end(self):
+        scope = FakeScope(gap=0, z_retracted=A.Z_MIN)       # touching even retracted
+        lines = []
+        app = make_approach(scope, log=lambda s="": lines.append(s))
+        app.baseline, app.threshold = -400, 2000
+        self.assertTrue(app.run())
+        self.assertTrue(any("ALREADY there at the retracted end" in l for l in lines),
+                        " | ".join(lines))
+
+    def test_no_warning_for_an_ordinary_contact(self):
+        scope = FakeScope(gap=30000, z_retracted=A.Z_MIN)
+        lines = []
+        app = make_approach(scope, log=lambda s="": lines.append(s))
+        app.measure_baseline(n=5)
+        app.threshold = 2000
+        self.assertTrue(app.run())
+        self.assertFalse(any("ALREADY there" in l for l in lines))
 
 
 class TestArgumentParsing(unittest.TestCase):
@@ -643,6 +697,56 @@ class TestDeviceFraming(unittest.TestCase):
         port = Replying()
         port._buf = b"0,32768,0\n"
         self.assertIsNone(A.Device(port).read_adc(timeout=0.5))
+
+
+
+class TestBias(unittest.TestCase):
+    """Added after 2026-09-19: two approaches ran at 0 V bias and could only
+    detect metal contact. The tool must set a real bias and refuse zero."""
+
+    class FakePort(TestDeviceFraming.FakePort):
+        pass
+
+    def test_default_bias_is_sample_minus_half_volt(self):
+        opts = A.build_parser().parse_args(
+            ["--z-retracted", "low", "--motor-toward-sample", "negative"])
+        self.assertEqual(opts.bias, 38229)
+        self.assertTrue(A.check_bias(opts.bias)[0])
+
+    def test_zero_bias_refused_before_any_port_is_opened(self):
+        out = io.StringIO()
+        saved, sys.stdout = sys.stdout, out
+        try:
+            rc = A.main(["--z-retracted", "low", "--motor-toward-sample", "negative",
+                         "--bias", "32768", "-y", "-p", "NO_SUCH_PORT"])
+        finally:
+            sys.stdout = saved
+        self.assertEqual(rc, 2)
+        self.assertIn("METAL-TO-METAL", out.getvalue())
+
+    def test_near_zero_bias_refused_both_sides(self):
+        for code in (32768 + 545, 32768 - 545):
+            self.assertFalse(A.check_bias(code)[0], code)
+        for code in (32768 + 546, 32768 - 546, 27307):
+            self.assertTrue(A.check_bias(code)[0], code)
+
+    def test_zero_bias_allowed_only_with_the_flag(self):
+        self.assertTrue(A.check_bias(32768, allow_zero=True)[0])
+
+    def test_out_of_range_bias_refused(self):
+        for bad in (-1, 65536):
+            self.assertFalse(A.check_bias(bad, allow_zero=True)[0])
+
+    def test_set_bias_frame(self):
+        port = self.FakePort()
+        A.Device(port).set_bias(38229)
+        self.assertEqual(port.writes, [b"BIAS 38229\n"])
+
+    def test_bad_bias_code_never_reaches_the_wire(self):
+        port = self.FakePort()
+        with self.assertRaises(ValueError):
+            A.Device(port).set_bias(70000)
+        self.assertEqual(port.writes, [])
 
 
 if __name__ == "__main__":

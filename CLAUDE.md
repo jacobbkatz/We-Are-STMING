@@ -324,9 +324,14 @@ Added here 2026-09-09 because this section had silently omitted them:**
 - **An out-of-range DAC value does not error — it silently jumps the axis to the opposite rail.**
   `write()` takes a `uint16_t`, so anything outside 0–65535 wraps modulo 65536. **A tip hazard, not
   a typo.** `STATUS.md` safety rule 13.
-- **No preamp measurement is valid until the board has been powered for 45 minutes.** The offset
+- ~~**No preamp measurement is valid until the board has been powered for 45 minutes.** The offset
   climbs for over an hour after power-on. A reading taken early looks like a spectacular
-  improvement and is worthless. `STATUS.md` safety rule 0.
+  improvement and is worthless. `STATUS.md` safety rule 0.~~ **RETIRED 2026-09-15 in `STATUS.md`
+  — allow about two minutes to settle.** The repaired board showed zero change between 20 and 45
+  minutes, twice; the old climb was its floating reference charging. **Corrected here 2026-09-19:**
+  this bullet still stated the retired rule, and `docs/NEXT_SESSION_PLAN.md` copied it into the
+  2026-09-19 procedure. Note the minutes since power-on with any noise figure anyway, so runs compare
+  like with like.
 - **A multimeter cannot clear a suspect leakage path here.** What matters is 100 MΩ to 10 GΩ; a
   typical DMM tops out near 60 MΩ, so **"OL" only proves ">60 MΩ"**. **Never read OL as "ruled
   out."** `STATUS.md` safety rule 12.

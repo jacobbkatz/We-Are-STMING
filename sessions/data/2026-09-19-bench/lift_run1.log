@@ -1,0 +1,5 @@
+01:29:43 step +0: I at Z 0 = 2087 | onset 0 | slope -
+01:29:43 step +1: I at Z 0 = 1818 | onset 0 | slope -
+01:29:44 step +2: I at Z 0 = 3112 | onset 0 | slope -
+01:29:45 ABORT: read 32767 at Z 0: past 20000, Z pulled to 0
+01:29:45 end: Z 0, bias 0 V; wrote C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/lift_run1.csv

@@ -1,0 +1,113 @@
+====================================================================
+  COARSE APPROACH -- this moves a real tip toward a real sample
+====================================================================
+  port              COM3
+  Z retracted at    10000      extends toward sample to 50000
+  motor step        -1 per cycle, up to 300 steps (~2.3 um)
+
+  BEFORE YOU CONTINUE:
+   - LED1 to LED4 must be DARK. If any is lit the DACs have lost
+     configuration, every Z command below does nothing, and the
+     motor would advance with no piezo protection at all.
+   - Nobody within a metre of the preamp.
+   - Ctrl-C stops at any time and retracts Z.
+
+
+  Measuring baseline with Z retracted...
+  baseline -54 counts, noise 180 counts RMS (0.56 nA)
+  threshold 1500 counts (4.69 nA) of deviation either way
+  A high threshold costs almost no depth: tunneling current rises
+  about 10x per Angstrom, so 6 nA is under an Angstrom past 1 nA.
+
+  1/300 motor steps, no contact yet
+  2/300 motor steps, no contact yet
+  3/300 motor steps, no contact yet
+  4/300 motor steps, no contact yet
+  5/300 motor steps, no contact yet
+  6/300 motor steps, no contact yet
+  7/300 motor steps, no contact yet
+  8/300 motor steps, no contact yet
+  9/300 motor steps, no contact yet
+  10/300 motor steps, no contact yet
+  11/300 motor steps, no contact yet
+  12/300 motor steps, no contact yet
+  13/300 motor steps, no contact yet
+  14/300 motor steps, no contact yet
+  15/300 motor steps, no contact yet
+  16/300 motor steps, no contact yet
+  17/300 motor steps, no contact yet
+  18/300 motor steps, no contact yet
+  19/300 motor steps, no contact yet
+  20/300 motor steps, no contact yet
+  21/300 motor steps, no contact yet
+  22/300 motor steps, no contact yet
+  23/300 motor steps, no contact yet
+  24/300 motor steps, no contact yet
+  25/300 motor steps, no contact yet
+  26/300 motor steps, no contact yet
+  27/300 motor steps, no contact yet
+  28/300 motor steps, no contact yet
+  29/300 motor steps, no contact yet
+  30/300 motor steps, no contact yet
+  31/300 motor steps, no contact yet
+  32/300 motor steps, no contact yet
+  33/300 motor steps, no contact yet
+  34/300 motor steps, no contact yet
+  35/300 motor steps, no contact yet
+  36/300 motor steps, no contact yet
+  37/300 motor steps, no contact yet
+  38/300 motor steps, no contact yet
+  39/300 motor steps, no contact yet
+  40/300 motor steps, no contact yet
+  41/300 motor steps, no contact yet
+  42/300 motor steps, no contact yet
+  43/300 motor steps, no contact yet
+  44/300 motor steps, no contact yet
+  45/300 motor steps, no contact yet
+  46/300 motor steps, no contact yet
+  47/300 motor steps, no contact yet
+  48/300 motor steps, no contact yet
+  49/300 motor steps, no contact yet
+  50/300 motor steps, no contact yet
+  51/300 motor steps, no contact yet
+  52/300 motor steps, no contact yet
+  53/300 motor steps, no contact yet
+  54/300 motor steps, no contact yet
+  55/300 motor steps, no contact yet
+  56/300 motor steps, no contact yet
+  57/300 motor steps, no contact yet
+  58/300 motor steps, no contact yet
+  59/300 motor steps, no contact yet
+  60/300 motor steps, no contact yet
+  61/300 motor steps, no contact yet
+  62/300 motor steps, no contact yet
+  63/300 motor steps, no contact yet
+  64/300 motor steps, no contact yet
+  65/300 motor steps, no contact yet
+  66/300 motor steps, no contact yet
+  67/300 motor steps, no contact yet
+  68/300 motor steps, no contact yet
+  69/300 motor steps, no contact yet
+  70/300 motor steps, no contact yet
+  71/300 motor steps, no contact yet
+  72/300 motor steps, no contact yet
+  73/300 motor steps, no contact yet
+  74/300 motor steps, no contact yet
+  75/300 motor steps, no contact yet
+  76/300 motor steps, no contact yet
+  77/300 motor steps, no contact yet
+  78/300 motor steps, no contact yet
+  79/300 motor steps, no contact yet
+  80/300 motor steps, no contact yet
+  81/300 motor steps, no contact yet
+  82/300 motor steps, no contact yet
+  83/300 motor steps, no contact yet
+  84/300 motor steps, no contact yet
+  85/300 motor steps, no contact yet
+  86/300 motor steps, no contact yet
+  87/300 motor steps, no contact yet
+  88/300 motor steps, no contact yet
+
+  TUNNELING at Z = 10000 after 88 motor steps
+  reading 32767 counts, baseline -54, deviation 32821
+  Z retracted. Motor stopped.

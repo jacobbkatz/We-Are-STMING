@@ -1,0 +1,7 @@
+01:32:11 rep 0 DOWN (Z in thousands:counts) 50:1577 49:21158
+01:32:11 rep 0 UP   49:32767 50:29558
+01:32:11 rep 1 DOWN (Z in thousands:counts) 50:27047
+01:32:11 rep 1 UP   50:31903
+01:32:11 rep 2 DOWN (Z in thousands:counts) 50:30645
+01:32:11 rep 2 UP   50:31860
+end: Z 50000, bias 0 V
