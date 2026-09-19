@@ -1,0 +1,5 @@
+02:06:42 t= 225.1s TOUCH at Z 32768 (midscale half, sweep order high/low) -> retracted +100
+02:07:37 t= 280.4s TOUCH at Z 40768 (high half, sweep order low/high) -> retracted +100
+02:07:44 t= 285.6s TOUCH at Z 6768 (low half, sweep order high/low) -> retracted +200
+02:07:53 t= 290.1s TOUCH at Z 31768 (low half, sweep order low/high) -> retracted +400
+02:08:00 t= 303.4s TOUCH at Z 40768 (high half, sweep order low/high) -> retracted +100

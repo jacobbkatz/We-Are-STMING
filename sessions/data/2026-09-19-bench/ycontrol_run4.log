@@ -1,0 +1,44 @@
+onset Z=50800, setpoint 1000 counts (3.12 nA), bias 38229
+21 X points at +-15000, 3 places 12000 apart, 6 passes each
+  pass 0, y -12000 : done
+  pass 0, y     +0 : done
+  pass 0, y +12000 : done
+  pass 1, y -12000 : done
+  pass 1, y     +0 : done
+  pass 1, y +12000 : done
+  pass 2, y -12000 : done
+  pass 2, y     +0 : done
+  pass 2, y +12000 : done
+  pass 3, y -12000 : done
+  pass 3, y     +0 : done
+  pass 3, y +12000 : done
+  pass 4, y -12000 : done
+  pass 4, y     +0 : done
+  pass 4, y +12000 : done
+  pass 5, y -12000 : done
+  pass 5, y     +0 : done
+  pass 5, y +12000 : done
+  18 lines in 7.0 s, saturated 176, clamped 0, lost 0
+Z retracted to 10000, X/Y centred, bias 0 V.
+wrote C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/ycontrol_run4_ysep12000_repeat.csv
+C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/ycontrol_run4_ysep12000_repeat.csv
+  21 X points spanning +-15000 counts, 3 places
+
+  places: [-12000, 0, 12000]   passes each: [6, 6, 6]
+
+  profile amplitude, per place (Z counts RMS, tilt removed):
+      y  -12000 :      84   <-- under the 287-count wobble floor
+      y      +0 :      46   <-- under the 287-count wobble floor
+      y  +12000 :     138   <-- under the 287-count wobble floor
+
+  statistic                            within  between within-between
+  single pass vs single pass           +0.149   +0.093     +0.056
+  split-half avg vs split-half avg     +0.631   +0.221     +0.411
+
+  single-pass difference = +0.056 +- 0.094 (1 s.e.)
+
+  VERDICT: NO PROFILE TO TEST. The biggest profile here is 138 counts, under the
+           287-419 count wobble the height channel shows with
+           nothing scanning. Widen the scan or raise the current
+           before running this control -- it cannot answer a
+           question about a signal that is not there.

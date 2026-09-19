@@ -1,13 +1,45 @@
 # Next session plan
 
-**Last updated:** 2026-09-19 bench (interim, session still running) — **the gold creeps into the tip at about a micron a minute with nothing moving, and the Z direction of the new tip is UNKNOWN.** Read the block below before anything else. Step N below it was run tonight; its results are in `sessions/2026-09-19-bench.md`.
+**Last updated:** 2026-09-19 bench wrap — **the first tip was bent and was replaced; with the new, very blunt tip Z controls the current and HIGH extends toward the sample; feedback scans and the three-Y control ran and showed no image.** The blocker is mechanical. Start at the block below.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# START HERE — after the 2026-09-19 bench session
+# START HERE — after the 2026-09-19 bench session (wrap)
+
+**1. Z direction: HIGH extends toward the sample for the tip fitted at ~03:00 on 2026-09-19.**
+Lock-in 4.2σ at a clean touch, and the feedback loop held the junction with that sign for 8 runs.
+**So `--z-retracted low`, `stm_feedback_scan.py` and `stm_y_control.py` are right for THIS tip.**
+**If the tip is changed again, re-check it first** — `stm_approach.py --z-retracted unknown` (which
+now refuses to read a direction from a hit at midscale), or a ±2000 Z lock-in at a touch.
+
+**2. Get the gap with the LIVE BACK-OFF, not a meter and not the motor.** With power on: the laptop
+beeps six times at the first touch; back off in tiny steps while it ticks; **stop the moment it goes
+silent**. That leaves the gold just outside detection, within the piezo's reach. **One motor step
+spans nothing to metal contact**, so the motor cannot do this last part. The script is
+`sessions/data/2026-09-19-bench/scripts/live_backoff.py` (scratch; promote it to `Code/pc/` with a
+test if it is going to be the procedure).
+
+**3. The mechanics before more scanning.** Every imaging test on 2026-09-19 came back negative and
+every pattern was matched by its X-held control. What stands in the way: **the gap slips and drifts**
+(an X-held control swung Z by 28,000 counts with nothing moving), **the junction snaps in** (the loop
+saturated ~15% of the time on wide scans), and **the tip is "very blunt"** (`SAID`). **A sharper tip
+and a stiffer sample-plate mounting** come first.
+
+**4. Update the noise floor the tools quote.** `stm_y_control.py` still prints 2026-09-17's 287-419
+counts; tonight's X-held floor was **9-19 counts**, so its "NO PROFILE TO TEST" verdict is not
+meaningful for this tip.
+
+**5. The stamp test needs a junction.** With the tip clear it cannot see the suspension.
+
+**Do not:** no `APRH`; no `CCON` with a tip in range; every DAC value in range; **never zero the bias
+and then approach with any other script** — `stm_approach.py` now sets it itself.
+
+---
+
+# ~~START HERE — after the 2026-09-19 bench session (interim)~~ — superseded by the block above
 
 **1. Do not run anything that assumes a Z direction on this tip.** The plan's approach command
 (`--z-retracted low`), `stm_feedback_scan.py` and `stm_y_control.py` all assume the HIGH end of Z

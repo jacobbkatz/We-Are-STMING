@@ -1,0 +1,20 @@
+03:47:08    retry at +-2000: I(-)32767 I(+)32767 diff +0 se 0
+03:47:08 t=   0.6s TOUCH Z 32768 (midscale) lock-in I(-)32767 I(+)32767 diff +0 se 0 -> undecided
+03:47:10    constant-height map (X moving) at Z 32768 in 2.3 s: current 32767..32767, mean 32767 -> C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/cas8_chmap_t1_scan_1789789628.csv
+03:47:12    constant-height map (X HELD) at Z 32768 in 1.2 s: current 32767..32767, mean 32767 -> C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/cas8_chmap_t1_xheld_1789789630.csv
+03:47:14    constant-height map (X moving) at Z 32768 in 2.5 s: current 32767..32767, mean 32767 -> C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/cas8_chmap_t1_scan_1789789632.csv
+03:47:15    I-V at Z 32768 (V:counts): -0.8:32767 -0.6:32767 -0.4:32767 -0.2:32767 -0.1:32767 +0.0:32767 +0.1:-4602 +0.2:-32768 +0.4:-4602 +0.6:-32768 +0.8:-4603
+03:47:15    retry at +-2000: I(-)32767 I(+)32767 diff +0 se 0
+03:47:15 t=   7.9s TOUCH Z 32768 (midscale) lock-in I(-)32767 I(+)32767 diff +0 se 0 -> undecided
+03:47:18    constant-height map (X moving) at Z 32768 in 2.6 s: current 32767..32767, mean 32767 -> C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/cas8_chmap_t2_scan_1789789635.csv
+03:47:19    constant-height map (X HELD) at Z 32768 in 1.2 s: current 32767..32767, mean 32767 -> C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/cas8_chmap_t2_xheld_1789789638.csv
+03:47:22    constant-height map (X moving) at Z 32768 in 2.5 s: current 32767..32767, mean 32767 -> C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/cas8_chmap_t2_scan_1789789639.csv
+03:47:22    I-V at Z 32768 (V:counts): -0.8:32767 -0.6:32767 -0.4:32767 -0.2:32767 -0.1:32767 +0.0:32767 +0.1:-32768 +0.2:-32768 +0.4:-32768 +0.6:-32768 +0.8:-32768
+03:47:23    retry at +-2000: I(-)32767 I(+)32767 diff +0 se 0
+03:47:23 t=  15.3s TOUCH Z 32768 (midscale) lock-in I(-)32767 I(+)32767 diff +0 se 0 -> undecided
+03:47:25    constant-height map (X moving) at Z 32768 in 2.6 s: current 32767..32767, mean 32767 -> C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/cas8_chmap_t3_scan_1789789643.csv
+03:47:26    constant-height map (X HELD) at Z 32768 in 1.1 s: current 32767..32767, mean 32767 -> C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/cas8_chmap_t3_xheld_1789789645.csv
+03:47:29    constant-height map (X moving) at Z 32768 in 2.5 s: current 32767..32767, mean 32767 -> C:/Users/jacob/OneDrive/Desktop/CUsersyournameSTM/sessions/data/2026-09-19-bench/cas8_chmap_t3_scan_1789789646.csv
+03:47:29    I-V at Z 32768 (V:counts): -0.8:32767 -0.6:32767 -0.4:32767 -0.2:32767 -0.1:32767 +0.0:32767 +0.1:-32768 +0.2:-32768 +0.4:-32768 +0.6:-32768 +0.8:-32768
+03:47:30    retry at +-2000: I(-)32767 I(+)32767 diff +0 se 0
+03:47:30 t=  22.7s TOUCH Z 32768 (midscale) lock-in I(-)32767 I(+)32767 diff +0 se 0 -> undecided

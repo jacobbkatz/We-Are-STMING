@@ -1,19 +1,24 @@
 # Current status
 
-**Last updated:** 2026-09-19 bench (00:54-02:30 UTC, evening of 2026-09-18 local), **interim — the session is still running** — **POWERED, ON JACOB'S LAPTOP.** **Electronics quiet again (40-42 counts).** **Springs open.** **A real junction on the new gold, steady for 10 s — then THE GOLD CREPT INTO THE TIP REPEATEDLY, about a micron a minute, with nothing moving.** **Z direction of this tip UNKNOWN.** **Two approaches ran at 0 V bias (Claude's error); the tip may be blunted; the approach tool now refuses 0 V.**
-**Updated by:** Claude Code desktop on Jacob's laptop, running the second half alone with Jacob's authority. `sessions/2026-09-19-bench.md`.
+**Last updated:** 2026-09-19 bench, wrap (00:54-03:55 UTC, the evening of 2026-09-18 local) — **POWERED, ON JACOB'S LAPTOP.** **Electronics quiet again (40-42 counts).** **Springs open.** **The first tip was BENT and was replaced with a very blunt one.** **With the new tip Z controls the current and HIGH Z extends toward the sample (4.2σ, and the loop held with that sign).** **Feedback scans, the three-Y control and wide images all ran — NO IMAGE; every pattern is matched by its X-held control.** **Mechanics are the blocker: the gap slips and drifts, one motor step spans nothing to metal contact, the junction snaps in.**
+**Updated by:** Claude Code desktop on Jacob's laptop, the second half run alone with Jacob's authority. `sessions/2026-09-19-bench.md`.
 
 # 2026-09-19 BENCH — READ THIS FIRST
 
 | | |
 |---|---|
 | **Noise, tip clear** | **`ADCR` sd 40-42** — back to 2026-09-17's 46. **2026-09-18's 341-350 is gone.** 60 Hz line 10 counts, was 87 |
-| **Suspension** | **Springs open** (`SAID`: ~3 bounces a second, dying in ~3). **Stamping changed nothing — but with the tip clear, which cannot see the suspension at all.** The real stamp test needs a junction |
-| **Junction** | **Real, on gold: 3.3 nA ± 0.3 for 10 s at fixed Z**, bias flip passed, barrier-like I-V asymmetric above ~0.6 V. Wobble mostly below 2 Hz |
-| **THE BLOCKER: CREEP** | **The gold returned into contact 1-2 minutes after each 200-500-step retract, and once after 11 minutes with nothing moving.** More than the whole Z range and more than a few hundred motor steps, repeatedly: **about a micron a minute.** Leading hypothesis, untested: the ball ends sinking into the printed plastic after the hand-set, pulled by the rubber bands; also candidates: thermal, the newly loaded springs settling. **The same happened after the 2026-09-18 hand-set** |
-| **Z DIRECTION OF THIS TIP: UNKNOWN** | Evidence both ways (`sessions/2026-09-19-bench.md` §3.9). **The old tip's "HIGH extends" does not carry over.** **DO NOT RUN the plan's approach command with `--z-retracted low`, `stm_feedback_scan.py` or `stm_y_control.py` on this tip** — each assumes HIGH extends and would drive into the gold if that is wrong. Use `--z-retracted unknown` |
-| **CLAUDE'S ERROR** | **Two approaches ran with the sample at 0 V**, so only metal contact could trip them. **The new tip was driven into the gold at least twice and may be blunted.** **Fixed in `stm_approach.py`**: it sets `--bias` itself (default −0.5 V) and refuses within 0.05 V of zero |
-| **Also found** | The first retract steps after an approach pushed the gold INTO the tip — third time over two sessions. **Jacob walking into the room at ~01:58 coincided with a contact** |
+| **Noise floor with a junction, X held** | **9-19 counts** (three-Y control, X held). **The tools still quote 2026-09-17's 287-419 — stale for this tip** |
+| **Suspension** | **Springs open** (`SAID`: ~3 bounces a second, dying in ~3). **Stamping changed nothing — with the tip clear, which cannot see the suspension.** The real stamp test needs a junction |
+| **Tip** | **The 2026-09-19 tip was BENT** (`SAID`) — it explains the first half's Z-proof, chattering contact. **Replaced ~03:00 with a new, "very blunt" tip** (`SAID`); rule 7 OPEN; LEDs dark |
+| **Z DIRECTION, NEW TIP: HIGH EXTENDS TOWARD THE SAMPLE** | Lock-in at a clean touch **+6305 ± 1484 counts over ±2000 (4.2σ)**, and **the feedback loop held the junction for 8 runs with that sign.** **`--z-retracted low` is right for this tip.** Re-check it whenever the tip changes |
+| **Imaging** | **No image.** 4 feedback scans + 4 X-held controls: the controls reproduce better (image to image +0.37 against +0.04). **Three-Y control**: at 3,000 apart the same shape everywhere (the scanner); at 12,000 one run said "surface" at 3.9σ and **the repeat did not**. Wide images: trace/retrace **−0.75 to −0.94** (loop lag), saturation ~15% |
+| **Getting the gap** | **The live back-off works**: the laptop ticks while touching and goes silent when clear; stop at the silence. **One motor step spans nothing to metal contact**, so the motor cannot park the tip at a moderate current |
+| **CLAUDE'S ERROR** | **Two approaches ran with the sample at 0 V** (metal contact was all they could see). **Fixed: `stm_approach.py` sets `--bias` itself (default −0.5 V) and refuses 0 V**; it also no longer reports a direction from a hit at midscale |
+
+**THE BLOCKER IS MECHANICAL.** The gap slips and drifts (an X-held control swung Z by 28,000 counts
+with nothing moving), the junction snaps in, and the coarse stage has no fine enough step. **A
+sharper tip and a stiffer sample-plate mounting come before more scanning.** `docs/NEXT_SESSION_PLAN.md`.
 
 # TONIGHT, ON NUH'S COMPUTER — THE THREE THINGS, IN ORDER
 

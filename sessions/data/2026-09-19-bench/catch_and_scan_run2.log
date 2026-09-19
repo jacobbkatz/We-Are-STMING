@@ -1,0 +1,13 @@
+02:50:21 t= 321.8s TOUCH Z 8768 (low) lock-in I(-)1452 I(+)1400 diff -52 se 28 -> undecided
+02:50:32 t= 333.7s TOUCH Z 25768 (low) lock-in I(-)1492 I(+)1490 diff -2 se 26 -> undecided
+02:50:35 t= 336.4s TOUCH Z 32768 (midscale) lock-in I(-)1623 I(+)1653 diff +30 se 32 -> undecided
+02:50:38 t= 339.4s TOUCH Z 32768 (midscale) lock-in I(-)1483 I(+)1496 diff +13 se 22 -> undecided
+02:50:41 t= 342.4s TOUCH Z 32768 (midscale) lock-in I(-)1583 I(+)1554 diff -28 se 23 -> undecided
+02:50:44 t= 345.4s TOUCH Z 32768 (midscale) lock-in I(-)1295 I(+)1319 diff +24 se 15 -> undecided
+02:50:47 t= 348.4s TOUCH Z 32768 (midscale) lock-in I(-)1581 I(+)1581 diff -0 se 16 -> undecided
+02:50:50 t= 351.4s TOUCH Z 32768 (midscale) lock-in I(-)2306 I(+)2355 diff +48 se 42 -> undecided
+02:50:53 t= 354.4s TOUCH Z 32768 (midscale) lock-in I(-)1632 I(+)1665 diff +33 se 36 -> undecided
+02:50:56 t= 357.4s TOUCH Z 32768 (midscale) lock-in I(-)1390 I(+)1448 diff +58 se 25 -> undecided
+02:50:59 t= 360.4s TOUCH Z 32768 (midscale) lock-in I(-)3046 I(+)3053 diff +7 se 19 -> undecided
+02:51:02 t= 363.4s TOUCH Z 32768 (midscale) lock-in I(-)3581 I(+)3579 diff -2 se 19 -> undecided
+02:51:05 t= 366.4s TOUCH Z 32768 (midscale) lock-in I(-)3637 I(+)3659 diff +21 se 22 -> undecided

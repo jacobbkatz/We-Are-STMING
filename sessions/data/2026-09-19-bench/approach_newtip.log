@@ -1,0 +1,118 @@
+====================================================================
+  COARSE APPROACH -- this moves a real tip toward a real sample
+====================================================================
+  port              COM3
+  Z direction       UNKNOWN: Z parks at 32768 for every motor step and
+                    searches toward 10000 and toward 50000 each cycle
+  sample bias       code 38229 (-0.50 V at the sample)
+  motor step        -1 per cycle, up to 800 steps (~6.2 um)
+
+  BEFORE YOU CONTINUE:
+   - LED1 to LED4 must be DARK. If any is lit the DACs have lost
+     configuration, every Z command below does nothing, and the
+     motor would advance with no piezo protection at all.
+   - Nobody within a metre of the preamp.
+   - Ctrl-C stops at any time and sends Z to midscale.
+
+
+  Measuring baseline with Z at midscale...
+  baseline -41 counts, noise 163 counts RMS (0.51 nA)
+  threshold 1500 counts (4.69 nA) of deviation either way
+  A high threshold costs almost no depth: tunneling current rises
+  about 10x per Angstrom, so 6 nA is under an Angstrom past 1 nA.
+
+  1/800 motor steps, no contact yet
+  2/800 motor steps, no contact yet
+  3/800 motor steps, no contact yet
+  4/800 motor steps, no contact yet
+  5/800 motor steps, no contact yet
+  6/800 motor steps, no contact yet
+  7/800 motor steps, no contact yet
+  8/800 motor steps, no contact yet
+  9/800 motor steps, no contact yet
+  10/800 motor steps, no contact yet
+  11/800 motor steps, no contact yet
+  12/800 motor steps, no contact yet
+  13/800 motor steps, no contact yet
+  14/800 motor steps, no contact yet
+  15/800 motor steps, no contact yet
+  16/800 motor steps, no contact yet
+  17/800 motor steps, no contact yet
+  18/800 motor steps, no contact yet
+  19/800 motor steps, no contact yet
+  20/800 motor steps, no contact yet
+  21/800 motor steps, no contact yet
+  22/800 motor steps, no contact yet
+  23/800 motor steps, no contact yet
+  24/800 motor steps, no contact yet
+  25/800 motor steps, no contact yet
+  26/800 motor steps, no contact yet
+  27/800 motor steps, no contact yet
+  28/800 motor steps, no contact yet
+  29/800 motor steps, no contact yet
+  30/800 motor steps, no contact yet
+  31/800 motor steps, no contact yet
+  32/800 motor steps, no contact yet
+  33/800 motor steps, no contact yet
+  34/800 motor steps, no contact yet
+  35/800 motor steps, no contact yet
+  36/800 motor steps, no contact yet
+  37/800 motor steps, no contact yet
+  38/800 motor steps, no contact yet
+  39/800 motor steps, no contact yet
+  40/800 motor steps, no contact yet
+  41/800 motor steps, no contact yet
+  42/800 motor steps, no contact yet
+  43/800 motor steps, no contact yet
+  44/800 motor steps, no contact yet
+  45/800 motor steps, no contact yet
+  46/800 motor steps, no contact yet
+  47/800 motor steps, no contact yet
+  48/800 motor steps, no contact yet
+  49/800 motor steps, no contact yet
+  50/800 motor steps, no contact yet
+  51/800 motor steps, no contact yet
+  52/800 motor steps, no contact yet
+  53/800 motor steps, no contact yet
+  54/800 motor steps, no contact yet
+  55/800 motor steps, no contact yet
+  56/800 motor steps, no contact yet
+  57/800 motor steps, no contact yet
+  58/800 motor steps, no contact yet
+  59/800 motor steps, no contact yet
+  60/800 motor steps, no contact yet
+  61/800 motor steps, no contact yet
+  62/800 motor steps, no contact yet
+  63/800 motor steps, no contact yet
+  64/800 motor steps, no contact yet
+  65/800 motor steps, no contact yet
+  66/800 motor steps, no contact yet
+  67/800 motor steps, no contact yet
+  68/800 motor steps, no contact yet
+  69/800 motor steps, no contact yet
+  70/800 motor steps, no contact yet
+  71/800 motor steps, no contact yet
+  72/800 motor steps, no contact yet
+  73/800 motor steps, no contact yet
+  74/800 motor steps, no contact yet
+  75/800 motor steps, no contact yet
+  76/800 motor steps, no contact yet
+  77/800 motor steps, no contact yet
+  78/800 motor steps, no contact yet
+  79/800 motor steps, no contact yet
+  80/800 motor steps, no contact yet
+  81/800 motor steps, no contact yet
+  82/800 motor steps, no contact yet
+  83/800 motor steps, no contact yet
+  84/800 motor steps, no contact yet
+  85/800 motor steps, no contact yet
+  86/800 motor steps, no contact yet
+  87/800 motor steps, no contact yet
+  88/800 motor steps, no contact yet
+  89/800 motor steps, no contact yet
+  90/800 motor steps, no contact yet
+  91/800 motor steps, no contact yet
+  92/800 motor steps, no contact yet
+  93/800 motor steps, no contact yet
+  94/800 motor steps, no contact yet
+  95/800 motor steps, no contact yet

@@ -95,3 +95,63 @@ Pulled 16 commits at session start (up to 756aa7d).
   refused within 0.05 V of zero unless --allow-zero-bias; unknown mode treats a hit at the
   segment's first point as contact at midscale; known mode warns when contact is already at the
   retracted end. 61 tests pass; each new test shown red first.
+
+## After the checkpoint push (340031e)
+- SAID ~01:58-02:00: "i just came in that could be the reason" (the 01:58 contact coincided with Jacob
+  entering). "continue ima leave again do your best to get an image send me an email if you need me
+  to come down jacob@quis.com".
+- SAID ~02:03: shield cover? then "nevermind it would add to much weight and would push the plate
+  into the magnet". Suggested instead: a cardboard box resting on the BENCH (not done).
+- 01:59:05 +200, 01:59:40 +300 (margin). 02:00 unknown-mode approach 5 (tool sets -0.5 V):
+  contact AT MIDSCALE after 2 steps, 32767. 02:01:51 +200 clear.
+- scan2.py (direction as a parameter) + scan2_test.py: both directions hold a flat surface, follow a
+  bump (479/514 of 600), wrong sign detected (clamped 211). NOT RUN ON HARDWARE.
+- creeptrack.py (tested on sim: touches land in the right half, rate recovered): 02:02:40 start.
+  Touches: 02:06:42 midscale (+100); 02:07:37 Z 40768 HIGH half (+100); 02:07:44 Z 6768 LOW half
+  (+200); 02:07:53 Z 31768 low (+400); 02:08:00 Z 40768 HIGH (+100); more after (GSTS +400 unlogged).
+  Stopped 02:08. Touches in BOTH halves within seconds.
+- 02:08:23 clearcheck 0: Z32768 4994, others ~0. GSTS steps 2427.
+- 02:09:05 +500: then 60 s of sweeps every ~4 s: EVERY one touched at midscale (first point).
+- 02:10:19 all-Z at 3 biases: random large currents at many Z (19215 at 24000; 32767 at Z 40000 at
+  0 V = metal; -32228 at midscale at +0.14 V; -30500 at 40000). CHATTERING CONTACT. Steps 2927.
+- 02:10:xx EMAIL SENT to jacob@quis.com (his instruction): back the side screws off ~1/4 turn each
+  (away from the tip), look at the motor-screw ball contact, leave, say "backed off".
+  State while waiting: bias 0 V, Z midscale, no scripts.
+- Hypothesis: the motor has little leverage on the gap (tip near the pivot line, d small) or the
+  plate is not following the screw; the tip may be carrying the plate.
+
+## After the email
+- SAID ~02:17: "backed off, ball is touching the plate". 02:17:42 all Z (0..65000), 3 biases, twice:
+  within +-16 counts, sd 36-54 -> CLEAR.
+- SAID: "Becuase the tip is much shorter your lever ratio is much shorter now so itd make sense u
+  have to turn it more, lets keep on going we dont really have anouther day for a while".
+- Alarm test: Beep + SystemHand + SystemExclamation x3 -> SAID "just beeeps" (only Beep audible).
+- live_touch2.py (Z midscale, direction-neutral; contact -> bias 0 V + 6 beeps; check after 20 s ->
+  2 beeps clear), tested on sim. SAID "just manuelly backed it off" (before the hand-set; meaning
+  not clarified), then "go".
+- 02:21:30 armed. 02:22:36-37 SMOOTH RISE while Jacob turned: 104 -> 262 -> 566 -> 1314 counts
+  (0.5 s) -> CONTACT, bias 0 V, six beeps. Jacob backed off 1/32 turn (asked). 02:23:00 check -1
+  -> CLEAR, two beeps. SAID "backing off" arrived ~02:24 (after the clear).
+- catch_and_scan.py (tested on sim both directions; first version failed its test because the
+  creeping surface enters reach outside the loop's window -> retry loop added) started ~02:23:10:
+  waits for a touch with the motor still, lock-in for direction, then 4 scans + 4 X-held controls.
+- analyze_scans.py: checked on synthetic images (bump: trace/retrace ~+0.4, image-image +0.7;
+  controls ~0).
+- 02:37: no touch yet (14 min).
+- 02:37 SAID "just came in sorry the turn was probably more than 1/32". Stopped cas1 (no touch in
+  14 min).
+- live_touch2 again: 02:42:11 armed; 02:44:27 CONTACT 1160; SAID back off "the tiniest hair";
+  02:44:50 check -4 -> CLEAR.
+- SAID: "also start sending me update emails every 5 mintues so i dont have to check status by
+  coming down here". Emails to jacob@quis.com, thread 1a0b78e0847ba1ac: 02:45, 02:50, 02:52.
+- catch_and_scan run 2 from ~02:45: first touch 02:50:21 Z 8768 (low): lock-in +-500 I(-)1452
+  I(+)1400 diff -52 se 28 undecided; then 02:50:32 Z 25768 (low) -2 +- 26; then at MIDSCALE every
+  3 s: +30+-32, +13+-22, -28+-23, +24+-15, -0+-16, +48+-42, +33+-36, +58+-25, +7+-19, -2+-19; the
+  current at midscale wandered 1295..3581. NO Z EFFECT at +-500.
+- 02:51 bigswing.py: midscale 2472; Z+-2000 807/489 (-318+-183); Z+-8000 45/-6; Z+-20000 32/138;
+  X+-5000 4/-12 (-17+-7); X+-15000 94/33; Z+-20000 231/285; midscale after -10. Junction faded.
+- CONCLUSION (hypothesis-level): the piezo barely controls this junction current. Suspects: the
+  contact is not the tip apex (tip lead / holder brushing the gold stack or copper frame), the Z
+  drive not reaching the piezo, or the mounting blocking Z motion.
+- 02:52 email: recommend stopping; back off side screws 1/4 turn; look at the head from the side
+  for the tip lead near the gold; then "wrap".

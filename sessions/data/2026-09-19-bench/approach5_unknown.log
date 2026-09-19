@@ -1,0 +1,32 @@
+====================================================================
+  COARSE APPROACH -- this moves a real tip toward a real sample
+====================================================================
+  port              COM3
+  Z direction       UNKNOWN: Z parks at 32768 for every motor step and
+                    searches toward 10000 and toward 50000 each cycle
+  sample bias       code 38229 (-0.50 V at the sample)
+  motor step        -1 per cycle, up to 700 steps (~5.5 um)
+
+  BEFORE YOU CONTINUE:
+   - LED1 to LED4 must be DARK. If any is lit the DACs have lost
+     configuration, every Z command below does nothing, and the
+     motor would advance with no piezo protection at all.
+   - Nobody within a metre of the preamp.
+   - Ctrl-C stops at any time and sends Z to midscale.
+
+
+  Measuring baseline with Z at midscale...
+  baseline 73 counts, noise 170 counts RMS (0.53 nA)
+  threshold 1500 counts (4.69 nA) of deviation either way
+  A high threshold costs almost no depth: tunneling current rises
+  about 10x per Angstrom, so 6 nA is under an Angstrom past 1 nA.
+
+  1/700 motor steps, no contact yet
+  2/700 motor steps, no contact yet
+
+  TUNNELING at Z = 32768 after 2 motor steps
+  reading 32767 counts, baseline 73, deviation 32694
+  CONTACT ALREADY PRESENT AT MIDSCALE. The Z direction
+  could not be told, so Z was left at 32768. Motor stopped.
+  Do not move Z or the motor. Power down, then back the
+  sample off by hand.

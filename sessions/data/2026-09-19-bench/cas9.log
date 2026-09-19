@@ -1,0 +1,12 @@
+03:48:10    retry at +-2000: I(-)26237 I(+)32542 diff +6305 se 1484
+03:48:10 t=   0.9s TOUCH Z 40768 (high) lock-in I(-)26237 I(+)32542 diff +6305 se 1484 -> HIGH toward
+03:48:15 scan 0 (after 0 retries): 11 lines, Z 12201..38071, saturated 19, clamped 1
+03:48:23 X-HELD control 0: 11 lines, Z 36593..39128, saturated 28, clamped 0
+03:48:29 scan 1 (after 0 retries): 11 lines, Z 37018..39996, saturated 35, clamped 0
+03:48:38 X-HELD control 1: 11 lines, Z 12156..40401, saturated 0, clamped 2
+03:48:47 scan 2 (after 0 retries): 11 lines, Z 37396..40474, saturated 1, clamped 0
+03:48:48   ABORT line 0: saturated 47, clamped 0
+03:48:48 X-HELD control 2: 1 lines, Z 37701..41229, saturated 47, clamped 0
+03:48:52 scan 3 (after 0 retries): 11 lines, Z 12168..39873, saturated 0, clamped 2
+03:48:56 X-HELD control 3: 11 lines, Z 37890..40353, saturated 1, clamped 0
+03:48:56 end: toward 1, 8 scans saved, Z 10000, bias 0 V
