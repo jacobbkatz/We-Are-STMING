@@ -1,0 +1,15 @@
+test,what,a,b,c
+drop leading points,drop 0,21 points,profile RMS 636,consecutive r +0.647,split-half +0.923
+drop leading points,drop 1,20 points,profile RMS 339,consecutive r +0.317,split-half +0.771
+drop leading points,drop 2,19 points,profile RMS 233,consecutive r +0.048,split-half +0.672
+drop leading points,drop 3,18 points,profile RMS 238,consecutive r +0.083,split-half +0.675
+drop leading points,drop 4,17 points,profile RMS 244,consecutive r +0.195,split-half +0.677
+drop leading points,drop 5,16 points,profile RMS 229,consecutive r +0.148,split-half +0.633
+drop leading points,drop 6,15 points,profile RMS 198,consecutive r +0.087,split-half +0.504
+the jump,first step,mean +1533 counts,mid-line step mean -236,grows +137 counts per pass
+other end,scan_wide_25nm_1 forward,low-X jump 78,high-X jump 63,mid step -169
+other end,scan_wide_25nm_1 backward,low-X jump -93,high-X jump 22,mid step -286
+other end,scan_wide_25nm_2 forward,low-X jump 37,high-X jump 126,mid step -235
+other end,scan_wide_25nm_2 backward,low-X jump -315,high-X jump 245,mid step -182
+after dropping 2 points,profile RMS,233,surrogate 166+-36,p = 0.035
+after dropping 2 points,consecutive r,+0.048,surrogate +0.001+-0.102,p = 0.326

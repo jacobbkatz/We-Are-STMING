@@ -293,3 +293,73 @@ numbers; it is simply short. Every comparison in this project flattens images an
 is one line — refuse to compare two images of different shape, or state the shape beside every
 correlation — and it is recorded in `deliverables/2026-09-19-pause/manual/` recommendations rather
 than applied to the scratch scripts, which are provenance.
+
+---
+
+## V6. The gap motion — **the number is right; one alternative cause is missing from the list**
+
+**The claim** (`STATUS.md`, `docs/FACTS.md`, `sessions/2026-09-19-morning.md` §3.9): with the motor
+and hands still and only the piezo sweeping, the gap moved **≥ 43,000 Z counts in 6.4 s** and
+**≥ 56,000 over about 2 minutes**. This is the central negative result and the poster's most
+important figure.
+
+**Verified from `release_watch_run1.log` line by line.** There is **no CSV** — it was lost because
+the script wrote its rows only in `finally` and the task was killed (`sessions/data/2026-09-19-morning/README.md`
+records this, and that four CSVs went the same way). The log is the whole record:
+
+```
+12:54:10 RELEASE: clear after 3 chunks (+60 steps)
+12:54:10    0.1s FOUND onset Z 19000
+12:54:13    3.2s FOUND onset Z 42000
+12:54:16    6.4s FAR
+12:56:01  111.1s FOUND onset Z 6000
+```
+
+**The arithmetic holds.** 19,000 → 42,000 → beyond the sweep top (62,000) is **> 43,000 counts in
+6.3 s**. Beyond 62,000 → 6,000 at 111 s is **> 56,000 counts**. The "≥" is right, because FAR is a
+lower bound: the onset was outside the sweep, not measured.
+
+**Resolution is 1,000 counts, not 250.** `fastwood.sweep` bound its step as a default argument, so
+every onset in these files is a multiple of 1,000. **Irrelevant at this size** — 43,000 against a
+1,000-count quantisation — but it would matter for any fine claim from the same files.
+
+### The caveat that is NOT in the record
+
+**The 6.4 s excursion begins 0.1 s after a motor move ends.** The same log shows three release
+chunks totalling **+60 motor steps** at 12:54:08-12:54:10, and the first onset is at 12:54:10.
+`STATUS.md` says "with the motor and hands still", which is true *during* the window — but the
+window opens immediately after the motor stopped.
+
+**Post-move mechanical relaxation is the standard explanation for large drift in the first seconds
+after a stepper move**, and it is **not among the four candidate causes on record** (the leaf on its
+paper, the plate on its bands and balls, thermal motion, air currents). **It should be a fifth.**
+
+### Why it does not sink the claim — and this is the interesting part
+
+**The motion is not monotonic.** The onset goes **up** by more than 43,000 counts, then comes back
+**down past where it started**, to 6,000 against the initial 19,000. **Settling and creep after a
+move decay in one direction.** An excursion that reverses and overshoots its own starting point is
+not that shape.
+
+**And the ≥ 56,000 figure is measured from 6.4 s to 111 s**, which is well clear of any fast
+post-move transient.
+
+**So the honest form of the claim, which is what the deliverables should carry:**
+
+> With the motor stopped and nobody touching the instrument, the gap moved by more than 43,000 Z
+> counts within 6.4 seconds and by more than 56,000 within two minutes — most of the Z range. The
+> fast excursion began seconds after a motor move, so post-move relaxation cannot be excluded for
+> that event; but the motion reversed direction and overshot its starting point, which relaxation
+> does not do, and the two-minute figure is measured long after any settling transient.
+
+### The supporting evidence is weaker than it reads, and the log already says so
+
+`swing_log_run1.log` is cited for "FAR on every sweep for 11.8 minutes with the motor still".
+**The file contains ONE line** — `13:14:21 0.0s FAR`. §3.14 states this plainly and flags its own
+caveat: the tool prints only changes of state, so one line is the whole record, and *"a sweep in
+which every read failed would also score FAR."* **That is exemplary reporting and I am not
+criticising it** — but it means the 11.8-minute figure is an absence of recorded state changes, not
+11.8 minutes of measurements, and a poster must not present it as the latter.
+
+**The strongest single piece of gap-motion evidence remains `release_watch_run1.log`**, with the
+motor caveat above attached.

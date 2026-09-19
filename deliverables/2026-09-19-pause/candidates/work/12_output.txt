@@ -1,0 +1,60 @@
+1. DROP LEADING POINTS AND WATCH THE HEADLINE NUMBERS COLLAPSE
+    drop points profile RMS consecutive r split-half r
+       0     21         636         0.647        0.923
+       1     20         339         0.317        0.771
+       2     19         233         0.048        0.672
+       3     18         238         0.083        0.675
+       4     17         244         0.195        0.677
+       5     16         229         0.148        0.633
+       6     15         198         0.087        0.504
+
+   The published headline was consecutive-pass r +0.515 and a 636-count profile.
+   Dropping ONE point takes it to +0.317 and 339 counts. Dropping TWO takes it
+   to +0.048 and 233 counts. THE AGREEMENT BETWEEN PASSES IS IN THE FIRST TWO
+   PIXELS. This is the same check that killed the +0.75 image pair on the same
+   night (section 3.22) - one level down, on pixels instead of lines.
+
+   The split-half figure falls much more slowly (+0.923 to +0.672) because it
+   averages six passes a side, and averaging lifts any residual common shape.
+   That is why the single-pass statistic is the one to read - the same lesson
+   the three-Y control was built around.
+
+2. THE JUMP, MEASURED PASS BY PASS
+   pass               0      1      2      3      4      5      6      7      8      9     10     11
+   point 0 -> 1    +671  +1156  +1168   +872  +1649  +1343  +1285  +1734  +2100  +1851  +2208  +2364
+   point 1 -> 2    -146  +1384  +1110   +976  +1038   +859   +755  +1385   +322   +721  +2021   +754
+   point 10 -> 11  +299   -445   -404    -41   -329   -243    +79   -110   -335   -138   -991   -173
+
+   mean first jump +1533 counts, mean mid-line step -236 counts - a factor of 6
+   and the first jump GROWS through the run: +137 counts per pass, +671 to +2364
+   A surface feature is the same size on pass 1 and pass 12. A settling
+   transient that is getting worse as the junction drifts is not. This one
+   more than triples.
+
+3. THE OTHER END - the backward pass starts where X ENDS
+   in scan_wide_25nm_1/2 the backward pass sweeps X downward, so its
+   start-of-pass transient must land at the HIGH-X end of the stored row
+
+   file                     direction   jump at low X jump at high X  mid-line step
+   scan_wide_25nm_1.csv     forward                78             63           -169
+   scan_wide_25nm_1.csv     backward              -93             22           -286
+   scan_wide_25nm_2.csv     forward                37            126           -235
+   scan_wide_25nm_2.csv     backward             -315            245           -182
+
+   The transient sits at the end of the row where each direction BEGINS, and
+   follows the scan rather than staying at one X. A feature on the sample
+   cannot do that. This is the same evidence as the trace/retrace mirror in
+   gallery/05, seen at the start of the line instead of across it.
+
+4. IS ANYTHING LEFT ONCE THE TRANSIENT IS GONE?
+   with the first two points dropped, against phase-randomised surrogates:
+     profile RMS     observed 233 counts   surrogate 166 +- 36   p = 0.035
+     consecutive r   observed +0.048        surrogate +0.001 +- 0.102  p = 0.326
+
+   NOTHING SURVIVES. Once the start-of-pass transient is removed, the twelve
+   passes agree no better than twelve phase-randomised lines of the same
+   smoothness. CANDIDATE A IS CLOSED, and it is closed by the simplest
+   mechanism available rather than by any of the subtler arguments in scripts
+   04, 05, 08 and 09 - which remain true but are no longer what carries it.
+
+-> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/start_of_pass_transient.csv

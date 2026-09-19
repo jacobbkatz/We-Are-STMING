@@ -7,11 +7,12 @@ short file,2026-09-19-morning tuned_s3k (tuned loop),tuned_s3k_scan0.csv,1 of 9 
 short file,2026-09-19-morning tuned_s3k (tuned loop),tuned_s3k_scan1.csv,8 of 9 lines,,
 short file,2026-09-19-morning tuned_s3k (tuned loop),tuned_s3k_xheld0.csv,2 of 9 lines,,
 short file,2026-09-19-morning tuned_s3k (tuned loop),tuned_s3k_xheld1.csv,8 of 9 lines,,
-short file,2026-09-17-bench narrow feedback scans,diag_scan_normal_1.csv,8 of 12 lines,,
-short file,2026-09-17-bench narrow feedback scans,diag_scan_normal_2.csv,8 of 12 lines,,
-short file,2026-09-17-bench narrow feedback scans,diag_scan_x_held.csv,8 of 12 lines,,
-short file,2026-09-17-bench wide images,scan_wide_slow_1.csv,5 of 9 lines,,
-short file,2026-09-17-bench wide images,scan_wide_slow_2.csv,5 of 9 lines,,
+short file,2026-09-17-bench scan_fast_1..4 (the four compared images),none,all 12 lines,,
+short file,2026-09-17-bench scan_slow_1/2,none,all 12 lines,,
+short file,2026-09-17-bench diag_scan_* (8 lines by design),none,all 8 lines,,
+short file,2026-09-17-bench scan_wide_25nm_1/2,none,all 9 lines,,
+short file,2026-09-17-bench scan_wide_slow_1/2 (5 lines by design),none,all 5 lines,,
+short file,2026-09-17-bench scan_slow_dwell_1/2,none,all 7 lines,,
 group mean,2026-09-19 feedback scans,published +0.04,as-published +0.09 +0.18 -0.15,points 231 231 231,like-for-like +0.09 +0.18 -0.15
 group mean,2026-09-19 X-HELD CONTROLS,published +0.37,as-published +0.20 +0.21 +0.70,points 231 21 21,like-for-like +0.20 -0.06
 group mean,2026-09-19 wide images,published +0.56 to +0.86,as-published +0.86 +0.56,points 21 42,like-for-like none

@@ -255,6 +255,8 @@ def fig_feedback_scans():
              ("cas9_scan2.csv", "scan 2"), ("cas9_scan3.csv", "scan 3"),
              ("cas9_xheld0.csv", "CONTROL 0"), ("cas9_xheld1.csv", "CONTROL 1"),
              ("cas9_xheld3.csv", "CONTROL 3")]
+    # cas9_xheld2.csv is deliberately absent: it is ONE line, the run aborted,
+    # and folding it into an image-to-image mean is the defect the lead found.
     fig, axes = plt.subplots(2, 4, figsize=(13.5, 6.4))
     Ds = {}
     for nm, _ in names:
@@ -275,15 +277,25 @@ def fig_feedback_scans():
                           "The three in red had X STANDING STILL:\n"
                           "there is no sample structure in them at\n"
                           "all, by construction.\n\n"
-                          "image-to-image r, forward:\n"
-                          "   scans    +0.09 +0.18 -0.15  (mean +0.04)\n"
-                          "   controls +0.20 +0.21 +0.70  (mean +0.37)\n\n"
-                          "The controls reproduce BETTER than the\n"
-                          "scans. That is the whole argument, and\n"
-                          "this figure is it." % vd,
+                          "image-to-image r, forward, FULL images\n"
+                          "only (231 points each):\n"
+                          "   scans    +0.09 +0.18 -0.15  mean +0.04\n"
+                          "   controls +0.20      -0.06  mean +0.07\n\n"
+                          "NEITHER reproduces. Both means are\n"
+                          "indistinguishable from zero and from\n"
+                          "each other.\n\n"
+                          "CORRECTION, found by the lead on\n"
+                          "2026-09-19: the published +0.37 for the\n"
+                          "controls folded in TWO 21-point\n"
+                          "correlations against cas9_xheld2.csv,\n"
+                          "which is a single aborted line. The\n"
+                          "controls do NOT reproduce better. The\n"
+                          "scans still do not reproduce at all,\n"
+                          "which is what carries the conclusion." % vd,
                           va="top", ha="left", fontsize=7.4, family="monospace")
-    fig.suptitle("The 2026-09-19 feedback scans and their X-held controls, on one scale",
-                 y=1.0, fontsize=11, fontweight="bold")
+    fig.suptitle("The 2026-09-19 feedback scans and their X-held controls, on one scale\n"
+                 "full images only - the one-line aborted control is excluded, see caption",
+                 y=1.02, fontsize=10.5, fontweight="bold")
     fig.tight_layout()
     fig.savefig(G("04_feedback_scans_vs_controls.png"))
     plt.close(fig)
@@ -534,8 +546,7 @@ def main():
     fig_cross_night()
     fig_rejected()
     fig_motion()
-    for f in sorted(os.listdir(out("gallery", "x"))[:0] or os.listdir(
-            os.path.dirname(G("x")))):
+    for f in sorted(os.listdir(os.path.dirname(G("x")))):
         print("  gallery/%s" % f)
 
 

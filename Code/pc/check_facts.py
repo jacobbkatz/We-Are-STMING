@@ -406,6 +406,23 @@ def main():
             for literal, qual, replacement in pats:
                 if literal.lower() not in line.lower():
                     continue
+                # A NUMERIC LITERAL MUST NOT MATCH AS THE TAIL OF A BIGGER
+                # NUMBER. Added 2026-09-19. `800 counts` (retired, per nA) was
+                # firing on "loop constant 1,800 counts per decade", and
+                # `4.096` would fire inside "14.096". The literal is a plain
+                # substring, so "1,800 counts" contains "800 counts" and the
+                # check cried wolf on a correct sentence.
+                #
+                # Same family as the `drops in` false positive fixed earlier
+                # today: a retired literal that is a substring of innocent text.
+                # There the literal was an English phrase and the fix was to
+                # make its qualifier work; here it is a number and the fix is a
+                # left boundary. A checker that fires on correct lines gets
+                # switched off, which is the failure this file exists to stop.
+                if literal[0].isdigit():
+                    if not re.search(r'(?<![\d.,])' + re.escape(literal),
+                                     line, re.I):
+                        continue
                 # If the corrected value is on the same line, the line is a
                 # correction table or a sentence saying "X, not Y". Not stale.
                 #

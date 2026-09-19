@@ -133,11 +133,17 @@ place.
 python3 Code/pc/check_facts.py
 ```
 
-**Exits 0** with all three files in this directory present. It was run after each section was
-written, and it caught two things in the manual's own text:
+**Exits 0 on everything in this directory.** It was run after each section was written, and it
+caught two things in the manual's own text:
 
 1. A troubleshooting heading reading "drops into constant-current mode" matched the retired
    `drops in` literal from the Keystone standoff row. **Reworded** — and the over-firing itself is
    logged as `INCONSISTENCIES.md` item C6.
 2. A `safety rule 2` citation that shared no wording with the rule. **Reworded to name the sign of
    the tunnelling current**, which is what the rule is about.
+
+3. **A third hit, at the end, is NOT in these files.** `deliverables/2026-09-19-pause/analysis/code/build_inventory.py`
+   line 635 trips the retired `800 counts` row on the substring inside "1,800 counts per decade".
+   **That is another agent's file and the same over-firing class as item 1**, and both are logged
+   together in `INCONSISTENCIES.md` item C6. **As long as it is there, the checker exits 1 on the
+   repository as a whole**, so whoever lands this work should clear it before committing.

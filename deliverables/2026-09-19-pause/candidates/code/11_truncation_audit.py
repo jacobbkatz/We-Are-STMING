@@ -67,12 +67,22 @@ def main():
             sorted(glob.glob(data("2026-09-19-bench", "cas8_chmap_*.csv"))),
         "2026-09-19-morning tuned_s3k (tuned loop)":
             sorted(glob.glob(data("2026-09-19-morning", "tuned_s3k_*.csv"))),
-        "2026-09-17-bench narrow feedback scans":
-            sorted(glob.glob(data("2026-09-17-bench", "scan_fast_*.csv"))
-                   + glob.glob(data("2026-09-17-bench", "scan_slow_[12].csv"))
-                   + glob.glob(data("2026-09-17-bench", "diag_scan_*.csv"))),
-        "2026-09-17-bench wide images":
-            sorted(glob.glob(data("2026-09-17-bench", "scan_wide_*.csv"))),
+        # 2026-09-17's sets are grouped as the session actually compared them.
+        # diag_scan_* are an 8-line experiment by design, not an aborted 12-line
+        # one, and scan_wide_slow_* are a 5-line experiment: putting them in one
+        # bucket with the 12- and 9-line sets would raise a false alarm.
+        "2026-09-17-bench scan_fast_1..4 (the four compared images)":
+            sorted(glob.glob(data("2026-09-17-bench", "scan_fast_*.csv"))),
+        "2026-09-17-bench scan_slow_1/2":
+            sorted(glob.glob(data("2026-09-17-bench", "scan_slow_[12].csv"))),
+        "2026-09-17-bench diag_scan_* (8 lines by design)":
+            sorted(glob.glob(data("2026-09-17-bench", "diag_scan_*.csv"))),
+        "2026-09-17-bench scan_wide_25nm_1/2":
+            sorted(glob.glob(data("2026-09-17-bench", "scan_wide_25nm_*.csv"))),
+        "2026-09-17-bench scan_wide_slow_1/2 (5 lines by design)":
+            sorted(glob.glob(data("2026-09-17-bench", "scan_wide_slow_*.csv"))),
+        "2026-09-17-bench scan_slow_dwell_1/2":
+            sorted(glob.glob(data("2026-09-17-bench", "scan_slow_dwell_*.csv"))),
     }
     for gname, paths in groups.items():
         lens = {os.path.basename(p): len(load_raster(p)[2]) for p in paths}
@@ -140,7 +150,12 @@ def main():
       pairs were short comparisons and NEITHER was an image-to-image
       correlation. There are not two full wide images, so no like-for-like
       scan figure exists at all. The controls' +0.56 is a genuine 231-point
-      number. The comparison as published is between things of different kinds.""")
+      number. The comparison as published is between things of different kinds.
+
+   2026-09-17 IS CLEAN. Every set that session compared against itself is of
+   uniform length (scan_fast 12 lines, scan_slow 12, diag_scan 8, wide_25nm 9,
+   wide_slow 5, slow_dwell 7), and its other figures - corrugation and
+   trace/retrace - are per-file statistics that no truncation can touch.""")
 
     # -------------------------------------------- PART 3: the three-Y re-check
     print("\nPART 3. THE THREE-Y CONTROL, RE-VERIFIED FROM THE RAW CSVs")

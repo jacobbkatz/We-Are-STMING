@@ -392,6 +392,15 @@ section already tracks two other weaknesses in this checker.
 deliberately reintroduced stale line. `Code/pc/check_facts.py`'s own `check_dead_qualifiers`
 exists to catch a qualifier that matches nothing, so the confirmation is automatic.
 
+**A second instance of the same class, found the same day and in a different agent's file.** The
+retired row `800 counts` (per nA, replaced by 320) matches the substring inside **"1,800 counts per
+decade"**, which is the 2026-09-19 loop constant and has nothing to do with counts per nA. That row
+is unqualified too.
+
+**Both are the same defect: an unqualified retired literal that is also a common substring.** The
+fix is the same — qualify the row in the words the documents use, here something like "per nA", and
+confirm it still fires.
+
 ---
 
 ## Checked and found consistent

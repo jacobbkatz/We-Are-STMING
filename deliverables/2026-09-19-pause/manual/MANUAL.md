@@ -56,7 +56,7 @@ a part marking or a colour off a photograph.
 11. [How to resume the project after the move](#11-how-to-resume-the-project-after-the-move)
 12. [What is still unknown, and what is untested](#12-what-is-still-unknown-and-what-is-untested)
 - [Appendix A: glossary](#appendix-a-glossary)
-- [Appendix B: figure slots](#appendix-b-figure-slots)
+- [Appendix B: figures](#appendix-b-figures)
 
 ---
 
@@ -625,22 +625,53 @@ in this design.
 
 ## 3.9 Figures for this section
 
-> **TODO-PHOTO 1 — the whole instrument on its frame.** Wanted: one frame showing the printed
-> tower, the suspended platform with its coin mass, the scan head on top and the supplies and
-> laptop in shot, so that a reader who has never seen it understands the scale and the layout.
-> Candidate source: the 2026-09-19 morning set.
+**All figures are in `deliverables/2026-09-19-pause/photos/prepared/`, prepared by the photograph
+review that ran alongside this manual.** Each carries its own caption bar naming the source frame,
+its capture time and whether the reading is `SAID` or `READ`. **Every one below has been opened.**
 
-> **TODO-PHOTO 2 — the controller board with its connectors labelled.** Wanted: a frame in which
-> H1 (top left), DSUB1 (bottom left), DSUB2 (bottom right) and U19 (right edge) are all visible,
-> to go beside section 3.1. `Images/ours/2026-09-16_controller_board.jpg` exists and is a
-> candidate; it has not been opened for this manual, so it is not cited as showing this.
+> ### Figure 3.1 — `04_instrument_full_height.jpg`
+> **The instrument as it stood on the morning of the move.** The printed frame; a top plate on
+> three threaded columns; three long fine springs running down to eyebolts on the circular
+> suspended platform; the copper-taped scan head on a copper-covered base plate; **three paper
+> quarter wrappers standing on the platform as added mass.**
+> **`READ`**, except the coin mass, which `docs/INVENTORY.md` records as `SAID` by Jacob.
+> Source frame `IMG_8647`, 2026-09-19 09:41:02 camera-local.
 
-> **TODO-PHOTO 3 — the preamp box in place at the centre of the scanning module.** Wanted: the
-> top-down view that shows where the amplifier physically sits relative to the head.
-> `Images/ours/2026-09-16_scan_module_top_down.jpg` is identified by Jacob as exactly this
-> (`SAID` 2026-09-18) and is the best existing candidate.
+> ### Figure 3.2 — `05_scan_module_in_hand.jpg`
+> **The whole scanning module, lifted off the frame during the move — the best single view of how
+> the subsystems sit relative to each other.** The suspended platform carrying the copper-covered
+> base plate, the head held by **two rubber bands**, the coarse-approach stepper on its lead screw,
+> **the copper-taped preamplifier box above the head**, an empty spring eyebolt, and two printed
+> coin cups. **`READ`. Whose hand this is has not been established.**
+> Source frame `IMG_4918`, 2026-09-19 10:15:53 camera-local, Nuh's camera.
 
----
+> ### Figure 3.3 — `07_teensy_carrier_and_ribbon.jpg`
+> **The control electronics.** The Teensy on a hand-wired protoboard carrier in its own printed
+> box, with the yellow 26-way ribbon running down to the controller board in the box below.
+> **No connection has been read off this photograph and none should be — `docs/WIRING.md` is the
+> pinout reference.** `READ`. Source frame `IMG_4904`, 2026-09-19 09:41:09 camera-local.
+
+> ### Figure 3.4 — `08_bench_power_supplies.jpg`
+> **The two bench supplies, model numbers legible from the front panels:** a **JESVERTY SPS-3010**
+> and a **LONGWEI LW-K3010D**. **Two supplies, not one dual-channel supply** — which matches
+> section 3.2's requirement that a single-output supply physically cannot straddle ground.
+> **How they are connected to each other has NOT been read off this frame and must not be.**
+> `READ`. Source frame `IMG_4899`, 2026-09-19 09:40:51 camera-local.
+
+> ### Figure 3.5 — `06_stepper_28byj48_label.jpg`
+> **The coarse-approach motor with its own label legible: "STEP MOTOR 28BYJ-48 5V DC".** This is
+> the first photograph of our hardware in which the stepper's label can be read, and it agrees with
+> `docs/BOM.md` and `docs/WIRING.md`. `READ`. Source frame `IMG_4917`, 2026-09-19 10:15:42
+> camera-local.
+
+> ### Figure 3.6 — `09_faraday_enclosure.jpg`
+> **The scan head's shield, off the instrument:** a printed box wrapped in copper tape, with two
+> rectangular openings in one face and a small round hole in the top. `READ`.
+> Source frame `IMG_4898`, 2026-09-19 09:33:31 camera-local.
+>
+> **Its continuity is the check that keeps being owed.** See `INCONSISTENCIES.md` item B8 — the
+> repository contradicts itself about whether any shield in this project has ever been metered end
+> to end.
 
 # 4. Sample and tip
 
@@ -816,23 +847,48 @@ been promoted into `Code/pc/`. See section 11.
 
 ## 4.5 Figures for this section
 
-> **TODO-PHOTO 4 — the scan head face, straight on.** Wanted: the piezo disc recessed in its bore,
-> the tip, the tip lead crossing the face, and all three ball-end screws in one frame.
-> `Images/ours/2026-09-18_scanhead_face_1.jpg` through `_4.jpg` are existing candidates.
-> **No dimension may be taken off any of them** — three attempts to measure the tip-to-pivot
-> distance from these frames gave three answers more than a factor of two apart.
+> ### Figure 4.1 — `01_sample_plate_gold_window.jpg`
+> **The window in the sample plate is NOT all gold.** Aluminium tape over the plate face
+> (`SAID`), a square window framed in dark tape, and inside it **a bright smooth gold patch over
+> roughly the centre and right of the opening with duller crinkled copper tape exposed to its left
+> and below** (`READ`). The orange bias wire enters under the tape at the top.
+>
+> **This is what the manual means by "the tip lands on gold only if it lands on the gold part."**
+> Source frame `IMG_8619`, 2026-09-18 18:08:45 camera-local — the evening before the 2026-09-19
+> bench session, so **this is the plate as rebuilt for that session.** `READ` from the frame, and it
+> confirms the reading the 2026-09-18 23:13 session made independently.
 
-> **TODO-PHOTO 5 — the sample plate off the head, showing the gold.** Wanted: the aluminium tape
-> over the face, the window cut in it, and the gold assembly inside the window with the bias wire
-> entering at the top. `Images/ours/2026-09-17_sample_plate_rebuilt.jpg` shows the 2026-09-17
-> build; **a frame of the 2026-09-19 sandwich build would be more useful** and may be in the new
-> 2026-09-19 set.
+> ### Figure 4.2 — `03_sample_plate_rubber_bands.jpg`
+> **What actually holds the sample plate on: two twisted rubber bands**, each doubled and twisted,
+> hooked over a screw head on either side. The orange bias wire runs down past the plate.
+>
+> **This is the first photograph in the repository that shows the mounting**, and `STATUS.md`
+> already lists "the plate on its bands and balls" as one of four untested causes of the gap
+> drifting. **`READ`. Nothing about band tension, age or creep can be taken from a photograph.**
+> Source frame `IMG_8653`, 2026-09-19 09:41:26 camera-local.
 
-> **TODO-PHOTO 6 — the plate mounted, with the rubber bands and the three screws visible.**
-> Wanted specifically to show which way round the plate goes and how the bands are routed, because
-> the band routing is what failed on 2026-09-17.
+> ### Figure 4.3 — `Images/ours/2026-09-18_scanhead_face_1.jpg`
+> **The scan head face, straight on.** The piezo disc recessed in its bore with a small soldered
+> structure at the disc centre, the fine tip lead crossing the face from above, and **three
+> ball-end screws** — one top, one bottom and one at the right. `Images/ours/README.md` records
+> Jacob's confirmation that **the top and bottom balls are the side-by-side pivot pair and the
+> motor screw is the one on the right**, so the pivot line runs vertically in this view.
+>
+> **NO DIMENSION MAY BE TAKEN OFF THIS FRAME.** Three attempts to measure the tip-to-pivot-line
+> distance from these photographs gave answers more than a factor of two apart, and
+> `Images/ours/README.md` records four separate reasons the measurement cannot work. **A
+> straightedge on the real part is the only route.**
 
----
+**Still wanted, and not available:**
+
+> **TODO-PHOTO A — the DSUB2 splice at the preamp end**, showing the five-way row. No frame in
+> either new batch shows it. **Any caption must not quote colours read off the frame** — see the
+> rule at the top of section 3.
+
+> **TODO-PHOTO B — the tip itself, close enough to judge sharpness.** The closest existing frames
+> are `Images/ours/2026-09-16_tip_protrusion_measurement_1.jpg` and `_2.jpg`, which show a tape
+> measure against the head face and are the provenance for the 1.8 cm protrusion figure, but they
+> are of a tip that has since been replaced twice.
 
 # 5. Startup and shutdown
 
@@ -1558,6 +1614,19 @@ and continuity check comes before any power**, and the tip goes in last.
 
 8. **Check the rubber bands.** Rubber perishes over weeks. Replace any that are cracked or slack.
 
+> ### Figure 11.1 — `12_teardown_platform_off_frame.jpg`
+> **The move, documented.** The suspended platform lifted off the frame at 10:15 camera-local on
+> 2026-09-19, **with the head, the stepper and the preamplifier box still mounted on it.**
+>
+> **This answers half of what `STATUS.md` records as UNKNOWN.** Between 10:05 and 10:16 the jumper
+> leads were unplugged, the supply leads pulled, the boxes opened, and the platform came off as one
+> piece. **How it was packed is still UNKNOWN** — no frame shows anything going into a box.
+> `READ`. Source frame `IMG_4916`, Nuh's camera.
+>
+> **So the most likely reassembly job is hanging that platform back on its three springs**, rather
+> than rebuilding the head from parts. **Confirm that before assuming it**, and write what you find
+> into `docs/INVENTORY.md`.
+
 9. **Do not repair or rebuild anything yet.** The two standing rules are that **nothing is glued to
    the spare preamp board** (`STATUS.md` safety rule 10) and **no cyanoacrylate goes anywhere near
    the preamp or into its enclosure** (`STATUS.md` safety rule 5).
@@ -1576,6 +1645,17 @@ and continuity check comes before any power**, and the tip goes in last.
 12. **Measure the clearance under the platform**, and write it down. **This has never been measured
     and it is the number that decides what the suspension can do.** You need enough room below the
     platform for it to droop into once the springs are loaded.
+
+> ### Figure 11.2 — `02_platform_damping_gap.jpg`
+> **The gap under the suspended platform, and why a photograph cannot measure it.** A bright disc
+> is fixed under the black platform and a ring of dark cylinders stands on the tower below it.
+> Background light shows between them in some places and not others, which is what a near-edge-on
+> view of a small gap looks like.
+>
+> **NO GAP HAS BEEN MEASURED AND NONE MAY BE TAKEN FROM THIS FRAME.** Jacob settled the question at
+> the bench: *"its not sitting on the tower is just about its a perfect fit"* (`SAID` 2026-09-19).
+> **The actual clearance is still the unmeasured number that decides what the suspension can do.**
+> Source frame `IMG_8624`, 2026-09-18 19:09:07 camera-local.
 
 13. **Check the eddy-damping gap.** The aluminium plate must sit in the magnet gap without touching.
     **A plate resting on its magnets is not damping; it is a clamp.** The magnet holder's height is
@@ -1802,21 +1882,41 @@ tried.
 
 ---
 
-# Appendix B: figure slots
+# Appendix B: figures
 
-**Nothing in this manual describes a photograph that has not been opened.** Each slot below says
-what is wanted and why.
+**Eleven figures are placed and two slots are still empty.** All the placed ones have been opened.
+Ten come from `deliverables/2026-09-19-pause/photos/prepared/`, which carries its own caption bar on
+each image naming the source frame, its camera-local capture time and whether the reading is `SAID`
+or `READ`. The eleventh is an existing repository photograph.
 
-| Slot | Section | What is wanted | Status |
+**Nothing in this manual describes a photograph that has not been opened, and no dimension is taken
+off any of them.**
+
+| Figure | Section | File | What it carries |
 |---|---|---|---|
-| **TODO-PHOTO 1** | 3.9 | The whole instrument on its frame: tower, suspended platform with its coin mass, scan head, supplies and laptop in shot | **Unfilled** |
-| **TODO-PHOTO 2** | 3.9 | The controller board with H1, DSUB1, DSUB2 and U19 all visible | **Unfilled.** `Images/ours/2026-09-16_controller_board.jpg` is a candidate, not opened |
-| **TODO-PHOTO 3** | 3.9 | The preamp box at the centre of the scanning module | **Unfilled.** `Images/ours/2026-09-16_scan_module_top_down.jpg` is identified by Jacob as exactly this |
-| **TODO-PHOTO 4** | 4.5 | The scan head face straight on: piezo disc, tip, tip lead, three ball ends | **Unfilled.** `Images/ours/2026-09-18_scanhead_face_1.jpg` to `_4.jpg` are candidates. **No dimension may be taken off any of them** |
-| **TODO-PHOTO 5** | 4.5 | The sample plate off the head, showing the gold in its window | **Unfilled.** `Images/ours/2026-09-17_sample_plate_rebuilt.jpg` shows the older build |
-| **TODO-PHOTO 6** | 4.5 | The plate mounted, with the rubber bands and three screws visible, to show the band routing | **Unfilled** |
-| **TODO-PHOTO 7** | 11 (Stage C) | The isolation tower and suspension, showing the spring hangers and the damping plate over its magnets | **Unfilled** |
-| **TODO-PHOTO 8** | 11 (Stage D) | The DSUB2 splice at the preamp end, showing the five-way row | **Unfilled.** **Captions must not quote colours read off the frame** — see the rule at the top of section 3 |
+| **3.1** | 3.9 | `photos/prepared/04_instrument_full_height.jpg` | The whole instrument on the morning of the move |
+| **3.2** | 3.9 | `photos/prepared/05_scan_module_in_hand.jpg` | The scanning module off the frame — the best view of how the subsystems sit together |
+| **3.3** | 3.9 | `photos/prepared/07_teensy_carrier_and_ribbon.jpg` | The Teensy carrier and the 26-way ribbon |
+| **3.4** | 3.9 | `photos/prepared/08_bench_power_supplies.jpg` | The two bench supplies, models legible |
+| **3.5** | 3.9 | `photos/prepared/06_stepper_28byj48_label.jpg` | The stepper, its own label legible |
+| **3.6** | 3.9 | `photos/prepared/09_faraday_enclosure.jpg` | The scan head shield, off the instrument |
+| **4.1** | 4.5 | `photos/prepared/01_sample_plate_gold_window.jpg` | The sample window — gold over part of it, copper exposed beside it |
+| **4.2** | 4.5 | `photos/prepared/03_sample_plate_rubber_bands.jpg` | The two twisted rubber bands that hold the plate on |
+| **4.3** | 4.5 | `Images/ours/2026-09-18_scanhead_face_1.jpg` | The scan head face, with the three ball ends and the pivot line |
+| **11.1** | 11 Stage B | `photos/prepared/12_teardown_platform_off_frame.jpg` | The platform lifted off the frame during the move |
+| **11.2** | 11 Stage C | `photos/prepared/02_platform_damping_gap.jpg` | The gap under the platform, and why it cannot be measured from a photograph |
+
+**Still empty, and named so that anyone at the bench knows what to take:**
+
+| Slot | Section | What is wanted | Why no frame exists |
+|---|---|---|---|
+| **TODO-PHOTO A** | 4.5 | **The DSUB2 splice at the preamp end**, showing the five-way row | Nothing in either new batch shows it. **A caption for it must not quote colours read off the frame** — the preamp's own lead colours are not the J1/J2 colours |
+| **TODO-PHOTO B** | 4.5 | **The tip itself, close enough to judge sharpness** | The nearest frames are the 2026-09-16 tip-protrusion pair, and that tip has since been replaced twice |
+
+**Two further things that would be worth having and are not photographs.** `docs/INVENTORY.md` and
+`deliverables/2026-09-19-pause/photos/IMAGE_INVENTORY.md` both record them as missing: **how the
+instrument was packed** (no frame shows anything going into a box) and **the bench video clips**,
+which are all over the file-transfer size limit that was available.
 
 ---
 
@@ -1828,7 +1928,8 @@ what is wanted and why.
 `docs/NEXT_SESSION_PLAN.md`, `docs/START_HERE_gotchas.md`, `docs/soft_launch_test_procedure.md`,
 `docs/OPEN_QUESTIONS.md`, `README.md`, `SETUP.md`, `Code/pc/README.md`, `CAD/prints/README.md`, the
 four `sessions/data/*/README.md` files, `Images/ours/README.md`, and the firmware in
-`Code/teensy/`.**
+`Code/teensy/`. Its figures come from the photograph review in
+`deliverables/2026-09-19-pause/photos/`.**
 
 **Where it disagrees with any of those, they win and this file is the one to fix.** The
 corrections it makes to them are listed in `CHANGELOG.md`, and the contradictions found between
