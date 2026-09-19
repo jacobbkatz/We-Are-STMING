@@ -43,7 +43,9 @@ detail for provenance and settings; the rest surveyed.
 - **Re-derived every scan-versus-control statistic** in the repository, including the
   first-line-transient check and the three-Y control.
 - **Re-derived the motor and approach statistics**, against the still-motor control.
-- **Produced 17 publication-quality figures** at 200 dpi.
+- **Produced 18 publication-quality figures** at 200 dpi.
+- **Applied both of the lead's corrections in place** (§5), including sweeping the truncation
+  defect as a class across all four affected groups.
 
 ---
 
@@ -59,7 +61,7 @@ All commands run **from the repository root**.
 | `plots/fig07_gap_motion.png`, `fig08_junction_timeseries.png`, `fig09_junction_spectrum.png` | `python3 deliverables/2026-09-19-pause/analysis/code/gap_stability.py` |
 | `plots/fig10_noise_spectra.png`, `fig11_noise_by_session.png` | `python3 deliverables/2026-09-19-pause/analysis/code/noise_analysis.py` |
 | `plots/fig12_iv_curve.png`, `fig13_bias_flip.png` | `python3 deliverables/2026-09-19-pause/analysis/code/iv_barrier.py` |
-| `plots/fig14_scan_vs_control.png`, `fig15_scan_examples.png`, `analysis/scan_stats.csv` | `python3 deliverables/2026-09-19-pause/analysis/code/scans_and_controls.py` |
+| `plots/fig14_scan_vs_control.png`, `fig15_scan_examples.png`, `fig18_truncation_class.png`, `analysis/scan_stats.csv` | `python3 deliverables/2026-09-19-pause/analysis/code/scans_and_controls.py` |
 | `plots/fig16_motor_steps.png`, `fig17_still_vs_stepping.png` | `python3 deliverables/2026-09-19-pause/analysis/code/approach_and_motor.py` |
 | `analysis/FINDINGS.md`, `analysis/COMPARISON_TABLES.md` | written by hand from those outputs; every number in them is printed by the script named beside it |
 
@@ -86,7 +88,9 @@ repository appears in any script; paths are derived from the file's own location
 | Stamping changed nothing | `still.csv` 34,746 rows, `stamp.csv` 36,071 rows | sd 41.80 against 42.35; no band above the floor; control band at zero |
 | The junction is real | `here_run1.csv`, `flip` rows, 4 × 256 readings | −0.5 V +1,156, +0.5 V −811, 0 V −1.4, −0.5 V +1,033 counts |
 | Superlinear and asymmetric I-V | `here_run1.csv`, `iv` rows, 17 of 21 bias points kept | p = 1.98 ± 0.25 and 1.48 ± 0.15; 3.6× asymmetry at 0.8 V; 181 and 193 MΩ at ±0.1 V |
-| Controls reproduce better than scans | `cas9_scan0-3.csv`, `cas9_xheld0-3.csv`, 11 lines × 21 pixels each | image-to-image +0.04 against +0.37 |
+| **Neither scans nor controls reproduce** (this row CORRECTED — see §5b) | `cas9_scan0-3.csv`, `cas9_xheld0-3.csv`; complete images only, 231 pixels per pair | scans **+0.039** (3 pairs), controls **+0.068** (2 pairs), s.e. 0.066 — indistinguishable, neither differs from zero |
+| Truncation defect, a class in 4 groups | `cas9_xheld2.csv` 1 line of 11; `img_scan_0/1` 1 and 2 of 11; `tuned_s3k_scan0` 1 of 9; `tuned_s3k_xheld0` 2 of 9 | published +0.37 / +0.71 / −0.25 / +0.03 all came from truncated pairs |
+| Gap position across the three-Y runs | first line of the 5 `ycontrol_run*.log` | onsets 44,200 / 47,000 / 48,600 / 52,000 / 50,800; **+2,200 between run 2 and run 4** |
 | The first-line trap | 12 CSVs in `2026-09-17-bench` | +0.70 → −0.08, +0.75 → +0.04, +0.62 → −0.29, +0.71 → −0.45, +0.38 → −0.26 |
 | The three-Y statistic fires on a control | 5 y-control CSVs, 18 rows each | X-held run: +0.164 ± 0.082 with X never moving |
 | The motor cannot park at a moderate current | `zcal3_run1.csv` 44 rows, `lash_run1.log` 177 medians, `2026-09-19-bench.md` §3.13 | 23 steps pinned then clear on the 24th; 650 single steps found nothing |
@@ -94,7 +98,59 @@ repository appears in any script; paths are derived from the file's own location
 
 ---
 
-## 5. Two corrections owed to live documents — for the lead, not for me
+## 5. TWO CORRECTIONS FROM THE LEAD'S REVIEW, BOTH APPLIED IN PLACE
+
+**CORRECTION 1 — "the controls reproduce better" is WITHDRAWN, and it was my error.**
+`analyze_scans.py` lines 50–51 truncate an image pair to the shorter file with no shape check.
+`cas9_xheld2.csv` is a **single scan line** where the other seven carry eleven, so **two of the
+three control correlations were 21 points instead of 231**. Complete images only: scans +0.09,
++0.18, −0.15 (**mean +0.039**); controls +0.20, −0.06 (**mean +0.068**); optimistic s.e. 0.066.
+**Indistinguishable, neither differs from zero.**
+
+**I had already found this defect in the wide images and did not sweep the class.** `CLAUDE.md`
+§7.1 requires exactly that sweep. Doing it now: **four groups affected**, on both the scan and the
+control side —
+
+| Group | Side | Published | Complete images only |
+|---|---|---|---|
+| `cas9` | controls | +0.37 | **+0.068** |
+| wide images | scans | +0.71 | **no complete pair exists** |
+| tuned scans | scans | −0.25 | **no complete pair exists** |
+| tuned scans | controls | +0.03 | **no complete pair exists** |
+
+`image_to_image()` now drops any file short of the group's modal line count and prints the
+truncating version beside it, naming every pair it dropped. **The imaging conclusion is unchanged**
+— it rests on the real scans not reproducing.
+
+**Changed in place:** `FINDINGS.md` headline row and §6.1, §6.3 (rewritten as the class), §9;
+`COMPARISON_TABLES.md` §2, §4, §5 (rewritten); `code/scans_and_controls.py`; `fig14` redrawn as a
+dot plot with error bars; **new `fig18_truncation_class.png`**.
+
+**CORRECTION 2 — the three-Y interval, and a measurement nobody had used.** "Nine minutes" was a
+guess with no evidence; so was "half an hour". **Neither `ycontrol` log carries a timestamp.**
+`sessions/2026-09-19-bench.md` §3.14 is 03:48 and §3.16 is 03:53, with §3.15 — all five runs —
+between them, so **all five fit inside about five minutes** and the interval between any two is
+UNKNOWN.
+
+**The onset-Z series is now in the analysis:** 44,200 / 47,000 / 48,600 / 52,000 / 50,800 —
+**7,800 counts across the five, +2,200 between run 2 and run 4**, which is 3.4 % of the Z range and
+4.6 % of the window these runs used. **This WEAKENS the candidate**: if the gap barely moved across
+that interval, "the surface moved out from under it" is a poorer explanation for run 2 not
+reproducing. **It does not close it** — onset Z measures the GAP, not LATERAL position, and
+**lateral drift has never been measured in this project**. Rate is bounded, not measured: ≥ 7
+counts/s.
+
+**Changed in place:** `FINDINGS.md` §6.4 (correction box), new §6.4b, §3.4 cross-reference, §9
+limitations; `COMPARISON_TABLES.md` §6 (new onset-Z table) and §9 (fourth record);
+`code/scans_and_controls.py` §1c. **Every "nine minutes" that remains refers to the Z-test runs,
+which ARE timestamped** (§3.10 at 12:56, §3.11 12:59–13:05).
+
+**Not redone, as instructed:** the `docs/FACTS.md` 233 vs 208.3 minimum and the 161 vs 163 file
+count are the lead's.
+
+---
+
+## 6. Two corrections owed to live documents — for the lead, not for me
 
 1. **`docs/FACTS.md`, "Current against Z, going in — sample −0.5 V"** states the
    per-cycle counts-per-decade range across all runs as **233–22,990**. The true minimum
@@ -110,7 +166,7 @@ Neither changes a conclusion.
 
 ---
 
-## 6. Metadata gaps, and what closed them
+## 7. Metadata gaps, and what closed them
 
 **Not one data file is missing its bias or Z parking**, but for 38 of 165 the setting is
 not where a reader would look:
@@ -139,7 +195,7 @@ not where a reader would look:
 
 ---
 
-## 7. Uncertainties and blockers
+## 8. Uncertainties and blockers
 
 1. **The gap's motion is one episode.** `release_watch_run1.log` is nine sweeps, n = 1
    for the recession and n = 1 for the return, quantised to 1,000 Z counts by a
@@ -181,19 +237,20 @@ should be read:
 
 **For agents 5 and 6 specifically:**
 
-- **The `cas9` set is the strongest evidence for "no image"**: +0.04 against +0.37, four
-  scans each with its own interleaved control, one tip, one night. Use that, not the
-  wide images.
-- **The one result that points the other way** (wide images, scans +0.71 against controls
-  +0.56) is examined in `FINDINGS.md` §6.3 and `COMPARISON_TABLES.md` §5. It rests on
-  21 and 42 pixels against the control's 231, on the single line that is guaranteed to
-  agree, and it comes with trace/retrace of −0.75 to −0.94. **It does not survive, but it
-  should be shown rather than omitted.**
+- **The `cas9` set is the strongest evidence for "no image"** — but state it as *the real
+  scans do not reproduce* (+0.039, s.e. 0.066, not distinguishable from zero), **NOT** as
+  "the controls reproduce better". That figure is withdrawn (§5).
+- **Do not quote any image-to-image number for the wide images or the tuned scans.** There
+  is no pair of complete images in either group. What stands against the wide scans is
+  their trace/retrace of −0.75 to −0.94 against the controls' +0.13 and +0.14.
 - **The "no image" conclusion is neither weakened nor strengthened by this work.**
+- **If you need a number for how much the gap moved during the three-Y runs**, use the
+  onset-Z series (`FINDINGS.md` §6.4b): +2,200 counts between run 2 and run 4. Do not
+  state an interval between those runs — none is recorded.
 
 ---
 
-## 8. What is left undone
+## 9. What is left undone
 
 - No analysis of `Images/` — that is agent 3's.
 - `console_outputs.md` and `claude_running_notes.md` are inventoried as prose but their

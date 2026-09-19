@@ -127,17 +127,17 @@ def main():
            ylabel="How often a reading landed there", grid="y")
     axh.set_yticks([])
     axh.set_xlim(-180, 180)
-    axh.set_ylim(0, axh.get_ylim()[1] * 1.42)
+    axh.set_ylim(0, axh.get_ylim()[1] * 1.72)
     axh.set_title("Every reading from both ten-second runs.\n"
                   "The two distributions are the same.")
     sd_still = data["still.csv"]["sd"]
     sd_stamp = data["stamp.csv"]["sd"]
-    axh.text(-174, axh.get_ylim()[1] * 0.985,
+    axh.text(-176, axh.get_ylim()[1] * 0.995,
              "Spread of a single reading, as a standard deviation\n"
              "room still                       %.1f counts   (%.0f pA)\n"
              "someone stamping        %.1f counts   (%.0f pA)"
              % (sd_still, sd_still * PA_PER_COUNT, sd_stamp, sd_stamp * PA_PER_COUNT),
-             ha="left", va="top", fontsize=S.TYPE["annot"], fontweight=S.W_EMPH,
+             ha="left", va="top", fontsize=S.TYPE["small"], fontweight=S.W_EMPH,
              color=S.C["ink"], linespacing=1.9,
              bbox=dict(boxstyle="round,pad=0.6", facecolor=S.C["band"], edgecolor="none"))
 

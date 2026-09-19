@@ -1,0 +1,18 @@
+test,a,b,c,d,e
+onset Z,"run 1, y_sep 3000",ycontrol_run1.log,44200,,
+onset Z,"X-HELD control, y_sep 3000",ycontrol_xheld_run1.log,47000,,
+onset Z,"run 2, y_sep 12000 - THE POSITIVE",ycontrol_run2.log,48600,,
+onset Z,"run 3, X-HELD control",ycontrol_run3.log,52000,,
+onset Z,"run 4, THE REPEAT",ycontrol_run4.log,50800,,
+onset Z,run 2 -> run 4,+2200 counts,3.4% of the Z range,,
+onset Z,drift rate across the five runs,32 counts/s,morning log section 6 measured ~40-41 counts/s over 03:48:13-03:52:58,,
+tilt,"run 1, y_sep 3000",dZ/dX -0.0009,dZ/dY 0.0696,,
+tilt,"X-HELD control, y_sep 3000",dZ/dX 0.0279,dZ/dY 1.4780,,
+tilt,"run 2, y_sep 12000 - THE POSITIVE",dZ/dX 0.0079,dZ/dY 0.2253,,
+tilt,"run 3, X-HELD control",dZ/dX 0.0552,dZ/dY -0.0115,,
+tilt,"run 4, THE REPEAT",dZ/dX -0.0024,dZ/dY -0.0022,,
+cross-run place test,"run 2 vs run 4, THE REPEAT",same -0.020,other +0.054,difference -0.074,p = 0.6979
+cross-run place test,"run 2 vs run 3, the X-HELD control",same -0.183,other -0.001,difference -0.182,p = 0.9279
+cross-run per place,Y -12000,+0.11,,,
+cross-run per place,Y +0,+0.50,,,
+cross-run per place,Y +12000,-0.72,,,

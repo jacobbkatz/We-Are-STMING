@@ -12,6 +12,20 @@ results.
 > emphasis and it governs how this is written. **It changed no finding, no number, no uncertainty
 > and no caveat in this file.** What it changed is that a measured obstacle and a ruled-out
 > candidate are written down as what they are — results — rather than as apologies.
+>
+> **Correction, 2026-09-19, and it is mine.** An earlier version of this file said run 4 came
+> "half an hour" after run 2 and that the gap "moved by most of the Z range" in between. **Both
+> were inferences I never checked, and both are wrong.** The lead caught it. The interval is about
+> **two minutes**, and the gap moved **2,200 counts — 3.4% of the Z range**. The measurement was on
+> the first line of every `ycontrol_run*.log` the whole time. **§4 is rewritten on the corrected
+> facts and candidate B is weaker as a result**, which is the direction the correction runs.
+>
+> **Two averaging conventions, fixed here so one number circulates.** *Consecutive-pass r* is the
+> **arithmetic mean** of the pairwise correlations — the project's convention and
+> `sessions/2026-09-17-bench.md` §3.25's published **+0.515**. (The Fisher-z mean of the same 11
+> numbers is +0.647; it is the better estimator and larger because the pairs run −0.21 to +0.95,
+> but **+0.515 is the figure to quote**.) *An ordinary step* is the **mean absolute** step over the
+> interior points, **376 counts** — not the signed mean of one step, which partly cancels.
 
 ---
 
@@ -113,7 +127,7 @@ pixels is measured directly and is what the argument uses.**)*
 > the scanner's own bow is **UNDETERMINED**. The experiment that would settle it … **has not been
 > run.**
 
-`sessions/data/2026-09-17-bench/line_repeated_wide.csv`, 12 passes: consecutive-pass r **+0.647**,
+`sessions/data/2026-09-17-bench/line_repeated_wide.csv`, 12 passes: consecutive-pass r **+0.515**,
 split-half **+0.923**, averaged profile **636 counts**, and against 5,000 phase-randomised
 surrogates **p < 2 × 10⁻⁴**. **All of that is true. It is genuinely reproducible and it is not
 noise.** It is also not the sample, and the reason is arithmetic:
@@ -124,8 +138,8 @@ noise.** It is also not the sample, and the reason is arithmetic:
 | X flyback between passes (the tool jumps X back to start the next one) | **30,000 counts** |
 | **Z error the loop must therefore recover at each pass start** | **3,144 counts** |
 | observed recovery in the first two pixels | **2,465 counts** |
-| a mid-line step, for comparison | **−236 counts** |
-| **consecutive-pass r after dropping two pixels** | **+0.647 → +0.048** |
+| an ordinary interior step, mean absolute | **376 counts** — the first step is **4.1x** it |
+| **consecutive-pass r after dropping two pixels** | **+0.515 → +0.025** |
 
 **The same arithmetic predicts the transient's absence, twice.** The two 2D wide images of the same
 night raster back and forth without lifting X, so there is no flyback — start-of-pass jumps **+78
@@ -157,7 +171,7 @@ one-line fix.
 
 ---
 
-## 4. Candidate B: a well-posed open question, and the one worth bench time
+## 4. Candidate B: weakened by a measurement nobody had used, and still open on one narrow ground
 
 `sessions/data/2026-09-19-bench/ycontrol_run2_ysep12000.csv` is **the only measurement in this
 project that has ever looked like topography**: within-place +0.239, between-place −0.135,
@@ -168,9 +182,9 @@ difference **+0.374 ± 0.097**, reported on the night as 3.9σ.
 does not touch this result** — and every published number reproduces exactly. **The
 non-reproduction between run 2 (+0.374) and run 4 (+0.056) is real.**
 
-**And the 3.9σ was never 3.9σ — in both directions.** That standard error treats 45 within-place
-and 108 between-place pairwise correlations as independent when every pass appears in many of them.
-Under 20,000 permutations of the place labels:
+**And the 3.9σ was never 3.9σ.** That standard error treats 45 within-place and 108 between-place
+pairwise correlations as independent when every pass appears in many of them. Under 20,000
+permutations of the place labels:
 
 | Run | within − between | **permutation p** |
 |---|---|---|
@@ -178,14 +192,71 @@ Under 20,000 permutations of the place labels:
 | run 4, the repeat | +0.059 | 0.26 |
 | **an X-held control, y_sep 3000** | **+0.226** | **0.020** — with nothing to see |
 
-**The honest position: this cannot be settled with the data that exist.** Run 2 and run 4 are half
-an hour apart, and in between the gap demonstrably moved by most of the Z range. **"It did not
-repeat" and "the surface moved out from under it" are not distinguishable here.** This is the
-strongest form of Jacob's hypothesis and **I cannot refute it.**
+### The measurement that was sitting in the logs
 
-**It is also a well-posed question with a four-image answer** — see §6.
+**The first line of every `ycontrol_run*.log` records the onset Z at which the loop found the
+surface before that run started.** Nobody had used it:
 
----
+| Run | onset Z | change |
+|---|---|---|
+| run 1, y_sep 3000 | 44,200 | |
+| X-held control, y_sep 3000 | 47,000 | +2,800 |
+| **run 2 — the positive** | **48,600** | +1,600 |
+| run 3, X-held control | 52,000 | +3,400 |
+| **run 4 — the repeat** | **50,800** | −1,200 |
+
+**Run 2 to run 4: +2,200 counts — 3.4% of the 65,536-count Z range.** Across all five runs the
+onset spans 7,800 counts (11.9%). **And the interval is about two minutes, not half an hour**:
+`sessions/2026-09-19-bench.md` is chronological, §3.14 is timestamped 03:48 (`cas9.log` ends
+03:48:56) and §3.16 is 03:53, with all five runs in between.
+
+**Two independent routes agree.** 7,800 counts over that four-minute window is **32 counts/s** —
+and `sessions/2026-09-19-morning.md` §6, working from the `cas9` and `img` data without reference
+to these logs, measured *"the gap opened at ~40-41 counts/s on average from 03:48:13 to 03:52:58"*.
+**Same rate, different measurement. This was a four-minute window with a gap drifting slowly and
+steadily.**
+
+### The test that becomes possible, and it goes against the candidate
+
+If the gap was stable, run 2 and run 4 sampled **the same three places** two minutes apart, and a
+profile belonging to a place must agree across the two runs **at the same place**. That test was
+not worth running while the gap was believed to have moved by most of its range. It is now:
+
+| run 2 against… | same place | different place | difference | **permutation p** |
+|---|---|---|---|---|
+| **run 4, the repeat** | **−0.020** | **+0.054** | **−0.074** | **0.70** |
+| run 3, the X-held control | −0.183 | −0.001 | −0.182 | 0.93 |
+
+Per place, pass-averaged: Y −12,000 **+0.11**, Y 0 **+0.50**, Y +12,000 **−0.72** — reproducing
+`sessions/2026-09-19-bench.md` §3.15 exactly.
+
+**The same place agrees no better than a different place. It agrees slightly worse.**
+
+> **So candidate B is weaker than I first wrote, and my reason for keeping it open was wrong.**
+> "It did not repeat" and "the surface moved out from under it" are **not** tied: the gap did not
+> move enough to explain the failure. **Genuine non-reproduction — no surface signal — is now the
+> better-supported reading.**
+
+### What keeps it open — one specific missing measurement, not a general doubt
+
+**Onset Z measures the GAP. It does not measure LATERAL position.** A drift in X or Y carries the
+tip onto a different patch of gold while barely moving the Z at which it finds the surface, and the
+runs' own tilts say how blind that is:
+
+| Run | dZ/dX | dZ/dY | X drift needed to fake the 2,200 counts | Y drift needed |
+|---|---|---|---|---|
+| **run 2** | +0.0079 | +0.2253 | 277,000 counts (out of range) | **9,800 counts** |
+| **run 4** | −0.0024 | −0.0022 | 920,000 (out of range) | 996,000 (out of range) |
+
+**On run 4's slopes a lateral drift of the entire X range would move the onset by about 150
+counts** — invisible. Run 2's dZ/dY is the one exception at +0.225, on which ~9,800 counts of Y
+drift would account for the whole change, **but that slope is fitted to three places and dominated
+by one sitting 5,400 counts higher, so it is weakly determined.** Either way the conclusion is the
+same: **onset Z bounds the vertical motion and says nothing about the lateral.**
+
+**Nothing in this project has ever measured lateral drift.** That is the ground candidate B stays
+open on — a named missing measurement, which is a more useful open question than the one I wrote
+first.
 
 ## 5. How this project has evaluated its own data — a finding in its own right
 
@@ -236,7 +307,7 @@ comes **after** the plan's existing gates — reassembly, re-verification, the s
 stiffer sample and a sharper tip. **None is worth doing until the gap holds still**, because all of
 them measure reproducibility and the gap currently moves more than the signal.
 
-### Q1 — Is candidate B real? *(the one I would spend bench time on)*
+### Q1 — Is candidate B real, and how far does the tip drift sideways? *(the one I would spend bench time on)*
 
 **Repeat the three-Y control at y_sep 12,000 and ±15,000 X, three times, with an X-held control
 interleaved between them** — not run at the end.
@@ -245,9 +316,23 @@ interleaved between them** — not run at the end.
 - **The interleaved control is the point.** An X-held run scored p = 0.02 on this statistic on
   2026-09-19 with nothing to see. A positive cannot be read until a control has been run in the same
   conditions.
-- **Analyse with the permutation test, not the printed sigma** — `code/07_chance.py` has it.
+- **Record the onset Z into the CSV, not only the log.** It is already printed on the log's first
+  line and it is what let the gap be checked afterwards — but only by hand, and only because I went
+  looking. **Costs one line of code and it separates gap motion from everything else.**
+- **Measure the local plane at the start AND the end of every run:** a short onset sweep at three X
+  positions and three Y positions, giving dZ/dX and dZ/dY. If the plane's tilt is unchanged, the
+  tip is still on the same local piece of surface. **This is a weak constraint on lateral drift and
+  not a measurement of it** — without a feature to track there is no direct one, and getting a
+  feature needs an image, which is the circle this project is in. **Say so rather than implying the
+  sweep settles it.**
+- **Run the three back to back with nothing else in between**, so the window in which lateral drift
+  could act is two minutes rather than tens of them.
+- **Analyse with the permutation test, not the printed sigma** — `code/07_chance.py` has it, and
+  **run the cross-run same-place test too** (`code/13_gap_stability_across_runs.py`), which is the
+  statistic that turned out to discriminate.
 - **Decision rule, fixed in advance: the effect is real if all three real runs beat all interleaved
-  controls.** One positive out of three is what 2026-09-19 produced and it means nothing.
+  controls AND the cross-run same-place test is positive.** One positive out of three is what
+  2026-09-19 produced and it means nothing.
 
 ### Q2 — What is the mirrored, line-periodic signal in the wide images? *(the most informative unrun experiment I found)*
 
@@ -285,8 +370,10 @@ imaging statistic is dominated by the gap and no amount of analysis will recover
 **Stated plainly and once, because these are where "no image" is an assumption rather than a
 measurement.**
 
-1. **Candidate B.** Run 2 and run 4 are half an hour apart and the gap moved between them. Not
-   distinguishable here (§4).
+1. **Lateral drift — the one that keeps candidate B open.** The gap was stable across run 2 to run
+   4 (2,200 counts in ~2 minutes), so non-reproduction is the better-supported reading. But **onset
+   Z is nearly blind to lateral motion** — on run 4's measured slopes a full-range X drift would
+   move it by ~150 counts — and **nothing in this project has ever measured lateral drift** (§4).
 2. **The ±15,000 place test's power.** ±0.47 at 2σ with nine pairs. A weak genuine surface signal is
    not excluded by it (§3).
 3. **Four files this work depends on are not listed in their own directory's `README.md`** —
@@ -324,7 +411,10 @@ eight weeks of instrument development.**
 **Partly — for process reasons, not because a picture was thrown away.** Two published dismissal
 arguments do not survive checking, both from the same silent truncation bug, and one real positive
 was dismissed against a control that had not been run in the same conditions. **That one deserves a
-second look at the bench, and it is the only one.**
+second look at the bench, and it is the only one** — though it is now weaker than when I started,
+because the onset-Z series shows the gap held still across the very interval in which the result
+failed to repeat. **The correction went against the candidate, which is the direction a check
+should be allowed to run.**
 
 ---
 

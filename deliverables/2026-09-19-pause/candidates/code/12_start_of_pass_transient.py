@@ -57,21 +57,32 @@ def main():
     raw = np.array([v for p in pl for v in P[p]])[0::2]     # forward passes only
 
     print("1. DROP LEADING POINTS AND WATCH THE HEADLINE NUMBERS COLLAPSE")
-    print("   %5s %6s %11s %13s %12s" % ("drop", "points", "profile RMS",
-                                         "consecutive r", "split-half r"))
+    print("   %5s %6s %11s %13s %12s %12s" % ("drop", "points", "profile RMS",
+                                         "consec r (am)", "consec r (z)", "split-half r"))
     for d in range(0, 7):
         D = np.array([detrend(v[d:]) for v in raw])
         prof = D.mean(axis=0)
-        cons = fisher_mean([corr(D[i], D[i + 1]) for i in range(len(D) - 1)])[0]
+        pairs = [corr(D[i], D[i + 1]) for i in range(len(D) - 1)]
+        cons_am = float(np.mean(pairs))           # the project's convention (section 3.25's +0.515)
+        cons_z = fisher_mean(pairs)[0]            # Fisher-z, quoted alongside, never instead
         sh = corr(D[0::2].mean(axis=0), D[1::2].mean(axis=0))
-        print("   %5d %6d %11.0f %13.3f %12.3f" % (d, D.shape[1], rms(prof), cons, sh))
+        print("   %5d %6d %11.0f %13.3f %12.3f %12.3f"
+              % (d, D.shape[1], rms(prof), cons_am, cons_z, sh))
         rows.append(["drop leading points", "drop %d" % d, "%d points" % D.shape[1],
-                     "profile RMS %.0f" % rms(prof), "consecutive r %+.3f" % cons,
+                     "profile RMS %.0f" % rms(prof),
+                     "consecutive r arithmetic %+.3f, Fisher-z %+.3f" % (cons_am, cons_z),
                      "split-half %+.3f" % sh])
     print("""
+   CONVENTION: 'consec r (am)' is the ARITHMETIC mean of the 11 pairwise
+   correlations - the project's convention, and the +0.515 that
+   sessions/2026-09-17-bench.md section 3.25 published. 'consec r (z)' is the
+   Fisher-z mean of the same 11 numbers. Fisher-z is the better estimator and it
+   is larger here because the pairs are spread (-0.21 to +0.95), but THE NUMBER
+   TO QUOTE IS THE ARITHMETIC MEAN, so that one figure is in circulation.
+
    The published headline was consecutive-pass r +0.515 and a 636-count profile.
-   Dropping ONE point takes it to +0.317 and 339 counts. Dropping TWO takes it
-   to +0.048 and 233 counts. THE AGREEMENT BETWEEN PASSES IS IN THE FIRST TWO
+   Dropping ONE point takes it to +0.249 and 339 counts. Dropping TWO takes it
+   to +0.025 and 233 counts. THE AGREEMENT BETWEEN PASSES IS IN THE FIRST TWO
    PIXELS. This is the same check that killed the +0.75 image pair on the same
    night (section 3.22) - one level down, on pixels instead of lines.
 
@@ -89,16 +100,23 @@ def main():
     print("   point 1 -> 2  " + " ".join("%+6.0f" % v for v in j1))
     print("   point 10 -> 11" + " ".join("%+6.0f" % v for v in jl))
     sl = np.polyfit(np.arange(len(j0)), j0, 1)[0]
-    print("\n   mean first jump %+.0f counts, mean mid-line step %+.0f counts - a factor of %.0f"
-          % (j0.mean(), jl.mean(), abs(j0.mean() / jl.mean())))
+    interior = float(np.mean([np.abs(np.diff(v[2:])).mean() for v in raw]))
+    print("\n   CONVENTION, stated so one number is quoted: 'an ordinary step' is the MEAN")
+    print("   ABSOLUTE step over the interior points (index 2 onward), which is %.0f counts."
+          % interior)
+    print("   The signed mean of one particular step (index 10 to 11) is %+.0f counts and is NOT"
+          % jl.mean())
+    print("   the right comparison, because signed steps of an undulating line partly cancel.")
+    print("   mean first jump |%.0f| counts against an ordinary step of %.0f - a factor of %.1f"
+          % (abs(j0.mean()), interior, abs(j0.mean()) / interior))
     print("   and the first jump GROWS through the run: %+.0f counts per pass, %+.0f to %+.0f"
           % (sl, j0[0], j0[-1]))
     print("""   A surface feature is the same size on pass 1 and pass 12. A settling
    transient that is getting worse as the junction drifts is not. This one
    more than triples.""")
     rows.append(["the jump", "first step", "mean %+.0f counts" % j0.mean(),
-                 "mid-line step mean %+.0f" % jl.mean(),
-                 "grows %+.0f counts per pass" % sl])
+                 "ordinary interior step, mean absolute %.0f" % interior,
+                 "factor %.1f; grows %+.0f counts per pass" % (abs(j0.mean()) / interior, sl)])
 
     print("\n3. THE MECHANISM: THE X FLYBACK BETWEEN PASSES")
     print("   The line-repeat tool scans X from low to high, then jumps ALL THE WAY BACK")

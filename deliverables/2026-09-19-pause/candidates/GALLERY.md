@@ -48,6 +48,15 @@ Full table for all 34 raster files in `work/time_vs_position.csv`; the code is
 structure in it **by construction**. Whatever a control scores is the size of a false positive from
 this instrument on that night.
 
+> **Two averaging conventions, fixed here so one number circulates.** *Consecutive-pass r* is the
+> **arithmetic mean** of the pairwise correlations — the project's convention and
+> `sessions/2026-09-17-bench.md` §3.25's published **+0.515**. The Fisher-z mean of the same 11
+> numbers is +0.647; it is the better estimator and larger because the pairs run −0.21 to +0.95,
+> but **+0.515 is the figure to quote**. *An ordinary step* is the **mean absolute** step over the
+> interior points, **376 counts** — not the signed mean of one step, which partly cancels.
+> Correlations pooled across many lines elsewhere in this gallery use Fisher-z and say so in
+> `work/*.csv`.
+
 ---
 
 # CANDIDATE A — the 636-count profile at ±15,000 X, 2026-09-17
@@ -72,15 +81,15 @@ recorded in §3.25); straight line in X removed from each pass; then plain avera
 
 | | Session log | My replication |
 |---|---|---|
-| consecutive-pass r | +0.515 | **+0.647** |
+| consecutive-pass r (arithmetic mean) | +0.515 | **+0.515** |
 | odd-half vs even-half r | +0.923 | **+0.923** |
 | averaged profile | 636 counts | **636 counts** |
 
 **It is not noise.** Against 5,000 phase-randomised surrogates — same power spectrum per pass,
 random Fourier phases, so each surrogate is exactly as smooth and as large but unaligned — the
-profile RMS is 636 against 255 ± 55 and the consecutive-pass r is +0.647 against +0.001 ± 0.095,
+profile RMS is 636 against 255 ± 55 and the consecutive-pass r is well clear of +0.001 ± 0.095,
 both **p < 2 × 10⁻⁴** (`code/07_chance.py`, null N3). And the agreement does **not** decay with
-separation between passes: +0.647 at lag 1, +0.766 at lag 3, +0.578 at lag 8. Whatever it is, it
+separation between passes (Fisher-z, pooled): +0.647 at lag 1, +0.766 at lag 3, +0.578 at lag 8. Whatever it is, it
 was stable for the whole run.
 
 ## The place test — which the 2026-09-17 data could already answer
@@ -118,12 +127,12 @@ A place this profile belongs to is **not detected**. `code/04_0917_wide_place_te
 **Look at the raw passes in figure 01.** Every one starts low and climbs one to two thousand Z
 counts within a pixel or two. `code/12_start_of_pass_transient.py`:
 
-| Leading points dropped | Points left | Profile RMS | **Consecutive-pass r** | Split-half r |
-|---|---|---|---|---|
-| 0 | 21 | 636 | **+0.647** | +0.923 |
-| 1 | 20 | 339 | **+0.317** | +0.771 |
-| **2** | 19 | **233** | **+0.048** | +0.672 |
-| 3 | 18 | 238 | +0.083 | +0.675 |
+| Leading points dropped | Points left | Profile RMS | **Consecutive-pass r** (arithmetic) | Fisher-z | Split-half r |
+|---|---|---|---|---|---|
+| 0 | 21 | 636 | **+0.515** | +0.647 | +0.923 |
+| 1 | 20 | 339 | **+0.249** | +0.317 | +0.771 |
+| **2** | 19 | **233** | **+0.025** | +0.048 | +0.672 |
+| 3 | 18 | 238 | +0.057 | +0.083 | +0.675 |
 
 **The entire agreement between passes is in the first two pixels.** And the mechanism is
 arithmetic, not a story:
@@ -134,7 +143,7 @@ arithmetic, not a story:
 | X flyback between passes (the tool jumps X back to start the next pass) | **30,000 counts** |
 | **Z error the loop must therefore recover** | **3,144 counts** |
 | observed recovery in the first two pixels | **2,465 counts** |
-| a mid-line step, for comparison | −236 counts |
+| an ordinary interior step, mean absolute | **376 counts** — the first step is **4.1x** it |
 
 **And the same arithmetic predicts the transient's absence, twice.** The two 2D wide images raster
 back and forth without lifting X — a forward pass ends at X 47768 and the backward pass begins at
@@ -191,8 +200,8 @@ control). Each is 3 places × 6 passes × 21 points, X 17768–47768.
 
 **I verified all five three-Y runs from the raw CSVs**, checking shapes first
 (`code/11_truncation_audit.py`, part 3). Every file is 3 × 6 × 21 with no short pass and no aborted
-run, so **the truncation defect described below does not touch this result**, and every published
-figure reproduces exactly:
+run, so **the truncation defect does not touch this result**, and every published figure reproduces
+exactly:
 
 | File | Published | Replicated |
 |---|---|---|
@@ -202,14 +211,12 @@ figure reproduces exactly:
 | `ycontrol_run1.csv` | +0.032 ± 0.035 | **+0.032 ± 0.035** |
 | `ycontrol_xheld_run1.csv` | +0.164 ± 0.082 | **+0.164 ± 0.082** |
 
-**THE NON-REPRODUCTION IS REAL.** Run 4 is the same measurement half an hour later and it gives
-+0.056.
+**THE NON-REPRODUCTION IS REAL.**
 
 **And the 3.9 sigma was never 3.9 sigma.** That figure is a Fisher-z standard error over a list of
 pairwise correlations, and those pairs are **not independent** — 18 passes give 45 within-place and
-108 between-place pairs, and every pass appears in many of them. The honest null is a permutation:
-shuffle the place labels among the 18 passes, recompute, 20,000 times (`code/07_chance.py`, null
-N1):
+108 between-place pairs, and every pass appears in many of them. Under a 20,000-fold permutation of
+the place labels (`code/07_chance.py`, null N1):
 
 | Run | within − between | **permutation p** |
 |---|---|---|
@@ -222,22 +229,69 @@ N1):
 
 **Read the last-but-one row.** An X-held control — in which X never moved, so it contains no
 sample structure at all — scores **p = 0.02** on the same statistic. That is the empirical
-false-positive rate of this measurement on this instrument, and it is the right benchmark for run
-2's p = 0.0036.
+false-positive rate of this measurement on this instrument.
 
-**Alternative explanations:**
+## The measurement that was sitting in the logs all along
+
+> **Correction to an earlier version of this gallery and of `VERDICT.md`, and it is mine.** I wrote
+> that run 4 came "half an hour" after run 2 and that the gap "moved by most of the Z range" in
+> between, and concluded the two readings could not be separated. **Both were inferences I never
+> checked. Both are wrong.** The lead caught it.
+
+**The first line of every `ycontrol_run*.log` records the onset Z at which the loop found the
+surface before that run started.** `code/13_gap_stability_across_runs.py`:
+
+| Run | onset Z | change |
+|---|---|---|
+| run 1, y_sep 3000 | 44,200 | |
+| X-held control, y_sep 3000 | 47,000 | +2,800 |
+| **run 2 — the positive** | **48,600** | +1,600 |
+| run 3, X-held control | 52,000 | +3,400 |
+| **run 4 — the repeat** | **50,800** | −1,200 |
+
+**Run 2 to run 4: +2,200 counts — 3.4% of the 65,536-count Z range**, not most of it. **And the
+interval is about two minutes:** `sessions/2026-09-19-bench.md` is chronological, §3.14 is
+timestamped 03:48 (`cas9.log` ends 03:48:56) and §3.16 is 03:53, with all five runs in between.
+
+**Independently corroborated.** 7,800 counts of onset motion over that four-minute window is
+**32 counts/s**, and `sessions/2026-09-19-morning.md` §6 — working from the `cas9` and `img` data,
+without reference to these logs — measured *"the gap opened at ~40-41 counts/s on average from
+03:48:13 to 03:52:58"*. **Same rate, different measurement.**
+
+## The cross-run place test, which only becomes meaningful now
+
+If the gap held still, run 2 and run 4 sampled **the same three places** two minutes apart, and a
+profile belonging to a place must agree across the two runs **at the same place**:
+
+| run 2 against… | same place | different place | difference | **permutation p** |
+|---|---|---|---|---|
+| **run 4, the repeat** | **−0.020** (n=108) | **+0.054** (n=216) | **−0.074** | **0.70** |
+| run 3, the X-held control | −0.183 | −0.001 | −0.182 | 0.93 |
+
+Per place, pass-averaged: Y −12,000 **+0.11**, Y 0 **+0.50**, Y +12,000 **−0.72** — reproducing
+`sessions/2026-09-19-bench.md` §3.15 exactly.
+
+**The same place agrees no better than a different place. It agrees slightly worse.**
+
+**Alternative explanations, re-weighted on the corrected facts:**
 
 | Explanation | Status |
 |---|---|
-| A one-off fluctuation of the junction that happened to align within places | **Most likely.** It is a factor of 14 short of the multiple-comparison threshold and it failed its own repeat |
-| Real topography at that place, lost by the time of the repeat because the gap moved | **Cannot be excluded.** The gap demonstrably moves by most of the Z range in the time between runs. This is the strongest form of Jacob's hypothesis and this data cannot rule it out |
+| A one-off fluctuation of the junction that happened to align within places | **Now the leading reading.** p = 0.0036 against a corrected threshold of 2.5 × 10⁻⁴, failed its own repeat, and the cross-run place test is null at p = 0.70 over an interval in which the gap held still |
+| Real topography, lost because the gap moved between runs | **No longer supported.** The gap moved 2,200 counts, 3.4% of range, in about two minutes |
+| **Real topography, lost because the tip drifted SIDEWAYS onto different gold** | **Still open, and this is the only thing keeping the candidate alive.** Onset Z is nearly blind to lateral motion: on run 4's measured slopes (dZ/dX −0.0024, dZ/dY −0.0022) a full-range X drift would move it by ~150 counts. **Nothing in this project has ever measured lateral drift** |
 | A bias in the statistic | **Partly.** The X-held control at 3,000 apart scores +0.226, p = 0.02 with nothing to see |
 
-### **EVIDENCE STRENGTH: weak, and it failed its repeat. Worth one more measurement, not a claim.**
+### **EVIDENCE STRENGTH: weak, and weaker than I first wrote. Still the one worth bench time — on one named ground.**
 Reasoning: p = 0.0036 against a corrected threshold of p < 2.5 × 10⁻⁴; an X-held control reaches
-p = 0.02 on the same statistic; the repeat gave p = 0.26. **But "it did not repeat" is not the same
-as "it was nothing", and the gap moved between the two runs. This is the one candidate I would
-spend bench time on.** See `VERDICT.md` for what would settle it.
+p = 0.02 on the same statistic; the repeat gave p = 0.26; **and the cross-run same-place test is
+null at p = 0.70 across an interval in which the gap is now known to have held still to 2,200
+counts.** My earlier reason for calling it undecidable — "the gap moved" — **does not survive its
+own data.** Genuine non-reproduction is the better-supported reading.
+
+**It stays open on one specific missing measurement: lateral drift, which onset Z cannot see and
+which this project has never measured.** That is a sharper question than the one it replaces.
+See `VERDICT.md` §6 Q1 for the experiment.
 
 ---
 

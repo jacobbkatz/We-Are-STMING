@@ -42,7 +42,7 @@ names; the tip and sample statements are `SAID` by Jacob and are marked as such 
 | ADC scatter with the tip clear, 2026-09-17 (46) against 2026-09-18 (341–350) against 2026-09-19 (40–42) | **SAFE** | same measurement, same command (`ADCR`), same condition (tip clear). The 2026-09-18 excursion is about **eight times** the other two and it went away |
 | `still.csv` against `stamp.csv` | **SAFE — the best controlled A/B in the record** | 36 seconds apart, one tip, one night, one tool, one setting. Nothing else in the noise record is this clean |
 | The five Z-test runs of 2026-09-19 morning against each other | **SAFE** | one tip, one sample, one script, back to back over nine minutes |
-| The four `cas9` scans against their four X-held controls | **SAFE** | interleaved, same tip, same loop tuning, same night |
+| The four `cas9` scans against their four X-held controls | **SAFE, but only over COMPLETE images** | interleaved, same tip, same loop tuning, same night — **and `cas9_xheld2.csv` is a single line, so any pair involving it is 21 pixels against 231.** See §5 |
 | Motor-retract outcomes across sessions | **SAFE as a count, not as a rate** | eight independent episodes; three cleared. The count is comparable, the step size is not |
 | ADC scatter with the tip clear against the 46 counts of the 2026-09-19 morning touch test | **NOT SAFE** | the touch test had a **junction at Z 20,000**. A junction is a current source; the tip-clear figure is the instrument's own floor |
 | 2026-09-17's height-channel wobble (287–419 counts) against 2026-09-19's (9–19 counts) | **NOT SAFE as a like-for-like improvement** | different tip, different sample, different loop constant, and the 9–19 figure is an **X-held** control while the 287–419 is a loop holding at one point. The tools still print the 2026-09-17 figure |
@@ -92,6 +92,8 @@ measurement as the rows above and they are not the same measurement as each othe
 
 **RE-DERIVED by `code/scans_and_controls.py`.** "Image to image" is the correlation of one
 detrended forward image with the next; "trace/retrace" is forward against backward, line by line.
+**Every image-to-image figure below is over COMPLETE IMAGES ONLY** — see §5 for why, and for the
+four groups where the published figure was not.
 
 | Group | Session | Scans | Controls | Scan image-to-image | Control image-to-image | Verdict |
 |---|---|---|---|---|---|---|
@@ -102,9 +104,9 @@ detrended forward image with the next; "trace/retrace" is forward against backwa
 | wide ±4,000 X | 09-17 | 2 | — | +0.38 → **−0.26** | — | same |
 | wide ±15,000 X | 09-17 | 2 | — | +0.31 → +0.44 | — | the one 2026-09-17 group that survives the line drop; see §5 |
 | `cas8` constant-height maps | 09-19 bench | 6 | 3 | — | — | **every pixel at the ADC rail. No information** |
-| `cas9` feedback scans | 09-19 bench | 4 | 4 | **+0.04** | **+0.37** | **the control reproduces better** |
-| wide images | 09-19 bench | 3 | 2 | +0.71 | +0.56 | **the only group where the scans win — see §5** |
-| tuned scans, loop 1,800 | 09-19 morning | 3 | 3 | −0.25 | +0.03 | all six aborted at a clamp |
+| `cas9` feedback scans | 09-19 bench | 4 | 4 | **+0.039** (3 pairs) | **+0.068** (2 pairs) | **neither reproduces; the two are indistinguishable** — see §5 |
+| wide images | 09-19 bench | 3 | 2 | **no complete pair** | +0.56 (1 pair) | two of three scans aborted after 1 and 2 lines — see §5 |
+| tuned scans, loop 1,800 | 09-19 morning | 3 | 3 | **no complete pair** | **no complete pair** | all six aborted at a clamp |
 
 ### Corrugation, the same groups
 
@@ -117,33 +119,55 @@ detrended forward image with the next; "trace/retrace" is forward against backwa
 
 ---
 
-## 5. The one place where the scans beat their control, examined
+## 5. The truncation defect — a class in four groups, and the one number it changes
 
-**The wide images of 2026-09-19 bench.** `img_scan_0/1/2.csv` correlate with each other at +0.86
-and +0.56; the single control pair gives +0.56. That is the only row in §4 that points the other
-way, so it is worth taking seriously. Three things about it, all **RE-DERIVED**:
+`sessions/data/2026-09-19-bench/scripts/analyze_scans.py` lines 50–51 **truncate each image pair to
+the shorter file with no shape check.** Where one file of a pair aborted, the resulting
+"image-to-image correlation" is computed over one or two **lines** while a complete pair is computed
+over eleven. The short one is dominated by the first line, which is the line guaranteed to agree
+because it carries the loop's settling transient (§4's drop-line column).
 
-1. **Two of the three scans aborted.** `img_scan_0.csv` holds **one** forward line and
-   `img_scan_1.csv` holds **two**, against the planned eleven. The correlation is computed over
-   whatever both files share, so the +0.86 is **21 pixels — a single line** and the +0.56 is
-   **42 pixels**. The control's +0.56 is **231 pixels**.
-2. **The first line is the one line guaranteed to agree**, because it carries the loop's settling
-   transient and the procedure is identical every time. `sessions/2026-09-17-bench.md` §3.22 found
-   this and named it; §4 above reproduces it four times over.
-3. **Trace and retrace are anti-correlated in all three wide scans** (−0.94, −0.91, −0.75) and not
-   in the controls (+0.14, +0.13). A surface is traced the same way in both directions and gives a
-   **positive** trace/retrace. `sessions/2026-09-19-morning.md` §6 reads the negative one as the
-   loop hunting, with X motion the likely but unproven cause.
+**Four groups are affected, on both the scan side and the control side.**
 
-**Cut to the same first line**, the two scan pairs give +0.86 and −0.07 and the one control pair
-gives −0.74 — n = 2 against n = 1, and the two scan pairs disagree with each other by more than the
-gap to the control. **Nothing is established either way by that comparison.** Points 2 and 3 are
-what carry the conclusion.
+| Group | Side | As published (truncating) | Complete images only | Why it truncated |
+|---|---|---|---|---|
+| `cas9` | controls | +0.20, +0.21, +0.70 → **+0.37** | +0.20, −0.06 → **+0.068** | `cas9_xheld2.csv` is **one line** of eleven |
+| wide images | scans | +0.86, +0.56 → **+0.71** | **no complete pair exists** | `img_scan_0` 1 line, `img_scan_1` 2 lines |
+| tuned scans | scans | −0.75, +0.26 → **−0.25** | **no complete pair exists** | `tuned_s3k_scan0` 1 line of nine |
+| tuned scans | controls | +0.22, −0.15 → **+0.03** | **no complete pair exists** | `tuned_s3k_xheld0` 2 lines of nine |
 
-**There is no `.log` file for these runs.** The "14.5 % saturation" quoted in the session log came
-from console output that was not saved, so it cannot be checked. `cas9.log` does carry the loop's
-own saturated and clamped counters for every run, which is why the `cas9` group can be audited and
-this one cannot.
+### The one published conclusion this changes
+
+**"The controls reproduce better than the scans" is WITHDRAWN.** Like for like, complete images
+only:
+
+| | n pairs | Values | Mean |
+|---|---|---|---|
+| Real scans (X moving across the surface) | 3 | +0.09, +0.18, −0.15 | **+0.039** |
+| X-held controls (tip never moved across it) | 2 | +0.20, −0.06 | **+0.068** |
+
+Standard error of each correlation at 231 pixels: **0.066**, and that is optimistic — it treats the
+21 pixels of a line as independent, which the Z ramp along a line makes false. **Difference −0.030
+against 0.066: indistinguishable, and neither mean differs from zero.**
+
+**The correct statement: neither the scans nor the controls reproduce, and the scans show no more
+repeatable structure than a control in which the tip never moved across the surface.** The imaging
+conclusion is unchanged and needs no rescuing — it rests on the real scans not reproducing.
+
+**Found by the lead's independent review** (`LEAD_VERIFICATION.md` V4); `STATUS.md` is already
+corrected.
+
+### The wide images, which I previously called "the one group where the scans win"
+
+**There is no pair of complete wide images to compare.** Only `img_scan_2` ran to the end. The
++0.71 came entirely from a single shared line. Two things stand against those scans independently
+of any correlation:
+
+- **Trace and retrace are anti-correlated in all three** (−0.94, −0.91, −0.75) and not in the
+  controls (+0.14, +0.13). A surface gives a **positive** trace/retrace.
+- **There is no `.log` file** for these runs, so the "14.5 % saturation" in the session log came
+  from console output that was not saved and cannot be checked. `cas9.log` does carry the loop's
+  own saturated and clamped counters.
 
 ---
 
@@ -165,7 +189,41 @@ itself than like a place 3,000 or 12,000 Y counts away.
 there is therefore no surface to see.** A statistic that fires on a run with no lateral motion is
 biased in this data, and the same bias is available to the run that fired with X moving. The
 2026-09-19 bench log reaches the same conclusion from the split-half statistic. Run 2's +0.374 and
-its repeat's +0.056 are the same measurement nine minutes apart.
+its repeat run 4's +0.056 are the same measurement, taken a few minutes apart.
+
+**How many minutes is NOT recorded, and two guesses have already been wrong.** Neither `ycontrol`
+log carries a timestamp. What the record bounds: `sessions/2026-09-19-bench.md` is chronological,
+§3.14 is timestamped **03:48**, §3.16 is timestamped **03:53**, and §3.15 — **all five** runs — sits
+between them. **All five fit inside about five minutes.** An earlier version of this file said
+"nine minutes" and subagent 2 said "half an hour"; both were guesses and both were too long. Found
+by the lead's independent review.
+
+### The onset Z of each run — a measurement that was in the logs and unused
+
+The first line of every `ycontrol_run*.log` gives the Z at which the loop found the surface before
+that run started. It is the only series of gap positions taken inside one short window.
+
+| Run | Y separation | X moving? | **Onset Z** |
+|---|---|---|---|
+| `ycontrol_run1` | ±3,000 | yes | 44,200 |
+| `ycontrol_xheld_run1` | ±3,000 | no | 47,000 |
+| `ycontrol_run2` | ±12,000 | yes | **48,600** |
+| `ycontrol_run3` | ±12,000 | no | 52,000 |
+| `ycontrol_run4` (repeat of run 2) | ±12,000 | yes | **50,800** |
+
+**Across all five the onset moved 7,800 counts. Between run 2 and run 4 it moved +2,200** — **3.4 %**
+of the 65,536-count Z range, **4.6 %** of the 12,000–60,000 window these runs used.
+
+**This weakens the "the surface moved out from under it" explanation for run 2 not reproducing**,
+because across exactly that interval the gap moved a few per cent of the range, not most of it.
+
+**It does not close it.** Onset Z measures the **gap**, not **lateral position**. A sideways drift
+would carry the tip to a different patch of gold while barely changing the Z at which it finds the
+surface. **Lateral drift has never been measured in this project**, and nothing in `sessions/data/`
+can measure it.
+
+**Rate, bounded not measured:** 2,200 counts over at most the ~5 minutes holding all five runs, so
+a mean of **at least 7 counts/s** — the quiet end of the range in §9.
 
 ---
 
@@ -222,10 +280,16 @@ contacts on 2026-09-19 morning; the fourth released on its own or after +20 step
 | `release_watch_run1.log`, 12:54–12:56 | where the contact is, motor and hands still, piezo sweeping only | **≥ 43,000 counts in 6.3 s**, then **≥ 56,000 counts back over 111 s** | **1 episode**, 9 sweeps |
 | The five Z-test runs | onset Z per cycle, tip touching most of the time | **−74 to +83 counts/s** | **5 independent runs** |
 | `track_run1.csv`, 2026-09-18 | onset Z with the motor still, different tip and sample | range **37,000 counts** in 90 s, sd 7,563 | **1 run**, 276 searches |
+| The five `ycontrol_run*.log` onsets, 2026-09-19 bench | onset Z before each three-Y run, all inside one ~5-minute window | **7,800 counts across five runs**; +2,200 between run 2 and run 4, so **≥ 7 counts/s** as a mean | **5 points**, one window |
 
 These differ by two orders of magnitude in rate and they are **not in conflict**: in a Z test the
 tip is in or near contact for most of the run, and the log's reading is that the gold sticks to and
-follows the tip. In the release-watch the tip had just been released and was clear.
+follows the tip. In the release-watch the tip had just been released and was clear. The `ycontrol`
+series sits at the quiet end, with a junction held throughout — consistent with that reading.
+
+**All four measure the GAP. None of them measures LATERAL position**, and lateral drift has never
+been measured in this project. That gap in the record is what stops the `ycontrol` series from
+closing the question in §6.
 
 **No period is evident in any of them, and none of them can exclude one.** The fastest record of a
 live junction (`here_run1.csv`, 10.3 s at about 3,400 readings per second) resolves down to about

@@ -68,3 +68,83 @@ Every figure still carries its honest caption; that is different from an apologe
 - **Every number keeps its provenance** and its uncertainty.
 - **`STATUS.md` remains the live technical record** and is written for the bench, not for an
   audience. Its tone does not change; this framing governs the outward-facing deliverables.
+
+---
+
+# ADDENDUM, 2026-09-19 — the conditions this was built in, and one claim that cannot be made
+
+**`SAID`, Jacob, this session, and this is the most important context in the whole project:**
+
+> *"this lives in my basement. This project whole thing was like, you can do it at home with no
+> experience. We have like, we're two first year students with no coding experience and really not
+> much electronics experience. So this was our first real time kind of touching any soldering of
+> anything. [...] it's kind of important to recognize that we were not in a clean room, we're in a
+> basement in a house where people live a lot and move around and stuff. And, you know, we're not
+> controlling the air. [...] this is so impressive that we even got this far."*
+
+## THIS GOES IN EVERY DELIVERABLE. It is not a disclaimer — it is the result.
+
+**The conditions are not an excuse for the limitations. They are the measure of the achievement,
+and they were missing from every document in this repository.**
+
+| Fact | `SAID` by Jacob, 2026-09-19 |
+|---|---|
+| **Two first-year students** | No professional context, no lab, no supervision on record |
+| **No coding experience** | Neither author writes code — `CLAUDE.md` opens with this |
+| **Very little electronics experience** | **This project was their first real soldering** |
+| **A basement in a lived-in house** | Not a lab, not a clean room |
+| **People moving around, air uncontrolled** | No vibration isolation from the building beyond what they built; no temperature or air control |
+
+**Corroborated by the photographs** (`deliverables/2026-09-19-pause/photos/MECHANICAL_OBSERVATIONS.md`
+§6): a wooden bench on a concrete floor, beside a breaker panel and a generator transfer switch.
+
+### Why this belongs in the science, not just the biography
+
+**An STM is normally a clean-room instrument.** Commercial ones sit on air tables in
+temperature-controlled labs. **The blocker this project identified and measured — the gap moving by
+most of the Z range in seconds — is exactly the class of problem those rooms exist to remove.**
+
+**So "we could not hold the gap still in a basement" is not a failure to explain away. It is the
+expected outcome, measured, quantified, and traced to named candidate mechanisms** — which is
+precisely what instrument development is. **State the conditions up front, and the limitation stops
+being a shortfall and becomes a finding about what the environment costs you.**
+
+## The candidate image goes in
+
+**Jacob's instruction: include it.** The three-Y run at 12,000 Y separation — the only measurement
+this project has made that looked like topography — **appears in the poster, the report and the
+gallery**, beside its repeat and its X-held control, with its honest statistics. It is presented as
+**an open question with a specified experiment to settle it**, not as an image. That is what it is,
+and an open question a team can name precisely is a stronger thing to show than a pretty picture.
+
+## THE ONE CLAIM THAT CANNOT BE MADE — tunnelling current
+
+**Jacob asked for: "we actually were able to detect tunneling current."** **This cannot go in any
+deliverable, and the lead has told him so directly.** It is not a framing choice; it is a factual
+claim, and this project's own data contradict it.
+
+**The decisive evidence is the project's own Z test**, 110 cycles across four biases, 2026-09-19
+morning: **current changed by a decade per ~1,650 to 1,970 Z counts going in, where tunnelling on
+the inherited scale needs ~6 to 13.** Two orders of magnitude too shallow. **And in/out hysteresis
+of 705 to 1,868 counts appeared in every run** — a mechanical signature that does not depend on the
+Z scale at all, and does not shrink with bias. `docs/FACTS.md` records the interpretation as
+**"a soft, pressed, sticky contact"**.
+
+**What IS true, and it is nearly as strong:**
+
+| Say this | Not this |
+|---|---|
+| **The instrument measures currents of about one nanoamp, proved against a known resistor to 0.13 of a standard error** | We detected tunnelling current |
+| **We made a real tip-and-sample junction and measured its I-V: non-ohmic, bias-symmetric, resistance falling 59 to 16 MΩ — the signature a tunnelling barrier requires, ruling out both a short and an open circuit** | We observed tunnelling |
+| **The junction's current responds to the tip's height, and to the bias, and reverses with it** | We were in the tunnelling regime |
+| **We could not confirm a vacuum tunnelling gap: the distance dependence was far shallower than tunnelling requires and the junction showed mechanical hysteresis. Our reading is a pressed contact — and we measured what stops us getting past it** | — |
+
+**Why the lead is holding this line, in Jacob's own interest.** At a research expo the first hard
+question will come from somebody who knows what an STM is, and *"how did the current vary with
+distance?"* is the question they ask. **The honest answer — "a decade per about 1,650 counts, where
+tunnelling needs about ten, which is how we know it was a contact"** — shows a team that measured
+the right thing and understood it. **The claim "we detected tunnelling current" collapses on that
+same question, and takes the calibration, the noise work and the controls down with it.**
+
+**A poster that says "we built a working nanoamp measurement chain in a basement and found exactly
+what stops it imaging" is a stronger poster than one that overclaims and cannot defend it.**

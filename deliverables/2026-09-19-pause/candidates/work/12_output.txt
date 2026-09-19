@@ -1,16 +1,23 @@
 1. DROP LEADING POINTS AND WATCH THE HEADLINE NUMBERS COLLAPSE
-    drop points profile RMS consecutive r split-half r
-       0     21         636         0.647        0.923
-       1     20         339         0.317        0.771
-       2     19         233         0.048        0.672
-       3     18         238         0.083        0.675
-       4     17         244         0.195        0.677
-       5     16         229         0.148        0.633
-       6     15         198         0.087        0.504
+    drop points profile RMS consec r (am) consec r (z) split-half r
+       0     21         636         0.515        0.647        0.923
+       1     20         339         0.249        0.317        0.771
+       2     19         233         0.025        0.048        0.672
+       3     18         238         0.057        0.083        0.675
+       4     17         244         0.163        0.195        0.677
+       5     16         229         0.120        0.148        0.633
+       6     15         198         0.066        0.087        0.504
+
+   CONVENTION: 'consec r (am)' is the ARITHMETIC mean of the 11 pairwise
+   correlations - the project's convention, and the +0.515 that
+   sessions/2026-09-17-bench.md section 3.25 published. 'consec r (z)' is the
+   Fisher-z mean of the same 11 numbers. Fisher-z is the better estimator and it
+   is larger here because the pairs are spread (-0.21 to +0.95), but THE NUMBER
+   TO QUOTE IS THE ARITHMETIC MEAN, so that one figure is in circulation.
 
    The published headline was consecutive-pass r +0.515 and a 636-count profile.
-   Dropping ONE point takes it to +0.317 and 339 counts. Dropping TWO takes it
-   to +0.048 and 233 counts. THE AGREEMENT BETWEEN PASSES IS IN THE FIRST TWO
+   Dropping ONE point takes it to +0.249 and 339 counts. Dropping TWO takes it
+   to +0.025 and 233 counts. THE AGREEMENT BETWEEN PASSES IS IN THE FIRST TWO
    PIXELS. This is the same check that killed the +0.75 image pair on the same
    night (section 3.22) - one level down, on pixels instead of lines.
 
@@ -25,7 +32,11 @@
    point 1 -> 2    -146  +1384  +1110   +976  +1038   +859   +755  +1385   +322   +721  +2021   +754
    point 10 -> 11  +299   -445   -404    -41   -329   -243    +79   -110   -335   -138   -991   -173
 
-   mean first jump +1533 counts, mean mid-line step -236 counts - a factor of 6
+   CONVENTION, stated so one number is quoted: 'an ordinary step' is the MEAN
+   ABSOLUTE step over the interior points (index 2 onward), which is 376 counts.
+   The signed mean of one particular step (index 10 to 11) is -236 counts and is NOT
+   the right comparison, because signed steps of an undulating line partly cancel.
+   mean first jump |1533| counts against an ordinary step of 376 - a factor of 4.1
    and the first jump GROWS through the run: +137 counts per pass, +671 to +2364
    A surface feature is the same size on pass 1 and pass 12. A settling
    transient that is getting worse as the junction drifts is not. This one
