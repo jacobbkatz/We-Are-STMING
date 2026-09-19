@@ -1,0 +1,20 @@
+12:06:02 bias 0 V    Z     0->28000: first3 [3714, 5, -55] | rest mean    7.3 sd  45.6 (None 0)
+12:06:02 bias 0 V    Z 28000->    0: first3 [18, -5, -45] | rest mean    6.3 sd  29.0 (None 0)
+12:06:03 bias 0 V    Z     0->60000: first3 [-84, -1, 47] | rest mean   -3.7 sd  39.8 (None 0)
+12:06:03 bias 0 V    Z 60000->    0: first3 [9, 90, 36] | rest mean    3.7 sd  36.4 (None 0)
+12:06:03 bias 0 V    Z     0->28000: first3 [-44, 18, 58] | rest mean  -13.5 sd  46.1 (None 0)
+12:06:04 bias 0 V    Z 28000->    0: first3 [0, -22, -5] | rest mean   -2.0 sd  46.5 (None 0)
+12:06:04 bias 0 V    Z     0->60000: first3 [-19, -19, -36] | rest mean   -6.3 sd  42.7 (None 0)
+12:06:04 bias 0 V    Z 60000->    0: first3 [2, 14, 35] | rest mean   -3.7 sd  42.7 (None 0)
+12:06:05 bias -0.5 V Z     0->28000: first3 [1026, -33, 51] | rest mean   -5.1 sd  35.4 (None 0)
+12:06:05 bias -0.5 V Z 28000->    0: first3 [39, 43, 104] | rest mean   -1.0 sd  48.6 (None 0)
+12:06:06 bias -0.5 V Z     0->60000: first3 [-131, -38, 90] | rest mean  -13.3 sd  56.2 (None 0)
+12:06:06 bias -0.5 V Z 60000->    0: first3 [33, 38, -17] | rest mean    5.6 sd  44.1 (None 0)
+12:06:06 bias -0.5 V Z     0->28000: first3 [-41, -32, -2] | rest mean   -5.0 sd  53.6 (None 0)
+12:06:06 bias -0.5 V Z 28000->    0: first3 [2, -60, 4] | rest mean    2.0 sd  46.0 (None 0)
+12:06:07 bias -0.5 V Z     0->60000: first3 [-155, -89, 13] | rest mean    5.7 sd  44.1 (None 0)
+12:06:07 bias -0.5 V Z 60000->    0: first3 [20, 47, -53] | rest mean   23.7 sd  44.9 (None 0)
+12:06:08 Z 0, bias 0 V   : mean   -5.3 sd  46.0 n 200
+12:06:08 Z 0, bias -0.5 V: mean  -14.8 sd  44.1 n 200
+12:06:09 Z 0, bias +0.5 V: mean   -1.1 sd  47.7 n 200
+12:06:09 end: Z 0, bias -0.5 V

@@ -1,0 +1,13 @@
+12:54:08 release chunk 1 (+20 steps): 22.333333333333332 counts
+12:54:09 release chunk 2 (+40 steps): -10.333333333333334 counts
+12:54:10 release chunk 3 (+60 steps): 12.666666666666666 counts
+12:54:10 RELEASE: clear after 3 chunks (+60 steps)
+12:54:10    0.1s FOUND onset Z 19000
+12:54:13    3.2s FOUND onset Z 42000
+12:54:16    6.4s FAR
+12:56:01  111.1s FOUND onset Z 6000
+12:56:04  114.1s FOUND onset Z 7000
+12:56:07  117.1s FOUND onset Z 6000
+12:56:10  120.2s FAR
+12:56:16  126.4s FOUND onset Z 7000
+12:56:19  129.4s FOUND onset Z 8000

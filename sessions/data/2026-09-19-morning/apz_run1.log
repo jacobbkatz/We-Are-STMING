@@ -1,0 +1,69 @@
+12:50:32 0 steps, nothing in Z 0..62000
+12:50:41 FOUND at Z 17000 (25258 counts) after 9 steps; Z back to 0
+12:50:41 found at Z 17000 -> ramp to 15500 and start the Z test NOW
+12:50:41 in contact at the start (12347 counts): backing out
+12:50:41   SNAP: 12347 counts at Z 15500 -> Z down 3000
+12:50:41   SNAP: 16777 counts at Z 11952 -> Z down 3000
+12:50:41   SNAP: 32767 counts at Z 8784 -> Z down 3000
+12:50:41   SNAP: 32767 counts at Z 5910 -> Z down 3000
+12:50:42   SNAP: 9180 counts at Z 3176 -> Z down 3000
+12:50:42   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:42   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:42 cycle 5 done, Z 0
+12:50:42   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:42   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:42   SNAP: 12788 counts at Z 24 -> Z down 3000
+12:50:42   SNAP: 32375 counts at Z 12 -> Z down 3000
+12:50:43   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:43 cycle 10 done, Z 0
+12:50:43   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:43   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:43   SNAP: 20603 counts at Z 64 -> Z down 3000
+12:50:43 cycle 15 done, Z 0
+12:50:43   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:43   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:44   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:44   SNAP: 24470 counts at Z 4 -> Z down 3000
+12:50:44   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:44 cycle 20 done, Z 0
+12:50:44   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:44   SNAP: 15612 counts at Z 4 -> Z down 3000
+12:50:44 cycle 25 done, Z 0
+12:50:44   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:45   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:45   SNAP: 31266 counts at Z 4 -> Z down 3000
+12:50:45   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:45   SNAP: 32767 counts at Z 4 -> Z down 3000
+12:50:45 cycle 30 done, Z 0
+12:50:45 RESULT: ztest ('done', 0); Z left at 0, bias -0.5 V
+12:50:45 cycle  1  in    -   (0 pts)  out    -   (1 pts)  hyst   3168  onset 11952  snaps 2
+12:50:45 cycle  2  in    -   (1 pts)  out    -   (0 pts)  hyst      4  onset 5918  snaps 1
+12:50:45 cycle  3  in  188.5 (11 pts)  out    -   (0 pts)  hyst    -88  onset 3180  snaps 2
+12:50:45 cycle  4  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle  5  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle  6  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle  7  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle  8  in   23.4 (4 pts)  out    -   (0 pts)  hyst    -24  onset 0  snaps 1
+12:50:45 cycle  9  in   41.7 (4 pts)  out    -   (0 pts)  hyst    -12  onset 0  snaps 1
+12:50:45 cycle 10  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 11  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 12  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 13  in    -   (0 pts)  out    -   (0 pts)  hyst      0  onset 0  snaps 0
+12:50:45 cycle 14  in 1550.8 (8 pts)  out   47.6 (9 pts)  hyst    -12  onset 0  snaps 0
+12:50:45 cycle 15  in  125.3 (9 pts)  out    -   (0 pts)  hyst    -16  onset 68  snaps 1
+12:50:45 cycle 16  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 17  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 18  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 19  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 20  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 21  in    -   (0 pts)  out    -   (0 pts)  hyst      0  onset 0  snaps 0
+12:50:45 cycle 22  in    -   (0 pts)  out    -   (0 pts)  hyst      0  onset 0  snaps 0
+12:50:45 cycle 23  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 24  in   14.0 (3 pts)  out    -   (0 pts)  hyst      0  onset 0  snaps 0
+12:50:45 cycle 25  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 26  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 27  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 28  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 29  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 cycle 30  in    -   (0 pts)  out    -   (0 pts)  hyst    -    onset 0  snaps 1
+12:50:45 SUMMARY: cycles=30, cpd_in_median=83.51, cpd_in_n=6, cpd_out_median=47.60, cpd_out_n=1, hyst_median=0, hyst_n=11, drift_counts_per_s=-1260.32, onset_first=11952, onset_last=0, snaps=27

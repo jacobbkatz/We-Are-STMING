@@ -1,0 +1,14 @@
+13:07:42 release chunk 5 (+100 steps): 32767 counts
+13:07:46 release chunk 10 (+200 steps): 32767 counts
+13:07:50 release chunk 15 (+300 steps): 32767 counts
+13:07:54 release chunk 20 (+400 steps): 32767 counts
+13:07:58 release chunk 25 (+500 steps): 32767 counts
+13:08:02 release chunk 30 (+600 steps): 32767 counts
+13:08:06 release chunk 35 (+700 steps): 32767 counts
+13:08:10 release chunk 40 (+800 steps): 32767 counts
+13:08:14 release chunk 45 (+900 steps): 32767 counts
+13:08:18 release chunk 50 (+1000 steps): 32767 counts
+13:08:22 release chunk 55 (+1100 steps): 32767 counts
+13:08:26 release chunk 60 (+1200 steps): 32767 counts
+13:08:26 RELEASE: limit after 60 chunks (+1200 steps)
+13:08:26 END: Z 0, bias -0.5 V

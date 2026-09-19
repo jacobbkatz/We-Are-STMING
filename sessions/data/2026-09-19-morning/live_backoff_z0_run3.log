@@ -1,0 +1,4 @@
+13:10:40    0.0s   32767 counts  <<< CONTACT: STOP TURNING IN. Now back off in tiny steps until the beeping stops. >>>
+13:11:59   78.8s       5 counts  current gone - hold still
+13:12:01   80.8s      -4 counts  CLEAR for 2 s: STOP. Leave the room.
+RESULT: clear (Z held at 0)

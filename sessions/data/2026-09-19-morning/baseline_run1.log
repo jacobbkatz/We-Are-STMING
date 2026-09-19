@@ -1,0 +1,7 @@
+11:22:54 GSTS: 0,0,0,0,256,0,0,0,0,389960
+11:22:54 Z 0, bias 0 V   : mean    -6.2  sd   36.5  (n 200)
+11:22:55 Z 0, bias -0.5 V: mean    -4.7  sd   36.6  (n 200)
+11:22:55 Z 0, bias +0.5 V: mean    -8.2  sd   33.5  (n 200)
+11:22:55 Z 0, bias 0 V   : mean    -4.8  sd   37.1  (n 200)
+11:23:02 clear all the way to Z 32768
+11:23:02 RESULT: clear at Z 32768; bias left at -0.5 V

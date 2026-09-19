@@ -1,0 +1,112 @@
+12:59:31 ==== bias -0.1 V (code 33860), start Z 20000 ====
+12:59:51 cycle 5 done, Z 30506
+13:00:07 cycle 10 done, Z 31046
+13:00:23 cycle 15 done, Z 32010
+13:00:38 cycle 20 done, Z 32146
+13:00:38 cycle  1  in  406.0 (67 pts)  out 5157.2 (10 pts)  hyst   2728  onset 32984  snaps 0
+13:00:38 cycle  2  in 1096.0 (212 pts)  out 4975.6 (30 pts)  hyst   1862  onset 32544  snaps 0
+13:00:38 cycle  3  in  964.9 (183 pts)  out  385.0 (7 pts)  hyst   1836  onset 32684  snaps 0
+13:00:38 cycle  4  in 1652.2 (285 pts)  out 4702.4 (16 pts)  hyst   1600  onset 32696  snaps 0
+13:00:38 cycle  5  in 1807.2 (346 pts)  out 1846.5 (19 pts)  hyst   1270  onset 32606  snaps 0
+13:00:38 cycle  6  in  859.4 (170 pts)  out  294.3 (5 pts)  hyst   1880  onset 32790  snaps 0
+13:00:38 cycle  7  in 4096.8 (309 pts)  out    -   (2 pts)  hyst    716  onset 32714  snaps 0
+13:00:38 cycle  8  in 3184.7 (439 pts)  out 28901.4 (11 pts)  hyst   1410  onset 32792  snaps 0
+13:00:38 cycle  9  in  401.8 (79 pts)  out 11858.1 (9 pts)  hyst   1760  onset 32936  snaps 0
+13:00:38 cycle 10  in  294.2 (51 pts)  out 7969.8 (26 pts)  hyst   1722  onset 32946  snaps 0
+13:00:38 cycle 11  in  756.7 (125 pts)  out    -   (2 pts)  hyst   1744  onset 33294  snaps 0
+13:00:38 cycle 12  in  272.0 (54 pts)  out 22841.0 (12 pts)  hyst   1424  onset 33344  snaps 0
+13:00:38 cycle 13  in  294.1 (62 pts)  out 1613.3 (3 pts)  hyst   1656  onset 33490  snaps 0
+13:00:38 cycle 14  in  233.2 (51 pts)  out  201.9 (4 pts)  hyst   1538  onset 33612  snaps 0
+13:00:38 cycle 15  in  352.0 (61 pts)  out  188.8 (4 pts)  hyst   1650  onset 33910  snaps 0
+13:00:38 cycle 16  in 1359.3 (95 pts)  out    -   (2 pts)  hyst   1568  onset 34170  snaps 0
+13:00:38 cycle 17  in  443.4 (86 pts)  out  294.5 (6 pts)  hyst   1758  onset 34248  snaps 0
+13:00:38 cycle 18  in 2606.7 (302 pts)  out    -   (1 pts)  hyst   1416  onset 33972  snaps 0
+13:00:38 cycle 19  in  441.1 (85 pts)  out 9256.6 (8 pts)  hyst   1622  onset 34074  snaps 0
+13:00:38 cycle 20  in  996.0 (127 pts)  out 7751.4 (16 pts)  hyst   1678  onset 34046  snaps 0
+13:00:38 SUMMARY: cycles=20, cpd_in_median=808.05, cpd_in_n=20, cpd_out_median=4839.03, cpd_out_n=16, hyst_median=1653.00, hyst_n=20, drift_counts_per_s=28.87, onset_first=32984, onset_last=34046, snaps=0
+13:00:38 ==== bias +0.5 V (code 27307), start Z 30046 ====
+13:00:54 cycle 5 done, Z 31654
+13:01:12 cycle 10 done, Z 32086
+13:01:17   SNAP: -8169 counts at Z 32440 -> Z down 3000
+13:01:34 cycle 15 done, Z 31960
+13:01:48 cycle 20 done, Z 32548
+13:01:48 cycle  1  in 6157.2 (169 pts)  out 20768.8 (165 pts)  hyst   1520  onset 32694  snaps 0
+13:01:48 cycle  2  in  403.1 (81 pts)  out  297.9 (6 pts)  hyst   1768  onset 33576  snaps 0
+13:01:48 cycle  3  in 3310.7 (134 pts)  out 8098.4 (8 pts)  hyst   1866  onset 33736  snaps 0
+13:01:48 cycle  4  in 3237.8 (255 pts)  out 4051.3 (6 pts)  hyst    822  onset 33844  snaps 0
+13:01:48 cycle  5  in 3104.8 (240 pts)  out 8475.5 (36 pts)  hyst   1972  onset 33954  snaps 0
+13:01:48 cycle  6  in 2171.8 (64 pts)  out  468.5 (8 pts)  hyst   2056  onset 34082  snaps 0
+13:01:48 cycle  7  in  356.2 (31 pts)  out 100851.5 (179 pts)  hyst   2202  onset 34100  snaps 0
+13:01:48 cycle  8  in  407.7 (70 pts)  out 5504.4 (32 pts)  hyst   2120  onset 34328  snaps 0
+13:01:48 cycle  9  in 4642.9 (53 pts)  out 16071.9 (42 pts)  hyst   2302  onset 34372  snaps 0
+13:01:48 cycle 10  in  337.4 (59 pts)  out    -   (2 pts)  hyst   2286  onset 34636  snaps 0
+13:01:48 cycle 11  in  412.3 (68 pts)  out 358295.8 (180 pts)  hyst   2152  onset 34894  snaps 0
+13:01:48 cycle 12  in    -   (1 pts)  out  142.8 (4 pts)  hyst   3114  onset 32508  snaps 1
+13:01:48 cycle 13  in 22989.8 (745 pts)  out 4974.7 (13 pts)  hyst  -4690  onset 36884  snaps 0
+13:01:48 cycle 14  in 4931.0 (366 pts)  out 9680.1 (119 pts)  hyst   1870  onset 36442  snaps 0
+13:01:48 cycle 15  in 5543.1 (590 pts)  out 8331.9 (5 pts)  hyst   3292  onset 36910  snaps 0
+13:01:48 cycle 16  in 1049.9 (162 pts)  out 2830.9 (51 pts)  hyst   1292  onset 34004  snaps 0
+13:01:48 cycle 17  in 2178.2 (309 pts)  out 2101.6 (157 pts)  hyst    552  onset 33702  snaps 0
+13:01:48 cycle 18  in 2242.7 (439 pts)  out 3840.1 (162 pts)  hyst    994  onset 34236  snaps 0
+13:01:48 cycle 19  in 2661.2 (377 pts)  out 2532.4 (144 pts)  hyst     96  onset 34044  snaps 0
+13:01:48 cycle 20  in 2067.2 (473 pts)  out 3247.7 (40 pts)  hyst    720  onset 34498  snaps 0
+13:01:48 SUMMARY: cycles=20, cpd_in_median=2242.70, cpd_in_n=19, cpd_out_median=4974.65, cpd_out_n=19, hyst_median=1868.00, hyst_n=20, drift_counts_per_s=21.89, onset_first=32694, onset_last=34498, snaps=1
+13:01:48 ==== bias +0.1 V (code 31676), start Z 30498 ====
+13:02:21 cycle 5 done, Z 30340
+13:02:54 cycle 10 done, Z 32520
+13:03:24 cycle 15 done, Z 31194
+13:03:53 cycle 20 done, Z 32724
+13:03:53 cycle  1  in 3201.6 (403 pts)  out 12591.7 (92 pts)  hyst   5230  onset 34922  snaps 0
+13:03:53 cycle  2  in 9298.0 (1663 pts)  out 13715.8 (98 pts)  hyst   1442  onset 36282  snaps 0
+13:03:53 cycle  3  in 7580.0 (1598 pts)  out 100948.4 (265 pts)  hyst    -88  onset 36074  snaps 0
+13:03:53 cycle  4  in 5270.9 (1048 pts)  out 52515.1 (99 pts)  hyst   2358  onset 35874  snaps 0
+13:03:53 cycle  5  in 2773.7 (635 pts)  out 66610.0 (210 pts)  hyst   1506  onset 34240  snaps 0
+13:03:53 cycle  6  in 2993.6 (587 pts)  out 16215.6 (165 pts)  hyst   1808  onset 34732  snaps 0
+13:03:53 cycle  7  in 4940.1 (949 pts)  out 24031.4 (134 pts)  hyst   1562  onset 36602  snaps 0
+13:03:53 cycle  8  in 5083.2 (975 pts)  out 11383.1 (201 pts)  hyst   1888  onset 35814  snaps 0
+13:03:53 cycle  9  in 5522.9 (1256 pts)  out 6159.9 (63 pts)  hyst   2078  onset 37338  snaps 0
+13:03:53 cycle 10  in 4182.0 (778 pts)  out 18942.8 (126 pts)  hyst   2140  onset 37220  snaps 0
+13:03:53 cycle 11  in 4529.8 (839 pts)  out 10324.7 (77 pts)  hyst   -754  onset 37544  snaps 0
+13:03:53 cycle 12  in 4415.0 (973 pts)  out 6917.1 (62 pts)  hyst   1820  onset 37814  snaps 0
+13:03:53 cycle 13  in 6041.7 (1108 pts)  out 3052.1 (40 pts)  hyst     88  onset 38042  snaps 0
+13:03:53 cycle 14  in 4273.8 (785 pts)  out 19125.3 (186 pts)  hyst   4390  onset 36980  snaps 0
+13:03:53 cycle 15  in 7260.9 (1270 pts)  out 24257.7 (238 pts)  hyst   -134  onset 36344  snaps 0
+13:03:53 cycle 16  in 2498.8 (560 pts)  out 11580.0 (202 pts)  hyst   1268  onset 34662  snaps 0
+13:03:53 cycle 17  in 3355.1 (844 pts)  out 7978.5 (214 pts)  hyst   1256  onset 35192  snaps 0
+13:03:53 cycle 18  in 4014.0 (953 pts)  out 12598.8 (217 pts)  hyst    784  onset 35596  snaps 0
+13:03:53 cycle 19  in 5001.7 (1024 pts)  out 12140.1 (207 pts)  hyst   -152  onset 35708  snaps 0
+13:03:53 cycle 20  in 4748.8 (1149 pts)  out 10421.1 (213 pts)  hyst    364  onset 37024  snaps 0
+13:03:53 SUMMARY: cycles=20, cpd_in_median=4639.28, cpd_in_n=20, cpd_out_median=12595.28, cpd_out_n=20, hyst_median=1474.00, hyst_n=20, drift_counts_per_s=6.72, onset_first=34922, onset_last=37024, snaps=0
+13:03:53 ==== bias -0.5 V (code 38229), start Z 33024 ====
+13:03:53 in contact at the start (1475 counts): backing out
+13:04:04 cycle 5 done, Z 32862
+13:04:18 cycle 10 done, Z 34498
+13:04:32 cycle 15 done, Z 34590
+13:04:46 cycle 20 done, Z 36134
+13:04:46 cycle  1  in  208.3 (14 pts)  out 7384.7 (109 pts)  hyst   1240  onset 33368  snaps 0
+13:04:46 cycle  2  in 1563.2 (314 pts)  out 3990.3 (72 pts)  hyst    458  onset 33354  snaps 0
+13:04:46 cycle  3  in  700.3 (127 pts)  out 2995.0 (82 pts)  hyst    920  onset 33600  snaps 0
+13:04:46 cycle  4  in 1226.8 (192 pts)  out 201380.8 (158 pts)  hyst    864  onset 33876  snaps 0
+13:04:46 cycle  5  in 1069.6 (192 pts)  out 10952.8 (142 pts)  hyst    610  onset 34112  snaps 0
+13:04:46 cycle  6  in  873.0 (167 pts)  out 4149.0 (139 pts)  hyst    844  onset 34214  snaps 0
+13:04:46 cycle  7  in 1154.3 (198 pts)  out 3600.9 (30 pts)  hyst    702  onset 34532  snaps 0
+13:04:46 cycle  8  in  958.3 (191 pts)  out 5485.0 (157 pts)  hyst    708  onset 34960  snaps 0
+13:04:46 cycle  9  in 1457.7 (311 pts)  out 3078.2 (52 pts)  hyst    662  onset 35326  snaps 0
+13:04:46 cycle 10  in 2719.3 (576 pts)  out 5618.5 (169 pts)  hyst    190  onset 36498  snaps 0
+13:04:46 cycle 11  in 2205.9 (415 pts)  out 4183.2 (140 pts)  hyst    884  onset 36262  snaps 0
+13:04:46 cycle 12  in 2054.9 (410 pts)  out 3342.4 (89 pts)  hyst    906  onset 36236  snaps 0
+13:04:46 cycle 13  in 3340.8 (352 pts)  out 3008.1 (43 pts)  hyst    494  onset 36044  snaps 0
+13:04:46 cycle 14  in 1879.9 (387 pts)  out 1085.2 (17 pts)  hyst    874  onset 36462  snaps 0
+13:04:46 cycle 15  in 2366.6 (382 pts)  out 3678.1 (28 pts)  hyst    426  onset 36140  snaps 0
+13:04:46 cycle 16  in 2274.7 (547 pts)  out 3607.1 (25 pts)  hyst    772  onset 36982  snaps 0
+13:04:46 cycle 17  in 3278.3 (319 pts)  out 11497.3 (157 pts)  hyst    -64  onset 36008  snaps 0
+13:04:46 cycle 18  in 2243.8 (303 pts)  out 6915.3 (160 pts)  hyst    762  onset 36154  snaps 0
+13:04:46 cycle 19  in 6755.7 (520 pts)  out 3647.7 (40 pts)  hyst  -1652  onset 38068  snaps 0
+13:04:46 cycle 20  in 2903.8 (378 pts)  out 2304.7 (19 pts)  hyst     90  onset 37784  snaps 0
+13:04:46 SUMMARY: cycles=20, cpd_in_median=1967.39, cpd_in_n=20, cpd_out_median=3834.22, cpd_out_n=20, hyst_median=705.00, hyst_n=20, drift_counts_per_s=82.72, onset_first=33368, onset_last=37784, snaps=0
+13:04:46 END: Z 0, bias -0.5 V
+13:04:46 SERIES SUMMARY:
+13:04:46   -0.1 V  done  cpd_in 808.0467487663375  cpd_out 4839.032355565131  hyst 1653.0  snaps 0  drift 28.870369027342573  cycles 20
+13:04:46   +0.5 V  done  cpd_in 2242.6973457737604  cpd_out 4974.6509569708805  hyst 1868.0  snaps 1  drift 21.891002669317448  cycles 20
+13:04:46   +0.1 V  done  cpd_in 4639.28061455872  cpd_out 12595.281038815812  hyst 1474.0  snaps 0  drift 6.721135336543659  cycles 20
+13:04:46   -0.5 V  done  cpd_in 1967.393454258733  cpd_out 3834.2241161011307  hyst 705.0  snaps 0  drift 82.71639757950956  cycles 20

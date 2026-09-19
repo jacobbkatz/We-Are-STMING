@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "C:\Users\jacob\OneDrive\Desktop\CUsersyournameSTM\sessions\data\2026-09-19-morning\scripts\live_backoff_z0.py", line 35, in <module>
+    res = live_backoff.run(lambda s: (dev._write(s.encode()), time.sleep(0.02)),
+                           lambda: read_averaged(dev), beep, time.time, time.sleep,
+                           lambda s: print(time.strftime("%H:%M:%S", time.gmtime()), s, flush=True))
+  File "C:\Users\jacob\OneDrive\Desktop\CUsersyournameSTM\sessions\data\2026-09-19-bench\scripts\live_backoff.py", line 27, in run
+    m = avg(120)
+  File "C:\Users\jacob\OneDrive\Desktop\CUsersyournameSTM\sessions\data\2026-09-19-bench\scripts\live_backoff.py", line 21, in avg
+    v = [x for x in (read() for _ in range(n)) if x is not None]
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jacob\OneDrive\Desktop\CUsersyournameSTM\sessions\data\2026-09-19-bench\scripts\live_backoff.py", line 21, in <genexpr>
+    v = [x for x in (read() for _ in range(n)) if x is not None]
+                     ~~~~^^
+  File "C:\Users\jacob\OneDrive\Desktop\CUsersyournameSTM\sessions\data\2026-09-19-morning\scripts\live_backoff_z0.py", line 36, in <lambda>
+    lambda: read_averaged(dev), beep, time.time, time.sleep,
+            ~~~~~~~~~~~~~^^^^^
+  File "C:\Users\jacob\OneDrive\Desktop\CUsersyournameSTM\Code\pc\stm_feedback_scan.py", line 79, in read_averaged
+    waiting = getattr(dev._port, "in_waiting", 0)
+  File "C:\Users\jacob\AppData\Local\Programs\Python\Python313\Lib\site-packages\serial\serialwin32.py", line 259, in in_waiting
+    raise SerialException("ClearCommError failed ({!r})".format(ctypes.WinError()))
+serial.serialutil.SerialException: ClearCommError failed (PermissionError(13, 'The device does not recognize the command.', None, 22))

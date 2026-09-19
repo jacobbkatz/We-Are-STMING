@@ -1,9 +1,31 @@
 # Current status
 
-**Last updated:** 2026-09-19 bench, final wrap (00:54-04:00 UTC, the evening of 2026-09-18 local) — **POWERED DOWN at the end: side screws backed off ~1/4 turn, USB out, supplies off (`SAID`).** **Electronics quiet again (40-42 counts).** **Springs open.** **The first tip was BENT and was replaced with a very blunt one.** **With the new tip Z controls the current and HIGH Z extends toward the sample (4.2σ, and the loop held with that sign).** **Feedback scans, the three-Y control and wide images all ran — NO IMAGE; every pattern is matched by its X-held control.** **Mechanics are the blocker: the gap slips and drifts, one motor step spans nothing to metal contact, the junction snaps in.**
-**Updated by:** Claude Code desktop on Jacob's laptop, the second half run alone with Jacob's authority. `sessions/2026-09-19-bench.md`.
+**Last updated:** 2026-09-19 morning (11:15-13:4x UTC), **the last session before a break** — **THE Z TEST RAN: 130 cycles at four biases. The junction is a soft, sticky contact, not a tunnelling gap; the gold swings by more than the whole Z range in ~30 s with nothing moving.** **Next: a rigid sample and a gap that holds still, BEFORE any scanning.** Shutdown state in the block below. `sessions/2026-09-19-morning.md`.
+**Updated by:** Claude Code desktop on Jacob's laptop, most of it run alone with Jacob's authority (motor: single steps, then chunks of up to 20).
 
-# 2026-09-19 BENCH — READ THIS FIRST
+# 2026-09-19 MORNING — READ THIS FIRST, AND THE PLAN FOR COMING BACK AFTER THE BREAK
+
+| | |
+|---|---|
+| **Power and storage** | **OFF, PARKED FOR THE BREAK** (`SAID`, 13:27 UTC): **side screws backed off 2 full turns** (away from the tip); LED1-LED4 dark before power-off; **USB out, then supplies off**; **covered against dust**. Last set: Z 0, X/Y 32768, sample −0.5 V. **Before the next power-up: check the rubber bands** (they perish over weeks) and the plate on its three balls. The final noise baseline was not taken |
+| **THE Z TEST** | **Z controls the current, but not like a tunnelling gap.** A decade per **~1,650 and ~1,970** Z counts going in at sample −0.5 V (two runs), **~800-4,600** at other biases, where tunnelling would be ~7-15. **In/out hysteresis ~700-1,900 counts at EVERY bias**; contact often begins with a **snap, 28 → 16,777 counts within one 4-count step**. `docs/FACTS.md`, "The junction and the gap" |
+| **The stickiness is not the bias** | ±0.1 V gave the same hysteresis as ±0.5 V — **mechanical**, a soft pressed contact. The W/Au contact potential is unmeasured, so electrostatics is not fully excluded |
+| **THE GAP DOES NOT HOLD STILL** | **With nothing moving: beyond Z 48,000 to past Z 0 in ~30 s**; ~15,000 counts/s toward the tip after a find; ~7,700 counts/s away after a release; out of reach ~100 s and back. **Aperiodic** — nothing to synchronise a scan to |
+| **Coarse approach** | **Every hand-set lost the gold within minutes of letting go** (a side screw is 0.88 µm per degree; the Z range ~1 µm). **The motor finds it in 20-step chunks** (200 and 180 steps) **but cannot release a hard contact** (+380, +1,200 steps: still railed). The hand releases it |
+| **Last night's scan loop** | Tuned to **100** counts per decade against this junction's **~1,800**: ~18x too weak. In simulation it recovers **141 of a 1,500-count bump**. **Last night's scans could not have shown topography that size** |
+| **Corrections to last night, verified** | **Corrected: the "X-held control swung Z by 28,000 counts" was the tool** (the loop started at its lower clamp and climbed back blind), and the wide images' anti-correlation is the loop hunting, not lag. `sessions/2026-09-19-morning.md` §5 |
+| **Tip** | Unchanged, "very blunt", fitted ~03:00 UTC 2026-09-19 — **pressed hard into the gold four times today**, up to ~3 minutes each. Replace it |
+| **Plate** | On all three balls (`SAID`) |
+
+**THE ORDER FOR COMING BACK — full procedure in `docs/NEXT_SESSION_PLAN.md`:** (1) a rigid sample — a
+gold-plated flat surface, HOPG, or leaf bonded all round with no paper; (2) a sharper tip; (3) **prove the
+gap holds still for 15 minutes** with `swing_log.py` **before any scanning**; (4) the Z-0 hand-set, then
+20-step motor chunks, then the Z test at once; (5) scan only with the counts per decade the Z test measures.
+
+# 2026-09-19 BENCH (night) — superseded by the block above where they differ
+
+**Last updated (night):** 2026-09-19 bench, final wrap (00:54-04:00 UTC, the evening of 2026-09-18 local) — **POWERED DOWN at the end: side screws backed off ~1/4 turn, USB out, supplies off (`SAID`).** **Electronics quiet again (40-42 counts).** **Springs open.** **The first tip was BENT and was replaced with a very blunt one.** **With the new tip Z controls the current and HIGH Z extends toward the sample (4.2σ, and the loop held with that sign).** **Feedback scans, the three-Y control and wide images all ran — NO IMAGE; every pattern is matched by its X-held control.** **Mechanics are the blocker: the gap slips and drifts, one motor step spans nothing to metal contact, the junction snaps in.**
+**Updated by (night):** Claude Code desktop on Jacob's laptop, the second half run alone with Jacob's authority. `sessions/2026-09-19-bench.md`.
 
 | | |
 |---|---|
@@ -13,15 +35,17 @@
 | **Suspension** | **Springs open** (`SAID`: ~3 bounces a second, dying in ~3). **Stamping changed nothing — with the tip clear, which cannot see the suspension.** The real stamp test needs a junction |
 | **Tip** | **The 2026-09-19 tip was BENT** (`SAID`) — it explains the first half's Z-proof, chattering contact. **Replaced ~03:00 with a new, "very blunt" tip** (`SAID`); rule 7 OPEN; LEDs dark |
 | **Z DIRECTION, NEW TIP: HIGH EXTENDS TOWARD THE SAMPLE** | Lock-in at a clean touch **+6305 ± 1484 counts over ±2000 (4.2σ)**, and **the feedback loop held the junction for 8 runs with that sign.** **`--z-retracted low` is right for this tip.** Re-check it whenever the tip changes |
-| **Imaging** | **No image.** 4 feedback scans + 4 X-held controls: the controls reproduce better (image to image +0.37 against +0.04). **Three-Y control**: at 3,000 apart the same shape everywhere (the scanner); at 12,000 one run said "surface" at 3.9σ and **the repeat did not**. Wide images: trace/retrace **−0.75 to −0.94** (loop lag), saturation ~15% |
+| **Imaging** | **No image.** 4 feedback scans + 4 X-held controls: the controls reproduce better (image to image +0.37 against +0.04). **Three-Y control**: at 3,000 apart the same shape everywhere (the scanner); at 12,000 one run said "surface" at 3.9σ and **the repeat did not**. Wide images: trace/retrace **−0.75 to −0.94** ~~(loop lag)~~ **corrected 2026-09-19 morning: the loop HUNTING, not lag — each line is detrended first, so no drift ramp can make it; X motion the likely, unproven cause** (`sessions/2026-09-19-morning.md` §5), saturation ~15% |
 | **Getting the gap** | **The live back-off works**: the laptop ticks while touching and goes silent when clear; stop at the silence. **One motor step spans nothing to metal contact**, so the motor cannot park the tip at a moderate current |
 | **CLAUDE'S ERROR** | **Two approaches ran with the sample at 0 V** (metal contact was all they could see). **Fixed: `stm_approach.py` sets `--bias` itself (default −0.5 V) and refuses 0 V**; it also no longer reports a direction from a hit at midscale |
 
-**THE BLOCKER IS MECHANICAL.** The gap slips and drifts (an X-held control swung Z by 28,000 counts
-with nothing moving), the junction snaps in, and the coarse stage has no fine enough step. **A
+**THE BLOCKER IS MECHANICAL.** The gap slips and drifts (~~an X-held control swung Z by 28,000 counts
+with nothing moving~~ **corrected 2026-09-19 morning: that swing was the tool** — the loop started at its
+lower clamp and climbed back blind. **The gold's own swing, more than the whole Z range in ~30 s, was then
+measured directly that morning**), the junction snaps in, and the coarse stage has no fine enough step. **A
 sharper tip and a stiffer sample-plate mounting come before more scanning.** `docs/NEXT_SESSION_PLAN.md`.
 
-# TONIGHT, ON NUH'S COMPUTER — THE THREE THINGS, IN ORDER
+# ~~TONIGHT, ON NUH'S COMPUTER — THE THREE THINGS, IN ORDER~~ — DONE at the 2026-09-19 bench session (on Jacob's laptop; Nuh's computer was abandoned). Results in `sessions/2026-09-19-bench.md` §3.1-3.3
 
 **Full procedure with conditions and what each outcome means:
 [`docs/NEXT_SESSION_PLAN.md` STEP N](docs/NEXT_SESSION_PLAN.md).**
@@ -2634,7 +2658,7 @@ here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log 
 | ~~**Is the OPA627 saturated at +11.905 V?**~~ **SUPERSEDED 2026-09-13** | With +IN floating the question does not have a meaningful answer on the old board |
 | **Does the rebuilt preamp box shield conduct end to end?** | Two minutes with a meter, never done. Every shield conclusion rests on it |
 | **Is the ~119 nA the CA contamination, or something else?** | The rail-leak mechanism failed its own test. Drives whether the rebuild is the right fix |
-| **Which Z direction approaches the sample, and which sign of `MTMV` advances?** | `Code/pc/stm_approach.py` refuses to run without both. **`MTMV` sign PROVISIONALLY negative, 2026-09-16** (`docs/OPEN_QUESTIONS.md`); Z direction still UNKNOWN |
+| ~~**Which Z direction approaches the sample, and which sign of `MTMV` advances?**~~ **ANSWERED for the current tip** | `Code/pc/stm_approach.py` refuses to run without both. **`MTMV` sign PROVISIONALLY negative, 2026-09-16** (`docs/OPEN_QUESTIONS.md`); ~~Z direction still UNKNOWN~~ **superseded: for the tip fitted ~03:00 UTC 2026-09-19, HIGH Z extends toward the sample** (`sessions/2026-09-19-bench.md` §3.14, reconfirmed by every onset on 2026-09-19 morning), and **negative `MTMV` approached** in every motor approach that found the gold. **Re-check both whenever the tip changes** |
 | ~~**Does the piezo disc fit its Ø20.500 mm seat?**~~ **CLOSED 2026-09-09 by construction** | The scanner is built and works. **Do not spend bench time on this.** The nm/V figures still want a real calibration eventually, but that is a scan-calibration job, not a fit question |
 
 > **Closed since this table was last pruned**, and now only in `docs/OPEN_QUESTIONS.md`:

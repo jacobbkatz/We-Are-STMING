@@ -1,0 +1,12 @@
+13:06:36   ABORT line 0: saturated 0, clamped 135
+13:06:36 s3k scan0: 1 lines 0.6 s, Z 28256..48000, saturated 0, clamped 135, lost 0 -> tuned_s3k_scan0.csv
+13:06:38   ABORT line 1: saturated 0, clamped 168
+13:06:38 s3k xheld0: 2 lines 1.8 s, Z 17444..48000, saturated 0, clamped 168, lost 0 -> tuned_s3k_xheld0.csv
+13:06:44   ABORT line 7: saturated 0, clamped 353
+13:06:44 s3k scan1: 8 lines 4.9 s, Z 12000..24708, saturated 0, clamped 353, lost 0 -> tuned_s3k_scan1.csv
+13:06:48   ABORT line 7: saturated 0, clamped 355
+13:06:48 s3k xheld1: 8 lines 4.3 s, Z 12000..20694, saturated 0, clamped 355, lost 0 -> tuned_s3k_xheld1.csv
+13:06:53   ABORT line 8: saturated 0, clamped 382
+13:06:53 s3k scan2: 9 lines 4.6 s, Z 12000..21611, saturated 0, clamped 382, lost 0 -> tuned_s3k_scan2.csv
+13:06:57   ABORT line 8: saturated 0, clamped 427
+13:06:57 s3k xheld2: 9 lines 4.3 s, Z 12000..23058, saturated 0, clamped 427, lost 0 -> tuned_s3k_xheld2.csv

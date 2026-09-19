@@ -1,13 +1,90 @@
 # Next session plan
 
-**Last updated:** 2026-09-19 bench, final wrap — **powered down; the side screws were backed off about a quarter turn, so the gap is large.** **the first tip was bent and was replaced; with the new, very blunt tip Z controls the current and HIGH extends toward the sample; feedback scans and the three-Y control ran and showed no image.** The blocker is mechanical. Start at the block below.
+**Last updated:** 2026-09-19 morning, the last session before a break — **the Z test ran (130 cycles, four biases): the junction is a soft, sticky contact, not a tunnelling gap, and the gold swings by more than the whole Z range in ~30 s with nothing moving.** **Fix the sample mounting and prove the gap holds still BEFORE any scanning.** Start at the block below.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
 
 ---
 
-# START HERE — after the 2026-09-19 bench session (wrap)
+# START HERE — COMING BACK AFTER THE BREAK (written 2026-09-19 morning)
+
+**How it was left:** see `STATUS.md`'s top block and `sessions/2026-09-19-morning.md` §9 for the exact
+shutdown state. **Before powering up, check the rubber bands that hold the sample plate on its three
+balls: rubber perishes over weeks — replace any that are cracked or slack**, and confirm the plate still
+sits on all three balls. **Power up in the usual order** (supplies, then USB), **check LED1-LED4 dark**
+before anything is sent, and **expect the gold far from the tip**: the side screws were backed off for
+storage, so the first hand-set needs them turned back in by about that much.
+
+## What is settled — do not spend time re-proving these
+
+| | |
+|---|---|
+| **Electronics** | Preamp ~4 pA; ADC chain verified end to end; noise sd ~35-46 counts with the tip clear. **Not the problem** |
+| **Z direction, current tip** | **HIGH Z extends toward the sample**, reconfirmed by every onset on 2026-09-19 |
+| **Tools** | The approach, the Z test, the loop and the scans all work on simulated junctions and on hardware. The session scripts are in `sessions/data/2026-09-19-morning/scripts/`, each with `--test` |
+
+## What stands between this and an image — MEASURED 2026-09-19 morning
+
+1. **The gap does not hold still.** With nothing moving, the gold went from beyond Z 48,000 to past Z 0 in
+   ~30 s, rushed in at ~15,000 counts/s after a find, receded at ~7,700 counts/s after a release. **An image
+   needs it to hold within a few hundred counts for a minute.** `docs/FACTS.md`, "The junction and the gap".
+2. **The junction is a soft, sticky contact, not a tunnelling gap** — a decade per ~800-4,600 Z counts,
+   700-1,900 counts of in/out hysteresis at every bias, snaps. A real tunnel junction is a decade per tens
+   of counts with no hysteresis.
+3. **The coarse approach cannot place the gold gently.** The hand overshoots the piezo range; the motor
+   finds the gold in 20-step chunks but cannot pull a hard contact off.
+
+## Do these, in this order
+
+**1. Change the sample to something that cannot flex.** The gold leaf on its backing paper, anchored at one
+edge, is the leading suspect for items 1 and 2. **In order of preference:**
+- **a rigid gold surface** — anything gold-plated and flat that does not bend: a gold-plated PCB pad
+  (ENIG finish), a gold-plated connector contact, a SIM-card contact pad. Rough on the nanometre scale, but
+  it cannot snap to the tip or follow it back. **Check `docs/INVENTORY.md` and ask before assuming any of
+  these is in the room** (`CLAUDE.md` §3d);
+- **HOPG** (highly oriented pyrolytic graphite), the standard hobby-STM sample — flat, conductive, cleaved
+  fresh with tape. A purchase;
+- **the leaf, but bonded all round with conductive adhesive under it and NO paper** — the 2026-09-17 patch
+  on copper tape held; the leaf would not transfer by pressure on 2026-09-19 (`docs/INVENTORY.md`).
+
+**2. A sharper tip.** The current one was "very blunt" when fitted and was pressed hard into the gold
+repeatedly on 2026-09-19 (four railed contacts of up to ~3 minutes). Re-check `STATUS.md` safety rule 7
+after fitting, and **re-check the Z direction** (a ±2000 lock-in at a touch, or `stm_approach.py
+--z-retracted unknown`).
+
+**3. PROVE THE GAP HOLDS STILL before anything else.** After a hand-set (below):
+
+    py sessions/data/2026-09-19-morning/scripts/swing_log.py 900 5
+
+A full sweep every 5 s for 15 minutes with nothing moving; it records the onset Z or FAR/PAST. **Pass:
+the onset stays within a few thousand counts for minutes.** On 2026-09-19 it swung by more than 48,000.
+**If a rigid sample still swings, the cause is the plate mounting or the head** — rubber-band creep, the
+ball contacts, thermal motion of the printed parts — and that is the next thing to fix, not the scan.
+
+**4. The coarse approach that works:**
+- **Hand-set with the Z-0 back-off** (`sessions/data/2026-09-19-morning/scripts/live_backoff_z0.py`): turn
+  in until six beeps, back off in the tiniest nudges while it ticks, stop at silence. Z is held fully
+  retracted, so "silent" leaves the gold at the bottom of the range.
+- **Then the motor in 20-step chunks with a full Z sweep between** (`fastwood.py 400 --chunk 20`), and the
+  Z test **the instant it finds the gold** (`approach_then_ztest.py`). Any delay and it has moved.
+- **A hard contact the motor cannot release: use the hand** (the same beeper). +1,200 motor steps did not.
+
+**5. The Z test, then scan with the measured constant.** `ztest.py <start_z> 30` gives counts per decade
+and hysteresis. **A tunnel junction: tens of counts per decade, little hysteresis, no snaps.** Put its
+counts per decade into the loop (`COUNTS_PER_DECADE`) — on 2026-09-19 the scans used 100 against a
+measured ~1,800 and could not have followed topography — then `tuned_scans.py` with X-held controls.
+
+**Software to do on the way back (before bench time):** promote `ztest.py`, `fastwood.py`,
+`live_backoff_z0.py` and `swing_log.py` into `Code/pc/` with their tests, **writing CSV rows as they are
+taken** (three CSVs were lost on 2026-09-19 because they were written only on exit).
+
+**Do not:** no `APRH`; no `CCON` with a tip in range; every DAC value 0-65535; **never jump Z by tens of
+thousands of counts and trust the next read** (a 0 → 28,000 jump put 3,714 counts on it).
+
+---
+
+# ~~START HERE — after the 2026-09-19 bench session (wrap)~~ — superseded 2026-09-19 morning by the block above
 
 **State:** powered down (`SAID`). **The side screws were backed off about a quarter turn at the end**, so
 the gold is far from the tip: **power up in the usual order (supplies, USB, LED check), then begin with
@@ -28,7 +105,8 @@ test if it is going to be the procedure).
 
 **3. The mechanics before more scanning.** Every imaging test on 2026-09-19 came back negative and
 every pattern was matched by its X-held control. What stands in the way: **the gap slips and drifts**
-(an X-held control swung Z by 28,000 counts with nothing moving), **the junction snaps in** (the loop
+(~~an X-held control swung Z by 28,000 counts with nothing moving~~ **corrected 2026-09-19 morning: that
+swing was the tool; the gold's own, larger swing was measured directly that morning**), **the junction snaps in** (the loop
 saturated ~15% of the time on wide scans), and **the tip is "very blunt"** (`SAID`). **A sharper tip
 and a stiffer sample-plate mounting** come first.
 

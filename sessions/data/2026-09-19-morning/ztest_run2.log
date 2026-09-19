@@ -1,0 +1,5 @@
+12:14:34 in contact at the start (20587 counts): backing out
+12:14:34   SNAP: 20587 counts at Z 45000 -> Z down 3000
+12:14:34 STUCK: still 32767 counts with Z fully retracted (0). Back the MOTOR off.
+12:14:34 END: stuck, Z 0, 45 points -> ztest_1789820073.csv
+12:14:34 SUMMARY: cycles=0, cpd_in_median=None, cpd_in_n=0, cpd_out_median=None, cpd_out_n=0, hyst_median=None, hyst_n=0, drift_counts_per_s=None, onset_first=None, onset_last=None, snaps=0
