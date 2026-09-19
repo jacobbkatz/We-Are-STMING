@@ -195,16 +195,30 @@ def main():
 
     # ------------------------------------------------------------ figures
     section("7. FIGURES")
-    fig, ax = plt.subplots(figsize=(7.2, 3.8))
-    ax.plot(pos, med, marker="o", ms=3, lw=0.9, color=TOL["blue"])
-    ax.set_xlabel("motor position, steps from the start (negative = toward the sample)")
+    # Plot CHRONOLOGICALLY, not by motor position: the run walked in and then back out
+    # several times, so joining points by position would draw a zigzag that is an artefact
+    # of the ordering rather than anything the instrument did.
+    fig, ax = plt.subplots(figsize=(7.6, 3.8))
+    idx = list(range(len(med)))
+    ax.plot(idx, med, lw=0.7, color=TOL["grey"], zorder=1)
+    seen = set()
+    for i_, (m, l) in enumerate(zip(med, lab)):
+        col = TOL["blue"] if l.startswith("in") else (
+            TOL["red"] if l.startswith("out") else TOL["black"])
+        name = ("approaching" if l.startswith("in") else
+                "retracting" if l.startswith("out") else "start")
+        ax.scatter([i_], [m], s=13, color=col, zorder=3,
+                   label=name if name not in seen else None)
+        seen.add(name)
+    ax.axhspan(14400, 18000, color=TOL["green"], alpha=0.25, zorder=0)
+    ax.text(2, 19000, "21 consecutive single approach steps with the median unmoved\n"
+            "(20 of 21 inside this band)", fontsize=7.5, color=TOL["green"])
+    ax.set_xlabel("reading number, in the order taken (one per single motor step)")
     ax.set_ylabel("fast-tracker median onset (Z counts)")
     ax.set_title("A single motor step does nothing, until one does everything\n"
-                 "2026-09-18 bench, lash_run1.log - and see the caveat: these are "
-                 "snap-in events")
-    ax.axhspan(15000, 17000, color=TOL["green"], alpha=0.25)
-    ax.text(min(pos) + 1, 17500, "20 steps with the median unmoved", fontsize=7.5,
-            color=TOL["green"])
+                 "2026-09-18 bench, lash_run1.log - these locate SNAP-IN events, "
+                 "not a tunnelling onset")
+    ax.legend(loc="upper right", ncol=3)
     save(fig, "fig16_motor_steps.png")
     plt.close(fig)
 

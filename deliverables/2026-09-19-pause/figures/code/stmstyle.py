@@ -275,9 +275,11 @@ def titles_keyed(fig, title, subtitle, props, x=0.012, y=0.982, gap=0.050):
     from highlight_text import fig_text
     fig.text(x, y, title, ha="left", va="top",
              fontsize=TYPE["title"], fontweight=W_TITLE, color=C["ink"])
-    fig_text(x=x, y=y - gap, s=subtitle, ha="left", va="top", fig=fig,
+    # vsep is highlight_text's own line spacing, in points. linespacing does nothing
+    # here because every line is assembled from separate text boxes.
+    fig_text(x=x, y=y - gap, s=subtitle, ha="left", va="top", fig=fig, vsep=3,
              highlight_textprops=props, fontsize=TYPE["label"], fontweight=W_BODY,
-             color=C["ink2"], linespacing=1.55)
+             color=C["ink2"])
 
 
 def footer(fig, text, y=0.010, x=0.012):

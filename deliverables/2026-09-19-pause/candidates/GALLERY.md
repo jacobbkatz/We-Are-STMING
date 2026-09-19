@@ -328,7 +328,8 @@ is travelling. A mirrored signal is produced by the scan, not found by it.
 | **The tip ploughing a compliant sample** — dragging the gold leaf in the direction of travel | **Consistent, and physically motivated**: the record is "a soft, pressed, sticky contact" and the gold "followed the retracting tip in" at ~14,000–16,000 counts/s. This would be a real measurement of the sample — of its compliance, not its shape |
 
 **The published figures for this set are also contaminated by the truncation defect, and worse than
-for candidate C.** `sessions/2026-09-19-bench.md` §3.16's *"image to image +0.56 to +0.86, matched
+for candidate C.** (Found independently by the lead, `LEAD_VERIFICATION.md` V5, and here on the
+same day; neither was working from the other's result.) `sessions/2026-09-19-bench.md` §3.16's *"image to image +0.56 to +0.86, matched
 by the X-held controls' +0.56"*: `img_scan_0.csv` is **1 line** and `img_scan_1.csv` is **2 lines**,
 so **both** scan pairs were computed over 21 and 42 points and **neither was an image-to-image
 correlation**. There are not two full wide images, so **no like-for-like scan figure exists at

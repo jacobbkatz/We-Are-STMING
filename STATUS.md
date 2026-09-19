@@ -24,6 +24,53 @@ a gold-plated flat surface, HOPG, or leaf bonded all round with no paper; (3) a 
 the Z direction before running any 2026-09-19-morning script**; (4) **prove the gap holds still** after a
 motor find, **before any scanning**; (5) the Z test, then scan with the constant it measures.
 
+# THE PROJECT'S BEST CANDIDATE IMAGE IS CLOSED, WITH A MECHANISM — 2026-09-19 pause-point
+
+**`sessions/2026-09-17-bench.md` §3.25 has carried the 636-count profile at ±15,000 X as
+UNDETERMINED since 2026-09-17. It can be retired. It is the feedback loop, and the arithmetic
+predicts where it does and does not appear.**
+
+`sessions/data/2026-09-17-bench/line_repeated_wide.csv`, twelve passes of one line. The profile is
+genuinely reproducible and is not noise — consecutive-pass r ~+0.5 to +0.65, split-half +0.92,
+p < 2e-4 against phase-randomised surrogates. **All of that is true and none of it is the sample.**
+
+| | |
+|---|---|
+| Tilt of the twelve passes | **−0.105 Z counts per X count** |
+| X flyback between passes — the tool jumps X back to start the next one | **30,000 counts** |
+| **Z error the loop must recover at every pass start** | **3,144 counts** |
+| Observed excursion over the first two pixels | **~2,470** |
+| **Consecutive-pass r after dropping two pixels of twenty-one** | **+0.65 → +0.05** |
+
+**The same arithmetic predicts its ABSENCE twice.** The two 2D wide images raster back and forth
+without lifting X, so no flyback: start-of-pass jumps **37 and 78 counts**. The 2026-09-19 three-Y
+runs do fly back but are nearly level, so predicted **28 and 238**; observed **−99 and +47**.
+**One equation, three data sets, right about the presence and right about both absences.** That is a
+falsification, not a null. **Re-derived independently by the lead from the raw file**
+(`deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V8).
+
+**The check already existed in this repository one level up.** §3.22 killed an r of +0.75 by
+dropping the first **line** of an image. **Nobody applied it to the first pixels of a line.**
+
+**TWO CHEAP FIXES BEFORE ANY FUTURE SCANNING, and they remove this artefact for good:**
+**(1) discard the first three pixels of every pass in the tool**, writing them to the file anyway so
+nothing is lost; **(2) scan X boustrophedon between passes as well as within a line** — the 2D
+images already do and have no transient.
+
+**Also retired: §3.25's "the ±15,000 place test has not been run".** It had been.
+`scan_wide_25nm_1.csv` and `_2.csv` are two complete images of the same nine Y places on the same X
+grid, **in the same directory the whole time** — same place +0.216 ± 0.228, different place
++0.074 ± 0.063, permutation **p = 0.24**. **They were missing from that directory's `README.md`,
+which is the only index of it, and that is the likeliest reason nobody knew.** Fixed 2026-09-19.
+
+**AND THE "3.9σ" ON THE THREE-Y RESULT IS OVERSTATED.** The data are sound — every file is 3 × 6 × 21,
+no truncation, and all five published numbers reproduce exactly. **The non-reproduction between run
+2 (+0.374) and run 4 (+0.056) is real.** But that σ treats 45 within-place and 108 between-place
+pairwise correlations as independent when every pass appears in many of them. **Under a 20,000-fold
+permutation of the place labels, run 2 is p = 0.0036 — and an X-held control, which cannot contain a
+surface, scores p = 0.020 on the same statistic.** Against a 201-test Bonferroni threshold of
+p < 2.5e-4, run 2 is a factor of 14 short. **Use the permutation test, not the printed sigma.**
+
 # 2026-09-19 BENCH (night) — superseded by the block above where they differ
 
 **Last updated (night):** 2026-09-19 bench, final wrap (00:54-04:00 UTC, the evening of 2026-09-18 local) — **POWERED DOWN at the end: side screws backed off ~1/4 turn, USB out, supplies off (`SAID`).** **Electronics quiet again (40-42 counts).** **Springs open.** **The first tip was BENT and was replaced with a very blunt one.** **With the new tip Z controls the current and HIGH Z extends toward the sample (4.2σ, and the loop held with that sign).** **Feedback scans, the three-Y control and wide images all ran — NO IMAGE; every pattern is matched by its X-held control.** **Mechanics are the blocker: the gap slips and drifts, one motor step spans nothing to metal contact, the junction snaps in.**

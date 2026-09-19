@@ -1,0 +1,9 @@
+  gallery/01_candidateA_wide_profile.png
+  gallery/02_candidateA_place_test.png
+  gallery/03_candidateB_three_y.png
+  gallery/04_feedback_scans_vs_controls.png
+  gallery/05_wide_images_trace_retrace.png
+  gallery/06_cross_night_profiles.png
+  gallery/07_rejected_and_partial.png
+  gallery/08_gap_motion.png
+  gallery/09_flyback_transient.png

@@ -7,24 +7,24 @@ bias polarity was interleaved so that drift could not fake a slope. Measured 202
 from about 19:54:51 UTC. No CSV of this sweep exists in `sessions/data/`, so the session
 log's six-row table is the primary record and is transcribed below.
 
-THE EXPONENT. The session log reads the shape as "roughly V^2". That is wrong and the
+THE EXPONENT. The session log reads the shape as "roughly V^2". That is wrong, and the
 lead's own refit says so (`deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V2): the
 six points give V^1.55, log-log R^2 0.985. A pure V^2 would put 85 nA at 0.5 V where 31.7
-was measured. This figure draws V^2 as the rejected curve it is, and recomputes the
+was measured. This figure draws V^2 as the rejected model it is, and recomputes the
 exponent from the table every time it runs rather than quoting it.
 """
 from __future__ import annotations
 
 import math
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import stmstyle as S  # noqa: E402
 
-# sessions/2026-09-17-bench.md section 3.15, round 7. Bias magnitude in volts,
-# current magnitude in nA. The log records the junction as symmetric in both
-# polarities to about 10%, so these are magnitudes and the sign is not plotted.
+# sessions/2026-09-17-bench.md section 3.15, round 7. Bias magnitude in volts, current
+# magnitude in nA. The log records the junction as symmetric in both polarities to about
+# 10%, so these are magnitudes and the sign is not plotted.
 V = [0.05, 0.10, 0.15, 0.25, 0.35, 0.50]
 I = [0.85, 2.0, 3.3, 7.5, 14.6, 31.7]
 
@@ -33,8 +33,7 @@ def loglog_fit(xs, ys):
     lx = [math.log(x) for x in xs]
     ly = [math.log(y) for y in ys]
     n = len(lx)
-    mx = sum(lx) / n
-    my = sum(ly) / n
+    mx, my = sum(lx) / n, sum(ly) / n
     sxx = sum((x - mx) ** 2 for x in lx)
     b = sum((x - mx) * (y - my) for x, y in zip(lx, ly)) / sxx
     a = my - b * mx
@@ -44,9 +43,9 @@ def loglog_fit(xs, ys):
 
 
 def main():
-    n_exp, amp, r2 = loglog_fit(V, I)
-    R = [v / (i * 1e-9) / 1e6 for v, i in zip(V, I)]     # MOhm
-    g0 = I[0] / V[0]                                      # nA per V at the lowest bias
+    n_exp, _amp, r2 = loglog_fit(V, I)
+    R = [v / (i * 1e-9) / 1e6 for v, i in zip(V, I)]      # MOhm
+    g0 = I[0] / V[0]                                       # nA per V at the lowest bias
     ohmic_at_max = g0 * V[-1]
     vsq_at_max = I[0] * (V[-1] / V[0]) ** 2
     print("power-law exponent %.3f  (log-log R2 %.3f)" % (n_exp, r2))
@@ -56,80 +55,72 @@ def main():
     print("measured / ohmic at the top of the sweep = %.2fx" % (I[-1] / ohmic_at_max))
 
     S.set_theme("light")
-    fig, (ax, ax2) = S.plt.subplots(1, 2, figsize=(9.6, 5.0), width_ratios=[1.32, 1.0])
-    fig.subplots_adjust(top=0.775, bottom=0.235, left=0.075, right=0.985, wspace=0.28)
+    fig, (ax, ax2) = S.plt.subplots(1, 2, figsize=(10.4, 6.0), width_ratios=[1.22, 1.0])
+    fig.subplots_adjust(top=0.745, bottom=0.225, left=0.070, right=0.985, wspace=0.24)
 
     c_meas, c_ohm, c_rej = S.series(0), S.series(1), S.C["muted"]
-    grid_v = [0.0 + 0.005 * k for k in range(101)]  # 0 to 0.50 V
+    grid_v = [0.005 * k for k in range(101)]               # 0 to 0.50 V
 
-    # --- rejected model: a pure V^2 law, drawn so the correction is visible -----------
-    ax.plot(grid_v, [I[0] * (v / V[0]) ** 2 for v in grid_v], "-", color=c_rej, lw=1.6,
-            zorder=2, label="a pure V² law — ruled out")
-    # --- reference model: an ordinary resistor of the low-bias resistance -------------
-    ax.plot(grid_v, [g0 * v for v in grid_v], "-", color=c_ohm, lw=2.4, zorder=3,
-            label="an ordinary %.0f MΩ resistor (Ohm's law)" % R[0])
+    # --- the rejected model, in the de-emphasis grey ---------------------------------
+    ax.plot(grid_v, [I[0] * (v / V[0]) ** 2 for v in grid_v], "-", color=c_rej, lw=1.8,
+            zorder=2)
+    # --- the reference model: an ordinary resistor of the low-bias resistance ---------
+    ax.plot(grid_v, [g0 * v for v in grid_v], "-", color=c_ohm, lw=2.4, zorder=3)
     # --- the measurement --------------------------------------------------------------
-    ax.plot(V, I, "-", color=c_meas, lw=2.0, zorder=4)
+    ax.plot(V, I, "-", color=c_meas, lw=2.2, zorder=4)
     ax.plot(V, I, "o", color=c_meas, ms=8, markeredgecolor=S.C["surface"],
-            markeredgewidth=2.0, zorder=5, label="measured, 6 bias settings")
+            markeredgewidth=2.0, zorder=5)
 
     S.tidy(ax, xlabel="Voltage across the junction (V)",
            ylabel="Current through the junction (nA)", grid="both")
-    ax.set_xlim(0, 0.70)
+    ax.set_xlim(0, 0.735)
     ax.set_ylim(0, 96)
     ax.set_xticks([0.0, 0.1, 0.2, 0.3, 0.4, 0.5])
-    # A surface-coloured patch, no border: the legend sits over the V-squared curve and
-    # would otherwise be read through it. It is the surface doing the separating, not a rule.
-    ax.legend(loc="upper left", bbox_to_anchor=(0.015, 0.95), labelspacing=0.55,
-              handletextpad=0.6, frameon=True, facecolor=S.C["surface"],
-              edgecolor="none", framealpha=1.0).set_zorder(9)
 
-    # Direct labels at the curve ends, outside the data, so nothing overlaps.
-    S.note(ax, 0.515, vsq_at_max, "%.0f nA" % vsq_at_max, ha="left", va="center")
-    S.note(ax, 0.515, I[-1], "%.1f nA" % I[-1], ha="left", va="center",
-           color=S.C["ink"], fontweight="bold")
-    S.note(ax, 0.515, ohmic_at_max, "%.1f nA" % ohmic_at_max, ha="left", va="center",
-           color=S.C["ink2"])
+    # Direct labels at the curve ends, outside the data. No legend box anywhere.
+    S.note(ax, 0.518, vsq_at_max, "a pure V² law\nneeds %.0f nA" % vsq_at_max,
+           ha="left", va="center", color=S.C["ink2"])
+    S.key(ax, 0.518, I[-1], "measured\n%.1f nA" % I[-1], ha="left", va="center")
+    S.note(ax, 0.518, ohmic_at_max, "Ohm's law\ngives %.1f nA" % ohmic_at_max,
+           ha="left", va="center", color=S.C["ink2"])
 
-    ax.set_title("At 0.5 V: %.1f nA measured, %.1f from a resistor,\n"
-                 "%.0f from a pure V² law. Fit to the six points: I ∝ V^%.2f"
-                 % (I[-1], ohmic_at_max, vsq_at_max, n_exp),
-                 fontsize=S.TYPE["annot"], color=S.C["ink"], loc="left", pad=10)
+    ax.set_title("At half a volt it passes %.1f times the current an ordinary %.0f M\u03a9\n"
+                 "resistor would. Fitted to the six points, current rises as V^%.2f"
+                 % (I[-1] / ohmic_at_max, R[0], n_exp))
 
     # --- right panel: the resistance is not a constant --------------------------------
-    ax2.plot([0, 0.70], [R[0], R[0]], "-", color=c_ohm, lw=2.4, zorder=3)
-    ax2.plot(V, R, "-", color=c_meas, lw=2.0, zorder=4)
+    ax2.plot([0, 0.735], [R[0], R[0]], "-", color=c_ohm, lw=2.4, zorder=3)
+    ax2.plot(V, R, "-", color=c_meas, lw=2.2, zorder=4)
     ax2.plot(V, R, "o", color=c_meas, ms=8, markeredgecolor=S.C["surface"],
              markeredgewidth=2.0, zorder=5)
     S.tidy(ax2, xlabel="Voltage across the junction (V)",
            ylabel="Junction resistance (MΩ)", grid="both")
-    ax2.set_xlim(0, 0.70)
+    ax2.set_xlim(0, 0.735)
     ax2.set_ylim(0, 72)
     ax2.set_xticks([0.0, 0.1, 0.2, 0.3, 0.4, 0.5])
-    S.note(ax2, 0.515, R[0], "a resistor would\nstay flat, here",
-           ha="left", va="center", color=S.C["ink2"], linespacing=1.5)
-    S.note(ax2, 0.515, R[-1], "it falls to\n%.0f MΩ" % R[-1],
-           ha="left", va="center", color=S.C["ink"], fontweight="bold",
-           linespacing=1.5)
-    ax2.set_title("The resistance falls as the voltage rises —\n"
-                  "%.0f MΩ down to %.0f MΩ over a ten-fold range"
-                  % (R[0], R[-1]),
-                  fontsize=S.TYPE["annot"], color=S.C["ink"], loc="left", pad=10)
+    S.note(ax2, 0.525, R[0], "a resistor would\nstay on this line",
+           ha="left", va="center", color=S.C["ink2"])
+    S.key(ax2, 0.525, R[-1], "it falls to\n%.0f MΩ" % R[-1], ha="left", va="center")
+    ax2.set_title("The resistance is not a constant: it falls from\n"
+                  "%.0f MΩ to %.0f MΩ over a ten-fold voltage range" % (R[0], R[-1]))
 
-    S.titles(fig,
-             "The junction is not a wire and not a gap. It behaves like a barrier",
-             "Current rises far faster than the voltage does. That rules out a metallic short, which would be a "
-             "straight line,\nand an open circuit, which would give nothing. Both polarities agreed to about 10%, "
-             "and the polarities were interleaved so drift could not fake it.")
+    S.titles_keyed(
+        fig,
+        "We made a real tip-and-sample junction, and it behaves like a barrier",
+        "<The measured current> climbs far faster than the voltage does \u2014 ruling out a metallic short, "
+        "which would follow\n<the straight line of Ohm's law>, and an open circuit, which would give nothing. "
+        "Both polarities agreed to about 10%, interleaved so drift could not fake it.",
+        [{"color": S.word(0), "fontweight": S.W_EMPH},
+         {"color": S.word(1), "fontweight": S.W_EMPH}])
 
     S.footer(fig, y=0.008, text=
              "Source: sessions/2026-09-17-bench.md section 3.15, round 7 of 8 (no CSV exists for this sweep). "
              "Measured 2026-09-17 from about 19:54:51 UTC, on the 2026-09-17 tip and sample.\n"
-             "WHAT THIS DOES NOT SHOW: a barrier is not proof of a vacuum tunnelling gap — a contaminant "
-             "film, a thin oxide or a dirty near-contact are all superlinear too. 16–59 MΩ is at the LOW\n"
-             "end for tunnelling, which usually sits above 100 MΩ. A different tip and sample two nights "
-             "later gave the opposite verdict (figure 5). The session log's \"roughly V²\" reading is wrong; "
-             "the refit is V^%.2f." % n_exp)
+             "WHAT THIS DOES NOT SHOW: a barrier is not the same claim as a vacuum tunnelling gap — a "
+             "contaminant film, a thin oxide or a dirty near-contact are all superlinear too. 16–59 MΩ "
+             "sits at the low end of the\nrange tunnelling occupies, which usually starts above 100 MΩ. A "
+             "different tip and sample two nights later gave a different verdict (figure 5). The session log's "
+             "\"roughly V²\" reading is wrong; the refit is V^%.2f." % n_exp)
 
     S.save(fig, "fig02_iv_curve")
 

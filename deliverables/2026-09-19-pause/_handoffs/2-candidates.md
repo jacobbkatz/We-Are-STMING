@@ -107,6 +107,8 @@ Under 20,000 place-label permutations: run 2 **p = 0.0036**; run 4 **p = 0.26**;
 **`ycontrol_xheld_run1.csv`, an X-HELD CONTROL, p = 0.020**. `code/07` null N1, `code/11` part 3.
 
 ### F4. A SECOND instance of the truncation defect, in the wide images
+**Found independently by the lead (`LEAD_VERIFICATION.md` V5) and by me on the same day; neither
+was working from the other's result.**
 `sessions/2026-09-19-bench.md` §3.16's *"image to image +0.56 to +0.86, matched by the X-held
 controls' +0.56"*: `img_scan_0.csv` has **1 line**, `img_scan_1.csv` has **2 lines**. Both scan
 correlations were computed over **21 and 42 points**, not 231. **Neither was an image-to-image
@@ -212,4 +214,15 @@ The candidate is closed by F1, not by the direction argument.
   is ever promoted to `Code/pc/`, it must refuse a shape mismatch rather than truncate, and the
   check must be **shown red against a one-line file first** (`CLAUDE.md` §7 rule 2).
 
-`python3 Code/pc/check_facts.py` exits 0 with this work in place.
+## 8. Framing
+
+`deliverables/2026-09-19-pause/FRAMING.md` (Jacob's instruction on emphasis) was applied to
+`VERDICT.md` after the analysis was complete. **It changed no finding, no number, no uncertainty
+and no caveat.** What it changed: the measured obstacle, the ruled-out candidate, the control
+methodology and the two withdrawn dismissal arguments are now written as results, which is what
+they are. **The negative verdict is stated as plainly as before** — "no scan in this project
+contains a demonstrable image, and I looked at all 51 recordings" — because an overclaim is the one
+thing that would damage the rest of the work at an expo.
+
+`python3 Code/pc/check_facts.py` exits 0 with this work in place (verified after the final edit,
+including the broadened `Images/` and `deliverables/` path validation).

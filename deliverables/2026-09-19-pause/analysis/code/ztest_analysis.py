@@ -280,9 +280,11 @@ def main():
     for ax, phases, title in [(axes[0], ("in",), "going IN  (Z toward the sample)"),
                               (axes[1], ("out", "out2"), "coming OUT  (Z retracting)")]:
         shown = 0
-        for c in [2, 6, 10, 14, 18]:
+        for c in [6, 10, 14, 18, 22]:
+            # Below about 30 counts the reading is the amplifier noise floor, not the
+            # junction, so those points are dropped rather than plotted as signal.
             pts = [(z, abs(m)) for t, cc, ph, z, m in rows
-                   if cc == c and ph in phases and m is not None and abs(m) >= 1]
+                   if cc == c and ph in phases and m is not None and abs(m) >= 30]
             if len(pts) < 5:
                 continue
             z0 = min(z for z, _ in pts)
@@ -291,12 +293,16 @@ def main():
                         label="cycle %d" % c)
             shown += 1
         ax.axhspan(FIT_LO, FIT_HI, color=TOL["grey"], alpha=0.25, zorder=0)
+        ax.set_ylim(30, 3e4)
+        ax.set_xlim(-50, 2600)
         ax.set_xlabel("Z DAC code, relative to the start of the sweep (counts)")
         ax.set_title(title)
-        ax.legend(loc="lower right", ncol=2)
+        ax.legend(loc="lower right", ncol=2, frameon=True, framealpha=0.85,
+                  edgecolor="none", facecolor="white")
     axes[0].set_ylabel("|ADC reading| (counts)")
-    axes[0].text(0.03, 0.93, "shaded: the 100-1,000 count\nband the slope is fitted over",
-                 transform=axes[0].transAxes, fontsize=7.5, va="top", color="#555555")
+    axes[0].text(0.03, 0.97, "shaded: the 100-1,000 count band the slope is fitted over\n"
+                 "readings under 30 counts are the amplifier noise floor and are not shown",
+                 transform=axes[0].transAxes, fontsize=7, va="top", color="#555555")
     fig.suptitle("Current against Z at sample $-$0.5 V, 2026-09-19 morning: "
                  "a decade takes thousands of counts, not tens", y=1.03, fontsize=10)
     save(fig, "fig03_ztest_curves.png")

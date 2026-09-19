@@ -237,7 +237,7 @@ is covered by nothing.
 
 ## 10. Every difference that makes a cross-session comparison unsafe, in one list
 
-The brief flagged four of these. These are all of them found in the raw record.
+The brief flagged four of these. These are all of them found in the raw record. Nineteen in total.
 
 1. **Two different tips within `2026-09-19-bench`**, changed at ~03:00 UTC, and the first was bent.
 2. **A third tip** across the earlier sessions (the placeholder of 2026-09-17 and 2026-09-18).
@@ -257,16 +257,20 @@ The brief flagged four of these. These are all of them found in the raw record.
     they record is a multiple of 1,000 and every rate derived from them is quantised.
 12. **Two 2026-09-17 line files store the forward pass twice**, so no trace-versus-retrace figure
     from them means anything.
-13. **`Code/pc/stm_y_control.py` still prints 2026-09-17's 287–419 count floor** as its
+13. **`line_repeated_wide.csv` flies X back 30,000 counts between passes and the 2D wide images do
+    not**, so their start-of-pass transients are not comparable: 3,144 Z counts predicted for the
+    first, 37 and 78 observed for the second (subagent 2, carried into `STATUS.md`). This is what
+    closes that file's 636-count profile.
+14. **`Code/pc/stm_y_control.py` still prints 2026-09-17's 287–419 count floor** as its
     comparison, which belongs to a different tip and a different junction.
-14. **No scripts were kept for 2026-09-17**, so the diagnostics that produced its files cannot be
+15. **No scripts were kept for 2026-09-17**, so the diagnostics that produced its files cannot be
     inspected.
-15. **The `cas8` constant-height maps are entirely at the ADC rail** and carry no information.
-16. **Four CSVs of 2026-09-19 morning were lost** (`creep_watch`, `release_watch` run 1,
+16. **The `cas8` constant-height maps are entirely at the ADC rail** and carry no information.
+17. **Four CSVs of 2026-09-19 morning were lost** (`creep_watch`, `release_watch` run 1,
     `passive_z0`, `swing_log`) because the scripts wrote them only on a clean exit. The headline
     gap-motion measurement survives only as a `.log`.
-17. **`scripts/final.py` was never run**, so there is no tip-clear baseline at power-down.
-18. **Six 2026-09-19 morning scripts have no self-test** and four of them produced committed data.
+18. **`scripts/final.py` was never run**, so there is no tip-clear baseline at power-down.
+19. **Six 2026-09-19 morning scripts have no self-test** and four of them produced committed data.
 
 ---
 

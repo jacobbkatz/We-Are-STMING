@@ -136,8 +136,12 @@ for n, w, s in [
     ("scan_slow_dwell_2.csv", "250 loop corrections per pixel", "60-88 s"),
     ("scan_wide_slow_1.csv", "wide scan, +-4000 X counts, slow loop", ""),
     ("scan_wide_slow_2.csv", "wide scan, +-4000 X counts, slow loop", ""),
-    ("scan_wide_25nm_1.csv", "wide scan, +-15000 X counts", ""),
-    ("scan_wide_25nm_2.csv", "wide scan, +-15000 X counts", ""),
+    ("scan_wide_25nm_1.csv",
+     "wide image, +-15000 X counts - and see the note below: these two ARE the "
+     "+-15000 three-place test that sessions/2026-09-17-bench.md 3.25 records as "
+     "never run", ""),
+    ("scan_wide_25nm_2.csv",
+     "wide image, +-15000 X counts, the repeat of the file above", ""),
 ]:
     add(S17, n, w, bias=_S17_BIAS, z="loop-controlled, clamped 12000-48000",
         settings="; ".join(x for x in (s, _scan_note) if x),
@@ -154,15 +158,25 @@ add(S17, "diag_line_repeated.csv", "one line scanned ten times, +-400 X", bias=_
 add(S17, "line_repeated_wide.csv", "one line, 12 passes, +-15000 X", bias=_S17_BIAS,
     z="loop-controlled", settings=_scan_note,
     produced_by="a scratch diagnostic variant of stm_feedback_scan.py",
-    passage="sessions/2026-09-17-bench.md 3.25",
-    caveat="same byte-identical fwd/back defect as diag_line_repeated.csv")
+    passage="sessions/2026-09-17-bench.md 3.25; CLOSED 2026-09-19, "
+            "deliverables/2026-09-19-pause/candidates/VERDICT.md and STATUS.md",
+    caveat="TWO things. (1) same byte-identical fwd/back defect as "
+           "diag_line_repeated.csv. (2) its 636-count reproducible profile, carried as "
+           "UNDETERMINED since 2026-09-17, is CLOSED: it is the feedback loop recovering "
+           "from the 30,000-count X flyback between passes on a surface tilted at -0.105 "
+           "Z counts per X count, which predicts a 3,144-count Z error at every pass "
+           "start. Dropping two pixels of twenty-one takes the consecutive-pass "
+           "correlation from +0.65 to +0.05. Found by subagent 2 at this pause point")
 add(S17, "line_three_y_positions.csv", "one line at three separated Y positions, +-8000 X",
     bias=_S17_BIAS, z="loop-controlled",
     settings="first column = Y offset, second = pass number, 5 passes per place",
     produced_by="a scratch three-Y control",
     passage="sessions/2026-09-17-bench.md 3.25 CORRECTION",
     caveat="the CORRECTION in 3.25 records that this control was run at the WRONG WIDTH "
-           "(+-8000 against the wide scans' +-15000) and so had no power to discriminate")
+           "(+-8000 against the wide scans' +-15000) and so had no power to "
+           "discriminate. The +-15000 version of the same test WAS run and is "
+           "scan_wide_25nm_1/2.csv in this directory - found 2026-09-19, and those two "
+           "files had been missing from this directory's README table")
 
 S18 = "2026-09-18-bench"
 add(S18, "console_outputs.md", "everything not saved to a file at the time, transcribed: "

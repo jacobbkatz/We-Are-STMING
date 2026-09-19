@@ -412,3 +412,62 @@ agent's `INCONSISTENCIES.md` carrying the full list of what a human still has to
 
 **Corrected in place**, with the old text struck through rather than deleted, per the project's
 habit of keeping withdrawn claims in the record.
+
+---
+
+## V8. **The project's best-looking result is the feedback loop recovering from an X flyback.** Independently confirmed
+
+**Subagent 2's central finding, re-derived by me from the raw file before I accepted it.**
+
+`sessions/data/2026-09-17-bench/line_repeated_wide.csv` — twelve passes of one line at ±15,000 X —
+produced a 636-count averaged profile with consecutive-pass correlation around +0.5 to +0.65 and a
+split-half of +0.92. **`sessions/2026-09-17-bench.md` §3.25 has carried it as UNDETERMINED since
+2026-09-17. It is the strongest candidate image this project has ever had.**
+
+**The mechanism: the tool jumps X back to the start of each pass, and the surface is tilted, so the
+loop begins every pass with a large Z error and spends the first pixels recovering.**
+
+| Quantity | Subagent 2 | **My independent re-derivation** | |
+|---|---|---|---|
+| Tilt of the passes | −0.105 Z counts per X count | **−0.1048** | matches |
+| X flyback between passes | 30,000 counts | **30,000** (17,768 to 47,768) | matches |
+| **Predicted Z error at each pass start** | 3,144 counts | **3,144** | **exact** |
+| Observed excursion over the first two pixels | 2,465 counts | **2,489** | matches |
+| Consecutive-pass r, all pixels | +0.647 | **+0.515** | differs, see below |
+| **Consecutive-pass r, first two pixels dropped** | **+0.048** | **+0.025** | **both are zero** |
+
+**The result that matters reproduces: dropping two pixels out of twenty-one collapses the
+correlation to nothing.** The apparent reproducible profile lives entirely in the first two pixels
+of each pass, which is exactly where a loop recovering from a 3,144-count step would put it.
+
+**One discrepancy, and it does not affect the conclusion.** My all-pixel correlation is +0.515
+against their +0.647, and my mid-line step is 385 counts against their 236 — different averaging
+conventions (Fisher-z against arithmetic mean, and a different definition of "mid-line"). **Both
+numbers move the same way and both collapse to zero on dropping two pixels.** Worth reconciling in
+the final figures so one number is quoted, not two.
+
+### Why this is a strong result rather than a disappointing one
+
+**A null result says "we could not see it". A mechanism says "here is what it was, and here is where
+it will and will not appear."** Subagent 2's arithmetic predicts the transient's **absence** twice:
+
+- the two 2D wide images of the same night raster back and forth without lifting X, so no flyback —
+  predicted small, observed 37 and 78 counts;
+- the 2026-09-19 three-Y runs do fly back but are nearly level, so predicted 28 and 238 counts —
+  observed −99 and +47.
+
+**One piece of arithmetic, three data sets, right about the presence and right about both absences.**
+That is a falsification, not a null.
+
+**And the check already existed in the repository one level up.** `sessions/2026-09-17-bench.md`
+§3.22 killed a correlation of +0.75 by dropping the first *line* of an image. **Nobody applied the
+same idea to the first *pixels* of a line.** The credit belongs to whoever wrote §3.22; what was
+missing was one step of generalisation.
+
+### The consequence for the bench, which is cheap and concrete
+
+**Discard the first three pixels of every pass, in the tool** — writing them to the file so nothing
+is lost — **and scan X boustrophedon between passes as well as within a line**, which the 2D images
+already do and which is why they have no transient. Both are small changes to
+`Code/pc/stm_y_control.py` and `Code/pc/stm_feedback_scan.py`, and between them they remove the
+artefact that produced this project's most convincing false positive.

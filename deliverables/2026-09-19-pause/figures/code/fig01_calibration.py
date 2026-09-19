@@ -14,9 +14,9 @@ count (both in `docs/FACTS.md`). It was worked out before the measurement was ta
 from __future__ import annotations
 
 import math
+import os
 import statistics as st
 import sys
-import os
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import stmstyle as S  # noqa: E402
@@ -37,7 +37,7 @@ READINGS = [
     (0.000, [-148, -102, 581, -480, -49, 228, 219, 59]),
 ]
 
-# Predicted slope. NOT fitted, NOT tuned: 1 V across 100 MOhm is 10 nA, and the converter
+# Predicted slope. NOT fitted, NOT tuned: 1 V across 100 MOhm is 10 nA and the converter
 # reads 320 counts per nA (docs/FACTS.md), with the sign set by the transimpedance stage.
 PREDICTED_SLOPE = -3200.0
 COUNTS_PER_NA = 320.5          # docs/FACTS.md, measured 2026-09-16
@@ -50,8 +50,7 @@ def ols(xs, ys):
     sxy = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
     b = sxy / sxx
     a = my - b * mx
-    resid = [y - (a + b * x) for x, y in zip(xs, ys)]
-    sse = sum(r * r for r in resid)
+    sse = sum((y - (a + b * x)) ** 2 for x, y in zip(xs, ys))
     sst = sum((y - my) ** 2 for y in ys)
     s2 = sse / (n - 2)
     return dict(slope=b, intercept=a,
@@ -71,60 +70,47 @@ def main():
 
     S.set_theme("light")
     fig, (ax, axr) = S.plt.subplots(
-        2, 1, figsize=(8.4, 7.1), height_ratios=[2.45, 1.0], sharex=True)
-    fig.subplots_adjust(top=0.855, bottom=0.205, left=0.105, right=0.845, hspace=0.16)
+        2, 1, figsize=(8.8, 7.4), height_ratios=[2.5, 1.0], sharex=True)
+    fig.subplots_adjust(top=0.815, bottom=0.200, left=0.108, right=0.852, hspace=0.17)
 
-    c_meas = S.series(0)     # blue  - what the instrument read
+    c_meas = S.series(0)     # blue   - what the instrument read
     c_pred = S.series(1)     # orange - what theory required, before the measurement
 
-    # --- the prediction, drawn first and underneath ---------------------------------
     span = [-1.95, 3.45]
-    ax.plot(span, [PREDICTED_SLOPE * v for v in span], "-", color=c_pred, lw=2.4,
-            zorder=2, label="Ohm's law through 100 MΩ — no fitting")
-    # --- the 53 readings -------------------------------------------------------------
+    ax.plot(span, [PREDICTED_SLOPE * v for v in span], "-", color=c_pred, lw=2.4, zorder=2)
     ax.plot(xs, ys, "o", color=c_meas, ms=6.5, markeredgecolor=S.C["surface"],
-            markeredgewidth=1.6, zorder=4, label="53 readings at 8 bias settings")
+            markeredgewidth=1.6, zorder=4)
 
     S.tidy(ax, ylabel="What the converter read (counts)", grid="both")
     S.thousands(ax, "y")
     ax.set_xlim(*span)
-    ax.set_ylim(-10800, 6600)
+    ax.set_ylim(-10900, 6700)
     ax.axhline(0, color=S.C["axis"], lw=0.9, zorder=1)
     ax.axvline(0, color=S.C["axis"], lw=0.9, zorder=1)
 
-    # Unit twin: the same reading in nanoamps. One measurement, two units - not a
-    # second y-scale carrying a different quantity.
+    # Unit twin: the same reading in nanoamps. One measurement, two units - not a second
+    # y-scale carrying a different quantity.
     sec = ax.secondary_yaxis("right", functions=(lambda c: c / COUNTS_PER_NA,
                                                  lambda a: a * COUNTS_PER_NA))
     sec.set_ylabel("the same reading, in nanoamps", color=S.C["muted"],
-                   fontsize=S.TYPE["tick"])
-    sec.tick_params(colors=S.C["muted"], labelsize=S.TYPE["small"])
+                   fontsize=S.TYPE["annot"], labelpad=14)
+    sec.tick_params(colors=S.C["muted"], labelsize=S.TYPE["small"], pad=4)
     sec.spines["right"].set_color(S.C["axis"])
 
-    ax.legend(loc="upper right", bbox_to_anchor=(1.0, 1.0),
-              handletextpad=0.6, labelspacing=0.5)
-
-    S.note(ax, 2.50, PREDICTED_SLOPE * 2.50 + 1450,
-           "the predicted line", color=c_pred, ha="center", va="bottom",
-           fontweight="bold", fontsize=S.TYPE["annot"], rotation=-31,
-           rotation_mode="anchor")
-
     # The headline, stated on the chart so it survives being cropped into a slide.
-    ax.text(-1.82, -8250,
+    ax.text(-1.80, -7950,
             "measured   −3,204.8 ± 36.5 counts per volt\n"
             "predicted   −3,200\n"
-            "they agree to 0.13 of one standard error, R² = 0.9934",
-            ha="left", va="center", fontsize=S.TYPE["annot"], color=S.C["ink"],
-            linespacing=1.6,
-            bbox=dict(boxstyle="round,pad=0.55", facecolor=S.C["band"],
-                      edgecolor="none"))
+            "the two agree to 0.13 of one standard error, R² = 0.9934",
+            ha="left", va="center", fontsize=S.TYPE["annot"], fontweight=S.W_EMPH,
+            color=S.C["ink"], linespacing=1.9,
+            bbox=dict(boxstyle="round,pad=0.7", facecolor=S.C["band"], edgecolor="none"))
 
     # --- residuals against the PREDICTION, not against the fit -----------------------
     res = [y - PREDICTED_SLOPE * x for x, y in zip(xs, ys)]
     axr.axhline(0, color=c_pred, lw=2.4, zorder=2)
-    axr.plot(xs, res, "o", color=c_meas, ms=5.0, alpha=0.55,
-             markeredgecolor="none", zorder=3)
-
+    axr.plot(xs, res, "o", color=c_meas, ms=5.0, alpha=0.5, markeredgecolor="none",
+             zorder=3)
     for v, rs in READINGS:
         r = [y - PREDICTED_SLOPE * v for y in rs]
         m = st.mean(r)
@@ -134,17 +120,24 @@ def main():
                      ecolor=S.C["ink2"], elinewidth=1.6, capsize=4, zorder=6)
 
     S.tidy(axr, xlabel="Voltage on the bias wire, driving the 100 MΩ dummy (V)",
-           ylabel="Reading minus\nprediction (counts)", grid="both")
+           ylabel="Reading minus\nprediction (counts)", grid="both",
+           title="Dark dots are each setting's mean, with its standard error. "
+                 "Pale dots are every individual reading.")
     S.thousands(axr, "y")
-    axr.set_ylim(-800, 800)
-    axr.set_title("Black = each setting's mean and its standard error.   "
-                  "Blue = every individual reading.",
-                  fontsize=S.TYPE["small"], color=S.C["muted"], loc="left", pad=5)
+    axr.set_ylim(-820, 820)
+    axr.set_title(axr.get_title(loc="left"), loc="left", fontsize=S.TYPE["small"],
+                  color=S.C["muted"], fontweight=S.W_BODY, pad=6)
 
-    S.titles(fig,
-             "The whole measurement chain agrees with theory to 0.16%",
-             "A known 100 MΩ resistor stood in for the tunnelling junction. The line is not a fit through the "
-             "dots —\nit is what Ohm's law requires, worked out before the bench run. The dots landed on it.")
+    # The key is the subtitle: the words are coloured, so there is no legend box to
+    # collide with the data.
+    S.titles_keyed(
+        fig,
+        "The whole measurement chain works end to end — and agrees with theory to 0.16%",
+        "A known 100 MΩ resistor stood in for the tunnelling junction. <The 53 readings> landed on "
+        "<the line Ohm's law requires>,\nwhich was worked out before the bench run and is not fitted to "
+        "anything.",
+        [{"color": S.word(0), "fontweight": S.W_EMPH},
+         {"color": S.word(1), "fontweight": S.W_EMPH}])
 
     S.footer(fig, y=0.008, text=
              "Source: sessions/2026-09-16-bench.md section 3.4 (no CSV exists for that date). Measured 2026-09-16, "
