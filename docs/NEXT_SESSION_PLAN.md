@@ -406,7 +406,7 @@ Ruler or caliper against the disc rim. **`docs/FACTS.md` fixes the disc centre a
 pivot line, so d follows from that one number.** **Do NOT try to get this from a photograph** —
 three attempts on 2026-09-18 gave three answers a factor of two apart; `Images/ours/README.md` has
 the four reasons. **The threshold that matters is d under about 0.13 mm**: below it the height
-wobble is 0.6-0.8 nm and 2026-09-17 was tunnelling; at d = 1 mm it is 4.4-6.5 nm and the tip was
+wobble is 0.6-0.8 nm ~~and 2026-09-17 was tunnelling~~ **— CORRECTED 2026-09-19: that conflates two different criteria.** 0.13 mm is the threshold for the height WOBBLE being small enough to hold a gap. **The DECAY criterion is far stricter**: at d = 0.13 mm the tip moves 0.50 nm per decade of current, five times too slow for a vacuum gap, and matching tunnelling needs **d near 26 um**. Both have to be met. `LEAD_VERIFICATION.md` V11; at d = 1 mm it is 4.4-6.5 nm and the tip was
 resting on something.
 
 **B. Is anything touching the suspended platform?** A cable on the base, a rod, a tie. **A bypass

@@ -661,3 +661,68 @@ claim.
 
 **Credit where it is due: Jacob caught this, against a confident and wrong statement from me,
 because he remembered the record better than my reading of it.**
+
+---
+
+## V11. **The case for tunnelling is WEAKER than the repository's own optimistic passages say — and my V10 repeated their error**
+
+**Jacob asked me to write "we achieved tunnelling" and to elaborate on it. Before writing anything I
+re-derived the requirement from first principles. It goes the other way, and it also corrects V10.**
+
+### The arithmetic, with every input from the repository
+
+| Input | Value | Source |
+|---|---|---|
+| Fine screw | 0.31750 mm/turn | `docs/FACTS.md` |
+| Motor steps per turn | 2,048 | 28BYJ-48 through its gearbox |
+| **Screw travel per motor step** | **155 nm** | matches `sessions/2026-09-17-bench.md` §3.19 exactly |
+| Cross-check at ratio 40 | **3.88 nm/step** | matches `docs/FACTS.md` exactly |
+| Pivot line to motor screw | 40 mm | `PiezoPlate.stl`, Y 135.28 against Y 95.28 |
+
+**Measured on 2026-09-17: about 250 Z counts per decade of current, and about 250 Z counts per motor
+step. So one motor step changed the current roughly tenfold.**
+
+**A vacuum tunnel gap changes tenfold per 0.1 nm.** For one motor step to move the tip 0.1 nm:
+
+**required lever ratio = 155 / 0.1 = 1,550, so d = 40 mm / 1,550 = 26 um.**
+
+### What the tip actually moves, at each candidate `d`
+
+| `d` | Lever ratio | nm per decade | How far from tunnelling |
+|---|---|---|---|
+| **1.00 mm** (design) | 40 | 3.88 | **39x too slow** |
+| 0.30 mm | 133 | 1.16 | **12x too slow** |
+| **0.13 mm** (the threshold quoted in the plan) | 308 | 0.50 | **5x too slow** |
+| 0.10 mm | 400 | 0.39 | **3.9x too slow** |
+| **0.026 mm** | 1,538 | 0.10 | **this is the only value that works** |
+
+### Two live documents are wrong, and so was my V10
+
+1. **`docs/OPEN_QUESTIONS.md`** says *"At 0.1-0.3 mm the ratio is 130-400 and the same measurement
+   **lands near the textbook decade per 0.1 nm**."* **It does not.** At 0.1 mm it is 3.9x too slow;
+   at 0.3 mm, 12x. **That sentence overstates the case for tunnelling by roughly four to twelve
+   times.**
+2. **`docs/NEXT_SESSION_PLAN.md`** says *"d under about 0.13 mm and 2026-09-17 was tunnelling"*.
+   **On the decay criterion it was not — 0.13 mm is still 5x too slow.** The 0.13 mm figure is a
+   **different** criterion, about whether the height wobble is small enough to hold a gap at all.
+   **Both criteria have to be met; the decay one is far stricter, and the two were conflated.**
+3. **My own V10 repeated the plan's 0.13 mm uncritically** and told Jacob that below it the
+   measurement "is tunnelling". **That was wrong in his favour, which is still wrong.**
+
+**`sessions/2026-09-17-bench.md` §3.19 had it right all along**, and is the only passage in the
+repository that does: *"the lever ratio would have to be about 1,550 — the tip within 26 um of the
+pivot line. That is possible but implausibly exact."*
+
+### So: can the deliverables say "we achieved tunnelling"?
+
+**No, and this pass makes the answer firmer rather than softer.** It would require the tip to sit
+within **26 micrometres** of the pivot line — a 2.6% sliver at the very bottom of the 0-1 mm range
+Jacob measured by eye, on a hand-built holder soldered to a superglued stake. **Nothing was built to
+that tolerance and nothing has measured it.**
+
+**What remains true, and is still worth a panel:** the 2026-09-17 junction is a real barrier
+junction whose tunnelling status is **not settled by the data that exist** — but the honest reading
+of the decay arithmetic is that **a pressed contact through a thin film is much the better
+explanation**, exactly as §3.19 concluded on the night. **The straightedge measurement is still
+worth doing**, because it converts an argument into a number, and because `d` sets the Z scale for
+every future measurement. **It is no longer fair to present it as a coin-flip.**
