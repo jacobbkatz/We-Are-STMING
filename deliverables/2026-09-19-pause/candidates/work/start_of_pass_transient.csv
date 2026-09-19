@@ -7,9 +7,10 @@ drop leading points,drop 4,17 points,profile RMS 244,consecutive r +0.195,split-
 drop leading points,drop 5,16 points,profile RMS 229,consecutive r +0.148,split-half +0.633
 drop leading points,drop 6,15 points,profile RMS 198,consecutive r +0.087,split-half +0.504
 the jump,first step,mean +1533 counts,mid-line step mean -236,grows +137 counts per pass
-other end,scan_wide_25nm_1 forward,low-X jump 78,high-X jump 63,mid step -169
-other end,scan_wide_25nm_1 backward,low-X jump -93,high-X jump 22,mid step -286
-other end,scan_wide_25nm_2 forward,low-X jump 37,high-X jump 126,mid step -235
-other end,scan_wide_25nm_2 backward,low-X jump -315,high-X jump 245,mid step -182
+flyback,line_repeated_wide,tilt -0.105 Z/X,flyback 30000 X counts,"predicted 3144, observed 2465"
+flyback,scan_wide_25nm_1,tilt -0.133,no flyback,observed jump 78
+flyback,scan_wide_25nm_2,tilt -0.134,no flyback,observed jump 37
+flyback,ycontrol_run1.csv,tilt -0.0009,flyback 30000,"predicted 28, observed -99"
+flyback,ycontrol_run2_ysep12000.csv,tilt +0.0079,flyback 30000,"predicted 238, observed 47"
 after dropping 2 points,profile RMS,233,surrogate 166+-36,p = 0.035
 after dropping 2 points,consecutive r,+0.048,surrogate +0.001+-0.102,p = 0.326

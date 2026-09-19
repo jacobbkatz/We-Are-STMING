@@ -24,14 +24,18 @@ one level up:
 This is the same thing with PIXELS in place of LINES, inside a single line, and
 nobody has applied the check at that level. This script does.
 
-Three tests:
+Four tests:
   1. Drop leading points and watch the headline numbers.
   2. Measure the jump directly, pass by pass, and show it GROWS through the run
      - a settling transient that is getting worse, which no fixed surface can do.
-  3. Check the other end. In the two 2D wide images the BACKWARD pass starts at
-     the opposite end of X. If this is a start-of-pass effect its transient must
-     move to the other end of the stored row. If it were the sample it would
-     stay where the sample is.
+  3. THE MECHANISM, with arithmetic that predicts the transient's presence AND
+     its absence. This tool flies X back 30,000 counts between passes; there is
+     a fixed tilt between tip and sample; so after each flyback the loop is
+     tilt x 30,000 counts out and has to climb back. Two other data sets are
+     used as the test: the 2D wide images raster continuously and never fly
+     back, and the 2026-09-19 three-Y runs fly back but have almost no tilt.
+     Neither shows the transient, exactly as the arithmetic says.
+  4. Surrogate test on what is left once the first two points are dropped.
 
 PROCESSING: detrending as elsewhere, applied AFTER any points are dropped, so
 the tilt is fitted to what is actually being compared.
@@ -96,28 +100,61 @@ def main():
                  "mid-line step mean %+.0f" % jl.mean(),
                  "grows %+.0f counts per pass" % sl])
 
-    print("\n3. THE OTHER END - the backward pass starts where X ENDS")
-    print("   in scan_wide_25nm_1/2 the backward pass sweeps X downward, so its")
-    print("   start-of-pass transient must land at the HIGH-X end of the stored row")
+    print("\n3. THE MECHANISM: THE X FLYBACK BETWEEN PASSES")
+    print("   The line-repeat tool scans X from low to high, then jumps ALL THE WAY BACK")
+    print("   to start the next pass. There is a fixed tilt between tip and sample, so")
+    print("   after that jump the loop is a long way from the Z it needs and has to")
+    print("   climb back - and it climbs back identically every pass, because the")
+    print("   flyback is identical every pass. THAT is what reproduces.")
     print()
-    print("   %-24s %-10s %14s %14s %14s" % ("file", "direction", "jump at low X",
-                                             "jump at high X", "mid-line step"))
+    tilt = np.mean([np.polyfit(xs.astype(float), v, 1)[0] for v in raw])
+    span = float(xs[-1] - xs[0])
+    pred = abs(tilt) * span
+    print("   tilt of the 12 passes                 %+.3f Z counts per X count" % tilt)
+    print("   X flyback between passes              %.0f counts (%d back to %d)"
+          % (span, xs[-1], xs[0]))
+    print("   PREDICTED Z error to recover          %.0f counts" % pred)
+    print("   OBSERVED recovery in the first pixel  %+.0f counts"
+          % np.mean([v[1] - v[0] for v in raw]))
+    print("   OBSERVED recovery in the first two    %+.0f counts"
+          % np.mean([v[2] - v[0] for v in raw]))
+    rows.append(["flyback", "line_repeated_wide", "tilt %+.3f Z/X" % tilt,
+                 "flyback %.0f X counts" % span, "predicted %.0f, observed %.0f"
+                 % (pred, np.mean([v[2] - v[0] for v in raw]))])
+
+    print("\n   THE PREDICTION TESTED ON TWO DATA SETS THAT HAVE NO FLYBACK")
+    print("   %-40s %10s %12s %14s %14s"
+          % ("recording", "tilt Z/X", "flyback X", "predicted Z", "observed jump"))
     for img in ("1", "2"):
         _, ys, F, B = load_raster(data("2026-09-17-bench", "scan_wide_25nm_%s.csv" % img))
-        for tag, A in (("forward", F), ("backward", B)):
-            lo = np.mean([v[1] - v[0] for v in A])
-            hi = np.mean([v[-2] - v[-1] for v in A])
-            mid = np.mean([v[11] - v[10] for v in A])
-            print("   %-24s %-10s %14.0f %14.0f %14.0f" % (
-                "scan_wide_25nm_%s.csv" % img, tag, lo, hi, mid))
-            rows.append(["other end", "scan_wide_25nm_%s %s" % (img, tag),
-                         "low-X jump %.0f" % lo, "high-X jump %.0f" % hi,
-                         "mid step %.0f" % mid])
+        t = np.mean([np.polyfit(xs.astype(float), v, 1)[0] for v in F])
+        print("   %-40s %10.3f %12s %14s %14.0f"
+              % ("scan_wide_25nm_%s.csv (2D raster)" % img, t, "0", "0",
+                 np.mean([v[1] - v[0] for v in F])))
+        rows.append(["flyback", "scan_wide_25nm_%s" % img, "tilt %+.3f" % t,
+                     "no flyback", "observed jump %.0f" % np.mean([v[1] - v[0] for v in F])])
+    for nm in ("ycontrol_run1.csv", "ycontrol_run2_ysep12000.csv"):
+        x2, pls, P2 = load_ycontrol(data("2026-09-19-bench", nm))
+        A = np.array([v for p_ in pls for v in P2[p_]])
+        t = np.mean([np.polyfit(x2.astype(float), v, 1)[0] for v in A])
+        sp2 = float(x2[-1] - x2[0])
+        print("   %-40s %10.4f %12.0f %14.0f %14.0f"
+              % (nm + " (2026-09-19)", t, sp2, abs(t) * sp2, np.mean(A[:, 1] - A[:, 0])))
+        rows.append(["flyback", nm, "tilt %+.4f" % t, "flyback %.0f" % sp2,
+                     "predicted %.0f, observed %.0f" % (abs(t) * sp2,
+                                                        np.mean(A[:, 1] - A[:, 0]))])
     print("""
-   The transient sits at the end of the row where each direction BEGINS, and
-   follows the scan rather than staying at one X. A feature on the sample
-   cannot do that. This is the same evidence as the trace/retrace mirror in
-   gallery/05, seen at the start of the line instead of across it.""")
+   The 2D images raster back and forth without lifting X, so X is CONTINUOUS
+   across every join: a forward pass ends at X 47768 and the backward pass
+   begins at X 47768. No flyback, and no transient - their first-pixel jumps
+   are 37 to 126 counts, the same size as an ordinary mid-line step.
+
+   The 2026-09-19 three-Y runs DO fly back, but their tilt is almost zero
+   (-0.0009 and +0.0079 against the 2026-09-17 run's -0.105), so the predicted
+   recovery is 28 and 238 counts - and the observed jumps are -99 and +47.
+
+   Three data sets, one arithmetic, and it predicts the presence AND the
+   absence of the transient from the tilt alone. This is the mechanism.""")
 
     print("\n4. IS ANYTHING LEFT ONCE THE TRANSIENT IS GONE?")
     D = np.array([detrend(v[2:]) for v in raw])
@@ -147,11 +184,17 @@ def main():
                  "surrogate %+.3f+-%.3f" % (sc.mean(), sc.std()),
                  "p = %.3f" % (sc >= obs_cons).mean()])
     print("""
-   NOTHING SURVIVES. Once the start-of-pass transient is removed, the twelve
-   passes agree no better than twelve phase-randomised lines of the same
-   smoothness. CANDIDATE A IS CLOSED, and it is closed by the simplest
-   mechanism available rather than by any of the subtler arguments in scripts
-   04, 05, 08 and 09 - which remain true but are no longer what carries it.""")
+   The reproduction is gone: consecutive-pass r +0.048 against a surrogate
+   +0.001 +- 0.102, p = 0.33. The averaged profile is still a little larger
+   than a surrogate's (233 against 166 +- 36, p = 0.035), so SOMETHING common
+   to the twelve passes remains - but p = 0.035 is one test out of the 201 in
+   script 07, where about 10 results at that level are expected from noise, and
+   it is nowhere near the corrected threshold of p < 2.5e-4.
+
+   CANDIDATE A IS CLOSED. What was 636 counts and r +0.515 is, once the
+   flyback recovery is dropped, 233 counts and r +0.048. The residue is worth
+   ONE cheap bench check when the instrument is rebuilt (see VERDICT.md), not
+   a claim.""")
 
     with open(out("work", "start_of_pass_transient.csv"), "w", newline="") as fh:
         w = csv.writer(fh)

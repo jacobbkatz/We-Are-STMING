@@ -31,30 +31,53 @@
    transient that is getting worse as the junction drifts is not. This one
    more than triples.
 
-3. THE OTHER END - the backward pass starts where X ENDS
-   in scan_wide_25nm_1/2 the backward pass sweeps X downward, so its
-   start-of-pass transient must land at the HIGH-X end of the stored row
+3. THE MECHANISM: THE X FLYBACK BETWEEN PASSES
+   The line-repeat tool scans X from low to high, then jumps ALL THE WAY BACK
+   to start the next pass. There is a fixed tilt between tip and sample, so
+   after that jump the loop is a long way from the Z it needs and has to
+   climb back - and it climbs back identically every pass, because the
+   flyback is identical every pass. THAT is what reproduces.
 
-   file                     direction   jump at low X jump at high X  mid-line step
-   scan_wide_25nm_1.csv     forward                78             63           -169
-   scan_wide_25nm_1.csv     backward              -93             22           -286
-   scan_wide_25nm_2.csv     forward                37            126           -235
-   scan_wide_25nm_2.csv     backward             -315            245           -182
+   tilt of the 12 passes                 -0.105 Z counts per X count
+   X flyback between passes              30000 counts (47768 back to 17768)
+   PREDICTED Z error to recover          3144 counts
+   OBSERVED recovery in the first pixel  +1533 counts
+   OBSERVED recovery in the first two    +2465 counts
 
-   The transient sits at the end of the row where each direction BEGINS, and
-   follows the scan rather than staying at one X. A feature on the sample
-   cannot do that. This is the same evidence as the trace/retrace mirror in
-   gallery/05, seen at the start of the line instead of across it.
+   THE PREDICTION TESTED ON TWO DATA SETS THAT HAVE NO FLYBACK
+   recording                                  tilt Z/X    flyback X    predicted Z  observed jump
+   scan_wide_25nm_1.csv (2D raster)             -0.133            0              0             78
+   scan_wide_25nm_2.csv (2D raster)             -0.134            0              0             37
+   ycontrol_run1.csv (2026-09-19)              -0.0009        30000             28            -99
+   ycontrol_run2_ysep12000.csv (2026-09-19)     0.0079        30000            238             47
+
+   The 2D images raster back and forth without lifting X, so X is CONTINUOUS
+   across every join: a forward pass ends at X 47768 and the backward pass
+   begins at X 47768. No flyback, and no transient - their first-pixel jumps
+   are 37 to 126 counts, the same size as an ordinary mid-line step.
+
+   The 2026-09-19 three-Y runs DO fly back, but their tilt is almost zero
+   (-0.0009 and +0.0079 against the 2026-09-17 run's -0.105), so the predicted
+   recovery is 28 and 238 counts - and the observed jumps are -99 and +47.
+
+   Three data sets, one arithmetic, and it predicts the presence AND the
+   absence of the transient from the tilt alone. This is the mechanism.
 
 4. IS ANYTHING LEFT ONCE THE TRANSIENT IS GONE?
    with the first two points dropped, against phase-randomised surrogates:
      profile RMS     observed 233 counts   surrogate 166 +- 36   p = 0.035
      consecutive r   observed +0.048        surrogate +0.001 +- 0.102  p = 0.326
 
-   NOTHING SURVIVES. Once the start-of-pass transient is removed, the twelve
-   passes agree no better than twelve phase-randomised lines of the same
-   smoothness. CANDIDATE A IS CLOSED, and it is closed by the simplest
-   mechanism available rather than by any of the subtler arguments in scripts
-   04, 05, 08 and 09 - which remain true but are no longer what carries it.
+   The reproduction is gone: consecutive-pass r +0.048 against a surrogate
+   +0.001 +- 0.102, p = 0.33. The averaged profile is still a little larger
+   than a surrogate's (233 against 166 +- 36, p = 0.035), so SOMETHING common
+   to the twelve passes remains - but p = 0.035 is one test out of the 201 in
+   script 07, where about 10 results at that level are expected from noise, and
+   it is nowhere near the corrected threshold of p < 2.5e-4.
+
+   CANDIDATE A IS CLOSED. What was 636 counts and r +0.515 is, once the
+   flyback recovery is dropped, 233 counts and r +0.048. The residue is worth
+   ONE cheap bench check when the instrument is rebuilt (see VERDICT.md), not
+   a claim.
 
 -> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/start_of_pass_transient.csv

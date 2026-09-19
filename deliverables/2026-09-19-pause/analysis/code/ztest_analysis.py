@@ -330,28 +330,31 @@ def main():
     save(fig, "fig04_ztest_hysteresis.png")
     plt.close(fig)
 
-    # fig05: counts per decade by bias, in and out
-    fig, ax = plt.subplots(figsize=(6.4, 3.8))
+    # fig05: counts per decade by bias, in and out. Log scale, because the point is a
+    # factor of a hundred or more against the tunnelling expectation.
+    fig, ax = plt.subplots(figsize=(6.8, 4.2))
     order = ["-0.1 V", "+0.1 V", "-0.5 V (run 1, 30 cycles)",
              "-0.5 V (repeat, 20 cycles)", "+0.5 V"]
-    xs = range(len(order))
+    short = ["$-$0.1 V", "+0.1 V", "$-$0.5 V\nrun 1", "$-$0.5 V\nrepeat", "+0.5 V"]
+    xs = list(range(len(order)))
     ins = [results[k][4]["cpd_in"] for k in order]
     outs = [results[k][4]["cpd_out"] for k in order]
     w = 0.36
-    ax.bar([x - w / 2 for x in xs], ins, w, color=TOL["blue"], label="going in")
-    ax.bar([x + w / 2 for x in xs], outs, w, color=TOL["red"], label="coming out")
+    ax.set_yscale("log")
+    ax.bar([x - w / 2 for x in xs], ins, w, color=TOL["blue"], label="going in", zorder=3)
+    ax.bar([x + w / 2 for x in xs], outs, w, color=TOL["red"], label="coming out", zorder=3)
     for x, v in zip(xs, ins):
-        ax.text(x - w / 2, v + 200, "%.0f" % v, ha="center", fontsize=7.5)
+        ax.text(x - w / 2, v * 1.08, "%.0f" % v, ha="center", fontsize=7.5)
     for x, v in zip(xs, outs):
-        ax.text(x + w / 2, v + 200, "%.0f" % v, ha="center", fontsize=7.5)
-    ax.axhspan(6, 13, color=TOL["green"], alpha=0.5)
-    ax.annotate("vacuum tunnelling would be 6-13 counts\n"
-                "(inherited Z scale, itself unmeasured)",
-                xy=(2.0, 13), xytext=(1.4, 3200), fontsize=7.5, color=TOL["green"],
-                arrowprops=dict(arrowstyle="->", color=TOL["green"], lw=1.0))
-    ax.set_xticks(list(xs))
-    ax.set_xticklabels([k.replace(" (", "\n(") for k in order], fontsize=7.5)
-    ax.set_ylabel("Z counts per decade of current (run median)")
+        ax.text(x + w / 2, v * 1.08, "%.0f" % v, ha="center", fontsize=7.5)
+    ax.axhspan(6, 13, color=TOL["green"], alpha=0.35, zorder=1)
+    ax.text(len(order) - 0.45, 9, "vacuum tunnelling would be 6-13 counts\n"
+            "(inherited Z scale, itself unmeasured)",
+            fontsize=7.5, color=TOL["green"], ha="right", va="center")
+    ax.set_ylim(4, 40000)
+    ax.set_xticks(xs)
+    ax.set_xticklabels(short, fontsize=8)
+    ax.set_ylabel("Z counts per decade of current\n(run median, log scale)")
     ax.set_title("How far Z has to move for the current to change tenfold\n"
                  "2026-09-19 morning, 110 cycles over five runs")
     ax.legend(loc="upper left")

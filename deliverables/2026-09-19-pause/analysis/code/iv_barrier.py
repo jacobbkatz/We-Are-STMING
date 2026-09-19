@@ -185,8 +185,14 @@ def main():
     section("8. FIGURES")
     fig, axes = plt.subplots(1, 2, figsize=(8.6, 3.6))
     ax = axes[0]
-    ax.errorbar(vs, cs, yerr=[p[2] for p in pts], fmt="o", ms=4, color=TOL["blue"],
-                ecolor=TOL["grey"], capsize=2, lw=1.0, label="measured (mean of 32, $\\pm$1 sd)")
+    excl = [p for p in pts if p not in keep]
+    ax.errorbar(vs, cs, yerr=[p[2] for p in keep], fmt="o", ms=4, color=TOL["blue"],
+                ecolor=TOL["grey"], capsize=2, lw=1.0,
+                label="measured (mean of 32, $\\pm$1 sd)")
+    if excl:
+        ax.scatter([p[0] for p in excl], [p[1] for p in excl], s=26, marker="x",
+                   color=TOL["grey"],
+                   label="excluded: at or near the ADC rail, or |V| > 0.8 V")
     g = np.linspace(vs.min(), vs.max(), 200)
     ax.plot(g, lin["intercept"] + lin["slope"] * g, color=TOL["grey"], ls="--", lw=1.1,
             label="straight line (an ohmic contact)")

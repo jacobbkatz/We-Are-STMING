@@ -45,7 +45,7 @@ line to change.**
 | 3 | `SETUP.md` tells every reader to type `python` | **On Windows type `py`** — `python` and `python3` are Store placeholders on Jacob's machine | `Code/pc/README.md`, from what actually happened on 2026-09-16 |
 | 4 | `README.md` says the preamplifier is the blocker and is being rebuilt | **The preamplifier works, at about 4 pA in its box. The blocker is mechanical** | `STATUS.md`; `docs/FACTS.md` |
 | 5 | `README.md` gives the coarse step as about 7.8 nm and the sample as gold foil on a magnetic disc | **3.9 to 7.8 nm depending on an unresolved lever ratio; gold leaf on copper tape on the plate, no puck** | `docs/FACTS.md`; `docs/INVENTORY.md` |
-| 6 | `docs/ENGINEERING_REFERENCE.md` section 11 records the ADC full-scale conflict as "Resolved: 4.096" | **Resolved as 10.24 V.** 4.096 V is REFBUF; the span is 2.5 times REFBUF | The datasheet, 2026-09-07; `docs/FACTS.md`; two other places in the same file |
+| 6 | `docs/ENGINEERING_REFERENCE.md` section 11 recorded the ADC full-scale conflict as resolved to the retired value, and **has since been corrected by someone else the same day** | **Resolved as 10.24 V.** 4.096 V is REFBUF; the span is 2.5 times REFBUF | The datasheet, 2026-09-07; `docs/FACTS.md`; two other places in the same file |
 | 7 | `Code/pc/README.md` and `docs/ENGINEERING_REFERENCE.md` both say the PC tools print currents 2.5 times too large | **The tools are right. Do not change the constant** | Same as above. The end-to-end dummy junction result of 2026-09-16 agrees with the tools |
 | 8 | `docs/ENGINEERING_REFERENCE.md` section 7b derives the suspension resonance from the droop | **That model does not apply.** These springs have initial tension, so the droop was never a spring extension | `docs/FACTS.md`, which retired the figure that came out of it; `STATUS.md` |
 | 9 | `docs/COMMANDS.md` calls the motor direction provisional | **Settled at the bench 2026-09-17: negative approaches** | `docs/OPEN_QUESTIONS.md`; every later approach that found the gold |
@@ -133,17 +133,16 @@ place.
 python3 Code/pc/check_facts.py
 ```
 
-**Exits 0 on everything in this directory.** It was run after each section was written, and it
-caught two things in the manual's own text:
+**Exits 0 on the repository with all of this work present**, checked as its own command and by its
+exit code. It was run after each section was written, and it caught three things:
 
 1. A troubleshooting heading reading "drops into constant-current mode" matched the retired
-   `drops in` literal from the Keystone standoff row. **Reworded** — and the over-firing itself is
-   logged as `INCONSISTENCIES.md` item C6.
+   `drops in` literal from the Keystone standoff row. **Reworded here** — and the over-firing was
+   logged and has since been fixed at the source by the lead, in commit `0b1ea09`.
 2. A `safety rule 2` citation that shared no wording with the rule. **Reworded to name the sign of
-   the tunnelling current**, which is what the rule is about.
+   the tunnelling current**, which is what that rule is about.
+3. A hit in another agent's file, where the retired `800 counts` matched inside "1,800 counts per
+   decade". **Same class as item 1**, and also fixed at the source by the lead, in commit `4d416b9`.
 
-3. **A third hit, at the end, is NOT in these files.** `deliverables/2026-09-19-pause/analysis/code/build_inventory.py`
-   line 635 trips the retired `800 counts` row on the substring inside "1,800 counts per decade".
-   **That is another agent's file and the same over-firing class as item 1**, and both are logged
-   together in `INCONSISTENCIES.md` item C6. **As long as it is there, the checker exits 1 on the
-   repository as a whole**, so whoever lands this work should clear it before committing.
+**Both checker fixes are recorded in `INCONSISTENCIES.md` item C6**, which is kept for the rule they
+demonstrate rather than as an outstanding defect.

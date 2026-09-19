@@ -121,7 +121,7 @@ advice, replacing it with "judge the piezo with a meter, not by ear".
 
 ## B — will mislead a reader about what the instrument is or does
 
-### B1. `docs/ENGINEERING_REFERENCE.md:684` — the conflict register records the wrong resolution
+### B1. `docs/ENGINEERING_REFERENCE.md:684` — the conflict register recorded the wrong resolution. **FIXED while this work was in progress**
 
 > `| ADC full scale 10.24 vs 4.096 | PC tools vs firmware driver and schematic | **Resolved: 4.096.** PC tools not yet changed |`
 
@@ -135,6 +135,12 @@ than no register**, because it is the file someone checks precisely when two doc
 
 **Recommended fix:** `**Resolved: 10.24 V.** 4.096 V is REFBUF; the input span is 2.5 x REFBUF.
 The PC tools were right and must not be changed.`
+
+> **ALREADY DONE.** Re-checked at the end of this work: line 684 now reads **"Resolved: 10.24 V"**
+> with the old text struck through beside it. **Someone else corrected it the same day.** The entry
+> is kept because **the two other places carrying the same stale claim are still live** — items B2
+> and B3 below — and because a conflict register that has been wrong once is worth re-reading in
+> full rather than spot-fixing.
 
 ---
 
@@ -374,32 +380,34 @@ future session is most likely to read something off.**
 
 ---
 
-### C6. `Code/pc/check_facts.py` — the `drops in` retired literal over-fires on ordinary English
+### C6. `Code/pc/check_facts.py` over-fired twice on ordinary text — **BOTH FIXED during this session, by the lead**
 
-**Found while writing this manual.** The retired row `drops in` (for the Keystone standoff) matches
-the substring in any ordinary sentence containing "drops into" — in this case a troubleshooting
-heading about a supply channel dropping into constant-current mode, which has nothing to do with
-standoffs.
+**Recorded because the class is worth keeping, not because either instance is still live.**
 
-**The row is unqualified**, so it fires on every occurrence anywhere.
+**Instance 1, found while writing this manual.** The retired literal `drops in`, from the Keystone
+standoff row, matched the substring inside a troubleshooting heading about a power supply channel
+that *"drops into constant-current mode"* — which is not wrong and has nothing to do with standoffs.
+The row was meant to be narrowed by the words "for the Keystone 11301 in our board hole",
+**but the narrowing regex accepted only "as the"**, so the row behaved as unqualified and matched
+the phrase anywhere.
 
-**This is a false positive, not a missed catch**, so it is low severity — but it will keep firing
-and the usual response to a noisy check is to stop reading it. `STATUS.md`'s "Known code issues"
-section already tracks two other weaknesses in this checker.
+**Instance 2, found the same day in a different agent's file.** The retired literal `800 counts`,
+which is a counts-per-nA figure, matched inside **"1,800 counts per decade"** — the 2026-09-19 loop
+constant, which is a different quantity entirely.
 
-**Recommended fix:** qualify the row with words the documents actually use — for example
-"the standoff" or "our board hole" — **and then confirm the row still fires** against a
-deliberately reintroduced stale line. `Code/pc/check_facts.py`'s own `check_dead_qualifiers`
-exists to catch a qualifier that matches nothing, so the confirmation is automatic.
+**Both are the same defect: a retired literal that is also a substring of innocent text.** One is an
+English phrase, the other a number.
 
-**A second instance of the same class, found the same day and in a different agent's file.** The
-retired row `800 counts` (per nA, replaced by 320) matches the substring inside **"1,800 counts per
-decade"**, which is the 2026-09-19 loop constant and has nothing to do with counts per nA. That row
-is unqualified too.
+**Both were fixed by the lead while this work was in progress**, in commits `0b1ea09` and `4d416b9`:
+the narrowing regex now accepts "for the" as well as "as the", and a numeric literal now needs a
+left boundary so it cannot match as the tail of a bigger number. **`python3 Code/pc/check_facts.py`
+exits 0 on the repository with all of this work present.**
 
-**Both are the same defect: an unqualified retired literal that is also a common substring.** The
-fix is the same — qualify the row in the words the documents use, here something like "per nA", and
-confirm it still fires.
+**The reason to keep this entry** is the rule it demonstrates, which `Code/pc/check_facts.py`'s own
+comments now state at both sites: **a checker that fires on correct lines gets switched off**, which
+is the same failure this file exists to prevent, arriving from the other direction. **When a RETIRED
+row is added, check whether its literal is a substring of ordinary English or of a bigger number,
+and then confirm the row still fires** against a deliberately reintroduced stale line.
 
 ---
 

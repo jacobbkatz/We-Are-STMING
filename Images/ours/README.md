@@ -8,10 +8,15 @@ there.
 
 ## The build record, 2026-07-25 to 2026-09-17
 
-**Added 2026-09-18** from Jacob's phone, via a Drive folder he shared. Twenty-four frames, resized
-to 1600 px on the long edge and **stripped of EXIF** — the originals carried the camera's metadata
-and the repository gets shown to other people. **Full-resolution originals stay in Jacob's Drive**;
-these are the working copies.
+**Added 2026-09-18** from Jacob's phone, via a Drive folder he shared. Twenty-six frames in the
+table below, plus the five scan-head frames in the next section, resized to 1600 px on the long
+edge and **stripped of EXIF** — the originals carried the camera's metadata and the repository gets
+shown to other people. **Full-resolution originals stay in Jacob's Drive**; these are the working
+copies. **Sixty-one more frames from two cameras were added on 2026-09-19 and are further down.**
+
+> **Corrected 2026-09-19.** This said "twenty-four frames". **Two files were committed with that
+> batch and never listed in the table at all** — `2026-09-16_controller_board.jpg` and
+> `2026-09-16_scanhead_on_platform.jpg`. They are in it now.
 
 ### How to read the "Confirmed by" column
 
@@ -69,7 +74,7 @@ in detail why one particular attempt to do so failed.
 | `2026-08-19_preamp_board.jpg` | The OPA627 transimpedance preamp board, held against an anti-static bag | `READ` |
 | `2026-08-21_preamp_with_coax.jpg` | The preamp with its coax tail attached, on a bench mat | `READ` |
 | `2026-08-24_scanhead_on_copper_ground_plane.jpg` | The scan head assembled on the copper-covered base plate, on the suspended platform, orange coax running off | `READ` |
-| `2026-08-26_bench_full_rig.jpg` | The whole bench: frame, suspension, supplies, laptop, and **Nuh** working. ~~which of the two people this is has not been confirmed~~ **SETTLED 2026-09-19** — same beard and same jersey as `2026-08-01_nuh_soldering.jpg`, which Jacob identified as Nuh | `SAID` 2026-09-19, by Jacob's rule — see "Who is who" below |
+| `2026-08-26_bench_full_rig.jpg` | The whole bench: frame, suspension, supplies, laptop, and **Nuh** working. ~~which of the two people this is has not been confirmed~~ **SETTLED 2026-09-19** — same beard and same jersey as `2026-08-01_nuh_soldering.jpg`, which Jacob identified as Nuh | `SAID` 2026-09-19, by Jacob's rule — see "Who is who" above |
 | `2026-08-29_rig_on_suspension.jpg` | The instrument on its suspension with both bench supplies live | `READ` |
 | `2026-08-30_ribbon_wiring_diagram_in_use.jpg` | **A screen showing this repository's own 26-way ribbon wiring diagram**, being used at the bench. Title legible: *Teensy 4.1 <-> STM Controller — 26-way Ribbon Wiring* | `READ` |
 | `2026-09-15_bench_before_powered_session.jpg` | The bench set up before the 2026-09-16 powered session: supplies, meter, the rig, tools laid out | `READ` |
@@ -267,8 +272,8 @@ message on a UTC−4 reading.
 | `2026-08-01_frame_parts_at_home.jpg` | `IMG_4657` | 2026-08-01 09:30 | **Early frame assembly, indoors at a dining table** — not the workshop. Printed top plate and triangular base on threaded rods, **six flat rectangular metal bars laid on the base**, a 600-piece M2–M4 screw kit. **Jacob** | `READ`; person `SAID` 2026-09-19, by Jacob's rule. **What the six bars are is UNKNOWN — worth one word** |
 | `2026-08-01_teensy_carrier_build_1.jpg` | `IMG_4658` | 2026-08-01 11:44 | Two people's hands over a green perfboard; a **Teensy 4.1**, a brass-insert kit box, a **yellow IDC ribbon** | `READ`. Whose hands is UNKNOWN |
 | `2026-08-01_teensy_carrier_build_2.jpg` | `IMG_4659` | 2026-08-01 11:44 | The same perfboard with the first wire going on; strippers, a Sharpie, a pink sticky note | `READ` |
-| `2026-08-09_tip_etching_setup_1.jpg` | `IMG_4713` | 2026-08-09 15:35 | **The tip-etching setup, outdoors**: a bench supply, a lab stand and clamp over a beaker, further glassware, long gloves, leads running off-frame, a white bottle | **`SAID` Jacob 2026-09-19:** *"The etcher is just the etching setup its not a machine or anything just powersupply through sodium hydroxide"* |
-| `2026-08-09_tip_etching_setup_2.jpg` | `IMG_4714` | 2026-08-09 15:35 | The same, clearer. **Jacob** at the table; the bottle's label reads SODIUM HYDROXIDE | as above; person `SAID` 2026-09-19, by Jacob's rule |
+| `2026-08-09_tip_etching_setup_1.jpg` | `IMG_4713` | 2026-08-09 15:35 | **The tip-etching setup, outdoors, in use**: a bench supply with red and black leads running down into a beaker; a lab stand whose clamp holds something over that beaker; a conical flask and two tumblers of clear liquid; white residue on the mat; a bottle labelled SODIUM HYDROXIDE; **Jacob wearing long blue chemical gloves, pouring from a jug** | **`SAID` Jacob 2026-09-19:** *"The etcher is just the etching setup its not a machine or anything just powersupply through sodium hydroxide"*; person `SAID` 2026-09-19, by Jacob's rule. **The NaOH concentration, the voltage, the counter-electrode material, whether it ever worked and whether any fitted tip came off it are all UNKNOWN** |
+| `2026-08-09_tip_etching_setup_2.jpg` | `IMG_4714` | 2026-08-09 15:35 | The same table four seconds later, from the other side. The bottle's label reads SODIUM HYDROXIDE and the clamp and leads over the beaker are clearer. **No gloves are visible in this frame** | as above |
 | `2026-08-30_teensy_carrier_wiring_side.jpg` | `IMG_4838` | 2026-08-30 14:44 | **The Teensy carrier from the wiring side**, in hand: a 70 × 90 mm protoboard, point-to-point hand wiring, about a dozen coloured leads, a ribbon leaving the bottom edge | `READ`. **NO CONNECTION HAS BEEN READ OFF THIS AND NONE MAY BE** — `docs/WIRING.md` is the pinout reference |
 | `2026-09-06_preamp_board_in_head.jpg` | `IMG_4851` | 2026-09-06 12:50 | **The preamplifier board in the scan head, silkscreen legible: JP1, R1, C1, C2, C3, IC1** — the same designators as `docs/WIRING.md` §10. An axial leaded part is mounted in the air on bent leads; five wires enter JP1 | `READ`. **THIS IS THE OLD BOARD** — the preamp was rebuilt into a new box on 2026-09-15. **No value has been taken from the resistor's colour bands and none should be** |
 | `2026-09-06_preamp_module_in_hand.jpg` | `IMG_4852` | 2026-09-06 13:50 | The preamp module in a gloved hand, copper tape framing the board, the wire bundle entering, **a fine bare wire protruding to the right ending in a small blob** | `READ`. Whose hand is UNKNOWN |

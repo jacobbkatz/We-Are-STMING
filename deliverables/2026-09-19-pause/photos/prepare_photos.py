@@ -361,17 +361,22 @@ def p10():
 
 # ------------------------------------------------------------------ 11 tip etching
 def p11():
-    im, src = load("2026-08-09_tip_etching_setup_2.jpg", "IMG_4714")
-    c = fit(im, (0.0, 0.10, 0.85, 0.85), 1500)
+    im, src = load("2026-08-09_tip_etching_setup_1.jpg", "IMG_4713")
+    c = fit(im, (0.0, 0.10, 1.0, 0.78), 1500)
     c = caption_bar(c, [
         "The tip-etching setup, outdoors, 2026-08-09.",
         "SAID, Jacob, 2026-09-19: \"The etcher is just the etching setup its not a machine or anything just",
-        "powersupply through sodium hydroxide\". Visible in the frame (READ): a bench supply, a lab stand and clamp",
-        "over a beaker, further glassware, gloves, and leads running off-frame.",
-        "UNKNOWN and not to be filled in from anywhere else: the NaOH concentration, the voltage, the counter-electrode",
-        "material, whether it was ever used successfully, and whether any tip fitted to the instrument came off it.",
+        "powersupply through sodium hydroxide\".",
+        "Visible in the frame (READ): a bench power supply with red and black leads running down into a beaker; a",
+        "lab stand whose clamp holds something over that beaker; a conical flask and two tumblers of clear liquid;",
+        "white residue on the mat; a bottle whose label reads SODIUM HYDROXIDE; long blue chemical gloves being worn;",
+        "cutters and a small spool.",
+        "UNKNOWN, and not to be filled in from anywhere else: the NaOH concentration, the voltage, the",
+        "counter-electrode material, whether it was ever used successfully, and whether any tip fitted to the",
+        "instrument came off it. The last two decide whether this matters at all.",
         "Berard etched in 4 M KOH. That is HIS chemistry, not ours - ours is sodium hydroxide.",
-        "Source: Images/ours/2026-08-09_tip_etching_setup_2.jpg (IMG_4714, 2026-08-09 15:35:06, Nuh's camera).",
+        "Source: Images/ours/2026-08-09_tip_etching_setup_1.jpg (IMG_4713, 2026-08-09 15:35:02, Nuh's camera).",
+        "The person is Jacob, SAID by Jacob 2026-09-19.",
     ])
     save(c, "11_tip_etching_setup.jpg")
 

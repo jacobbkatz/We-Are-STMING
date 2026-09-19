@@ -363,3 +363,52 @@ criticising it** — but it means the 11.8-minute figure is an absence of record
 
 **The strongest single piece of gap-motion evidence remains `release_watch_run1.log`**, with the
 motor caveat above attached.
+
+---
+
+## V7. **`docs/ENGINEERING_REFERENCE.md` recorded this project's most expensive error backwards.** Corrected
+
+**Found by Subagent 4 during its consistency pass, verified independently by me before acting.**
+
+`docs/ENGINEERING_REFERENCE.md` §11 is, by `CLAUDE.md` §6, **the canonical home for documented
+conflicts between sources.** Its row read:
+
+> | ADC full scale 10.24 vs 4.096 | PC tools vs firmware driver and schematic | **Resolved: 4.096.**
+> PC tools not yet changed |
+
+**Both halves are wrong.**
+
+1. **The full scale is 10.24 V, not 4.096 V.** 4.096 V is REFBUF; the LTC2326-16's span is
+   2.5 × REFBUF. `docs/FACTS.md` has said so since 2026-09-07 and lists `4.096` as a RETIRED value
+   for exactly this.
+2. **The PC tools HAD already been changed.** `Code/pc/stm_approach.py:118-119` and `:501-504` use
+   10.24 V and explain in the code why. I checked the source rather than trusting either document.
+
+**This is the correction that `docs/FACTS.md` exists because of.** `Code/pc/check_facts.py`'s own
+header says so: *"on 2026-09-07 the ADC full scale was corrected from 4.096 V to 10.24 V [...]
+correcting the ones anybody thought of still left stale copies in six files."* **One of the
+survivors was the conflict register itself** — the document whose entire job is to say which of two
+conflicting sources won.
+
+### Why the checker could not see it, and this is a genuine blind spot
+
+`check_facts.py` suppresses a hit when the corrected value appears on the same line:
+
+```python
+num = re.search(r'\d[\d.]*', replacement)   # replacement is "10.24 V"
+if num and num.group(0).rstrip('.') in line:
+    continue                                 # "a correction table or a sentence saying X, not Y"
+```
+
+**A conflict row names both values by construction** — "ADC full scale 10.24 vs 4.096" — so "10.24"
+is on the line and the hit is suppressed, **whichever value the row then declares the winner.**
+
+**The suppression is right in general** and should stay: correction tables genuinely do carry both
+numbers. **But it is blind in precisely the document type where a wrong resolution is most
+damaging.** I have not changed the heuristic, because a targeted patch here risks suppressing less
+and crying wolf more — and today has already produced three false positives from over-firing.
+**Recorded instead as a known limit**, in this file and in the corrected row itself, with the manual
+agent's `INCONSISTENCIES.md` carrying the full list of what a human still has to read for.
+
+**Corrected in place**, with the old text struck through rather than deleted, per the project's
+habit of keeping withdrawn claims in the record.

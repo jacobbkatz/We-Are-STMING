@@ -43,7 +43,7 @@ def G(name):
     return out("gallery", name)
 
 
-def imshow(ax, M, xs, ys, vmax=None, cmap=CMAP, label="Z DAC counts"):
+def imshow(ax, M, xs, ys, vmax=None, cmap=CMAP, label="Z"):
     if vmax is None:
         vmax = np.abs(M).max() or 1
     im = ax.imshow(M, aspect="auto", origin="lower", cmap=cmap, vmin=-vmax, vmax=vmax,
@@ -128,8 +128,13 @@ def fig_candidate_a():
             "consecutive-pass r              +0.647\n"
             "odd-half vs even-half r         +0.923\n"
             "phase-randomised surrogate      p < 2e-4\n\n"
-            "IT IS REAL AND IT REPEATS.\n"
-            "What it is a picture OF is figure 2.\n\n"
+            "IT IS REAL AND IT REPEATS - and figure 09 shows\n"
+            "what of: look at the left-hand panel. Every pass\n"
+            "starts low and climbs ~1,500 counts in one pixel.\n"
+            "That is the loop recovering from the 30,000-count\n"
+            "X flyback between passes, and it is identical\n"
+            "every pass because the flyback is. Drop two\n"
+            "points and consecutive-pass r goes +0.647 -> +0.048.\n\n"
             "Every fwd/back row pair in this file is byte-\n"
             "identical: the scratch tool stored the forward\n"
             "pass twice. All 12 passes above are FORWARD.",
@@ -150,7 +155,7 @@ def fig_candidate_a_place(prof, xs):
     D2 = np.array([detrend(f) for f in F2])
 
     fig = plt.figure(figsize=(11.5, 7.6))
-    gs = GridSpec(2, 3, figure=fig, hspace=0.45, wspace=0.35)
+    gs = GridSpec(2, 3, figure=fig, hspace=0.45, wspace=0.42)
 
     v = max(np.abs(F1 - F1.mean()).max(), np.abs(F2 - F2.mean()).max())
     ax = fig.add_subplot(gs[0, 0])
@@ -319,7 +324,7 @@ def fig_wide_images():
         return {L: fisher_mean(v)[0] for L, v in per.items()}
 
     fig = plt.figure(figsize=(12.5, 7.2))
-    gs = GridSpec(2, 3, figure=fig, hspace=0.45, wspace=0.34)
+    gs = GridSpec(2, 3, figure=fig, hspace=0.45, wspace=0.42)
     xs, ys, F, B = load_raster(data("2026-09-19-bench", "img_scan_2.csv"))
     ax = fig.add_subplot(gs[0, 0])
     imshow(ax, F - F.mean(), xs, ys)
@@ -537,6 +542,121 @@ def fig_motion():
     plt.close(fig)
 
 
+# ---------------------------------------------------------------- figure 9
+def fig_flyback():
+    """What candidate A actually is: the loop recovering from the X flyback."""
+    xs, pl, P = load_ycontrol(data("2026-09-17-bench", "line_repeated_wide.csv"))
+    raw = np.array([v for p in pl for v in P[p]])[0::2]
+    fig = plt.figure(figsize=(12.5, 7.0))
+    gs = GridSpec(2, 3, figure=fig, hspace=0.45, wspace=0.32)
+
+    ax = fig.add_subplot(gs[0, 0])
+    for v in raw:
+        ax.plot(xs, v - v[0], lw=1.0, alpha=0.85)
+    ax.set_title("RAW, each pass shifted to start at zero\nevery one climbs in the first pixel")
+    ax.set_xlabel("X DAC code")
+    ax.set_ylabel("Z counts from the pass start")
+
+    ax = fig.add_subplot(gs[0, 1])
+    j0 = np.array([v[1] - v[0] for v in raw])
+    jl = np.array([v[11] - v[10] for v in raw])
+    ax.plot(range(len(j0)), j0, "o-", lw=1.6, ms=5, label="first step of the pass")
+    ax.plot(range(len(jl)), jl, "s-", lw=1.6, ms=4, label="a mid-line step")
+    ax.axhline(0, color="k", lw=0.8)
+    ax.set_title("The first step is 6x a mid-line step\nand it GROWS through the run")
+    ax.set_xlabel("pass number")
+    ax.set_ylabel("Z counts")
+    ax.legend(fontsize=7.5, frameon=False)
+
+    ax = fig.add_subplot(gs[0, 2])
+    ds, cs, rs_ = [], [], []
+    for d in range(0, 7):
+        D = np.array([detrend(v[d:]) for v in raw])
+        ds.append(d)
+        cs.append(fisher_mean([corr(D[i], D[i + 1]) for i in range(len(D) - 1)])[0])
+        rs_.append(rms(D.mean(axis=0)))
+    ax.plot(ds, cs, "o-", color="crimson", lw=2, ms=5)
+    ax.axhline(0, color="k", lw=0.8)
+    ax.set_xlabel("leading points dropped")
+    ax.set_ylabel("consecutive-pass r", color="crimson")
+    ax.set_title("DROP TWO PIXELS AND IT IS GONE\n+0.647 -> +0.048")
+    ax2 = ax.twinx()
+    ax2.plot(ds, rs_, "s--", color="tab:blue", lw=1.6, ms=4)
+    ax2.set_ylabel("profile RMS, counts", color="tab:blue")
+    ax2.grid(False)
+
+    ax = fig.add_subplot(gs[1, 0])
+    for v in raw:
+        ax.plot(xs, v, lw=0.9, alpha=0.6)
+    t = np.polyfit(xs.astype(float), raw.mean(axis=0), 1)
+    ax.plot(xs, np.polyval(t, xs.astype(float)), "k--", lw=2,
+            label="tilt %.3f Z per X" % t[0])
+    ax.annotate("", xy=(xs[0], raw.mean()), xytext=(xs[-1], raw.mean()),
+                arrowprops=dict(arrowstyle="->", lw=2, color="crimson"))
+    ax.text(0.5, 0.06, "X FLYBACK, 30,000 counts", transform=ax.transAxes,
+            ha="center", color="crimson", fontsize=8.5, fontweight="bold")
+    ax.set_title("THE MECHANISM\nthe tool jumps X back 30,000 counts each pass")
+    ax.set_xlabel("X DAC code")
+    ax.set_ylabel("Z DAC code")
+    ax.legend(fontsize=7.5, frameon=False, loc="upper right")
+
+    ax = fig.add_subplot(gs[1, 1])
+    labels, pred, obs = [], [], []
+    labels.append("2026-09-17\nline repeat")
+    pred.append(abs(t[0]) * float(xs[-1] - xs[0]))
+    obs.append(np.mean([v[2] - v[0] for v in raw]))
+    for img in ("1", "2"):
+        _, ys, F, B = load_raster(data("2026-09-17-bench", "scan_wide_25nm_%s.csv" % img))
+        labels.append("2026-09-17\n2D image %s" % img)
+        pred.append(0.0)
+        obs.append(np.mean([v[1] - v[0] for v in F]))
+    for nm, lab in (("ycontrol_run1.csv", "2026-09-19\nthree-Y run 1"),
+                    ("ycontrol_run2_ysep12000.csv", "2026-09-19\nthree-Y run 2")):
+        x2, pls, P2 = load_ycontrol(data("2026-09-19-bench", nm))
+        A = np.array([v for p_ in pls for v in P2[p_]])
+        tt = np.mean([np.polyfit(x2.astype(float), v, 1)[0] for v in A])
+        labels.append(lab)
+        pred.append(abs(tt) * float(x2[-1] - x2[0]))
+        obs.append(np.mean(A[:, 1] - A[:, 0]))
+    w = 0.38
+    i = np.arange(len(labels))
+    ax.bar(i - w / 2, pred, w, label="predicted from tilt x flyback")
+    ax.bar(i + w / 2, np.abs(obs), w, label="observed start-of-pass jump")
+    ax.set_xticks(i)
+    ax.set_xticklabels(labels, fontsize=6.2, rotation=30, ha="right")
+    ax.set_ylabel("Z counts")
+    ax.set_title("The arithmetic predicts the transient\nAND predicts its absence")
+    ax.legend(fontsize=7, frameon=False)
+
+    ax = fig.add_subplot(gs[1, 2])
+    ax.axis("off")
+    ax.text(0, 1, "WHY THIS CLOSES CANDIDATE A\n\n"
+            "tilt of the 12 passes      -0.105 Z per X\n"
+            "X flyback between passes   30,000 counts\n"
+            "predicted Z to recover      3,144 counts\n"
+            "observed in the first two   2,465 counts\n\n"
+            "The two 2D wide images of the same night\n"
+            "raster back and forth WITHOUT lifting X,\n"
+            "so there is no flyback - and no transient\n"
+            "(37 and 78 counts, an ordinary step).\n\n"
+            "The 2026-09-19 three-Y runs DO fly back but\n"
+            "their tilt is near zero, so the predicted\n"
+            "recovery is 28 and 238 counts - and the\n"
+            "observed jumps are -99 and +47.\n\n"
+            "One piece of arithmetic, three data sets,\n"
+            "and it gets the presence and the absence\n"
+            "right both times.\n\n"
+            "sessions/2026-09-17-bench.md 3.22 caught this\n"
+            "same effect on the first LINE of an image and\n"
+            "killed an r of +0.75 with it. Nobody applied\n"
+            "the check to the first PIXELS of a line.",
+            va="top", ha="left", fontsize=7.4, family="monospace")
+    fig.suptitle("What candidate A actually is - the loop recovering from the X flyback",
+                 y=0.985, fontsize=11, fontweight="bold")
+    fig.savefig(G("09_flyback_transient.png"))
+    plt.close(fig)
+
+
 def main():
     prof, xs = fig_candidate_a()
     fig_candidate_a_place(prof, xs)
@@ -546,6 +666,7 @@ def main():
     fig_cross_night()
     fig_rejected()
     fig_motion()
+    fig_flyback()
     for f in sorted(os.listdir(os.path.dirname(G("x")))):
         print("  gallery/%s" % f)
 
