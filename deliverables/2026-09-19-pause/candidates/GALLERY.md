@@ -91,8 +91,11 @@ was stable for the whole run.
 `sessions/data/2026-09-17-bench/scan_wide_25nm_1.csv` and `_2.csv` are **two complete 2D images of
 the same nine Y positions on the same X grid**, taken the same night with the same tip and the
 same gold. That is nine same-place pairs and 72 different-place pairs, at the width the result is
-claimed at. (These two files are labelled "±4000 X" in the data README; their headers say
-17768–47768, which is ±15,000. Flagged for the lead.)
+claimed at. **Four files in that directory are not listed in its `README.md` at all** —
+`scan_wide_25nm_1.csv`, `scan_wide_25nm_2.csv`, `line_repeated_wide.csv` and
+`line_three_y_positions.csv`. **Those four are the project's strongest candidate and the data that
+answers it.** Flagged for the lead; it is the likeliest reason §3.25 believed the test had never
+been run.
 
 | | r | n |
 |---|---|---|
@@ -285,7 +288,7 @@ is matched by a control. **The "controls reproduce better" argument is withdrawn
 
 # CANDIDATE D — the wide ±15,000 images, 2026-09-19 bench
 
-**Source:** `sessions/data/2026-09-19-bench/img_scan_0/1/2.csv` and `img_xheld_0/1.csv`.
+**Source:** `sessions/data/2026-09-19-bench/img_scan_0.csv`, `img_scan_1.csv`, `img_scan_2.csv` and the controls `img_xheld_0.csv`, `img_xheld_1.csv`.
 
 ![Wide images](gallery/05_wide_images_trace_retrace.png)
 
@@ -300,9 +303,14 @@ is matched by a control. **The "controls reproduce better" argument is withdrawn
 
 **Read the shape of that curve, not just the number at zero.** For the real scans it is lowest at
 zero shift and high at **both** −10 and +10 pixels. That is a signal roughly **periodic over one
-pass** — about one cycle per 21 pixels, which at the measured ~10.8 ms per pixel is **≈ 4–5 Hz** —
+pass** — about one cycle per 21 pixels, which at ~10.8 ms per pixel is **≈ 4–5 Hz** —
 **mirrored between trace and retrace**. The X-held controls, taken minutes apart with identical
 timing, show nothing of the kind at any shift.
+
+> **The pixel rate is inherited, not measured for these files.** No timing was logged for the wide
+> images; 10.8 ms per pixel comes from the same night's `cas9` scans. **The "4–5 Hz" therefore rests
+> on that assumption. The periodicity in PIXELS does not** — that is measured directly, and it is
+> the part the argument uses.
 
 **So X motion is required to produce it.** That upgrades `sessions/2026-09-19-morning.md` §6's
 "X motion is the likely but unproven cause" from a guess to a control-backed statement, though the
@@ -389,8 +397,10 @@ that half, the data agree with him, and the number is not close.**
 | `bias_p01V_*.csv` | 20 | 5,380 | +9.6 | **1,358** |
 | `bias_m05V_*.csv` | 20 | 4,190 | +65.9 | **396** |
 
-**A 21 × 11 image takes about 5 seconds. The corrugation in every candidate in this gallery is 13
-to 460 counts. The gap's own unsteady motion over that timescale is 396 to 1,722 counts.** The
+**A 21 × 11 image takes about 5 seconds** (`cas9.log`: lock-in at 03:48:10, scan 0 complete at
+03:48:15; the eight images that follow are 4–9 s apart). **The corrugation of every unclamped
+candidate scan in the project, measured here, is 29 to 458 counts** (21 files, `work/inventory.csv`;
+the 2026-09-17 log's 13–20 counts is its own narrow fast images). The gap's own unsteady motion over that timescale is 396 to 1,722 counts.** The
 thing being measured is smaller than the way the gap moves while it is being measured.
 
 **On periodicity — the part of the hypothesis about "swinging":**

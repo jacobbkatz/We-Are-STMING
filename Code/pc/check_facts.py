@@ -124,7 +124,19 @@ def check_links():
     that silently rots is worse than no reference: it sends a future session
     looking for something and it comes back with nothing.
     """
-    ref = re.compile(r'`((?:docs|sessions|Code|CAD|PCB|gerbers)/[A-Za-z0-9_./-]+\.(?:md|py|hpp|cpp|json|txt))`')
+    # `Images` and the image extensions added 2026-09-19. Neither the directory
+    # nor jpg/png/svg was in these alternations, so EVERY photograph reference in
+    # the repository was unchecked -- Images/ours/README.md is one long table of
+    # them. Found during the pause-point photo pass, which renamed 61 files at
+    # once and then discovered the checker would not have caught a single broken
+    # link; the agent proved it by re-introducing a reference to a file that does
+    # not exist and watching the check stay green.
+    #
+    # `deliverables` added at the same time, for the same reason: a whole tree of
+    # cross-referencing documents was invisible to this check.
+    ref = re.compile(
+        r'`((?:docs|sessions|Code|CAD|PCB|gerbers|Images|deliverables)/'
+        r'[A-Za-z0-9_./-]+\.(?:md|py|hpp|cpp|json|txt|jpg|png|svg|html|csv))`')
     bad = []
     for path in live_files():
         if not path.endswith('.md'):
