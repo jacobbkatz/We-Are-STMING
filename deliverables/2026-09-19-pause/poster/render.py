@@ -70,17 +70,33 @@ def main():
         page.wait_for_timeout(600)
 
         # Report anything that did not fit, so a layout problem is caught here rather
-        # than at the printer. Both numbers should be zero.
+        # than at the printer. A panel hides whatever will not fit inside it, which is
+        # what stops one panel printing on top of the next - but it means a sentence
+        # can be cut off in silence. This check finds that: every number should be 0.
         over = page.evaluate("""() => {
             const p = document.querySelector('.poster');
-            return {w: p.scrollWidth - p.clientWidth, h: p.scrollHeight - p.clientHeight};
+            const out = {page: [p.scrollWidth - p.clientWidth, p.scrollHeight - p.clientHeight],
+                         panels: []};
+            document.querySelectorAll('.panel, .conditions, .titleblock, .teamshot')
+              .forEach(el => {
+                const over = el.scrollHeight - el.clientHeight;
+                if (over > 1) {
+                  const h = el.querySelector('h2, h3, h1');
+                  out.panels.push([(h ? h.textContent : el.className).trim().slice(0, 46),
+                                   over]);
+                }
+              });
+            return out;
         }""")
-        if over["w"] or over["h"]:
-            print("WARNING: content overflows the page by %d x %d css px "
-                  "(%.2f x %.2f in) - fix poster.html before printing"
-                  % (over["w"], over["h"], over["w"] / 96, over["h"] / 96))
-        else:
-            print("fit: content sits inside the page")
+        if over["page"][0] > 1 or over["page"][1] > 1:
+            print("WARNING: the whole page overflows by %d x %d css px (%.2f x %.2f in)"
+                  % (over["page"][0], over["page"][1],
+                     over["page"][0] / 96, over["page"][1] / 96))
+        for name, px in over["panels"]:
+            print("WARNING: text is being cut off in \"%s\" - it is %.2f in too tall"
+                  % (name, px / 96))
+        if not over["panels"] and over["page"][1] <= 1:
+            print("fit: every panel's text fits inside it")
 
         page.pdf(path=PDF, width="%gin" % w_in, height="%gin" % h_in,
                  print_background=True, prefer_css_page_size=True,

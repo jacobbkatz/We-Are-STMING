@@ -726,3 +726,64 @@ of the decay arithmetic is that **a pressed contact through a thin film is much 
 explanation**, exactly as §3.19 concluded on the night. **The straightedge measurement is still
 worth doing**, because it converts an argument into a number, and because `d` sets the Z scale for
 every future measurement. **It is no longer fair to present it as a coin-flip.**
+
+---
+
+## V12. **SETTLED AT THE BENCH: `d` is about 1.000 mm. The 2026-09-17 junction was NOT tunnelling — and the Z scale is now ours**
+
+**Jacob went and measured it, 2026-09-19, minutes after V11:** *"i just measured it, it's smack dab
+in the middle"*.
+
+**MY READING, stated explicitly because everything below depends on it:** the tip sits at the
+**centre of the piezo disc**, which `docs/FACTS.md` fixes at **1.000 mm** from the pivot line
+(MESH, from `PiezoPlate.stl`). **Consistent with his own `SAID` of 2026-09-18** — *"tip sits roughly
+in the middle"*. **If that reading is wrong, every line below changes and it must be said.**
+
+### The consequence, by two independent routes
+
+**d = 1.000 mm → lever ratio 40 → the tip moves 3.88 nm per motor step.**
+
+| Route | Uses | Result |
+|---|---|---|
+| **1. Motor calibration** | ~250 Z counts per decade AND ~250 per motor step, so one step ≈ one decade | **3.88 nm per decade — 39x too slow** |
+| **2. Piezo Z scale**, avoiding the SUSPECT motor-step figure entirely | 125-433 counts/decade (the four measured runs) at the inherited 0.016 nm/count | **2.0 to 6.9 nm per decade — 20 to 69x too slow** |
+
+**Tunnelling needs 0.1 nm per decade. Both routes miss it by more than an order of magnitude, and
+route 2 does not depend on the one figure marked suspect.** The requirement from V11 was **d ≈ 26
+um**; the measurement is **1.000 mm**, about **38 times larger**.
+
+> **THE QUESTION IS CLOSED. The 2026-09-17 junction was a tip pressing through a thin film —
+> contamination or oxide — not a vacuum tunnelling gap.** Exactly as
+> `sessions/2026-09-17-bench.md` §3.19 concluded on the night, against a repository that then spent
+> two days quietly overstating the alternative.
+
+### The second result, and it is a genuinely good one
+
+**`docs/OPEN_QUESTIONS.md` called `d` "the most valuable unmeasured number in the instrument"
+because it sets the Z scale.** With d measured:
+
+**Z scale ≈ 0.0155 nm per count, full Z range ≈ 1.02 um.**
+
+**This is the first Z scale derived from our own geometry.** Every previous figure was inherited
+from Berard's calibration of a similar disc, and the repository has flagged that as a gap
+throughout. **The two agree to 3%** — 0.0155 against the inherited 0.016 — which is a real
+cross-check, not a coincidence, because the routes are independent: ours is screw pitch and lever
+geometry, his was an optical calibration of a piezo.
+
+**Caveat that travels with it:** the derivation divides by ~250 Z counts per motor step, which has
+been **SUSPECT since 2026-09-18** because that staircase ran inside the backlash. **So call it the
+first own-hardware estimate, not a calibration.** It does not affect the tunnelling conclusion,
+which route 2 reaches without it.
+
+### What this does to the deliverables
+
+- **The "undecided junction" panel becomes a SETTLED one**, and it is a better panel: an open
+  question, a named deciding measurement, the measurement taken, the answer. **That is a complete
+  scientific episode in four steps**, and it happened in a basement in about an hour.
+- **The Z scale stops being inherited.** Any figure quoting nanometres can now cite our own geometry
+  with the caveat above.
+- **Nothing claims tunnelling.** V11's arithmetic and V12's measurement agree, and they agree
+  against it.
+
+**Credit: Jacob asked for the number, was told it was 26 um, went and measured 1.000 mm, and closed
+his own question in the direction he did not want.** That is the whole method working.

@@ -85,6 +85,11 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | Lever arm, front screw line to rear screw | **40.000 mm** | MESH |
 | Front screw pair spacing | **35.000 mm** | MESH |
 | Piezo pocket offset from the pivot line | **1.000 mm** | MESH |
+| **`d`, the TIP's offset from the pivot line** | **~1.000 mm — MEASURED 2026-09-19** | **`SAID`+`BENCH`** |
+| | **Jacob, 2026-09-19, having gone and looked: *"i just measured it, it's smack dab in the middle"*.** **READ AS: the tip sits at the centre of the piezo disc**, which the CAD fixes at 1.000 mm from the pivot line (row above). **If that reading is wrong, say so and every line below changes.** Consistent with `SAID` 2026-09-18, *"tip sits roughly in the middle"*. **This closes what `docs/OPEN_QUESTIONS.md` called "the most valuable unmeasured number in the instrument"** | |
+| **Lever ratio, motor screw to tip** | **~40** | **CALC** from d, 40 mm pivot-to-motor |
+| **Tip travel per motor step** | **3.88 nm** | **CALC** — 155 nm of screw / 40 |
+| **Z scale, from OUR OWN geometry** | **~0.0155 nm per Z count, ~1.02 um full range** | **CALC 2026-09-19.** 3.88 nm per motor step / ~250 Z counts per motor step. **CAVEAT: the 250 counts/step is marked SUSPECT since 2026-09-18** (the staircase ran inside the backlash), so treat this as the first own-hardware estimate rather than a calibration. **It agrees with the inherited 0.016 nm/count to 3%**, and the inherited figure came from Berard's disc — so two independent routes now agree | |
 | Piezo free-flex bore | **Ø18.000 × 12.00 mm** | MESH |
 | BasePlate hole grid | **30.0 × 27.0 mm**, offset −7.5 mm in X | MESH |
 | Tower rods | **M8**, 3 off (Ø8.200 bores) | MESH |
