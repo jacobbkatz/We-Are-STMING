@@ -11,7 +11,7 @@ repository does turn out to name.
 
 ---
 
-## 1. The note — recipient-neutral, about 520 words
+## 1. The note — recipient-neutral, about 580 words
 
 > **Adapt freely.** The square brackets are the places where only Jacob knows the answer. **The
 > technical sentences are the part not to loosen**: every figure in them is checked, and the two
@@ -25,48 +25,55 @@ Dear [name],
 
 [One line on how you know each other, and what they last heard about this.]
 
-Over the past eleven weeks Nuh Shaheer and I have built a scanning tunnelling microscope from
-3D-printed parts, following Mech Panda's open-source `red-panda-stm` for the mechanics, firmware
-and controller board, and Dan Berard's home-built STM for the scan head and the transimpedance
-preamplifier. Neither of us writes code. Everything from the electronics bring-up to the control
-and analysis software was learned as part of the project, and the whole build log — measurements,
-dead ends and corrections — is public.
+Over the past eleven weeks Nuh Shaheer and I — **two first-year students with no coding experience
+and very little electronics experience** — have built a scanning tunnelling microscope from
+3D-printed parts. **This project was the first real soldering either of us has done**, and it was
+built and run **in a basement in a house people live in**, with people moving around and no control
+over the air or the temperature: a wooden bench on a concrete floor, a few metres from the breaker
+panel. **It is not a clean room and it never was.** The mechanics, firmware and controller board
+follow Mech Panda's open-source `red-panda-stm`; the scan head and transimpedance preamplifier
+follow Dan Berard's home-built STM. Everything else — the electronics bring-up, the software, the
+calibration and the fault isolation — we learned as we went.
 
 **Where it stands: every subsystem a tunnelling microscope needs is built, working and calibrated,
 and what is left is mechanical.**
 
 The measurement chain is calibrated end to end. With a precision 100 MΩ resistor clipped in where
 the tip and sample go, the instrument reported −3,205 ± 37 counts per volt against −3,200 worked
-out from Ohm's law before the measurement — an agreement of 0.13 standard errors, R² 0.993 over 53
-readings at eight bias settings. (The honest limit: that slope is the ratio of two nominally
-100 MΩ resistors whose tolerances we do not have, so it confirms the scale to within those
-tolerances.) The amplifier runs at about 4 pA of input current against a 1 nA signal. The
-electronics are flat white noise at 8 to 14 counts across the band, leakage is under 0.06 nA from
-−2 V to +2 V, and a still-versus-stamping pair is indistinguishable, so the building is not getting
-in electrically.
+out from Ohm's law before the measurement — 0.13 standard errors, R² 0.993, 53 readings at eight
+bias settings. (The honest limit: that slope is the ratio of two nominally 100 MΩ resistors whose
+tolerances we do not have.) The amplifier runs at about 4 pA of input current against a 1 nA
+signal, the electronics are flat white noise at 8 to 14 counts across the band, and leakage is
+under 0.06 nA from −2 V to +2 V. Stamping on the floor changes nothing, so the building is not
+getting in electrically.
 
-We have made a real tip-to-sample junction. Its current rose from 0.85 nA at 0.05 V to 31.7 nA at
-0.5 V — superlinear, going as V^1.55, with the effective resistance falling from 59 to 16 MΩ —
-symmetric in both bias polarities to about 10%, taken as eight rounds with the polarities
-interleaved, and confirmed by a bias-flip test on two separate nights. **That is a barrier: not a
-metallic short and not an open circuit. We are not claiming tunnelling, and we have not produced
-an image.**
+We have made a real tip-to-sample junction: current rising from 0.85 nA at 0.05 V to 31.7 nA at
+0.5 V, superlinear as V^1.55, resistance falling from 59 to 16 MΩ, symmetric in both polarities to
+about 10%, taken as eight rounds with the polarities interleaved and confirmed by a bias-flip test
+on two separate nights. **That is a barrier: not a metallic short and not an open circuit. We are
+not claiming tunnelling, and we have not produced an image** — a later distance test gave a decade
+of current per about 1,650 Z counts where tunnelling needs roughly ten, with mechanical hysteresis
+in every run, which we read as a pressed contact.
 
 **What stops us is mechanical, and we measured it rather than guessing.** With the motor stopped
 and nobody touching the instrument, the gap moved by more than 43,000 Z counts in 6.4 seconds and
-more than 56,000 within two minutes. Over the five seconds one image takes, it drifts by 400 to
+more than 56,000 within two minutes. Over the five seconds one image takes it drifts by 400 to
 1,700 counts, and the structure in any candidate image is 30 to 460 counts. Every scan was run
-against a control in which the tip never moved sideways, which cannot contain surface structure —
+against a control in which the tip never moved sideways — which cannot contain surface structure —
 and the scans never beat their controls.
 
-Work is paused: the instrument is disassembled and moved, and [reason and timescale]. When it comes
-back, the plan is to prove the gap holds still before scanning anything, move to a rigid sample and
-a sharper tip, and then run one decisive experiment with interleaved controls and the decision rule
-fixed in advance.
+**That is where the basement stops being background and becomes the point.** An STM is normally a
+clean-room instrument, and a gap moving on this timescale is precisely the class of problem those
+rooms exist to remove. **The limitation is the expected outcome of the environment — measured,
+quantified in the instrument's own units, and traced to five named candidate mechanisms.**
 
-**What would help most** is a view from someone who has fought this: sample mounting and approach
-mechanics at this scale, cabling onto a suspended stage, and whether any of the numbers above
-suggest something we have missed. [Ask.]
+Work is paused: the instrument is disassembled and moved, and [reason and timescale]. When it comes
+back: prove the gap holds still before scanning anything, move to a rigid sample and a sharper tip,
+then one decisive experiment with interleaved controls and the decision rule fixed in advance.
+
+**What would help most** is a view from someone who has fought this — sample mounting and approach
+mechanics at this scale, cabling onto a suspended stage, and whether these numbers suggest
+something we have missed. [Ask.]
 
 Everything, including the mistakes, is at github.com/jacobbkatz/We-Are-STMING.
 

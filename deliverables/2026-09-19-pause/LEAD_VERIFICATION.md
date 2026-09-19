@@ -579,3 +579,85 @@ from the surrounding timestamps. The correct statement is that **neither `ycontr
 timestamp**, so **the interval between any two of them is UNKNOWN**, bounded only by the ~5 minutes
 between §3.14 at 03:48 and §3.16 at 03:53. **"UNKNOWN, bounded by five minutes" is what the record
 supports; "a couple of minutes" was an inference I should have marked as one.**
+
+---
+
+## V10. **I WAS WRONG, AND JACOB CAUGHT IT.** Tunnelling is NOT excluded for the 2026-09-17 junction
+
+**I told Jacob that "we detected tunnelling current" is contradicted by his own data, and cited the
+Z test: a decade per ~1,650 Z counts where tunnelling needs ~6-13. He replied that the project had
+told them there was tunnelling in at least one case, and asked me to find it. He was right and I
+was wrong.**
+
+**I made exactly the error I wrote V3 to warn against: I applied evidence from one junction to a
+different one.**
+
+### The two junctions are not the same measurement
+
+| | **2026-09-17 junction** | **2026-09-19 junction** |
+|---|---|---|
+| Tip | the 2026-09-17 tip | fitted ~03:00 on 2026-09-19, after the previous one was found **bent** |
+| Sample | the 2026-09-17 gold | the leaf-on-paper gold |
+| **Current per decade of Z** | **~250 counts** (median of 4 runs: 125, 236, 340, 433) | **~1,650-1,970 counts** |
+| In/out hysteresis | not measured this way | **705-1,868 counts, every run** |
+| Verdict on record | **OPEN** | **"a soft, pressed, sticky contact"** |
+
+**The 2026-09-19 figure I quoted is about seven times shallower than the 2026-09-17 one, and it
+belongs to a different tip on a different sample.** `docs/FACTS.md` says so in the section heading
+itself — *"For this tip and this sample only."* **I read past it.**
+
+### What the project's own record actually says about 2026-09-17
+
+**`docs/OPEN_QUESTIONS.md`, the canonical register of open questions, line 47** — on the tip's
+distance `d` from the pivot line, which it calls *"the most valuable unmeasured number in the
+instrument"*:
+
+> At the design's 1.00 mm the ratio is 40 [...] and the measured current decay of a decade per 200 Z
+> counts works out at a decade per 3 nm, **thirty times too slow for vacuum tunnelling**. At
+> 0.1-0.3 mm the ratio is 130-400 and the same measurement **lands near the textbook decade per
+> 0.1 nm**. **So this one distance decides whether we are tunnelling or pressing through a soft
+> contact.**
+
+**`sessions/2026-09-17-bench.md` §3.19**, stated carefully at the time:
+
+> For this junction to be vacuum tunnelling the lever ratio would have to be about **1,550** — the
+> tip within **26 um** of the pivot line. **That is possible but implausibly exact.** The
+> alternative fits everything measured [...] **Neither is proven. The straightedge measurement
+> decides it.**
+
+**`docs/NEXT_SESSION_PLAN.md`** puts a number on the threshold: **`d` under about 0.13 mm and
+2026-09-17 was tunnelling; at `d` = 1 mm the tip was resting on something.**
+
+**And `d` has never been measured.** `SAID`, Jacob, 2026-09-18: *"its between 1mm and 0mm its really
+hard to measure"*, later *"1ish mm"*. **The threshold sits inside the range.** Three attempts to get
+it from photographs gave answers a factor of two apart, which is why `Images/ours/README.md` forbids
+trying again.
+
+### The corrected position, which is what the deliverables must carry
+
+> **The 2026-09-19 junction was a pressed contact — measured, and not in doubt.**
+>
+> **Whether the 2026-09-17 junction was tunnelling is an OPEN QUESTION that this project has never
+> closed, and it turns on a single unmeasured distance.** The instrument's own record identifies the
+> measurement, states the threshold, and says it needs no electronics: **lay a straightedge across
+> the two ball ends, with the plate off, and see which side of it the tip stands on and by how
+> much.** Below about **0.13 mm**, the 2026-09-17 measurement is tunnelling.
+
+**"We have not demonstrated tunnelling" remains true and must stay. "Our data rule it out" is FALSE
+and I should not have said it.** The distinction is the difference between an honest limitation and
+a wrong claim, and I made the wrong claim in the direction of caution — which is still a wrong
+claim.
+
+### What this changes downstream
+
+- **`FRAMING.md`'s say/do-not-say table is corrected.** "We were in the tunnelling regime" stays out
+  as a *claim*; "whether our best junction was tunnelling is undecided, and one ruler measurement
+  decides it" goes in as a *result*, because it is one.
+- **This is a better poster panel than either overclaiming or dismissing.** A team that can name the
+  single measurement standing between them and the answer is showing they understand their
+  instrument.
+- **It raises the priority of measuring `d`** to the top of the bench list. It needs a straightedge
+  and no power, and it retroactively settles the project's best junction.
+
+**Credit where it is due: Jacob caught this, against a confident and wrong statement from me,
+because he remembered the record better than my reading of it.**

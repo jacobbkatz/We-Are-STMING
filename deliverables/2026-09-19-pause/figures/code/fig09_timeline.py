@@ -48,9 +48,8 @@ MILESTONES = [
     ("2026-09-17", "A REAL TIP-AND-SAMPLE JUNCTION, and an I-V curve\n"
                    "with the shape a barrier requires",
      "sessions/2026-09-17-bench.md 3.15 · figure 2", 1),
-    ("2026-09-19", "Feedback scans and their X-held controls: no image.\n"
-                   "The Z test: a pressed contact, not a tunnelling gap.\n"
-                   "The gap measured crossing most of the Z range in seconds.",
+    ("2026-09-19", "NO IMAGE, AND WE KNOW WHY: the scans match their own controls,\n"
+                   "the Z test says pressed contact, and the gap crosses most of Z in seconds",
      "sessions/2026-09-19-bench.md, -morning.md · figures 3–5", 2),
     ("2026-09-19", "The instrument taken apart to be moved",
      "STATUS.md, Jacob about 14:19 UTC", 3),
@@ -73,11 +72,6 @@ def main():
     print("%d dated session logs on %d distinct days, %s to %s"
           % (len(sess), len(days), days[0], days[-1]))
 
-    S.set_theme("light")
-    fig = S.plt.figure(figsize=(13.4, 7.4))
-    ax = fig.add_axes([0.035, 0.235, 0.950, 0.545])
-    ax.axis("off")
-
     lo = dt.date(2026, 8, 28)
     hi = dt.date(2026, 9, 22)
     span = (hi - lo).days
@@ -85,56 +79,64 @@ def main():
     def x(d):
         return (d - lo).days / float(span)
 
-    ax.set_xlim(-0.02, 1.02)
-    ax.set_ylim(-0.30, 1.10)
+    S.set_theme("light")
+    fig = S.plt.figure(figsize=(12.6, 9.6))
+    ax = fig.add_axes([0.030, 0.185, 0.955, 0.655])
+    ax.axis("off")
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
 
-    # ---- the spine and its week marks -----------------------------------------------
-    ybase = 0.06
-    ax.plot([0, 1], [ybase, ybase], "-", color=S.C["axis"], lw=1.6, zorder=3)
-    d = dt.date(2026, 8, 31)
-    while d <= hi:
-        ax.plot([x(d)], [ybase], "|", color=S.C["axis"], ms=9, mew=1.4, zorder=4)
-        S.note(ax, x(d), ybase - 0.075, d.strftime("%d %b"), ha="center", va="top",
-               fontsize=S.TYPE["small"])
-        d += dt.timedelta(days=7)
+    # ---- the milestones, one per row, read top to bottom -----------------------------
+    # Each milestone is a block that reads downward from its dot: date and dot at the
+    # top, then the headline, then the file it is recorded in.
+    n = len(MILESTONES)
+    xspine, xtext = 0.115, 0.140
+    top = 0.975
+    rowh = (top - 0.030) / n
+    lh = 0.0315          # one line of body text, in axes units at this figure size
+    for k, (datestr, head, src, _lvl) in enumerate(MILESTONES):
+        y = top - rowh * k
+        big = head.startswith("THE WHOLE CHAIN") or head.startswith("A REAL TIP")
+        col = S.series(0) if big else S.C["muted"]
+        if k < n - 1:
+            ax.plot([xspine, xspine], [y - rowh, y - 0.014], "-",
+                    color=S.C["grid"], lw=1.6, zorder=1)
+        ax.plot([xspine], [y], "o", color=col, ms=14 if big else 11,
+                markeredgecolor=S.C["surface"], markeredgewidth=2.5, zorder=5)
+        S.note(ax, xspine - 0.020, y, datestr, ha="right", va="center",
+               fontweight=S.W_EMPH, color=col)
+        nlines = head.count("\n") + 1
+        (S.key if big else S.note)(ax, xtext, y + lh * 0.42, head,
+                                   ha="left", va="top")
+        S.note(ax, xtext, y + lh * 0.42 - lh * nlines - 0.006, src, ha="left", va="top",
+               fontsize=S.TYPE["small"], color=S.C["muted"])
 
-    # ---- one tick per logged session -------------------------------------------------
+    # ---- the true date axis, with one bar per logged session -------------------------
+    axs = fig.add_axes([0.150, 0.112, 0.470, 0.024])
+    axs.set_xlim(x(lo), x(hi))
+    axs.set_ylim(0, 3.4)
+    axs.axis("off")
     counts = {}
     for dd, _ in sess:
         counts[dd] = counts.get(dd, 0) + 1
-    for dd, n in sorted(counts.items()):
-        for k in range(n):
-            ax.add_patch(Rectangle((x(dd) - 0.0022, ybase + 0.022 + k * 0.030),
-                                   0.0044, 0.024,
-                                   facecolor=S.C["muted"], edgecolor="none", zorder=4))
-    S.note(ax, 0.0, ybase - 0.20,
-           "Each small bar is one logged work session: %d of them across %d days, "
-           "%s to %s.\nThe parts were being ordered well before that — the "
-           "suspension springs are on an order dated 2026-06-21."
-           % (len(sess), len(days), days[0].strftime("%d %b"),
-              days[-1].strftime("%d %b %Y")),
-           ha="left", va="top", fontsize=S.TYPE["small"])
-
-    # ---- the milestones ---------------------------------------------------------------
-    levels = [0.30, 0.50, 0.70, 0.93]
-    for datestr, head, src, lvl in MILESTONES:
-        dd = dt.date(*(int(g) for g in datestr.split("-")))
-        xx = x(dd)
-        yy = levels[lvl]
-        big = head.startswith("THE WHOLE CHAIN") or head.startswith("A REAL TIP")
-        col = S.series(0) if big else S.C["muted"]
-        ax.plot([xx, xx], [ybase + 0.012, yy - 0.012], "-", color=S.C["grid"], lw=1.2,
-                zorder=2)
-        ax.plot([xx], [ybase], "o", color=col, ms=10 if big else 8,
-                markeredgecolor=S.C["surface"], markeredgewidth=2.0, zorder=6)
-        side = "left" if xx < 0.70 else "right"
-        xt = xx + 0.011 if side == "left" else xx - 0.011
-        S.note(ax, xt, yy, datestr, ha=side, va="bottom",
-               fontsize=S.TYPE["small"], color=col, fontweight=S.W_EMPH)
-        (S.key if big else S.note)(ax, xt, yy - 0.018, head, ha=side, va="top")
-        nlines = head.count("\n") + 1
-        S.note(ax, xt, yy - 0.020 - 0.043 * nlines, src, ha=side, va="top",
-               fontsize=S.TYPE["small"], color=S.C["muted"])
+    axs.plot([x(lo), x(hi)], [0, 0], "-", color=S.C["axis"], lw=1.4)
+    for dd, cnt in sorted(counts.items()):
+        for k in range(cnt):
+            axs.add_patch(Rectangle((x(dd) - 0.004, 0.22 + k * 0.95), 0.008, 0.75,
+                                    facecolor=S.C["muted"], edgecolor="none"))
+    d = dt.date(2026, 8, 31)
+    while d <= hi:
+        axs.text(x(d), -0.45, d.strftime("%d %b"), ha="center", va="top",
+                 fontsize=S.TYPE["small"], color=S.C["muted"])
+        d += dt.timedelta(days=7)
+    fig.text(0.665, 0.122,
+             "Each bar is one logged work session: %d of them across %d days, %s to %s.\n"
+             "Parts were being ordered well before that \u2014 the suspension springs are "
+             "on an order dated 2026-06-21."
+             % (len(sess), len(days), days[0].strftime("%d %b"),
+                days[-1].strftime("%d %b %Y")),
+             ha="left", va="center", fontsize=S.TYPE["small"], color=S.C["ink2"],
+             linespacing=1.7)
 
     S.titles_keyed(
         fig,
