@@ -1,0 +1,25 @@
+part,a,b,c,d,e
+short file,2026-09-19-bench cas9 (feedback scans + controls),cas9_xheld2.csv,1 of 11 lines,,
+short file,2026-09-19-bench img_ (wide images + controls),img_scan_0.csv,1 of 11 lines,,
+short file,2026-09-19-bench img_ (wide images + controls),img_scan_1.csv,2 of 11 lines,,
+short file,2026-09-19-bench cas8 chmap (constant height),none,all 11 lines,,
+short file,2026-09-19-morning tuned_s3k (tuned loop),tuned_s3k_scan0.csv,1 of 9 lines,,
+short file,2026-09-19-morning tuned_s3k (tuned loop),tuned_s3k_scan1.csv,8 of 9 lines,,
+short file,2026-09-19-morning tuned_s3k (tuned loop),tuned_s3k_xheld0.csv,2 of 9 lines,,
+short file,2026-09-19-morning tuned_s3k (tuned loop),tuned_s3k_xheld1.csv,8 of 9 lines,,
+short file,2026-09-17-bench narrow feedback scans,diag_scan_normal_1.csv,8 of 12 lines,,
+short file,2026-09-17-bench narrow feedback scans,diag_scan_normal_2.csv,8 of 12 lines,,
+short file,2026-09-17-bench narrow feedback scans,diag_scan_x_held.csv,8 of 12 lines,,
+short file,2026-09-17-bench wide images,scan_wide_slow_1.csv,5 of 9 lines,,
+short file,2026-09-17-bench wide images,scan_wide_slow_2.csv,5 of 9 lines,,
+group mean,2026-09-19 feedback scans,published +0.04,as-published +0.09 +0.18 -0.15,points 231 231 231,like-for-like +0.09 +0.18 -0.15
+group mean,2026-09-19 X-HELD CONTROLS,published +0.37,as-published +0.20 +0.21 +0.70,points 231 21 21,like-for-like +0.20 -0.06
+group mean,2026-09-19 wide images,published +0.56 to +0.86,as-published +0.86 +0.56,points 21 42,like-for-like none
+group mean,2026-09-19 wide X-HELD CONTROLS,published +0.56,as-published +0.56,points 231,like-for-like +0.56
+group mean,2026-09-19 morning tuned scans,published not quoted,as-published -0.75 +0.26,points 21 168,like-for-like none
+group mean,2026-09-19 morning tuned CONTROLS,published not quoted,as-published +0.22 -0.15,points 42 168,like-for-like none
+three-Y re-check,ycontrol_run2_ysep12000.csv,"run 2, the 3.9 sigma run",published +0.374 +- 0.097,replicated +0.374 +- 0.097,shapes uniform
+three-Y re-check,ycontrol_run4_ysep12000_repeat.csv,"run 4, the repeat",published +0.056 +- 0.094,replicated +0.056 +- 0.094,shapes uniform
+three-Y re-check,ycontrol_run3_ysep12000_xheld.csv,"run 3, X-HELD CONTROL",published +0.070 +- 0.084,replicated +0.070 +- 0.084,shapes uniform
+three-Y re-check,ycontrol_run1.csv,"run 1, y_sep 3000",published +0.032 +- 0.035,replicated +0.032 +- 0.035,shapes uniform
+three-Y re-check,ycontrol_xheld_run1.csv,"X-HELD CONTROL, y_sep 3000",published +0.164 +- 0.082,replicated +0.164 +- 0.082,shapes uniform

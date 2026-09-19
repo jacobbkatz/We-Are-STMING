@@ -71,14 +71,14 @@ def main():
 
     S.set_theme("light")
     fig, (ax, axr) = S.plt.subplots(
-        2, 1, figsize=(8.2, 6.6), height_ratios=[2.45, 1.0], sharex=True)
-    fig.subplots_adjust(top=0.845, bottom=0.135, left=0.105, right=0.845, hspace=0.13)
+        2, 1, figsize=(8.4, 7.1), height_ratios=[2.45, 1.0], sharex=True)
+    fig.subplots_adjust(top=0.855, bottom=0.205, left=0.105, right=0.845, hspace=0.16)
 
     c_meas = S.series(0)     # blue  - what the instrument read
     c_pred = S.series(1)     # orange - what theory required, before the measurement
 
     # --- the prediction, drawn first and underneath ---------------------------------
-    span = [-1.95, 3.35]
+    span = [-1.95, 3.45]
     ax.plot(span, [PREDICTED_SLOPE * v for v in span], "-", color=c_pred, lw=2.4,
             zorder=2, label="Ohm's law through 100 MΩ — no fitting")
     # --- the 53 readings -------------------------------------------------------------
@@ -104,9 +104,10 @@ def main():
     ax.legend(loc="upper right", bbox_to_anchor=(1.0, 1.0),
               handletextpad=0.6, labelspacing=0.5)
 
-    S.note(ax, 2.92, PREDICTED_SLOPE * 2.92 + 620,
-           "predicted line", color=c_pred, ha="right", va="bottom",
-           fontweight="bold", fontsize=S.TYPE["annot"])
+    S.note(ax, 2.50, PREDICTED_SLOPE * 2.50 + 1450,
+           "the predicted line", color=c_pred, ha="center", va="bottom",
+           fontweight="bold", fontsize=S.TYPE["annot"], rotation=-31,
+           rotation_mode="anchor")
 
     # The headline, stated on the chart so it survives being cropped into a slide.
     ax.text(-1.82, -8250,
@@ -135,18 +136,17 @@ def main():
     S.tidy(axr, xlabel="Voltage on the bias wire, driving the 100 MΩ dummy (V)",
            ylabel="Reading minus\nprediction (counts)", grid="both")
     S.thousands(axr, "y")
-    axr.set_ylim(-760, 760)
-    S.note(axr, -1.82, 600,
-           "black = mean of each setting, with its standard error;\n"
-           "blue = every individual reading",
-           va="top", fontsize=S.TYPE["small"], linespacing=1.5)
+    axr.set_ylim(-800, 800)
+    axr.set_title("Black = each setting's mean and its standard error.   "
+                  "Blue = every individual reading.",
+                  fontsize=S.TYPE["small"], color=S.C["muted"], loc="left", pad=5)
 
     S.titles(fig,
              "The whole measurement chain agrees with theory to 0.16%",
              "A known 100 MΩ resistor stood in for the tunnelling junction. The line is not a fit through the "
              "dots —\nit is what Ohm's law requires, worked out before the bench run. The dots landed on it.")
 
-    S.footer(fig,
+    S.footer(fig, y=0.008, text=
              "Source: sessions/2026-09-16-bench.md section 3.4 (no CSV exists for that date). Measured 2026-09-16, "
              "19:23–19:25 UTC, cover off, no tip fitted.\n"
              "WHAT THIS DOES NOT SHOW: the slope is the ratio of the feedback resistor to the dummy, both nominal "

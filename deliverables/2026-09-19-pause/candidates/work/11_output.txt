@@ -1,0 +1,87 @@
+PART 1. EVERY SHORT OR ABORTED RASTER RECORDING IN THE DATA SET
+   a recording is 'short' if it has fewer lines than its own siblings
+
+   2026-09-19-bench cas9 (feedback scans + controls)    lines: [1, 11]
+        SHORT  cas9_xheld2.csv                             1 of 11 lines
+   2026-09-19-bench img_ (wide images + controls)       lines: [1, 2, 11]
+        SHORT  img_scan_0.csv                              1 of 11 lines
+        SHORT  img_scan_1.csv                              2 of 11 lines
+   2026-09-19-bench cas8 chmap (constant height)        lines: [11]
+        all the same length - no truncation possible
+   2026-09-19-morning tuned_s3k (tuned loop)            lines: [1, 2, 8, 9]
+        SHORT  tuned_s3k_scan0.csv                         1 of  9 lines
+        SHORT  tuned_s3k_scan1.csv                         8 of  9 lines
+        SHORT  tuned_s3k_xheld0.csv                        2 of  9 lines
+        SHORT  tuned_s3k_xheld1.csv                        8 of  9 lines
+   2026-09-17-bench narrow feedback scans               lines: [8, 12]
+        SHORT  diag_scan_normal_1.csv                      8 of 12 lines
+        SHORT  diag_scan_normal_2.csv                      8 of 12 lines
+        SHORT  diag_scan_x_held.csv                        8 of 12 lines
+   2026-09-17-bench wide images                         lines: [5, 9]
+        SHORT  scan_wide_slow_1.csv                        5 of  9 lines
+        SHORT  scan_wide_slow_2.csv                        5 of  9 lines
+
+PART 2. EVERY IMAGE-TO-IMAGE GROUP MEAN, AS PUBLISHED AND LIKE FOR LIKE
+   'as published' = analyze_scans.py, which truncates to the shorter file
+   'like for like' = full-length images only
+
+   2026-09-19 feedback scans            published +0.04
+        as published : +0.09 +0.18 -0.15  (points 231 231 231)  mean +0.039
+        like for like: +0.09 +0.18 -0.15  (points 231 231 231)  mean +0.039
+   2026-09-19 X-HELD CONTROLS           published +0.37
+        as published : +0.20 +0.21 +0.70  (points 231 21 21)  mean +0.373
+        like for like: +0.20 -0.06  (points 231 231)  mean +0.068
+   2026-09-19 wide images               published +0.56 to +0.86
+        as published : +0.86 +0.56  (points 21 42)  mean +0.708
+        like for like: none  (points -)  mean TOO FEW FULL IMAGES
+   2026-09-19 wide X-HELD CONTROLS      published +0.56
+        as published : +0.56  (points 231)  mean +0.560
+        like for like: +0.56  (points 231)  mean +0.560
+   2026-09-19 morning tuned scans       published not quoted
+        as published : -0.75 +0.26  (points 21 168)  mean -0.246
+        like for like: none  (points -)  mean TOO FEW FULL IMAGES
+   2026-09-19 morning tuned CONTROLS    published not quoted
+        as published : +0.22 -0.15  (points 42 168)  mean +0.034
+        like for like: none  (points -)  mean TOO FEW FULL IMAGES
+
+   TWO conclusions were contaminated, not one.
+   1. The cas9 controls' +0.37, as the lead found: two of three pairs were
+      21-point comparisons against cas9_xheld2.csv, which is ONE line.
+   2. The WIDE images' "+0.56 to +0.86, matched by the X-held controls' +0.56"
+      (sessions/2026-09-19-bench.md 3.16) has the SAME defect and it is worse:
+      img_scan_0.csv is 1 line and img_scan_1.csv is 2 lines, so BOTH scan
+      pairs were short comparisons and NEITHER was an image-to-image
+      correlation. There are not two full wide images, so no like-for-like
+      scan figure exists at all. The controls' +0.56 is a genuine 231-point
+      number. The comparison as published is between things of different kinds.
+
+PART 3. THE THREE-Y CONTROL, RE-VERIFIED FROM THE RAW CSVs
+   shapes checked FIRST, then the tool's own statistic re-run
+
+   ycontrol_run2_ysep12000.csv            shapes [(6, 21)] OK
+        published  +0.374 +- 0.097
+        replicated within +0.239  between -0.135  difference +0.374 +- 0.097
+   ycontrol_run4_ysep12000_repeat.csv     shapes [(6, 21)] OK
+        published  +0.056 +- 0.094
+        replicated within +0.149  between +0.093  difference +0.056 +- 0.094
+   ycontrol_run3_ysep12000_xheld.csv      shapes [(6, 21)] OK
+        published  +0.070 +- 0.084
+        replicated within +0.116  between +0.046  difference +0.070 +- 0.084
+   ycontrol_run1.csv                      shapes [(6, 21)] OK
+        published  +0.032 +- 0.035
+        replicated within +0.713  between +0.680  difference +0.032 +- 0.035
+   ycontrol_xheld_run1.csv                shapes [(6, 21)] OK
+        published  +0.164 +- 0.082
+        replicated within +0.278  between +0.114  difference +0.164 +- 0.082
+
+   EVERY three-Y file is 3 places x 6 passes x 21 points, with no short pass
+   and no aborted run anywhere. There is no shape mismatch to find, so the
+   truncation defect does NOT touch this result. Run 2's +0.374 and run 4's
+   +0.056 are both reproduced from the raw CSVs. THE NON-REPRODUCTION IS REAL.
+
+   It is also weaker than it looks in the other direction: script 07 shows that
+   under a permutation null - which respects the fact that the pairwise
+   correlations share passes - run 2 is p = 0.0036, not 3.9 sigma, and an
+   X-HELD CONTROL scores p = 0.02 on the same statistic with nothing to see.
+
+-> /home/user/We-Are-STMING/deliverables/2026-09-19-pause/candidates/work/truncation_audit.csv

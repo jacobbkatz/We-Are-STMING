@@ -225,3 +225,71 @@ full rather than quietly fixed.
 - The scratch script is **not** rewritten: `sessions/data/**/scripts/` is provenance, not a tool,
   and `CLAUDE.md` keeps session history as written. The defect is recorded here and in `STATUS.md`
   instead.
+
+---
+
+## V5. The same truncation reaches the WIDE images. I checked every data file's shape
+
+Having found V4, I checked whether the min-length truncation is a class rather than one instance. It
+is. **I listed the row count of every CSV in all four data directories.**
+
+### Where it bites
+
+**`sessions/2026-09-19-bench.md` §3.16, the wide constant-current images:**
+
+> ±15000 X and Y, 21 × 11, three images and two X-held controls: **two of the three aborted on
+> saturation** [...] Image to image **+0.56 to +0.86**, **matched by the X-held controls' +0.56**.
+
+**The log states the aborts, but not that the correlations are computed across them.** The shapes:
+
+| File | Shape | |
+|---|---|---|
+| `img_scan_0.csv` | **(1, 21)** | a single line |
+| `img_scan_1.csv` | **(2, 21)** | two lines |
+| `img_scan_2.csv` | (11, 21) | the only complete real image |
+| `img_xheld_0.csv` | (11, 21) | complete |
+| `img_xheld_1.csv` | (11, 21) | complete |
+
+**My replication of the published figures:**
+
+| Pair | r | Points | Like for like |
+|---|---|---|---|
+| `img_scan_0` vs `img_scan_1` | **+0.86** | **21** | no — 1 line against 2 |
+| `img_scan_1` vs `img_scan_2` | **+0.56** | **42** | no — 2 lines against 11 |
+| `img_xheld_0` vs `img_xheld_1` | **+0.56** | **231** | **yes** |
+
+**So "+0.56 to +0.86" for the real wide images is two fragment correlations over 21 and 42 points.**
+With only one complete real wide image, **there is no valid image-to-image reproducibility figure for
+the wide scans at all.** The control figure, +0.56 over 231 points, is the only sound number in that
+group — and it is a real result worth keeping: **with X held, the instrument repeats its own pattern
+strongly.** That is a measurement of the instrumental signature, and it is good evidence.
+
+### Where it does NOT bite — checked, not assumed
+
+- **Three-Y controls**: `ycontrol_run1`, `run2_ysep12000`, `run3_..._xheld`, `run4_..._repeat`,
+  `xheld_run1` — **all 18 rows × 23 columns.** Uniform. The +0.374 ± 0.097 and the +0.056 ± 0.094
+  repeat are **not** affected by shape mismatch.
+- **2026-09-17 bench**: files of the same kind match each other — `scan_fast_1..4` all 24 rows,
+  `scan_slow_1/2` both 24, `diag_scan_normal_1/2` and `diag_scan_x_held` all 16. **That night's
+  scan-versus-control comparison is like for like.**
+- **2026-09-19 morning tuned scans** are ragged (`scan0` 1 line, `scan1` 8, `scan2` 9; `xheld0` 2,
+  `xheld1` 8, `xheld2` 9) — **but the morning log reports them only qualitatively** ("the loop never
+  held", clamped, climbing blind) **and quotes no correlation from them.** Nothing to withdraw.
+- **Trace/retrace figures are unaffected everywhere**, because `fwd` and `back` live in the same
+  file and always have the same shape.
+
+### Propagation check
+
+**"+0.56 to +0.86" appears only in `sessions/2026-09-19-bench.md`.** It is in no live document —
+not `STATUS.md`, not `docs/`, not the showcase. So nothing downstream is wrong today. **The risk is
+forward-looking**: a poster or paper would go to the session log for that number. Hence the pointer
+now added to `STATUS.md`'s imaging row.
+
+### The general lesson, which is worth more than either instance
+
+**A scan that aborts leaves a file that still parses.** It has a header, valid rows and plausible
+numbers; it is simply short. Every comparison in this project flattens images and correlates, and
+**flattening destroys the shape information that would have caught it.** The fix for any future tool
+is one line — refuse to compare two images of different shape, or state the shape beside every
+correlation — and it is recorded in `deliverables/2026-09-19-pause/manual/` recommendations rather
+than applied to the scratch scripts, which are provenance.

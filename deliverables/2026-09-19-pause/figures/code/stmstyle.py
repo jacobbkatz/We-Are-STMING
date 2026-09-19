@@ -225,8 +225,12 @@ def tidy(ax, xlabel=None, ylabel=None, title=None, grid="y"):
 
 
 def thousands(ax, which="y"):
-    """Thousands-separated tick labels, which is how the bench reads DAC counts."""
-    f = FuncFormatter(lambda v, _: format(int(round(v)), ","))
+    """Thousands-separated tick labels, which is how the bench reads DAC counts.
+
+    Uses the typographic minus (U+2212), matching matplotlib's own default, so a
+    negative tick does not sit next to a shorter hyphen elsewhere on the figure.
+    """
+    f = FuncFormatter(lambda v, _: format(int(round(v)), ",").replace("-", "−"))
     if which in ("y", "both"):
         ax.yaxis.set_major_formatter(f)
     if which in ("x", "both"):
