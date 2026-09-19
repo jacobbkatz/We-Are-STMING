@@ -24,6 +24,7 @@ import csv
 import glob
 import math
 import os
+import re
 import statistics as st
 import sys
 
@@ -306,70 +307,124 @@ def main():
                             st.mean([s["corrugation"] for p, s in res.items()
                                      if p in ct and s["corrugation"]])))
 
-    section("1b. THE ONE GROUP WHERE THE SCANS BEAT THEIR CONTROL - and why it is not "
-            "evidence")
-    print("  The wide images of 2026-09-19 bench are the only group above where the real")
-    print("  scans correlate better with each other than the controls do. Three things")
-    print("  have to be said before anyone reads that as an image.")
+    section("1b. THE TRUNCATION DEFECT - A CLASS, NOT AN INSTANCE")
+    print("  sessions/data/2026-09-19-bench/scripts/analyze_scans.py lines 50-51 truncate")
+    print("  each image pair to the shorter file with NO SHAPE CHECK. Where one file of a")
+    print("  pair aborted, the resulting 'image-to-image correlation' is computed over one")
+    print("  or two LINES while a complete pair is computed over eleven.")
     print()
-    wid = "2026-09-19-bench"
-    scan_files = ["img_scan_0.csv", "img_scan_1.csv", "img_scan_2.csv"]
-    ctrl_files = ["img_xheld_0.csv", "img_xheld_1.csv"]
-    for n in scan_files + ctrl_files:
-        s = stats(os.path.join(DATA, wid, n))
-        print("    %-18s %2d forward lines of a planned 11  ->  %d pixels compared"
-              % (n, s["n_fwd"], s["n_fwd"] * s["n_x"]))
+    print("  I found this in the wide images first and DID NOT SWEEP THE CLASS. It is in")
+    print("  four groups, on both the scan side and the control side:")
     print()
-    print("  (1) TWO OF THE THREE SCANS ABORTED after one and two lines. The image-to-")
-    print("      image correlation is truncated to the shorter file, so the +0.86 is 21")
-    print("      pixels - a SINGLE line - and the +0.56 is 42 pixels. The controls'")
-    print("      +0.56 is 231 pixels. Those are not the same measurement.")
-    lim = {}
-    for k in (1, 2, 11):
-        sc = [os.path.join(DATA, wid, n) for n in scan_files]
-        ct = [os.path.join(DATA, wid, n) for n in ctrl_files]
-
-        def cut(paths, nlines):
-            out = []
-            for a, b in zip(paths, paths[1:]):
-                fa, fb = flat_of(a)[:nlines * 21], flat_of(b)[:nlines * 21]
-                m = min(len(fa), len(fb))
-                if m >= 6:
-                    c = pearson(fa[:m], fb[:m])
-                    if c is not None:
-                        out.append(c)
-            return out
-        s_, c_ = cut(sc, k), cut(ct, k)
-        lim[k] = (s_, c_)
-        print("      first %2d line(s) only: scans %s | controls %s"
-              % (k, " ".join("%+.2f" % x for x in s_) or "-",
-                 " ".join("%+.2f" % x for x in c_) or "-"))
-    print("      Cut to the same first line, the two scan pairs give %s and the one"
-          % " and ".join("%+.2f" % x for x in lim[1][0]))
-    print("      control pair gives %s. n = 2 against n = 1, and the two scan pairs"
-          % " and ".join("%+.2f" % x for x in lim[1][1]))
-    print("      disagree with each other by more than the gap to the control. NOTHING IS")
-    print("      ESTABLISHED EITHER WAY by this comparison; points (2) and (3) are what")
-    print("      carry the conclusion.")
+    print("  %-52s %-9s %s" % ("group [role]", "pairs hit", "which"))
+    n_affected = 0
+    for title, sess, scans, ctrls in GROUPS:
+        for role, names in (("scan", scans), ("control", ctrls)):
+            paths = [os.path.join(DATA, sess, n) for n in names
+                     if os.path.exists(os.path.join(DATA, sess, n))]
+            if len(paths) < 2:
+                continue
+            nf = [(os.path.basename(p_), stats(p_)["n_fwd"]) for p_ in paths]
+            modal = max(n for _, n in nf)
+            bad = [(a, b, min(na, nb)) for (a, na), (b, nb) in zip(nf, nf[1:])
+                   if min(na, nb) < modal]
+            if bad:
+                n_affected += 1
+                print("  %-52s %-9d %s"
+                      % ((title[:44] + " [" + role + "]"), len(bad),
+                         "; ".join("%s/%s -> %d of %d lines" % (a, b, m, modal)
+                                   for a, b, m in bad)))
     print()
-    print("  (2) THE FIRST LINE IS THE ONE LINE THAT IS GUARANTEED TO AGREE. It carries")
-    print("      the loop's settling transient, which is identical in every image because")
-    print("      the procedure is identical. sessions/2026-09-17-bench.md 3.22 found")
-    print("      exactly this and section 1 above reproduces it: those 2026-09-17 images")
-    print("      fall from +0.70 to -0.08 when the first two lines are dropped.")
+    print("  GROUPS AFFECTED: %d. Every image-to-image figure above is therefore computed"
+          % n_affected)
+    print("  over COMPLETE IMAGES ONLY, with the truncating version printed beside it.")
     print()
-    print("  (3) TRACE AND RETRACE ARE STRONGLY ANTI-CORRELATED in all three wide scans")
-    print("      (-0.75 to -0.94) and NOT in the controls (+0.13, +0.14). A surface is")
-    print("      traced the same way in both directions, so it gives a POSITIVE")
-    print("      trace/retrace. A negative one is the loop chasing, which is the reading")
-    print("      sessions/2026-09-19-morning.md section 6 settled on.")
+    print("  WHAT IT CHANGES, and it changes one published conclusion:")
+    print("    cas9 controls, as published (truncating): +0.20 +0.21 +0.70, mean +0.37")
+    print("    cas9 controls, complete images only     : +0.20 -0.06,       mean +0.07")
+    print("    cas9 scans (all complete, unaffected)   : +0.09 +0.18 -0.15, mean +0.04")
+    print("  cas9_xheld2.csv is a SINGLE LINE - one y value, fwd and back - where the")
+    print("  other seven carry eleven, so two of the three control correlations were 21")
+    print("  points instead of 231.")
     print()
-    print("  NOT AVAILABLE: there is no .log file for the img_scan / img_xheld runs in")
-    print("  sessions/data/2026-09-19-bench/. The 'saturated 14.5 per cent' figure in the")
-    print("  session log came from console output that was not saved, so it cannot be")
-    print("  checked here: the CSV records the Z the loop reached, not whether the")
-    print("  current was saturated at that pixel. Compare cas9.log, which DOES carry the")
+    print("  'THE CONTROLS REPRODUCE BETTER' IS WITHDRAWN. The correct statement is that")
+    print("  NEITHER the scans NOR the controls reproduce: +0.04 against +0.07, a")
+    print("  difference of -0.03 against an optimistic standard error of 0.066, and")
+    print("  neither differs from zero. The scans show no more reproducible structure")
+    print("  than a control in which the tip never moved across the surface.")
+    print("  THE IMAGING CONCLUSION IS UNCHANGED and needs no rescuing: the real scans do")
+    print("  not reproduce, and that carries it on its own.")
+    print()
+    print("  For the wide images and the tuned scans the honest answer is stronger still:")
+    print("  only ONE image in each group ran to the end, so there is NO pair of complete")
+    print("  images to compare at all. The +0.71 once quoted for the wide scans came")
+    print("  entirely from a single shared line - and the first line is the one guaranteed")
+    print("  to agree, because it carries the loop's settling transient")
+    print("  (sessions/2026-09-17-bench.md 3.22; the drop-line check below reproduces it).")
+    print()
+    print("  The wide scans also have trace/retrace of -0.94, -0.91 and -0.75 against")
+    print("  +0.14 and +0.13 in their controls. A surface is traced the same way in both")
+    print("  directions and gives a POSITIVE trace/retrace; a negative one is the loop")
+    print("  hunting (sessions/2026-09-19-morning.md 6).")
+    print()
+    print("  NOT AVAILABLE: there is no .log file for the img_scan / img_xheld runs, so")
+    print("  the 'saturated 14.5 per cent' figure in the session log came from console")
+    print("  output that was not saved and cannot be checked here. cas9.log DOES carry the")
     print("  loop's own saturated and clamped counters for every run.")
+
+    section("1c. THE ONSET Z OF EVERY THREE-Y RUN - a measurement sitting unused")
+    print("  The first line of each ycontrol_run*.log records the Z at which the loop")
+    print("  found the surface before that run started. Nobody has used it. It is a")
+    print("  direct measurement of where the gap was at five moments inside one five-")
+    print("  minute window, and it is the only such series in the repository.")
+    print()
+    onsets = []
+    for name, what in (("ycontrol_run1.log", "run 1, +-3000 Y, scanning"),
+                       ("ycontrol_xheld_run1.log", "X-held control, +-3000 Y"),
+                       ("ycontrol_run2.log", "run 2, +-12000 Y, scanning"),
+                       ("ycontrol_run3.log", "run 3, +-12000 Y, X HELD"),
+                       ("ycontrol_run4.log", "run 4, +-12000 Y, REPEAT of run 2")):
+        head = open(os.path.join(DATA, "2026-09-19-bench", name)).readline()
+        m = re.search(r"onset Z=(\d+)", head)
+        z = int(m.group(1)) if m else None
+        onsets.append((name, what, z))
+        print("    %-26s %-34s onset Z = %s" % (name, what, z))
+    zs = [z for _, _, z in onsets if z is not None]
+    print()
+    print("  Spread across all five: %d counts (%d to %d)."
+          % (max(zs) - min(zs), min(zs), max(zs)))
+    z2 = next(z for n, _, z in onsets if n == "ycontrol_run2.log")
+    z4 = next(z for n, _, z in onsets if n == "ycontrol_run4.log")
+    print("  BETWEEN RUN 2 AND ITS REPEAT, RUN 4: %+d counts." % (z4 - z2))
+    print("  That is %.1f%% of the 65,536-count Z range and %.1f%% of the 48,000-count"
+          % (100.0 * abs(z4 - z2) / 65536, 100.0 * abs(z4 - z2) / 48000))
+    print("  window the loop was given for these runs (12,000 to 60,000).")
+    print()
+    print("  WHY IT MATTERS, AND IT DOES NOT GO THE WAY THIS PROJECT ASSUMED.")
+    print("  The standing explanation for run 2 not reproducing in run 4 is that the")
+    print("  surface moved out from under the scanner. Across exactly that interval the")
+    print("  gap moved 2,200 counts - a few per cent of the range, not most of it. So")
+    print("  'the surface moved' is a POORER explanation for the non-reproduction than it")
+    print("  looked. This WEAKENS the candidate rather than rescuing it.")
+    print()
+    print("  IT DOES NOT CLOSE IT. Onset Z measures the GAP, not LATERAL position. A")
+    print("  sideways drift would carry the tip to a different patch of gold while barely")
+    print("  changing the Z at which it finds the surface. LATERAL DRIFT HAS NEVER BEEN")
+    print("  MEASURED IN THIS PROJECT.")
+    print()
+    print("  TIMING, and it is weaker than any of these numbers. NEITHER ycontrol LOG")
+    print("  CARRIES A TIMESTAMP. sessions/2026-09-19-bench.md is chronological: section")
+    print("  3.14 is timestamped 03:48 and section 3.16 is timestamped 03:53, and section")
+    print("  3.15 - all five three-Y runs - sits between them. So ALL FIVE fit inside")
+    print("  about five minutes. The interval between any two of them is NOT RECORDED.")
+    print("  An earlier version of this analysis said 'nine minutes' between runs 2 and 4")
+    print("  and another said 'half an hour'; both were guesses and both were too long.")
+    print()
+    dt_max = 5 * 60.0
+    print("  The most that can be said about the rate: 2,200 counts over an interval of at")
+    print("  most %d s, so a mean of AT LEAST %.0f counts/s. Compare the Z-test onset"
+          % (dt_max, abs(z4 - z2) / dt_max))
+    print("  drifts of -74 to +83 counts/s and the release-watch's >= 7,400 counts/s.")
 
     section("2. AGAINST THE PUBLISHED FIGURES")
     print("  sessions/2026-09-19-bench.md 3.14 (cas9): trace/retrace scans")
@@ -381,8 +436,9 @@ def main():
     print("    corrugation 13-20 counts")
     print("  sessions/2026-09-19-bench.md 3.16 (wide): trace/retrace -0.75 to -0.94,")
     print("    image-to-image +0.56 to +0.86, controls +0.56, saturation 14.5%")
-    print("  Compare these with section 1. Where they differ, the difference is in the")
-    print("  detrending and in which lines an aborted file supplies, not in the verdict.")
+    print("  Compare these with section 1. The cas9 trace/retrace and corrugation figures")
+    print("  reproduce exactly. The cas9 CONTROL image-to-image figure does NOT, and")
+    print("  section 1b says why: two of its three pairs were truncated to one line.")
 
     section("3. REPEATED SINGLE LINES")
     for sess, name, what in LINE_FILES:
@@ -535,38 +591,62 @@ def main():
     print("\n  wrote %s" % os.path.relpath(out, REPO))
 
     section("6. FIGURES")
-    fig, ax = plt.subplots(figsize=(8.4, 3.8))
-    labs = [s_[0] for s_ in summary]
-    ys = list(range(len(labs)))[::-1]
-    w = 0.34
-    ax.barh([y + w / 2 for y in ys], [s_[1] for s_ in summary], w,
-            color=TOL["blue"], label="real scans (X moving)")
-    ax.barh([y - w / 2 for y in ys], [s_[2] for s_ in summary], w,
-            color=TOL["red"], label="X-held controls")
-    for y, s_ in zip(ys, summary):
-        ax.text(s_[1] + 0.012 * (1 if s_[1] >= 0 else -1), y + w / 2,
-                "%+.2f  (%d pair%s)" % (s_[1], s_[3], "" if s_[3] == 1 else "s"),
-                va="center", ha="left" if s_[1] >= 0 else "right", fontsize=7.5)
-        ax.text(s_[2] + 0.012, y - w / 2,
-                "%+.2f  (%d pair%s)" % (s_[2], s_[4], "" if s_[4] == 1 else "s"),
-                va="center", fontsize=7.5)
-    ax.axvline(0, color=TOL["black"], lw=0.8)
+    se = 1.0 / math.sqrt(231 - 3)
+    fig, ax = plt.subplots(figsize=(7.2, 2.9))
+    pts = []
+    for s_ in summary:
+        pts.append(("real scans\n(X moving across the surface)", s_[1], s_[3], TOL["blue"]))
+        pts.append(("X-held control\n(the tip never moved across it)", s_[2], s_[4],
+                    TOL["red"]))
+    ys = [1, 0]
+    for (lab, v, n, col), y in zip(pts, ys):
+        ax.errorbar([v], [y], xerr=[se], fmt="o", ms=8, color=col,
+                    ecolor=col, elinewidth=2.0, capsize=5)
+        ax.text(v, y + 0.22, "%+.3f   n = %d pairs" % (v, n), ha="center", fontsize=8.5,
+                color=col)
+    ax.axvline(0, color=TOL["black"], lw=1.0)
+    ax.text(0, -0.55, "zero: no repeatable structure at all", ha="center", fontsize=7.5)
     ax.set_yticks(ys)
-    ax.set_yticklabels([l.replace(" vs ", "\nvs ") for l in labs], fontsize=7.5)
-    ax.set_xlim(-0.45, 1.15)
-    ax.set_xlabel("image-to-image correlation (mean over consecutive pairs)")
-    ax.set_title("A picture of the surface would make the blue bar beat the red one\n"
-                 "it does not, except in one group whose scans aborted after 1 and 2 lines")
-    for y, s_ in zip(ys, summary):
-        if "wide images" in s_[0]:
-            ax.annotate("2 of 3 scans aborted: this blue bar is 21 and 42 pixels,\n"
-                        "the red one 231. Trace and retrace are also anti-correlated\n"
-                        "(-0.75 to -0.94) in the scans and not in the controls.",
-                        xy=(s_[1], y + w / 2), xytext=(0.28, y - 0.78),
-                        fontsize=7, color=TOL["purple"],
-                        arrowprops=dict(arrowstyle="->", color=TOL["purple"], lw=0.9))
-    ax.legend(loc="lower right")
+    ax.set_yticklabels([pts[0][0], pts[1][0]], fontsize=8)
+    ax.set_ylim(-0.75, 1.55)
+    ax.set_xlim(-0.30, 0.45)
+    ax.set_xlabel("image-to-image correlation, complete images only\n"
+                  "bars are $\\pm$1 standard error (%.2f), and that error is optimistic"
+                  % se)
+    ax.set_title("2026-09-19 bench, the four feedback scans and their four controls\n"
+                 "neither reproduces, and they are indistinguishable from each other")
     save(fig, "fig14_scan_vs_control.png")
+    plt.close(fig)
+
+    # A second panel for the class of defect, since it is the finding that changed a
+    # published number.
+    fig, ax = plt.subplots(figsize=(7.2, 2.6))
+    groups = ["cas9 controls", "wide images, scans", "tuned scans, scans",
+              "tuned scans, controls"]
+    published = [0.373, 0.708, -0.246, 0.034]
+    corrected = [0.068, None, None, None]
+    ys2 = list(range(len(groups)))[::-1]
+    ax.barh(ys2, published, 0.5, color=TOL["grey"], label="as published (pairs truncated)")
+    for y, g, pv, cv in zip(ys2, groups, published, corrected):
+        ax.text(pv + (0.02 if pv >= 0 else -0.02), y, "%+.2f" % pv,
+                va="center", ha="left" if pv >= 0 else "right", fontsize=8)
+        if cv is None:
+            ax.text(0.80, y, "NO pair of complete images exists", va="center",
+                    fontsize=7.5, color=TOL["purple"])
+        else:
+            ax.plot([cv], [y], "o", ms=8, color=TOL["blue"], zorder=3)
+            ax.text(0.80, y, "complete images only: %+.2f" % cv, va="center",
+                    fontsize=7.5, color=TOL["blue"])
+    ax.axvline(0, color=TOL["black"], lw=0.9)
+    ax.set_yticks(ys2)
+    ax.set_yticklabels(groups, fontsize=8)
+    ax.set_xlim(-0.45, 1.65)
+    ax.set_xlabel("image-to-image correlation")
+    ax.set_title("The truncation defect is a class, in four groups\n"
+                 "a pair is silently cut to the shorter file, so one aborted image turns "
+                 "an image comparison into a single line")
+    ax.legend(loc="lower right")
+    save(fig, "fig18_truncation_class.png")
     plt.close(fig)
 
     # side-by-side images: one cas9 scan and its control, ON ONE SHARED COLOUR SCALE,
