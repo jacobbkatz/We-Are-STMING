@@ -231,6 +231,8 @@ the place labels (`code/07_chance.py`, null N1):
 sample structure at all — scores **p = 0.02** on the same statistic. That is the empirical
 false-positive rate of this measurement on this instrument.
 
+![Gap stability](gallery/10_gap_stability.png)
+
 ## The measurement that was sitting in the logs all along
 
 > **Correction to an earlier version of this gallery and of `VERDICT.md`, and it is mine.** I wrote
@@ -494,10 +496,11 @@ independently confirmed here on more records.**
 | pass-separation correlations | 11 |
 | profile-versus-Y comparisons | 36 |
 | image-to-image correlations reported in the session logs | 20 |
-| **TOTAL** | **201** |
+| cross-run place tests and onset-Z comparisons (`code/13`, added after the lead's correction) | 8 |
+| **TOTAL** | **209** |
 
-At 201 tests, a 5% threshold is expected to throw up **about ten** apparent findings from noise
-alone. **A Bonferroni-corrected 5% threshold is p < 2.5 × 10⁻⁴, about 3.7σ.**
+At 209 tests, a 5% threshold is expected to throw up **about ten** apparent findings from noise
+alone. **A Bonferroni-corrected 5% threshold is p < 2.4 × 10⁻⁴, about 3.7σ.**
 
 **Nothing in this body of data reaches it as evidence of a surface.** The best place-dependence ever
 seen is candidate B's p = 0.0036, a factor of 14 short, whose repeat gave p = 0.26 and whose X-held
@@ -511,12 +514,17 @@ control scores p = 0.02. The only result that clears the threshold is **candidat
 | # | Candidate | Source | Evidence strength | Reopen? |
 |---|---|---|---|---|
 | **A** | 636-count profile at ±15,000 | `2026-09-17-bench/line_repeated_wide.csv` | **Closed — the loop recovering from the 30,000-count X flyback, predicted quantitatively on three data sets** | No |
-| **B** | three-Y at y_sep 12,000 | `2026-09-19-bench/ycontrol_run2_ysep12000.csv` | **Weak. p = 0.0036 permutation, failed its own repeat, X-held control reaches p = 0.02** | **Yes — one measurement** |
+| **B** | three-Y at y_sep 12,000 | `2026-09-19-bench/ycontrol_run2_ysep12000.csv` | **Weak, and weaker than first written. p = 0.0036 permutation; repeat p = 0.26; X-held control p = 0.02; cross-run same-place test p = 0.70 with the gap known stable to 2,200 counts** | **Yes — but only to settle lateral drift** |
 | **C** | 4 feedback scans | `2026-09-19-bench/cas9_scan0–3.csv` | **No image.** But the published "controls reproduce better" is withdrawn | No |
 | **D** | wide ±15,000 images | `2026-09-19-bench/img_scan_*.csv` | **A real X-dependent, roughly line-periodic instrument signal. Not topography** | Characterise, not reopen |
 | **E** | narrow 2026-09-17 scans | `2026-09-17-bench/scan_fast_*.csv` etc. | **No image, decisively — beaten by their own control** | No |
 | — | constant-height maps | `cas8_chmap_*.csv` | **Fully saturated, 4,158/4,158 pixels** | No |
 | — | tuned-loop scans | `2026-09-19-morning/tuned_s3k_*.csv` | **All six clamped** | No |
+
+**Figures:** `gallery/01`–`02` candidate A and the test that decides it; `03` and `10` candidate B
+and the onset-Z series; `04` the feedback scans against their controls; `05` the wide images;
+`06` the cross-night comparison; `07` the rejected and partial recordings; `08` the gap's motion;
+`09` the X flyback that closes candidate A.
 
 ---
 

@@ -96,7 +96,8 @@ preserved and the absolute current scale is 5 % out.
 **What was done, 2026-09-19 morning.** With a contact found, Z was walked toward the sample four
 counts at a time until the current reached 1,000 counts, then walked back out. That cycle was
 repeated 30 times at sample −0.5 V and 20 times at each of −0.1, +0.5, +0.1 and −0.5 V again:
-**110 cycles in nine minutes, one tip, one sample.**
+**110 cycles in nine minutes — 12:56 to 13:05, both timestamped in the session log — one tip, one
+sample.**
 
 Three numbers come out of each cycle:
 

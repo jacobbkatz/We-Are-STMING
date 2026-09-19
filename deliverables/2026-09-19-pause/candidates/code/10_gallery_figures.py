@@ -247,9 +247,93 @@ def fig_candidate_b():
             ax.set_ylim(-120, 120)
     fig.suptitle("Candidate B - the three-Y control at 12,000 counts apart, 2026-09-19 bench\n"
                  "run 2 within-minus-between +0.523 (permutation p = 0.0036);  "
-                 "run 4 repeat +0.059 (p = 0.26);  X-held control +0.226 (p = 0.02)",
-                 y=0.99, fontsize=10, fontweight="bold")
+                 "run 4 repeat +0.059 (p = 0.26);  an X-held control +0.226 (p = 0.02)\n"
+                 "and the gap held still between them: onset Z 48,600 -> 50,800, "
+                 "2,200 counts in ~2 min - see figure 10",
+                 y=1.0, fontsize=9.5, fontweight="bold")
     fig.savefig(G("03_candidateB_three_y.png"))
+    plt.close(fig)
+
+
+# ---------------------------------------------------------------- figure 10
+def fig_gap_stability():
+    """The onset-Z series: the gap held still across the run that failed to repeat."""
+    import re
+    runs = [("ycontrol_run1.log", "run 1\ny_sep 3000", "tab:blue"),
+            ("ycontrol_xheld_run1.log", "X-HELD\ncontrol", "crimson"),
+            ("ycontrol_run2.log", "RUN 2\nthe positive", "tab:green"),
+            ("ycontrol_run3.log", "run 3\nX-HELD", "crimson"),
+            ("ycontrol_run4.log", "RUN 4\nthe repeat", "tab:green")]
+    ons = [int(re.search(r"onset Z=(\d+)",
+                         open(data("2026-09-19-bench", f)).readline()).group(1))
+           for f, _, _ in runs]
+    fig, axes = plt.subplots(1, 3, figsize=(13, 4.1))
+
+    ax = axes[0]
+    ax.plot(range(5), ons, "o-", lw=2, ms=8, color="0.3", zorder=1)
+    for i, (f, lab, c) in enumerate(runs):
+        ax.plot(i, ons[i], "o", ms=11, color=c, zorder=2)
+    ax.set_xticks(range(5))
+    ax.set_xticklabels([r[1] for r in runs], fontsize=7)
+    ax.set_ylim(0, 65535)
+    ax.axhspan(min(ons), max(ons), color="tab:orange", alpha=0.18)
+    ax.set_ylabel("onset Z, DAC counts")
+    ax.set_title("RAW - the Z at which the loop found the surface\n"
+                 "first line of each ycontrol log, on the FULL Z range")
+    ax.annotate("all five runs sit in %d counts\nof the 65,536-count range (%.0f%%)"
+                % (max(ons) - min(ons), 100 * (max(ons) - min(ons)) / 65536),
+                xy=(2, max(ons)), xytext=(0.5, 0.62), textcoords="axes fraction",
+                fontsize=7.5, color="tab:orange",
+                arrowprops=dict(arrowstyle="->", color="tab:orange", lw=1.4))
+
+    ax = axes[1]
+    ax.plot(range(5), ons, "o-", lw=2, ms=8, color="0.3", zorder=1)
+    for i, (f, lab, c) in enumerate(runs):
+        ax.plot(i, ons[i], "o", ms=11, color=c, zorder=2)
+        ax.annotate("%d" % ons[i], (i, ons[i]), textcoords="offset points",
+                    xytext=(0, 11), ha="center", fontsize=7.5)
+    ax.set_xticks(range(5))
+    ax.set_xticklabels([r[1] for r in runs], fontsize=7)
+    ax.annotate("", xy=(4, ons[4]), xytext=(2, ons[2]),
+                arrowprops=dict(arrowstyle="<->", color="tab:green", lw=2))
+    ax.text(3.0, min(ons[2], ons[4]) - 1500, "run 2 to run 4:\n+2,200 counts\nin about 2 minutes",
+            ha="center", va="top", fontsize=8, color="tab:green", fontweight="bold")
+    ax.set_ylim(min(ons) - 2600, max(ons) + 900)
+    ax.set_ylabel("onset Z, DAC counts")
+    ax.set_title("ZOOMED - the same five numbers\nthe gap drifted steadily, ~32 counts/s")
+
+    ax = axes[2]
+    ax.axis("off")
+    ax.text(0, 1, "A CORRECTION THAT WENT AGAINST THE CANDIDATE\n\n"
+            "An earlier version of VERDICT.md said run 4 came\n"
+            "half an hour after run 2 and that the gap moved\n"
+            "by most of the Z range in between, so the failure\n"
+            "to repeat could not be told from the surface\n"
+            "moving away. BOTH WERE INFERENCES, NEVER CHECKED,\n"
+            "AND BOTH ARE WRONG.\n\n"
+            "The measurement was on the first line of every\n"
+            "log the whole time. The interval is bounded by the\n"
+            "session log itself: section 3.14 at 03:48, section\n"
+            "3.16 at 03:53, five runs in between.\n\n"
+            "CROSS-CHECK, from a different measurement:\n"
+            "sessions/2026-09-19-morning.md section 6 measured\n"
+            "the gap opening at ~40-41 counts/s from 03:48:13\n"
+            "to 03:52:58, from the cas9 and img data, without\n"
+            "reference to these logs. 7,800 counts over four\n"
+            "minutes is 32 counts/s. Same rate.\n\n"
+            "SO THE GAP HELD STILL, and the cross-run\n"
+            "same-place test is null: -0.020 at the same place\n"
+            "against +0.054 at a different one, p = 0.70.\n\n"
+            "WHAT KEEPS THE CANDIDATE OPEN is that onset Z\n"
+            "measures the GAP, not LATERAL position. On run 4's\n"
+            "measured slopes a full-range X drift would move it\n"
+            "~150 counts. Lateral drift has never been measured\n"
+            "in this project. That is the missing experiment.",
+            va="top", ha="left", fontsize=7.2, family="monospace")
+    fig.suptitle("The gap held still across the runs that failed to repeat", y=1.03,
+                 fontsize=11, fontweight="bold")
+    fig.tight_layout()
+    fig.savefig(G("10_gap_stability.png"))
     plt.close(fig)
 
 
@@ -667,6 +751,7 @@ def main():
     fig_rejected()
     fig_motion()
     fig_flyback()
+    fig_gap_stability()
     for f in sorted(os.listdir(os.path.dirname(G("x")))):
         print("  gallery/%s" % f)
 

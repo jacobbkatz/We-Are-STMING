@@ -193,6 +193,7 @@ def main():
         ("pass-separation correlations (script 04)", 11),
         ("profile-versus-Y comparisons (script 05)", 36),
         ("image-to-image correlations reported in the session logs", 20),
+        ("cross-run place tests and onset-Z comparisons (script 13)", 8),
     ]
     tot = sum(n for _, n in budget)
     for what, n in budget:

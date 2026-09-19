@@ -525,3 +525,57 @@ so that gap motion is separated from whatever else is happening.
 **Corrections owed:** `deliverables/2026-09-19-pause/candidates/VERDICT.md` ("half an hour later"),
 `deliverables/2026-09-19-pause/analysis/FINDINGS.md` ("nine minutes later"), and I told Jacob "half
 an hour" in conversation and have corrected it to him directly.
+
+---
+
+## V5b. The truncation class is WIDER than V5 found. Subagent 1's sweep, verified
+
+**V5 checked the groups I suspected. Subagent 1 swept all of them, which is what `CLAUDE.md` §7.1
+asks for and what I should have done.** Four groups are affected, on both sides of the comparison:
+
+| Group | Side | As published / as naively computed | Complete images only |
+|---|---|---|---|
+| `cas9` | controls | +0.37 | **+0.068** |
+| wide images | scans | +0.71 | **no complete pair exists** |
+| tuned scans | scans | −0.25 | **no complete pair exists** |
+| tuned scans | controls | +0.03 | **no complete pair exists** |
+
+**Two corrections to my own V5:**
+
+1. **The wide-image answer is stronger than I wrote.** I said "with one complete real wide image
+   there is no valid reproducibility figure". That is right, and the consequence is that **the
+   published +0.56 to +0.86 came entirely from lines the two fragments share** — there is no pair to
+   compare at all, in either direction.
+2. **The tuned scans belong in the table**, which V5 left out. **My statement there still stands and
+   I re-checked it: no correlation for the tuned scans is published in `sessions/2026-09-19-morning.md`**
+   — I grepped it again. So **no session-log conclusion is affected by that row**; what it affects is
+   any analysis that recomputes those files naively, which is exactly what a future session would do.
+
+**What still stands against the wide scans, and it is untouched by any of this:** trace/retrace of
+**−0.94, −0.91 and −0.75**, against the controls' **+0.14 and +0.13**. Trace and retrace live in the
+same file and always share a shape, so no truncation can reach them.
+
+**The defect can no longer recur silently in that tool.** `image_to_image()` now drops any file
+short of its group's modal line count, prints the truncating version beside the corrected one, and
+names every pair it dropped.
+
+### The onset-Z series, complete
+
+All five `ycontrol` logs, verified by me directly from the files:
+
+| File | Onset Z |
+|---|---|
+| `ycontrol_run1.log` (±3,000) | 44,200 |
+| `ycontrol_xheld_run1.log` (±3,000, X held) | 47,000 |
+| **`ycontrol_run2.log` (±12,000)** | **48,600** |
+| `ycontrol_run3.log` (±12,000, X held) | 52,000 |
+| **`ycontrol_run4.log` (±12,000, repeat)** | **50,800** |
+
+**7,800 counts across all five; 2,200 between run 2 and run 4.** The series rises steadily and then
+falls slightly — the shape of a slow drift, not of the violent excursions measured that morning.
+
+**And Subagent 1's phrasing of the interval is better than mine.** I inferred "a couple of minutes"
+from the surrounding timestamps. The correct statement is that **neither `ycontrol` log carries a
+timestamp**, so **the interval between any two of them is UNKNOWN**, bounded only by the ~5 minutes
+between §3.14 at 03:48 and §3.16 at 03:53. **"UNKNOWN, bounded by five minutes" is what the record
+supports; "a couple of minutes" was an inference I should have marked as one.**

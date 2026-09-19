@@ -23,6 +23,7 @@ measured on ours.
 """
 from __future__ import annotations
 
+import math
 import os
 import sys
 
@@ -33,87 +34,92 @@ from matplotlib.patches import FancyBboxPatch  # noqa: E402
 
 # (value in amps, label, provenance, emphasise?)
 CURRENTS = [
-    (3.125e-12, "one converter count\nis 3.125 picoamps", "CALC", False),
-    (4.0e-12, "the amplifier's own input\ncurrent: about 4 picoamps", "MEAS 2026-09-15", False),
-    (1.306e-10, "the spread of a single reading\nwith the room still: 131 picoamps",
+    (3.125e-12, "3.125 picoamps — one converter count", "CALC", False),
+    (4.0e-12, "about 4 picoamps — the amplifier's own input current",
+     "MEAS 2026-09-15", False),
+    (1.306e-10, "131 picoamps — the spread of one reading, room still",
      "MEAS 2026-09-19", False),
-    (1.0e-9, "ONE NANOAMP\nthe current a tunnelling gap would give", "the target", True),
-    (3.17e-8, "the largest current we measured\nthrough a junction: 31.7 nanoamps",
+    (1.0e-9, "ONE NANOAMP — what a tunnelling gap would give", "the target", True),
+    (3.17e-8, "31.7 nanoamps — the largest we measured through a junction",
      "MEAS 2026-09-17", False),
-    (1.024e-7, "the most this chain can report\nat all: 102.4 nanoamps", "CALC", False),
-    (1.0, "a phone charger, about 1 amp —\na billion times larger", "ILLUSTRATIVE", False),
+    (1.024e-7, "102.4 nanoamps — the most this chain can report", "CALC", False),
+    (1.0, "1 amp — a phone charger, a billion times larger", "ILLUSTRATIVE", False),
 ]
 
 # (value in metres, label, provenance, emphasise?)
 LENGTHS = [
-    (1.5e-10, "1 to 2 ångström: the distance over which a\n"
-              "tunnelling current changes ten-fold", "CALC", True),
-    (1.0e-7, "the gold leaf is about 100 nanometres thick", "SAID, docs/INVENTORY.md", False),
-    (7.0e-5, "a human hair, about 70 microns", "ILLUSTRATIVE", False),
+    (1.5e-10, "1 to 2 ångström — a tunnelling current's ten-fold distance",
+     "CALC, what tunnelling requires", True),
+    (1.0e-7, "about 100 nanometres — the gold leaf's thickness",
+     "SAID, docs/INVENTORY.md", False),
+    (7.0e-5, "about 70 microns — a human hair", "ILLUSTRATIVE", False),
 ]
 
 
-def ladder(ax, items, lo, hi, unit_ticks, unit_labels, xlabel, title):
+def ladder(ax, items, lo, hi, ticks, tick_labels, xlabel, title, ybot=-0.5):
     c_em = S.series(0)
     ax.set_xscale("log")
     ax.set_xlim(lo, hi)
-    ax.set_ylim(-0.5, len(items) - 0.5)
+    ax.set_ylim(ybot, len(items) - 0.4)
     ax.set_yticks([])
     ax.spines["left"].set_visible(False)
-    ax.set_xticks(unit_ticks)
-    ax.set_xticklabels(unit_labels)
+    ax.set_xticks(ticks)
+    ax.set_xticklabels(tick_labels)
     S.tidy(ax, xlabel=xlabel, title=title, grid="x")
+    span = math.log10(hi) - math.log10(lo)
     for i, (v, label, prov, em) in enumerate(items):
         y = len(items) - 1 - i
         col = c_em if em else S.C["muted"]
         ax.plot([lo, v], [y, y], "-", color=S.C["grid"], lw=1.0, zorder=2)
         ax.plot([v], [y], "o", color=col, ms=13 if em else 10,
                 markeredgecolor=S.C["surface"], markeredgewidth=2.0, zorder=5)
-        txt = (S.key if em else S.note)
-        txt(ax, v * 1.6, y + 0.08, label, ha="left", va="bottom",
-            fontsize=S.TYPE["annot"] if em else S.TYPE["annot"])
-        S.note(ax, v * 1.6, y - 0.10, prov, ha="left", va="top",
+        # Labels go to the right of the marker, unless the marker is far enough along
+        # the axis that they would not fit.
+        rightwards = (math.log10(v) - math.log10(lo)) / span < 0.60
+        x = v * 1.8 if rightwards else v / 1.8
+        ha = "left" if rightwards else "right"
+        (S.key if em else S.note)(ax, x, y + 0.10, label, ha=ha, va="bottom")
+        S.note(ax, x, y - 0.12, prov, ha=ha, va="top",
                fontsize=S.TYPE["small"], color=S.C["muted"])
 
 
 def main():
     S.set_theme("light")
-    fig, (axc, axl) = S.plt.subplots(1, 2, figsize=(13.0, 6.4), width_ratios=[1.35, 1.0])
-    fig.subplots_adjust(top=0.740, bottom=0.300, left=0.035, right=0.985, wspace=0.10)
+    fig, (axc, axl) = S.plt.subplots(1, 2, figsize=(13.4, 8.6), width_ratios=[1.30, 1.0])
+    fig.subplots_adjust(top=0.800, bottom=0.215, left=0.030, right=0.988, wspace=0.10)
 
-    ladder(axc, CURRENTS, 1e-12, 4e4,
+    ladder(axc, CURRENTS, 1e-12, 6e4,
            [1e-12, 1e-9, 1e-6, 1e-3, 1],
            ["1 picoamp", "1 nanoamp", "1 microamp", "1 milliamp", "1 amp"],
-           "Current (each step is a thousand times the last)",
-           "Current: this is the half we can put numbers on")
+           "Current — each labelled step is a thousand times the last",
+           "CURRENT: the half we can put numbers on")
 
-    ladder(axl, LENGTHS, 1e-10, 3e-2,
+    ladder(axl, LENGTHS, 1e-10, 2e-2,
            [1e-10, 1e-8, 1e-6, 1e-4],
            ["1 ångström", "10 nanometres", "1 micron", "100 microns"],
-           "Length (each step is a hundred times the last)",
-           "Length: this is the half we cannot")
+           "Length — each labelled step is a hundred times the last",
+           "LENGTH: the half we cannot", ybot=-2.6)
 
     # The honest gap in the right-hand ladder, drawn as the gap it is.
-    axl.add_patch(FancyBboxPatch(
-        (1.6e-10, -0.42), 2.0e-2, 0.80,
-        boxstyle="round,pad=0,rounding_size=0.06",
-        facecolor=S.C["band"], edgecolor="none", zorder=1,
-        transform=axl.transData))
-    S.key(axl, 2.6e-10, 0.16,
+    from matplotlib.patches import Rectangle
+    axl.add_patch(Rectangle((1.4e-10, -2.30), 1.3e-2, 1.55,
+                            facecolor=S.C["band"], edgecolor="none", zorder=1))
+    S.key(axl, 2.4e-10, -1.16,
           "How far one Z count moves the tip is UNKNOWN for this instrument.",
           ha="left", va="center")
-    S.note(axl, 2.6e-10, -0.20,
-           "The 0.016 nm per count in circulation is inherited from another builder's "
-           "scanner.\nThat is why no figure in this set carries a scale bar, and why "
-           "every axis stays in DAC counts.",
+    S.note(axl, 2.4e-10, -1.85,
+           "The 0.016 nanometres per count in circulation was inherited from another "
+           "builder's scanner.\nThat is why no figure in this set carries a scale bar, "
+           "and why every axis stays in DAC counts.",
            ha="left", va="center", fontsize=S.TYPE["small"])
 
     S.titles_keyed(
         fig,
         "How small is a nanoamp, and how big is the gap we cannot measure",
         "<One nanoamp> is the current a tunnelling gap would give: about a billionth of what a phone charger "
-        "delivers, and this instrument resolves it to\nthree picoamps. The distances are the other story — "
-        "the project can say what a tunnelling gap requires, but not what its own scanner does.",
+        "delivers, and this instrument resolves it to three picoamps.\nDistances are the other story — the "
+        "project can say what a tunnelling gap requires, but not what its own scanner does, and it says so rather "
+        "than guessing.",
         [{"color": S.word(0), "fontweight": S.W_EMPH}])
 
     S.footer(fig, y=0.010, text=

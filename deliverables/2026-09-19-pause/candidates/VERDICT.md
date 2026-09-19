@@ -70,9 +70,10 @@ up in both a scan and its control is the instrument.
 "is this the surface?" statistic. **That is the empirical false-positive rate of this measurement on
 this instrument**, and knowing it is worth more than any single positive would have been.
 
-**And the searching was budgeted.** 201 reproducibility tests have been run across this data
-(`code/07_chance.py`). At that many, a 5% threshold is expected to throw up **about ten** apparent
-findings from noise alone, so the honest threshold is Bonferroni's **p < 2.5 × 10⁻⁴**, about 3.7σ.
+**And the searching was budgeted.** 209 reproducibility tests have been run across this data
+(`code/07_chance.py`, plus the eight added by `code/13`). At that many, a 5% threshold is expected
+to throw up **about ten** apparent findings from noise alone, so the honest threshold is
+Bonferroni's **p < 2.4 × 10⁻⁴**, about 3.7σ.
 **Nothing in this body of data reaches it as evidence of a surface** — and the fact that the
 threshold was computed before the candidates were judged is itself the point.
 

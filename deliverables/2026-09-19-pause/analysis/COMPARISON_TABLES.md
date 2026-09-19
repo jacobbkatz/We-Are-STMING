@@ -41,7 +41,7 @@ names; the tip and sample statements are `SAID` by Jacob and are marked as such 
 |---|---|---|
 | ADC scatter with the tip clear, 2026-09-17 (46) against 2026-09-18 (341–350) against 2026-09-19 (40–42) | **SAFE** | same measurement, same command (`ADCR`), same condition (tip clear). The 2026-09-18 excursion is about **eight times** the other two and it went away |
 | `still.csv` against `stamp.csv` | **SAFE — the best controlled A/B in the record** | 36 seconds apart, one tip, one night, one tool, one setting. Nothing else in the noise record is this clean |
-| The five Z-test runs of 2026-09-19 morning against each other | **SAFE** | one tip, one sample, one script, back to back over nine minutes |
+| The five Z-test runs of 2026-09-19 morning against each other | **SAFE** | one tip, one sample, one script, back to back over nine minutes — 12:56 to 13:05, both timestamped |
 | The four `cas9` scans against their four X-held controls | **SAFE, but only over COMPLETE images** | interleaved, same tip, same loop tuning, same night — **and `cas9_xheld2.csv` is a single line, so any pair involving it is 21 pixels against 231.** See §5 |
 | Motor-retract outcomes across sessions | **SAFE as a count, not as a rate** | eight independent episodes; three cleared. The count is comparable, the step size is not |
 | ADC scatter with the tip clear against the 46 counts of the 2026-09-19 morning touch test | **NOT SAFE** | the touch test had a **junction at Z 20,000**. A junction is a current source; the tip-clear figure is the instrument's own floor |
@@ -231,8 +231,9 @@ a mean of **at least 7 counts/s** — the quiet end of the range in §9.
 
 **RE-DERIVED by `code/ztest_analysis.py` from the CSVs, with an independent implementation of the
 definitions in `sessions/data/2026-09-19-morning/scripts/ztest.py`. All twenty-five published
-numbers reproduce exactly.** One tip, one sample, nine minutes, so these five ARE comparable with
-each other.
+numbers reproduce exactly.** One tip, one sample, and nine minutes end to end — 12:56 to 13:05, both
+timestamped in `sessions/2026-09-19-morning.md` sections 3.10 and 3.11 — so these five ARE
+comparable with each other.
 
 | Sample bias | Cycles | Counts/decade IN | Counts/decade OUT | Hysteresis (counts) | Watchdog events | Onset drift (counts/s) |
 |---|---|---|---|---|---|---|
@@ -246,7 +247,8 @@ For comparison, tunnelling through vacuum on the inherited — and **unmeasured*
 **6–13 counts per decade** (`docs/FACTS.md`, "Tunnelling for comparison"). The hysteresis result
 does not depend on that scale; the counts-per-decade comparison does.
 
-**Two runs at the same bias, nine minutes apart:** 1,650 against 1,967 counts per decade going in
+**Two runs at the same bias, about eight minutes apart** (the first timestamped 12:56, the bias
+series running 12:59-13:05): 1,650 against 1,967 counts per decade going in
 (agreement to ~20 %) but 1,162 against 705 counts of hysteresis (a factor of 1.6). The junction was
 not the same junction twice.
 

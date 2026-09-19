@@ -7,3 +7,4 @@
   gallery/07_rejected_and_partial.png
   gallery/08_gap_motion.png
   gallery/09_flyback_transient.png
+  gallery/10_gap_stability.png

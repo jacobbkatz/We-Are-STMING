@@ -1,0 +1,186 @@
+# Collaborator update — DRAFT, for Jacob to adapt and send
+
+**Status: DRAFT. Nothing here has been sent to anybody, and no email address, affiliation or
+relationship has been assumed.** Jacob said he will write the collaborator emails himself. This
+file gives him **one recipient-neutral note to adapt**, a list of what to attach and why, and
+**the questions he has to answer before any of the three can be personalised.**
+
+**Three things this file deliberately does not do:** invent a name, invent a relationship, or
+write three fake personalised emails. Section 3 says why, and section 4 records the one contact the
+repository does turn out to name.
+
+---
+
+## 1. The note — recipient-neutral, about 520 words
+
+> **Adapt freely.** The square brackets are the places where only Jacob knows the answer. **The
+> technical sentences are the part not to loosen**: every figure in them is checked, and the two
+> places where the note declines to claim something are deliberate.
+
+---
+
+**Subject: We Are STMing — an update on the home-built STM, and where we have paused**
+
+Dear [name],
+
+[One line on how you know each other, and what they last heard about this.]
+
+Over the past eleven weeks Nuh Shaheer and I have built a scanning tunnelling microscope from
+3D-printed parts, following Mech Panda's open-source `red-panda-stm` for the mechanics, firmware
+and controller board, and Dan Berard's home-built STM for the scan head and the transimpedance
+preamplifier. Neither of us writes code. Everything from the electronics bring-up to the control
+and analysis software was learned as part of the project, and the whole build log — measurements,
+dead ends and corrections — is public.
+
+**Where it stands: every subsystem a tunnelling microscope needs is built, working and calibrated,
+and what is left is mechanical.**
+
+The measurement chain is calibrated end to end. With a precision 100 MΩ resistor clipped in where
+the tip and sample go, the instrument reported −3,205 ± 37 counts per volt against −3,200 worked
+out from Ohm's law before the measurement — an agreement of 0.13 standard errors, R² 0.993 over 53
+readings at eight bias settings. (The honest limit: that slope is the ratio of two nominally
+100 MΩ resistors whose tolerances we do not have, so it confirms the scale to within those
+tolerances.) The amplifier runs at about 4 pA of input current against a 1 nA signal. The
+electronics are flat white noise at 8 to 14 counts across the band, leakage is under 0.06 nA from
+−2 V to +2 V, and a still-versus-stamping pair is indistinguishable, so the building is not getting
+in electrically.
+
+We have made a real tip-to-sample junction. Its current rose from 0.85 nA at 0.05 V to 31.7 nA at
+0.5 V — superlinear, going as V^1.55, with the effective resistance falling from 59 to 16 MΩ —
+symmetric in both bias polarities to about 10%, taken as eight rounds with the polarities
+interleaved, and confirmed by a bias-flip test on two separate nights. **That is a barrier: not a
+metallic short and not an open circuit. We are not claiming tunnelling, and we have not produced
+an image.**
+
+**What stops us is mechanical, and we measured it rather than guessing.** With the motor stopped
+and nobody touching the instrument, the gap moved by more than 43,000 Z counts in 6.4 seconds and
+more than 56,000 within two minutes. Over the five seconds one image takes, it drifts by 400 to
+1,700 counts, and the structure in any candidate image is 30 to 460 counts. Every scan was run
+against a control in which the tip never moved sideways, which cannot contain surface structure —
+and the scans never beat their controls.
+
+Work is paused: the instrument is disassembled and moved, and [reason and timescale]. When it comes
+back, the plan is to prove the gap holds still before scanning anything, move to a rigid sample and
+a sharper tip, and then run one decisive experiment with interleaved controls and the decision rule
+fixed in advance.
+
+**What would help most** is a view from someone who has fought this: sample mounting and approach
+mechanics at this scale, cabling onto a suspended stage, and whether any of the numbers above
+suggest something we have missed. [Ask.]
+
+Everything, including the mistakes, is at github.com/jacobbkatz/We-Are-STMING.
+
+With thanks,
+Jacob Katz
+[contact details]
+
+---
+
+## 2. What to attach, and why each one earns its place
+
+**Four attachments is a good maximum for a cold-ish email; six if they asked for detail.** All
+paths are in this repository.
+
+| Attach | File | Why this one |
+|---|---|---|
+| **1** | `deliverables/2026-09-19-pause/figures/png/fig01_calibration.png` | **The credibility figure.** The line is not fitted — it is what Ohm's law requires, worked out before the measurement. One glance says the chain works |
+| **2** | `deliverables/2026-09-19-pause/figures/png/fig03_gap_motion.png` | **The ask, in one picture.** It is the measured blocker, and it is what any advice would be about |
+| **3** | `deliverables/2026-09-19-pause/photos/prepared/04_instrument_full_height.jpg` | **What it physically is.** The best overview of the assembled instrument, with four parts named |
+| **4** | `deliverables/2026-09-19-pause/figures/png/fig02_iv_curve.png` | **The junction.** Send it if the reader is technical; **the figure carries its own caveat that a barrier is not a tunnelling gap**, which is exactly the caveat you want them to read in your words rather than infer |
+| 5 | `deliverables/2026-09-19-pause/figures/png/fig04_control.png` | **The method.** If the reader is an experimentalist, this is the one that will earn their respect: the control that killed our own result |
+| 6 | `deliverables/2026-09-19-pause/photos/prepared/13_poster_module_portrait.jpg` | **The human frame** — Jacob holding the complete scanning module. Good for a reader who is not going to read the numbers. **Contains a face; publication of a team photograph was confirmed for the poster, so extending it to an email is Jacob's call** |
+
+**Two to consider instead of, not as well as:**
+
+- `figures/png/fig06_noise.png` — the noise floor, still against stamping. Useful only if the
+  conversation is about vibration or grounding.
+- `photos/prepared/01_sample_plate_gold_window.jpg` — the sample as the tip actually sees it.
+  **It shows honestly that the window is not all gold**, which is a point in your favour with
+  anyone who has mounted a sample.
+
+**Do not attach:** anything from `analysis/plots/`, which predates the corrections; any scan image,
+because **no image in this project has a known scale and none should travel without its caption.**
+
+---
+
+## 3. THE THREE CONTACTS — UNKNOWN. Jacob has to fill these in
+
+**Jacob named three intended recipients: a contact at Brookhaven, "Ming", and someone who helped.**
+**Two of the three are not identified anywhere in this repository and nothing here guesses at
+them.** For each, three questions — and one sentence of answer to each is enough to turn the draft
+above into a real email.
+
+### 3.1 The contact at Brookhaven — **partly answered by the repository; see section 4**
+
+1. **Is the person you mean Dr. Percy Zahl?** The repository thanks a Dr. Percy Zahl of Brookhaven
+   National Laboratory, CFN, for guidance on vibration isolation and scan head design. **If that is
+   who you mean, say so; if it is someone else, who?**
+2. **What is the relationship — did they advise you directly, or is this an acknowledgment of
+   published work?** The repository records the thanks and **nothing about how the guidance was
+   given.** The note's tone depends entirely on this.
+3. **What do you want from them?** A read of the gap-motion result? An opinion on the sample
+   mounting? An introduction? **The note has one "[Ask.]" and it needs a real sentence.**
+4. **Do you have contact details, and did they consent to being thanked by name in a public
+   repository?** **Neither is recorded anywhere.**
+
+### 3.2 "Ming" — **UNKNOWN. No match anywhere in the repository**
+
+**Searched: every prose document, every HTML page, the code and the session logs. There is no
+person called Ming in this repository.** Two possibilities were considered and **neither is
+asserted, because guessing at a person's identity is exactly the failure mode this project has
+rules about:**
+
+- it may be a person nobody has written down;
+- it may be a rendering of something else — the project name itself is "STMing", and one of the two
+  upstream designers is credited only as "Mech Panda".
+
+**Questions:** Who is Ming? How do you know them? What did they contribute, and what do you want
+from them now? **Answer the first and the note can be personalised in one line; until then it
+cannot be written at all.**
+
+### 3.3 "Someone who helped" — **UNKNOWN**
+
+**The repository's acknowledgments name only Dan Berard and Mech Panda, for prior open-source work
+rather than personal help, plus Dr. Percy Zahl.** No other helper is recorded.
+
+**Questions:** Who helped, with what, and when? Is it someone whose contribution should also be in
+`README.md`'s acknowledgments — **because if they helped and are not credited there, that is worth
+fixing in the repository at the same time as writing to them.**
+
+---
+
+## 4. One of these three WAS already in the repository, and it should be said so
+
+**`CLAUDE.md` §3b: before recording something as unknown, search for it — and if the answer was
+already there, say where it was and credit whoever wrote it down.** The brief for this work stated
+that none of the three contacts is named or contactable anywhere in the repository. **That is right
+for two of them and wrong for the Brookhaven one.**
+
+> **`README.md` line 121:** *"Thank you also to Dr. Percy Zahl (Brookhaven National Laboratory,
+> CFN) for guidance on vibration isolation and scan head design."*
+> The same sentence is in **`docs/progress.html`** §12, the credit section.
+
+**Where it came from:** both were added on 2026-09-16, in commit `55d8022`, the session that wrote
+the public progress page. **The credit is real and it is in the two most public documents the
+project has.**
+
+**Why it was missed:** it is in an acknowledgments section, not in any bench document, and
+**no session log records who supplied the name or how the guidance was given** — so it is invisible
+to a search of the technical record. Credit for writing it down belongs to that session and to
+whichever of Jacob and Nuh told it.
+
+**What this does and does not settle.** It gives a name, an institution and a subject — **and
+vibration isolation is precisely the open problem**. It does **not** settle that this is the person
+Jacob means, it gives no contact details, and it records no consent. **Confirm with Jacob before
+the name goes into any email.**
+
+---
+
+## 5. Two things to keep out of the outgoing note, whoever it goes to
+
+1. **"We achieved tunnelling" and "we produced an image" are both unsupported.** The draft says
+   "barrier", says it plainly, and says we are not claiming tunnelling. **The first person to ask a
+   hard question will be someone who knows what an STM is, and an honest limit stated confidently
+   survives that conversation.**
+2. **No number taken off a photograph, and no scale bar.** Nothing in these deliverables carries
+   one, because no image in this project has a known scale.
