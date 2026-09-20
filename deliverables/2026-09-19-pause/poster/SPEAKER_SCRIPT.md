@@ -49,7 +49,7 @@ it**, and everything on this poster is measured.
 
 [Stand beside panel 01, the photographs.]
 
-**"We built a scanning tunnelling microscope. Nuh and I are both first-year students - neither of us
+**"We built a scanning tunnelling microscope. Nuh and I are both in our second year - neither of us
 writes code, and before this project neither of us had really soldered anything. We built it in my
 basement, on a wooden bench, in a house where people are walking around and nobody controls the
 air. Not a lab, not a clean room. That matters, and I will come back to it.**
@@ -187,7 +187,7 @@ is mechanical - and we measured it rather than guessing at it."**
 
 ## The twenty-second version
 
-**"We built a scanning tunnelling microscope in my basement - two first-year students, no coding
+**"We built a scanning tunnelling microscope in my basement - two undergraduates, no coding
 experience, and the first soldering either of us has done. The electronics are finished and
 calibrated: we measure about a billionth of an amp, and the whole chain agrees with Ohm's law to a
 tenth of a standard error. We detected tunnelling, but weren't able to maintain tunnelling range

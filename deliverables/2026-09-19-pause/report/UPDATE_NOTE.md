@@ -30,7 +30,7 @@ Dear [name],
 [One line on how you know each other, and what they last heard about this.]
 
 Over eleven weeks of planning and design and eight weeks of building, Nuh Shaheer and I — **two
-first-year students with no coding experience and very little electronics experience** — have built
+undergraduates with no coding experience and very little electronics experience** — have built
 a scanning tunnelling microscope from 3D-printed parts. **This project was the first real soldering either of us has done**, and it was
 built and run **in a basement in a house people live in**, with people moving around and no control
 over the air or the temperature: a wooden bench on a concrete floor, a few metres from the breaker

@@ -32,6 +32,7 @@ survived in a dozen files.**
 | Last bench session before the move | **19 September 2026** | LOG, `sessions/2026-09-19-morning.md` |
 | Session logs | **27** | counted |
 | Repository | **PUBLIC** — `github.com/jacobbkatz/We-Are-STMING` | **SAID 2026-09-20** |
+| **Jacob and Nuh's year at university** | **Going into their SECOND year as of September 2026.** The build ran over the summer between the first year and the second. **"Two first-year students" is retired from every live document** — it was true of the year that ended before the build and reads as present tense | **SAID Jacob, 2026-09-20**, correcting his own 2026-09-19 statement |
 
 > **Settled 2026-09-20, and it was never a contradiction.** Four deliverables said "eight weeks"
 > and three said "eleven", and this file had no row for either, so nobody could tell which was

@@ -14,7 +14,7 @@ issues no new bench procedure.
 
 ## The conditions this was built in — and why whoever picks this up needs to know
 
-**`SAID`, Jacob, 2026-09-19.** **Two first-year students. No coding experience. Very little
+**`SAID`, Jacob, 2026-09-19, corrected by him 2026-09-20.** **Two undergraduates, in their second year as of September 2026 — first-year students during the year that ended before the build. No coding experience. Very little
 electronics experience — this project was their first real soldering. Built in a basement in a
 lived-in house, with people moving around and no control of the air or the temperature.** The
 photographs corroborate it: a wooden bench standing on a concrete floor, a few metres from a
@@ -388,7 +388,7 @@ not a sign that the record is unreliable.
 
 ### 7.1 Why it exists
 
-Two first-year students, no prior programming experience and no prior electronics experience, work
+Two undergraduates, no prior programming experience and no prior electronics experience, work
 on this instrument from two different computers, days apart. **The failure mode is not that the
 work is hard. It is that a number gets corrected in one document and not in the eleven others that
 quote it**, and six weeks later somebody builds on the stale copy. That is not hypothetical: on

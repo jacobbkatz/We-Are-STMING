@@ -100,7 +100,7 @@ CONTESTED row in `docs/FACTS.md`.
 
 ## 5. What is in the two documents, and what they deliberately refuse to do
 
-**`SPEAKER_SCRIPT.md`** — opens on the conditions, in Jacob's own terms: two first-year students,
+**`SPEAKER_SCRIPT.md`** — opens on the conditions, in Jacob's own terms: two undergraduates,
 neither writes code, first soldering either of them has done, a basement in a lived-in house with
 people moving and no control of the air. **Then straight into what works**, panel by panel, and the
 limitation once, as a measurement, in panel 04. It ends with the two sentences worth memorising.

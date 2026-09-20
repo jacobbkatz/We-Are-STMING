@@ -10,7 +10,7 @@ the claims. Every number in it is counted from the repository, and the counting 
 
 > **Neither of us writes code. So the second thing we built was the system that does.**
 >
-> This instrument was designed, assembled, characterised and documented by two first-year students
+> This instrument was designed, assembled, characterised and documented by two undergraduates
 > directing an AI model, working inside a framework we built for it: **a 575-line operating
 > protocol, a single canonical register holding every number in the project with its provenance and
 > its date, 27 append-only session logs, and a 565-line checker that runs seven classes of
@@ -33,7 +33,7 @@ the claims. Every number in it is counted from the repository, and the counting 
 
 ### What the problem was
 
-Two first-year students, no prior programming experience and no prior electronics experience, work
+Two undergraduates, no prior programming experience and no prior electronics experience, work
 on this instrument from two different computers, days apart, in between other commitments. **The
 failure mode is not that the work is hard. It is that a number gets corrected in one document and
 not in the eleven others that quote it**, and six weeks later somebody builds on the stale copy.

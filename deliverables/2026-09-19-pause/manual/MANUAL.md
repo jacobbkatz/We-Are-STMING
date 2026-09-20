@@ -316,7 +316,7 @@ flowing into the tip reads negative. `BIAS` codes above 32768 put a negative vol
 this manual.**
 
 **Neither of us writes code. So the second thing we built was the system that does.** This
-instrument was designed, assembled, characterised and documented by two first-year students
+instrument was designed, assembled, characterised and documented by two undergraduates
 directing an AI model, working inside a framework we built for it. **The model is off the shelf. The
 framework is ours.**
 

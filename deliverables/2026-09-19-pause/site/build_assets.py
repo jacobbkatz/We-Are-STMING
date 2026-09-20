@@ -60,6 +60,7 @@ PEOPLE = {
     "soldering": "2026-08-01_nuh_soldering.jpg",
     "module":    "2026-09-19_scan_module_held_portrait.jpg",
     "etching":   "2026-08-09_tip_etching_setup_1.jpg",
+    "benchrig":  "2026-08-26_bench_full_rig.jpg",
     "laptop":    "2026-09-19_team_selfie_with_laptop.jpg",
 }
 IMAGES_OURS = os.path.join(os.path.dirname(PAUSE), "..", "Images", "ours")

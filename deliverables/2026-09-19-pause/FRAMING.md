@@ -111,6 +111,12 @@ Every figure still carries its honest caption; that is different from an apologe
 
 **`SAID`, Jacob, this session, and this is the most important context in the whole project:**
 
+> **Corrected 2026-09-20, and the quotation below is untouched because it is what Jacob said.**
+> *"first year students"* was true of the year that had just ended. **Jacob and Nuh are going into
+> their second year as of September 2026** (`SAID` Jacob, 2026-09-20), so the build ran over the
+> summer between the two. Every live deliverable now says **two undergraduates**; `docs/FACTS.md`
+> carries the row.
+
 > *"this lives in my basement. This project whole thing was like, you can do it at home with no
 > experience. We have like, we're two first year students with no coding experience and really not
 > much electronics experience. So this was our first real time kind of touching any soldering of
@@ -125,7 +131,7 @@ and they were missing from every document in this repository.**
 
 | Fact | `SAID` by Jacob, 2026-09-19 |
 |---|---|
-| **Two first-year students** | No professional context, no lab, no supervision on record |
+| **Two undergraduates**, in their second year as of September 2026 (`SAID` Jacob, 2026-09-20) | No professional context, no lab, no supervision on record |
 | **No coding experience** | Neither author writes code — `CLAUDE.md` opens with this |
 | **Very little electronics experience** | **This project was their first real soldering** |
 | **A basement in a lived-in house** | Not a lab, not a clean room |

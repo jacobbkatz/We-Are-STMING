@@ -1,5 +1,5 @@
 <title>We Are STMing</title>
-<meta name="description" content="Two first-year students built a scanning tunnelling microscope in a basement. We detected tunnelling but could not hold the range long enough to get an image. Every measurement, every figure and every withdrawn result, in the open.">
+<meta name="description" content="Two undergraduates built a scanning tunnelling microscope in a basement over one summer. We detected tunnelling but could not hold the range long enough to get an image. Every measurement, every figure and every withdrawn result, in the open.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Inter:wght@400;500;600&amp;display=swap">
@@ -304,8 +304,11 @@
   /* ---------- people ---------- */
   .band{ margin-block:clamp(30px,5vw,50px); }
   .band img{ width:100%; height:auto; display:block; }
-  .trio{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  @media (max-width:720px){ .trio{ grid-template-columns:1fr; } }
+  .trio{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; align-items:start; }
+  .trio .photo img{ aspect-ratio:3/4; object-fit:cover; }
+  .trio .wide img{ object-position:62% 50%; }
+  @media (max-width:980px){ .trio{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .trio{ grid-template-columns:1fr; } }
   .cap{ font-size:var(--s1); color:var(--muted); line-height:1.5; margin-top:.6em; max-width:42em; }
   .cap b{ color:var(--ink2); font-weight:600; }
 
@@ -354,11 +357,12 @@
 
   <div class="claim">
     <p>We detected tunnelling, but weren&rsquo;t able to maintain tunnelling range for long enough to get an image.</p>
-    <p class="attrib">Two first-year students, one wooden bench on a concrete floor, and a
-    microscope that reads a surface by measuring a current a billionth of an amp across a gap
-    narrower than an atom. <strong>No laboratory, no faculty advisor, no grant.</strong> Every
-    measurement below was made on that bench, and every one of them can be recomputed from the raw
-    files.</p>
+    <p class="attrib">A microscope that reads a surface by measuring a current a billionth of an
+    amp across a gap narrower than an atom. We built it over one summer, between our first and
+    second years of university, on a wooden bench on a concrete floor.
+    <strong>No laboratory, no faculty advisor, no grant.</strong> Neither of us had written a
+    program or really soldered before this, and every measurement below can be recomputed from the
+    raw files.</p>
   </div>
 
   <div class="actions">
@@ -563,9 +567,10 @@
 
 <section id="about">
   <h2>About us</h2>
-  <p class="lede">We are Jacob Katz and Nuh Shaheer, first-year students at the University of
-  California San Diego and Worcester Polytechnic Institute. We built this in a basement over the
-  summer, because we wanted to see single atoms.</p>
+  <p class="lede">We are Jacob Katz and Nuh Shaheer. We are in our second year at the University
+  of California San Diego and at Worcester Polytechnic Institute, and we built this together in a
+  basement over the summer between our first year and this one, because we wanted to see single
+  atoms.</p>
 
   <div class="about-top">
     <div>
@@ -626,6 +631,8 @@
       <p class="cap"><b>Nuh, 1 August.</b> Early electronics, before anything was mounted. Neither of us had soldered before this.</p></figure>
     <figure class="photo" data-rv><img src="img/etching.jpg" width="1200" height="1600" alt="The tip etching setup outdoors: a bench supply with leads into a beaker, a lab stand, flasks, and a bottle of sodium hydroxide." loading="lazy">
       <p class="cap"><b>Jacob etching tips, 9 August.</b> A bench supply through sodium hydroxide, outdoors, in gloves. Tungsten tips are etched, not bought.</p></figure>
+    <figure class="photo wide" data-rv><img src="img/benchrig.jpg" width="1400" height="1050" alt="Nuh at the bench in late August, soldering, with the laptop and the soldering station in front of him and the printed frame behind." loading="lazy">
+      <p class="cap"><b>Nuh, 26 August.</b> The bench the night the whole rig first went together, with the laptop that talks to it.</p></figure>
     <figure class="photo" data-rv><img src="img/module.jpg" width="1200" height="1600" alt="Jacob holding the complete scanning module in two hands, the copper-taped preamplifier box visible in the middle." loading="lazy">
       <p class="cap"><b>Jacob, holding the whole scanning module.</b> The copper box is the amplifier, mounted as close to the tip as it fits.</p></figure>
   </div>
@@ -639,7 +646,7 @@
 
 <section id="next">
   <h2>Where it goes next</h2>
-  <p class="measure">The instrument is in pieces, moved between two houses while one of us started college. When it goes back together, the first thing is a measurement that needs no power and takes minutes: <strong>how far the tip sits from the line through the two ball supports.</strong> It sets the nanometre scale for everything the instrument will ever measure, and it settles our best junction retroactively.</p>
+  <p class="measure">The instrument is in pieces, moved between two houses at the end of the summer. When it goes back together, the first thing is a measurement that needs no power and takes minutes: <strong>how far the tip sits from the line through the two ball supports.</strong> It sets the nanometre scale for everything the instrument will ever measure, and it settles our best junction retroactively.</p>
   <p class="measure">Then the free test for what moves the gap &mdash; a box over the instrument and a fifteen-minute recording &mdash; then a rigid sample and a sharp tip. <strong>None of the five things in our way needs a purchase, and none needs a laboratory.</strong></p>
   <figure class="photo" data-rv><img src="img/teardown.jpg" width="1500" height="1098" alt="The suspended platform lifted off the frame and held in one hand, with the scan head, motor and preamplifier still mounted on it." loading="lazy">
     <figcaption>The platform off the frame on the morning it came apart to be moved.</figcaption></figure>
@@ -730,9 +737,9 @@
 
 <div class="close" data-rv>
   <h2>Tell us what is moving the gap</h2>
-  <p>We are two first-year students who wanted to see single atoms and got most of the way to the
+  <p>We are two undergraduates who wanted to see single atoms and got most of the way to the
   instrument that can. It is in pieces right now, in a different house from where it was built,
-  while one of us starts college.</p>
+  and we are both back at university.</p>
   <p><strong>The part we would most like help with is not money or parts.</strong> It is the first
   row of what stopped us: something on that bench moves the gap by most of the scanner&rsquo;s range
   within seconds, and we have seven candidates and no way to rank them. <strong>If you have ever
@@ -750,8 +757,8 @@
   <div class="footgrid">
     <div>
       <h2>We Are STMing</h2>
-      <p>A scanning tunnelling microscope built by two first-year students in a basement, and the
-      complete record of what it measured. Self-directed: no laboratory, no faculty advisor, no
+      <p>A scanning tunnelling microscope built by two undergraduates in a basement over one
+      summer, and the complete record of what it measured. Self-directed: no laboratory, no faculty advisor, no
       grant.</p>
       <p><a class="mail" href="mailto:jacob@quis.com?subject=We%20Are%20STMing">jacob@quis.com</a></p>
     </div>

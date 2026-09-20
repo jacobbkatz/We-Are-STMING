@@ -23,7 +23,7 @@ instrument than with a face.
 > design, eight weeks of building.
 >
 > Neither of us had written code before. Neither of us had really soldered before. We are both
-> first-year students. The instrument sits on a wooden bench on a concrete floor, in a house where
+> undergraduates. The instrument sits on a wooden bench on a concrete floor, in a house where
 > people walk around, with no control of the air — about as far from a clean room as you can get.
 >
 > It works. The amplifier resolves about 4 picoamps of its own input current. We put a known 100 MΩ
@@ -51,7 +51,7 @@ instrument than with a face.
 
 ## Draft B — shorter, ~170 words, for a busier feed
 
-> This summer two first-year students built a scanning tunnelling microscope in a basement. Neither
+> This summer two undergraduates built a scanning tunnelling microscope in a basement. Neither
 > of us had coded or really soldered before.
 >
 > The electronics work. We proved the whole measurement chain against a known resistor and it agreed
@@ -92,7 +92,7 @@ instrument than with a face.
 > build.
 >
 > We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an
-> image. Two first-year students, no prior coding or soldering. The blocker is mechanical and we
+> image. Two undergraduates, no prior coding or soldering. The blocker is mechanical and we
 > measured it: the gap moves by most of the piezo's range in seconds with nothing touching the
 > instrument.
 >
@@ -107,7 +107,7 @@ people.** It makes the framework the subject and the instrument the evidence.
 
 > Neither of us writes code. So the second thing we built was the system that does.
 >
-> Two first-year students, eleven weeks of planning and design and eight weeks of building, a
+> Two undergraduates, eleven weeks of planning and design and eight weeks of building, a
 > scanning tunnelling microscope on a wooden bench in a basement. The code, the analysis and most of
 > the documentation came from an AI model working inside a framework we built for it: a 575-line
 > operating protocol, one canonical register holding every number in the project with its provenance

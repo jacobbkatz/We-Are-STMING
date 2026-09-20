@@ -21,7 +21,7 @@ and it is not a disclaimer. **It is the measure of the achievement, and it is pa
 
 | | |
 |---|---|
-| **Two first-year students** | No lab, no professional context, no supervision on record |
+| **Two undergraduates**, in their second year as of September 2026 | No lab, no professional context, no supervision on record |
 | **No coding experience** | Neither author writes code |
 | **Very little electronics experience** | **This project was their first real soldering** |
 | **A basement in a lived-in house** | Not a lab and not a clean room |
@@ -80,7 +80,7 @@ beside them and their full captions in that directory. **They supersede the work
 
 ## 1. The short version
 
-0. **Two first-year students with no coding experience, very little electronics experience and no
+0. **Two undergraduates with no coding experience, very little electronics experience and no
    previous soldering built all of this in a basement.** Everything below was measured in a
    lived-in house with people moving around and no control of the air or the temperature.
 1. **The whole measurement chain works end to end and agrees with theory to 0.13 of a standard
@@ -717,7 +717,7 @@ is here because it is a result in its own right, and because section 7 is unread
 
 ### 8.1 What the problem was
 
-Two first-year students, no prior programming experience and no prior electronics experience, work
+Two undergraduates, no prior programming experience and no prior electronics experience, work
 on this instrument from two different computers, days apart, in between other commitments. **The
 failure mode is not that the work is hard. It is that a number gets corrected in one document and
 not in the eleven others that quote it**, and six weeks later somebody builds on the stale copy.
