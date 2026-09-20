@@ -13,11 +13,19 @@ WHY ONE FILE. The publishing host serves a fixed list of file types and a raw `.
 is not one of them, so the vertices ride inside the JSON instead of beside it. It
 costs a third more bytes and saves a round trip.
 
-WHICH PARTS. Only the twelve that appear in CAD/prints/print-plates/, which are the
-plates the instrument was printed from. The enclosures in CAD/prints/enclosures/
-belong to the upstream distribution and are not on any plate, so they are not shown:
-the shield cover there is Mech Panda's, and on our instrument the shielding is
-copper tape.
+WHICH PARTS, and a mistake made twice. Twelve of them are on the 3MF plates in
+CAD/prints/print-plates/. The enclosures are not on any of those plates, and on
+2026-09-20 that was read as "they were never printed" and they were all dropped.
+THAT WAS WRONG, and the photographs say so plainly: the copper-taped preamp box,
+the Faraday shield cover held in one hand, the controller in its box and the Teensy
+in its printed tray are all in Images/ours/. A plate file is not an inventory.
+
+What Jacob actually caught the first time was that the model showed
+`4_scanhead_box`, which CAD/prints/README.md calls the REJECTED alternative - its
+corner ears are 142.8 mm and the shield cover's outside is 142.00 mm, so it does not
+even fit. The fix was to swap it for `6_shield_cover`, not to delete the enclosures.
+`4_scanhead_box_base` and `4_scanhead_box_lid` are the only two printable files in
+this repository that are deliberately NOT here.
 
 WHAT IT IS AND IS NOT. **Every shape here is a real printed part.** The POSITIONS
 are not: the STL files are laid out for a printer, not for an assembly, and this
@@ -42,14 +50,11 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 PRINTS = os.path.join(ROOT, "CAD", "prints")
 OUT = os.path.join(HERE, "model")
 
-# Descriptions come from CAD/prints/README.md and docs/. Nothing here is invented.
-# WHICH PARTS THESE ARE, and how we know. CAD/prints/print-plates/ holds the 3MF
-# plates the instrument was actually printed from, and the object list inside them
-# is the evidence: twelve distinct parts across five plates. The enclosures in
-# CAD/prints/enclosures/ are the upstream distribution's and are NOT on any plate,
-# so they are not here - Jacob, 2026-09-20: the shield cover in particular is Mech
-# Panda's, not what is on our instrument, where the shielding is copper tape.
-# Descriptions come from CAD/prints/README.md and docs/. Nothing here is invented.
+# Sizes and descriptions come from CAD/prints/README.md and docs/. Nothing is invented.
+# The twelve scan-head and isolation parts are evidenced by the 3MF plates in
+# CAD/prints/print-plates/. The enclosures are evidenced by the photographs of them in
+# Images/ours/ and by Jacob, 2026-09-20. `4_scanhead_box` is excluded: README.md calls
+# it the rejected alternative and it does not fit inside the shield cover.
 PARTS = [
     ("scan-head", "BasePlate.stl", "Base plate",
      "The floor of the scan head. Everything else in the head is positioned from it, "
@@ -84,6 +89,30 @@ PARTS = [
      "suspects for the drift."),
     ("isolation", "magnet_mount.stl", "Magnet mount",
      "Holds the eddy-current damping magnets under the platform."),
+
+    ("enclosures", "6_shield_cover.stl", "Shield cover",
+     "The Faraday shield that drops over the whole scanning module, 142 by 128 by "
+     "112 mm. Wrapped in copper tape and grounded at one point. This is the one in "
+     "the photograph being held in one hand."),
+    ("enclosures", "5_intermediate_baseplate.stl", "Intermediate base plate",
+     "Fits the 131 by 101 mm opening in the shield frame, under the scan head."),
+    ("enclosures", "1_preamp_box_base.stl", "Preamp box",
+     "The small box around the preamplifier board alone, 35 by 29 by 21 mm. The "
+     "board inside it is 20.6 by 15.2 mm. Ours: the same two files are in "
+     "our_preamp_cad_files/."),
+    ("enclosures", "1_preamp_box_lid.stl", "Preamp box lid",
+     "Screwed down with M2. The lid has the clearance hole and the base has a "
+     "narrower pillar the screw cuts its own thread into, which is how every box "
+     "here closes."),
+    ("enclosures", "2_controller_box_base.stl", "Controller box",
+     "Holds the controller PCB with the four converters on it, 129 by 114 by 40 mm."),
+    ("enclosures", "2_controller_box_lid.stl", "Controller box lid",
+     "M3, self-tapping into the base posts."),
+    ("enclosures", "3_teensy_protoboard_box_base.stl", "Teensy box",
+     "Holds the Teensy 4.1 on its hand-wired protoboard carrier, 90 by 110 by 42 mm. "
+     "The yellow 26-way ribbon leaves it for the controller box."),
+    ("enclosures", "3_teensy_protoboard_box_lid.stl", "Teensy box lid",
+     "M3, self-tapping. Ø3.4 clearance in the lid, Ø2.5 pillar in the base."),
 ]
 
 

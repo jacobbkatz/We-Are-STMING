@@ -115,14 +115,15 @@
   /* ------------------------------------------------------------- the scene */
   var GROUPS = {
     "scan-head": { label: "The scan head",  tint: [0.83,0.66,0.31] },
-    "isolation": { label: "The frame and suspension", tint: [0.42,0.47,0.50] }
+    "isolation": { label: "The frame and suspension", tint: [0.42,0.47,0.50] },
+    "enclosures": { label: "The boxes and the shield", tint: [0.30,0.55,0.52] }
   };
   var parts = [], radius = 1, centre = [0,0,0];
   var az = 0.58, el = 0.52, dist = 1, hover = -1, sel = -1;
-  var groupOn = { "scan-head": true, "isolation": true };
+  var groupOn = { "scan-head": true, "isolation": true, "enclosures": true };
 
   function layout(meta) {
-    var order = { "scan-head": 0, "isolation": 1 };
+    var order = { "scan-head": 0, "isolation": 1, "enclosures": 2 };
     meta.sort(function (a, b) {
       if (order[a.group] !== order[b.group]) { return order[a.group] - order[b.group]; }
       return (b.size[0] * b.size[2]) - (a.size[0] * a.size[2]);
@@ -130,7 +131,9 @@
     var cell = 0;
     meta.forEach(function (m) { cell = Math.max(cell, m.size[0], m.size[2]); });
     cell *= 1.18;
-    var cols = Math.min(4, meta.length), rows = Math.ceil(meta.length / cols);
+    // Wider than deep: the canvas is landscape, and a grid deeper than it is wide
+    // swings out past both edges once it is turned to the three-quarter view.
+    var cols = Math.min(5, meta.length), rows = Math.ceil(meta.length / cols);
     var lo = [1e9, 0, 1e9], hi = [-1e9, 0, -1e9];
     meta.forEach(function (m, i) {
       var cx = i % cols, cz = Math.floor(i / cols);
@@ -144,8 +147,12 @@
     // Frame what is actually there, not the nominal grid: one large part next to a
     // small one makes the grid much wider than the parts fill.
     centre = [(lo[0] + hi[0]) / 2, hi[1] * 0.3, (lo[2] + hi[2]) / 2];
-    radius = 0.5 * Math.max(hi[0] - lo[0], hi[2] - lo[2], hi[1]);
-    dist = radius * 2.6;
+    // The DIAGONAL of the footprint, not its longest side: turned three-quarters on,
+    // the far corners of the grid are what reaches the edge of the frame. Using the
+    // longest side clipped the left-hand column once the boxes took the count to 20.
+    var w = hi[0] - lo[0], d = hi[2] - lo[2];
+    radius = 0.5 * Math.max(Math.sqrt(w * w + d * d), hi[1]);
+    dist = fitDist();
   }
 
   function upload(meta, buf) {
@@ -183,6 +190,15 @@
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, pickTex, 0);
     gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, pickDepth);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  }
+
+  // How far back the camera has to be for the whole grid to fit the canvas we have.
+  // A fixed multiple of the radius cannot do this: the same scene needs half again as
+  // much distance on a phone's near-square stage as on a wide desktop one.
+  function fitDist() {
+    var a = canvas.clientWidth / Math.max(1, canvas.clientHeight);
+    var half = Math.tan(0.72 / 2) * Math.max(0.55, Math.min(a, 1.70));
+    return radius / half * 1.06;
   }
 
   function matrices(w, h) {
@@ -337,7 +353,7 @@
   var reset = document.getElementById("viewreset");
   if (reset) {
     reset.addEventListener("click", function () {
-      az = 0.58; el = 0.52; dist = radius * 2.6; sel = -1; show(-1); invalidate();
+      az = 0.58; el = 0.52; dist = fitDist(); sel = -1; show(-1); invalidate();
     });
   }
   window.addEventListener("resize", invalidate, { passive: true });

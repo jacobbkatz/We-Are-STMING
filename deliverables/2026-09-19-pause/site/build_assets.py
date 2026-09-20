@@ -52,6 +52,10 @@ PHOTOS = {
 # which this page is. It does NOT cover press, a third party's publication, or a
 # social post - those are a separate ask.
 PEOPLE = {
+    # The hero photograph. It comes from Images/ours/ rather than photos/prepared/ so it
+    # arrives WITHOUT the arrows and callouts: labels belong on a figure a reader has
+    # already decided to study, not on the first thing they see.
+    "hero":      "2026-09-19_instrument_full_height.jpg",
     "team":      "2026-09-19_team_at_bench_1.jpg",
     "soldering": "2026-08-01_nuh_soldering.jpg",
     "module":    "2026-09-19_scan_module_held_portrait.jpg",
