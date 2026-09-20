@@ -22,6 +22,23 @@ survived in a dozen files.**
 
 ---
 
+## Project timeline
+
+| Fact | Value | Prov |
+|---|---|---|
+| **Planning and design** | **11 weeks** | **SAID 2026-09-20** |
+| **Building** | **8 weeks** | **SAID 2026-09-20** |
+| First power-on | **29 August 2026** | LOG, `sessions/` |
+| Last bench session before the move | **19 September 2026** | LOG, `sessions/2026-09-19-morning.md` |
+| Session logs | **27** | counted |
+| Repository | **PUBLIC** — `github.com/jacobbkatz/We-Are-STMING` | **SAID 2026-09-20** |
+
+> **Settled 2026-09-20, and it was never a contradiction.** Four deliverables said "eight weeks"
+> and three said "eleven", and this file had no row for either, so nobody could tell which was
+> right. **Both were:** Jacob, *"8 weeks of building 11 weeks of planning"*. **Use both, and say
+> which is which** — "eleven weeks of planning and design, eight weeks of building". Do not write a
+> single combined figure; no total has been stated.
+
 ## Measurement chain
 
 | Fact | Value | Prov | Date | Where it came from |

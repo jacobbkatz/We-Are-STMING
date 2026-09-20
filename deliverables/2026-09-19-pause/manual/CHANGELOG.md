@@ -54,6 +54,8 @@ line to change.**
 | 12 | The firmware's `TONE` comment says to sweep near 8.6 kHz | **Retired advice.** That is a free-air figure for a disc that is not ours | `docs/COMMANDS.md` |
 | 13 | `docs/WIRING.md` describes the fitted piezo as an 18 mm buzzer disc | **The fitted part is a Jessinie `91410_30_JE`**, and the 18 mm figure has no provenance | `docs/INVENTORY.md`, `SAID` 2026-09-17 |
 | 14 | `docs/BOM.md` says the Keystone 11301 is specified but not owned | **Two were received 2026-09-14 and one is in the instrument** | `docs/INVENTORY.md`, order screen seen |
+| 15 | Every deliverable said **"we have not demonstrated tunnelling"** | **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."** Two claims were being run together, and only the second one fails. **A tunnel junction was made, biased, and the current through it measured** — 60,928 readings inside that current range across 109 approaches, a superlinear symmetric I-V, and a junction that never metallically shorted. **What is not established is holding a controlled vacuum gap**, and no image, no atomic resolution and no distance in nanometres from our own hardware are claimed anywhere | `FRAMING.md`, Jacob's own wording, 2026-09-20; `LEAD_VERIFICATION.md` V13 |
+| 16 | The manual's own section 12.3 listed **"The shields — printed, wrapped, grounded and metered end to end"** under *do not spend bench time re-proving them* | **The shields have never been metered end to end.** The row is withdrawn and the check is owed at reassembly. **This was the manual's own defect, not an inherited one**, and it was the worst kind: a wrong row under a heading telling a reader to skip the check | `INCONSISTENCIES.md` item B8; this manual's own section 11 step 19 and section 3.9 |
 
 ---
 
@@ -124,6 +126,7 @@ place.
 | **Revision history is separated from current state** — section 2 exists so that a document written in August is not read as describing today's hardware | Four tips, four gold builds and two preamp boards all have documents written about them |
 | **The resume procedure is ordered so that every protective check precedes the risky step it protects** | `CLAUDE.md` section 3c exists because that ordering was got backwards once |
 | **Figure slots are marked and empty rather than filled with descriptions** | Nothing in the manual describes a photograph that has not been opened |
+| **A new section 1.4, "The second instrument: the system that runs the science"** | Added 2026-09-20 at Jacob's instruction — *"every deliverable should have the ai model section"*. Its canonical text is [`../AI_WORKFLOW_SECTION.md`](../AI_WORKFLOW_SECTION.md) and the poster carries the same material as panel 07. **It is placed near the front because it is what tells a reader how far to trust the rest of the manual**: the single canonical register, the provenance tags, the append-only logs and the seven automated checks. **No claim in it is new to this document** — every count is taken from the repository and the commands to re-count are printed in the section |
 
 ---
 

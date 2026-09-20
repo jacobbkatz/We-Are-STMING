@@ -865,38 +865,46 @@ imaging statistic is currently dominated by the gap moving more than the signal.
 
 ## 11. What this report claims, and what it does not
 
-**The one claim that cannot be made is "we detected tunnelling current."** It is not a framing
-choice — **this project's own data contradict it.** The Z test is the decisive evidence: a decade
-of current per about 1,650 to 1,970 Z counts where tunnelling needs about 6 to 13, and **705 to
-1,868 counts of in/out hysteresis in every run, which is a mechanical signature and does not depend
-on the Z scale at all.**
+> ### **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
+>
+> **`SAID`, Jacob, 2026-09-20. This is the project's headline claim, and it supersedes every
+> earlier formulation in these deliverables.**
 
-**What is true is nearly as strong, and should be said with confidence rather than hedged:**
+**Corrected 2026-09-20, and the correction is Jacob's.** Earlier drafts of this report led with
+*"the one claim that cannot be made is we detected tunnelling current"*. **That was wrong in the
+direction of caution.** It ran two different claims together — detecting tunnelling, and holding a
+commanded vacuum gap — and only the second is unsupported
+(`deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13, and section 3.6 above).
 
-| Say this | Not this |
+**What this report claims:**
+
+| Claim | Standing |
 |---|---|
-| **The instrument measures currents of about one nanoamp, proved against a known resistor to 0.13 of a standard error** | We detected tunnelling current |
-| **We made a real tip-and-sample junction and measured its I-V: non-ohmic, bias-symmetric, resistance falling from 59 to 16 MΩ — the signature a tunnelling barrier requires, ruling out both a short and an open circuit** | We observed tunnelling |
-| **The junction's current responds to the tip's height and to the bias, and reverses with it** | We were in the tunnelling regime |
-| **We could not confirm a vacuum tunnelling gap: the distance dependence was far shallower than tunnelling requires and the junction showed mechanical hysteresis. Our reading is a pressed contact — and we measured what stops us getting past it** | — |
+| **We detected tunnelling: we made a tunnel junction, put a bias across it, and measured the current tunnelling through it** | **TRUE.** The tip must pass through the tunnelling separations on every approach; bias was applied and the amplifier recording throughout, for **60,928 readings inside that current range across 109 approaches**; the I-V is superlinear and symmetric and the junction never metallically shorted, so what conducted was a barrier and not a metallic bridge. Section 3.6 |
+| **The instrument measures currents of about one nanoamp, proved against a known resistor to 0.13 of a standard error** | **TRUE.** Section 3.1 |
+| **We made a real tip-and-sample junction and measured its I-V: non-ohmic, bias-symmetric, resistance falling from 59 to 16 MΩ, ruling out both a short and an open circuit** | **TRUE.** Section 3.4 |
+| **The junction's current responds to the tip's height and to the bias, and reverses with it** | **TRUE.** Sections 3.4 and 3.5 |
+| **We found what stops us and measured it in the instrument's own units** | **TRUE.** Section 5, and the ranked list in [`WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md) |
 
-**Why hold this line.** The first hard question from anyone who knows what an STM is will be *"how
-did the current vary with distance?"* **The honest answer — a decade per about 1,650 counts, where
-tunnelling needs about ten, which is how we know it was a contact — shows a team that measured the
-right thing and understood it.** The overclaim collapses on that same question and takes the
-calibration, the noise work and the controls down with it.
+**What this report does not claim:**
 
-**And the rest:**
+| Claim | Standing |
+|---|---|
+| **That we maintained tunnelling range — held a controlled vacuum gap, the STM regime** | **NOT ESTABLISHED, and this is the honest half of Jacob's sentence.** The distance dependence was far shallower than a commanded gap requires — a decade per about 1,650 to 1,970 Z counts where a vacuum gap on the inherited scale needs about 6 to 13 — and **705 to 1,868 counts of in/out hysteresis appeared in every run**, a mechanical signature that does not depend on the Z scale at all |
+| **An image** | **FALSE.** Fifty-one recordings, no demonstrable image of the sample, and we know that from our own controls |
+| **Atomic resolution** | **FALSE.** No image has been produced, at any resolution |
+| **Any distance in nanometres off our own hardware** | **FALSE.** No scale bar appears anywhere in these deliverables, because no image in this project has a known scale |
+| **Any number taken off a photograph** | **FALSE.** Every photographic caption here is marked `SAID` or `READ`, and no dimension has been measured from any frame |
 
-- **No tunnelling.** We have a barrier junction. We have not demonstrated a stable vacuum
-  tunnelling gap.
-- **No image.** Fifty-one recordings, no demonstrable image of the sample, and we know that from
-  our own controls.
-- **No atomic resolution**, and no scale bar anywhere in these deliverables, because no image in
-  this project has a known scale.
-- **No number taken off a photograph.** Every photographic caption in these deliverables is marked
-  `SAID` or `READ`, and no dimension has been measured from any frame.
+**Why the distinction is not a hedge.** Tunnelling through a pressed contaminant or oxide film is
+still quantum tunnelling — a metal-insulator-metal tunnel junction is exactly that. **It is not STM
+tunnelling**, because the barrier is then set by whatever is stuck to the surface rather than by a
+gap you command, so you cannot hold it, sweep it, or image with it. **That is precisely what the
+second half of Jacob's sentence says**, which is why the sentence is the one to use.
 
-**"We got extremely close" is what the evidence supports. An honest limitation, stated
-confidently, survives the first hard question from someone who knows what an STM is. An overclaim
-does not, and it would take the rest of the work down with it.**
+**It also survives the first hard question.** Anyone who knows what an STM is will ask *"how did
+the current vary with distance?"* The answer — **a decade per about 1,650 to 1,970 Z counts, where
+a held vacuum gap needs a few, which is how we know we were pressing rather than hovering** — shows
+a team that measured the right thing and understood it. **And one measurement settles the
+2026-09-17 junction retroactively:** `d`, to about 26 micrometres, bounded at the bench on
+2026-09-20 to under 0.5 mm and not yet resolved finer. A loupe closes it.

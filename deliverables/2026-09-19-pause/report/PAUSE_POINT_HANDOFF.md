@@ -120,19 +120,25 @@ records physical reality, and facts that stay in a conversation are lost.
 | **Tools that worked on hardware** | The live back-off beeper, the chunked motor approach, and the Z test |
 | **Tools that did NOT** | The tuned feedback loop never held on hardware on 2026-09-19 — every tuned image aborted at a clamp |
 | **Two tip-destroying firmware faults** | Found and fixed, and each was tested by deliberately reproducing it first |
+| **A tunnel junction, with tunnelling current measured through it** | **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."** `SAID` Jacob 2026-09-20, and it is the project's headline claim. Backing: the tip passes through the tunnelling separations on every approach, bias was on and the amplifier recording throughout — **60,928 readings inside that current range across 109 approaches** — and the I-V is superlinear and symmetric with no metallic short. **What is NOT established is maintaining that range**, which is the second half of the sentence and the whole of the work below. Findings report §3.6 and `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13 |
 
 ---
 
 ## 3. What is open
 
 **Canonical home: [`docs/OPEN_QUESTIONS.md`](../../../docs/OPEN_QUESTIONS.md).** The science
-summary is in [`FINDINGS_REPORT.md`](FINDINGS_REPORT.md) §8. The four that shape the plan below:
+summary is in [`FINDINGS_REPORT.md`](FINDINGS_REPORT.md) §9. **The five things that stood between
+this instrument and an image are ranked, with a cost-to-fix table, in
+[`WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md)** — that file is canonical for them and this one
+does not restate the list. The four open questions that shape the plan below:
 
 1. **What moves the gap.** Five candidates, none tested: the leaf on its backing paper; the plate
    on its rubber bands and three ball contacts; thermal motion of the printed parts; air currents;
    and post-move mechanical relaxation.
 2. **The Z scale in nanometres**, which is inherited from another scanner and has never been
-   measured on ours.
+   measured on ours. **`d`, the distance that sets it, was bounded at the bench on 2026-09-20 to
+   under 0.5 mm** (`docs/FACTS.md`). **That bound does not settle it**: the 26 micrometres that
+   would make the 2026-09-17 junction a commanded vacuum gap sits inside it, in its bottom 5%.
 3. **Whether one three-Y measurement that looked like topography was real.** It cannot be settled
    with the data that exist.
 4. **What the mirrored, line-periodic signal in the wide images is.** Three candidates, none
@@ -233,15 +239,34 @@ positive.**
 
 ### P2 — Two mechanical measurements that need no electronics, best done during reassembly
 
-1. **The tip-to-pivot-line distance.** Plate off, lay a straightedge across the two side-by-side
-   ball ends, and record which side of that line the tip stands on and by how much.
+1. **The tip-to-pivot-line distance `d`, resolved finer than a straightedge can manage.**
+   **It is no longer unmeasured.** Jacob bounded it at the bench on **2026-09-20 to under 0.5 mm**
+   — plate off, straightedge across the two side-by-side ball ends — and the row is in
+   `docs/FACTS.md` with its provenance. **What is still needed is a finer measurement:** a
+   jeweller's loupe, a USB microscope with a scale in the frame, or an optical comparator.
+   Photograph the tip against the straightedge with something of known size beside it; the ball end
+   itself is a known diameter.
    **Why:** it sets the lever ratio and therefore **the Z scale in nanometres**, which is currently
-   inherited from a different scanner and never measured on ours. `docs/OPEN_QUESTIONS.md` calls it
-   the most valuable unmeasured number in the instrument. **At the design's 1.00 mm the measured
-   current decay is thirty times too slow for vacuum tunnelling; at 0.1 to 0.3 mm the same
-   measurement lands near the textbook figure.** One distance decides how every distance result is
-   read. **It cannot be taken from a photograph** — three attempts differed by more than a factor
-   of two.
+   inherited from a different scanner and never measured on ours. **It also settles the 2026-09-17
+   junction retroactively.** The arithmetic, which corrects what this file said before:
+
+   | If `d` is | Tip travel per decade of current | How far from a commanded vacuum gap |
+   |---|---|---|
+   | 1.00 mm, the design value | 3.88 nm | **39x too slow** |
+   | **0.50 mm, the measured upper bound** | **1.94 nm** | **19x too slow** |
+   | 0.13 mm | 0.50 nm | **5x too slow** |
+   | **0.026 mm** | **0.10 nm** | **the only value that works** |
+
+   **This file previously said that at 0.1 to 0.3 mm the measurement "lands near the textbook
+   figure". It does not** — at 0.1 mm it is 3.9x too slow and at 0.3 mm 12x — **and 0.13 mm is a
+   different criterion entirely**, about whether the gap wobbles too much to hold, not how fast the
+   current decays. **Only about 26 micrometres satisfies the decay test**, and that sits inside the
+   measured bound, in its bottom 5%, which is why the junction is still open rather than closed in
+   either direction. Full working in
+   `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V11-V13 and
+   `deliverables/2026-09-19-pause/JUNCTIONS.md`.
+   **It cannot be taken from a photograph with no scale in the frame** — three such attempts
+   differed by more than a factor of two.
 2. **The suspension droop with a known added mass.** Measure the droop, add a known weight, measure
    again with the same ruler.
    **Why:** it gives the spring rate and the suspended mass together, and it settles whether the

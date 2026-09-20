@@ -47,10 +47,11 @@ figures.** It is a decision about emphasis, and it is the author's to make.
 
 **LEAD WITH WHAT THE INSTRUMENT DEMONSTRABLY DOES.** Not with the fault list. Two people who do not
 write code designed, ordered, assembled and characterised a working scanning-probe measurement
-chain from a standing start — first power-on 29 August 2026, last bench session 19 September 2026,
-27 session logs — and proved it against theory. (**The overall project duration is stated as eight weeks
-in some documents and eleven in others; neither is established in the repository and Jacob has not been
-asked. Use the dates, not a week count.**)
+chain and proved it against theory: **eleven weeks of planning and design, eight weeks of building**
+(`SAID`, Jacob, 2026-09-20), first power-on 29 August 2026, last bench session 19 September 2026,
+27 session logs. (**Settled 2026-09-20. Four deliverables said eight weeks and three said eleven; both
+were right and neither said which phase it meant. Always say which. Do not write a combined total —
+none has been stated.** `docs/FACTS.md`, Project timeline.)
 
 **The organising sentence, and it is true:**
 

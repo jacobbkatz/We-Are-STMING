@@ -16,6 +16,15 @@ evidence is.
 **`python3 Code/pc/check_facts.py` exits 0 on the repository as it stands**, so none of these is
 something the existing guard can catch. That is the point of listing them.
 
+> **Where this file comes from.** It is an output of the framework described in `MANUAL.md` section
+> 1.4 and in [`../AI_WORKFLOW_SECTION.md`](../AI_WORKFLOW_SECTION.md) — the operating protocol, the
+> single canonical register of numbers in `docs/FACTS.md`, the provenance tags, the append-only
+> session logs and the seven automated checks that run at every session start. **The checker catches
+> the classes it was taught; a reading pass like this one catches the rest, and each thing it
+> catches is a candidate for a new check.** Two of the seven checks exist for exactly that reason.
+> **The point of the framework is not that the model writes well. It is that the model gets
+> caught** — including, in item B8 below, by itself.
+
 ---
 
 ## A — fix before the next bench session
@@ -276,6 +285,20 @@ wrapped and grounded on 2026-09-15, and `docs/OPEN_QUESTIONS.md` records that wh
 **Recommended fix:** ask Jacob one question — was the **new** box metered end to end, and is it
 copper? — and then make line 100, section 3 and the two `docs/OPEN_QUESTIONS.md` rows agree. **Until
 then, treat it as open**, which is what this manual does.
+
+> **2026-09-20: the same defect was found inside the manual itself, and fixed.** `MANUAL.md`
+> section 12.3 carried a row reading **"The shields — printed, wrapped, grounded and metered end to
+> end"**, under the heading *Things that are settled — do not spend bench time re-proving them.*
+> **Four other places said the check was still owed** — `MANUAL.md` section 3.9, `MANUAL.md`
+> section 11 step 19 (*"Meter every shield"*), `CHANGELOG.md` section 4, and the poster Q&A. **The
+> four were right.** The row is withdrawn and replaced with a note saying the check is owed at
+> reassembly.
+>
+> **This is worth recording rather than quietly fixing, for two reasons.** It was **five against
+> one and the one won**, because it was the copy that sat where an operator decides what to skip.
+> And the manual was written to consolidate a contradiction that already existed in
+> `docs/ENGINEERING_REFERENCE.md` — **it inherited the disagreement and then resolved it in the
+> wrong direction in one place out of five.** A consolidation is exactly where that happens.
 
 ---
 
