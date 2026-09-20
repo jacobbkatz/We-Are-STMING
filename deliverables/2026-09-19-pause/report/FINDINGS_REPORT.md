@@ -53,8 +53,9 @@ mechanism by which electrons cross a thin barrier. *A controlled vacuum gap* is 
 nothing but distance, held steady at a width you command — the STM regime, and what you need in
 order to scan.
 
-> **We made a tunnel junction, put a bias across it, and measured the current tunnelling through
-> it. What we have not yet done is hold that gap open and steady enough to scan across a surface.**
+> ### **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
+>
+> **`SAID`, Jacob, 2026-09-20. This is the project's headline claim and the wording to use.**
 
 **Both halves are load-bearing.** The first is established in section 3.6; the second is what the
 decay rate and the hysteresis argue against. **No image has been produced, at any resolution, and
@@ -91,15 +92,15 @@ beside them and their full captions in that directory. **They supersede the work
 3. **The electronics are not the limit, and that was established with numbers rather than
    opinion.** Flat white noise at 8 to 14 counts across the whole band, no mains peak, leakage
    under 0.06 nA from −2 V to +2 V. MEASURED 2026-09-17.
-4. **We made a tunnel junction, put a bias across it, and measured the current tunnelling through
-   it.** The current-voltage curve is superlinear and symmetric in both bias directions, ruling out
-   both a metallic short and an open circuit, and the junction never metallically shorted. MEASURED
-   2026-09-17. The full argument is section 3.6.
-5. **What we have not done is hold a controlled vacuum gap — the STM regime you need in order to
-   scan.** A separate distance test two nights later, on a **different tip and a different
-   sample**, found a junction that behaves like a soft, pressed contact rather than a gap held at a
-   width we command. MEASURED 2026-09-19. Both results stand; they are different junctions, and the
-   second does not withdraw the first.
+4. **We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get
+   an image.** The current-voltage curve is superlinear and symmetric in both bias directions,
+   ruling out both a metallic short and an open circuit; the junction never metallically shorted;
+   and **60,928 readings were taken inside the current range where tunnelling has to appear, across
+   109 approaches.** MEASURED 2026-09-17 and 2026-09-19. The full argument is section 3.6.
+5. **Holding that range is the part that did not work.** A distance test on a **different tip and a
+   different sample** found a junction that behaves like a soft, pressed contact rather than a gap
+   held at a width we command. MEASURED 2026-09-19. Both results stand; they are different
+   junctions, and the second does not withdraw the first.
 6. **We found the blocker and put a number on it.** With the motor stopped and nobody touching
    the instrument, the gap moved by more than 43,000 Z counts in 6.4 seconds and more than 56,000
    within two minutes — most of the Z range. The structure an image would have to show is 29 to
@@ -141,11 +142,11 @@ is 3 July 2026. **The first volt went through any of it on 29 August 2026.** The
 was the morning of 19 September 2026, and **27 session logs sit between them.** So: three weeks of
 powered bring-up.
 
-> **How long the project ran overall is NOT established anywhere in this repository.** Earlier
-> drafts of these deliverables said eleven weeks and others said eight; **neither figure is sourced
-> to anything**, and the three dates and the log count above are what the record actually supports.
-> **Jacob has to settle the overall duration** — it is the kind of fact only he and Nuh hold, and
-> it belongs in `docs/INVENTORY.md` once it is settled.
+> **How long the project ran overall is NOT established anywhere in this repository.** Two
+> different week counts have circulated across these deliverables and **neither is sourced to
+> anything**; the three dates and the log count above are what the record actually supports, so
+> they are what this report uses. **Jacob has to settle the overall duration** — it is the kind of
+> fact only he and Nuh hold, and it belongs in `docs/INVENTORY.md` once it is settled.
 
 ---
 
@@ -346,10 +347,9 @@ scale, because this instrument has never established one from its own hardware.*
 > An I-V curve taken on the 2026-09-17 junction has the non-ohmic, bias-symmetric shape a
 > tunnelling barrier requires, and rules out both a short and an open. A separate Z-distance test
 > on a **different** tip and sample two nights later did **not** show the steep response a
-> commanded vacuum gap requires, and was interpreted as a pressed contact. **We made a tunnel
-> junction, put a bias across it, and measured the current tunnelling through it. What we have not
-> yet done is hold that gap open and steady enough to scan across a surface, and no image has been
-> produced.** The argument for the first of those two sentences is section 3.6.
+> commanded vacuum gap requires, and was interpreted as a pressed contact. **We detected
+> tunnelling, but weren't able to maintain tunnelling range for long enough to get an image.** The
+> argument for the first half of that sentence is section 3.6; this measurement is the second half.
 
 ### 3.6 We measured tunnelling current. What we did not do is hold a vacuum gap
 
@@ -358,10 +358,11 @@ direction of caution** — it ran two different claims together, and only one of
 **The correction is Jacob's**: he made the argument from physics against the wording, and the
 wording was what was wrong (`deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13).
 
-> **We made a tunnel junction, put a bias across it, and measured the current tunnelling through
-> it.**
+> ### **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
+>
+> **`SAID`, Jacob, 2026-09-20.**
 
-**Why that holds, step by step, with what backs each step:**
+**Why the first half holds, step by step, with what backs each step:**
 
 1. **On every approach the tip starts far from the sample with no measurable current and ends in
    contact with a saturating one.** MEASURED — 109 approaches in the Z test alone.
@@ -398,6 +399,19 @@ quantum tunnelling — a metal-insulator-metal tunnel junction is exactly that, 
 measurement of a real effect. **It is not STM tunnelling**, because the barrier is then set by
 whatever is stuck to the surface rather than by a gap you command, so you cannot hold it, cannot
 sweep it, and cannot image with it.
+
+**The second half of Jacob's sentence is the honest one, and it is measured.** With the motor
+stopped and nobody touching the instrument the gap moves by **more than 43,000 Z counts in 6.4
+seconds** and **more than 56,000 over about two minutes** (section 5). An image needs it to stay
+inside a few hundred counts for a minute. **That is what "weren't able to maintain tunnelling range
+for long enough" means in the instrument's own units.**
+
+**One measurement would settle the 2026-09-17 junction retroactively**, and it needs no
+electronics: `d`, how far the tip sits from the pivot line, to about **26 micrometres**. Jacob
+bounded it at the bench on 2026-09-20 to **under 0.5 mm**; 26 um sits inside that bound, in its
+bottom 5%, so the bound narrows the question without closing it. A loupe or a USB microscope with a
+scale in the frame closes it in minutes. Full working in
+`deliverables/2026-09-19-pause/JUNCTIONS.md` and `LEAD_VERIFICATION.md` V11-V13.
 
 **Still false, and stated here so that it is not inferred from the above:** no image, no atomic
 resolution, and no distance in nanometres in these deliverables read off our own hardware.
@@ -521,6 +535,12 @@ none has been tested — the loop hunting, the X drive coupling into Z, or **the
 compliant sample**, which would be the first direct measurement of the gold leaf's softness.
 
 **Figure:** `deliverables/2026-09-19-pause/figures/png/fig03_gap_motion.png`.
+
+**The five blockers, ranked, with what each one would cost to fix, are in
+[`WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md)** — the gap motion above is the first of them and
+the other four are candidate causes of it. **That file is the canonical ranking and this report does
+not restate it.** Its own summary is worth quoting once: *the electronics were finished and the
+mechanics were not*, and **none of the five needs a purchase or a laboratory.**
 
 ---
 

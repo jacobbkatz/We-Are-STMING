@@ -39,11 +39,17 @@ never cite a number against it.
 **A photograph is not a measurement of our hardware.** Nothing in this manual takes a dimension,
 a part marking or a colour off a photograph.
 
+**How these rules are enforced, rather than merely stated, is section 1.4.** It describes the
+framework the project runs inside — the single canonical register of numbers, the provenance tags
+above, the append-only session logs and the seven automated checks. **Read it if you want to know
+how much to trust the rest of this document.**
+
 ---
 
 ## Table of contents
 
 1. [What the instrument is](#1-what-the-instrument-is)
+   - [1.4 The second instrument: the system that runs the science](#14-the-second-instrument-the-system-that-runs-the-science)
 2. [Which revision you are holding](#2-which-revision-you-are-holding)
 3. [Assembly and connections](#3-assembly-and-connections)
 4. [Sample and tip](#4-sample-and-tip)
@@ -126,6 +132,13 @@ rather than bounded under 0.5 mm. It needs a loupe and no power. `FRAMING.md`;
 
 **So the blocker is mechanical, not electrical.** That is the single most useful sentence in this
 manual, because it tells you where not to spend time.
+
+> **The five mechanical blockers are ranked, with a cost-to-fix table, in
+> [`../WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md).** It opens with what was **not** the
+> problem — the electronics — and then ranks the gap not holding still, the soft unbonded sample,
+> the blunt tips, having no distance scale of our own, and an approach too coarse to park inside
+> the 0.17 nm window. **None of the five needs a purchase and none needs a laboratory.** This
+> manual does not restate them; go there.
 
 ## 1.2 The subsystems, and what each one does
 
@@ -1636,6 +1649,11 @@ tunnelling on the inherited scale, and every run shows 705 to 1,868 counts of in
 | The sample plate sticking and slipping on its three ball supports | **Untested.** Magnetic stiction between the plate's four magnets and the steel balls is a concrete mechanism |
 | Magnetic pull on the tip holder's metal stake | **Untested, and a ten-second magnet test settles it.** Tungsten itself is ruled out — it is paramagnetic and very weakly so, and the magnets' field varies over millimetres while the approach happens over microns, so the force is constant across the gap rather than rising |
 
+> **This symptom and the one below are two of the five ranked in
+> [`../WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md)**, which puts them in order of how much each
+> one blocked an image and gives the cost of fixing each. **Read it before deciding what to do at
+> the next bench session**; this section is the bench-side view of the same five.
+
 ### The gap will not hold still
 
 **With the motor and hands still, and only the piezo sweeping, the gap moved by at least 43,000
@@ -1953,6 +1971,12 @@ of any conversation.** In short:
 **`docs/OPEN_QUESTIONS.md` is the authoritative register.** This section lists only the ones that
 would change how you operate the instrument, and marks clearly what is a recommendation nobody has
 tried.
+
+> **For what to do about them, in priority order, go to
+> [`../WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md).** It ranks the five mechanical blockers and
+> costs each fix — measuring `d` with a loupe and the box test are minutes each with no power, an
+> etched tip is an afternoon with equipment already owned. **This section says what is not known;
+> that one says what to do first.**
 
 ## 12.1 UNKNOWN — nobody has established these
 

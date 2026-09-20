@@ -137,8 +137,18 @@ python3 Code/pc/check_facts.py
 exit code. It was run after each section was written, and it caught three things:
 
 1. A troubleshooting heading reading "drops into constant-current mode" matched the retired
-   `drops in` literal from the Keystone standoff row. **Reworded here** — and the over-firing was
+   `drops in` literal from the Keystone standoff row. **Reworded** — and the over-firing was
    logged and has since been fixed at the source by the lead, in commit `0b1ea09`.
+
+   > **Corrected 2026-09-20.** This item said "reworded here", which read as a claim that the
+   > phrase had been changed throughout. **It had not.** The heading in section 10 was changed and
+   > a second instance in section 3's power-supply prose — *"dropped into constant-current mode"* —
+   > was left standing. It never tripped the checker, because the retired literal is `drops in` and
+   > that instance reads "dropped into", **so a green check was not evidence the sweep was
+   > complete.** The second instance now reads "went into". `grep -n "constant-current" MANUAL.md`
+   > returns **seven** hits: the heading, three lines of prose describing the same 2026-09-16
+   > event, and three rows of the command table, where the phrase is the name of a supply mode and
+   > is correct. **A defect is a class, not an instance** — `CLAUDE.md` section 7.
 2. A `safety rule 2` citation that shared no wording with the rule. **Reworded to name the sign of
    the tunnelling current**, which is what that rule is about.
 3. A hit in another agent's file, where the retired `800 counts` matched inside "1,800 counts per
