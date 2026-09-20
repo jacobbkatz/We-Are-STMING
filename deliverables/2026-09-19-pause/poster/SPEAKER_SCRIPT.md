@@ -12,7 +12,7 @@ who stops and wants the whole thing, and **a twenty-second version** for somebod
 | **03** | A real junction, with a barrier's signature |
 | **04** | We found the limit, and measured it |
 | **05** | We built controls designed to kill our own results |
-| **06** | We measured tunnelling current - and we know what is still missing |
+| **06** | We detected tunnelling - and we know what stopped us holding it |
 | **07** | The second instrument: the system that runs the science |
 
 **The one sentence to have ready before anything else**, because it is the first thing anyone will
@@ -190,30 +190,48 @@ is mechanical - and we measured it rather than guessing at it."**
 **"We built a scanning tunnelling microscope in my basement - two first-year students, no coding
 experience, and the first soldering either of us has done. The electronics are finished and
 calibrated: we measure about a billionth of an amp, and the whole chain agrees with Ohm's law to a
-tenth of a standard error. No image yet, because the gap moves more than the signal does - and we
-measured exactly how much. That is the part we are fixing."**
+tenth of a standard error. We detected tunnelling, but weren't able to maintain tunnelling range
+for long enough to get an image - because the gap moves more than the signal does, and we measured
+exactly how much. That is the part we are fixing."**
 
 ---
 
 ## If they only ask one question, it will be this one
 
-**"How did the current change as you moved the tip?"** That is what somebody who knows what an STM
-is will ask, and it is panel 06. **Do not guess at it. Say:**
+**"So did you achieve tunnelling, or not?"** It is the first thing anybody will ask, and panel 06
+answers it. **Say Jacob's sentence, exactly:**
+
+**"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an
+image."**
+
+**Then stop.** If they want more, expand it in this order and no other - the detection, the failure
+to maintain, and then the one measurement that would settle it:
+
+**"The tip cannot get from not touching to touching without passing through the separations where
+tunnelling is the only thing carrying electrons, and we had the bias on and the amplifier recording
+the whole way down. Sixty thousand readings inside that range. The current is superlinear and
+symmetric and the junction never metallically shorted, so it was a barrier, not a strand of metal.
+What we could not do is hold that range - the gap moves by most of our travel in seconds. And one
+measurement settles our best junction retroactively: the tip would have to sit within twenty-six
+microns of the pivot line, and we have it bounded at under half a millimetre. A loupe closes that
+in minutes, with the power off."**
+
+**The related question, from somebody who knows the field, is "how did the current change as you
+moved the tip?"** Say:
 
 **"On the last junction we tested, a decade of current per about seventeen hundred counts - where
-tunnelling would need something like ten. That one was a pressed contact and we say so. The
-junction two nights earlier was about seven times steeper, and for that one to have been a vacuum
-gap the tip would have to sit within twenty-six microns of the pivot line. We could only measure
-that distance to under half a millimetre, so we cannot say - and the measurement that settles it is
-optical and takes minutes."**
+holding a vacuum gap would need something like ten. That one was a pressed contact and we say so.
+The junction two nights earlier was about seven times steeper, and that is the one the twenty-six
+microns decides."**
 
-**That answer is the strongest thing you can say to that person.** It shows you measured the right
-quantity, did the arithmetic, and let it go where it went. **Claiming tunnelling collapses on this
-same question, and takes the calibration, the noise work and the controls down with it.**
+**Both answers are strong because they are measurements.** You measured the right quantity, did the
+arithmetic, and let it go where it went. **The only thing that would collapse under follow-up is
+claiming a held vacuum gap or an image** - and neither is on the poster.
 
-> **The poster wins over this page.** `d` was argued about on the evening of 2026-09-19 and again on
-> the 20th. `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V11 and V12 carry the arithmetic,
-> and `docs/FACTS.md` marks `d` itself **CONTESTED - do not use**.
+> **The poster wins over this page.** `docs/FACTS.md` is the canonical home for `d`: **under
+> 0.5 mm, `SAID` 2026-09-20, never resolved any finer.** The arithmetic behind the 26 micrometres
+> is in `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V11 to V13, and the wording of the
+> claim is settled in `FRAMING.md`.
 
 ---
 

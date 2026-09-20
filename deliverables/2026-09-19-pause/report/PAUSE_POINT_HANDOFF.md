@@ -379,7 +379,99 @@ canonical bench procedure and its REASSEMBLY block is sound.
 
 ---
 
-## 7. Where everything is
+## 7. The second instrument: the system that runs the science
+
+**Read this before you start working, not after.** Neither author writes code, so the second thing
+this project built was the system that does. **It is a result in its own right, and it is also the
+thing that will keep you right** — the corrections listed throughout this handoff are its output,
+not a sign that the record is unreliable.
+
+### 7.1 Why it exists
+
+Two first-year students, no prior programming experience and no prior electronics experience, work
+on this instrument from two different computers, days apart. **The failure mode is not that the
+work is hard. It is that a number gets corrected in one document and not in the eleven others that
+quote it**, and six weeks later somebody builds on the stale copy. That is not hypothetical: on
+2026-09-07 two constants changed, both had been written into more than a dozen documents, and
+correcting every copy anyone could think of **still left stale values in six files.**
+
+### 7.2 What it consists of
+
+| Component | What it is | Size |
+|---|---|---|
+| **The protocol** (`CLAUDE.md`) | The operating instructions the model must read before doing anything: which document outranks which, what to do before recording something as unknown, what to compute before giving an instruction that touches hardware, and what to do at the start and end of every session | **575 lines** |
+| **The register** (`docs/FACTS.md`) | One canonical value for every number that matters, each with units, provenance and a date, plus a RETIRED table of every value that has ever been replaced | **157 rows** |
+| **The checker** (`Code/pc/check_facts.py`) | Seven classes of automated test, run at session start and before every commit | **565 lines** |
+| **The session record** (`sessions/`) | One append-only log per working session. Past measurements are never rewritten | **27 logs** |
+| **The reference set** (`docs/`) | Wiring, commands, components, open questions, engineering cross-references, an index of what is inside every binary and archive | **18 documents** |
+| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyse its output and measure the printed parts straight out of the CAD meshes | **15 tools** |
+| **The session hook** (`.claude/session-start.sh`) | Runs automatically: syncs both computers, reports the state, names every session log carrying the newest date, and runs the checker | — |
+
+### 7.3 The seven checks
+
+`python3 Code/pc/check_facts.py` — **step 5 of section 0, and run it as its own command so you read
+its exit code.** It verifies:
+
+1. No value the register lists as RETIRED is still sitting in a live document.
+2. Every file path cited in prose actually exists.
+3. No archived, superseded document is cited as if it were current.
+4. Every "safety rule N" citation resolves, **and points at the rule it claims to**.
+5. Every session log is indexed in `sessions/README.md`.
+6. Every RETIRED entry's qualifying wording still matches the real text.
+7. The next-session plan is not older than the newest session log.
+
+**Checks 4 and 6 exist because both failure modes happened.** Rule numbering drifted between two
+files until the same number meant different rules in each; and a retirement was written with a
+qualifier that no longer matched the document it was guarding.
+
+### 7.4 Every fact carries where it came from
+
+**MEASURED** at the bench · **CALC** derived with the inputs shown · **DS** from a manufacturer
+datasheet · **MESH** measured out of the CAD file · **ORDER** from an order confirmation · `SAID`
+stated by Jacob or Nuh · `READ` the model's reading of a photograph, plausible and unconfirmed.
+
+**`SAID` and `READ` are deliberately the weakest tags, and they are the ones that have been wrong
+most often.** One `READ` of a part marking off a shared photograph put a wrong component into five
+documents before anybody asked whose board it was. **It was not our board.** Every edit was
+reversed, and the rule that came out of it — *a photograph is not a measurement of our hardware* —
+is now in the protocol. **Treat every `SAID` and `READ` in this handoff the same way.**
+
+### 7.5 What proves it works
+
+**The system's output is not the documents. It is the retractions.**
+
+| What was published | What the system did |
+|---|---|
+| "The controls reproduce better than the scans, +0.37 against +0.04" | Traced to a control file that was a single line long. **Withdrawn**, and the same defect swept across every other comparison in the project |
+| A reproducible feature in the scan data, at 3.9 sigma | Found to be the feedback loop recovering from a horizontal flyback, predicted to the exact count. **Withdrawn** |
+| The detector's full-scale voltage, in a live engineering reference | **Recorded backwards** — the corrected value listed as the retired one. Caught and fixed |
+| A single commit's session log | **Eleven wrong numbers**, found by a verification pass and corrected before the second push |
+| "d is 1.000 mm, and that settles the tunnelling question" | Wrong reading of what Jacob said. **Re-opened**, twice, and it is open now — see section 3 item 2 and P2 |
+| "We have not demonstrated tunnelling" | **Wrong in the direction of caution**, and Jacob caught it. Corrected to the sentence in section 2 |
+
+**Four of the first five were the model's own errors, found by the framework the model was made to
+work inside.** The last two were found by Jacob, against confident and wrong statements from the
+model.
+
+### 7.6 The honest boundary
+
+**No model was trained.** What exists is the scaffolding that makes a general-purpose model usable
+as a laboratory assistant: the protocol, the single-source register, the provenance tags, the
+append-only logs and the automated checks. **The model is off the shelf. The discipline is the
+project's**, and without it the same model produces confident, unverifiable, quietly-drifting prose
+— which is what it did here before the framework existed. **If you pick this project up, keep the
+framework running before you trust anything it tells you.**
+
+```bash
+wc -l CLAUDE.md Code/pc/check_facts.py   # the protocol and the checker
+ls sessions/*.md | wc -l                 # the session logs
+python3 Code/pc/check_facts.py           # the seven checks, run on the live repository
+cat .githooks/pre-commit                 # what blocks a failing commit
+```
+
+---
+
+## 8. Where everything is
 
 | What | Where |
 |---|---|
@@ -392,6 +484,10 @@ canonical bench procedure and its REASSEMBLY block is sound.
 | **Every firmware command** | `docs/COMMANDS.md` |
 | **The consolidated manual, written at this pause point** | `deliverables/2026-09-19-pause/manual/MANUAL.md` |
 | **The plain-language findings report** | `deliverables/2026-09-19-pause/report/FINDINGS_REPORT.md` |
+| **The five blockers, ranked, with a cost-to-fix table** | `deliverables/2026-09-19-pause/WHAT_HELD_US_BACK.md` |
+| **Every junction we made, and what each one showed** | `deliverables/2026-09-19-pause/JUNCTIONS.md` |
+| **The wording to use on the tunnelling question** | `deliverables/2026-09-19-pause/FRAMING.md`, the canonical sentence at the top |
+| **The framework the model works inside** | `CLAUDE.md`, `docs/FACTS.md`, `Code/pc/check_facts.py` — section 7 above |
 | **The full data re-derivation** | `deliverables/2026-09-19-pause/analysis/` |
 | **The imaging verdict and the candidate gallery** | `deliverables/2026-09-19-pause/candidates/` |
 | **All 92 photographs, catalogued and marked** | `deliverables/2026-09-19-pause/photos/IMAGE_INVENTORY.md` |

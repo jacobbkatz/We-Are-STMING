@@ -137,16 +137,14 @@ wired and characterised a complete scanning-probe measurement chain.
 - **The record**: 27 session logs, 163 raw data files in four bench-session directories, 92
   photographs of our own hardware, and every analysis script committed beside the data it reads.
 
-**Dates, taken from the record rather than from memory.** The earliest dated file in the repository
-is 3 July 2026. **The first volt went through any of it on 29 August 2026.** The last bench session
-was the morning of 19 September 2026, and **27 session logs sit between them.** So: three weeks of
-powered bring-up.
+**How long it took: eleven weeks of planning and design, eight weeks of building** (`SAID`, Jacob,
+2026-09-20; `docs/FACTS.md`, Project timeline). **The two phases are counted separately and no
+combined total is stated here, because none has been.**
 
-> **How long the project ran overall is NOT established anywhere in this repository.** Two
-> different week counts have circulated across these deliverables and **neither is sourced to
-> anything**; the three dates and the log count above are what the record actually supports, so
-> they are what this report uses. **Jacob has to settle the overall duration** — it is the kind of
-> fact only he and Nuh hold, and it belongs in `docs/INVENTORY.md` once it is settled.
+**The dates, from the record.** The earliest dated file in the repository is 3 July 2026. **The
+first volt went through any of it on 29 August 2026.** The last bench session was the morning of
+19 September 2026, and **27 session logs sit between those two dates** — so three weeks of powered
+bring-up inside the eight weeks of building.
 
 ---
 
