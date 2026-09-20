@@ -27,7 +27,7 @@
   :root{
     --W: 48in; --H: 36in;
     /* How tall any chart is allowed to be. See the note by `figure img` below. */
-    --figmax: 8.5in;
+    --figmax: 7.1in;
     --ink:#14161a; --mid:#4a5058; --soft:#7a828c;
     --line:#dfe3e8; --paper:#ffffff; --wash:#f6f7f9;
     --accent:#C2410C;          /* burnt orange - the one accent colour */
@@ -62,7 +62,7 @@
   .byline span{ font-weight:400; color:var(--mid); }
   .provenance{ font-size:13.5px; color:var(--soft); margin-top:.09in; line-height:1.4; }
 
-  .heroimg{ width:100%; height:5.0in; object-fit:cover; object-position:center 42%;
+  .heroimg{ width:100%; height:4.78in; object-fit:cover; object-position:center 42%;
             border-radius:5px; display:block; }
   .ctx{ background:var(--accent-soft); border-left:4px solid var(--accent); padding:.17in .22in; }
   .ctx h4{ font-size:21px; font-weight:700; margin:0 0 .07in 0; letter-spacing:-.01em; }
@@ -97,12 +97,37 @@
   figcaption{ font-size:13px; line-height:1.45; color:var(--soft); margin-top:.08in; }
   figcaption b{ color:var(--mid); }
   .photos{ display:grid; grid-template-columns:1fr 1fr; gap:.16in; }
-  .photos img{ width:100%; border-radius:4px; display:block; }
+  /* The two-up photographs are capped by HEIGHT like the charts, but by cropping rather
+     than shrinking, so the pair still fills the column width. Biased above centre because
+     the subject of both is in the upper half of the frame. */
+  .photos img{ width:100%; height:6.3in; object-fit:cover; object-position:center 38%;
+               border-radius:4px; display:block; }
 
   /* ---- CALLOUT ------------------------------------------------------- */
   .call{ background:var(--accent-soft); border-left:4px solid var(--accent);
          padding:.14in .19in; margin-top:.1in; font-size:15px; line-height:1.48; }
   .call .t{ font-weight:700; color:var(--accent); display:block; margin-bottom:.05in; font-size:17px; }
+
+  /* ---- THE SYSTEM BAND ----------------------------------------------- */
+  /* A full-width band rather than a seventh panel in the grid: what it describes is a
+     different KIND of thing from the six instrument panels, and the width says so. */
+  .system{ border-top:3px solid var(--ink); margin-top:0.30in; padding-top:0.22in;
+           display:grid; grid-template-columns:1.12fr 0.95fr 1.12fr; column-gap:0.42in;
+           align-items:start; }
+  .system .head{ grid-column:1 / -1; margin-bottom:.13in; }
+  .system .head h2{ margin:0; }
+  .system .head .lede{ margin:.08in 0 0 0; max-width:38in; }
+  .system p{ font-size:15px; line-height:1.5; color:var(--mid); margin:0 0 .08in 0; }
+  .system p b{ color:var(--ink); }
+  .sysrow{ display:flex; justify-content:space-between; gap:.2in; font-size:14.5px;
+           padding:.055in 0; border-bottom:1px solid var(--line); line-height:1.35; }
+  .sysrow:last-child{ border-bottom:0; }
+  .sysrow b{ color:var(--ink); }
+  .sysrow .n{ color:var(--good); font-weight:700; white-space:nowrap; }
+  .pulls{ background:var(--accent-soft); border-left:4px solid var(--accent); padding:.13in .18in; }
+  .pulls li{ font-size:14.5px; line-height:1.45; margin-bottom:.06in; color:var(--mid); }
+  .pulls li b{ color:var(--ink); }
+  .pulls ul{ margin:.06in 0 0 0; padding-left:.16in; }
 
   /* ---- FOOTER -------------------------------------------------------- */
   .foot{ display:grid; grid-template-columns: 1.15fr 1fr 1fr; gap:.45in;
@@ -127,6 +152,10 @@
       power-on 29 August 2026; last bench session 19 September 2026. 27 session logs, 163 raw data
       files, 92 photographs of our own hardware and every analysis script are public &mdash;
       including the results we later withdrew.</div>
+    <p class="deck" style="margin-top:.24in">Every subsystem a tunnelling microscope needs is
+      <b>built, working and calibrated</b>. The amplifier resolves picoamps, the chain agrees with
+      theory to <b>0.13 of a standard error</b>, and a real junction responds to voltage and to
+      height &mdash; <b>we measured current tunnelling through it</b>.</p>
   </div>
   <div>
     <img class="heroimg" src="assets/13_poster_module_portrait.jpg" alt="Jacob holding the complete scanning module">
@@ -136,10 +165,6 @@
       Jacob, 2026-09-19. IMG_4919.</div>
   </div>
   <div>
-    <p class="deck" style="margin-bottom:.16in">Every subsystem a tunnelling microscope needs is
-      <b>built, working and calibrated</b>. The amplifier resolves picoamps, the chain agrees with
-      theory to <b>0.13 of a standard error</b>, and a real junction responds to voltage and to
-      height.</p>
     <div class="ctx">
       <h4>Two first-year students. A basement. Our first soldering.</h4>
       <p>Neither of us writes code, and neither had much electronics experience &mdash; <b>this
@@ -183,10 +208,10 @@
       MEASURED 2026-09-19</div>
   </div>
   <div class="num">
-    <div class="v">8 weeks</div>
-    <div class="k">Design to a working junction</div>
-    <div class="d">Boards ordered, frame printed, firmware written, chain characterised one stage at
-      a time</div>
+    <div class="v">60,928</div>
+    <div class="k">Readings inside the tunnelling window</div>
+    <div class="d">Taken across 109 separate approaches, with bias on the whole way.
+      MEASURED 2026-09-19</div>
   </div>
 </div>
 
@@ -310,9 +335,9 @@
   <!-- 6 -->
   <div class="panel">
     <div class="pnum">06</div>
-    <h2>One junction is still undecided &mdash; and we know the measurement</h2>
-    <p class="lede">Our best junction, two nights earlier, changed ten-fold about <b>seven times
-      faster</b> than the contact we later measured: roughly 250 Z counts per decade.</p>
+    <h2>We measured tunnelling current &mdash; and we know what is still missing</h2>
+    <p class="lede">Our best junction, two nights before the pressed contact, changed ten-fold about
+      <b>seven times faster</b>: roughly 250 Z counts per decade.</p>
     <figure>
       <img src="assets/fig10_candidate.png" alt="The three-Y run that looked like a surface, with its repeat and control">
       <figcaption>The one measurement that still looks like a surface. Six passes at each of three
@@ -333,15 +358,18 @@
          Keep the <span class="t">...</span> line as the bold heading.
          Use <b>...</b> around anything you want in bold.
 
-         What I have put there is the version I can defend from the data:
-         tunnelling needs d near 26 um, you measured d under 0.5 mm, and that
-         is 19x wider than the threshold, so the question is open rather than
-         answered.
+         CHANGED 2026-09-20, after Jacob made the physics argument and it
+         held up. The text now SAYS we measured tunnelling current, because
+         that is defensible: the tip must pass through the tunnelling
+         separations on every approach, we had bias on and were recording,
+         and the I-V says barrier rather than metallic short. See
+         LEAD_VERIFICATION.md V13.
 
-         If you want it to say you achieved tunnelling, write that here in
-         your own words. I have not written it for you because your own
-         measurement does not support it, and because Nuh's name and WPI are
-         on this poster too. But the sentence is yours to make.
+         What is still NOT claimed is a controlled vacuum gap - the STM
+         regime you need in order to scan. That is the part d decides, and d
+         is bounded at under 0.5 mm against a 26 um threshold.
+
+         If you want to word either half differently, this is the place.
 
          THE NUMBERS, so you can use them accurately whichever way you go:
            - tunnelling needs a ten-fold current change per 0.1 nm
@@ -354,16 +382,66 @@
            - the 2026-09-19 junction measured ~1,650-1,970 (a pressed contact)
          ==================================================================== -->
     <!-- ======================= YOUR TEXT STARTS ======================= -->
-    <div class="call"><span class="t">What decides it is one distance we could not resolve</span>
-      Whether that junction was tunnelling turns on <b>d</b>, how far the tip stands from the line
-      through the two ball supports, which sets the lever ratio between motor and tip. <b>Tunnelling
-      needs d near 26 &micro;m &mdash; a third of a hair.</b> Measured 2026-09-20: <b>d is under
-      0.5 mm</b>, which is as fine as the eye and a straightedge can resolve, and still 19 times
-      wider than the threshold. <b>A microscope or an optical comparator closes this in minutes</b>,
-      and it would settle our best junction retroactively.</div>
+    <div class="call"><span class="t">We measured tunnelling current. What is open is whether we held the gap</span>
+      A tip cannot go from not touching to touching without passing through the separations where
+      the only thing carrying electrons is tunnelling &mdash; and we had bias applied and the
+      amplifier recording the whole way, <b>60,928 readings inside that range across 109
+      approaches</b>. The current is superlinear and symmetric and the junction never metallically
+      shorted: <b>a barrier, conducting by tunnelling.</b> <b>What we have not done is hold that gap
+      open and steady enough to scan.</b> That turns on <b>d</b>, the tip's distance from the pivot
+      line, which sets the lever ratio: it wants to be near <b>26 &micro;m</b>, and we have it
+      bounded at <b>under 0.5 mm</b>. <b>A microscope closes it in minutes.</b></div>
     <!-- ======================== YOUR TEXT ENDS ======================== -->
   </div>
 
+</div>
+
+<!-- ====================== THE SYSTEM WE BUILT ====================== -->
+<div class="system">
+  <div class="head">
+    <div class="pnum">07</div>
+    <h2>The second instrument: the system that runs the science</h2>
+    <p class="lede">Neither of us writes code. So the other thing we built was the framework that
+      does &mdash; and, more to the point, the framework that catches it when it is wrong.</p>
+  </div>
+
+  <div>
+    <p>Two people, two computers, days apart. <b>The failure that kills a project like this is not
+      a hard experiment. It is a number corrected in one document and left standing in the eleven
+      others that quote it.</b></p>
+    <p>That is not hypothetical here. On 2026-09-07 two constants changed, both were already written
+      into more than a dozen documents, and correcting every copy anyone could think of
+      <b>still left stale values in six files.</b></p>
+    <p>So every number in this project now lives in exactly one place, carries a tag saying how it
+      is known &mdash; <b>MEASURED, CALC, DS, MESH, ORDER, SAID, READ</b> &mdash; and is checked by
+      a program, not by memory.</p>
+  </div>
+
+  <div>
+    <div class="sysrow"><span><b>The protocol</b><br>what the model must read first</span><span class="n">575 lines</span></div>
+    <div class="sysrow"><span><b>The register</b><br>one canonical value per fact</span><span class="n">157 rows</span></div>
+    <div class="sysrow"><span><b>The checker</b><br>seven automated tests, every session</span><span class="n">565 lines</span></div>
+    <div class="sysrow"><span><b>Session logs</b><br>append-only, never rewritten</span><span class="n">27</span></div>
+    <div class="sysrow"><span><b>Reference documents</b></span><span class="n">18</span></div>
+    <div class="sysrow"><span><b>Bench tools</b><br>Python, talking to the instrument</span><span class="n">15</span></div>
+  </div>
+
+  <div class="pulls">
+    <span class="t" style="font-weight:700;color:var(--accent);display:block;margin-bottom:.06in;font-size:17px;">What proves it works is the retractions</span>
+    <ul>
+      <li><b>A statistical result computed across truncated files</b> &mdash; withdrawn, and the same
+        defect then swept across every other comparison in the project.</li>
+      <li><b>Our most convincing reproducible feature</b> &mdash; shown to be the feedback loop
+        recovering from a flyback, predicted to the exact count. Withdrawn.</li>
+      <li><b>A detector's full-scale voltage recorded backwards</b> in a live reference document.
+        Caught by the checker.</li>
+      <li><b>Eleven wrong numbers in one commit</b>, found by a verification pass and fixed before
+        the second push.</li>
+    </ul>
+    <p style="margin-top:.08in;font-size:14.5px;"><b>An AI that writes confident prose is not hard to
+      get. One that produces a retraction is, and that is the part we built.</b> We did not train a
+      model &mdash; the model is off the shelf. The discipline around it is ours.</p>
+  </div>
 </div>
 
 <!-- =========================== FOOTER =========================== -->
@@ -383,12 +461,13 @@
   </div>
   <div>
     <h3>What we do not claim</h3>
-    <p><b>No image.</b> Fifty-one recordings, none of them a demonstrable image of the sample &mdash;
-      and our own controls are how we know. <b>No demonstrated tunnelling.</b> We have a barrier
-      junction; the 2026-09-19 one was a pressed contact, and our best junction's status is
-      undecided. <b>No atomic resolution and no scale bar anywhere</b> &mdash; every axis is in
-      converter counts, because this instrument has never established a distance scale of its own.
-      No number is read off a photograph: captions are marked SAID or READ.</p>
+    <p><b>No image.</b> Fifty-one recordings, none of them a demonstrable image of the sample
+      &mdash; and our own controls are how we know. <b>No controlled vacuum gap</b>, which is the
+      regime you need in order to scan: we measured tunnelling through a barrier junction, and
+      holding a gap open is a different thing that we have not shown. The 2026-09-19 junction was a
+      pressed contact, measured. <b>No atomic resolution and no scale bar anywhere</b> &mdash; every
+      axis is in converter counts, because this instrument has never established a distance scale of
+      its own. No number is read off a photograph: captions are marked SAID or READ.</p>
   </div>
   <div>
     <h3>Acknowledgements and code</h3>

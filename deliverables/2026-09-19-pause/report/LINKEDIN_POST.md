@@ -86,13 +86,21 @@ instrument than with a face.
 unresolved rather than rhetorical:
 
 > One junction we made in September is still undecided. Whether it was true tunnelling or a pressed
-> contact turns on a single distance inside the scan head that we never measured — and it needs a
-> straightedge, not electronics. It is the first thing we will do when the instrument is
-> reassembled.
+> contact turns on a single distance inside the scan head, about a fortieth of a millimetre, that we
+> have bounded but not yet resolved — and it needs a microscope, not electronics. It is the first
+> thing we will do when the instrument is reassembled.
 
-**This is accurate.** `docs/OPEN_QUESTIONS.md`: *"this one distance decides whether we are tunnelling
-or pressing through a soft contact."* Below about 0.13 mm the 2026-09-17 measurement is tunnelling;
-the distance has never been measured and the threshold sits inside the plausible range.
+**This is accurate, with one correction made after the first draft.** `docs/OPEN_QUESTIONS.md`:
+*"this one distance decides whether we are tunnelling or pressing through a soft contact."*
+
+**The threshold is about 26 micrometres, not the 0.13 mm this file first said.** 0.13 mm is a
+different test — whether the gap wobbles too much to hold at all, not how fast the current decays.
+On the decay test 0.13 mm is still five times too slow. **Jacob measured the distance at the bench
+on 2026-09-20 and it is under 0.5 mm**, which narrows the question without settling it: 26 um sits
+inside that bound, in its bottom 5%. **Do not say "a straightedge closes it"** — a straightedge and
+an eye are what produced the 0.5 mm bound; resolving 26 um needs a loupe, a USB microscope or an
+optical comparator. Full working in `deliverables/2026-09-19-pause/JUNCTIONS.md` and
+`LEAD_VERIFICATION.md` V11-V12.
 
 ## Before posting
 

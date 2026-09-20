@@ -787,3 +787,85 @@ which route 2 reaches without it.
 
 **Credit: Jacob asked for the number, was told it was 26 um, went and measured 1.000 mm, and closed
 his own question in the direction he did not want.** That is the whole method working.
+
+---
+
+## V13. **JACOB IS RIGHT, AND THE DELIVERABLES HAVE BEEN UNDERSTATING THIS.** We measured tunnelling current. What we have not done is hold a vacuum gap
+
+**Jacob, 2026-09-20:** *"we know that at some point the tip was nanometers away due to physical
+principles, at the same time we know current was flowing due to the behavior of an electron we can
+guarantee that at least some of it was tunneling."*
+
+**That argument is sound. I checked every step of it and it holds.** I have been writing "we have
+not demonstrated tunnelling" across every deliverable, and **that sentence conflates two different
+claims**, only one of which our data fails.
+
+### The argument, step by step, with what backs each step
+
+| Step | Backing |
+|---|---|
+| 1. The tip began far from the sample with **no measurable current** and ended in contact with a **saturating** one | Measured, on every approach. 109 of them in the Z test alone |
+| 2. Between those two states the separation passed continuously through **every intermediate value**, including 0.3 to 2 nm | Continuity. The tip does not teleport |
+| 3. In that range, with a bias applied, **the mechanism that carries electrons across the gap is quantum tunnelling** | Standard physics. At ~0.5 V across ~1 nm the field is ~5x10^8 V/m — below Fowler-Nordheim field emission, and thermionic emission over a work-function barrier is negligible at room temperature. **Direct tunnelling is what is left** |
+| 4. Bias was applied and the amplifier was recording **throughout** | Measured. `fig13` counts it: **60,928 readings taken inside the current range where tunnelling has to appear, across 109 approaches** |
+| 5. **Therefore tunnelling current flowed through our junction and our amplifier recorded it** | Follows from 1-4 |
+
+### The one loophole, and our own data closes it
+
+**The escape from step 3 is a metallic bridge** — a whisker or contaminant strand shorting tip to
+sample before the tunnelling separation is reached. Then the measured current is ohmic conduction
+through metal and the tunnelling channel, though open, carries a negligible share.
+
+**Three measurements say that is not what we had:**
+
+1. **The I-V curve is superlinear and symmetric**, not ohmic: 0.85 nA at 0.05 V to 31.7 nA at 0.5 V,
+   resistance falling 59 to 16 MΩ. **A metallic constriction is ohmic.** (V2: the exponent is 1.55,
+   not 2 — still superlinear, still not 1.)
+2. **`sessions/2026-09-17-bench.md` §3.27 recorded it at the time**: the junction resistance *"never
+   [fell] below about 5 MΩ even when the amplifier saturated: the tip never metallically shorted to
+   the sample, it was always conducting through something."*
+3. **109 of 110 onsets were gradual.** A metallic bridge forming is a step. A barrier being
+   approached is a ramp.
+
+**So: a barrier junction, conducting by tunnelling. That is what a tunnel junction is.**
+
+### What this does and does not license
+
+| Claim | Status |
+|---|---|
+| **"We made a tunnel junction and measured the current tunnelling through it"** | **TRUE, and supported by the I-V, the resistance range and the onset shape.** This is the claim the deliverables should have been making |
+| **"Electrons tunnelled in our instrument"** | **TRUE**, by the argument above |
+| "We held a controlled vacuum tunnel gap — the STM regime" | **NOT ESTABLISHED.** This is what the decay rate and the hysteresis argue against, and it is the thing you need in order to image |
+| "We achieved atomic resolution / produced an image" | **FALSE.** No image has been produced |
+
+### Why the distinction is not a hedge
+
+**Tunnelling through a pressed contaminant or oxide film is still quantum tunnelling** — that is
+exactly what a metal-insulator-metal tunnel junction is, and it is a real measurement of a real
+effect. **It is not STM tunnelling**, because the barrier is set by whatever is stuck to the
+surface rather than by a gap you command, so you cannot hold it, cannot sweep it, and cannot image
+with it.
+
+**Both halves are worth saying out loud:**
+
+> **We built a tunnel junction, put a bias across it, and measured the current tunnelling through
+> it. What we have not yet done is hold that gap open and steady enough to scan across a surface.**
+
+**That sentence is accurate, it is a genuine result, and it is what the poster, the report, the
+manual and the LinkedIn drafts should carry.** The previous wording — "we have not demonstrated
+tunnelling" — was **wrong in the direction of caution**, which V10 already established is still
+wrong.
+
+### What changes downstream
+
+- **`FRAMING.md`'s say/do-not-say table**: "we measured tunnelling current" moves from DO NOT SAY to
+  SAY. "We achieved tunnelling" stays out **only** in the sense of the STM regime, and the table
+  must make that distinction explicit rather than banning the word.
+- **`JUNCTIONS.md`**, the poster panel 06, `report/LINKEDIN_POST.md` and the Q&A all need the
+  corrected pair of sentences.
+- **`fig13` stands as drawn.** Its own footer already says it cannot prove no tunnelling occurred
+  and that the tip must pass through the regime on every approach. **What it measures is whether we
+  ever held the gap, and that answer is unchanged.**
+
+**Credit: this correction is Jacob's, not mine. He made the argument from physics, against my
+repeated wording, and the wording was what was wrong.**
