@@ -1,5 +1,22 @@
 # Handoff — Subagent 2, candidate images and the motion hypothesis
 
+> ## THIS FILE IS FROZEN HISTORY. Three of its numbers were later corrected.
+>
+> **It records what an agent was told and what it reported, at the time. It is deliberately NOT
+> updated**, because rewriting it would destroy the record of what was believed when. **Do not
+> quote a number from it.** The corrected values, established 2026-09-20:
+>
+> | This file says | Actually |
+> |---|---|
+> | 201 reproducibility tests | **209.** 201 was the table without its last row — eight cross-run tests added later and never added to the total |
+> | threshold p < 2.5 x 10^-4 | **p < 2.4 x 10^-4**, which is 0.05 / 209 |
+> | "that four-minute window is 32 counts/s" | **The four minutes is not established.** Neither `ycontrol` log carries a timestamp, so the interval is UNKNOWN and bounded by about five minutes (`LEAD_VERIFICATION.md` V5b, V9). The rate is therefore a bound: **at least 26 counts/s across all five runs, at least 7 from run 2 to run 4** |
+> | "Interval about two minutes" | **UNKNOWN**, bounded by about five minutes, same reason |
+>
+> **The live figures are in `candidates/GALLERY.md`, `candidates/VERDICT.md` and
+> `analysis/FINDINGS.md`.**
+
+
 **2026-09-19.** Owns and wrote only `deliverables/2026-09-19-pause/candidates/**`.
 **No raw file was modified.** `sessions/data/` was read only.
 

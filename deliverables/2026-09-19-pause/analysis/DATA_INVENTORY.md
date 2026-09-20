@@ -367,7 +367,7 @@ log states. **Using any of them as a result would contradict the record.**
 | `2026-09-19-bench/here_run1.log` | taken with the tip Jacob identified as BENT about 90 minutes later. Nothing in it transfers to the tip fitted at ~03:00 |
 | `2026-09-19-bench/img_scan_0.csv` | ABORTED after 1 forward line(s) of 11 |
 | `2026-09-19-bench/img_scan_1.csv` | ABORTED after 2 forward line(s) of 11 |
-| `2026-09-19-bench/img_scan_2.csv` | ran all 11 lines; the session log reports 14.5%% saturation for it |
+| `2026-09-19-bench/img_scan_2.csv` | ran all 11 lines; the session log reports 14.5% saturation for it |
 | `2026-09-19-bench/onset0_run1.csv` | this script ended by ZEROING THE BIAS, which is what left the next approach running at 0 V |
 | `2026-09-19-bench/onset0_run1.log` | this script ended by ZEROING THE BIAS, which is what left the next approach running at 0 V |
 | `2026-09-19-bench/stamp.csv` | same tip-clear caveat as still.csv |

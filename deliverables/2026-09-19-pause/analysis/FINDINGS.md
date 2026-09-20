@@ -574,10 +574,20 @@ overstated.
 **Subagent 2 measured how much, at this pause point**, with a 20,000-fold permutation of the place
 labels (`deliverables/2026-09-19-pause/candidates/VERDICT.md`, carried into `STATUS.md`): **run 2 is
 p = 0.0036, and an X-held control — which cannot contain a surface — scores p = 0.020 on the same
-statistic.** Against a Bonferroni threshold for the 201 reproducibility tests run across this data
-(p < 2.5 × 10⁻⁴), run 2 is a factor of 14 short. **Use the permutation test, not the printed
-sigma.** That figure of 0.020 for a control is the empirical false-positive rate of this
-measurement on this instrument, and it is the single most useful number in this section.
+statistic.** Against a Bonferroni threshold for the **209** reproducibility tests run across this
+data — **0.05 / 209 = 2.4 × 10⁻⁴**, about 3.7σ — run 2 is a factor of 15 short. **Use the
+permutation test, not the printed sigma.** That figure of 0.020 for a control is the empirical
+false-positive rate of this measurement on this instrument, and it is the single most useful number
+in this section.
+
+> **CORRECTED 2026-09-20: the test count and the threshold, which are one fact and not two.** This
+> document previously said ~~201 tests~~, ~~p < 2.5 × 10⁻⁴~~ and ~~a factor of 14~~. **201 was the
+> tally before `code/13_gap_stability_across_runs.py` existed** — that script was written in
+> response to the lead's correction and adds **8** cross-run place and onset-Z tests, taking the
+> table in `deliverables/2026-09-19-pause/candidates/GALLERY.md` to **209**, which is what
+> `code/07_chance.py` prints for itself. **The threshold follows from the count by division:**
+> 0.05/209 = 2.4 × 10⁻⁴ and 0.05/201 = 2.5 × 10⁻⁴, and 0.0036 / (2.4 × 10⁻⁴) = 15. **Write the
+> division and not just the answer**, and the two cannot drift apart again.
 
 ### 6.4b Where the gap was during those five runs — a measurement nobody had used
 
@@ -625,14 +635,25 @@ tip is in or near contact.
   `fwd`/`back` pair is byte-identical. Any trace-versus-retrace figure from them is meaningless.
   This was found by an independent review of the committed data on 2026-09-17 and is recorded in
   that log; it is reproduced here mechanically. Using forward passes only,
-  `line_repeated_wide.csv` gives consecutive-pass r **+0.515** and odd-average against even-average
-  **+0.923** with an averaged profile amplitude of **645 counts** — the log's +0.515, +0.923 and
-  636 counts. **That 636-count profile is the project's best candidate image and it is now CLOSED,
-  by subagent 2 at this pause point** (`deliverables/2026-09-19-pause/candidates/VERDICT.md`,
-  carried into `STATUS.md`): it is the feedback loop recovering from the **30,000-count X flyback**
-  between passes on a surface tilted at −0.105 Z counts per X count, which predicts a **3,144-count
-  Z error at every pass start**; **dropping two pixels of twenty-one takes the consecutive-pass
-  correlation from +0.65 to +0.05**, and the same arithmetic correctly predicts the artefact's
+  `line_repeated_wide.csv` gives consecutive-pass r **+0.515**, odd-average against even-average
+  **+0.923**, and an averaged profile amplitude of **636 counts** — reproducing all three of the
+  log's published figures exactly. (**CORRECTED 2026-09-20.** This sentence said ~~645 counts~~ in
+  the same breath as the log's 636, presenting two different numbers as though they agreed.
+  **645 cannot be sourced**: it appears in no script output, no session log and no other
+  deliverable, and re-deriving the RMS of the detrended twelve-pass average straight from
+  `sessions/data/2026-09-17-bench/line_repeated_wide.csv` gives **635.8**. Every generated output in
+  `candidates/work/` says 636.) **That 636-count profile is the project's best candidate image and
+  it is now CLOSED, by subagent 2 at this pause point**
+  (`deliverables/2026-09-19-pause/candidates/VERDICT.md`, carried into `STATUS.md`): it is the
+  feedback loop recovering from the **30,000-count X flyback** between passes on a surface tilted at
+  −0.105 Z counts per X count, which predicts a **3,144-count Z error at every pass start**;
+  **dropping two pixels of twenty-one takes the consecutive-pass correlation from +0.515 to
+  +0.025** — the **arithmetic mean** of the eleven consecutive-pass correlations, which is this
+  project's convention and the pair `candidates/GALLERY.md` rules must be the one quoted.
+  (**Cross-check in the other convention: the Fisher-z mean of the same eleven pairs goes
+  +0.647 → +0.048** — the same collapse. This document previously quoted ~~+0.65 to +0.05~~, which
+  was the Fisher-z pair rounded, without naming the convention.) The same arithmetic correctly
+  predicts the artefact's
   *absence* in the two 2D wide images, which raster without lifting X. That is a falsification with
   a mechanism, not a null.
 - **All six tuned scans of 2026-09-19 morning aborted at a Z clamp**, with 21–64 % of their pixels

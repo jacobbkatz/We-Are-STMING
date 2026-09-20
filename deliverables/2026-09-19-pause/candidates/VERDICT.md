@@ -15,9 +15,12 @@ results.
 >
 > **Correction, 2026-09-19, and it is mine.** An earlier version of this file said run 4 came
 > "half an hour" after run 2 and that the gap "moved by most of the Z range" in between. **Both
-> were inferences I never checked, and both are wrong.** The lead caught it. The interval is about
-> **two minutes**, and the gap moved **2,200 counts — 3.4% of the Z range**. The measurement was on
-> the first line of every `ycontrol_run*.log` the whole time. **§4 is rewritten on the corrected
+> were inferences I never checked, and both are wrong.** The lead caught it. The interval is
+> **UNKNOWN, bounded by about five minutes** — ~~about two minutes~~, **corrected again 2026-09-20**:
+> that was a second inference from the same timestamps, and `LEAD_VERIFICATION.md` V5b and V9 rule
+> that neither `ycontrol` log carries a timestamp, so no interval between them is recorded. The gap
+> moved **2,200 counts — 3.4% of the Z range**. The measurement was on the first line of every
+> `ycontrol_run*.log` the whole time. **§4 is rewritten on the corrected
 > facts and candidate B is weaker as a result**, which is the direction the correction runs.
 >
 > **Two averaging conventions, fixed here so one number circulates.** *Consecutive-pass r* is the
@@ -73,7 +76,9 @@ this instrument**, and knowing it is worth more than any single positive would h
 **And the searching was budgeted.** 209 reproducibility tests have been run across this data
 (`code/07_chance.py`, plus the eight added by `code/13`). At that many, a 5% threshold is expected
 to throw up **about ten** apparent findings from noise alone, so the honest threshold is
-Bonferroni's **p < 2.4 × 10⁻⁴**, about 3.7σ.
+Bonferroni's **0.05 / 209 = p < 2.4 × 10⁻⁴**, about 3.7σ. **The count and the threshold are one
+fact, not two**, which is why the division is written out: ~~201~~ tests would give
+~~2.5 × 10⁻⁴~~, and 201 was the tally before `code/13` added its 8.
 **Nothing in this body of data reaches it as evidence of a surface** — and the fact that the
 threshold was computed before the candidates were judged is itself the point.
 
@@ -189,7 +194,7 @@ permutations of the place labels:
 
 | Run | within − between | **permutation p** |
 |---|---|---|
-| **run 2, the positive** | +0.523 | **0.0036** — a factor of 14 short of the corrected threshold |
+| **run 2, the positive** | +0.523 | **0.0036** — a factor of 15 short of the corrected threshold — 0.0036 / (2.4 × 10⁻⁴) |
 | run 4, the repeat | +0.059 | 0.26 |
 | **an X-held control, y_sep 3000** | **+0.226** | **0.020** — with nothing to see |
 
@@ -207,20 +212,30 @@ surface before that run started.** Nobody had used it:
 | **run 4 — the repeat** | **50,800** | −1,200 |
 
 **Run 2 to run 4: +2,200 counts — 3.4% of the 65,536-count Z range.** Across all five runs the
-onset spans 7,800 counts (11.9%). **And the interval is about two minutes, not half an hour**:
-`sessions/2026-09-19-bench.md` is chronological, §3.14 is timestamped 03:48 (`cas9.log` ends
-03:48:56) and §3.16 is 03:53, with all five runs in between.
+onset spans 7,800 counts (11.9%). **And the interval is UNKNOWN, bounded by about five minutes —
+not half an hour**: `sessions/2026-09-19-bench.md` is chronological, §3.14 is timestamped 03:48
+(`cas9.log` ends 03:48:56) and §3.16 is 03:53, with all five runs in between, but **neither
+`ycontrol` log carries a timestamp of its own.** (~~about two minutes~~, ~~a four-minute window~~
+— **corrected 2026-09-20**. Those were a second inference from the same two timestamps, made after
+the first one was corrected. `LEAD_VERIFICATION.md` V5b and V9 rule the interval UNKNOWN.)
 
-**Two independent routes agree.** 7,800 counts over that four-minute window is **32 counts/s** —
-and `sessions/2026-09-19-morning.md` §6, working from the `cas9` and `img` data without reference
-to these logs, measured *"the gap opened at ~40-41 counts/s on average from 03:48:13 to 03:52:58"*.
-**Same rate, different measurement. This was a four-minute window with a gap drifting slowly and
-steadily.**
+**So the rate is bounded, not measured.** 7,800 counts inside a window of at most the ~5 minutes
+that hold all five runs is a mean of **at least 26 counts/s** (7,800 ÷ 300 s), and the 2,200 counts
+between run 2 and run 4 give **at least 7 counts/s** by the same division. ~~32 counts/s~~ divided
+the same 7,800 counts by a four-minute window that nothing establishes.
+
+**A second record agrees, and that one is timestamped at both ends.**
+`sessions/2026-09-19-morning.md` §6, working from the `cas9` and `img` data without reference to
+these logs, measured *"the gap opened at ~40-41 counts/s on average from 03:48:13 to 03:52:58"*. **A
+lower bound of 26 counts/s and a measured 40-41 counts/s are consistent**, and that is the whole of
+what the two records jointly support: a gap drifting slowly and steadily across this window, at a
+rate one of the two measurements actually pins down.
 
 ### The test that becomes possible, and it goes against the candidate
 
-If the gap was stable, run 2 and run 4 sampled **the same three places** two minutes apart, and a
-profile belonging to a place must agree across the two runs **at the same place**. That test was
+If the gap was stable, run 2 and run 4 sampled **the same three places** minutes apart — how many
+is not recorded — and a profile belonging to a place must agree across the two runs **at the same
+place**. That test was
 not worth running while the gap was believed to have moved by most of its range. It is now:
 
 | run 2 against… | same place | different place | difference | **permutation p** |
@@ -372,7 +387,9 @@ imaging statistic is dominated by the gap and no amount of analysis will recover
 measurement.**
 
 1. **Lateral drift — the one that keeps candidate B open.** The gap was stable across run 2 to run
-   4 (2,200 counts in ~2 minutes), so non-reproduction is the better-supported reading. But **onset
+   4 (2,200 counts over an interval that is ~~~2 minutes~~ **UNKNOWN and bounded by about five
+   minutes** — neither `ycontrol` log carries a timestamp), so non-reproduction is the
+   better-supported reading. But **onset
    Z is nearly blind to lateral motion** — on run 4's measured slopes a full-range X drift would
    move it by ~150 counts — and **nothing in this project has ever measured lateral drift** (§4).
 2. **The ±15,000 place test's power.** ±0.47 at 2σ with nine pairs. A weak genuine surface signal is

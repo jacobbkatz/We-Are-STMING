@@ -514,7 +514,9 @@ for i in range(3):
         produced_by="scripts/scan2.py via scripts/run_img_wide.py",
         passage="sessions/2026-09-19-bench.md 3.16",
         caveat=("ABORTED after %d forward line(s) of 11" % (i + 1)) if i < 2 else
-               "ran all 11 lines; the session log reports 14.5%% saturation for it")
+               # NOT %%: this branch of the conditional has no % operator applied to it, so a
+               # doubled sign is never unescaped and reaches the document literally. It did.
+               "ran all 11 lines; the session log reports 14.5% saturation for it")
 for i in range(2):
     add(S19B, "img_xheld_%d.csv" % i, "X-HELD CONTROL %d of 2 for the wide images" % i,
         bias="38229 = sample -0.5 V, setpoint 1,000 counts",

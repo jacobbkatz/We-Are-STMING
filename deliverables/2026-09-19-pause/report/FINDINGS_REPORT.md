@@ -453,9 +453,12 @@ up in both a scan and its control is the instrument talking to itself.
 "is this the surface?" statistic. **That is the empirical false-positive rate of this measurement
 on this instrument**, and knowing it is worth more than any single positive would have been.
 
-**And the searching was budgeted.** 201 reproducibility tests have been run across this data. At
+**And the searching was budgeted.** ~~201~~ **209** reproducibility tests have been run across this data.
+**Corrected 2026-09-20: 201 was that table without its last row** — the eight cross-run place and onset-Z
+tests added in response to a lead correction, which the total was never updated for. At
 that many, a 5% threshold is expected to throw up about ten apparent findings from noise alone, so
-the honest threshold is **p < 2.5 × 10⁻⁴**, about 3.7 standard deviations. **Nothing in this body
+the honest threshold is ~~p < 2.5 × 10⁻⁴~~ **p < 2.4 × 10⁻⁴** — **0.05 / 209** — about 3.7 standard
+deviations. **Nothing in this body
 of data reaches it as evidence of a surface** — and the threshold was computed before the
 candidates were judged.
 
@@ -638,7 +641,7 @@ deviations. **The data are sound: every file is 3 places × 6 passes × 21 point
 all five published numbers reproduce exactly.** But that sigma treats 45 within-place and 108
 between-place comparisons as independent when every pass appears in many of them.
 
-**Under 20,000 permutations of the place labels: the positive run is p = 0.0036** — a factor of 14
+**Under 20,000 permutations of the place labels: the positive run is p = 0.0036** — a factor of ~~14~~ **15**
 short of the corrected threshold — **its repeat, minutes later rather than half an hour, is
 p = 0.26, and an X-held control, which cannot contain a surface, scores p = 0.020 on the same
 statistic.** (**The interval is UNKNOWN and bounded by about five minutes** — see the correction

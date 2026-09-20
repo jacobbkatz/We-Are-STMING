@@ -92,8 +92,10 @@ no truncation, and all five published numbers reproduce exactly. **The non-repro
 2 (+0.374) and run 4 (+0.056) is real.** But that σ treats 45 within-place and 108 between-place
 pairwise correlations as independent when every pass appears in many of them. **Under a 20,000-fold
 permutation of the place labels, run 2 is p = 0.0036 — and an X-held control, which cannot contain a
-surface, scores p = 0.020 on the same statistic.** Against a 201-test Bonferroni threshold of
-p < 2.5e-4, run 2 is a factor of 14 short. **Use the permutation test, not the printed sigma.**
+surface, scores p = 0.020 on the same statistic.** Against a ~~201~~ **209**-test Bonferroni threshold of
+~~p < 2.5e-4~~ **p < 2.4e-4 (0.05 / 209)**, run 2 is a factor of ~~14~~ **15** short.
+**Corrected 2026-09-20: 201 was the tally before `code/13` added its eight cross-run tests, and the
+threshold and the factor move with it** — `candidates/GALLERY.md`. **Use the permutation test, not the printed sigma.**
 
 # 2026-09-19 BENCH (night) — superseded by the block above where they differ
 

@@ -167,7 +167,7 @@ drifting junction is not.
 **What is left after the first two points are dropped:** consecutive-pass r +0.048 against a
 surrogate +0.001 ± 0.102 (p = 0.33) — gone. The averaged profile is still slightly above surrogate
 (233 against 166 ± 36, p = 0.035), so *something* common to the twelve passes remains, but p = 0.035
-is one test out of 201 (below), where about ten at that level are expected from noise alone.
+is one test out of 209 (below), where about ten at that level are expected from noise alone.
 
 **Alternative explanations considered and where they stand:**
 
@@ -252,18 +252,36 @@ surface before that run started.** `code/13_gap_stability_across_runs.py`:
 | **run 4 — the repeat** | **50,800** | −1,200 |
 
 **Run 2 to run 4: +2,200 counts — 3.4% of the 65,536-count Z range**, not most of it. **And the
-interval is about two minutes:** `sessions/2026-09-19-bench.md` is chronological, §3.14 is
-timestamped 03:48 (`cas9.log` ends 03:48:56) and §3.16 is 03:53, with all five runs in between.
+interval is UNKNOWN, bounded by about five minutes:** `sessions/2026-09-19-bench.md` is
+chronological, §3.14 is timestamped 03:48 (`cas9.log` ends 03:48:56) and §3.16 is 03:53, with all
+five runs in between — but **neither `ycontrol` log carries a timestamp of its own**, so nothing
+records how those five runs are spaced inside that window.
 
-**Independently corroborated.** 7,800 counts of onset motion over that four-minute window is
-**32 counts/s**, and `sessions/2026-09-19-morning.md` §6 — working from the `cas9` and `img` data,
-without reference to these logs — measured *"the gap opened at ~40-41 counts/s on average from
-03:48:13 to 03:52:58"*. **Same rate, different measurement.**
+> **CORRECTED 2026-09-20, and it is the same error one size smaller.** This said the interval was
+> ~~"about two minutes"~~ and the window ~~"four minutes"~~. Both were inferred from the
+> surrounding §3.14/§3.16 timestamps rather than read off anything — the same move as the
+> ~~"half an hour"~~ corrected just above. **`LEAD_VERIFICATION.md` V5b and V9 settle it:
+> "UNKNOWN, bounded by five minutes" is what the record supports.** `analysis/FINDINGS.md` §6.4
+> and §6.4b, and `analysis/COMPARISON_TABLES.md` §6, already carried the corrected form; this file
+> did not.
+
+**So the rate is bounded, not measured.** 7,800 counts of onset motion across all five runs, inside
+a window of at most the ~5 minutes that hold them, is a mean of **at least 26 counts/s**
+(7,800 ÷ 300 s); the 2,200 counts between run 2 and run 4 give **at least 7 counts/s** by the same
+division. ~~32 counts/s~~ divided the same 7,800 by an assumed four-minute window that nothing
+establishes.
+
+**Consistent with an independent measurement that does have a clock on both ends.**
+`sessions/2026-09-19-morning.md` §6 — working from the `cas9` and `img` data, without reference to
+these logs — measured *"the gap opened at ~40-41 counts/s on average from 03:48:13 to 03:52:58"*.
+**A lower bound of 26 counts/s and a measured 40-41 counts/s agree**, and that is as much as two
+records can say here: one of them is timestamped and the other is not.
 
 ## The cross-run place test, which only becomes meaningful now
 
-If the gap held still, run 2 and run 4 sampled **the same three places** two minutes apart, and a
-profile belonging to a place must agree across the two runs **at the same place**:
+If the gap held still, run 2 and run 4 sampled **the same three places** minutes apart — how many
+is not recorded — and a profile belonging to a place must agree across the two runs **at the same
+place**:
 
 | run 2 against… | same place | different place | difference | **permutation p** |
 |---|---|---|---|---|
@@ -279,14 +297,14 @@ Per place, pass-averaged: Y −12,000 **+0.11**, Y 0 **+0.50**, Y +12,000 **−0
 
 | Explanation | Status |
 |---|---|
-| A one-off fluctuation of the junction that happened to align within places | **Now the leading reading.** p = 0.0036 against a corrected threshold of 2.5 × 10⁻⁴, failed its own repeat, and the cross-run place test is null at p = 0.70 over an interval in which the gap held still |
-| Real topography, lost because the gap moved between runs | **No longer supported.** The gap moved 2,200 counts, 3.4% of range, in about two minutes |
+| A one-off fluctuation of the junction that happened to align within places | **Now the leading reading.** p = 0.0036 against a corrected threshold of 2.4 × 10⁻⁴ (0.05/209), failed its own repeat, and the cross-run place test is null at p = 0.70 over an interval in which the gap held still |
+| Real topography, lost because the gap moved between runs | **No longer supported.** The gap moved 2,200 counts, 3.4% of range, over an interval that is UNKNOWN but at most about five minutes (~~in about two minutes~~ — corrected above) |
 | **Real topography, lost because the tip drifted SIDEWAYS onto different gold** | **Still open, and this is the only thing keeping the candidate alive.** Onset Z is nearly blind to lateral motion: on run 4's measured slopes (dZ/dX −0.0024, dZ/dY −0.0022) a full-range X drift would move it by ~150 counts. **Nothing in this project has ever measured lateral drift** |
 | A bias in the statistic | **Partly.** The X-held control at 3,000 apart scores +0.226, p = 0.02 with nothing to see |
 
 ### **EVIDENCE STRENGTH: weak, and weaker than I first wrote. Still the one worth bench time — on one named ground.**
-Reasoning: p = 0.0036 against a corrected threshold of p < 2.5 × 10⁻⁴; an X-held control reaches
-p = 0.02 on the same statistic; the repeat gave p = 0.26; **and the cross-run same-place test is
+Reasoning: p = 0.0036 against a corrected threshold of p < 2.4 × 10⁻⁴ (0.05/209); an X-held control
+reaches p = 0.02 on the same statistic; the repeat gave p = 0.26; **and the cross-run same-place test is
 null at p = 0.70 across an interval in which the gap is now known to have held still to 2,200
 counts.** My earlier reason for calling it undecidable — "the gap moved" — **does not survive its
 own data.** Genuine non-reproduction is the better-supported reading.
@@ -457,8 +475,9 @@ that half, the data agree with him, and the number is not close.**
 **A 21 × 11 image takes about 5 seconds** (`cas9.log`: lock-in at 03:48:10, scan 0 complete at
 03:48:15; the eight images that follow are 4–9 s apart). **The corrugation of every unclamped
 candidate scan in the project, measured here, is 29 to 458 counts** (21 files, `work/inventory.csv`;
-the 2026-09-17 log's 13–20 counts is its own narrow fast images). The gap's own unsteady motion over that timescale is 396 to 1,722 counts.** The
-thing being measured is smaller than the way the gap moves while it is being measured.
+the 2026-09-17 log's 13–20 counts is its own narrow fast images). **The gap's own unsteady motion
+over that timescale is 396 to 1,722 counts. The thing being measured is smaller than the way the
+gap moves while it is being measured.**
 
 **On periodicity — the part of the hypothesis about "swinging":**
 
@@ -499,13 +518,19 @@ independently confirmed here on more records.**
 | cross-run place tests and onset-Z comparisons (`code/13`, added after the lead's correction) | 8 |
 | **TOTAL** | **209** |
 
+**The table sums to 209, and that is the number to quote.** ~~201~~ was the tally before the last
+row existed: `code/13_gap_stability_across_runs.py` was written in response to the lead's
+correction and its 8 tests take 201 to 209.
+
 At 209 tests, a 5% threshold is expected to throw up **about ten** apparent findings from noise
-alone. **A Bonferroni-corrected 5% threshold is p < 2.4 × 10⁻⁴, about 3.7σ.**
+alone. **A Bonferroni-corrected 5% threshold is 0.05 / 209 = p < 2.4 × 10⁻⁴, about 3.7σ** — and
+**the count and the threshold are one fact, not two**, so the division is written out here and
+everywhere it is cited. (~~201~~ would give ~~2.5 × 10⁻⁴~~; the pair only ever moves together.)
 
 **Nothing in this body of data reaches it as evidence of a surface.** The best place-dependence ever
-seen is candidate B's p = 0.0036, a factor of 14 short, whose repeat gave p = 0.26 and whose X-held
-control scores p = 0.02. The only result that clears the threshold is **candidate A's existence**
-(p < 2 × 10⁻⁴) — and its mechanism is the X flyback.
+seen is candidate B's p = 0.0036 — a factor of 15 short, 0.0036 / (2.4 × 10⁻⁴) — whose repeat gave
+p = 0.26 and whose X-held control scores p = 0.02. The only result that clears the threshold is
+**candidate A's existence** (p < 2 × 10⁻⁴) — and its mechanism is the X flyback.
 
 ---
 
