@@ -18,12 +18,16 @@
 | **PROMOTED TO THE FRONT OF THE PLAN** | **Measure `d` with a loupe or USB microscope, while the instrument is still in pieces.** No power, minutes, and it settles the 2026-09-17 junction retroactively. `docs/NEXT_SESSION_PLAN.md` **STEP A** |
 | **Settled, all `SAID` 2026-09-20** | **Eleven weeks of planning and design, eight weeks of building** (four deliverables said eight and three said eleven; both were right and none said which phase). **The repository is PUBLIC.** **Nuh consented to the team photograph** (second-hand, via Jacob). **Poster size confirmed at 48 x 36 in** |
 | **The five blockers, ranked, each with a one-line fix** | `deliverables/2026-09-19-pause/WHAT_HELD_US_BACK.md`. **None of the five is electronic.** The gap not holding still is the blocker, and **it is far too slow to be vibration — a better suspension is the wrong fix** |
+| **THE PROJECT NOW HAS ONE SHAREABLE LINK** | <https://claude.ai/artifact/YZ6sGyniLBBDNxhceXUfF8> — every deliverable except the unsent emails, on one page, editable by re-publishing `deliverables/2026-09-19-pause/site/index.html`. **Shared: anyone with the link.** Rebuild its images with `python3 deliverables/2026-09-19-pause/site/build_assets.py`, which also stamps every image's true size and refuses to ship a photograph with a caption bar burnt into it |
+| **THREE FIGURES WERE RE-RENDERED** | `fig02`, `fig13` were drawing their x-axis label on top of their own source footnote; `fig05` was 4 px from it. All thirteen were checked and those were the only three. **The poster was re-rendered and still fits 48 x 36 in.** The Drive copies of all four were replaced IN PLACE, so every link already sent out still works, and each was verified by MD5 against the repository. `sessions/2026-09-20.md` §10 |
 
 **Claude's errors this session, all caught by others:** bannered one superseded verdict in the
 verification log and called the class done when three more stood unmarked; reported a banner
 written that a failed assertion had silently discarded; corrected a figure's numbers in code and
 left its docstring carrying the old ones. **All three are the same shape and all three are in
-`sessions/2026-09-20.md` §9.**
+`sessions/2026-09-20.md` §9. **A fourth, found in the second half of the session: the website's own
+font link had been malformed since it was written, so neither typeface had ever loaded on any
+machine — and nothing in the source showed it. It took rendering the page to find.** §10.
 
 ---
 

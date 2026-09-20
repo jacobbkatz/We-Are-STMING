@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-20 — **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **What changed on 2026-09-20 is what the project claims and one promoted step:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which promotes one measurement to the front of this plan. See STEP A immediately below.
+**Last updated:** 2026-09-20 — **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **What changed on 2026-09-20 is what the project claims and one promoted step:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which promotes one measurement to the front of this plan. See STEP A immediately below. **A section on keeping the poster, the website and the Drive copies of a figure in step was added at the foot of this file the same day.**
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -1848,3 +1848,28 @@ noise is the reference, not the preamp.**
 - **Do not bring the sample plate near the tip holder.**
 - **Do not change any firmware constant**, especially the 10.24 V ADC full scale.
 - **Do not rebuild the tip lead** until the open-input measurements are finished.
+
+---
+
+# If you regenerate a figure, three other things carry a copy of it
+
+**Added 2026-09-20.** A figure is no longer only a file in `figures/png/`. Three published things
+hold their own copy, and they drift silently if one is regenerated and the others are not — the
+exact failure this project built `docs/FACTS.md` to stop, but for pictures instead of numbers.
+
+After running any `deliverables/2026-09-19-pause/figures/code/figNN_*.py`:
+
+```bash
+python3 deliverables/2026-09-19-pause/poster/prepare_assets.py   # the poster's copies
+python3 deliverables/2026-09-19-pause/poster/render.py           # the print PDF, checks it still fits
+python3 deliverables/2026-09-19-pause/site/build_assets.py       # the website's copies
+```
+
+Then **re-publish the website** by giving its `index.html` and `img/` to the artifact at
+<https://claude.ai/artifact/YZ6sGyniLBBDNxhceXUfF8>, and **replace the Drive copies in place**
+(same file IDs, so every link already sent out keeps working) — the four that changed on
+2026-09-20 are listed with their IDs in `sessions/2026-09-20.md` §10.
+
+**`build_assets.py` fails rather than shipping a bad image**: it refuses a photograph that still
+carries its caption bar burnt in, and it stamps every image's true pixel size onto the page so the
+layout does not move under the reader while the pictures load.
