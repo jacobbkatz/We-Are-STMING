@@ -228,6 +228,10 @@ def p04():
     label(d, (W * 0.98, H * 0.26), "threaded column", 28, anchor="rt")
     arrow(d, (W * 0.36, H * 0.17), (W * 0.45, H * 0.055))
     label(d, (W * 0.34, H * 0.19), "top plate", 28, anchor="rt")
+    arrow(d, (W * 0.86, H * 0.875), (W * 0.725, H * 0.725))
+    label(d, (W * 0.98, H * 0.90), "eddy-current damping magnets", 28, anchor="rt")
+    arrow(d, (W * 0.15, H * 0.80), (W * 0.29, H * 0.735))
+    label(d, (W * 0.02, H * 0.82), "suspended platform", 28)
     arrow(d, (W * 0.14, H * 0.60), (W * 0.30, H * 0.58))
     label(d, (W * 0.02, H * 0.62), "paper coin wrapper", 28)
     arrow(d, (W * 0.80, H * 0.76), (W * 0.58, H * 0.63))
@@ -253,10 +257,20 @@ def p05():
     label(d, (W * 0.64, H * 0.03), "preamp box, copper taped", 28)
     arrow(d, (W * 0.95, H * 0.42), (W * 0.83, H * 0.36))
     label(d, (W * 0.98, H * 0.45), "stepper motor", 28, anchor="rt")
-    arrow(d, (W * 0.06, H * 0.54), (W * 0.25, H * 0.51))
+    arrow(d, (W * 0.06, H * 0.54), (W * 0.47, H * 0.44))
     label(d, (W * 0.02, H * 0.50), "rubber bands", 28)
     arrow(d, (W * 0.14, H * 0.82), (W * 0.11, H * 0.70))
     label(d, (W * 0.02, H * 0.85), "printed coin cup with a coin in it", 28)
+    # More labels, asked for by Jacob 2026-09-20. Each one names something the
+    # caption below already asserts, so nothing new is claimed about the hardware.
+    arrow(d, (W * 0.13, H * 0.27), (W * 0.30, H * 0.35))
+    label(d, (W * 0.02, H * 0.22), "scan head, copper taped", 28)
+    arrow(d, (W * 0.14, H * 0.66), (W * 0.36, H * 0.63))
+    label(d, (W * 0.02, H * 0.63), "copper-covered base plate", 28)
+    arrow(d, (W * 0.95, H * 0.54), (W * 0.66, H * 0.44))
+    label(d, (W * 0.98, H * 0.57), "coarse-approach lead screw", 28, anchor="rt")
+    arrow(d, (W * 0.97, H * 0.74), (W * 0.89, H * 0.69))
+    label(d, (W * 0.98, H * 0.77), "spring eyebolt, empty", 28, anchor="rt")
     c = caption_bar(c, [
         "The whole scanning module, lifted off the frame during the move.",
         "The suspended platform with everything it carries: copper-covered base plate, the head held by two rubber",

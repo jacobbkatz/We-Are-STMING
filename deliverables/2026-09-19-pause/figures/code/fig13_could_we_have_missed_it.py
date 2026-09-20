@@ -73,36 +73,8 @@ def in_cycles(path):
 
 def main():
     S.set_theme("light")
-    fig, (axL, axR) = S.make_fig(width=11.6, height=7.6, ncols=2,
-                                 gridspec_kw=dict(width_ratios=[1.0, 1.25]))
-    fig.subplots_adjust(top=0.760, bottom=0.330, left=0.105, right=0.980, wspace=0.30)
-
-    # ---------------------------------------------------------------- LEFT
-    steps = [("d = 1.00 mm\nthe design value", 1.000),
-             ("d = 0.50 mm\nJacob's bench limit", 0.500),
-             ("d = 0.13 mm", 0.130),
-             ("d = 0.026 mm\nthe tunnelling case", 0.026)]
-    ys = list(range(len(steps)))[::-1]
-    for y, (lab, d) in zip(ys, steps):
-        nm = NM_PER_STEP * d / 40.0
-        inside = nm <= WIN_NM
-        axL.barh(y, nm, height=0.52, color=S.series(2) if inside else S.series(1), zorder=4)
-        S.key(axL, nm * 1.22, y, "%.2f nm — %.1fx the window" % (nm, nm / WIN_NM),
-              va="center", ha="left")
-    axL.axvspan(1e-3, WIN_NM, color=S.series(2), alpha=0.13, zorder=1)
-    axL.axvline(WIN_NM, color=S.series(2), linewidth=2.0, zorder=3)
-    axL.set_xscale("log")
-    axL.set_xlim(0.02, 40)
-    axL.set_ylim(-0.7, 3.7)
-    axL.set_yticks(ys)
-    axL.set_yticklabels([lab for lab, _ in steps])
-    axL.set_xticks([0.03, 0.1, 0.17, 0.5, 1, 3, 10])
-    axL.set_xticklabels(["0.03", "0.1", "0.17", "0.5", "1", "3", "10"])
-    axL.minorticks_off()
-    S.tidy(axL, xlabel="how far one motor step moves the TIP, in nm", grid="x")
-    axL.set_title("On the motor we are blind, whatever we do\n"
-              "the green line and band is the whole 0.17 nm window")
-
+    fig, axR = S.make_fig(width=10.2, height=7.4)
+    fig.subplots_adjust(top=0.760, bottom=0.400, left=0.095, right=0.975)
 
     # ---------------------------------------------------------------- RIGHT
     cyc = in_cycles(S.data_path(SESSION, FILE))
@@ -150,35 +122,24 @@ def main():
     axR.set_xlim(min(zs) - 60, max(zs) + 60)
     S.thousands(axR, "x")
     S.tidy(axR, xlabel="Z, in DAC counts", ylabel="current, nA", grid="both")
-    axR.set_title("On the piezo we are not blind — and we looked, 109 times")
+    axR.set_title("One approach, drawn from the raw file")
 
     S.titles_keyed(
         fig,
-        "Could we have missed it in the instant the tip swept past? Not on the piezo — we took 60,928 readings in there.",
-        "There is a narrow shelf of gap width where a tunnelling current is big enough to see and small enough not to saturate us:\n"
-        "<1.70 decades of current, about 0.17 nm of gap>. One motor step jumps clean over it. The piezo does not — it steps 4 counts\n"
-        "at a time, 227 readings a second, and across 109 approaches it spent 60,928 of them inside that shelf.\n"
-        "<A tunnelling gap crosses that shelf in 10 to 22 Z counts.> The nearest we came was about 1,500.",
+        "Could we have blinked and missed it? No. We took 60,928 readings inside the window.",
+        "The green band is the window: wide enough to see a tunnelling current, narrow enough not to saturate us.\n"
+        "<Across 109 approaches the tip spent 60,928 readings in there.> "
+        "<A real vacuum gap would cross it in 10 to 22 counts.> We took 2,636.",
         [{"color": S.word(2), "fontweight": S.W_EMPH},
          {"color": S.word(6), "fontweight": S.W_EMPH}])
 
-    S.footer(fig, y=0.008, text=
-             "Source: sessions/data/2026-09-19-morning/ztest_1789822585.csv (29 usable approaches) and "
-             "bias_m01V_/m05V_/p01V_/p05V_1789822770.csv (20 each), 2026-09-19 12:56-13:05 UTC. The reading count, "
-             "the step size and the 227 readings/second are recomputed from those files for this figure.\n"
-             "The window is 20 ADC counts (about 62 pA, just above the 9-19 counts of noise measured with a live "
-             "junction) up to 1,000, which is the Z test's own stop target - so every one of the 109 approaches "
-             "really does traverse it, and the comparison is like for like.\nThe right panel draws the approach "
-             "whose reading count is CLOSEST TO THE MEDIAN, so it is typical rather than chosen.\n"
-             "TWO THINGS HERE ARE CALCULATED, NOT MEASURED. The 0.17 nm assumes the "
-             "window IS a vacuum gap - it is the width the gap would have to have. The 10-22 counts uses the "
-             "inherited 0.016 nm per Z count, which came from another builder's\nscanner and has never been "
-             "measured on ours; if our Z scale is finer, that band is narrower still and the gap widens.\n"
-             "WHAT THIS IS NOT ABOUT. It is not about whether tunnelling occurred - it did, and that is settled "
-             "(LEAD_VERIFICATION.md V13): the tip passes through the tunnelling separations on every approach "
-             "and we were recording throughout.\nThis figure answers the narrower question the data CAN settle "
-             "- whether we could have seen it, whether we looked, and whether we ever HELD it. We could, we did, "
-             "at length, and what we were holding was not a gap.")
+    S.footer(fig, y=0.012, text=
+             "Source: sessions/data/2026-09-19-morning/ztest_1789822585.csv (29 usable approaches)\n"
+             "and bias_m01V_/m05V_/p01V_/p05V_1789822770.csv (20 each), 2026-09-19 12:56-13:05 UTC.\n"
+             "Counts, step size and the 227 readings/second are recomputed from those files. This is\n"
+             "the approach whose reading count is CLOSEST TO THE MEDIAN, so it is typical.\n"
+             "The window runs from 20 ADC counts (about 62 pA) to 1,000, the Z test\'s own stop target.\n"
+             "CALCULATED, NOT MEASURED: the 10-22 counts uses an inherited 0.016 nm per Z count.")
 
     print("  window: %.2f decades = %.2f nm;  representative cycle %d with %d readings inside"
           % (WIN_DEC, WIN_NM, pick, counts[pick]))
