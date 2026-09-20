@@ -1,7 +1,31 @@
 # Current status
 
-**Last updated:** 2026-09-19, after the morning session — **THE INSTRUMENT IS BEING TAKEN APART AND MOVED, read as to Nuh's house; Jacob is leaving for college in San Diego; sessions will be less frequent** (`SAID`). **The next session starts with REASSEMBLY** (`docs/NEXT_SESSION_PLAN.md`). The science stands as below: the Z test ran (110 cycles, four biases) — not a clean tunnelling gap, and the gap moves by most of the Z range within seconds to minutes. `sessions/2026-09-19-morning.md`.
-**Updated by:** Claude Code desktop on Jacob's laptop, most of it run alone with Jacob's authority (motor: single steps, then chunks of up to 20).
+**Last updated:** 2026-09-20 — **no bench work since 2026-09-19 morning. The instrument is still disassembled and moved; the next session still starts with REASSEMBLY** (`docs/NEXT_SESSION_PLAN.md`, and note the new STEP A). **WHAT CHANGED IS WHAT THIS PROJECT CLAIMS: we detected tunnelling. What we could not do is hold the range.** Read the block immediately below before anything else, then the 2026-09-19 morning block, which still stands.
+**Updated by:** Claude, 2026-09-20, in a deliverables session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.** Every number below that is new is a re-derivation from raw files already in `sessions/data/`, computed without importing the bench scripts.
+
+# 2026-09-20 — THE CENTRAL CLAIM WAS CORRECTED. READ THIS FIRST
+
+| | |
+|---|---|
+| **WE DETECTED TUNNELLING** | **Every deliverable used to say "we have not demonstrated tunnelling". That sentence conflates two claims and only the second fails.** A tip cannot travel from not-touching to touching without passing through the separations where tunnelling is the only mechanism carrying electrons, and **bias was applied with the amplifier recording throughout — 60,928 readings inside that current range, across 109 approaches**, recomputed from the raw files. `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` **V13** |
+| **THE CANONICAL SENTENCE, AND IT IS JACOB'S OWN** | ***"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."*** `SAID`, 2026-09-20. **It supersedes every earlier formulation.** Both halves are separately sourced in `deliverables/2026-09-19-pause/FRAMING.md` |
+| **The loophole, closed by our own data** | A metallic bridge shorting before the tunnelling separation would make the claim vacuous. **The I-V is superlinear (V^1.55) and symmetric; the junction never fell below about 5 MΩ even at amplifier saturation; 109 of 110 onsets were gradual ramps rather than steps.** A barrier, not a bridge |
+| **WHAT IS STILL NOT CLAIMED** | **A controlled vacuum gap — the regime you need in order to scan.** That is what the shallow decay and the in/out hysteresis argue against, and it is unchanged. **No image. No atomic resolution. No distance in nanometres from our own hardware** |
+| **`d` IS BOUNDED, NOT RESOLVED** | **Under 0.5 mm** (`SAID`+`BENCH`, Jacob, 2026-09-20). **The 26 um a vacuum gap needs is INSIDE that bound**, in its bottom 5%. **The 2026-09-19 reading of 1.000 mm is WITHDRAWN** — "smack dab in the middle" meant centred BETWEEN THE TWO SCREWS, which is along the pivot line and says nothing about distance from it. `docs/FACTS.md` |
+| **CONSEQUENCE FOR THE Z SCALE, and it is new** | Lever ratio, tip travel per motor step and the Z scale all become **bounds**: over 80, under 1.94 nm, **under 0.0078 nm per Z count**. **Our own geometry now caps the Z scale BELOW the inherited 0.016 nm/count, so the two no longer agree** — they differ by at least a factor of two, in the direction that makes our Z range smaller |
+| **Drift was excluded before the hysteresis was believed** | A gap closing during a cycle produces a loop of exactly the observed sign. **Drift contributes at most 43 to 207 counts over the median cycle (2.5-6.1 s), against loops of 714 to 1,926.** Cycle durations recomputed from the raw timestamps |
+| **The hysteresis reproduces under a second measurement rule** | The bench script's fixed 300-count level gives **705-1,868**; an independent recomputation at the geometric midpoint gives **714-1,926**. **Both stand; neither replaces the other** |
+| **PROMOTED TO THE FRONT OF THE PLAN** | **Measure `d` with a loupe or USB microscope, while the instrument is still in pieces.** No power, minutes, and it settles the 2026-09-17 junction retroactively. `docs/NEXT_SESSION_PLAN.md` **STEP A** |
+| **Settled, all `SAID` 2026-09-20** | **Eleven weeks of planning and design, eight weeks of building** (four deliverables said eight and three said eleven; both were right and none said which phase). **The repository is PUBLIC.** **Nuh consented to the team photograph** (second-hand, via Jacob). **Poster size confirmed at 48 x 36 in** |
+| **The five blockers, ranked, each with a one-line fix** | `deliverables/2026-09-19-pause/WHAT_HELD_US_BACK.md`. **None of the five is electronic.** The gap not holding still is the blocker, and **it is far too slow to be vibration — a better suspension is the wrong fix** |
+
+**Claude's errors this session, all caught by others:** bannered one superseded verdict in the
+verification log and called the class done when three more stood unmarked; reported a banner
+written that a failed assertion had silently discarded; corrected a figure's numbers in code and
+left its docstring carrying the old ones. **All three are the same shape and all three are in
+`sessions/2026-09-20.md` §9.**
+
+---
 
 # 2026-09-19 MORNING — READ THIS FIRST, AND THE PLAN FOR COMING BACK AFTER THE BREAK
 

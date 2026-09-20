@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-19, after the morning session — **the instrument is being taken apart and moved (read as to Nuh's house) while Jacob leaves for college: the next session starts with REASSEMBLY, below.** The science: the Z test ran (110 cycles, four biases), not a clean tunnelling gap, and the gap moves by most of the Z range within seconds to minutes. **Find what moves it and prove the gap holds still BEFORE any scanning.** Start at the block below.
+**Last updated:** 2026-09-20 — **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **What changed on 2026-09-20 is what the project claims and one promoted step:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which promotes one measurement to the front of this plan. See STEP A immediately below.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -8,6 +8,60 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 ---
 
 # START HERE — COMING BACK AFTER THE BREAK (written 2026-09-19 morning, corrected before commit)
+
+## STEP A — MEASURE `d`, AND DO IT WHILE THE INSTRUMENT IS STILL IN PIECES
+
+**Added 2026-09-20. It needs no power, no wiring and no software. It takes minutes. Do it before
+reassembly, because the scan head is easier to look at now than it will ever be again.**
+
+**What `d` is:** the perpendicular distance from the tip's POINT to the line through the two
+side-by-side ball ends. Not the tip's base — the point. The tip leans, so the two differ.
+
+**Why it is worth doing first:**
+
+1. **It settles the 2026-09-17 junction retroactively.** That junction changed current ten-fold per
+   motor step. The screw moves 155 nm per step, and the lever divides that by `40 mm / d`. **For
+   that to have been a vacuum gap, `d` must be about 26 micrometres.**
+2. **It fixes the nanometre scale for every measurement this instrument will ever make.** Right now
+   every axis is in converter counts and no scan size means anything. `sessions/2026-09-17-bench.md`
+   §3.25 records scans that covered about ±0.6 nm of sample — **smaller than a single atom** — and
+   nobody could have known at the time.
+
+**What has already been tried, so do not repeat it.** A straightedge and an eye. `SAID`+`BENCH`,
+Jacob, 2026-09-20: *"I obviously can't measure 26 micrometers but it's less than 0.5 mm"*. **That
+bound is real and it is recorded** (`docs/FACTS.md`), **but 26 um sits inside it**, in its bottom
+5%, so it narrows the question without settling it.
+
+**What to use instead:** a jeweller's loupe, a USB microscope, or an optical comparator — anything
+that resolves tens of micrometres.
+
+**How:**
+
+1. Plate off. Lay a straightedge across the two side-by-side ball ends.
+2. **Get a scale into the same frame as the tip.** In order of preference:
+   - **a reticle loupe, or a USB microscope with its calibration slide** — these read directly and
+     need nothing else;
+   - failing that, **something whose size you can measure yourself with what you have** — a drill
+     bit, a known wire gauge, the thickness of the straightedge. **Measure it first, write the
+     number down, then put it in the frame.**
+
+   > **Do NOT scale off the ball end or any other part of the instrument.** Its diameter is **not
+   > recorded anywhere in this repository** — that was checked on 2026-09-20 and `docs/FACTS.md`
+   > has no such row. Using an unmeasured part as the ruler makes the answer depend on a second
+   > unknown.
+3. Photograph or eyeball the tip's POINT against the straightedge, with the scale object in shot.
+4. **Measure off the picture**, scaling by the object you measured in step 2.
+
+**Expected reading, so a surprise is information rather than alarm:** anywhere from roughly zero to
+0.5 mm. **Under about 0.03 mm and the 2026-09-17 junction was a vacuum gap.** Above about 0.1 mm
+and it was not, by a widening margin. **Write whatever you get into `docs/FACTS.md` the same
+session**, and say which end of the tip you measured to.
+
+> **Do NOT read `d` off any existing photograph.** Three attempts gave answers differing by more
+> than a factor of two, and `Images/ours/README.md` forbids a fourth. **This step is a new
+> measurement with a scale object in frame, which is a different thing.**
+
+---
 
 ## REASSEMBLY FIRST — the instrument was taken apart and moved after this session
 
