@@ -1,0 +1,65 @@
+Copyright (c) 2026 Jacob Katz and Nuh Shaheer. All rights reserved.
+
+
+WHAT THIS IS
+
+This repository is public so that it can be read. It is not open source, and
+putting it on GitHub does not make it so. This file exists because "public on
+GitHub" is widely read as "free to use", and that is not what is meant here.
+
+
+WHAT YOU MAY DO, WITHOUT ASKING
+
+  - Read anything here.
+  - Clone or fork the repository to read it, or to check our working.
+  - Quote and cite it, with attribution, in academic work, journalism,
+    teaching, or a discussion of the project.
+  - Run our code on your own machine to see what it does.
+
+WHAT NEEDS OUR WRITTEN PERMISSION FIRST
+
+  - Redistributing this work, in whole or in part.
+  - Building a derivative of it: a modified version, a project based on our
+    documents, figures, analysis or code, or a product incorporating them.
+  - Any commercial use.
+
+Ask. We are not difficult about it, and we would rather be asked than not:
+jacob@quis.com
+
+
+WHAT IS NOT OURS TO LICENSE, AND IS NOT COVERED ABOVE
+
+This instrument is built from two open designs that other people published,
+and parts of this repository are theirs rather than ours. Nothing above grants
+you any right in their work, and nothing above takes any right away from them.
+
+  The mechanics, the controller board and the firmware follow Mech Panda's
+  `red-panda-stm`. The scan head, the tip preparation and the preamplifier
+  follow Dan Berard's home-built STM, at dberard.com/home-built-stm. Their
+  designs belong to them. If you want to build the instrument, go to them
+  first; that is where we went.
+
+  `Code/teensy/lib/LTC2326/LTC2326_16.hpp` is Copyright (c) Daniel Berard and
+  carries the full MIT licence in its header. That licence, not this file,
+  governs it. Our copy changes the SPI clock and leaves his notice intact,
+  which is what the MIT licence requires of a modified copy.
+
+  `Code/teensy/src/logTable.hpp` carries Daniel Berard's copyright header,
+  retained unaltered.
+
+  `deliverables/2026-09-19-pause/figures/fonts/` contains the Inter typeface,
+  Copyright (c) 2016 The Inter Project Authors, under the SIL Open Font
+  License 1.1. Its own LICENSE.txt sits beside it and governs it.
+
+
+A NOTE ON WHAT THIS DOES NOT CHANGE
+
+Every measurement, every figure, every raw data file and every mistake in this
+repository stays readable by anyone, for free, forever. Reserving the right to
+control derivative works is not the same as hiding the results, and we are not
+hiding the results. The record is the point of the project.
+
+
+This file is written in plain language rather than legal language, by two
+undergraduates who are not lawyers. If you need something more formal for your
+own purposes, write to the address above and we will sort it out.

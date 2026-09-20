@@ -143,3 +143,22 @@ are welcome, especially from anyone who has built a similar instrument.
 The **What we still don't know** section of [`docs/BOM.md`](docs/BOM.md) and the open questions in
 [`STATUS.md`](STATUS.md) are the most useful places to help. If you work one of them out while
 building, please open an issue — closing those gaps is most of what this project is for.
+
+---
+
+## Licence
+
+**Copyright (c) 2026 Jacob Katz and Nuh Shaheer. All rights reserved.**
+See [`LICENSE`](LICENSE).
+
+This repository is public so it can be **read**, not so it can be reused without asking. Reading,
+cloning, quoting and citing it need no permission. **Redistributing it, building a derivative of
+it, or using it commercially need ours first** — write to jacob@quis.com, and expect a yes.
+
+**Parts of this repository are not ours to license.** The mechanics, controller and firmware follow
+**Mech Panda's `red-panda-stm`**; the scan head, tip preparation and preamplifier follow
+**[Dan Berard's home-built STM](https://dberard.com/home-built-stm/)**. Their designs are theirs.
+Two firmware files carry Daniel Berard's own MIT notice, retained unaltered, and the Inter typeface
+in the figures directory is under the SIL Open Font License. `LICENSE` names each one.
+
+Every measurement, figure and raw file here stays free to read. The record is the point.
