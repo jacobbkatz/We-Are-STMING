@@ -94,6 +94,60 @@ the two differ, the repository is right.
 
 ---
 
+## One known discrepancy between the repository and Drive, 2026-09-20
+
+**`analysis/DATA_INVENTORY.md`'s Drive copy is one character behind**, and that was a deliberate
+decision rather than an oversight.
+
+**The difference:** one table cell reads `14.5%%` in Drive and `14.5%` here. A doubled percent sign
+left by a format string in the generator, fixed in the repository and in the generator itself.
+
+**Why the Drive copy was not replaced.** The upload of the corrected file was stopped part-way
+through by a safety classifier, leaving a truncated document, which was trashed. The only other
+route available uploads by URL and can convert to a Google Doc **only through plain text** — which
+would have stripped every heading, every table and all the bold from an 80 KB reference document.
+
+**So the choice was: a correctly formatted document with one stray percent sign, or a correct one
+that is an unreadable wall of text.** The formatted one is more useful and the error is visibly
+trivial. **The repository is right; if that one cell matters, read it here.**
+
+> **This is the only known difference between any deliverable and its Drive copy.** Everything else
+> was verified byte-identical by `diff` and, in most cases, by md5 as well before upload.
+
+---
+
+## A trap in the Drive copies, verified 2026-09-20 — the tables are FINE
+
+**Three separate agents reported that uploading these documents to Google Drive mangled every
+table** — blank header rows, bold showing as literal `\*\*text\*\*`, backslashes in filenames.
+**All three were wrong, and all three were wrong the same way.**
+
+**They were reading the Drive connector's `read_file_content`, which renders a Doc back as
+markdown and escapes asterisks as part of its own serialisation.** What they saw was the reading
+tool's output, not the document.
+
+**How it was settled**, in case anyone needs to check this again:
+
+1. Upload a small markdown table with bold cells.
+2. Export it with `download_file_content` as `text/plain` — **the characters actually in the
+   document**. No asterisks, cells tab-separated.
+3. Export the same document as `text/html`. The bold cells carry `font-weight:700`, the plain ones
+   `font-weight:400`, and the header row is a real `<thead>`.
+
+**So: real tables, real header rows, real bold inside cells, no stray characters.**
+
+> **The general lesson, which cost about an hour before it was checked: a tool that renders content
+> back to you is not the content.** `read_file_content` says so in its own description — *"the text
+> representation will change over time, so don't make assumptions about the particular format"* —
+> and three agents read past it. **Export, don't read back, when the question is what is really in
+> the file.**
+
+**One thing the conversion genuinely does change:** relative links. `[code/](code/)` becomes
+`[code/](http://code/)`. The link text survives and the target breaks — but those were
+repository-relative paths that could never have resolved in Drive anyway.
+
+---
+
 ## Two things to know before quoting anything
 
 1. **Numbers live in [`docs/FACTS.md`](../../docs/FACTS.md), not here.** Citing a figure in prose is
