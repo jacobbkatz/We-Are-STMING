@@ -643,7 +643,13 @@ trying again.
 > the two ball ends, with the plate off, and see which side of it the tip stands on and by how
 > much.** Below about **0.13 mm**, the 2026-09-17 measurement is tunnelling.
 
-**"We have not demonstrated tunnelling" remains true and must stay. "Our data rule it out" is FALSE
+> **SUPERSEDED 2026-09-20 BY V13, and by Jacob again. The sentence below is wrong.** "We have not
+> demonstrated tunnelling" conflates two claims — that tunnelling occurred, and that we held a
+> vacuum gap — and only the second fails. **Read V13 before acting on anything in this paragraph.**
+> The canonical wording is now Jacob's: *"We detected tunnelling, but weren't able to maintain
+> tunnelling range for long enough to get an image."*
+
+~~**"We have not demonstrated tunnelling" remains true and must stay.**~~ **"Our data rule it out" is FALSE
 and I should not have said it.** The distinction is the difference between an honest limitation and
 a wrong claim, and I made the wrong claim in the direction of caution — which is still a wrong
 claim.

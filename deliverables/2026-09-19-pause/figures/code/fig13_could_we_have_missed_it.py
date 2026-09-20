@@ -6,26 +6,28 @@ JACOB'S QUESTION, 2026-09-20, and it is the right one: "why didn't we have tunne
 for the microsecond the tip was nanometres away from the gold - how can you prove that didn't
 happen?"
 
-THE HONEST ANSWER IS THAT IT ALMOST CERTAINLY DID HAPPEN. On every approach the tip has to
-pass through the gap width where tunnelling occurs. Nobody can prove a negative about an
-instant nobody watched. The answerable question is different and this figure answers it:
-WERE WE ABLE TO SEE IT, AND DID WE LOOK?
+THE ANSWER IS THAT IT DID HAPPEN, and that is settled - LEAD_VERIFICATION.md V13. On every
+approach the tip passes through the separations where tunnelling is the only mechanism
+available, and bias was applied with the amplifier recording throughout. SO THIS FIGURE IS NOT
+ABOUT WHETHER TUNNELLING OCCURRED. It answers the narrower question the data CAN settle:
+COULD WE HAVE SEEN IT, DID WE LOOK, AND DID WE EVER HOLD IT?
 
 THE WINDOW. Our amplifier's own noise with a live junction is 9-19 ADC counts and the ADC
-saturates at 32,767. Taking 20 counts (about 62 pA) as the floor, the current range in which
-we could see anything at all spans 3.20 decades. A vacuum tunnel gap changes a decade per
-0.1 nm, so that whole range is about 0.32 nm of gap. It is a very narrow shelf to land on.
+saturates at 32,767. Taking 20 counts (about 62 pA) as the floor and 1,000 counts as the
+ceiling - the Z test's own stop target, so that every approach really does traverse it - the
+window spans 1.70 decades. A vacuum tunnel gap changes a decade per 0.1 nm, so that whole
+window is about 0.17 nm of gap. It is a very narrow shelf to land on.
 
 LEFT PANEL - on the MOTOR we are blind, by construction. One motor step turns the fine screw
 155 nm, divided by the lever. At the d Jacob measured at the bench, under 0.5 mm, one step
-moves the tip at least 1.94 nm - four times the entire window. THERE IS NO MOTOR POSITION
+moves the tip at least 1.94 nm - eleven times the entire window. THERE IS NO MOTOR POSITION
 INSIDE THE WINDOW. That is not a failure of ours; it is why the piezo exists.
 
 RIGHT PANEL - on the PIEZO we are not blind, and we looked. The Z test stepped 4 counts at a
-time and read 227 times a second. Recomputed from the raw files for this figure: 61,038
+time and read 227 times a second. Recomputed from the raw files for this figure: 60,928
 readings were taken inside that current range, across 109 separate approaches, a median of
-365 to 1,182 per approach. We did not blink and miss it. We sat in the window and watched the
-current crawl across it.
+364 to 1,180 per approach. We did not blink and miss it. We sat in the window and watched the
+current crawl across it - where a vacuum gap would have crossed it in 10 to 22 Z counts.
 
 SOURCE. sessions/data/2026-09-19-morning/ztest_1789822585.csv and bias_*_1789822770.csv,
 2026-09-19 12:56-13:05 UTC; docs/FACTS.md for the geometry and the noise figures.
@@ -48,8 +50,8 @@ LO_C, HI_C = 20.0, 1000.0        # the window: just above our noise, up to the Z
                                  # target. Bounding it by the test rather than by ADC saturation
                                  # matters: every approach really does traverse this, so the
                                  # comparison against a tunnelling gap is like for like.
-WIN_DEC = math.log10(HI_C / LO_C)        # 3.20 decades
-WIN_NM = WIN_DEC * 0.1                   # 0.32 nm, IF it were a vacuum gap
+WIN_DEC = math.log10(HI_C / LO_C)        # 1.70 decades
+WIN_NM = WIN_DEC * 0.1                   # 0.17 nm, IF it were a vacuum gap
 NM_PER_STEP = 0.31750 / 2048 * 1e6       # 155.03 nm of screw per motor step
 TUN_LO, TUN_HI = 6, 13           # Z counts per decade for tunnelling, on the INHERITED scale
 
