@@ -29,7 +29,7 @@ work.
 |---|---|---|---|
 | Already in the repository, committed 2026-09-17/18 | 31 | not recorded | Jacob |
 | **New — Jacob's batch** | 31 (`IMG_86xx`) | **iPhone 17 Pro** | `jacob@quis.com` |
-| **New — Nuh's batch** | 30 (`IMG_46xx`–`IMG_49xx`) | **iPhone 13 Pro Max** | `nuh.bmshaheer@gmail.com` |
+| **New — Nuh's batch** | 30 (`IMG_46xx`–`IMG_49xx`) | **iPhone 13 Pro Max** | Nuh's phone |
 
 **The two new batches are independent shoots**, and on 2026-09-19 they overlap in time: Jacob's run
 09:35–09:41 and Nuh's 09:33–10:15, both camera-local. **Nuh's run half an hour later and they are

@@ -3,7 +3,7 @@
 **Added by the lead 2026-09-19, after wave 1 was already running.** Jacob: *"check the
 google drive folder again nuh just uploaded a bunch aswell"*.
 
-**Thirty more photographs, owner `nuh.bmshaheer@gmail.com`**, in the same Drive folder.
+**Thirty more photographs, taken on Nuh's phone**, in the same Drive folder.
 They are a DIFFERENT CAMERA from Jacob's batch — iPhone 13 Pro Max, against Jacob's
 iPhone 17 Pro — and they span the whole build rather than one morning.
 

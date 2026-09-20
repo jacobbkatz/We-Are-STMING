@@ -18,8 +18,20 @@ tools can build, verify, and understand end to end.
 
 ## Status
 
-**Actively in progress.** Bring-up stages 0 through 5 pass, and the sample bias path passes. The
-preamplifier is currently the blocker and is being rebuilt.
+**Paused, mid-build, with the instrument in pieces after a house move.**
+
+Every subsystem a tunnelling microscope needs is built, working and calibrated. The measurement
+chain was checked end to end against a known resistor and agrees with Ohm's law to 0.13 of one
+standard error. A real tip-and-sample junction was made and swept, and it behaves like a barrier
+rather than a short.
+
+**We detected tunnelling. What we could not do is hold the gap steady long enough to take an
+image** — with the motor off and nobody touching it, the surface moves by most of the scanner's
+range within seconds. That measurement, and the five things that stood in the way, are written up
+in full, along with the two results we published and later withdrew.
+
+There is a plain-language write-up of the whole project at
+**[jacobbkatz.github.io/We-Are-STMING](https://jacobbkatz.github.io/We-Are-STMING/)**.
 
 **[`STATUS.md`](STATUS.md) is the live state of the build** — always current, rewritten at the end
 of every work session. Read that rather than this paragraph, which will go stale.

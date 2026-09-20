@@ -179,53 +179,24 @@ because **no image in this project has a known scale and none should travel with
 
 ---
 
-## 3. THE THREE CONTACTS — UNKNOWN. Jacob has to fill these in
+## 3. THE THREE CONTACTS — for Jacob to fill in privately
 
-**Jacob named three intended recipients: a contact at Brookhaven, "Ming", and someone who helped.**
-**Two of the three are not identified anywhere in this repository and nothing here guesses at
-them.** For each, three questions — and one sentence of answer to each is enough to turn the draft
-above into a real email.
+**Jacob named three intended recipients: a contact at Brookhaven, a second person, and someone who
+helped.** Two of the three are not identified anywhere in this repository, and **nothing here
+guesses at them.**
 
-### 3.1 The contact at Brookhaven — **partly answered by the repository; see section 4**
+**The questions that have to be answered before the draft above can be sent — who each person is,
+how they know the project, what is being asked of them, and whether each is content to be named in
+a public repository — were put to Jacob directly and are not reproduced here.**
 
-1. **Is the person you mean Dr. Percy Zahl?** The repository thanks a Dr. Percy Zahl of Brookhaven
-   National Laboratory, CFN, for guidance on vibration isolation and scan head design. **If that is
-   who you mean, say so; if it is someone else, who?**
-2. **What is the relationship — did they advise you directly, or is this an acknowledgment of
-   published work?** The repository records the thanks and **nothing about how the guidance was
-   given.** The note's tone depends entirely on this.
-3. **What do you want from them?** A read of the gap-motion result? An opinion on the sample
-   mounting? An introduction? **The note has one "[Ask.]" and it needs a real sentence.**
-4. **Do you have contact details — and is this person content to be named in the repository, which
-   is now public?** **Neither is recorded anywhere.** **`SAID`, Jacob, 2026-09-20: the repository
-   is public.** So this is no longer a question about something that might happen later: **the name
-   is already published**, in `README.md` line 121 and in `docs/progress.html` §12. **Nothing here
-   removes it** — the acknowledgement predates this work and is not ours to retract — **but it is
-   worth checking now rather than after the email goes out.**
-
-### 3.2 "Ming" — **UNKNOWN. No match anywhere in the repository**
-
-**Searched: every prose document, every HTML page, the code and the session logs. There is no
-person called Ming in this repository.** Two possibilities were considered and **neither is
-asserted, because guessing at a person's identity is exactly the failure mode this project has
-rules about:**
-
-- it may be a person nobody has written down;
-- it may be a rendering of something else — the project name itself is "STMing", and one of the two
-  upstream designers is credited only as "Mech Panda".
-
-**Questions:** Who is Ming? How do you know them? What did they contribute, and what do you want
-from them now? **Answer the first and the note can be personalised in one line; until then it
-cannot be written at all.**
-
-### 3.3 "Someone who helped" — **UNKNOWN**
-
-**The repository's acknowledgments name only Dan Berard and Mech Panda, for prior open-source work
-rather than personal help, plus Dr. Percy Zahl.** No other helper is recorded.
-
-**Questions:** Who helped, with what, and when? Is it someone whose contribution should also be in
-`README.md`'s acknowledgments — **because if they helped and are not credited there, that is worth
-fixing in the repository at the same time as writing to them.**
+> **Why they are not reproduced here.** This repository is public. Working through a named
+> individual's identity, their relationship to the project, or whether they have agreed to be
+> associated with it is a reasonable thing to do in private and **not a reasonable thing to publish
+> about somebody**, particularly somebody who has not been asked. **Removed 2026-09-20**, when the
+> repository was read through as an outside reader would read it.
+>
+> The acknowledgements themselves stay exactly as they are. They are Jacob and Nuh's own words,
+> written into `README.md` on 2026-07-31, and they are not this work's to retract.
 
 ---
 
@@ -240,9 +211,12 @@ for two of them and wrong for the Brookhaven one.**
 > CFN) for guidance on vibration isolation and scan head design."*
 > The same sentence is in **`docs/progress.html`** §12, the credit section.
 
-**Where it came from:** both were added on 2026-09-16, in commit `55d8022`, the session that wrote
-the public progress page. **The credit is real and it is in the two most public documents the
-project has.**
+**Where it came from. Corrected 2026-09-20.** This said both were added on 2026-09-16 in commit
+`55d8022`. **Only the progress page was.** The README credit is **six weeks older**: it is in
+`de1cf22`, 2026-07-31, *"Revise README with detailed project information"* — the first detailed
+README this project had, written by Jacob and Nuh before any of this work existed. **So it is
+their own acknowledgement, made at the start, and it is not this work's to retract.** Checked
+commit by commit rather than inferred.
 
 **Why it was missed:** it is in an acknowledgments section, not in any bench document, and
 **no session log records who supplied the name or how the guidance was given** — so it is invisible

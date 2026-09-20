@@ -203,7 +203,7 @@ below because that distinction matters when reading them.
 | Batch | Frames | Camera | Drive owner | Span |
 |---|---|---|---|---|
 | **Jacob's** | 31, `IMG_8619`–`IMG_8653` | iPhone 17 Pro | `jacob@quis.com` | 2026-09-18 18:08 to 2026-09-19 09:41 |
-| **Nuh's** | 30, `IMG_4657`–`IMG_4919` | iPhone 13 Pro Max | `nuh.bmshaheer@gmail.com` | 2026-08-01 to 2026-09-19 10:15 |
+| **Nuh's** | 30, `IMG_4657`–`IMG_4919` | iPhone 13 Pro Max | Nuh's phone | 2026-08-01 to 2026-09-19 10:15 |
 
 **Every frame below was opened and looked at individually**, at full resolution where a detail
 mattered. All are EXIF-stripped (verified zero tags) and resized to 1600 px on the long edge, as
