@@ -72,6 +72,18 @@ def main() -> int:
                 note = []
                 if pg.evaluate("document.compatMode") != "CSS1Compat":
                     note.append("QUIRKS MODE")
+                # A stray tag makes the parser close a container early and hoist
+                # everything after it up a level. The markup still looks balanced to a
+                # reader and to a naive scanner; only the browser knows. On 2026-09-20 a
+                # bad regex did exactly this and every section below it escaped the
+                # layout container, which is invisible until you measure it.
+                loose = pg.evaluate(
+                    "Array.from(document.querySelectorAll('section'))"
+                    ".filter(function(s){return !s.closest('.page');})"
+                    ".map(function(s){return s.id || s.className;})")
+                if loose:
+                    note.append("sections outside .page - the parser restructured the "
+                                "document: %s" % loose[:4])
                 lay = pg.evaluate("document.documentElement.clientWidth")
                 if abs(lay - width) > 2:
                     note.append("lays out at %d px, not %d" % (lay, width))
