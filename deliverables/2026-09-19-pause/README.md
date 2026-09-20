@@ -9,6 +9,23 @@ the two differ, the repository is right.
 
 ---
 
+## The website
+
+**`site/index.html` is the public page** — the one thing to send someone who is not going to read
+any of the rest. It carries the claim, the measurements, the five blockers, every figure, and links
+out to each document below.
+
+- **`site/index.html`** — the page. All text is plain HTML; edit it and republish.
+- **`site/build_assets.py`** — rebuilds `site/img/` from the originals elsewhere in this
+  repository. **Those images are deliberately NOT committed**: every one is derived, and committing
+  them would double the repository's image weight and go stale the moment a figure is regenerated.
+  **Run this before publishing an update.**
+
+**Two things it deliberately leaves out**, because they are drafts for Jacob to send rather than
+things for a reader: `report/UPDATE_NOTE.md` (the collaborator email) and `report/LINKEDIN_POST.md`.
+
+---
+
 ## If you only read one thing
 
 | You want | Read |
