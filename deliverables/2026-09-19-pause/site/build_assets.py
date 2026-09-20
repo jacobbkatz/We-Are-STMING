@@ -20,14 +20,9 @@ QUALITY. Charts are saved at JPEG quality 90 because thin plot lines pick up
 artefacts below that; photographs at 82, where nothing is visible. Both are capped
 at 1500 px wide, which is enough for a full-width figure on a large screen.
 
-THE CAPTION BAR. The photographs in `photos/prepared/` carry their caption burnt
-into a black bar at the foot of the image, so that a frame pulled out of the
-repository is never separated from its source and its provenance. A web page sets
-its own captions, so that bar is cropped off here - it would otherwise print the
-same sentence twice, once in white on black and once in grey below. The crop uses
-the poster's `bar_top`, which was written for exactly this and has been run on
-these files before; there is deliberately not a second copy of it in this script.
-`photos/prepared/MANIFEST.md` invites the crop in as many words.
+THE CAPTION BAR. Photographs in `photos/prepared/` carry their caption burnt into a
+black bar. The page sets its own captions, so the bar is cropped off here using the
+poster's `bar_top` rather than a second copy of it.
 """
 from __future__ import annotations
 
@@ -69,7 +64,7 @@ POSTER = "poster/poster_preview.png"
 
 
 def _bar_top():
-    """Borrow the poster's caption-bar finder rather than writing a second one."""
+    """The poster's caption-bar finder, rather than a second copy of it."""
     path = os.path.join(PAUSE, "poster", "prepare_assets.py")
     spec = importlib.util.spec_from_file_location("poster_prepare_assets", path)
     mod = importlib.util.module_from_spec(spec)
@@ -155,10 +150,8 @@ def main() -> None:
 
     stamp_sizes()
 
-    # Fail loudly if any built image still carries a burnt-in caption bar. The page
-    # writes its own captions under every photograph, so a bar here means the same
-    # words twice and a frame that looks like an internal working file. This check
-    # has been run with the crop switched off and it does go red.
+    # A bar here would print the same words twice. Checked by switching the crop
+    # off: it does go red.
     barred = [f for f in sorted(os.listdir(OUT))
               if bar_top(os.path.join(OUT, f)) is not None]
     if barred:

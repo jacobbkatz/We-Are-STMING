@@ -54,7 +54,7 @@
 
 
 
-  /* ---------- the explainer, for a reader who has never met one ---------- */
+  /* ---------- the explainer ---------- */
   .gap{ margin-block:clamp(26px,4vw,42px); }
   .gap .scroller{ overflow-x:auto; }
   .gap svg{ min-width:640px; width:100%; height:auto; display:block; }
@@ -81,7 +81,7 @@
   @media (max-width:560px){ .price .r{ grid-template-columns:1fr; } }
 
 
-  /* ---------- the operating system: what runs on what ---------- */
+  /* ---------- the operating system ---------- */
   .sys{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-block:2em; }
   @media (max-width:760px){ .sys{ grid-template-columns:1fr; } }
   .sys > div{ border:1px solid var(--line); border-radius:2px; padding:1.1em 1.2em; background:var(--raise); }
@@ -92,7 +92,7 @@
   .sys p{ font-size:var(--s1); color:var(--ink2); line-height:1.55; margin:0; }
 
 
-  /* ---------- the two of us, side by side and the same size ---------- */
+  /* ---------- the two profiles ---------- */
   .pair{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
          gap:clamp(20px,3vw,36px); margin-block:2em; align-items:start; }
   @media (max-width:760px){ .pair{ grid-template-columns:1fr; } }
@@ -142,10 +142,7 @@
   .info dt{ color:var(--muted); } .info dd{ margin:0; color:var(--ink2); overflow-wrap:anywhere; }
   .vstat{ font-size:var(--s1); color:var(--muted); line-height:1.5; margin:.8em 0 0; max-width:44em; }
 
-  /* ---------- the bar that stays ----------
-     The page is a single long document with eleven parts. A reader needs to know
-     where they are in it and how to reach us without scrolling to the end, so the
-     bar carries the five stops that matter and the one action we want. */
+  /* ---------- the bar that stays ---------- */
   .topnav{ position:sticky; top:0; z-index:20; background:var(--ground);
            border-bottom:1px solid var(--line); }
   .topnav .in{ max-width:1180px; margin:0 auto; padding:0 20px;
@@ -179,9 +176,7 @@
   }
   section,.close,#top{ scroll-margin-top:68px; }
 
-  /* ---------- actions ----------
-     Two weights only, both square to 2px like everything else on the page. The gold
-     is the colour of a measured signal here, so it is not spent on a button. */
+  /* ---------- actions ---------- */
   .btn{ display:inline-block; font-size:var(--s2); font-weight:500; line-height:1.2;
         text-decoration:none; border-radius:2px; padding:13px 19px; border:1px solid transparent;
         min-height:44px; }
@@ -192,7 +187,7 @@
   .btn-sm{ padding:9px 14px; font-size:15px; }
   .actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:2em; }
 
-  /* ---------- about, and the run of dates through it ---------- */
+  /* ---------- about, and the timeline ---------- */
   .about-top{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(20px,3.4vw,42px);
               align-items:start; }
   @media (max-width:820px){ .about-top{ grid-template-columns:1fr; } }
@@ -260,15 +255,14 @@
   .axfoot{ margin:.55em 0 0 13%; }
   @media (max-width:760px){ .axlab{ margin-left:0; } .axfoot{ margin-left:0; } }
   @media (max-width:760px){
-    /* The gridline numbers and the line itself scale with the drawing, so they are
-       set larger here to come out the same size on a phone as they do on a laptop. */
+    /* These scale with the drawing, so they are set larger to match on a phone. */
     .trace .gt{ font-size:27px; }
     .trace .tr{ stroke-width:4.5; }
     .trace .gl{ stroke-width:2; }
   }
   .tracenote{ font-size:var(--s1); color:var(--muted); line-height:1.5; margin-top:.7em; max-width:42em; }
 
-  /* ---------- the claim, which now opens the page ---------- */
+  /* ---------- the claim ---------- */
   .claim{ margin-top:clamp(26px,3.6vw,40px); }
   .claim p{ font-family:'Newsreader',Georgia,serif; font-size:clamp(23px,3.3vw,var(--s5));
             line-height:1.34; max-width:20em; margin:0; }
@@ -300,7 +294,7 @@
   .val .k{ font-size:var(--s2); margin-top:.28em; line-height:1.4; }
   .val .d{ font-size:var(--s1); color:var(--muted); margin-top:.3em; line-height:1.5; }
 
-  /* ---------- the blockers: a real ranking, so it is numbered ---------- */
+  /* ---------- the blockers ---------- */
   .rank{ border-top:1px solid var(--line); margin-top:2em; }
   .item{ display:grid; grid-template-columns:2.3em 1fr; gap:0 1.1em;
          padding-block:1.5em; border-bottom:1px solid var(--hair); align-items:start; }
@@ -350,10 +344,7 @@
   .grid13 a:hover img{ border-color:var(--goldmark); }
 
 
-  /* ---------- motion ----------
-     Everything is visible with no JavaScript and with reduced motion. The script
-     only hides things that are BELOW the fold at load, so the first frame a
-     reader (or a link preview) sees is always complete. */
+  /* ---------- motion. Nothing may hide anything above the fold at load. ---------- */
   .rv{ opacity:0; transform:translateY(14px); }
   .rv-in{ opacity:1; transform:none;
           transition:opacity .62s cubic-bezier(.22,.61,.36,1),
@@ -367,9 +358,6 @@
   .photo:hover img{ transform:scale(1.022); }
   .grid13 img{ transition:transform .4s ease, border-color .2s ease; }
   .grid13 a:hover img{ transform:translateY(-3px); }
-  /* One moment, once, when the diagram is reached: the command travels out hop by
-     hop, then the current it produced comes back along the gold path. That is what
-     the caption says happens, so the drawing says it too. */
   .chain .ret{ stroke-dasharray:1; stroke-dashoffset:0; }
   .chain.drawing .ret{ stroke-dashoffset:1; }
   .chain.drawn .ret{ stroke-dashoffset:0;
@@ -386,7 +374,6 @@
                                            transition:none !important; }
   }
 
-  /* how far through a long page the reader is */
   .prog{ position:fixed; inset:0 auto auto 0; height:2px; width:0; z-index:9;
          background:var(--goldmark); opacity:.85; pointer-events:none; }
 
@@ -480,9 +467,9 @@
   never touches the thing it is looking at.</p>
 
   <p class="measure">An optical microscope cannot show you an atom. Light comes in waves about 500
-  nanometres long and an atom is about a quarter of one nanometre across &mdash; two thousand times
+  nanometers long and an atom is about a quarter of one nanometer across &mdash; two thousand times
   smaller than the ruler. So a scanning tunnelling microscope throws the ruler away. It brings a
-  metal needle, sharpened until it ends in a <em>single atom</em>, to within about a nanometre of a
+  metal needle, sharpened until it ends in a <em>single atom</em>, to within about a nanometer of a
   surface, puts a small voltage across the gap, and measures the current that flows across it.</p>
 
   <h3>The part that sounds impossible</h3>
@@ -495,7 +482,7 @@
   the current in a phone charger.</p>
 
   <p class="measure"><strong>The useful part is how violently that current changes with
-  distance.</strong> Move the tip a tenth of a nanometre closer &mdash; less than half an atom
+  distance.</strong> Move the tip a tenth of a nanometer closer &mdash; less than half an atom
   &mdash; and the current goes up about <em>tenfold</em>. Which means that if you slide the tip
   sideways across a surface and continually adjust its height to keep the current the same, the
   path it traces is the surface itself, bump by bump, atom by atom. <strong>That is the picture an
@@ -503,7 +490,7 @@
 
   <figure class="gap" data-rv>
   <div class="scroller">
-  <svg viewBox="0 0 860 300" role="img" aria-label="Left: a metal tip ending in a single atom, held about a nanometre above a row of surface atoms, with a voltage across the gap and a tunnelling current flowing through it without contact. Right: a graph showing that current rising about tenfold for every tenth of a nanometre the gap narrows.">
+  <svg viewBox="0 0 860 300" role="img" aria-label="Left: a metal tip ending in a single atom, held about a nanometer above a row of surface atoms, with a voltage across the gap and a tunnelling current flowing through it without contact. Right: a graph showing that current rising about tenfold for every tenth of a nanometer the gap narrows.">
     <text class="lbl" x="8" y="20">No contact, and a current anyway</text>
     <text class="sub" x="8" y="38">the tip ends in one atom and never touches the surface</text>
 
@@ -546,7 +533,7 @@
     <text class="sub" x="470" y="278">A sketch of the relationship, not our data.</text>
   </svg>
   </div>
-  <figcaption>Nothing touches. A voltage sits across a gap about a nanometre wide, electrons cross
+  <figcaption>Nothing touches. A voltage sits across a gap about a nanometer wide, electrons cross
   it by tunnelling, and the current that results is so steeply dependent on the width of the gap
   that holding it constant is the same thing as tracing the surface.
   <b>That steepness is both why an STM can see a single atom and why it is so hard to build: the
@@ -561,7 +548,7 @@
     <div class="r"><div class="a">$50,000</div>
       <div class="w">the simplest teaching instruments, sold as a complete unit</div></div>
     <div class="r"><div class="a">$150,000&ndash;$500,000</div>
-      <div class="w">the mid-range a university materials lab buys: sub-nanometre control and
+      <div class="w">the mid-range a university materials lab buys: sub-nanometer control and
       vibration isolation included</div></div>
     <div class="r"><div class="a">$1,000,000+</div>
       <div class="w">ultra-high vacuum, cryogenics, spectroscopy &mdash; the kind that publishes
@@ -638,7 +625,7 @@
       <p class="cap"><b>The whole instrument, about a foot tall.</b> The printed frame carries a platform on three springs; the scan head sits on top of it under copper tape. The cardboard tubes are paper coin wrappers, damping the springs.</p></figure>
     <div class="side">
       <figure class="photo" data-rv><img src="img/room.jpg" width="1500" height="1032" alt="The basement room: concrete floor, wooden bench, an electrical panel on the wall and cardboard boxes stacked beside it." loading="lazy">
-        <p class="cap"><b>Where the work happened.</b> A basement utility room, a few metres from a wall-mounted electrical panel and a standby-generator transfer switch. That is context for the noise problem, not a measurement of it.</p></figure>
+        <p class="cap"><b>Where the work happened.</b> A basement utility room, a few meters from a wall-mounted electrical panel and a standby-generator transfer switch. That is context for the noise problem, not a measurement of it.</p></figure>
       <p class="measure" data-rv>We designed it, ordered the boards, printed the frame, wrote the firmware, and brought up every stage on its own before trusting the next. The mechanics, controller and firmware follow Mech Panda&rsquo;s open <em>red-panda-stm</em>; the scan head and preamplifier follow Dan Berard&rsquo;s home-built STM. The electronics bring-up, the software, the calibration and the controls are ours.</p>
     </div>
   </div>
@@ -668,7 +655,7 @@
     </div>
     <p class="vstat" id="viewstatus">Loading the parts&hellip;</p>
     <p class="vstat"><b>What is real here and what is not.</b> Every shape is the real printed part
-    and every size is its real size in millimetres, read straight from the file that drove the
+    and every size is its real size in millimeters, read straight from the file that drove the
     printer. <b>The positions are an arrangement, not an assembly</b> &mdash; print files are laid
     out for a print bed, and we do not hold the transforms that would place each part where it sits
     on the finished instrument. For how it actually goes together, the photographs above are the
@@ -729,7 +716,7 @@
 
     <div class="item" data-rv><div class="n num">2</div><div>
       <h3>The sample is soft</h3>
-      <p>Gold leaf resting on its backing paper &mdash; fifty to a hundred micrometres of compressible cellulose directly under the surface we were trying to hold still to a fraction of a nanometre &mdash; with the plate held on by two twisted rubber bands. It moved when Jacob blew on it.</p>
+      <p>Gold leaf resting on its backing paper &mdash; fifty to a hundred micrometers of compressible cellulose directly under the surface we were trying to hold still to a fraction of a nanometer &mdash; with the plate held on by two twisted rubber bands. It moved when Jacob blew on it.</p>
       <div class="fix"><b>Possible fix.</b> Bond the gold to a rigid substrate with no paper under it, and clamp the plate mechanically instead of with rubber bands.</div>
     </div></div>
 
@@ -741,8 +728,8 @@
 
     <div class="item" data-rv><div class="n num">4</div><div>
       <h3>No distance scale of our own</h3>
-      <p>We never established how far the tip moves per converter count on our own hardware. The consequence is the sharpest thing on this list: for a while <strong>every scan covered about 0.6 nanometres of sample &mdash; smaller than a single atom</strong> &mdash; and nobody could have known.</p>
-      <div class="fix"><b>Possible fix.</b> Measure one distance inside the scan head under a jeweller&rsquo;s loupe. Minutes, no power, and it fixes the nanometre scale for every measurement this instrument will ever make.</div>
+      <p>We never established how far the tip moves per converter count on our own hardware. The consequence is the sharpest thing on this list: for a while <strong>every scan covered about 0.6 nanometers of sample &mdash; smaller than a single atom</strong> &mdash; and nobody could have known.</p>
+      <div class="fix"><b>Possible fix.</b> Measure one distance inside the scan head under a jeweller&rsquo;s loupe. Minutes, no power, and it fixes the nanometer scale for every measurement this instrument will ever make.</div>
     </div></div>
 
     <div class="item" data-rv><div class="n num">5</div><div>
@@ -764,7 +751,7 @@
 <section id="controls">
   <h2>How we knew when we were fooling ourselves</h2>
   <p class="lede">After every scan we ran the same scan again with the sideways sweep switched off.</p>
-  <p class="measure">That control has identical timing and identical feedback behaviour, but the tip never travels across the surface, so <strong>it cannot contain surface structure at all</strong>. Anything appearing in both is the instrument, not the sample. Our scans repeated no better than those controls did, and that single test is what settles the imaging question.</p>
+  <p class="measure">That control has identical timing and identical feedback behavior, but the tip never travels across the surface, so <strong>it cannot contain surface structure at all</strong>. Anything appearing in both is the instrument, not the sample. Our scans repeated no better than those controls did, and that single test is what settles the imaging question.</p>
   <figure data-rv>
     <a href="img/fig04.jpg"><img src="img/fig04.jpg" width="1500" height="859" alt="Two scans beside their sideways-sweep-disabled controls, with the repeatability of each plotted on a common axis: both sit on zero and neither differs from the other." loading="lazy"></a>
     <figcaption>Like for like over full images, our scans repeat at <b>+0.04</b> and their controls at <b>+0.07</b>. Indistinguishable, and neither differs from zero. <b>It is also why we never fooled ourselves.</b></figcaption>
@@ -842,7 +829,7 @@
 
   <div class="tally" data-rv>
     <div><div class="t num">575</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
-    <div><div class="t num">164</div><div class="l">rows in the register: every value, its provenance, its date</div></div>
+    <div><div class="t num">157</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
     <div><div class="t num">106</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num">565</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
@@ -970,7 +957,7 @@
 
 <section id="next">
   <h2>Where it goes next</h2>
-  <p class="measure">The instrument is in pieces, moved between two houses at the end of the summer. When it goes back together, the first thing is a measurement that needs no power and takes minutes: <strong>how far the tip sits from the line through the two ball supports.</strong> It sets the nanometre scale for everything the instrument will ever measure, and it settles our best junction retroactively.</p>
+  <p class="measure">The instrument is in pieces, moved between two houses at the end of the summer. When it goes back together, the first thing is a measurement that needs no power and takes minutes: <strong>how far the tip sits from the line through the two ball supports.</strong> It sets the nanometer scale for everything the instrument will ever measure, and it settles our best junction retroactively.</p>
   <p class="measure">Then the free test for what moves the gap &mdash; a box over the instrument and a fifteen-minute recording &mdash; then a rigid sample and a sharp tip. <strong>None of the five things in our way needs a purchase, and none needs a laboratory.</strong></p>
   <figure class="photo" data-rv><img src="img/teardown.jpg" width="1500" height="1098" alt="The suspended platform lifted off the frame and held in one hand, with the scan head, motor and preamplifier still mounted on it." loading="lazy">
     <figcaption>The platform off the frame on the morning it came apart to be moved.</figcaption></figure>
@@ -1132,7 +1119,6 @@
   var chain = document.querySelector("[data-chain]");
   document.documentElement.lang = document.documentElement.lang || "en";
 
-  // The bar: on a narrow screen the six stops fold behind one button.
   var toggle = document.getElementById("navtoggle");
   var links = document.getElementById("navlinks");
   if (toggle && links) {
@@ -1151,13 +1137,12 @@
         setOpen(false); toggle.focus();
       }
     });
-    // A width change can leave the panel open behind a bar that no longer has a button.
     window.addEventListener("resize", function () {
       if (window.innerWidth > 1090) { setOpen(false); }
     }, { passive: true });
   }
 
-  // Mark the stop the reader is actually in, so the bar says where they are.
+  // Hash links only: a mailto passed to querySelector throws and kills everything below.
   var navA = Array.prototype.slice.call(document.querySelectorAll('#navlinks a[href^="#"]'));
   var targets = navA.map(function (a) { return document.querySelector(a.getAttribute("href")); });
   function markCurrent() {
@@ -1178,9 +1163,7 @@
   }, { passive: true });
   markCurrent();
 
-  // A hairline at the top edge showing how far through the page the reader is. The
-  // page is long and there is otherwise no way to tell how much of it is left. It
-  // answers the reader's own scrolling and nothing else, so it runs either way.
+  // Runs under reduced motion too: it only answers the reader's own scrolling.
   function progress() {
     var bar = document.createElement("div");
     bar.className = "prog";
@@ -1201,13 +1184,11 @@
 
   if (reduce || !("IntersectionObserver" in window)) { return; }   // everything stays visible
 
-  // Only hide what is already below the fold. The first frame a reader or a link
-  // preview sees must be complete, so anything on screen at load is left alone.
+  // Only hide what is already below the fold, so the first frame is complete.
   var fold = window.innerHeight * 0.92;
   var pending = els.filter(function (el) { return el.getBoundingClientRect().top > fold; });
   pending.forEach(function (el) {
     el.classList.add("rv");
-    // Siblings in a group come in one after another, so a ranked list reads as ranked.
     var sibs = el.parentNode ? Array.prototype.filter.call(el.parentNode.children,
                  function (c) { return c.hasAttribute && c.hasAttribute("data-rv"); }) : [el];
     var i = sibs.indexOf(el);
@@ -1224,8 +1205,6 @@
   }, { rootMargin: "0px 0px -7% 0px", threshold: 0.04 });
   pending.forEach(function (el) { io.observe(el); });
 
-  // The counted things in the workflow tally count up when they are reached. They
-  // are counts, so counting is what the motion says.
   var nums = Array.prototype.slice.call(document.querySelectorAll(".tally .num"));
   var no = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
@@ -1244,7 +1223,6 @@
   }, { threshold: 0.6 });
   nums.forEach(function (el) { no.observe(el); });
 
-  // The gold return path draws itself once, when the diagram is reached.
   if (chain && chain.getBoundingClientRect().top > fold) {
     chain.classList.add("drawing");
     var co = new IntersectionObserver(function (entries) {

@@ -19,9 +19,8 @@ repository does not contain the assembly transforms. So the parts are arranged i
 groups, deliberately spread out, and the page says so. Nothing here is a claim about
 how far one part sits from another - only about what each part is and how big it is.
 
-PRECISION. Vertices are stored as 16-bit integers with a scale factor per part, so
-the worst error is about one part in 32,000 of that part's size - under 5 micrometres
-on the largest piece here, far finer than the printer that made it.
+PRECISION. Vertices are 16-bit integers with a scale factor per part: worst error
+about 5 micrometers on the largest piece, far finer than the printer that made it.
 """
 from __future__ import annotations
 
@@ -37,8 +36,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 PRINTS = os.path.join(ROOT, "CAD", "prints")
 OUT = os.path.join(HERE, "model")
 
-# Group, display name, and what the part is. The descriptions come from
-# CAD/prints/README.md and docs/; nothing here is invented.
+# Descriptions come from CAD/prints/README.md and docs/. Nothing here is invented.
 PARTS = [
     ("scan-head", "BasePlate.stl", "Base plate",
      "The floor of the scan head. Everything else in the head is referenced to it, "
@@ -96,14 +94,14 @@ PARTS = [
 
 
 def read_stl(path: str) -> np.ndarray:
-    """Triangle vertices from a binary STL, as (3n, 3) float32 in millimetres."""
+    """Triangle vertices from a binary STL, as (3n, 3) float32 in millimeters."""
     with open(path, "rb") as fh:
         blob = fh.read()
     n = struct.unpack("<I", blob[80:84])[0]
     if len(blob) != 84 + n * 50:
         raise SystemExit("%s is not a binary STL this script understands" % path)
     rec = np.frombuffer(blob, dtype=np.uint8, count=n * 50, offset=84).reshape(n, 50)
-    # each 50-byte record: 3 floats of normal, 9 floats of vertices, 2 bytes spare
+    # 50-byte record: 3 normal floats, 9 vertex floats, 2 spare
     verts = rec[:, 12:48].copy().view(np.float32).reshape(n * 3, 3)
     return np.asarray(verts, dtype=np.float64)
 
@@ -119,7 +117,6 @@ def main() -> None:
         lo, hi = v.min(axis=0), v.max(axis=0)
         size = hi - lo
         centre = (hi + lo) / 2.0
-        # centre each part on its own middle, then quantise to int16
         local = v - centre
         scale = float(np.abs(local).max()) / 32000.0 or 1.0
         q = np.round(local / scale).astype(np.int16)

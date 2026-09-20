@@ -31,7 +31,7 @@
     --figmax: 7.1in;
     --ink:#14161a; --mid:#4a5058; --soft:#7a828c;
     --line:#dfe3e8; --paper:#ffffff; --wash:#f6f7f9;
-    --accent:#C2410C;          /* burnt orange - the one accent colour */
+    --accent:#C2410C;          /* burnt orange - the one accent color */
     --accent-soft:#FDF0E8;
     --good:#0F766E;            /* deep teal, used only for verified numbers */
   }
@@ -173,7 +173,7 @@
       <p>Neither of us writes code, and neither had much electronics experience &mdash; <b>this
         project was the first real soldering either of us has done.</b> It was built and run in the
         basement of a house people live in, with people moving around and no control over the air or
-        the temperature. A wooden bench on a concrete floor, a few metres from the breaker panel.
+        the temperature. A wooden bench on a concrete floor, a few meters from the breaker panel.
         <b>Not a lab. Not a clean room.</b></p>
       <p><b>This is not a disclaimer. It is the result.</b> A tunnelling microscope is normally a
         clean-room instrument &mdash; and the blocker we found and measured is exactly the class of
@@ -234,7 +234,7 @@
     <figcaption><b>Left:</b> the instrument on the morning it came apart to be moved. Printed frame;
       springs down to the suspended platform; copper-taped scan head on a copper ground plane.
       <b>Right:</b> where it happened &mdash; a wooden bench on a concrete basement floor, a few
-      metres from an electrical panel. <b>READ</b>, 2026-09-19.</figcaption>
+      meters from an electrical panel. <b>READ</b>, 2026-09-19.</figcaption>
     <p class="body" style="margin-top:.1in">A Teensy 4.1 drives four 16-bit converters over a 1 MHz
       bus and a 26-way ribbon &mdash; X, Y and sample bias at &plusmn;3 V, Z at &plusmn;10 V &mdash;
       moving a piezoelectric disc that carries a cut tungsten tip. The tip current goes into an
@@ -286,7 +286,7 @@
     <div class="call"><span class="t">And the electronics are not the limit</span>
       With a junction live the noise floor is <b>9&ndash;19 counts</b>; leakage through the tip lead
       is under 0.06 nA across &plusmn;2 V, more than 8 G&Omega;; and someone stamping on the floor
-      two metres away moves one reading's spread from 131 to 132 pA. <b>The building is not getting
+      two meters away moves one reading's spread from 131 to 132 pA. <b>The building is not getting
       in electrically.</b></div>
   </div>
 
@@ -318,7 +318,7 @@
     <div class="pnum">05</div>
     <h2>We built controls designed to kill our own results</h2>
     <p class="lede">Every scan was run again with the sideways sweep switched off. An <b>X-held
-      control</b> has identical timing and identical loop behaviour, but the tip never travels across
+      control</b> has identical timing and identical loop behavior, but the tip never travels across
       the surface &mdash; so <b>it cannot contain surface structure at all, by construction.</b></p>
     <figure>
       <img src="assets/fig04_control.png" alt="Scans and their X-held controls, both sitting on zero">
@@ -422,7 +422,7 @@
 
   <div>
     <div class="sysrow"><span><b>The protocol</b><br>what the model must read first</span><span class="n">575 lines</span></div>
-    <div class="sysrow"><span><b>The register</b><br>one canonical value per fact</span><span class="n">164 rows</span></div>
+    <div class="sysrow"><span><b>The register</b><br>one canonical value per fact</span><span class="n">157 rows</span></div>
     <div class="sysrow"><span><b>The checker</b><br>seven automated tests, every session</span><span class="n">565 lines</span></div>
     <div class="sysrow"><span><b>Session logs</b><br>append-only, never rewritten</span><span class="n">27</span></div>
     <div class="sysrow"><span><b>Reference documents</b></span><span class="n">18</span></div>

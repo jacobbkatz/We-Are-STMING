@@ -1,14 +1,8 @@
-/* The instrument, part by part.
+/* The instrument, part by part: the 23 printed parts from CAD/prints/, packed by
+ * build_model.py. Plain WebGL2, no library.
  *
- * Draws the 23 printed parts of this instrument from the STL files in CAD/prints/,
- * packed by build_model.py. Written against plain WebGL2 rather than a 3D library:
- * the whole thing is about 300 lines, it loads nothing from anywhere else, and it
- * can be tested where it is built.
- *
- * WHAT IS REAL HERE. Every shape is the real part and every size is its real size in
- * millimetres. The POSITIONS are an arrangement - the STL files are laid out for a
- * printer and this repository does not hold the assembly transforms - so the parts
- * are spread out in three groups and the page says so underneath.
+ * Shapes and sizes are real. POSITIONS ARE AN ARRANGEMENT, not an assembly - the
+ * STLs are laid out for a print bed and we do not hold the assembly transforms.
  */
 (function () {
   "use strict";
@@ -48,7 +42,7 @@
     "uniform vec3 tint;",
     "out vec4 frag;",
     "void main(){",
-    // face normal from screen-space derivatives: no normals needed in the buffer
+    // face normal from derivatives, so the buffer carries no normals
     "  vec3 n = normalize(cross(dFdx(vpos), dFdy(vpos)));",
     "  if(!gl_FrontFacing) n = -n;",
     "  float key  = max(dot(n, normalize(vec3(0.45,0.75,0.55))), 0.0);",
@@ -129,8 +123,6 @@
   var groupOn = { "scan-head": true, "isolation": true, "enclosures": true };
 
   function layout(meta) {
-    // One even grid: group by group, largest first, on a cell wide enough for the
-    // biggest part there is. Nothing overlaps and nothing hides behind anything.
     var order = { "scan-head": 0, "isolation": 1, "enclosures": 2 };
     meta.sort(function (a, b) {
       if (order[a.group] !== order[b.group]) { return order[a.group] - order[b.group]; }
@@ -319,7 +311,6 @@
     invalidate();
   }, { passive: false });
 
-  // Keyboard, so the model is not mouse-only.
   canvas.addEventListener("keydown", function (e) {
     var step = 0.12;
     if (e.key === "ArrowLeft")  { az -= step; }
@@ -351,7 +342,7 @@
 
   /* ----------------------------------------------------------------- load */
   fetch("model/parts.json").then(function (r) { return r.json(); }).then(function (doc) {
-    // The geometry rides inside the JSON as base64: the host serves .json and not .bin.
+    // base64 inside the JSON: the host serves .json, not .bin.
     var raw = atob(doc.data), buf = new ArrayBuffer(raw.length), b = new Uint8Array(buf);
     for (var i = 0; i < raw.length; i++) { b[i] = raw.charCodeAt(i); }
     var meta = doc.parts;
