@@ -91,6 +91,57 @@
            color:var(--gold); margin-bottom:.5em; }
   .sys p{ font-size:var(--s1); color:var(--ink2); line-height:1.55; margin:0; }
 
+
+  /* ---------- the two of us, side by side and the same size ---------- */
+  .pair{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+         gap:clamp(20px,3vw,36px); margin-block:2em; align-items:start; }
+  @media (max-width:760px){ .pair{ grid-template-columns:1fr; } }
+  .who .photo{ margin:0 0 1em; }
+  .who .photo img{ aspect-ratio:4/3; object-fit:cover; object-position:50% 35%; }
+  .who.n .photo img{ object-position:72% 45%; }
+  .who h3{ margin-bottom:.1em; }
+  .who .at{ font-size:var(--s2); color:var(--ink2); margin:0 0 1em; }
+  .who .did{ list-style:none; margin:1em 0 0; padding:0; border-top:1px solid var(--line); }
+  .who .did li{ padding-block:.7em; border-bottom:1px solid var(--hair);
+                font-size:var(--s1); color:var(--ink2); line-height:1.55; }
+  .who .did b{ color:var(--ink); font-weight:600; }
+  .who .li{ display:inline-block; margin-top:1em; font-size:var(--s1); }
+
+
+  /* ---------- the parts model ---------- */
+  .modelwrap{ margin-block:clamp(28px,4vw,46px); }
+  .viewer{ display:grid; grid-template-columns:minmax(0,1fr) 288px; gap:18px; align-items:stretch; }
+  .viewer > *{ min-width:0; }
+  @media (max-width:820px){ .viewer{ grid-template-columns:minmax(0,1fr); } }
+  .stage{ position:relative; background:var(--raise); border:1px solid var(--line);
+          border-radius:2px; aspect-ratio:16/11; overflow:hidden; }
+  @media (max-width:820px){ .stage{ aspect-ratio:4/3; } }
+  .stage canvas{ width:100%; height:100%; display:block; touch-action:pan-y; cursor:grab; }
+  .stage canvas:focus-visible{ outline:2px solid var(--gold); outline-offset:-2px; }
+  .viewer.failed .stage{ display:none; }
+  .side{ display:flex; flex-direction:column; gap:12px; }
+  .keys{ display:flex; flex-wrap:wrap; gap:7px; }
+  .keys button{ font:inherit; font-size:var(--s1); line-height:1.2; cursor:pointer;
+                background:var(--raise); color:var(--ink2); border:1px solid var(--line);
+                border-radius:2px; padding:8px 10px; min-height:36px;
+                display:inline-flex; align-items:center; gap:7px; }
+  .keys button:hover{ border-color:var(--goldmark); color:var(--ink); }
+  .keys button[aria-pressed="false"]{ color:var(--muted); background:transparent; }
+  .keys button[aria-pressed="false"] i{ opacity:.25; }
+  .keys i{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .k1{ background:#D4A84F; } .k2{ background:#6B787F; } .k3{ background:#4C8C85; }
+  .info{ flex:1; border:1px solid var(--line); border-radius:2px; padding:.95em 1.05em;
+         background:var(--raise); }
+  .info h4{ font-family:'Newsreader',Georgia,serif; font-weight:400; font-size:var(--s4);
+            margin:0 0 .1em; letter-spacing:-0.012em; }
+  .info .grp{ font-size:var(--s1); color:var(--gold); margin:0 0 .7em; }
+  .info p{ font-size:var(--s1); color:var(--ink2); line-height:1.55; margin:0 0 .8em; }
+  .info .hint{ color:var(--muted); }
+  .info dl{ margin:0; font-size:var(--s1); display:grid; grid-template-columns:auto 1fr;
+            gap:.25em .9em; border-top:1px solid var(--hair); padding-top:.7em; }
+  .info dt{ color:var(--muted); } .info dd{ margin:0; color:var(--ink2); overflow-wrap:anywhere; }
+  .vstat{ font-size:var(--s1); color:var(--muted); line-height:1.5; margin:.8em 0 0; max-width:44em; }
+
   /* ---------- the bar that stays ----------
      The page is a single long document with eleven parts. A reader needs to know
      where they are in it and how to reach us without scrolling to the end, so the
@@ -342,10 +393,9 @@
   /* ---------- people ---------- */
   .band{ margin-block:clamp(30px,5vw,50px); }
   .band img{ width:100%; height:auto; display:block; }
-  .trio{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; align-items:start; }
+  .trio{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; align-items:start; }
   .trio .photo img{ aspect-ratio:3/4; object-fit:cover; }
   .trio .wide img{ object-position:62% 50%; }
-  @media (max-width:980px){ .trio{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:520px){ .trio{ grid-template-columns:1fr; } }
   .cap{ font-size:var(--s1); color:var(--muted); line-height:1.5; margin-top:.6em; max-width:42em; }
   .cap b{ color:var(--ink2); font-weight:600; }
@@ -592,6 +642,38 @@
       <p class="measure" data-rv>We designed it, ordered the boards, printed the frame, wrote the firmware, and brought up every stage on its own before trusting the next. The mechanics, controller and firmware follow Mech Panda&rsquo;s open <em>red-panda-stm</em>; the scan head and preamplifier follow Dan Berard&rsquo;s home-built STM. The electronics bring-up, the software, the calibration and the controls are ours.</p>
     </div>
   </div>
+
+  <h3>Every printed part, in three dimensions</h3>
+  <p class="measure">The frame, the suspension, the scan head and the shielded boxes were all
+  printed by us, and these are the actual files we printed from. <strong>Drag to turn the model
+  round, scroll to zoom, and click any part to see what it is and how big it really is.</strong></p>
+
+  <div class="modelwrap">
+    <div class="viewer" id="viewer">
+      <div class="stage">
+        <canvas tabindex="0" role="img"
+                aria-label="A three-dimensional view of the 23 printed parts of the instrument, arranged in three groups: the scan head, the frame and suspension, and the shielded boxes. Drag to rotate, click a part for its details."></canvas>
+      </div>
+      <div class="side">
+        <div class="keys">
+          <button type="button" data-group="scan-head" aria-pressed="true"><i class="k1"></i>Scan head</button>
+          <button type="button" data-group="isolation" aria-pressed="true"><i class="k2"></i>Frame</button>
+          <button type="button" data-group="enclosures" aria-pressed="true"><i class="k3"></i>Boxes</button>
+          <button type="button" id="viewreset">Reset view</button>
+        </div>
+        <div class="info" id="partinfo" aria-live="polite">
+          <p class="hint">Drag to turn it round, scroll to zoom, and click any part for its real measurements.</p>
+        </div>
+      </div>
+    </div>
+    <p class="vstat" id="viewstatus">Loading the parts&hellip;</p>
+    <p class="vstat"><b>What is real here and what is not.</b> Every shape is the real printed part
+    and every size is its real size in millimetres, read straight from the file that drove the
+    printer. <b>The positions are an arrangement, not an assembly</b> &mdash; print files are laid
+    out for a print bed, and we do not hold the transforms that would place each part where it sits
+    on the finished instrument. For how it actually goes together, the photographs above are the
+    honest answer.</p>
+  </div>
 </section>
 
 <section id="measured">
@@ -779,6 +861,49 @@
   basement over the summer between our first year and this one, because we wanted to see single
   atoms.</p>
 
+  <div class="pair" data-rv>
+    <div class="who n" data-rv>
+      <figure class="photo"><img src="img/nuh.jpg" width="1400" height="1050" alt="Nuh at the bench in late August, facing the camera, with the assembled rig and the laptop in front of him." loading="lazy"></figure>
+      <h3>Nuh Shaheer</h3>
+      <p class="at">Worcester Polytechnic Institute, second year</p>
+      <p>Nuh had the hardware for most of the build, and the instrument lived at his bench. When
+      Jacob was away, he ran sessions alone off a written procedure and reported back what the
+      instrument actually did.</p>
+      <ul class="did">
+        <li><b>The first soldering either of us had done</b> that had to work &mdash; the early
+        electronics, 1 August, before anything was mounted.</li>
+        <li><b>Ran bench sessions alone</b> while Jacob was abroad, including the one where the
+        preamplifier was first brought up.</li>
+        <li><b>Found an error in a written bench procedure before running it</b> &mdash; it said to
+        take a measurement with the preamplifier powered when it had to be unpowered.</li>
+        <li><b>Proposed the rule the project now runs on:</b> a photograph is not a measurement of
+        our hardware, so ask whose board it is before reading anything off it. It is in the
+        operating protocol because he wrote it down.</li>
+      </ul>
+      <a class="li" href="https://www.linkedin.com/in/nuh-shaheer-73436a269">LinkedIn</a>
+    </div>
+
+    <div class="who" data-rv>
+      <figure class="photo"><img src="img/module.jpg" width="1200" height="1600" alt="Jacob holding the complete scanning module in two hands, the copper-taped preamplifier box visible in the middle." loading="lazy"></figure>
+      <h3>Jacob Katz</h3>
+      <p class="at">University of California San Diego, second year</p>
+      <p>Jacob drove the measurement side and the framing: what the project would claim, what it
+      would not, and which of its own results had to be withdrawn.</p>
+      <ul class="did">
+        <li><b>Built the tip etcher</b> &mdash; a bench supply through sodium hydroxide, run
+        outdoors in gloves, because tungsten tips are etched rather than bought.</li>
+        <li><b>Wrote the sentence this project stands on.</b> The claim at the top of this page is
+        his, word for word.</li>
+        <li><b>Corrected the central result.</b> He argued that tunnelling had been detected
+        against a confident and repeated position from the model that it had not, and he was right.
+        The argument and the reversal are in the verification log, unedited.</li>
+        <li><b>Settled a part that four written sources had got wrong</b> by picking it up and
+        offering it to the hole. Two of the four were in this repository.</li>
+      </ul>
+      <a class="li" href="https://www.linkedin.com/in/jacob-katz-8a25492b9">LinkedIn</a>
+    </div>
+  </div>
+
   <div class="about-top">
     <div>
       <h3>Why we built it</h3>
@@ -795,6 +920,8 @@
       <p>Some of it had to be made rather than bought. Tungsten tips are etched, not machined, so we
       built an etcher: a bench supply, sodium hydroxide, and a wire lowered into it, run outdoors in
       gloves because the chemistry is not gentle.</p>
+      <figure class="photo" data-rv><img src="img/etching.jpg" width="1200" height="1600" alt="The tip etching setup outdoors: a bench supply with leads into a beaker, a lab stand, flasks, and a bottle of sodium hydroxide." loading="lazy">
+        <p class="cap"><b>Etching tips, 9 August.</b> A bench supply through sodium hydroxide, outdoors, in gloves.</p></figure>
 
       <h3>What we do differently</h3>
       <p>Nothing about the physics. What is unusual is the bookkeeping. Every number in the project
@@ -833,16 +960,6 @@
       <div class="w">Last bench session. The drift measured, the instrument taken apart to be moved.</div></div>
   </div>
 
-  <div class="trio" data-rv>
-    <figure class="photo" data-rv><img src="img/soldering.jpg" width="1200" height="1600" alt="Nuh soldering at the bench in early August, with parts laid out around him." loading="lazy">
-      <p class="cap"><b>Nuh, 1 August.</b> Early electronics, before anything was mounted. Neither of us had soldered before this.</p></figure>
-    <figure class="photo" data-rv><img src="img/etching.jpg" width="1200" height="1600" alt="The tip etching setup outdoors: a bench supply with leads into a beaker, a lab stand, flasks, and a bottle of sodium hydroxide." loading="lazy">
-      <p class="cap"><b>Jacob etching tips, 9 August.</b> A bench supply through sodium hydroxide, outdoors, in gloves. Tungsten tips are etched, not bought.</p></figure>
-    <figure class="photo wide" data-rv><img src="img/benchrig.jpg" width="1400" height="1050" alt="Nuh at the bench in late August, soldering, with the laptop and the soldering station in front of him and the printed frame behind." loading="lazy">
-      <p class="cap"><b>Nuh, 26 August.</b> The bench the night the whole rig first went together, with the laptop that talks to it.</p></figure>
-    <figure class="photo" data-rv><img src="img/module.jpg" width="1200" height="1600" alt="Jacob holding the complete scanning module in two hands, the copper-taped preamplifier box visible in the middle." loading="lazy">
-      <p class="cap"><b>Jacob, holding the whole scanning module.</b> The copper box is the amplifier, mounted as close to the tip as it fits.</p></figure>
-  </div>
 
   <h3>What we are building toward</h3>
   <p class="measure">An image of a surface, taken by an instrument we built, at a scale where the
@@ -1006,6 +1123,7 @@
 
 </div>
 
+<script src="model/viewer.js"></script>
 <script>
 (function () {
   "use strict";

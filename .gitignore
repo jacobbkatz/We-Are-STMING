@@ -15,3 +15,6 @@ Thumbs.db
 
 # Local Claude settings - per-computer, not shared
 .claude/settings.local.json
+
+# Derived from CAD/prints/ by deliverables/2026-09-19-pause/site/build_model.py
+deliverables/2026-09-19-pause/site/model/parts.json
