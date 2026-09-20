@@ -1,5 +1,37 @@
 # How these deliverables are framed — Jacob's instruction, 2026-09-19
 
+---
+
+# THE CANONICAL SENTENCE. Use this wording, and prefer it to any paraphrase.
+
+**`SAID`, Jacob, 2026-09-20, in his own words:**
+
+> ## **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
+
+**This is now the project's headline claim and it supersedes every earlier formulation**, including
+"we have not demonstrated tunnelling", which `LEAD_VERIFICATION.md` V13 established was wrong in
+the direction of caution.
+
+**It is accurate in both halves, and each half is separately supported:**
+
+| Half | What backs it |
+|---|---|
+| **"We detected tunnelling"** | The tip cannot go from not-touching to touching without passing through the separations where tunnelling is the only thing carrying electrons, and bias was applied with the amplifier recording the whole way — **60,928 readings inside that current range, across 109 approaches**. The I-V is superlinear and symmetric and the junction never metallically shorted, so what conducted was a barrier, not a bridge. `LEAD_VERIFICATION.md` V13 |
+| **"…but weren't able to maintain tunnelling range long enough to get an image"** | With the motor stopped and nobody touching the instrument, the gap moves **≥ 43,000 Z counts in 6.4 s** and **≥ 56,000 over about two minutes**. An image needs it inside a few hundred counts for a minute. `docs/FACTS.md`, `STATUS.md` |
+
+**What this sentence deliberately does NOT say**, and these stay out:
+
+- **an image, or atomic resolution** — none has been produced
+- **a distance in nanometres from our own hardware** — the scale has never been established here
+- **that we held a controlled vacuum gap** — "maintain tunnelling range" is exactly the thing we
+  are saying we could not do, and that is the honest half of the sentence
+
+**Anywhere a deliverable needs one line on the tunnelling question, use Jacob's sentence verbatim.**
+Where it needs a paragraph, expand it in that order: the detection first, the maintenance second,
+then the one measurement (`d`, to 26 micrometres) that would settle the 2026-09-17 junction.
+
+---
+
 **`SAID`, Jacob, this session:**
 
 > *"whatever the result here for the image is include it in the results and stuff but the focus
@@ -15,7 +47,10 @@ figures.** It is a decision about emphasis, and it is the author's to make.
 
 **LEAD WITH WHAT THE INSTRUMENT DEMONSTRABLY DOES.** Not with the fault list. Two people who do not
 write code designed, ordered, assembled and characterised a working scanning-probe measurement
-chain in eight weeks, and proved it against theory.
+chain from a standing start — first power-on 29 August 2026, last bench session 19 September 2026,
+27 session logs — and proved it against theory. (**The overall project duration is stated as eight weeks
+in some documents and eleven in others; neither is established in the repository and Jacob has not been
+asked. Use the dates, not a week count.**)
 
 **The organising sentence, and it is true:**
 

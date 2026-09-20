@@ -351,7 +351,58 @@ scale, because this instrument has never established one from its own hardware.*
 > yet done is hold that gap open and steady enough to scan across a surface, and no image has been
 > produced.** The argument for the first of those two sentences is section 3.6.
 
-### 3.6 The rest of the chain
+### 3.6 We measured tunnelling current. What we did not do is hold a vacuum gap
+
+**Earlier drafts of this report said "we have not demonstrated tunnelling". That was wrong, in the
+direction of caution** — it ran two different claims together, and only one of them is unsupported.
+**The correction is Jacob's**: he made the argument from physics against the wording, and the
+wording was what was wrong (`deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13).
+
+> **We made a tunnel junction, put a bias across it, and measured the current tunnelling through
+> it.**
+
+**Why that holds, step by step, with what backs each step:**
+
+1. **On every approach the tip starts far from the sample with no measurable current and ends in
+   contact with a saturating one.** MEASURED — 109 approaches in the Z test alone.
+2. **Between those two states the separation passes through every intermediate value**, including
+   the 0.3 to 2 nm range where tunnelling is the conduction mechanism. The tip does not teleport.
+3. **In that range, with a bias applied, quantum tunnelling is what carries the electrons across.**
+   At about 0.5 V across about 1 nm the field is roughly 5x10^8 V/m — below Fowler-Nordheim field
+   emission — and thermionic emission over a work-function barrier is negligible at room
+   temperature. **Direct tunnelling is what is left.**
+4. **The bias was applied and the amplifier was recording throughout.** MEASURED — **60,928
+   readings taken inside the current range where tunnelling has to appear, across those 109
+   approaches.**
+5. **So tunnelling current flowed through our junction and our amplifier recorded it.**
+
+**The one way out of step 3 is a metallic bridge** — a whisker or contaminant strand shorting tip
+to sample before the tunnelling separation is reached, so that what is measured is ohmic conduction
+through metal. **Three of our own measurements close that off:**
+
+- **The I-V curve is superlinear and symmetric, not ohmic**: 0.85 nA at 0.05 V to 31.7 nA at 0.5 V,
+  resistance falling 59 to 16 MΩ. **A metallic constriction is ohmic.**
+- **The junction resistance never fell below about 5 MΩ even when the amplifier saturated**
+  (`sessions/2026-09-17-bench.md` §3.27, recorded on the night). **The tip never metallically
+  shorted to the sample.**
+- **109 of 110 onsets were gradual.** A metallic bridge forming is a step; a barrier being
+  approached is a ramp.
+
+**What is NOT established, and it is a different claim: that we held a controlled vacuum gap** — a
+barrier made of nothing but distance, held steady at a width we command. **That is the STM regime,
+it is what you need in order to image, and it is what the decay rate in section 3.5 and the
+hysteresis argue against.**
+
+**The distinction is not a hedge.** Tunnelling through a pressed contaminant or oxide film is still
+quantum tunnelling — a metal-insulator-metal tunnel junction is exactly that, and it is a real
+measurement of a real effect. **It is not STM tunnelling**, because the barrier is then set by
+whatever is stuck to the surface rather than by a gap you command, so you cannot hold it, cannot
+sweep it, and cannot image with it.
+
+**Still false, and stated here so that it is not inferred from the above:** no image, no atomic
+resolution, and no distance in nanometres in these deliverables read off our own hardware.
+
+### 3.7 The rest of the chain
 
 - **Coarse approach finds the surface.** The motor, driven in 20-step chunks, found the gold twice
   on 2026-09-19 (at 200 and 180 steps). **Neither find gave a usable gap** — see section 5.
@@ -570,8 +621,10 @@ all five published numbers reproduce exactly.** But that sigma treats 45 within-
 between-place comparisons as independent when every pass appears in many of them.
 
 **Under 20,000 permutations of the place labels: the positive run is p = 0.0036** — a factor of 14
-short of the corrected threshold — **its repeat half an hour later is p = 0.26, and an X-held
-control, which cannot contain a surface, scores p = 0.020 on the same statistic.**
+short of the corrected threshold — **its repeat, minutes later rather than half an hour, is
+p = 0.26, and an X-held control, which cannot contain a surface, scores p = 0.020 on the same
+statistic.** (**The interval is UNKNOWN and bounded by about five minutes** — see the correction
+immediately below, which this sentence originally contradicted.)
 
 **This one cannot be settled with the data that exist**, and that is stated as a limit rather than
 buried &mdash; **though the reason is not the one first written here.** ~~The two runs are half an hour
@@ -635,7 +688,104 @@ deliberately reintroduced stale line.
 
 ---
 
-## 8. What is still open
+## 8. The second instrument: the system that runs the science
+
+**Neither of us writes code. So the second thing we built was the system that does.** This section
+is here because it is a result in its own right, and because section 7 is unreadable without it:
+**the retractions in section 7 are this system's output.**
+
+### 8.1 What the problem was
+
+Two first-year students, no prior programming experience and no prior electronics experience, work
+on this instrument from two different computers, days apart, in between other commitments. **The
+failure mode is not that the work is hard. It is that a number gets corrected in one document and
+not in the eleven others that quote it**, and six weeks later somebody builds on the stale copy.
+
+That is not a hypothetical. It is what happened here: on 2026-09-07 two constants changed, both had
+been written into more than a dozen documents, and correcting every copy anyone could think of
+**still left stale values in six files.**
+
+### 8.2 What we built
+
+| Component | What it is | Size |
+|---|---|---|
+| **The protocol** (`CLAUDE.md`) | The operating instructions the model must read before doing anything: which document outranks which, what to do before recording something as unknown, what to compute before giving an instruction that touches hardware, and what to do at the start and end of every session | **575 lines** |
+| **The register** (`docs/FACTS.md`) | One canonical value for every number that matters, each with units, provenance and a date, plus a RETIRED table of every value that has ever been replaced | **157 rows** |
+| **The checker** (`Code/pc/check_facts.py`) | Seven classes of automated test, run at session start and before every commit | **565 lines** |
+| **The session record** (`sessions/`) | One append-only log per working session. Past measurements are never rewritten | **27 logs** |
+| **The reference set** (`docs/`) | Wiring, commands, components, open questions, engineering cross-references, an index of what is inside every binary and archive | **18 documents** |
+| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyse its output and measure the printed parts straight out of the CAD meshes | **15 tools** |
+| **The session hook** (`.claude/session-start.sh`) | Runs automatically: syncs both computers, reports the state, names every session log carrying the newest date, and runs the checker | — |
+
+### 8.3 The seven checks
+
+Run `python3 Code/pc/check_facts.py` and it verifies:
+
+1. No value the register lists as RETIRED is still sitting in a live document.
+2. Every file path cited in prose actually exists.
+3. No archived, superseded document is cited as if it were current.
+4. Every "safety rule N" citation resolves, **and points at the rule it claims to**.
+5. Every session log is indexed in `sessions/README.md`.
+6. Every RETIRED entry's qualifying wording still matches the real text.
+7. The next-session plan is not older than the newest session log.
+
+**Checks 4 and 6 exist because both failure modes happened.** Rule numbering drifted between two
+files until the same number meant different rules in each; and a retirement was written with a
+qualifier that no longer matched the document it was guarding.
+
+### 8.4 Every fact carries where it came from
+
+No number is stated without a tag saying how it is known: **MEASURED** at the bench, **CALC**
+derived with the inputs shown, **DS** from a manufacturer datasheet, **MESH** measured out of the
+CAD file, **ORDER** from an order confirmation, `SAID` stated by Jacob or Nuh, `READ` the model's
+reading of a photograph — plausible and unconfirmed. The same scheme is the one at the top of this
+report.
+
+**`SAID` and `READ` are deliberately the weakest tags, and they are the ones that have been wrong
+most often.** One `READ` of a part marking off a shared photograph put a wrong component into five
+documents before anybody asked whose board it was. **It was not our board.** Every edit was
+reversed, and the rule that came out of it — *a photograph is not a measurement of our hardware* —
+is now in the protocol.
+
+### 8.5 What proves it works
+
+**The system's output is not the documents. It is the retractions.**
+
+| What was published | What the system did |
+|---|---|
+| "The controls reproduce better than the scans, +0.37 against +0.04" | Traced to a control file that was a single line long. **Withdrawn**, and the same defect swept across every other comparison in the project (section 7.1) |
+| A reproducible feature in the scan data, at 3.9 sigma | Found to be the feedback loop recovering from a horizontal flyback, predicted to the exact count. **Withdrawn** (section 7.2) |
+| The detector's full-scale voltage, in a live engineering reference | **Recorded backwards** — the corrected value listed as the retired one. Caught and fixed (section 7.5) |
+| A single commit's session log | **Eleven wrong numbers**, found by a verification pass and corrected before the second push |
+| "d is 1.000 mm, and that settles the tunnelling question" | Wrong reading of what Jacob said. **Re-opened**, twice, and it is open now (section 9, item 3) |
+
+**Four of those five were the model's own errors, found by the framework the model was made to work
+inside.** The fifth was found by Jacob, against a confident and wrong statement from the model.
+**The corrected tunnelling wording in section 3.6 is a sixth, and also his.**
+
+### 8.6 The honest boundary
+
+**We did not train a model.** What we built is the scaffolding that makes a general-purpose model
+usable as a laboratory assistant: the protocol, the single-source register, the provenance tags,
+the append-only logs and the automated checks. **The model is off the shelf. The discipline is
+ours**, and without it the same model produces confident, unverifiable, quietly-drifting prose —
+which is what it did here before the framework existed.
+
+**An AI that produces confident prose is not hard to get. An AI workflow that produces a
+retraction is, and that is the part we built.**
+
+### 8.7 How to check any of this
+
+```bash
+wc -l CLAUDE.md Code/pc/check_facts.py   # the protocol and the checker
+ls sessions/*.md | wc -l                 # the session logs
+python3 Code/pc/check_facts.py           # the seven checks, run on the live repository
+cat .githooks/pre-commit                 # what blocks a failing commit
+```
+
+---
+
+## 9. What is still open
 
 **Canonical home: [`docs/OPEN_QUESTIONS.md`](../../../docs/OPEN_QUESTIONS.md).** This is a summary
 of the ones that matter most to the science, not a second list.
@@ -647,10 +797,15 @@ of the ones that matter most to the science, not a second list.
 2. **The Z scale in nanometres is ASSUMED, not measured.** Every distance statement in counts is
    scale-free and safe; every statement in nanometres inherits a figure from a similar disc. **The
    hysteresis result does not depend on it. The "counts per decade" comparison does.**
-3. **The tip-to-pivot-line distance**, which sets the lever ratio and therefore the Z scale, has
-   never been measured. `docs/OPEN_QUESTIONS.md` calls it *the most valuable unmeasured number in
-   the instrument*, and it needs a straightedge, not electronics. **It cannot be measured from
-   photographs** — three attempts gave answers more than a factor of two apart.
+3. **The tip-to-pivot-line distance**, which sets the lever ratio and therefore the Z scale. **It
+   is no longer unmeasured: Jacob bounded it at the bench on 2026-09-20 to under 0.5 mm**, and the
+   row is now in [`docs/FACTS.md`](../../../docs/FACTS.md) with its provenance. **The bound does
+   not settle the question**, because the **26 micrometres** that would make the 2026-09-17
+   junction a commanded vacuum gap sits inside it, in its bottom 5%. **Resolving that needs a
+   loupe, a USB microscope with a scale in the frame, or an optical comparator** — a straightedge
+   and an eye are what produced the 0.5 mm bound and they cannot go finer. **It cannot be measured
+   from a photograph with no scale in the frame** — three such attempts gave answers more than a
+   factor of two apart.
 4. **Whether the tip was ever over gold rather than copper.** The sample's window is not all gold;
    copper is exposed to the gold's left and below it in the photograph of the plate. Nothing
    electrical distinguishes them.
@@ -674,7 +829,7 @@ of the ones that matter most to the science, not a second list.
 
 ---
 
-## 9. Where this goes next
+## 10. Where this goes next
 
 **The full ordered plan, written to be executed with no memory of any conversation, is
 [`PAUSE_POINT_HANDOFF.md`](PAUSE_POINT_HANDOFF.md) in this directory, and the canonical bench
@@ -688,7 +843,7 @@ imaging statistic is currently dominated by the gap moving more than the signal.
 
 ---
 
-## 10. What this report does not claim, and the words that are true instead
+## 11. What this report claims, and what it does not
 
 **The one claim that cannot be made is "we detected tunnelling current."** It is not a framing
 choice — **this project's own data contradict it.** The Z test is the decisive evidence: a decade

@@ -71,6 +71,21 @@ what makes the instrument sensitive enough to see atoms. **Ours is built from 3D
 following **Mech Panda's `red-panda-stm`** for the mechanics, firmware and controller board, and
 **Dan Berard's home-built STM** for the scan head and the transimpedance preamplifier.
 
+**Where the project stands, in Jacob's words and in one sentence:**
+
+> ## **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
+
+**Both halves are separately supported, and the order matters.** We detected tunnelling: the tip
+cannot go from not touching to touching without passing through the separations where tunnelling is
+the only thing carrying electrons, and the bias was on with the amplifier recording the whole way —
+**60,928 readings inside that current range, across 109 approaches**. We could not maintain
+tunnelling range: with the motor stopped and nobody touching the instrument the gap moves **at
+least 43,000 Z counts in 6.4 s** and **at least 56,000 over about two minutes**, where an image
+needs it inside a few hundred counts for a minute. **And one measurement would settle our best
+junction retroactively** — `d`, the tip's distance from the pivot line, resolved to 26 micrometres
+rather than bounded under 0.5 mm. It needs a loupe and no power. `FRAMING.md`;
+`LEAD_VERIFICATION.md` V13.
+
 **What it demonstrably does today** (all MEASURED, all in `docs/FACTS.md` and the session logs):
 
 - **The measurement chain works end to end and is calibrated.** A 100 MOhm dummy junction gave
@@ -78,6 +93,13 @@ following **Mech Panda's `red-panda-stm`** for the mechanics, firmware and contr
   the project's strongest single result.
 - **A real tip-to-gold junction has been made**, repeatedly, and its current responds to Z and to
   the sign of the bias.
+- **A tunnel junction was made, biased, and the current tunnelling through it measured.** The tip
+  starts with no measurable current and ends in saturating contact, so on every approach the
+  separation passes through the range where tunnelling is the only mechanism that carries
+  electrons; the bias was on and the amplifier recording throughout, **60,928 readings inside that
+  current range across 109 approaches**. The junction never metallically shorted — resistance never
+  fell below about 5 MOhm even at saturation — and the I-V is superlinear and symmetric. **So it
+  was a barrier, conducting by tunnelling, and not a metallic bridge.**
 - **The electronics are quiet enough.** Tip clear, the reading's standard deviation was 40–42
   counts on 2026-09-19; with a junction and X held it was 9–19 counts. A tunnelling current is
   about 1 nA, which is about 320 counts.
@@ -85,16 +107,22 @@ following **Mech Panda's `red-panda-stm`** for the mechanics, firmware and contr
 **What it has not done:**
 
 - **No image has been produced.** Every feedback scan is matched or beaten by its own X-held
-  control, so nothing in them is established as surface structure.
-- **The junction is not a clean tunnelling gap.** On 2026-09-19 the current changed by a factor of
-  ten per roughly 1,650–1,970 Z counts going in, where tunnelling on the inherited (and unmeasured)
-  Z scale would be about 6–13 counts. Every run showed 705–1,868 counts of in/out hysteresis. The
-  interpretation on record is **"a soft, pressed, sticky contact"** — and it is marked as
-  interpretation, not proof.
+  control, so nothing in them is established as surface structure. No atomic resolution, and no
+  distance in nanometres from our own hardware.
+- **No controlled vacuum gap has been held** — the STM regime you need in order to scan. That is a
+  different claim from the bullet above, and it is the one our data does not support: on 2026-09-19
+  the current changed by a factor of ten per roughly 1,650–1,970 Z counts going in, where tunnelling
+  on the inherited (and unmeasured) Z scale would be about 6–13 counts, and every run showed
+  705–1,868 counts of in/out hysteresis. The interpretation on record is **"a soft, pressed, sticky
+  contact"** — marked as interpretation, not proof. **Tunnelling through a pressed film is still
+  tunnelling; it is not a gap you can command, sweep and image with.**
 - **The gap does not hold still.** With the motor and hands still, it moved by most of the Z range
-  within seconds to minutes. **What moves it is UNKNOWN**; four untested candidates are the gold
-  leaf on its backing paper, the sample plate on its rubber bands and ball contacts, thermal motion
-  of the printed head, and air currents.
+  within seconds to minutes. **What moves it is UNKNOWN**; `STATUS.md` carries **seven untested
+  candidates** — the gold leaf on its backing paper, the sample plate on its rubber bands and ball
+  contacts, thermal motion of the printed head, air currents, the undressed cables crossing from the
+  suspended platform to the fixed bench, the coin mass standing tall and unrestrained, and the
+  spring-hook-in-eyebolt joints. **The last three came from the photograph review and are not
+  evidence** — a photograph shows what is touching what, never what moved.
 
 **So the blocker is mechanical, not electrical.** That is the single most useful sentence in this
 manual, because it tells you where not to spend time.
@@ -267,6 +295,105 @@ measure at all is 102.4 nA. **MEASURED end to end on 2026-09-16 as 320.5 counts 
 **The sign, and it matters:** a **positive voltage on the sample gives negative counts.** Current
 flowing into the tip reads negative. `BIAS` codes above 32768 put a negative voltage on the sample.
 
+## 1.4 The second instrument: the system that runs the science
+
+**This section is here, near the front, because it is what tells you how far to trust the rest of
+this manual.**
+
+**Neither of us writes code. So the second thing we built was the system that does.** This
+instrument was designed, assembled, characterised and documented by two first-year students
+directing an AI model, working inside a framework we built for it. **The model is off the shelf. The
+framework is ours.**
+
+### What the problem was
+
+Two people, no prior programming and no prior electronics experience, working from two different
+computers, days apart, in between other commitments. **The failure mode is not that the work is
+hard. It is that a number gets corrected in one document and left standing in the eleven others
+that quote it**, and six weeks later somebody builds on the stale copy.
+
+That is not hypothetical here. **On 2026-09-07 two constants changed**, both had already been
+written into more than a dozen documents, and correcting every copy anyone could think of **still
+left stale values in six files.**
+
+### What we built
+
+| Component | What it is | Size |
+|---|---|---|
+| **The protocol** (`CLAUDE.md`) | The operating instructions the model must read before doing anything: which document outranks which, what to search before recording something as unknown, what to compute before giving an instruction that touches hardware, and what to do at the start and end of every session | **575 lines** |
+| **The register** (`docs/FACTS.md`) | One canonical value for every number that matters, each with units, provenance and a date, plus a RETIRED table of every value that has ever been replaced | **157 rows** |
+| **The checker** (`Code/pc/check_facts.py`) | Seven classes of automated test, run at session start and before every commit | **565 lines** |
+| **The session record** (`sessions/`) | One append-only log per working session. Past measurements are never rewritten | **27 logs** |
+| **The reference set** (`docs/`) | Wiring, commands, components, open questions, engineering cross-references, and an index of what is inside every binary and archive | **18 documents** |
+| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyse its output, and measure the printed parts straight out of the CAD meshes | **15 tools** |
+| **The session hook** (`.claude/session-start.sh`) | Runs automatically: syncs both computers, reports the state, names every session log carrying the newest date, and runs the checker | — |
+
+### The seven checks
+
+Run `python3 Code/pc/check_facts.py` and it verifies:
+
+1. No value the register lists as RETIRED is still sitting in a live document.
+2. Every file path cited in prose actually exists.
+3. No archived, superseded document is cited as if it were current.
+4. Every "safety rule N" citation resolves, **and points at the rule it claims to**.
+5. Every session log is indexed in `sessions/README.md`.
+6. Every RETIRED entry's qualifying wording still matches the real text.
+7. The next-session plan is not older than the newest session log.
+
+**Checks 4 and 6 exist because both failure modes happened.** Rule numbering drifted between two
+files until the same number meant different rules in each, and a retirement was written with a
+qualifier that no longer matched the document it was guarding.
+
+### Every fact carries where it came from
+
+No number is stated without a tag saying how it is known:
+
+**`MEASURED`** at the bench · **`CALC`** derived, with the inputs shown · **`DS`** from a
+manufacturer datasheet · **`MESH`** measured out of the CAD file · **`ORDER`** from an order
+confirmation · **`SAID`** stated by Jacob or Nuh · **`READ`** the model's reading of a photograph,
+plausible and unconfirmed
+
+**`SAID` and `READ` are deliberately the weakest tags, and they are the ones that have been wrong
+most often.** One `READ` of a part marking off a shared photograph put a wrong component into five
+documents before anybody asked whose board it was. It was not our board. Every edit was reversed,
+and the rule that came out of it — *a photograph is not a measurement of our hardware* — is now in
+the protocol, and at the top of this manual.
+
+### What proves it works
+
+**The system's output is not the documents. It is the retractions.**
+
+| What was published | What the system did |
+|---|---|
+| "The controls reproduce better than the scans, +0.37 against +0.04" | Traced to a control file that was a single line long. **Withdrawn**, and the same defect was then swept across every other comparison in the project |
+| A reproducible feature in the scan data, at 3.9 sigma | Found to be the feedback loop recovering from a horizontal flyback, predicted to the exact count. **Withdrawn** |
+| The detector's full-scale voltage, in a live engineering reference | **Recorded backwards** — the corrected value listed as the retired one. Caught and fixed |
+| A single commit's session log | **Eleven wrong numbers**, found by a verification pass and corrected before the second push |
+| "d is 1.000 mm, and that settles the tunnelling question" | Wrong reading of what Jacob said. **Re-opened**, twice, and it is open now |
+
+**Four of those five were the model's own errors, found by the framework the model was made to work
+inside.** The fifth was found by Jacob, against a confident and wrong statement from the model.
+
+### The honest boundary
+
+**We did not train a model.** What we built is the scaffolding that makes a general-purpose model
+usable as a laboratory assistant: the protocol, the single-source register, the provenance tags, the
+append-only logs and the automated checks. **The model is off the shelf. The discipline is ours** —
+and without it the same model produces confident, unverifiable, quietly-drifting prose, which is
+what it did here before the framework existed.
+
+**An AI that produces confident prose is not hard to get. An AI workflow that produces a retraction
+is, and that is the part we built.**
+
+### How to check any of this
+
+```bash
+wc -l CLAUDE.md Code/pc/check_facts.py   # the protocol and the checker
+ls sessions/*.md | wc -l                 # the session logs
+python3 Code/pc/check_facts.py           # the seven checks, run on the live repository
+cat .githooks/pre-commit                 # what blocks a failing commit
+```
+
 ---
 
 # 2. Which revision you are holding
@@ -297,7 +424,7 @@ hardware.
 
 ## 2.2 The tip
 
-**Four tips have been fitted. Documents from different days mean different tips.**
+**Three tips have been fitted. Documents from different days mean different tips.**
 
 | Era | What it was | What to know |
 |---|---|---|
@@ -425,7 +552,7 @@ their junction called ground. A single-output supply physically cannot straddle 
 > caught before the outputs went on, on 2026-09-15, and nothing was damaged.
 
 **Current limits.** Set a few hundred mA. On 2026-09-16 one channel was still on the preamp-only
-20 mA setting and dropped into constant-current mode at about 2 V; at 200 mA it worked, drawing
+20 mA setting and went into constant-current mode at about 2 V; at 200 mA it worked, drawing
 about 40 mA. **A channel still in constant-current mode at 200 mA is a real fault — do not retry,
 prove the wiring at the plug first.** Measured supply currents after a park on 2026-09-16 were
 60 mA on V++ and 47 mA on V−−.
@@ -1515,8 +1642,21 @@ tunnelling on the inherited scale, and every run shows 705 to 1,868 counts of in
 counts in 6.4 s and at least 56,000 over about two minutes.** No period was evident, but the data
 are too sparse to exclude one.
 
-**Four untested candidates, not ranked:** the leaf on its paper; the plate on its rubber bands and
-ball contacts; thermal motion of the printed head; **air currents**.
+**Seven untested candidates, not ranked** (`STATUS.md`, the canonical list): the leaf on its paper;
+the plate on its rubber bands and ball contacts; thermal motion of the printed head; **air
+currents**; **the undressed cables** — an orange lead and a four-way bundle cross from the suspended
+platform to the fixed bench and no photograph shows either clamped, taped or tied to a strain-relief
+point, and a cable is a nonlinear path to ground that can stick and release; **the coin mass**,
+standing tall and unrestrained and free to slide; and **the spring-hook-in-eyebolt joints**.
+
+**The last three came from the photograph review of 2026-09-19 and are candidates only.** A
+photograph shows what is touching what, never what moved.
+
+**One further candidate applies to the 6.4 s excursion alone: relaxation after a motor move.** That
+window opened 0.1 s after a 60-step retract ended. **It does not explain the measurement** — the
+motion reversed and overshot its own starting point, which settling and creep do not do, and the
+two-minute figure is measured long after any post-move transient. It is listed so that nobody
+rediscovers it as an objection.
 
 > **The free test comes first:** put a cardboard box over the whole instrument, **standing on the
 > bench and not on the suspended platform**, leave the room, and repeat the stillness measurement.
@@ -1856,7 +1996,20 @@ tried.
 | **The preamplifier** | **About 4 pA in its box. It is not the problem** |
 | **The motor direction** | **Negative approaches**, settled at the bench |
 | **That the gold leaf is real gold, and that the copper tape's adhesive conducts** | Both settled 2026-09-17 |
-| **The shields** | Printed, wrapped, grounded and metered end to end |
+
+> **A row was removed from the table above on 2026-09-20, and it is worth saying why.** It read
+> **"The shields — printed, wrapped, grounded and metered end to end"**, and the metering half of
+> that is not true. **The shields are printed, wrapped and grounded. Nobody has metered one end to
+> end.**
+>
+> **This mattered more than an ordinary wrong row, because it sat under a heading telling you not
+> to spend bench time on it.** Four other places in this documentation set record the same check as
+> still owed — section 3.9's note on figure 3.6, **section 11 step 19, "Meter every shield"**,
+> `INCONSISTENCIES.md` item B8, and the poster Q&A. All four are right and the row was wrong.
+>
+> **Do it at reassembly.** Every point on each shield must beep to its ground wire — near the wire,
+> the far corner, across every seam — and each shield gets exactly one bond to AGND. It takes about
+> two minutes.
 
 ---
 
