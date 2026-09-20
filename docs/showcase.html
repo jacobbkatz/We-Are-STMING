@@ -3,13 +3,25 @@
   1. "Jacob Katz & Nuh" -> "Jacob Katz & Nuh Shaheer". Nuh's surname was missing from the byline of
      a page about work he did half of.
   2. "Is there really a quantum junction at the tip?" answered "Yes, and it has the shape a barrier
-     must have." Now: "Yes - a barrier. Whether it was a tunnelling gap is still open, and one ruler
-     measurement decides it." A barrier is not the same claim as a vacuum tunnelling gap - a
-     contaminant film, a thin oxide or a dirty near-contact are all superlinear too. And
-     docs/OPEN_QUESTIONS.md says the tip's offset d from the pivot line "decides whether we are
-     tunnelling or pressing through a soft contact": below about 0.13 mm the 2026-09-17 measurement
-     IS tunnelling, and d has never been measured. See
-     deliverables/2026-09-19-pause/LEAD_VERIFICATION.md V3 and V10.
+     must have." A barrier is not the same claim as a vacuum tunnelling gap - a contaminant film, a
+     thin oxide or a dirty near-contact are all superlinear too.
+
+     *** CORRECTED AGAIN 2026-09-20, TWICE OVER. Read this before the paragraph above. ***
+     (a) The 2026-09-19 edit said "below about 0.13 mm the 2026-09-17 measurement IS tunnelling".
+         THAT IS WRONG and it overstated the case. 0.13 mm is a DIFFERENT criterion - whether the
+         gap wobbles too much to hold at all - not how fast the current decays. On the decay test
+         0.13 mm is still five times too slow. The threshold is about 26 MICROMETRES.
+         LEAD_VERIFICATION.md V11.
+     (b) The whole "is it tunnelling or not" framing was then shown to be the wrong question.
+         LEAD_VERIFICATION.md V13: a tip cannot travel from not-touching to touching without
+         passing through the separations where tunnelling is the only mechanism carrying electrons,
+         and bias was applied with the amplifier recording throughout - 60,928 readings inside that
+         current range, across 109 approaches. So tunnelling occurred and was measured. What was
+         NOT done is holding the gap open long enough to scan.
+     The canonical wording, Jacob's own: "We detected tunnelling, but weren't able to maintain
+     tunnelling range for long enough to get an image." See deliverables/2026-09-19-pause/FRAMING.md.
+     d was bounded at the bench on 2026-09-20 to UNDER 0.5 mm and is still not resolved; 26 um sits
+     inside that bound.
   3. "Electronics noise floor" now says which tip and night it belongs to. These figures are
      strongly tip-dependent - 2026-09-17 gave 8-14, 2026-09-18 gave 341-350, 2026-09-19 gave 41.8.
      NOT YET IN THE PAGE: a tip-clear noise measurement has no junction in it, so it tests
@@ -432,11 +444,18 @@ footer code{font-size:12.5px; color:var(--ink-2)}
       conductors close enough for electrons to cross a gap, rather than simply touching.</p>
 
     <div class="answer">
-      <p><b>Yes &mdash; a barrier. Whether it was a tunnelling gap is still open, and one ruler measurement decides it.</b> The current rose from
+      <p><b>Yes &mdash; a barrier, and current tunnelled across it. What we could not do is hold
+        that gap open long enough to scan.</b> The current rose from
         <b>0.85 nA at 0.05 V to 31.7 nA at 0.5 V</b> &mdash; about <b>four times faster</b> than
         Ohm's law. It was <b>symmetric in both bias polarities</b> to within 10%, and its effective
         resistance fell from 59 M&#8486; to 16 M&#8486; as the voltage rose. A metal-to-metal
         contact is a straight line. An open circuit gives nothing.</p>
+      <p style="margin-top:.6em"><b>A barrier conducting at these resistances is conducting by
+        tunnelling</b>, and the tip has to pass through the separations where tunnelling is the only
+        mechanism available on every single approach &mdash; with the bias on and the amplifier
+        recording. <b>What is not established is a controlled vacuum gap</b>, the regime you need in
+        order to scan a surface: for that, one distance inside the scan head would have to be about
+        26 micrometres, and it has only been bounded to under 0.5 mm.</p>
     </div>
 
     <figure>
