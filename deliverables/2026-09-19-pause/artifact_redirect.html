@@ -1,10 +1,24 @@
 <!doctype html>
+<!--
+  The claude.ai artifact at /artifact/YZ6sGyniLBBDNxhceXUfF8 serves this page. It is a
+  signpost to https://jacobbkatz.github.io/We-Are-STMING/ and it does NOT redirect.
+
+  WHY NOT, since a redirect is what was asked for. An artifact renders inside a
+  sandboxed iframe. The first version carried <meta http-equiv="refresh"> and a script
+  calling window.top.location.replace, and both are refused: Chrome reports "The frame
+  attempting navigation of the top-level window is sandboxed, but the flag of
+  'allow-top-navigation' ... is not set", and the reader is shown "This content is
+  blocked. Contact the site owner to fix the issue." instead of anything at all.
+  Reproduced in a local iframe harness with the same sandbox flags, then fixed and
+  re-tested there: with no automatic navigation in the file, the card renders.
+
+  So the link is the mechanism. Do not put a meta refresh back in.
+-->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>We Are STMing</title>
-<meta http-equiv="refresh" content="0; url=https://jacobbkatz.github.io/We-Are-STMING/">
 <link rel="canonical" href="https://jacobbkatz.github.io/We-Are-STMING/">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500&amp;family=Inter:wght@400;500;600&amp;display=swap">
 <style>
@@ -63,24 +77,13 @@
   <main class="card">
     <p class="eyebrow">This page has moved</p>
     <h1>We Are STMing</h1>
-    <p>Two undergraduates built a scanning tunnelling microscope in a basement. The write-up now
-    lives on its own site, and this link is only a signpost to it.</p>
-    <p>If it has not taken you there already:</p>
+    <p>Two undergraduates built a scanning tunnelling microscope in a basement. The write-up has
+    moved to its own site, and this page is only a signpost to it.</p>
+    <p><b>Nothing here sends you on automatically.</b> This page runs inside a sandboxed frame that
+    refuses to navigate anywhere on its own, so the link below is the way through.</p>
     <a class="go" href="https://jacobbkatz.github.io/We-Are-STMING/" target="_blank" rel="noopener">Open the project site</a>
-    <span class="url">jacobbkatz.github.io/We-Are-STMING<br>
+    <span class="url"><a href="https://jacobbkatz.github.io/We-Are-STMING/" target="_blank" rel="noopener">jacobbkatz.github.io/We-Are-STMING</a><br>
       <a href="https://github.com/jacobbkatz/We-Are-STMING" target="_blank" rel="noopener">github.com/jacobbkatz/We-Are-STMING</a></span>
   </main>
-<script>
-  // Send the reader on. An artifact runs inside a sandboxed frame, so the top-level
-  // navigation can be refused without an error being thrown anywhere useful - which is
-  // why the card above is a complete page on its own and not a flash of text.
-  (function () {
-    var to = "https://jacobbkatz.github.io/We-Are-STMING/";
-    try {
-      if (window.top && window.top !== window.self) { window.top.location.replace(to); return; }
-    } catch (e) { /* cross-origin frame: fall through to the link */ }
-    try { window.location.replace(to); } catch (e) { /* the link is the fallback */ }
-  })();
-</script>
 </body>
 </html>
