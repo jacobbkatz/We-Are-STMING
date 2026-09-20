@@ -106,6 +106,8 @@
                 font-size:var(--s1); color:var(--ink2); line-height:1.55; }
   .who .did b{ color:var(--ink); font-weight:600; }
   .who .li{ display:inline-block; margin-top:1em; font-size:var(--s1); }
+  .who .aside{ font-size:var(--s1); color:var(--muted); border-left:2px solid var(--line);
+               padding-left:.85em; line-height:1.55; }
 
 
   /* ---------- the parts model ---------- */
@@ -843,19 +845,25 @@
 
 <section id="about">
   <h2>About us</h2>
-  <p class="lede">We are Jacob Katz and Nuh Shaheer. We are in our second year at the University
-  of California San Diego and at Worcester Polytechnic Institute, and we built this together in a
-  basement over the summer between our first year and this one, because we wanted to see single
-  atoms.</p>
+  <p class="lede">Two second-year engineering students who wanted to see single atoms, and built
+  the instrument that can in a basement over one summer.</p>
 
   <div class="pair" data-rv>
     <div class="who n" data-rv>
       <figure class="photo"><img src="img/nuh.jpg" width="1400" height="1050" alt="Nuh at the bench in late August, facing the camera, with the assembled rig and the laptop in front of him." loading="lazy"></figure>
       <h3>Nuh Shaheer</h3>
-      <p class="at">Worcester Polytechnic Institute, second year</p>
+      <p class="at">Mechanical engineering, Worcester Polytechnic Institute &mdash; second year</p>
       <p>Nuh had the hardware for most of the build, and the instrument lived at his bench. When
-      Jacob was away, he ran sessions alone off a written procedure and reported back what the
-      instrument actually did.</p>
+      Jacob was away he ran sessions alone off a written procedure and reported back what the
+      instrument actually did, which is the only reason the record has two hands in it.</p>
+      <p>He works in SOLIDWORKS and Fusion 360, which is the half of this instrument that is
+      plastic and screws rather than volts. Away from it he is an undergraduate researcher in
+      WPI&rsquo;s Fang Research Group on laser powder bed fusion and pore formation, and he spent a
+      summer as an <strong>AI and robotics software engineering intern</strong> building a ROS 2
+      model of a seven-axis robot arm from SolidWorks assemblies.</p>
+      <p>He also co-founded <strong>Laces Up</strong>, a fiscally sponsored non-profit that
+      collects, cleans and redistributes shoes, now in its fourth year, and has taught STEM to more
+      than twenty students between five and sixteen.</p>
       <ul class="did">
         <li><b>The first soldering either of us had done</b> that had to work &mdash; the early
         electronics, 1 August, before anything was mounted.</li>
@@ -873,9 +881,18 @@
     <div class="who" data-rv>
       <figure class="photo"><img src="img/module.jpg" width="1200" height="1600" alt="Jacob holding the complete scanning module in two hands, the copper-taped preamplifier box visible in the middle." loading="lazy"></figure>
       <h3>Jacob Katz</h3>
-      <p class="at">University of California San Diego, second year</p>
+      <p class="at">Nanoengineering BS/MS, University of California San Diego &mdash; second year</p>
       <p>Jacob drove the measurement side and the framing: what the project would claim, what it
       would not, and which of its own results had to be withdrawn.</p>
+      <p>He works on chemistry, semiconductor processing and electrochemistry &mdash; the places
+      where a small fabrication choice changes how something performs, which is most of what went
+      wrong on this instrument. Away from it he is an NSF ELEAN research intern at
+      <strong>Brookhaven National Laboratory&rsquo;s Center for Functional Nanomaterials</strong>,
+      and he runs a trading-card grading and market-analysis business, which is a lot of practice
+      at noticing the small physical detail that changes the answer.</p>
+      <p class="aside"><strong>None of that touched this instrument.</strong> The microscope on
+      this page was built with no laboratory, no advisor and no funding; the two are connected only
+      by the person.</p>
       <ul class="did">
         <li><b>Built the tip etcher</b> &mdash; a bench supply through sodium hydroxide, run
         outdoors in gloves, because tungsten tips are etched rather than bought.</li>

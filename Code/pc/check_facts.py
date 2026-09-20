@@ -36,11 +36,43 @@ SKIP_FILES = {'FACTS.md', 'check_facts.py'}
 
 # A line that is itself recording the correction is not stale. These are the
 # words used when a document says "this used to say X, it is now Y".
+#
+# FIXED 2026-09-20. This used to exempt the WHOLE LINE if any of these words
+# appeared anywhere on it, before the checker had even looked at which value
+# matched. Retiring a row count caught one stale copy out of six: the other five
+# sat on lines that happened to contain the phrase "a RETIRED table", which names
+# the mechanism and says nothing about the value beside it. The excuse is now
+# looked for NEAR the value it is meant to excuse, and an occurrence that is just
+# naming the table, the list or a column does not count at all.
 EXCUSES = re.compile(
     r'~~|retired|superseded|corrected|was wrong|were wrong|no longer|'
     r'previously|used to|stale|not a bug|do not change|incorrect|'
     r'\bwrong\b|\bvoid\b|replaced by|instead of|rather than|\berror\b|not the input span|is not the|range option|REFBUF',
     re.I)
+
+# "a RETIRED table", "the retired values", "the retired column" -- these name the
+# mechanism. They are not a statement that the number beside them is out of date.
+EXCUSE_IS_A_NAME = re.compile(
+    r'(?:retired|superseded)\s+(?:table|list|values?|section|column|entry|entries|rows?|block)',
+    re.I)
+
+# How far from the stale value an excuse may sit and still be about it. Long
+# enough for "X, corrected 2026-09-07, is now Y"; short enough that a word at the
+# far end of a wide table row does not cover the whole row.
+EXCUSE_WINDOW = 140
+
+
+def excused(line, at):
+    """Is there a correction word close enough to position `at` to be about it?"""
+    lo, hi = max(0, at - EXCUSE_WINDOW), at + EXCUSE_WINDOW
+    for m in EXCUSES.finditer(line):
+        if m.end() < lo or m.start() > hi:
+            continue
+        near = line[max(0, m.start()):m.start() + 40]
+        if EXCUSE_IS_A_NAME.match(near):
+            continue
+        return True
+    return False
 
 
 def retired_patterns():
@@ -413,10 +445,11 @@ def main():
         except OSError:
             continue
         for i, line in enumerate(lines, 1):
-            if EXCUSES.search(line):
-                continue
             for literal, qual, replacement in pats:
-                if literal.lower() not in line.lower():
+                at = line.lower().find(literal.lower())
+                if at < 0:
+                    continue
+                if excused(line, at):
                     continue
                 # A NUMERIC LITERAL MUST NOT MATCH AS THE TAIL OF A BIGGER
                 # NUMBER. Added 2026-09-19. `800 counts` (retired, per nA) was
