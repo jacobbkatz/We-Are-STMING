@@ -22,6 +22,7 @@ WHAT IT CHECKS, all without a browser:
   figures      every <figure> says what it is, as a caption or as alt text
   duplicates   no paragraph appears twice (the usual scar of a bad copy-paste)
   counts       every number the page states about THIS repository is current
+               (except the commit count, which the build stamps - see the note there)
 
 The browser-side checks - console errors, 404s, sideways scroll, tap targets - need
 Playwright and live in `audit_live.py` beside this file.
@@ -253,6 +254,14 @@ def check_repo_counts(page, fail):
     for m in re.finditer(
             r'<(\w+)([^>]*\bdata-repo-count="([a-z-]+)"[^>]*)>([^<]*)</\1>', page):
         _tag, attrs, key, body = m.groups()
+        # The commit count is stale the instant you commit, by construction: committing
+        # the page increments the number the page states. Checking it here made every
+        # commit fail its own checker, which is how a checker starts being ignored. The
+        # deployed value is right because build_assets.py stamps it during the build,
+        # and it cannot be wrong in the other direction because that same script refuses
+        # to produce a count at all from a shallow clone.
+        if key == "commits":
+            continue
         n = live.get(key)
         if n is None:
             fail("counts", 'the page asks for a count called "%s" that nothing measures' % key)
