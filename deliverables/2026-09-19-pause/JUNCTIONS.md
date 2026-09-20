@@ -3,6 +3,28 @@
 **Written 2026-09-20, for Jacob, who asked: "show me in each of our junctions why you think no
 tunnelling happened — simple and easy to understand, with data and graphs."**
 
+> ## CORRECTED THE SAME DAY — read this before the rest
+>
+> **This document was written to answer "show me why you think no tunnelling happened". Within the
+> hour Jacob made the argument that the question itself was mis-framed, and he was right.**
+>
+> **`SAID`, Jacob, 2026-09-20 — and this is now the project's canonical sentence:**
+>
+> ## **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
+>
+> **Everything measured below stands. What changes is the heading it sits under.** A tip cannot go
+> from not-touching to touching without passing through the separations where tunnelling is the only
+> mechanism available, and bias was applied with the amplifier recording throughout — 60,928
+> readings inside that current range, across 109 approaches. **So tunnelling happened, and was
+> measured.**
+>
+> **The evidence below — the push/pull asymmetry, the hysteresis, the shallow decay — is evidence
+> that we never HELD a vacuum gap.** That is a different and narrower claim, and it is the one that
+> matters for imaging. `LEAD_VERIFICATION.md` **V13**, and `FRAMING.md`.
+>
+> **Where this document says "was not a vacuum tunnelling gap", that is still exactly right.** Where
+> it reads as though tunnelling did not occur, read it as: we could not hold the range.
+
 **Short answer, and it is not the one the question expects.**
 
 > **Two of the three junctions are settled, and neither was a vacuum tunnelling gap.**

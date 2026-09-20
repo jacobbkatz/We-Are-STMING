@@ -136,7 +136,16 @@ one was found bent), different sample (the leaf-on-paper gold), different night.
 > barrier junction; it has not demonstrated a stable vacuum tunnelling gap, and it has never
 > produced an image.**
 
-**Nothing in the deliverables may say "tunnelling achieved" or "atomic resolution".** The
+> **PARTLY SUPERSEDED 2026-09-20 BY V13.** The sentence above draws the line in the wrong place.
+> **It is correct that no stable vacuum tunnelling gap was demonstrated and no image produced.**
+> It is wrong to read it as meaning tunnelling did not occur or was not measured — V13 establishes
+> that it did and was. The canonical wording is Jacob's: *"We detected tunnelling, but weren't able
+> to maintain tunnelling range for long enough to get an image."*
+
+~~**Nothing in the deliverables may say "tunnelling achieved" or "atomic resolution".**~~
+**CORRECTED 2026-09-20 BY V13.** *"Atomic resolution"* stays banned — none was achieved.
+**"We detected tunnelling" is now the headline claim and is true**; what may not be said is that
+we held a controlled vacuum gap. See V13 and `FRAMING.md`. The
 qualitative claim that survives everything is the one worth leading with: **the complete measurement
 chain works, end to end, and is calibrated against theory.**
 
@@ -719,7 +728,13 @@ step. So one motor step changed the current roughly tenfold.**
 repository that does: *"the lever ratio would have to be about 1,550 — the tip within 26 um of the
 pivot line. That is possible but implausibly exact."*
 
-### So: can the deliverables say "we achieved tunnelling"?
+### ~~So: can the deliverables say "we achieved tunnelling"?~~ **SUPERSEDED 2026-09-20 BY V13**
+
+> **The arithmetic in this section is right and stands. The question it answers is the wrong one.**
+> What it actually establishes is that **we cannot claim to have HELD a vacuum gap** — the lever
+> would have to put the tip within 26 um of the pivot line. **Whether tunnelling occurred is a
+> different question, and V13 answers it yes.** Read the "No" below as "no, not a held gap".
+
 
 **No, and this pass makes the answer firmer rather than softer.** It would require the tip to sit
 within **26 micrometres** of the pivot line — a 2.6% sliver at the very bottom of the 0-1 mm range
@@ -788,8 +803,11 @@ which route 2 reaches without it.
   scientific episode in four steps**, and it happened in a basement in about an hour.
 - **The Z scale stops being inherited.** Any figure quoting nanometres can now cite our own geometry
   with the caveat above.
-- **Nothing claims tunnelling.** V11's arithmetic and V12's measurement agree, and they agree
-  against it.
+- ~~**Nothing claims tunnelling.**~~ **SUPERSEDED 2026-09-20 BY V13: the deliverables now DO claim
+  tunnelling, and correctly.** V11's arithmetic and V12's measurement agree against a **held
+  vacuum gap**, which is what they were actually testing. **They say nothing about whether
+  tunnelling occurred.** V12's own premise — that `d` is 1.000 mm — was also withdrawn the same
+  day; `docs/FACTS.md` now carries `d` as bounded under 0.5 mm and unresolved.
 
 **Credit: Jacob asked for the number, was told it was 26 um, went and measured 1.000 mm, and closed
 his own question in the direction he did not want.** That is the whole method working.
