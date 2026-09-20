@@ -362,19 +362,15 @@
             color:var(--gold); font-variant-numeric:tabular-nums; }
   .item h3{ margin-bottom:.25em; }
   .item p{ margin:0 0 .6em 0; color:var(--ink2); max-width:38em; }
-  /* WHY THESE TWO GRIDS EXIST. A reading measure of about 60 characters is right, and
-     widening it would be worse, not better - but it still left the right of the page
-     empty. So the fix is not a longer line, it is giving that side something to hold:
-     a section's lede sits beside its heading, and a blocker's fix beside the blocker.
-     Both also make the page shorter, which it needed. Below 1000 px they stack. */
+  /* A blocker's possible fix sits beside the blocker rather than under it: it uses the
+     right of the page for something that belongs there, and halves the section's height.
+     Below 1000 px they stack.
+
+     The same was tried for a section's heading and its lede, side by side. It was worse
+     and it is gone: a short heading against a five-line lede left a void under the
+     heading, and then the body started back at the left under that void - an L-shaped
+     hole rather than a filled line. Reverted 2026-09-20 at Jacob's call. */
   @media (min-width:1000px){
-    .sechead{ display:grid; grid-template-columns:minmax(0,0.92fr) minmax(0,1fr);
-              column-gap:clamp(30px,4vw,64px); align-items:start; }
-    .sechead h2{ margin-bottom:0; }
-    /* Both start at the top, and the lede drops just enough that its first line sits on
-       the heading's baseline rather than above it. `end` aligned a one-line heading to
-       the bottom of a four-line lede, which left the heading floating. */
-    .sechead .lede{ margin-bottom:0; max-width:34em; padding-top:.62em; }
     .item > div:last-child{ display:grid;
               grid-template-columns:minmax(0,1.04fr) minmax(0,0.96fr);
               column-gap:clamp(26px,3.2vw,52px); align-items:start; }
@@ -660,11 +656,9 @@
 </section>
 
 <section id="instrument">
-  <div class="sechead">
   <h2>What we built</h2>
   <p class="lede">Ours is about a foot tall, made of printed plastic, threaded rod and copper tape,
   and it does every one of the things on the previous page.</p>
-  </div>
   <figure class="chain" data-chain data-rv>
 <div class="scroller">
 <svg viewBox="0 0 860 228" role="img" aria-label="The signal chain: a typed command travels from the console through the Teensy and the controller board's converters to the piezo in the scan head; the tunnelling current returns through the preamplifier and the analogue-to-digital converter back to the Teensy.">
@@ -767,10 +761,8 @@
 </section>
 
 <section id="measured">
-  <div class="sechead">
   <h2>What we measured</h2>
   <p class="lede">Before believing anything the instrument said about a surface, we made it measure something whose answer we already knew.</p>
-  </div>
 
   <div class="vals">
     <div class="val" data-rv><div class="v">0.13&thinsp;&sigma;</div><div class="k">How close we came to theory</div>
@@ -805,10 +797,8 @@
 </section>
 
 <section id="tunnelling">
-  <div class="sechead">
   <h2>Did we detect tunnelling?</h2>
   <p class="lede">Yes. The argument is short, and every step of it is measured rather than assumed.</p>
-  </div>
   <p class="measure">A tip cannot travel from not-touching to touching without passing through the separations where quantum tunnelling is the only thing that carries electrons across. We had a voltage applied and the amplifier recording the entire way. <strong>Across 109 separate approaches we took 60,928 readings inside exactly that range.</strong></p>
   <p class="measure">There is one way out of that argument. A metal-to-metal bridge could form
   before the tip ever gets close, and carry the current instead. Our own data closes it:</p>
@@ -832,10 +822,8 @@
 </section>
 
 <section id="stopped">
-  <div class="sechead">
   <h2>What stopped us</h2>
   <p class="lede">Ranked by how much each one actually blocked an image, not by how much time went into it. None of the five is electronic.</p>
-  </div>
 
   <div class="rank">
     <div class="item" data-rv><div class="n num">1</div><div>
@@ -879,10 +867,8 @@
 </section>
 
 <section id="controls">
-  <div class="sechead">
   <h2>How we knew when we were fooling ourselves</h2>
   <p class="lede">After every scan we ran the same scan again with the sideways sweep switched off.</p>
-  </div>
   <p class="measure">That control has identical timing and identical feedback behavior, but the tip never travels across the surface, so <strong>it cannot contain surface structure at all</strong>. Anything appearing in both is the instrument, not the sample. Our scans repeated no better than those controls did, and that single test is what settles the imaging question.</p>
   <figure data-rv>
     <a href="img/fig04.jpg"><img src="img/fig04.jpg" width="1500" height="1169" alt="Two scans beside their sideways-sweep-disabled controls, with the repeatability of each plotted on a common axis: both sit on zero and neither differs from the other." loading="lazy"></a>
@@ -892,12 +878,10 @@
 </section>
 
 <section id="workflow">
-  <div class="sechead">
   <h2>The second instrument</h2>
   <p class="lede">Neither of us writes code. <strong>Claude wrote all of it</strong> &mdash; the
   firmware, the analysis, the figures, the documents &mdash; and GitHub is what let two people on
   two computers run that without losing track of what was true.</p>
-  </div>
 
   <p class="measure">That arrangement has an obvious problem. A model will write you a confident
   paragraph about a measurement it half-remembers. It sounds exactly like the paragraphs that are
@@ -938,7 +922,7 @@
     <div data-rv><h4>The shared spine</h4><div class="f">git &middot; GitHub</div>
       <p>Two people, two computers, often days apart. Every session starts by pulling and ends by
       pushing, and a start-up hook does the pull, runs the checker and prints what changed since
-      last time. <strong><span data-repo-count="commits">258</span> commits.</strong> Neither of us has ever had to ask the other what
+      last time. <strong><span data-repo-count="commits">259</span> commits.</strong> Neither of us has ever had to ask the other what
       state the project was in.</p></div>
     <div data-rv><h4>The review pass</h4><div class="f">LEAD_VERIFICATION.md</div>
       <p>Every claim re-derived independently from the raw files before it was allowed into
@@ -969,7 +953,7 @@
   <div class="tally" data-rv>
     <div><div class="t num" data-repo-count="claude-lines">575</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
     <div><div class="t num" data-repo-count="facts-rows">157</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
-    <div><div class="t num" data-repo-count="commits">258</div><div class="l">commits, across two computers and two people</div></div>
+    <div><div class="t num" data-repo-count="commits">259</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num" data-repo-count="checker-lines">598</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
 
@@ -981,11 +965,9 @@
 </section>
 
 <section id="about">
-  <div class="sechead">
   <h2>About us</h2>
   <p class="lede">Two second-year engineering students who wanted to see single atoms, and built
   one of the few instruments that can resolve one &mdash; in a basement, over one summer.</p>
-  </div>
 
   <div class="pair" data-rv>
     <div class="who n" data-rv>
@@ -1121,11 +1103,9 @@
 </section>
 
 <section id="record">
-  <div class="sechead">
   <h2>Everything is public</h2>
   <p class="lede">Every figure on this page regenerates from the raw files by a script of the same
   name, and every document behind it is open, including the two results we withdrew.</p>
-  </div>
 
   <h3>The poster</h3>
   <figure data-rv>
