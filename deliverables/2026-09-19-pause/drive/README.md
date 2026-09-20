@@ -1,6 +1,6 @@
 # The Drive copies, and how they are typeset
 
-**The twenty documents on Google Drive are the same words as the Markdown in this
+**The twenty-two documents on Google Drive are the same words as the Markdown in this
 repository.** They were first uploaded as raw Markdown, so Google converted them with
 its defaults: Arial 11 point, black, one size for the body and one for every heading.
 They read as a working file rather than as a document, which is not the standard the
@@ -48,3 +48,38 @@ still works, and no document is ever deleted and recreated.**
 
 **The repository is the source of truth.** If a Drive document and its Markdown ever
 disagree, the Markdown is right and the document should be regenerated.
+
+---
+
+## The document IDs, as the website links them
+
+**Generated from `deliverables/2026-09-19-pause/site/index.html`, which is where these
+IDs actually live.** They were nowhere else in the repository until 2026-09-20, so losing
+that one file would have lost the link between every Drive document and its source. The
+label is the one the website shows, which is written for a reader and does not always
+match the document's own title in the table above.
+
+| As the website labels it | Document ID |
+|---|---|
+| the speaker script | `1g7_9QSFmusXeYeFyfknpLyufYXengNEakGYpBflJYvU` |
+| the questions people ask | `1RADFrvVwFRQhFxcq_QQwnunfPm4atYvDhER1L1WYR7I` |
+| What held us back | `1F3eXgBQKr8mJWtThS5IoH4OlmaV9LGfvfSy5-M1vVe4` |
+| Findings report | `1qhrhRTaiNG-ipN6KWmezRR0UpEnaSAgLl3umcreMntY` |
+| Every junction we made | `17KdMFAEhQCOTMV48eSpyMQ5LGIGPwc1W20qr5lQx1b8` |
+| Pause-point handoff | `1T4ND1r1AkhXNMTvWW0bGt4zpKmnDQLfelMxemoR_TKc` |
+| Lead verification log | `1GUbiFGpMq6g_YXMyLzhdd32Z2ChWT5cxgH7X5rLwoFY` |
+| Analysis findings | `1eDJqCq0xhErAtEXaP2sG0OPCLrrWgSGBpjPMeJdPF2k` |
+| Candidate images: the verdict | `17e0XA07-JeSk42g4fEUKsSGThZGOhl2tP1XtTXSKPpM` |
+| Candidate images: the gallery | `1PkK78eOPSs_p_QygSRqEcen648Mmbe6Irc1xHYbzLEk` |
+| Comparison tables | `1EkLAORGx9ZNXIkVWhGOHiXAekBDHSyF3Q_SF1KsWzj8` |
+| Data inventory | `143R8hr2mNDje94m6sEdpjWSc5ktEX_AVm99MK8me7dA` |
+| The manual | `1gJDZQkIY1xSPuSHiAUP6WTUM_ELa_q2jJmkEc3dC7TU` |
+| Manual changelog | `15hb8lbpqc87pWFhQA1sbkQnFMMkXW0KRrwwrhzWwevo` |
+| Inconsistencies found in the sources | `14gKoQ2yQzVE9nVQTXkHe0KQR6nb_ijgG7d7nyJIwJVs` |
+| Photograph inventory | `1e4nE7qrfxwUjMA4U1tedhIdnaDkwzsXRw1hMU3RcPeg` |
+| Mechanical observations | `1TodlSzgqcvWdyIZyoNRBUuEZu7SOJNXVNmdmnHqffjU` |
+| Prepared photographs | `1cTbNY6D2x_6u3xeoS1mPLRXQadgViYu3MDUDRbF3TPw` |
+| The second instrument | `1je7xGS1Vnq1Zu8Z2vpbrX3-bAvGDopqaqqu41v6bKTc` |
+| Framing | `1ZMKwWzdkKEcTh1nt1xEvFGgnXMTAW1Ld-5ybiZwCR7k` |
+| Brief | `1sHkbQacs51TlU30P7pdWzIytpzeXmSATgOCioTBFYpk` |
+| Source inventory | `1IImuZzscD-5Yqxi4yhTb1wg1C3Q4tTq2T8s81HPOxPc` |

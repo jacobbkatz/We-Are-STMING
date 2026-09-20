@@ -598,7 +598,20 @@ history:**
    steadier hold would mean the surface was limiting us; no change pins it all on the mechanics.**
 0. **Use the AVERAGED read and scan WIDE.** Both were faults found late on 2026-09-17 and both are
    fixed in `Code/pc/stm_feedback_scan.py`: the loop steers on `ADCR` (46 counts of noise, not 188),
-   and a scan of **±400 X counts covers about ±0.6 nm** — smaller than an atom. **Scan ±15,000.**
+   and a scan of **±400 X counts covers about ±0.6 nm** — far too small to show a surface.
+   **Scan ±15,000.**
+
+   > **Corrected 2026-09-20, arithmetic only.** This line and `sessions/2026-09-17-bench.md`
+   > §3.25 both said ±0.6 nm was *"smaller than a single atom"*. **It is not.** ±0.6 nm is a
+   > span of 1.2 nm, and gold's atoms sit about 0.29 nm apart, so the scan was roughly four
+   > atoms across. **The conclusion does not change** — four atoms is still far too small a
+   > field to show a surface, and widening the scan forty-fold is still the right move. The
+   > session log keeps its original wording, because a log is history; this is the live
+   > document, so the correction goes here. The website says "a few atoms across".
+   >
+   > **And the figure itself is not ours.** ±0.6 nm comes from a Z scale of 0.0016 nm per
+   > count that was inferred, not measured on this instrument — the same scale
+   > `docs/OPEN_QUESTIONS.md` still lists as unestablished.
 0b. **Before believing any image, run the two controls that cost nothing.** Scan once with **X held
    still** — if it shows as much structure as a real scan, there is no image. And run the same line
    at **three separated Y positions**: if different places agree better than one place agrees with

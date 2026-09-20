@@ -359,6 +359,12 @@
   window.addEventListener("resize", invalidate, { passive: true });
 
   /* ----------------------------------------------------------------- load */
+  // Only when the reader is heading for it. parts.json is 1.9 MB and the model sits a
+  // fifth of the way down a page 40,000 px tall, so fetching it at load meant every
+  // reader paid for it whether they ever reached it or not - on a phone, on mobile
+  // data, before the first section. The 600 px margin starts it a screen early, so it
+  // is usually there by the time they arrive.
+  function load() {
   fetch("model/parts.json").then(function (r) { return r.json(); }).then(function (doc) {
     // base64 inside the JSON: the host serves .json, not .bin.
     var raw = atob(doc.data), buf = new ArrayBuffer(raw.length), b = new Uint8Array(buf);
@@ -378,4 +384,15 @@
   }).catch(function () {
     fail("The 3D model could not be loaded. Every part is in the repository as an STL file.");
   });
+
+  }
+
+  if ("IntersectionObserver" in window) {
+    var near = new IntersectionObserver(function (es) {
+      if (es.some(function (e) { return e.isIntersecting; })) { near.disconnect(); load(); }
+    }, { rootMargin: "600px 0px 600px 0px" });
+    near.observe(host);
+  } else {
+    load();
+  }
 })();

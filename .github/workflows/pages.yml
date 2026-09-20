@@ -36,14 +36,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The page states the repository's own commit count, and build_assets.py
+          # measures it with `git rev-list --count HEAD`. The default shallow clone
+          # would have made that 1, and stamped "1 commit" onto the live site.
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - run: python -m pip install --quiet pillow numpy
-      - name: Build the images and the 3D model
+      - name: Build the page, the images and the 3D model
         run: |
+          # Order matters: the hero trace rewrites index.html, then build_assets.py
+          # stamps the image sizes and the repository counts onto whatever is there.
+          python3 deliverables/2026-09-19-pause/site/build_hero_trace.py
           python3 deliverables/2026-09-19-pause/site/build_assets.py
           python3 deliverables/2026-09-19-pause/site/build_model.py
+      - name: Audit the page
+        run: python3 deliverables/2026-09-19-pause/site/check_site.py
       - name: Check nothing is missing
         run: |
           cd deliverables/2026-09-19-pause/site

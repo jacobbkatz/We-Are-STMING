@@ -28,6 +28,8 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import sys
+import subprocess
 import re
 
 from PIL import Image
@@ -35,6 +37,7 @@ from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__))
 PAUSE = os.path.dirname(HERE)
 OUT = os.path.join(HERE, "img")
+REPO = os.path.abspath(os.path.join(PAUSE, "..", ".."))
 
 # Page name -> where the original lives. Only what index.html actually references.
 PHOTOS = {
@@ -139,6 +142,98 @@ def stamp_sizes() -> None:
           if changed else "  every image tag already carries its true size")
 
 
+# ---------------------------------------------------------------- repository counts
+#
+# Seven numbers on the page describe THE REPOSITORY ITSELF - how many lines of protocol,
+# how many session logs, how many commits. They were typed in, and on 2026-09-20 an audit
+# found three of them stale on the live site: the checker had grown from 565 lines to 598,
+# a twenty-eighth session log had been written, and the commit count was ten behind.
+#
+# Typing them is the bug. They are computed here, at build time, and stamped into the page,
+# so the deployed site cannot state a count the repository does not have.
+
+WORDS = ("zero one two three four five six seven eight nine ten eleven twelve thirteen "
+         "fourteen fifteen sixteen seventeen eighteen nineteen").split()
+TENS = ("  twenty thirty forty fifty sixty seventy eighty ninety").split()
+
+
+def _in_words(n: int) -> str:
+    """0-99 as words, Capitalised. Above that, digits: nobody writes 'one hundred and six'."""
+    if n < 20:
+        w = WORDS[n]
+    elif n < 100:
+        w = TENS[n // 10 - 2] + ("-" + WORDS[n % 10] if n % 10 else "")
+    else:
+        return format(n, ",")
+    return w[0].upper() + w[1:]
+
+
+def repo_counts() -> dict:
+    """Every number the page states about this repository, measured now."""
+    def lines(rel):
+        with open(os.path.join(REPO, rel), encoding="utf-8") as fh:
+            return sum(1 for _ in fh)
+
+    logs = [n for n in os.listdir(os.path.join(REPO, "sessions"))
+            if re.match(r"^\d{4}-\d{2}-\d{2}.*\.md$", n)]
+
+    data = 0
+    for root, _dirs, names in os.walk(os.path.join(REPO, "sessions", "data")):
+        data += sum(1 for n in names if n.endswith((".csv", ".log", ".json")))
+
+    photos = [n for n in os.listdir(IMAGES_OURS)
+              if n.lower().endswith((".jpg", ".jpeg", ".png"))]
+
+    # docs/FACTS.md's own counter, so the page and the register agree by construction.
+    facts = subprocess.run([sys.executable, os.path.join(REPO, "Code", "pc", "count_facts.py")],
+                           capture_output=True, text=True)
+    m = re.search(r"TOTAL\s+(\d+)", facts.stdout)
+    commits = subprocess.run(["git", "rev-list", "--count", "HEAD"], cwd=REPO,
+                             capture_output=True, text=True)
+    return {
+        "claude-lines": lines("CLAUDE.md"),
+        "checker-lines": lines(os.path.join("Code", "pc", "check_facts.py")),
+        "session-logs": len(logs),
+        "data-files": data,
+        "photographs": len(photos),
+        "facts-rows": int(m.group(1)) if m else None,
+        "commits": int(commits.stdout.strip()) if commits.returncode == 0 else None,
+    }
+
+
+COUNT_TAG = re.compile(r'(<(\w+)([^>]*\bdata-repo-count="([a-z-]+)"[^>]*)>)([^<]*)(</\2>)')
+
+
+def stamp_repo_counts() -> None:
+    """Rewrite every <... data-repo-count="x"> with the value measured just now."""
+    counts = repo_counts()
+    path = os.path.join(HERE, "index.html")
+    page = open(path, encoding="utf-8").read()
+    changed, missing = [], []
+
+    def fix(m):
+        open_tag, _tag, attrs, key, body, close = m.groups()
+        n = counts.get(key)
+        if n is None:
+            missing.append(key)
+            return m.group(0)
+        want = _in_words(n) if 'data-format="words"' in attrs else format(n, ",")
+        if want != body:
+            changed.append("%s: %s -> %s" % (key, body, want))
+        return open_tag + want + close
+
+    out = COUNT_TAG.sub(fix, page)
+    if out != page:
+        open(path, "w", encoding="utf-8").write(out)
+    if missing:
+        raise SystemExit("the page asks for counts this script does not know: %s"
+                         % sorted(set(missing)))
+    if changed:
+        print("  repository counts restamped: %s" % "; ".join(changed))
+    else:
+        print("  every repository count on the page is already correct")
+
+
 def main() -> None:
     os.makedirs(OUT, exist_ok=True)
     total = 0
@@ -154,6 +249,7 @@ def main() -> None:
     total += shrink(os.path.join(PAUSE, POSTER), os.path.join(OUT, "poster.jpg"), 1800, 82)
 
     stamp_sizes()
+    stamp_repo_counts()
 
     # A bar here would print the same words twice. Checked by switching the crop
     # off: it does go red.
