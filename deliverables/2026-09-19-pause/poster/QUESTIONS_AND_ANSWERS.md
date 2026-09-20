@@ -265,13 +265,20 @@ verification entry of our own.
 
 ### "Is the electronics noise not the problem?"
 
-> No, and that is measured rather than assumed. **With no junction the chain is flat white noise at
-> 8 to 14 counts** from 2 Hz to 1.2 kHz. **With a junction live it is 9 to 19 counts.** Leakage
-> through the tip lead and holder is under 0.06 nA across plus and minus 2 V, which is more than
-> 8 gigohms. And **somebody stamping on the floor two metres away moves a single reading's spread
-> from 131 to 132 picoamps** - so the building is not getting in electrically either.
+> No, and that is measured rather than assumed. **Two different noise figures, and they measure
+> different things - say which one you mean.** With no junction, the **spectral** noise is flat
+> white at **8 to 14 counts** from 2 Hz to 1.2 kHz. Taken as a **standard deviation** of the
+> reading, it was **40 to 42 counts with the tip clear** on 19 September, and **9 to 19 counts with
+> a junction live and X held.** Leakage through the tip lead and holder is under 0.06 nA across
+> plus and minus 2 V, which is more than 8 gigohms. And **somebody stamping on the floor two metres
+> away moves a single reading's spread from 131 to 132 picoamps** - so the building is not getting
+> in electrically either.
 
 **Source:** `sessions/2026-09-17-bench.md`; `sessions/2026-09-19-bench.md` 3.3; `docs/FACTS.md`.
+
+**The wider version of this answer is [`../WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md)**, which
+opens with what was **not** the problem - the electronics - before ranking the five things that
+were. **All five are mechanical.**
 
 ### "Is the gold real?"
 
@@ -295,13 +302,18 @@ verification entry of our own.
 > three software fixes that cost nothing and remove the artefact behind our most convincing false
 > positive.
 
+**Ranked, costed and written out in [`../WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md).** If
+somebody asks the harder version - *"why did you not get an image?"* - that file is the answer:
+five blockers in order of how much each one actually blocked an image, with what each fix costs.
+**None of the five needs a purchase, and none needs a laboratory.**
+
 ### "Can I see the code and the data?"
 
-> All of it, including the mistakes: `github.com/jacobbkatz/We-Are-STMING`. Every session log, every
-> raw data file, every analysis script.
+> **Yes. It is all public** - `github.com/jacobbkatz/We-Are-STMING`, printed on the poster. Every
+> session log, every raw data file, every analysis script, **and every claim we withdrew.**
 
-**Check the repository is actually public before you say this.** If it is not, say "I can send it
-to you" and take their email.
+**Say it as a fact, not as an offer.** `docs/FACTS.md` records the repository as public, `SAID`
+2026-09-20.
 
 ---
 
@@ -328,10 +340,10 @@ to you" and take their email.
 | **"What did it cost?"** | **We have never totalled it.** `docs/BOM.md` lists every part, but no total is recorded anywhere, so any number said on the day would be invented. Say: *"I have never added it up - the full parts list is in the repository."* **If Jacob knows the figure, write it into `docs/INVENTORY.md` and then it can be quoted.** |
 | **"How big an area can you scan?"** | In counts only: the wide runs on the poster sweep 15,000 counts either side of centre, the close ones 1,500. **In nanometres we cannot say**, for the same reason there is no scale bar. |
 | **"What is your resolution?"** | **We have not established one, and it has to be that way** - resolution is a distance, and we have no measured distance scale. What we can quote is current: one converter count is 3.125 picoamps. |
-| **"How far does one Z count move the tip?"** | **Unknown for this instrument.** The 0.016 nm per count in circulation is inherited from another builder's scanner. We can derive about 0.0155 nm from our own geometry, and the two agree to 3% - **but that derivation divides by a counts-per-motor-step figure our own record marks SUSPECT, and it needs `d`, which is CONTESTED.** So: a first estimate, not a calibration. |
+| **"How far does one Z count move the tip?"** | **Unknown for this instrument.** The 0.016 nm per count in circulation is inherited from another builder's scanner. **Our own geometry now caps it at under about 0.0078 nm per count** - from `d` under 0.5 mm - **which is at least a factor of two below the inherited figure, so the two do not agree.** And that ceiling divides by a counts-per-motor-step figure our own record marks SUSPECT. **So: a bound, not a calibration.** Measuring `d` with a loupe is what turns it into one. |
 | **"How fast can it scan?"** | The loop holds current to about 0.06 of a decade at 2,000 pixels per second, measured 17 September. **Whether that is fast enough for an image is not known**, because the gap moves first. |
 | **"Is the shield continuous?"** | **We have never metered it.** It is on the open list; it takes two minutes with a meter and we have not done it. |
-| **"What is moving the gap?"** | **Unknown - five candidates, none tested:** the leaf on its backing paper, the plate on its rubber bands and three balls, thermal motion of the printed parts, air currents, and relaxation after a motor move. |
+| **"What is moving the gap?"** | **Unknown - seven candidates, none tested** (`STATUS.md` is the canonical list): the leaf on its backing paper; the plate on its rubber bands and three balls; thermal motion of the printed parts; air currents; the cables crossing from the suspended platform to the bench with no strain relief; the coin mass standing tall and unrestrained; and the spring hooks in their eyebolts. **The last three came from reviewing our own photographs and are candidates, not evidence.** An eighth applies only to the 6.4-second excursion - relaxation after the motor move that had just ended - **and we checked it: the motion reverses and overshoots its own starting point, which settling does not do.** |
 
 ---
 

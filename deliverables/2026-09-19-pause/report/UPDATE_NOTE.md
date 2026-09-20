@@ -11,11 +11,15 @@ repository does turn out to name.
 
 ---
 
-## 1. The note — recipient-neutral, about 580 words
+## 1. The note — recipient-neutral, about 920 words
 
 > **Adapt freely.** The square brackets are the places where only Jacob knows the answer. **The
 > technical sentences are the part not to loosen**: every figure in them is checked, and the two
 > places where the note declines to claim something are deliberate.
+>
+> **It is longer than it was.** If it needs to come back down, **cut the AI-workflow paragraph or
+> the calibration detail first** — not the tunnelling paragraph, which is the part a technical
+> reader will answer.
 
 ---
 
@@ -102,29 +106,49 @@ Jacob Katz
 
 ## 1b. ADD THIS PARAGRAPH — the open question, and it is the most interesting thing in the note
 
-**Added 2026-09-19 after `LEAD_VERIFICATION.md` V10.** The note above does not yet carry the
-project's sharpest open result. **For a reader at a national lab this is the paragraph they will
-actually respond to**, because it is a well-posed question with a cheap experiment attached rather
-than a status report. Drop it in after the paragraph about the junction:
+**Added 2026-09-19; the figures in it were corrected on 2026-09-20 — see the note under the
+paragraph, because three of them were wrong.** The note above does not yet carry the project's
+sharpest open result. **For a reader at a national lab this is the paragraph they will actually
+respond to**, because it is a well-posed question with a cheap experiment attached rather than a
+status report. Drop it in after the paragraphs about the junction:
 
 > One junction we made on 17 September is still undecided, and we can say precisely why. Its
-> current fell by a decade for about every 250 Z counts of piezo travel. Whether that is vacuum
-> tunnelling or a tip pressing through a contaminant film depends entirely on one distance we never
-> measured: how far the tip sits from the line joining the two fixed screws, which sets the lever
-> ratio between the coarse screw and the tip. At the design's 1.00 mm the decay is about thirty
-> times too slow for tunnelling. At 0.1 to 0.3 mm the same measurement lands near the textbook
-> decade per 0.1 nm. The threshold is around 0.13 mm and our own estimate of the distance is
-> "somewhere between 0 and 1 mm" — so it straddles the answer. It needs a straightedge and no
-> electronics, and it is the first thing we will do when the instrument is rebuilt.
+> current fell by a decade for about every 250 Z counts of piezo travel. Whether that was a gap we
+> were holding open or a tip pressing through a contaminant film turns entirely on one distance
+> inside the scan head: how far the tip sits from the line joining the two fixed screws, which sets
+> the lever ratio between the coarse screw and the tip. At the design's 1.00 mm the decay is about
+> 39 times too slow for a vacuum gap; at 0.5 mm, 19 times; at 0.13 mm, still 5 times. **Only about
+> 26 micrometres works.** I measured that distance at the bench on 20 September and it is **under
+> 0.5 mm** — which narrows the question without settling it, because 26 micrometres sits inside
+> that bound, in the bottom 5% of it. Resolving it needs a loupe or a USB microscope with a scale
+> in the frame rather than the straightedge that gave the half-millimetre bound, and it is the
+> first thing we will do when the instrument is rebuilt.
+
+> **What changed on 2026-09-20, recorded because this is the text most likely to reach an
+> outsider.** The paragraph previously said the threshold was "around 0.13 mm", that the distance
+> was "somewhere between 0 and 1 mm", and that "at 0.1 to 0.3 mm the same measurement lands near
+> the textbook decade per 0.1 nm". **All three were wrong.** The decay threshold is about **26
+> micrometres**; **0.13 mm is a different criterion** — whether the gap wobbles too much to hold at
+> all — and on the decay test it is still 5 times too slow; and 0.1 to 0.3 mm does **not** land
+> near the textbook figure, being 3.9 to 12 times too slow. **Jacob measured the distance at the
+> bench on 2026-09-20 and it is under 0.5 mm** (`docs/FACTS.md`). The **250 Z counts per decade is
+> correct for this junction** — it is the 2026-09-17 one; the 1,650 to 1,970 figure quoted earlier
+> in the note belongs to the **2026-09-19** junction, which is a different tip and a different
+> sample. Full arithmetic in `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V11-V13 and
+> `deliverables/2026-09-19-pause/JUNCTIONS.md`.
 
 **Why this is worth sending rather than hiding.** It is honest, it is specific, and it shows a team
 that knows which single measurement stands between them and an answer. **It is also the one place
 where an experienced reader can help cheaply** — somebody who has built an STM will have an opinion
 about that lever ratio, and may simply tell you.
 
-**Do not soften it into "we think we saw tunnelling".** The whole value of the paragraph is that it
-is undecided and that the deciding measurement is named. `docs/OPEN_QUESTIONS.md` puts it as *"this
-one distance decides whether we are tunnelling or pressing through a soft contact."*
+**Do not soften it into "we think we saw a gap", and do not harden it either.** The whole value of
+the paragraph is that it is undecided and that the deciding measurement is named.
+`docs/OPEN_QUESTIONS.md` puts it as *"this one distance decides whether we are tunnelling or
+pressing through a soft contact."* **Note what is and is not open here.** That we detected
+tunnelling is settled and is stated in the note above; **what this paragraph leaves open is whether
+that particular junction was a gap we were holding rather than a film we were pressing into** —
+which is a question about the 2026-09-17 junction, not about the project's headline claim.
 
 ---
 
@@ -172,8 +196,12 @@ above into a real email.
    given.** The note's tone depends entirely on this.
 3. **What do you want from them?** A read of the gap-motion result? An opinion on the sample
    mounting? An introduction? **The note has one "[Ask.]" and it needs a real sentence.**
-4. **Do you have contact details, and did they consent to being thanked by name in a public
-   repository?** **Neither is recorded anywhere.**
+4. **Do you have contact details — and is this person content to be named in the repository, which
+   is now public?** **Neither is recorded anywhere.** **`SAID`, Jacob, 2026-09-20: the repository
+   is public.** So this is no longer a question about something that might happen later: **the name
+   is already published**, in `README.md` line 121 and in `docs/progress.html` §12. **Nothing here
+   removes it** — the acknowledgement predates this work and is not ours to retract — **but it is
+   worth checking now rather than after the email goes out.**
 
 ### 3.2 "Ming" — **UNKNOWN. No match anywhere in the repository**
 
@@ -230,9 +258,13 @@ the name goes into any email.**
 
 ## 5. Two things to keep out of the outgoing note, whoever it goes to
 
-1. **"We achieved tunnelling" and "we produced an image" are both unsupported.** The draft says
-   "barrier", says it plainly, and says we are not claiming tunnelling. **The first person to ask a
-   hard question will be someone who knows what an STM is, and an honest limit stated confidently
-   survives that conversation.**
+1. **"We produced an image" and "we maintained tunnelling range" are both unsupported.**
+   **"We detected tunnelling" is supported and the draft now says it** — corrected 2026-09-20; the
+   earlier wording here said not to claim tunnelling at all, and that was wrong in the direction of
+   caution (`deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13). **Use Jacob's sentence
+   whole, both halves in one breath:** *"We detected tunnelling, but weren't able to maintain
+   tunnelling range for long enough to get an image."* **The first person to ask a hard question
+   will be someone who knows what an STM is**, and their question will be *how did the current vary
+   with distance?* — which the second half of that sentence answers before it is asked.
 2. **No number taken off a photograph, and no scale bar.** Nothing in these deliverables carries
    one, because no image in this project has a known scale.
