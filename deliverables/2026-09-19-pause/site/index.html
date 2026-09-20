@@ -80,6 +80,17 @@
   .price .r.ours .a{ color:var(--verified); }
   @media (max-width:560px){ .price .r{ grid-template-columns:1fr; } }
 
+
+  /* ---------- the operating system: what runs on what ---------- */
+  .sys{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-block:2em; }
+  @media (max-width:760px){ .sys{ grid-template-columns:1fr; } }
+  .sys > div{ border:1px solid var(--line); border-radius:2px; padding:1.1em 1.2em; background:var(--raise); }
+  .sys h4{ font-family:'Inter',sans-serif; font-size:var(--s2); font-weight:600; margin:0 0 .15em;
+           color:var(--ink); letter-spacing:0; }
+  .sys .f{ font-family:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace; font-size:12.5px;
+           color:var(--gold); margin-bottom:.5em; }
+  .sys p{ font-size:var(--s1); color:var(--ink2); line-height:1.55; margin:0; }
+
   /* ---------- the bar that stays ----------
      The page is a single long document with eleven parts. A reader needs to know
      where they are in it and how to reach us without scrolling to the end, so the
@@ -370,11 +381,10 @@
       <a href="#workflow">How we worked</a>
       <a href="#about">About us</a>
       <a href="#record">The record</a>
-      <a class="menu-mail" href="mailto:jacob@quis.com?subject=We%20Are%20STMing">Email us</a>
+      <a href="#next">What is next</a>
     </div>
     <button class="navtoggle" id="navtoggle" type="button"
             aria-expanded="false" aria-controls="navlinks">Sections</button>
-    <a class="btn btn-1 btn-sm nav-cta" href="mailto:jacob@quis.com?subject=We%20Are%20STMing">Email us</a>
   </div>
 </nav>
 
@@ -384,18 +394,20 @@
   <h1>We built a scanning tunnelling microscope in a basement</h1>
 
   <div class="claim">
-    <p>We detected tunnelling, but weren&rsquo;t able to maintain tunnelling range for long enough to get an image.</p>
-    <p class="attrib">A microscope that reads a surface by measuring a current a billionth of an
-    amp across a gap narrower than an atom. We built it over one summer, between our first and
-    second years of university, on a wooden bench on a concrete floor.
+    <p>We detected tunnelling &mdash; electrons crossing a gap narrower than an atom, measured by
+    an amplifier we built.</p>
+    <p class="attrib">A scanning tunnelling microscope reads a surface by measuring a current a
+    billionth of an amp flowing across a gap that nothing is touching. We built one over a summer
+    on a wooden bench on a concrete floor, between our first and second years of university.
     <strong>No laboratory, no faculty advisor, no grant.</strong> Neither of us had written a
-    program or really soldered before this, and every measurement below can be recomputed from the
-    raw files.</p>
+    program or really soldered before this. Every measurement on this page can be recomputed from
+    the raw files, and <a href="#tunnelling">what we could not do</a> is set out as plainly as what
+    we could.</p>
   </div>
 
   <div class="actions">
     <a class="btn btn-1" href="#what">Start with what an STM is</a>
-    <a class="btn btn-2" href="mailto:jacob@quis.com?subject=We%20Are%20STMing">Email us about the drift</a>
+    <a class="btn btn-2" href="#measured">Go straight to the measurements</a>
   </div>
 
   <div class="byline"><b>Jacob Katz</b>, University of California San Diego<br>
@@ -680,22 +692,84 @@
 
 <section id="workflow">
   <h2>The second instrument</h2>
-  <p class="lede">Neither of us writes code. So the other thing we built was the framework that does, and that catches it when it is wrong.</p>
-  <p class="measure">Two people, two computers, days apart. The failure that kills a project like this is not a hard experiment &mdash; it is a number corrected in one document and left standing in the eleven others that quote it. That is not hypothetical: one day two constants changed, both were already written into more than a dozen documents, and correcting every copy anyone could think of still left stale values in six files.</p>
-  <p class="measure">So every number in the project now lives in exactly one place, carries a tag recording how it is known, and is checked by a program rather than by memory.</p>
+  <p class="lede">Neither of us writes code. <strong>Claude wrote all of it</strong> &mdash; the
+  firmware, the analysis, the figures, the documents &mdash; and GitHub is what let two people on
+  two computers run that without losing track of what was true.</p>
+
+  <p class="measure">That arrangement has an obvious failure mode. A model will write you a
+  confident paragraph about a measurement it has half-remembered, and it will do it in a voice that
+  sounds exactly like the paragraphs that are right. On a project where a wrong number can destroy
+  a piezo or waste a week, that is not a small problem.</p>
+
+  <p class="measure">The failure that actually kills a project like this is duller than a hard
+  experiment: <strong>a number corrected in one document and left standing in the eleven others
+  that quote it.</strong> That is not hypothetical. One day two constants changed, both were already
+  written into more than a dozen documents, and correcting every copy anyone could think of still
+  left stale values in six files.</p>
+
+  <h3>So we built an operating system for the project</h3>
+  <p class="measure">Not a model &mdash; the model is off the shelf. What is ours is everything
+  around it: a set of rules the model has to read before it is allowed to do anything, one file
+  that owns every number, a log per working session that is never rewritten, and a program that
+  checks the whole thing and refuses the commit if it fails.</p>
+
+  <div class="sys" data-rv>
+    <div data-rv><h4>The protocol</h4><div class="f">CLAUDE.md</div>
+      <p>575 lines the model reads before anything else: how to start a session, which document
+      wins when two disagree, and the hardware rules that cost money to break. It is written in
+      plain language because it is also how we tell it what we have learned.</p></div>
+    <div data-rv><h4>The register</h4><div class="f">docs/FACTS.md</div>
+      <p>One canonical value for every number that matters, each with its units, how it is known
+      &mdash; measured, calculated, read off a datasheet, or simply told to us &mdash; and the date.
+      Change a value here first, and every stale copy elsewhere becomes findable.</p></div>
+    <div data-rv><h4>The checker</h4><div class="f">Code/pc/check_facts.py</div>
+      <p>565 lines, seven classes of test. It hunts retired values sitting in live documents,
+      broken file references, superseded procedures being cited as current, and safety-rule
+      citations that no longer point at the rule they name. It runs at every session start and a
+      Git hook blocks the commit when it fails.</p></div>
+    <div data-rv><h4>The logbook</h4><div class="f">sessions/</div>
+      <p>One append-only log per working session, 27 of them, each with what was measured, what was
+      ruled out and what went wrong. Past readings are never edited. When a later session corrects
+      an earlier one, the correction is written beside it, not over it.</p></div>
+    <div data-rv><h4>The shared spine</h4><div class="f">git &middot; GitHub</div>
+      <p>Two people, two computers, often days apart. Every session starts by pulling and ends by
+      pushing, and a start-up hook does the pull, runs the checker and prints what changed since
+      last time. <strong>106 commits.</strong> Neither of us has ever had to ask the other what
+      state the project was in.</p></div>
+    <div data-rv><h4>The review pass</h4><div class="f">LEAD_VERIFICATION.md</div>
+      <p>Every claim re-derived independently from the raw files before it was allowed into
+      anything public &mdash; including three where the reviewer was wrong and had to be corrected
+      back. That document is on this page, unedited.</p></div>
+  </div>
+
+  <figure class="photo band" data-rv><img src="img/laptop.jpg" width="1200" height="1600" alt="Jacob and Nuh at the bench with a laptop, a working session open on the screen." loading="lazy">
+    <p class="cap">A session in progress. <b>The model does the writing and the arithmetic; the
+    framework is what catches it.</b></p>
+  </figure>
+
+  <h3>What proves it works is the retractions</h3>
+  <p class="measure">Anyone can get an AI to write confident prose. <strong>The test is whether it
+  will take something back.</strong> This machinery forced the project to withdraw claims it had
+  already published: a statistical result computed across files that stopped early; a reproducible
+  feature in a scan that turned out to be the feedback loop recovering from a jump rather than the
+  sample; a detector&rsquo;s full-scale voltage recorded backwards in a live reference; and eleven
+  wrong numbers in a single commit, caught before the second push.</p>
+  <p class="measure">Every one of those is still in the record beside what replaced it. <strong>None
+  of them was caught by either of us reading carefully.</strong> They were caught by a rule that
+  said where a number lives, and a program that checked.</p>
 
   <div class="tally" data-rv>
     <div><div class="t num">575</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
     <div><div class="t num">164</div><div class="l">rows in the register: every value, its provenance, its date</div></div>
-    <div><div class="t num">27</div><div class="l">session logs, append-only, never rewritten</div></div>
+    <div><div class="t num">106</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num">565</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
 
-  <figure class="photo band" data-rv><img src="img/laptop.jpg" width="1200" height="1600" alt="Jacob and Nuh at the bench with a laptop, a working session open on the screen." loading="lazy">
-    <p class="cap">A session in progress. <b>The model does the writing and the arithmetic; the framework is what catches it.</b></p>
-  </figure>
-  <p class="measure"><strong>What proves it works is the retractions.</strong> The checks and verification passes forced this project to withdraw its own published claims &mdash; a statistical result computed across truncated files, a reproducible feature that turned out to be the feedback loop rather than the sample, a detector&rsquo;s full-scale voltage recorded backwards in a live reference, and eleven wrong numbers in a single commit caught before the second push.</p>
-  <p class="measure">An AI that writes confident prose is not hard to get. One that produces a retraction is, and that is the part we built. We did not train a model; the model is off the shelf. The discipline around it is ours.</p>
+  <p class="measure">We think this is the part of the project most worth copying. The microscope is
+  a known design; plenty of people have built one. <strong>Two people who cannot write code running
+  a real instrument through a model, and ending up with a record that catches its own mistakes, is
+  the part we had not seen done.</strong> The whole framework is in the repository and is not
+  specific to microscopes.</p>
 </section>
 
 <section id="about">

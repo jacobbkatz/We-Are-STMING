@@ -223,9 +223,11 @@ def p04():
     d = ImageDraw.Draw(c)
     W, H = c.size
     arrow(d, (W * 0.06, H * 0.13), (W * 0.20, H * 0.22))
-    label(d, (W * 0.02, H * 0.09), "top plate, threaded columns", 28)
+    label(d, (W * 0.02, H * 0.09), "suspension spring", 28)
     arrow(d, (W * 0.95, H * 0.30), (W * 0.83, H * 0.36))
-    label(d, (W * 0.98, H * 0.26), "suspension spring", 28, anchor="rt")
+    label(d, (W * 0.98, H * 0.26), "threaded column", 28, anchor="rt")
+    arrow(d, (W * 0.36, H * 0.17), (W * 0.45, H * 0.055))
+    label(d, (W * 0.34, H * 0.19), "top plate", 28, anchor="rt")
     arrow(d, (W * 0.14, H * 0.60), (W * 0.30, H * 0.58))
     label(d, (W * 0.02, H * 0.62), "paper coin wrapper", 28)
     arrow(d, (W * 0.80, H * 0.76), (W * 0.58, H * 0.63))
