@@ -66,6 +66,14 @@ jobs:
               sys.exit("the page asks for files the build did not produce: %s" % missing)
           print("%d local files, all present" % len(want))
           PY
+      - name: Ship only what is served
+        run: |
+          # The build scripts live beside the page and were being uploaded with it,
+          # compiled .pyc and all. They belong in the repository, not on the website.
+          cd deliverables/2026-09-19-pause/site
+          rm -rf __pycache__
+          rm -f build_assets.py build_model.py build_hero_trace.py check_site.py audit_live.py
+          ls -A
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

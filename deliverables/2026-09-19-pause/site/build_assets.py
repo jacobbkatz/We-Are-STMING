@@ -188,6 +188,18 @@ def repo_counts() -> dict:
     facts = subprocess.run([sys.executable, os.path.join(REPO, "Code", "pc", "count_facts.py")],
                            capture_output=True, text=True)
     m = re.search(r"TOTAL\s+(\d+)", facts.stdout)
+    # A SHALLOW CLONE WOULD LIE, and quietly: `git rev-list --count HEAD` returns 1 in
+    # a depth-1 checkout, so the build would stamp "1 commit" onto the live page and
+    # every checker would agree with it, because they all read the same shallow repo.
+    # Refuse instead. The workflow sets fetch-depth: 0; this is what makes that a
+    # guarantee rather than something somebody has to remember.
+    shallow = subprocess.run(["git", "rev-parse", "--is-shallow-repository"], cwd=REPO,
+                             capture_output=True, text=True)
+    if shallow.stdout.strip() == "true":
+        raise SystemExit(
+            "this is a SHALLOW clone, so the commit count would be wrong. The page "
+            "states it, so the build stops here. Set fetch-depth: 0 on the checkout, "
+            "or run `git fetch --unshallow`.")
     commits = subprocess.run(["git", "rev-list", "--count", "HEAD"], cwd=REPO,
                              capture_output=True, text=True)
     return {
