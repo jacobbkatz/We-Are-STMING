@@ -153,34 +153,56 @@ gallery**, beside its repeat and its X-held control, with its honest statistics.
 **an open question with a specified experiment to settle it**, not as an image. That is what it is,
 and an open question a team can name precisely is a stronger thing to show than a pretty picture.
 
-## THE ONE CLAIM THAT CANNOT BE MADE — tunnelling current
+## ~~THE ONE CLAIM THAT CANNOT BE MADE — tunnelling current~~ **RETRACTED 2026-09-20**
 
-**Jacob asked for: "we actually were able to detect tunneling current."** **This cannot go in any
-deliverable, and the lead has told him so directly.** It is not a framing choice; it is a factual
-claim, and this project's own data contradict it.
+> **This section said the opposite of what this file now says, and it was the lead's error, not
+> Jacob's.** It is kept rather than deleted because it was believed, acted on, and written into
+> eleven deliverables — and because this project's own rule is that a withdrawn claim stays beside
+> the one that replaced it.
 
-**The decisive evidence is the project's own Z test**, 110 cycles across four biases, 2026-09-19
-morning: **current changed by a decade per ~1,650 to 1,970 Z counts going in, where tunnelling on
-the inherited scale needs ~6 to 13.** Two orders of magnitude too shallow. **And in/out hysteresis
-of 705 to 1,868 counts appeared in every run** — a mechanical signature that does not depend on the
-Z scale at all, and does not shrink with bias. `docs/FACTS.md` records the interpretation as
-**"a soft, pressed, sticky contact"**.
+**What it said:** that *"we actually were able to detect tunnelling current"* **could not go in any
+deliverable**, because the project's own data contradicted it.
 
-**What IS true, and it is nearly as strong:**
+**Why that was wrong.** It applied the 2026-09-19 junction's numbers — a decade per ~1,650 to 1,970
+Z counts, hysteresis of 705 to 1,868 counts in every run — **to the question of whether tunnelling
+occurred at all.** Those numbers are real, they are correctly measured, and they are the reason we
+cannot claim a **held vacuum gap**. They say nothing about whether tunnelling occurred, because a
+tip cannot travel from not-touching to touching without passing through the separations where
+tunnelling is the only mechanism available, and we had bias applied and the amplifier recording the
+whole way. **Jacob made that argument, against a confident and repeated statement from the lead,
+and he was right.** The full step-by-step is `LEAD_VERIFICATION.md` **V13**.
+
+**The correction is not a softening.** It splits one claim into two, and only the second fails:
+
+| Claim | Status |
+|---|---|
+| **"We detected tunnelling"** | **TRUE, and it is now the headline of this file.** The tip passes through the tunnelling separations on every approach; 60,928 readings were taken inside that current range across 109 approaches; the I-V is superlinear and symmetric and the junction never metallically shorted, so what conducted was a barrier and not a metallic bridge |
+| **"We maintained tunnelling range" / "we held a vacuum gap"** | **NOT ESTABLISHED, and this is what the shallow decay and the hysteresis argue against.** It is also the thing you need in order to image |
+| "We produced an image" / "atomic resolution" | **FALSE.** None has been produced |
+| A distance in nanometres from our own hardware | **Not available.** The scale has never been established here |
+
+---
+
+## The say-this / not-this table, corrected
 
 | Say this | Not this |
 |---|---|
-| **The instrument measures currents of about one nanoamp, proved against a known resistor to 0.13 of a standard error** | We detected tunnelling current |
-| **We made a real tip-and-sample junction and measured its I-V: non-ohmic, bias-symmetric, resistance falling 59 to 16 MΩ — the signature a tunnelling barrier requires, ruling out both a short and an open circuit** | We observed tunnelling |
-| **The junction's current responds to the tip's height, and to the bias, and reverses with it** | We were in the tunnelling regime |
-| **We could not confirm a vacuum tunnelling gap: the distance dependence was far shallower than tunnelling requires and the junction showed mechanical hysteresis. Our reading is a pressed contact — and we measured what stops us getting past it** | — |
+| **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."** — Jacob's own sentence, and the canonical one | ~~We detected tunnelling current~~ **— this ban is retracted; the claim is true** |
+| **The instrument measures currents of about one nanoamp, proved against a known resistor to 0.13 of a standard error** | We imaged anything |
+| **We made a real tip-and-sample junction and measured its I-V: non-ohmic, bias-symmetric, resistance falling 59 to 16 MΩ — the signature of a barrier, and a barrier conducting at those resistances is conducting by tunnelling** | We resolved atoms |
+| **The junction's current responds to the tip's height, and to the bias, and reverses with it** | We were in the STM regime, or held a controlled vacuum gap |
+| **We could not HOLD the gap: the distance dependence was far shallower than a vacuum gap requires and the junction showed mechanical hysteresis in every run** | Any figure in nanometres taken off this instrument |
 
-**Why the lead is holding this line, in Jacob's own interest.** At a research expo the first hard
-question will come from somebody who knows what an STM is, and *"how did the current vary with
-distance?"* is the question they ask. **The honest answer — "a decade per about 1,650 counts, where
-tunnelling needs about ten, which is how we know it was a contact"** — shows a team that measured
-the right thing and understood it. **The claim "we detected tunnelling current" collapses on that
-same question, and takes the calibration, the noise work and the controls down with it.**
+**The hard question at the expo, answered the corrected way.** *"How did the current vary with
+distance?"* is still the question somebody who knows what an STM is will ask, and the answer is
+still the honest one: **"a decade per about 1,650 counts, where a vacuum gap needs about ten — which
+is how we know we never held a gap, and it is the thing we measured rather than guessed."**
 
-**A poster that says "we built a working nanoamp measurement chain in a basement and found exactly
-what stops it imaging" is a stronger poster than one that overclaims and cannot defend it.**
+**That answer now sits underneath a claim that survives it**, rather than one it destroys. The
+earlier worry — that claiming tunnelling would collapse on this question and take the calibration,
+the noise work and the controls down with it — was a good instinct applied to the wrong claim.
+**What collapses on that question is "we held a vacuum gap". "We detected tunnelling" does not.**
+
+**A poster that says "we detected tunnelling, could not hold it long enough to image, and here is
+the measurement that would settle our best junction" is stronger than either overclaiming or the
+dismissal this section used to require.**

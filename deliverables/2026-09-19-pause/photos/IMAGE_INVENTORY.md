@@ -62,8 +62,12 @@ hands appear in a close-up, who took a photograph, or who did any step shown —
 > for college in San Diego. **Two independent checks agree.** If either is wrong, say so and every
 > caption below marked `SAID (by Jacob's rule)` changes together.
 
-**Publication:** Jacob confirmed 2026-09-19 that **a team photograph may appear on the poster.**
-Permission to publish is a separate thing from identification; both are now given.
+**Publication:** Jacob confirmed 2026-09-19 that **a team photograph may appear on the poster**, for
+himself. **Nuh consented 2026-09-20** — `SAID` by Jacob, relaying Nuh's text: *"nuh just texted me he
+consents"*. **Both subjects of the two face-carrying frames have now agreed**, so
+`2026-09-19_team_at_bench_1.jpg` is cleared. **Second-hand for Nuh and recorded as such**; his own word
+replaces it. **Not covered:** any use beyond this project's own deliverables.
+Permission to publish and identification are two different things; both are now given.
 
 ### Suitability columns
 

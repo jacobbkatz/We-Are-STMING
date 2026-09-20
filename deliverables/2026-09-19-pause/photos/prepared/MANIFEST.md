@@ -58,10 +58,16 @@ and must not be committed.**
 - **Each image already carries its caption in a black bar below the picture.** If your layout has
   its own caption style, crop the bar off and take the text from the table above plus the frame's
   row in `../IMAGE_INVENTORY.md` — do not paraphrase away the `READ`/`SAID` marks or the UNKNOWNs.
-- **Two images carry faces: 13 and 14.** Jacob confirmed on 2026-09-19 that a team photograph may
-  appear on the poster. **That permission covers the poster.** Anything beyond that is his call,
-  not ours — and several more frames with faces are listed in `../IMAGE_INVENTORY.md` §B2 if a
-  different one is wanted.
+- **Two images carry faces: 13 and 14. Both subjects have now consented.**
+  - **Jacob, 2026-09-19**, for himself, and that a team photograph may appear on the poster.
+  - **Nuh, 2026-09-20** — `SAID` by Jacob, relaying a text message from Nuh: *"nuh just texted me
+    he consents"*, in answer to a direct question about permission for the team photograph.
+    **This is second-hand and recorded as such**, which is how every `SAID` in this project reaches
+    the repository. If Nuh would rather it were narrower, his word replaces this line.
+  - **`14_poster_team_at_bench.jpg` is therefore cleared for use**, and so are the other
+    face-carrying frames listed in `../IMAGE_INVENTORY.md` §B2.
+  - **What is still NOT covered:** anything beyond this project's own deliverables. A press
+    photograph, a social post, or a third party's publication is a separate ask.
 - **06 and 08 are the two frames that add a part number the repository did not have.** If either
   ends up in the report, the claim it supports is only "this is the part in the photograph", not
   any specification of it.

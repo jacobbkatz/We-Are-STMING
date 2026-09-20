@@ -8,6 +8,21 @@ number traces to `docs/FACTS.md`, a session log, or `LEAD_VERIFICATION.md`.
 
 ---
 
+## The short version — the five, and one possible fix each
+
+| | What held us back | One possible fix |
+|---|---|---|
+| **1** | **The gap doesn't hold still** — ≥ 43,000 counts in 6.4 s with nothing moving. This is the blocker. **It is too slow to be vibration, so a better suspension is the wrong fix.** | **Box it and record for fifteen minutes before touching anything** — the cause is unknown among seven candidates, and the two cheapest to eliminate (room air, and the two unclamped cables running from the suspended platform to the fixed bench) cost nothing to test |
+| **2** | **Soft sample** — gold leaf on backing paper, held by twisted rubber bands, and it moved when you blew on it | **Bond the gold to a rigid substrate with no paper under it, and clamp the plate mechanically instead of with rubber bands** |
+| **3** | **Blunt tips, one bent** — while the etching setup already exists and has been used | **Etch a sharp tip with the setup you already own** |
+| **4** | **No distance scale of your own** — section 3.25 records scans that covered ±0.6 nm, smaller than a single atom, and nobody could have known | **Measure `d` under a jeweller's loupe or a USB microscope** — minutes, no power, and it fixes the nanometre scale for every measurement this instrument will ever make |
+| **5** | **The approach can't park in the window** — one motor step is at least 1.94 nm against a 0.17 nm window | **Settle the sign of the tunnelling current so `APRH` is safe to run, then hand the last stage of the approach from the motor to the piezo** |
+
+**Each fix is one sentence because each is genuinely one action.** None of them needs a purchase and
+none needs a laboratory. The rest of this document is the evidence behind each row.
+
+---
+
 ## First, what was NOT the problem, because a lot of effort went there
 
 **The electronics.** The measurement chain was proved against a known 100 MΩ resistor and agreed
@@ -41,9 +56,32 @@ of the range in seconds.
 > buys 20% on the resonant frequency, for travel the instrument does not have. Chasing vibration
 > would have been chasing the wrong physics.
 
-**What it actually is: UNKNOWN, and four candidates have never been tested.** The gold leaf on its
-paper; the sample plate on its rubber bands and ball contacts; thermal motion of the printed head;
-**air currents**. Room air is the cheapest to test and has never been tried.
+**What it actually is: UNKNOWN, and SEVEN candidates have never been tested.** `STATUS.md` is the
+canonical list and it grew on 2026-09-19 from four to seven:
+
+1. the gold leaf on its paper
+2. the sample plate on its rubber bands and ball contacts
+3. thermal motion of the printed head
+4. **air currents**
+5. **the undressed cables** — an orange lead and a four-way bundle cross from the suspended platform
+   to the fixed bench, and **no photograph shows either one clamped, taped or tied off.** A
+   suspended stage is only as soft as its softest path to ground, and a cable is a path to ground —
+   a nonlinear one, which can stick to the bench and then release
+6. **the coin mass** — the wrappers stand tall and unrestrained on the platform, raising the centre
+   of gravity and free to slide
+7. **the spring-hook-in-eyebolt joints**
+
+**Plus one that applies only to the 6.4-second excursion: relaxation after a motor move.** That
+window opens 0.1 s after a 60-step retract ended — but the motion reverses and overshoots its
+start, which relaxation does not do (`LEAD_VERIFICATION.md` V6).
+
+> **Candidates 5 to 7 came from reading the photographs, and a photograph shows what is touching
+> what, never what moved. None of the three is evidence.** They are things to look at during
+> reassembly, not findings.
+
+**Room air is the cheapest to test and has never been tried.** The cables are the second cheapest:
+hang the platform, add a known small mass, and measure the droop with the cables connected and
+again with them lifted clear.
 
 **What needed to change:** a cardboard box over the instrument and a 15-minute recording, before
 anything else. It costs nothing and it either eliminates air or promotes it to the leading
@@ -115,7 +153,9 @@ a straightedge cannot resolve that. **A jeweller's loupe or a USB microscope clo
 
 **The arithmetic.** The window where a tunnelling current is big enough to see and small enough not
 to saturate the amplifier spans about **1.7 decades of current — roughly 0.17 nm of gap.** One step
-of the coarse motor moves the tip **at least 1.94 nm** at the `d` Jacob measured. **The motor jumps
+of the coarse motor moves the tip **at least 1.94 nm** — that is the figure at the TOP of the
+range `d` has been bounded to, under 0.5 mm; `d` itself is still not resolved, and at the bottom
+of that range the step is smaller. **The motor jumps
 over the entire window in one step. There is no motor position inside it.**
 
 That is not a fault, it is why the piezo exists — but it means the handover from motor to piezo has

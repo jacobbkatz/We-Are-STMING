@@ -54,7 +54,11 @@ person in the new frames is the same person, in the same jersey.
 **What this does NOT settle**, and these stay UNKNOWN: **whose hands** appear in a close-up, **who
 took** any photograph, and **who performed** any step shown.
 
-**Publication:** Jacob confirmed 2026-09-19 that **a team photograph may appear on the poster**.
+**Publication:** Jacob confirmed 2026-09-19 that **a team photograph may appear on the poster**, for
+himself. **Nuh consented 2026-09-20** — `SAID` by Jacob, relaying Nuh's text: *"nuh just texted me he
+consents"*. **Both subjects of the two face-carrying frames have now agreed**, so
+`2026-09-19_team_at_bench_1.jpg` is cleared. **Second-hand for Nuh and recorded as such**; his own word
+replaces it. **Not covered:** any use beyond this project's own deliverables.
 Permission to publish and identification are two different things; both are now given.
 
 **Nothing in this folder has had a number taken off it**, and the section below this one records

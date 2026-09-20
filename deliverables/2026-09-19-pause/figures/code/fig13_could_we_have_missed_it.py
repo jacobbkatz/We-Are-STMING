@@ -172,10 +172,11 @@ def main():
              "window IS a vacuum gap - it is the width the gap would have to have. The 10-22 counts uses the "
              "inherited 0.016 nm per Z count, which came from another builder's\nscanner and has never been "
              "measured on ours; if our Z scale is finer, that band is narrower still and the gap widens.\n"
-             "WHAT THIS DOES NOT SHOW: it does not prove no tunnelling ever occurred. It cannot - the tip must "
-             "pass through the tunnelling regime on every approach, and nobody can prove a negative about an "
-             "instant nobody watched. It shows that where we COULD see, we DID look, at length, and what we saw "
-             "was not a gap.")
+             "WHAT THIS IS NOT ABOUT. It is not about whether tunnelling occurred - it did, and that is settled "
+             "(LEAD_VERIFICATION.md V13): the tip passes through the tunnelling separations on every approach "
+             "and we were recording throughout.\nThis figure answers the narrower question the data CAN settle "
+             "- whether we could have seen it, whether we looked, and whether we ever HELD it. We could, we did, "
+             "at length, and what we were holding was not a gap.")
 
     print("  window: %.2f decades = %.2f nm;  representative cycle %d with %d readings inside"
           % (WIN_DEC, WIN_NM, pick, counts[pick]))

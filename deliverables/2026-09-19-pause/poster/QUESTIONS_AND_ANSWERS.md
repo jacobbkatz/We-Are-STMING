@@ -29,7 +29,7 @@ source is given so you can check it, and so you can say where it came from if so
    measurement stated flatly sounds more certain than one apologised for.
 3. **"We have not measured that" is a complete answer.** It is a normal sentence at a research
    event and everybody there says it about something. **What is not acceptable is inventing a
-   number on your feet** - section 5 lists the questions where that is the temptation.
+   number on your feet** - section 4 lists the questions where that is the temptation.
 
 ---
 
@@ -151,9 +151,14 @@ verification entry of our own.
 
 ### "Couldn't that curve just be a dirty contact, or an oxide?"
 
-> **Yes. It could.** A contaminant film, a thin oxide or a dirty near-contact are all superlinear
-> too. That is exactly why panel 03 says barrier and not tunnelling. **Tunnelling implies a
-> barrier; a barrier does not imply tunnelling.**
+> **Yes, and it probably was.** A contaminant film, a thin oxide or a dirty near-contact are all
+> superlinear too, and the decay rate points that way. **But that is still a tunnel junction** - a
+> metal-insulator-metal barrier with electrons tunnelling across it is exactly what those words
+> mean, and it is a real measurement of a real effect. **What it is not is a gap we command**,
+> because the barrier is set by whatever is stuck to the surface rather than by the piezo. That is
+> why we say we detected tunnelling and do not say we held tunnelling range.
+
+**Source:** `LEAD_VERIFICATION.md` V13, "Why the distinction is not a hedge".
 
 ### "How do you know it isn't noise, or a short?"
 
@@ -203,11 +208,11 @@ verification entry of our own.
 
 **Do not get defensive. The true answer is better.**
 
-> It is a working scanning-probe measurement chain that has not yet imaged. Every subsystem is
-> built, working and calibrated: the converters, the amplifier, the current measurement, the coarse
-> approach, the feedback loop and the analysis. **What is missing is mechanical stability, and we
-> measured it rather than guessing.** Knowing precisely what stops you is most of the value in
-> instrument development.
+> **It is a working scanning-probe measurement chain that has detected tunnelling and has not yet
+> imaged.** Every subsystem is built, working and calibrated: the converters, the amplifier, the
+> current measurement, the coarse approach, the feedback loop and the analysis. **What is missing
+> is mechanical stability, and we measured it rather than guessing.** Knowing precisely what stops
+> you is most of the value in instrument development.
 
 ---
 
@@ -317,6 +322,60 @@ five blockers in order of how much each one actually blocked an image, with what
 
 ---
 
+## 2b. Panel 07 - the questions about the AI
+
+**These will come, and they are not hostile. Answer them straight and without apology.** The
+framework is a result in its own right and the panel says so.
+
+### "Did an AI write this poster?"
+
+> **Yes, and the panel is about that.** Neither of us writes code. An AI model did the writing, the
+> analysis scripts and the firmware work, and we directed it - but the thing we actually built is
+> the framework it works inside: **a 575-line operating protocol it has to read first, one
+> canonical register holding every number in the project with its provenance and its date, 27
+> append-only session logs, and a 565-line checker that runs seven classes of test at the start of
+> every session and blocks a commit that fails.**
+>
+> **The point is not that the model writes well. It is that the model gets caught.** Everything on
+> this poster went through that.
+
+### "How do you know the numbers are right?"
+
+**This is the good-faith version of the question above, and it has a concrete answer. Do not be
+defensive.**
+
+> Three things. **Every number lives in exactly one file**, with units, a date and a tag saying how
+> it is known - measured at the bench, calculated with the inputs shown, from a datasheet, from the
+> CAD mesh, from an order confirmation, or just something one of us said. **The weakest tags are
+> the ones for what we said and for the model's reading of a photograph, and those are the ones
+> that have been wrong most often.** Second, **a program checks it**, not our memory: seven tests
+> at every session start, including one that fails if a value we have retired is still sitting in a
+> live document. Third, **the session logs are append-only.** A past measurement is never rewritten.
+>
+> **And the evidence that it works is the retractions.** A statistical result of ours turned out to
+> be computed across truncated files - withdrawn. Our single most convincing reproducible feature
+> was traced to the feedback loop recovering from a flyback, predicted to the exact count -
+> withdrawn. A detector's full-scale voltage was recorded backwards in a live reference document -
+> caught. Eleven wrong numbers in one commit - found and fixed before the second push. **All four
+> are still in the repository, next to the claims they replaced.**
+
+**If they push: "so how many of those were the AI's mistakes?"** - *"Most of them. That is the
+point - it found its own, inside a framework built to make that happen. The one it did not find,
+Jacob found, against a confident and wrong answer from the model."*
+
+### "Did you train the model?"
+
+> **No. The model is off the shelf.** We did not train it, fine-tune it or modify it in any way.
+> **What is ours is the framework around it** - the protocol, the single-source register, the
+> provenance tags, the append-only logs and the automated checks. **Without that, the same model
+> produces confident, unverifiable prose that quietly drifts**, which is what it did here before
+> the framework existed.
+
+**Source:** [`../AI_WORKFLOW_SECTION.md`](../AI_WORKFLOW_SECTION.md), which is the canonical text
+for panel 07 and gives the commands to re-count every figure in it.
+
+---
+
 ## 3. If they ask about a specific number on the poster
 
 | They point at | The honest sentence |
@@ -328,6 +387,8 @@ five blockers in order of how much each one actually blocked an image, with what
 | **60,928** | Readings taken inside the current range where tunnelling has to appear, across 109 separate approaches, with the bias on the whole way. It is the count behind "we detected tunnelling". |
 | **43,000 counts in 6.4 s** | How far the surface moved with the motor stopped and nobody touching the instrument. It then went out of reach for 105 seconds. Panel 04. |
 | **+0.04 against +0.07** | How well our scans repeat, against how well a control with nothing in it repeats. Panel 05. |
+| **Eleven weeks and eight weeks**, in the line under the title | **Eleven weeks of planning and design, eight weeks of building.** `SAID` by Jacob, 2026-09-20. **Always say which phase a figure belongs to, and do not add them together** - no combined total has ever been stated, so a total would be something you made up on the day. |
+| **575 lines, 157 numbers, 565 lines, 27 logs**, in panel 07 | The operating protocol the model reads first; the register holding every number in the project; the checker that runs seven tests at every session start; the append-only session logs. **All four are counted from the repository and the panel prints the commands to re-count them.** |
 
 ---
 

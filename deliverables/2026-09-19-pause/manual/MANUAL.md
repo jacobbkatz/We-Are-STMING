@@ -89,8 +89,8 @@ tunnelling range: with the motor stopped and nobody touching the instrument the 
 least 43,000 Z counts in 6.4 s** and **at least 56,000 over about two minutes**, where an image
 needs it inside a few hundred counts for a minute. **And one measurement would settle our best
 junction retroactively** — `d`, the tip's distance from the pivot line, resolved to 26 micrometres
-rather than bounded under 0.5 mm. It needs a loupe and no power. `FRAMING.md`;
-`LEAD_VERIFICATION.md` V13.
+rather than bounded under 0.5 mm. It needs a loupe and no power.
+[`../FRAMING.md`](../FRAMING.md); [`../LEAD_VERIFICATION.md`](../LEAD_VERIFICATION.md) V13.
 
 **What it demonstrably does today** (all MEASURED, all in `docs/FACTS.md` and the session logs):
 
@@ -99,13 +99,13 @@ rather than bounded under 0.5 mm. It needs a loupe and no power. `FRAMING.md`;
   the project's strongest single result.
 - **A real tip-to-gold junction has been made**, repeatedly, and its current responds to Z and to
   the sign of the bias.
-- **A tunnel junction was made, biased, and the current tunnelling through it measured.** The tip
-  starts with no measurable current and ends in saturating contact, so on every approach the
+- **That junction was a tunnel junction, and the current tunnelling through it was measured.** The
+  tip starts with no measurable current and ends in saturating contact, so on every approach the
   separation passes through the range where tunnelling is the only mechanism that carries
   electrons; the bias was on and the amplifier recording throughout, **60,928 readings inside that
   current range across 109 approaches**. The junction never metallically shorted — resistance never
-  fell below about 5 MOhm even at saturation — and the I-V is superlinear and symmetric. **So it
-  was a barrier, conducting by tunnelling, and not a metallic bridge.**
+  fell below about 5 MOhm even at saturation — the I-V is superlinear and symmetric, and 109 of 110
+  onsets were gradual. **So it was a barrier, conducting by tunnelling, and not a metallic bridge.**
 - **The electronics are quiet enough.** Tip clear, the reading's standard deviation was 40–42
   counts on 2026-09-19; with a junction and X held it was 9–19 counts. A tunnelling current is
   about 1 nA, which is about 320 counts.
@@ -183,11 +183,13 @@ line. The third screw, 40.000 mm away, is the one the motor turns. **The piezo p
 motor screw moves the sample under the tip in the same direction, about 40 times less.
 
 > **The lever ratio is the most valuable unmeasured number in the instrument.** The design geometry
-> gives 40, but that assumes the tip sits at the disc centre. Jacob's bench estimate of the tip's
-> distance from the pivot line is *"between 1mm and 0mm its really hard to measure"*. **A
-> straightedge laid across the two ball ends settles it and needs no electronics.** It decides the
-> Z scale in nanometres, and therefore whether the measured current-versus-Z slope is tunnelling or
-> pressing. See `docs/OPEN_QUESTIONS.md`.
+> gives 40, but that assumes the tip sits at the disc centre. **The current bound is `d` under
+> 0.5 mm** — `SAID`, Jacob, at the bench on 2026-09-20, *"I obviously can't measure 26 micrometers
+> but it's less than 0.5 mm"*, superseding his 2026-09-18 estimate of *"between 1mm and 0mm its
+> really hard to measure"*. **A straightedge takes it no further; an eyepiece or an optical
+> comparator does.** It decides the Z scale in nanometres, and therefore whether the measured
+> current-versus-Z slope is a held gap or a press. **`docs/FACTS.md` is the canonical home for it**;
+> see also `docs/OPEN_QUESTIONS.md`.
 
 ### The coarse approach
 
@@ -334,7 +336,7 @@ left stale values in six files.**
 | Component | What it is | Size |
 |---|---|---|
 | **The protocol** (`CLAUDE.md`) | The operating instructions the model must read before doing anything: which document outranks which, what to search before recording something as unknown, what to compute before giving an instruction that touches hardware, and what to do at the start and end of every session | **575 lines** |
-| **The register** (`docs/FACTS.md`) | One canonical value for every number that matters, each with units, provenance and a date, plus a RETIRED table of every value that has ever been replaced | **157 rows** |
+| **The register** (`docs/FACTS.md`) | One canonical value for every number that matters, each with units, provenance and a date, plus a RETIRED table of every value that has ever been replaced | **164 rows** (2026-09-20; count table lines that are neither a separator nor a continuation) |
 | **The checker** (`Code/pc/check_facts.py`) | Seven classes of automated test, run at session start and before every commit | **565 lines** |
 | **The session record** (`sessions/`) | One append-only log per working session. Past measurements are never rewritten | **27 logs** |
 | **The reference set** (`docs/`) | Wiring, commands, components, open questions, engineering cross-references, and an index of what is inside every binary and archive | **18 documents** |

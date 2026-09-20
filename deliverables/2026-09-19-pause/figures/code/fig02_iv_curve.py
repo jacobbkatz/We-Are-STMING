@@ -116,11 +116,14 @@ def main():
     S.footer(fig, y=0.008, text=
              "Source: sessions/2026-09-17-bench.md section 3.15, round 7 of 8 (no CSV exists for this sweep). "
              "Measured 2026-09-17 from about 19:54:51 UTC, on the 2026-09-17 tip and sample.\n"
-             "WHAT THIS DOES NOT SHOW: a barrier is not the same claim as a vacuum tunnelling gap — a "
-             "contaminant film, a thin oxide or a dirty near-contact are all superlinear too. 16–59 MΩ "
-             "sits at the low end of the\nrange tunnelling occupies, which usually starts above 100 MΩ. A "
-             "different tip and sample two nights later gave a different verdict (figure 5). The session log's "
-             "\"roughly V²\" reading is wrong; the refit is V^%.2f." % n_exp)
+             "WHAT THIS SHOWS AND WHAT IT DOES NOT. A barrier conducting at these resistances is conducting "
+             "by tunnelling, and that much is a claim this figure supports. What it does NOT show is a "
+             "vacuum tunnelling gap — a\ncontaminant film, a thin oxide or a dirty near-contact are all "
+             "superlinear too, and tunnelling through a pressed film is still tunnelling but is not a gap "
+             "you can command, sweep and image with. 16–59 MΩ sits at the low end of the range\ntunnelling "
+             "occupies, which usually starts above 100 MΩ. A different tip and sample two nights later gave "
+             "a different verdict (figure 5). The session log's \"roughly V²\" reading is wrong; the refit "
+             "is V^%.2f." % n_exp)
 
     S.save(fig, "fig02_iv_curve")
 

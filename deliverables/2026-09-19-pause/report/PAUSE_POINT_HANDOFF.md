@@ -237,7 +237,7 @@ positive.**
    from the only index of that directory, which is the likeliest reason a session spent a day
    believing an experiment had never been run when its data were sitting there.
 
-### P2 — Two mechanical measurements that need no electronics, best done during reassembly
+### P2 — Two mechanical measurements that need no instrument power, best done during reassembly
 
 1. **The tip-to-pivot-line distance `d`, resolved finer than a straightedge can manage.**
    **It is no longer unmeasured.** Jacob bounded it at the bench on **2026-09-20 to under 0.5 mm**
@@ -400,7 +400,7 @@ correcting every copy anyone could think of **still left stale values in six fil
 | Component | What it is | Size |
 |---|---|---|
 | **The protocol** (`CLAUDE.md`) | The operating instructions the model must read before doing anything: which document outranks which, what to do before recording something as unknown, what to compute before giving an instruction that touches hardware, and what to do at the start and end of every session | **575 lines** |
-| **The register** (`docs/FACTS.md`) | One canonical value for every number that matters, each with units, provenance and a date, plus a RETIRED table of every value that has ever been replaced | **157 rows** |
+| **The register** (`docs/FACTS.md`) | One canonical value for every number that matters, each with units, provenance and a date, plus a RETIRED table of every value that has ever been replaced | **164 rows** (2026-09-20; count table lines that are neither a separator nor a continuation) |
 | **The checker** (`Code/pc/check_facts.py`) | Seven classes of automated test, run at session start and before every commit | **565 lines** |
 | **The session record** (`sessions/`) | One append-only log per working session. Past measurements are never rewritten | **27 logs** |
 | **The reference set** (`docs/`) | Wiring, commands, components, open questions, engineering cross-references, an index of what is inside every binary and archive | **18 documents** |
