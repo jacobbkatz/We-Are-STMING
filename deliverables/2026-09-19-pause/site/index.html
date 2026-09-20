@@ -53,6 +53,33 @@
   .ver{ color:var(--verified); font-weight:600; font-variant-numeric:tabular-nums; }
 
 
+
+  /* ---------- the explainer, for a reader who has never met one ---------- */
+  .gap{ margin-block:clamp(26px,4vw,42px); }
+  .gap .scroller{ overflow-x:auto; }
+  .gap svg{ min-width:640px; width:100%; height:auto; display:block; }
+  .gap .sol{ fill:none; stroke:var(--ink2); stroke-width:1.2; }
+  .gap .tipf{ fill:var(--hair); stroke:var(--ink2); stroke-width:1.2; }
+  .gap .atom{ fill:var(--raise); stroke:var(--ink2); stroke-width:1.1; }
+  .gap .hot{ fill:var(--goldwash); stroke:var(--goldmark); stroke-width:1.2; }
+  .gap .flow{ stroke:var(--goldmark); stroke-width:1.5; fill:none; stroke-dasharray:3 3.5; }
+  .gap .dim{ stroke:var(--gold); stroke-width:1; fill:none; }
+  .gap .lbl{ fill:var(--ink); font-family:'Inter',sans-serif; font-size:13px; font-weight:600; }
+  .gap .sub{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:11.5px; }
+  .gap .glb{ fill:var(--gold); font-family:'Inter',sans-serif; font-size:11.5px; font-weight:600; }
+  .gap .ax{ stroke:var(--line); stroke-width:1; fill:none; }
+  .gap .dim{ stroke:var(--gold); stroke-width:1; fill:none; }
+  .gap .curve{ fill:none; stroke:var(--goldmark); stroke-width:2; stroke-linecap:round; }
+
+  .price{ border-top:1px solid var(--line); margin-block:2em; max-width:44em; }
+  .price .r{ display:grid; grid-template-columns:230px 1fr; gap:.2em 1.4em;
+             padding-block:.85em; border-bottom:1px solid var(--hair); align-items:baseline; }
+  .price .a{ font-family:'Newsreader',Georgia,serif; font-size:var(--s4); line-height:1.1;
+             color:var(--ink); font-variant-numeric:tabular-nums; }
+  .price .w{ font-size:var(--s2); color:var(--ink2); line-height:1.45; }
+  .price .r.ours .a{ color:var(--verified); }
+  @media (max-width:560px){ .price .r{ grid-template-columns:1fr; } }
+
   /* ---------- the bar that stays ----------
      The page is a single long document with eleven parts. A reader needs to know
      where they are in it and how to reach us without scrolling to the end, so the
@@ -75,7 +102,7 @@
               background:none; border:1px solid var(--line); border-radius:2px;
               padding:9px 12px; cursor:pointer; min-height:44px; }
   .navtoggle:hover{ border-color:var(--goldmark); }
-  @media (max-width:900px){
+  @media (max-width:1090px){
     .navlinks{ display:none; position:absolute; left:0; right:0; top:100%;
                flex-direction:column; align-items:stretch; gap:0;
                background:var(--ground); border-bottom:1px solid var(--line);
@@ -336,7 +363,8 @@
   <div class="in">
     <a class="brand" href="#top">We Are STMing</a>
     <div class="navlinks" id="navlinks">
-      <a href="#instrument">The instrument</a>
+      <a href="#what">What an STM is</a>
+      <a href="#instrument">What we built</a>
       <a href="#measured">The evidence</a>
       <a href="#stopped">What stopped us</a>
       <a href="#workflow">How we worked</a>
@@ -366,7 +394,7 @@
   </div>
 
   <div class="actions">
-    <a class="btn btn-1" href="#measured">See what we measured</a>
+    <a class="btn btn-1" href="#what">Start with what an STM is</a>
     <a class="btn btn-2" href="mailto:jacob@quis.com?subject=We%20Are%20STMing">Email us about the drift</a>
   </div>
 
@@ -384,10 +412,115 @@
   </div>
 </header>
 
+<section id="what">
+  <h2>What a scanning tunnelling microscope is</h2>
+  <p class="lede">If you have never met one: it is a microscope that does not use light, and it
+  never touches the thing it is looking at.</p>
+
+  <p class="measure">An optical microscope cannot show you an atom. Light comes in waves about 500
+  nanometres long and an atom is about a quarter of one nanometre across &mdash; two thousand times
+  smaller than the ruler. So a scanning tunnelling microscope throws the ruler away. It brings a
+  metal needle, sharpened until it ends in a <em>single atom</em>, to within about a nanometre of a
+  surface, puts a small voltage across the gap, and measures the current that flows across it.</p>
+
+  <h3>The part that sounds impossible</h3>
+  <p class="measure">Nothing is touching. In everyday physics no current can flow across a gap, the
+  way water will not cross a gap in a pipe. <strong>Quantum mechanics does not work like
+  that.</strong> An electron is not a little ball with a definite position; it is spread out, and a
+  small part of it is already on the far side of the gap. So there is a real chance the electron
+  simply appears over there. That is <strong>tunnelling</strong>, and the current it makes is about
+  <strong>one nanoamp</strong> &mdash; a billionth of an amp, roughly a billion times smaller than
+  the current in a phone charger.</p>
+
+  <p class="measure"><strong>The useful part is how violently that current changes with
+  distance.</strong> Move the tip a tenth of a nanometre closer &mdash; less than half an atom
+  &mdash; and the current goes up about <em>tenfold</em>. Which means that if you slide the tip
+  sideways across a surface and continually adjust its height to keep the current the same, the
+  path it traces is the surface itself, bump by bump, atom by atom. <strong>That is the picture an
+  STM makes.</strong></p>
+
+  <figure class="gap" data-rv>
+  <div class="scroller">
+  <svg viewBox="0 0 860 300" role="img" aria-label="Left: a metal tip ending in a single atom, held about a nanometre above a row of surface atoms, with a voltage across the gap and a tunnelling current flowing through it without contact. Right: a graph showing that current rising about tenfold for every tenth of a nanometre the gap narrows.">
+    <text class="lbl" x="8" y="20">No contact, and a current anyway</text>
+    <text class="sub" x="8" y="38">the tip ends in one atom and never touches the surface</text>
+
+    <path class="tipf" d="M150 62 L214 62 L200 120 L190 150 L174 150 L164 120 Z"/>
+    <text class="sub" x="222" y="92">metal tip, sharpened to a point</text>
+    <circle class="hot" cx="182" cy="160" r="10"/>
+    <text class="glb" x="200" y="164">one atom at the very end</text>
+
+    <path class="dim" d="M120 171 V204"/><path class="dim" d="M113 171 H127"/><path class="dim" d="M113 204 H127"/>
+    <text class="glb" x="14" y="182">about 1 nm</text>
+    <text class="sub" x="14" y="197">four atoms wide</text>
+
+    <path class="flow" d="M182 172 V200"/>
+    <text class="glb" x="200" y="192">about 1 nanoamp crosses here</text>
+
+    <circle class="atom" cx="110" cy="216" r="11"/><circle class="atom" cx="134" cy="216" r="11"/>
+    <circle class="atom" cx="158" cy="216" r="11"/><circle class="atom" cx="182" cy="216" r="11"/>
+    <circle class="atom" cx="206" cy="216" r="11"/><circle class="atom" cx="230" cy="216" r="11"/>
+    <circle class="atom" cx="254" cy="216" r="11"/><circle class="atom" cx="278" cy="216" r="11"/>
+    <circle class="atom" cx="302" cy="216" r="11"/><circle class="atom" cx="326" cy="216" r="11"/>
+    <path class="sol" d="M96 232 H344"/>
+    <text class="sub" x="96" y="256">the surface, one layer of atoms</text>
+    <text class="sub" x="96" y="272">a small voltage is applied across the gap</text>
+
+    <text class="lbl" x="470" y="20">Why that is useful</text>
+    <text class="sub" x="470" y="38">the current changes about tenfold for every 0.1 nm</text>
+    <text class="sub" x="470" y="72">current</text>
+    <path class="ax" d="M512 60 V228"/>
+    <path class="ax" d="M512 228 H840"/>
+    <path class="curve" pathLength="1" d="M520 74 C566 104 604 146 648 176 C692 204 762 220 834 224"/>
+    <path class="dim" d="M560 92 V228"/>
+    <path class="dim" d="M620 148 V228"/>
+    <path class="dim" d="M560 104 H620"/>
+    <path class="dim" d="M560 98 V110"/><path class="dim" d="M620 98 V110"/>
+    <text class="glb" x="630" y="102">0.1 nm further out</text>
+    <text class="glb" x="630" y="118">and the current is a</text>
+    <text class="glb" x="630" y="134">tenth of what it was</text>
+    <text class="sub" x="512" y="250">tip closer</text>
+    <text class="sub" x="756" y="250">tip further away</text>
+    <text class="sub" x="470" y="278">A sketch of the relationship, not our data.</text>
+  </svg>
+  </div>
+  <figcaption>Nothing touches. A voltage sits across a gap about a nanometre wide, electrons cross
+  it by tunnelling, and the current that results is so steeply dependent on the width of the gap
+  that holding it constant is the same thing as tracing the surface.
+  <b>That steepness is both why an STM can see a single atom and why it is so hard to build: the
+  gap has to be held still to a fraction of an atom&rsquo;s width.</b></figcaption>
+  </figure>
+
+  <h3>What one normally costs</h3>
+  <p class="measure">This is not usually a thing people build. A commercial instrument is quoted at
+  roughly:</p>
+
+  <div class="price" data-rv>
+    <div class="r"><div class="a">$50,000</div>
+      <div class="w">the simplest teaching instruments, sold as a complete unit</div></div>
+    <div class="r"><div class="a">$150,000&ndash;$500,000</div>
+      <div class="w">the mid-range a university materials lab buys: sub-nanometre control and
+      vibration isolation included</div></div>
+    <div class="r"><div class="a">$1,000,000+</div>
+      <div class="w">ultra-high vacuum, cryogenics, spectroscopy &mdash; the kind that publishes
+      atomic-resolution images</div></div>
+    <div class="r ours"><div class="a">$64</div>
+      <div class="w"><b>our controller board</b>, five of them for $321.44 from JLCPCB. It is the
+      one cost in this project with an order record behind it; we never totalled the rest.</div></div>
+  </div>
+  <p class="tracenote">The three commercial figures come from a laboratory-equipment supplier&rsquo;s
+  published breakdown, read in September 2026 &mdash;
+  <a href="https://www.excedr.com/blog/how-much-does-an-stm-cost">excedr.com</a>. <b>They are the
+  only numbers on this page we did not measure ourselves</b>, and they are here for scale, not as a
+  claim about what ours is worth. What a commercial instrument buys is not only the hardware: it is
+  the vacuum, the cooling and the isolation that make the gap hold still &mdash; which is exactly
+  what stopped us.</p>
+</section>
+
 <section id="instrument">
-  <h2>What the instrument is</h2>
-  <p class="lede">A scanning tunnelling microscope reads a surface by measuring a current that flows between a sharp metal tip and the sample without the two ever touching. The current is about a billionth of an amp, and it changes tenfold for every tenth of a nanometre the gap changes.</p>
-  <p class="measure">That sensitivity is the whole instrument and the whole problem. It is what lets an STM resolve single atoms, and it is why the gap has to be held still to a fraction of the width of one.</p>
+  <h2>What we built</h2>
+  <p class="lede">Ours is about a foot tall, made of printed plastic, threaded rod and copper tape,
+  and it does every one of the things on the previous page.</p>
   <figure class="chain" data-chain data-rv>
 <div class="scroller">
 <svg viewBox="0 0 860 228" role="img" aria-label="The signal chain: a typed command travels from the console through the Teensy and the controller board's converters to the piezo in the scan head; the tunnelling current returns through the preamplifier and the analogue-to-digital converter back to the Teensy.">
@@ -765,7 +898,8 @@
     <div>
       <h2>The work</h2>
       <ul>
-        <li><a href="#instrument">What the instrument is</a></li>
+        <li><a href="#what">What a scanning tunnelling microscope is</a></li>
+        <li><a href="#instrument">What we built</a></li>
         <li><a href="#measured">What we measured</a></li>
         <li><a href="#tunnelling">Did we detect tunnelling?</a></li>
         <li><a href="#stopped">What stopped us</a></li>
@@ -827,7 +961,7 @@
     });
     // A width change can leave the panel open behind a bar that no longer has a button.
     window.addEventListener("resize", function () {
-      if (window.innerWidth > 900) { setOpen(false); }
+      if (window.innerWidth > 1090) { setOpen(false); }
     }, { passive: true });
   }
 
