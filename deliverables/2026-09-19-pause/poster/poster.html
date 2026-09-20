@@ -1,618 +1,404 @@
 <!DOCTYPE html>
 <!--
-=====================================================================================
-  RESEARCH POSTER - "We Are STMing"
-  Jacob Katz (UC San Diego) and Nuh Shaheer (Worcester Polytechnic Institute)
-  Built from the 2026-09-19 pause-point deliverables.
-=====================================================================================
+  ============================================================================
+  WE ARE STMING - RESEARCH POSTER
+  ============================================================================
 
-  *** PAGE SIZE - READ THIS BEFORE YOU SEND ANYTHING TO A PRINTER ***
-  ------------------------------------------------------------------
-  This poster is set to 48 inches wide by 36 inches tall, LANDSCAPE.
+  SIZE: 48 x 36 inches, LANDSCAPE. *** PROVISIONAL ***
+  This size was NOT verified against any UCSD event specification. No event
+  spec exists anywhere in the project files and none was invented. CHECK YOUR
+  EVENT'S REQUIREMENT BEFORE PRINTING and change --W and --H below if needed.
 
-  THAT SIZE IS PROVISIONAL. It was NOT checked against any UC San Diego event
-  specification, or any other event's. No event specification exists anywhere in
-  this repository, and none was invented. JACOB MUST CHECK WHAT HIS EVENT ACTUALLY
-  REQUIRES BEFORE PRINTING - the board size, the orientation, and whether they
-  want a particular template.
+  HOW TO EDIT: all the text is plain HTML below. Find the words you want to
+  change and type over them. Do not worry about the CSS at the top.
 
-  If the size is different, change the two numbers on the line marked "PAGE SIZE"
-  in the stylesheet below. There is only one place to change it; the renderer reads
-  that same line. Then re-render and LOOK at the preview: everything is laid out in
-  inches so it rescales sensibly, but the text will need a check.
+  PANEL 6 is the one to look at if you want to word the tunnelling question
+  yourself - it is marked EDIT-ME-TUNNELLING and is a single paragraph.
 
-
-  HOW TO CHANGE THIS POSTER, for Jacob and Nuh
-  --------------------------------------------
-  You do not need to understand any code. Every word that appears on the printed
-  poster is written below between two tags that look like <p> ... </p> or
-  <h2> ... </h2>. Change the WORDS, leave the TAGS alone, save the file, then run
-
-      python3 deliverables/2026-09-19-pause/poster/render.py
-
-  which writes poster.pdf (the print file) and poster_preview.png (to look at).
-
-  IT TELLS YOU IF SOMETHING NO LONGER FITS. Each panel hides anything too tall for
-  it, so that no panel can print on top of another - which means a sentence can be
-  cut off without it being obvious. The renderer checks every panel and prints a
-  line like "text is being cut off in ... it is 0.40 in too tall". If you see one,
-  shorten that panel's words, or make its picture a little smaller: the pictures'
-  widths are set in inches on the lines that say style="width: ... in".
-
-  The places you are most likely to want to change are marked with a note starting
-  "EDIT:". Search this file for the word EDIT to find them all.
-
-  Special characters: &mdash; is a long dash, &minus; is a minus sign, &plusmn; is
-  the plus-or-minus sign, &Omega; is the ohm symbol, &sigma; is sigma, &nbsp; is a
-  space that never breaks across a line. Leaving them alone is always safe.
-
-
-  TWO RULES THAT ARE NOT NEGOTIABLE
-  ---------------------------------
-  They are what makes this poster survive the first hard question from somebody who
-  knows what an STM is.
-
-    1. NO SCALE BAR, and no distance in nanometres, anywhere. This instrument has
-       never measured how far one Z count moves the tip; the figure in circulation
-       is inherited from another builder's scanner. Every axis stays in converter
-       counts. See docs/FACTS.md and docs/OPEN_QUESTIONS.md.
-
-    2. DO NOT WRITE THAT WE IMAGED ANYTHING, OR THAT WE OBSERVED TUNNELLING. What
-       the evidence supports is already on the poster, in panels 3, 4 and 6, and it
-       is strong. In particular, panel 4 says the tunnelling status of our best
-       junction is UNDECIDED and names the one measurement that would settle it -
-       that is the honest statement, and it is more interesting than either
-       overclaiming or dismissing. Sources:
-       deliverables/2026-09-19-pause/LEAD_VERIFICATION.md (V3 and V10) and
-       deliverables/2026-09-19-pause/FRAMING.md.
-
-
-  WHERE THE PICTURES COME FROM
-  -----------------------------
-  assets/fig01..fig09  - the presentation figures, 300 dpi print versions, made by
-                         the figures work in ../figures/. Each carries its own
-                         source line and its own "what this does not show" note
-                         along the bottom. DO NOT CROP THOSE OFF.
-  assets/fig10_candidate.png
-                       - the candidate-image figure, drawn for this poster by
-                         make_candidate_figure.py in this folder, from the raw
-                         three-Y data files. It exists because the gallery's
-                         version of the same picture carries two statements that
-                         were corrected afterwards; that script's comments say
-                         which, and why.
-  assets/*.jpg         - photographs of our own hardware, prepared in
-                         ../photos/prepared/ with their black caption bars cropped
-                         off by prepare_assets.py. The captions are re-set below in
-                         the poster's own type and KEEP THE SAID / READ MARKS:
-                         SAID = Jacob or Nuh told us. READ = read off the frame by
-                         Claude - plausible, not confirmed.
-
-  Rebuild the pictures folder with:
-      python3 deliverables/2026-09-19-pause/poster/prepare_assets.py
-      python3 deliverables/2026-09-19-pause/poster/make_candidate_figure.py
-
-  FIGURES THAT ARE READY BUT NOT ON THE POSTER, if you want to swap one in:
-      assets/fig04_control.png      a feedback scan beside its X-held control
-      assets/fig06_noise.png        the noise floor, still against stamping
-      assets/fig07_signal_chain.png the six stages from bias voltage to reading
-      assets/fig08_scale.png        how small a nanoamp is
-      assets/fig09_timeline.png     what was established, and when
-  To swap one in: change the file name in that panel's picture line, rewrite the
-  caption to match, re-render, and look at the preview.
-=====================================================================================
+  RENDER: python3 render.py   (needs playwright + the bundled chromium)
+  ============================================================================
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>We Are STMing poster</title>
+<title>We Are STMing - research poster</title>
 <style>
-/* ---------------------------------------------------------------- the typeface
-   Inter, the same face the figures use, loaded straight out of the repository so
-   that nothing has to be installed on any machine. It is free to use: the licence
-   is ../figures/fonts/LICENSE.txt (SIL Open Font License). */
-@font-face { font-family:"Inter"; font-weight:300; src:url("../figures/fonts/Inter-Light.ttf")    format("truetype"); }
-@font-face { font-family:"Inter"; font-weight:400; src:url("../figures/fonts/Inter-Regular.ttf")  format("truetype"); }
-@font-face { font-family:"Inter"; font-weight:500; src:url("../figures/fonts/Inter-Medium.ttf")   format("truetype"); }
-@font-face { font-family:"Inter"; font-weight:600; src:url("../figures/fonts/Inter-SemiBold.ttf") format("truetype"); }
-@font-face { font-family:"Inter"; font-weight:700; src:url("../figures/fonts/Inter-Bold.ttf")     format("truetype"); }
-@font-face { font-family:"InterDisplay"; font-weight:600; src:url("../figures/fonts/InterDisplay-SemiBold.ttf") format("truetype"); }
-@font-face { font-family:"InterDisplay"; font-weight:700; src:url("../figures/fonts/InterDisplay-Bold.ttf")     format("truetype"); }
+  /* ---- PAGE SIZE ---------------------------------------------------- */
+  :root{
+    --W: 48in; --H: 36in;
+    /* How tall any chart is allowed to be. See the note by `figure img` below. */
+    --figmax: 8.5in;
+    --ink:#14161a; --mid:#4a5058; --soft:#7a828c;
+    --line:#dfe3e8; --paper:#ffffff; --wash:#f6f7f9;
+    --accent:#C2410C;          /* burnt orange - the one accent colour */
+    --accent-soft:#FDF0E8;
+    --good:#0F766E;            /* deep teal, used only for verified numbers */
+  }
+  @page{ size:48in 36in; margin:0; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    width:var(--W); height:var(--H);
+    background:var(--paper); color:var(--ink);
+    font-family:'Inter','Inter Variable',system-ui,sans-serif;
+    font-size:15px; line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column;
+    padding:0.55in 0.6in 0.45in 0.6in;
+  }
+  b,strong{ font-weight:650; }
+  .accent{ color:var(--accent); }
+  .good{ color:var(--good); }
 
-/* ------------------------------------------------------------------ the colours
-   The same palette the figures use, so the charts sit ON the poster rather than on
-   top of it. Change a colour here and it changes everywhere it is used. */
-:root{
-  --surface:#fcfcfb;   /* the poster board */
-  --panel:#ffffff;     /* a panel */
-  --plane:#f4f4f1;     /* a quiet inset block */
-  --ink:#0b0b0b;       /* body text */
-  --ink2:#4a4945;      /* secondary text */
-  --muted:#76746e;     /* captions and fine print */
-  --rule:#dedcd4;      /* hairlines */
-  --blue:#2a78d6;      /* "measured here" - the figures' first series colour */
-  --blue-t:#1c5cab;    /* the darker step of the same blue, for words */
-  --orange:#eb6834;    /* "theory, or a comparison" */
-  --orange-t:#b04e27;
-  --warm:#f7f3ea;      /* the conditions block */
-  --warmrule:#e7ddc6;
-}
+  /* ---- HERO ---------------------------------------------------------- */
+  .hero{ display:grid; grid-template-columns: 1fr 7.6in 8.6in; gap:0.5in; align-items:start;
+         padding-bottom:0.26in; border-bottom:3px solid var(--ink); }
+  .eyebrow{ font-size:15px; letter-spacing:.16em; text-transform:uppercase;
+            color:var(--accent); font-weight:600; margin-bottom:.12in; }
+  h1{ font-size:62px; line-height:1.02; letter-spacing:-.022em; font-weight:700; margin:0 0 .16in 0; }
+  .deck{ font-size:26px; line-height:1.34; color:var(--ink); max-width:26in; margin:0 0 .2in 0; font-weight:400; }
+  .deck b{ font-weight:650; }
+  .byline{ font-size:22px; color:var(--ink); font-weight:600; }
+  .byline span{ font-weight:400; color:var(--mid); }
+  .provenance{ font-size:13.5px; color:var(--soft); margin-top:.09in; line-height:1.4; }
 
-/* PAGE SIZE - the only place the page size is set. render.py reads this line. */
-@page { size: 48in 36in; margin: 0; }
+  .heroimg{ width:100%; height:5.0in; object-fit:cover; object-position:center 42%;
+            border-radius:5px; display:block; }
+  .ctx{ background:var(--accent-soft); border-left:4px solid var(--accent); padding:.17in .22in; }
+  .ctx h4{ font-size:21px; font-weight:700; margin:0 0 .07in 0; letter-spacing:-.01em; }
+  .ctx p{ font-size:15px; line-height:1.5; margin:0 0 .07in 0; color:var(--ink); }
+  .ctx .src{ font-size:12.5px; color:var(--soft); margin:0; }
+  .herocap{ font-size:12.5px; color:var(--soft); margin-top:.07in; line-height:1.4; }
 
-html,body{ margin:0; padding:0; background:#5c5c5c; }
-.poster{
-  width:48in; height:36in;
-  box-sizing:border-box;
-  padding:0.55in 0.72in;
-  background:var(--surface);
-  color:var(--ink);
-  font-family:"Inter", sans-serif;
-  font-weight:400;
-  display:flex; flex-direction:column; gap:0.22in;
-  position:relative;
-}
+  /* ---- BIG NUMBERS --------------------------------------------------- */
+  .numbers{ display:grid; grid-template-columns:repeat(5,1fr); gap:0.34in;
+            padding:0.24in 0 0.26in 0; border-bottom:1px solid var(--line); }
+  .num .v{ font-size:52px; font-weight:700; letter-spacing:-.02em; line-height:1; color:var(--good); }
+  .num .k{ font-size:17px; font-weight:650; margin-top:.07in; }
+  .num .d{ font-size:13.5px; color:var(--mid); margin-top:.05in; line-height:1.4; }
 
-/* ------------------------------------------------------------ shared components */
-h1,h2,h3{ margin:0; font-family:"InterDisplay","Inter",sans-serif; }
-p{ margin:0 0 0.10in 0; }
-ul{ margin:0 0 0.06in 0; padding-left:0.28in; }
-li{ margin:0 0 0.055in 0; }
-b,strong{ font-weight:600; }
-.blue{ color:var(--blue-t); }
-.orange{ color:var(--orange-t); }
+  /* ---- PANEL GRID ---------------------------------------------------- */
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr);
+         grid-template-rows:auto auto; column-gap:0.42in; row-gap:0.34in;
+         padding-top:0.28in; align-items:start; }
+  .panel{ display:flex; flex-direction:column; min-height:0; }
+  .pnum{ font-size:15px; font-weight:700; color:var(--accent); letter-spacing:.1em; margin-bottom:.06in; }
+  h2{ font-size:31px; line-height:1.14; font-weight:700; letter-spacing:-.012em; margin:0 0 .12in 0; }
+  .lede{ font-size:18.5px; line-height:1.45; color:var(--ink); margin:0 0 .15in 0; }
+  .body{ font-size:15.5px; line-height:1.52; color:var(--mid); }
+  .body b{ color:var(--ink); }
+  figure{ margin:.04in 0 .12in 0; }
+  /* Charts are capped by HEIGHT, not width. Each column is about 15 in wide, so a
+     full-width chart came out 11 in tall, and two of those stacked ran the poster
+     2.8 in off the bottom of a 36 in sheet. Capping the height and letting the width
+     follow keeps every chart the same size on the wall. Change --figmax at the top. */
+  figure img{ max-height:var(--figmax); width:auto; max-width:100%; display:block;
+              margin:0 auto; border:1px solid var(--line); border-radius:4px; }
+  figcaption{ font-size:13px; line-height:1.45; color:var(--soft); margin-top:.08in; }
+  figcaption b{ color:var(--mid); }
+  .photos{ display:grid; grid-template-columns:1fr 1fr; gap:.16in; }
+  .photos img{ width:100%; border-radius:4px; display:block; }
 
-.panel{
-  background:var(--panel);
-  border:0.012in solid var(--rule);
-  border-radius:0.10in;
-  padding:0.20in 0.24in 0.18in 0.24in;
-  box-sizing:border-box;
-  display:flex; flex-direction:column;
-  overflow:hidden;               /* a panel never spills onto its neighbour */
-}
-.panel > h2{
-  font-size:32pt; font-weight:700; line-height:1.08;
-  margin:0 0 0.11in 0; letter-spacing:-0.012em;
-}
-.panel > h2 .n{
-  display:inline-block; min-width:0.60in;
-  color:var(--blue); font-weight:700;
-}
-.panel p, .panel li{ font-size:23.5pt; line-height:1.30; color:var(--ink); }
-.lead{ font-size:24.5pt !important; line-height:1.28 !important; }
-.small{ font-size:21pt !important; line-height:1.27 !important; color:var(--ink2); }
+  /* ---- CALLOUT ------------------------------------------------------- */
+  .call{ background:var(--accent-soft); border-left:4px solid var(--accent);
+         padding:.14in .19in; margin-top:.1in; font-size:15px; line-height:1.48; }
+  .call .t{ font-weight:700; color:var(--accent); display:block; margin-bottom:.05in; font-size:17px; }
 
-/* a figure or photograph inside a panel, and the caption under it */
-.fig{ display:block; margin:0.05in auto 0.10in auto; }
-.cap{
-  font-size:18pt !important; line-height:1.26 !important; color:var(--muted);
-  margin:0 !important; border-top:0.012in solid var(--rule); padding-top:0.08in;
-}
-.cap b{ color:var(--ink2); font-weight:600; }
-.cap .no{ color:var(--orange-t); font-weight:600; }
-.spacer{ flex:1 1 auto; }        /* pushes what follows to the bottom of its panel */
-
-/* =============================================================== 1. THE HEADER */
-.header{ display:flex; gap:0.34in; align-items:stretch; height:4.45in; }
-.titleblock{ flex:1 1 auto; display:flex; flex-direction:column; overflow:hidden; }
-.eyebrow{
-  font-size:18.5pt; font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
-  color:var(--blue-t); margin:0 0 0.08in 0;
-}
-h1{ font-size:58pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; }
-.subtitle{
-  font-size:26pt; font-weight:500; line-height:1.21; color:var(--ink2);
-  margin:0.12in 0 0 0;
-}
-.authors{ font-size:25pt; font-weight:600; line-height:1.26; margin:0.11in 0 0 0; }
-.authors span{ font-weight:400; color:var(--ink2); }
-.meta{ font-size:16.5pt; color:var(--muted); margin:0.07in 0 0 0; line-height:1.28; }
-
-.teamshot{ flex:0 0 4.80in; display:flex; flex-direction:column; overflow:hidden; }
-.teamshot img{ width:100%; display:block; border-radius:0.06in; }
-.teamshot .cap{ font-size:14.5pt !important; padding-top:0.06in; }
-
-/* the conditions block - the context Jacob asked to be put near the top */
-.conditions{
-  flex:0 0 13.3in; background:var(--warm); border:0.012in solid var(--warmrule);
-  border-left:0.10in solid var(--orange);
-  border-radius:0.10in; padding:0.17in 0.22in 0.12in 0.22in; box-sizing:border-box;
-  display:flex; flex-direction:column; overflow:hidden;
-}
-.conditions h2{ font-size:27pt; font-weight:700; line-height:1.09; margin:0 0 0.08in 0; }
-.conditions p{ font-size:19pt; line-height:1.25; margin:0 0 0.07in 0; }
-.conditions .why{ color:var(--ink2); }
-
-/* ========================================================= 2. THE NUMBERS STRIP */
-.tiles{ display:flex; gap:0.19in; height:1.60in; }
-.tile{
-  flex:1 1 0; background:var(--plane); border:0.012in solid var(--rule);
-  border-radius:0.09in; padding:0.13in 0.15in; box-sizing:border-box; overflow:hidden;
-}
-.tile .v{ font-family:"InterDisplay","Inter",sans-serif; font-weight:700;
-          font-size:31pt; line-height:1.03; letter-spacing:-0.022em; }
-.tile .k{ font-size:15pt; line-height:1.24; color:var(--ink2); margin-top:0.06in; }
-.tile .src{ font-size:13pt; color:var(--muted); margin-top:0.04in; }
-
-/* ============================================================== 3. THE PANELS */
-.row{ display:flex; gap:0.28in; }
-.row .panel{ flex:1 1 0; min-width:0; }
-/* The two rows of panels. If a panel says it is too tall, either shorten its
-   words or add to the row height here - but the page must still add up. */
-.rowA{ height:12.28in; }
-.rowB{ height:13.00in; }
-
-/* Two photographs side by side inside one panel. One is portrait and one is
-   landscape, so instead of setting their widths, their HEIGHT is capped and each is
-   centred in its half. Change 4.9in to make both photographs bigger or smaller. */
-.photorow{ display:flex; gap:0.20in; align-items:flex-start; }
-.photorow > div{ flex:1 1 0; min-width:0; }
-.photorow img{ display:block; margin:0 auto; border-radius:0.05in;
-               max-height:4.9in; max-width:100%; width:auto; }
-.photorow .cap{ font-size:15pt !important; line-height:1.24 !important; padding-top:0.06in; }
-
-/* a quiet inset box - used for "the experiment that settles it" */
-.inset{
-  background:var(--plane); border-radius:0.08in;
-  padding:0.11in 0.15in 0.04in 0.15in; margin:0.04in 0 0.08in 0;
-}
-.inset p, .inset li{ font-size:19.5pt !important; line-height:1.26 !important; }
-.inset .h{ font-weight:600; color:var(--ink); }
-
-/* ================================================================ 4. THE FOOTER */
-.footer{ display:flex; gap:0.28in; flex:1 1 auto; min-height:0; }
-.footer .panel{ flex:1 1 0; padding:0.15in 0.22in 0.10in 0.22in; }
-.footer h3{ font-size:23pt; font-weight:700; margin:0 0 0.06in 0; }
-.footer p, .footer li{ font-size:18pt !important; line-height:1.25 !important;
-                       margin-bottom:0.05in; }
-.footer ul{ padding-left:0.24in; margin-bottom:0; }
-.footer li{ margin-bottom:0.035in; }
+  /* ---- FOOTER -------------------------------------------------------- */
+  .foot{ display:grid; grid-template-columns: 1.15fr 1fr 1fr; gap:.45in;
+         border-top:1px solid var(--line); margin-top:auto; padding-top:.2in; }
+  .foot h3{ font-size:17px; font-weight:700; margin:0 0 .07in 0; }
+  .foot p, .foot li{ font-size:13.5px; line-height:1.48; color:var(--mid); margin:0; }
+  .foot ul{ margin:0; padding-left:.17in; }
+  .foot li{ margin-bottom:.035in; }
+  .repo{ font-weight:650; color:var(--ink); }
 </style>
 </head>
 <body>
-<div class="poster">
 
-<!-- ============================================================================
-     THE HEADER: the title, the one-sentence claim, the authors, the team
-     photograph, and the conditions this was built in.
-     EDIT: the title, the sentence under it, the names and the affiliations.
-     ============================================================================ -->
-<div class="header">
-
-  <div class="titleblock">
-    <p class="eyebrow">Instrument development &middot; scanning probe microscopy</p>
-    <h1>We built a scanning tunnelling<br>microscope in a basement</h1>
-    <p class="subtitle"><b>Every subsystem a tunnelling microscope needs is built, working and
-      calibrated.</b> The amplifier resolves picoamps, the chain agrees with theory to 0.13 of a
-      standard error, and a real junction responds to voltage and to height. <b>What is left is
-      mechanical &mdash; and we measured it rather than guessing.</b></p>
-    <p class="authors">Jacob Katz <span>&mdash; University of California San Diego</span>
-      &nbsp;&nbsp;&middot;&nbsp;&nbsp; Nuh Shaheer <span>&mdash; Worcester Polytechnic Institute</span></p>
-    <p class="meta">Self-directed work: no faculty advisor, no grant, no laboratory. First
-      power-on 29 August 2026, last bench session 19 September 2026. 27 session logs, 160+ raw data
-      files, 92 photographs of our own hardware and every analysis script are in the repository
-      &mdash; including the results we withdrew.</p>
+<!-- ============================ HERO ============================ -->
+<div class="hero">
+  <div>
+    <div class="eyebrow">Instrument development &middot; Scanning probe microscopy</div>
+    <h1>We built a scanning<br>tunnelling microscope<br>in a basement</h1>
+    <div class="byline">Jacob Katz <span>&mdash; University of California San Diego</span><br>
+      Nuh Shaheer <span>&mdash; Worcester Polytechnic Institute</span></div>
+    <div class="provenance">Self-directed. No faculty advisor, no grant, no laboratory. First
+      power-on 29 August 2026; last bench session 19 September 2026. 27 session logs, 163 raw data
+      files, 92 photographs of our own hardware and every analysis script are public &mdash;
+      including the results we later withdrew.</div>
   </div>
-
-  <!-- EDIT: the team photograph and its caption. Publication of this frame was
-       permitted by Jacob on 2026-09-19, and that permission covers the poster. -->
-  <div class="teamshot">
-    <img src="assets/14_poster_team_at_bench.jpg"
-         alt="Nuh Shaheer and Jacob Katz at the bench, the instrument behind them">
-    <p class="cap"><b>The team, at the bench</b>, the instrument behind them. Nuh Shaheer left,
-      Jacob Katz right &mdash; identification <b>SAID</b> by Jacob, 2026-09-19, who also permitted
-      this frame to be published. IMG_8633, 2026-09-19 09:38:09.</p>
+  <div>
+    <img class="heroimg" src="assets/13_poster_module_portrait.jpg" alt="Jacob holding the complete scanning module">
+    <div class="herocap"><b>The whole instrument, in two hands.</b> The copper box is the amplifier,
+      mounted as close to the tip as it physically fits; the black cylinders are the eddy-current
+      damping magnets. Jacob Katz &mdash; identification and permission to publish <b>SAID</b> by
+      Jacob, 2026-09-19. IMG_4919.</div>
   </div>
-
-  <!-- EDIT: the conditions. Every line here is what Jacob said on 2026-09-19.
-       It belongs at the top: it is the measure of the achievement, not an excuse. -->
-  <div class="conditions">
-    <h2>Two first-year students. A basement. Our first soldering.</h2>
-    <p><b>Neither of us writes code, and neither of us had much electronics experience &mdash; this
-      project was the first real soldering either of us has done.</b> It was built and run in the
-      basement of a house people live in, with people moving around and no control over the air or
-      the temperature: a wooden bench on a concrete floor, a few metres from the breaker panel.
-      <b>Not a lab. Not a clean room.</b> <i>(Stated by Jacob Katz, 2026-09-19.)</i></p>
-    <p class="why"><b>This is not a disclaimer. It is the result.</b> A tunnelling microscope is
-      normally a clean-room instrument &mdash; commercial ones sit on air tables in
-      temperature-controlled labs &mdash; and <b>the blocker we found and measured is exactly the
-      class of problem those rooms exist to remove.</b> Stated up front, our limitation becomes a
-      measurement of what this environment costs you.</p>
+  <div>
+    <p class="deck" style="margin-bottom:.16in">Every subsystem a tunnelling microscope needs is
+      <b>built, working and calibrated</b>. The amplifier resolves picoamps, the chain agrees with
+      theory to <b>0.13 of a standard error</b>, and a real junction responds to voltage and to
+      height.</p>
+    <div class="ctx">
+      <h4>Two first-year students. A basement. Our first soldering.</h4>
+      <p>Neither of us writes code, and neither had much electronics experience &mdash; <b>this
+        project was the first real soldering either of us has done.</b> It was built and run in the
+        basement of a house people live in, with people moving around and no control over the air or
+        the temperature. A wooden bench on a concrete floor, a few metres from the breaker panel.
+        <b>Not a lab. Not a clean room.</b></p>
+      <p><b>This is not a disclaimer. It is the result.</b> A tunnelling microscope is normally a
+        clean-room instrument &mdash; and the blocker we found and measured is exactly the class of
+        problem those rooms exist to remove. Stated up front, our limitation becomes a measurement of
+        what this environment costs you.</p>
+      <p class="src">Conditions stated by Jacob Katz, 2026-09-19.</p>
+    </div>
   </div>
 </div>
 
-<!-- ============================================================================
-     THE NUMBERS. Six results, each with the date it was measured.
-     EDIT: any number here. Every one is also in docs/FACTS.md with its provenance
-     - change it THERE first, then here, then re-render.
-     ============================================================================ -->
-<div class="tiles">
-  <div class="tile">
+<!-- ========================= BIG NUMBERS ========================= -->
+<div class="numbers">
+  <div class="num">
     <div class="v">0.13&thinsp;&sigma;</div>
-    <div class="k">how far the whole measurement chain lands from what Ohm&rsquo;s law predicted
-      before the run</div>
-    <div class="src">MEASURED 2026-09-16 &middot; panel 2</div>
+    <div class="k">The chain agrees with theory</div>
+    <div class="d">Measured gain against what Ohm's law required, worked out before the run.
+      53 readings. MEASURED 2026-09-16</div>
   </div>
-  <div class="tile">
+  <div class="num">
     <div class="v">4 pA</div>
-    <div class="k">the amplifier&rsquo;s own input current, against the ~1&nbsp;nA it has to find
-      &mdash; 250 times smaller</div>
-    <div class="src">MEASURED 2026-09-15</div>
+    <div class="k">Amplifier's own input current</div>
+    <div class="d">Against the ~1 nA it has to find &mdash; 250 times smaller.
+      MEASURED 2026-09-15</div>
   </div>
-  <div class="tile">
+  <div class="num">
     <div class="v">16&ndash;59 M&Omega;</div>
-    <div class="k">resistance of a real tip-and-sample junction across our
-      current&ndash;voltage sweep</div>
-    <div class="src">MEASURED 2026-09-17 &middot; panel 3</div>
+    <div class="k">A real junction, made and swept</div>
+    <div class="d">Resistance falls as the voltage rises &mdash; not a short, not an open.
+      MEASURED 2026-09-17</div>
   </div>
-  <div class="tile">
-    <div class="v">131 &rarr; 132 pA</div>
-    <div class="k">spread of one reading with the room still, then with someone stamping two metres
-      away</div>
-    <div class="src">MEASURED 2026-09-19 &middot; tip clear</div>
+  <div class="num">
+    <div class="v">9&ndash;19</div>
+    <div class="k">Counts of noise with a junction live</div>
+    <div class="d">Our electronics are not what limits us, and we proved it with numbers.
+      MEASURED 2026-09-19</div>
   </div>
-  <div class="tile">
-    <div class="v">&ge;&thinsp;43,000</div>
-    <div class="k">Z counts the gap moved in 6.4 seconds, motor stopped, nobody touching it.
-      <b>The blocker</b></div>
-    <div class="src">MEASURED 2026-09-19 &middot; panel 5</div>
-  </div>
-  <div class="tile">
-    <div class="v">0 images</div>
-    <div class="k">51 recordings, 209 reproducibility tests, no demonstrable image &mdash; our own
-      controls are how we know</div>
-    <div class="src">2026-09-19 &middot; panel 6</div>
+  <div class="num">
+    <div class="v">8 weeks</div>
+    <div class="k">Design to a working junction</div>
+    <div class="d">Boards ordered, frame printed, firmware written, chain characterised one stage at
+      a time</div>
   </div>
 </div>
 
-<!-- ============================================================================
-     TOP ROW: 1 what we built, 2 it works end to end, 3 a real junction.
-     ============================================================================ -->
-<div class="row rowA">
+<!-- =========================== PANELS =========================== -->
+<div class="grid">
 
-  <!-- ------------------------------------------------------------- PANEL 1 -->
+  <!-- 1 -->
   <div class="panel">
-    <h2><span class="n">1</span>What we built</h2>
-    <p><b>There was no kit.</b> We designed, ordered, printed, assembled, wired and characterised a
-      complete scanning-probe measurement chain, and brought up every stage on its own before
-      trusting the next one.</p>
-    <p class="small">A Teensy&nbsp;4.1 drives four 16-bit converters over a 1&nbsp;MHz serial bus
-      and a 26-way ribbon &mdash; X, Y and the sample bias at &plusmn;3&nbsp;V, Z at
-      &plusmn;10&nbsp;V &mdash; moving a piezoelectric disc that carries the tip. Tip current goes
-      into an OPA627 transimpedance amplifier with a 100&nbsp;M&Omega; feedback resistor, in a
-      hand-folded copper box as close to the tip as it physically fits, and is read back by a
-      16-bit LTC2326-16. Coarse approach is a 28BYJ-48 stepper on a lever. Frame, head and
-      isolation stack are 3D-printed, and the platform hangs on three springs over an eddy-current
-      damping stack. Control and analysis is Python on a laptop over USB.</p>
-    <div class="photorow">
-      <div class="tall">
-        <img src="assets/04_instrument_full_height.jpg" alt="The assembled instrument">
-        <p class="cap"><b>The instrument, on the morning it came apart to be moved.</b> Printed
-          frame; springs down to the suspended platform; the copper-taped scan head on a
-          copper-covered base plate; paper coin wrappers as added mass. IMG_8647, 2026-09-19
-          09:41:02. <b>READ</b>, except the coin mass, which is <b>SAID</b> by Jacob.</p>
-      </div>
-      <div class="wide">
-        <img src="assets/15_workshop_room.jpg" alt="The basement room where the work was done">
-        <p class="cap"><b>Where the work happened.</b> A wooden bench on a concrete basement
-          floor, a few metres from an electrical panel and a generator transfer switch. IMG_8631,
-          2026-09-19 09:35:33. <b>READ</b> &mdash; context for the vibration problem, not a
-          measurement of it.</p>
-      </div>
+    <div class="pnum">01</div>
+    <h2>We built the whole thing</h2>
+    <p class="lede">There was no kit. We designed it, ordered the boards, printed the frame, wrote
+      the firmware, and brought up every stage on its own before trusting the next one.</p>
+    <div class="photos">
+      <img src="assets/04_instrument_full_height.jpg" alt="The assembled instrument on its suspension">
+      <img src="assets/15_workshop_room.jpg" alt="The basement bench where the work happened">
     </div>
-    <div class="spacer"></div>
-    <p class="cap"><b>What is ours and what is not.</b> Mechanics, controller and firmware follow
-      Mech Panda&rsquo;s <i>red-panda-stm</i>; the scan head and preamplifier follow Dan
-      Berard&rsquo;s home-built STM. <b>Ours is the electronics bring-up, the software, the
-      calibration, the controls and the fault isolation on the rest of this poster.</b></p>
+    <figcaption><b>Left:</b> the instrument on the morning it came apart to be moved. Printed frame;
+      springs down to the suspended platform; copper-taped scan head on a copper ground plane.
+      <b>Right:</b> where it happened &mdash; a wooden bench on a concrete basement floor, a few
+      metres from an electrical panel. <b>READ</b>, 2026-09-19.</figcaption>
+    <p class="body" style="margin-top:.1in">A Teensy 4.1 drives four 16-bit converters over a 1 MHz
+      bus and a 26-way ribbon &mdash; X, Y and sample bias at &plusmn;3 V, Z at &plusmn;10 V &mdash;
+      moving a piezoelectric disc that carries a cut tungsten tip. The tip current goes into an
+      OPA627 transimpedance amplifier with a 100 M&Omega; feedback resistor, in a hand-folded copper
+      box, and is read back by a 16-bit LTC2326-16. Coarse approach is a 28BYJ-48 stepper on a lever.
+      <b>Mechanics, controller and firmware follow Mech Panda's <i>red-panda-stm</i>; the scan head
+      and preamplifier follow Dan Berard's home-built STM.</b> The electronics bring-up, the
+      software, the calibration and the controls are ours.</p>
   </div>
 
-  <!-- ------------------------------------------------------------- PANEL 2 -->
+  <!-- 2 -->
   <div class="panel">
-    <h2><span class="n">2</span>The chain works end to end</h2>
-    <p class="lead">We took the tip and the sample out and clipped a <b>known
-      100&nbsp;M&Omega;&nbsp;resistor</b> where the junction would be, then swept the bias across
-      it. That makes the current something Ohm&rsquo;s law fixes <b>before the run</b> &mdash; so
-      the instrument is checked against a number it had no part in choosing.</p>
-    <!-- EDIT: to make this picture bigger or smaller, change the width below. -->
-    <img class="fig" style="width:11.1in"
-         src="assets/fig01_calibration.png"
-         alt="Measured converter counts against bias voltage, lying on the line Ohm's law predicts">
-    <div class="spacer"></div>
-    <p class="cap"><b>Figure 1.</b> Measured <b>&minus;3,204.8&nbsp;&plusmn;&nbsp;36.5 counts per
-      volt</b> against <b>&minus;3,200 predicted</b> &mdash; agreement to <b>0.13 of one standard
-      error</b>, R&sup2;&nbsp;=&nbsp;0.9934, 53 readings at 8 bias settings. Twelve stages had to
-      be right at once for those points to land on that line, from the bias converter through the
-      wire and the tip holder to the firmware and the PC tools. Source:
-      sessions/2026-09-16-bench.md &sect;3.4, measured 2026-09-16; re-fitted twice from the raw
-      readings for this poster. <span class="no">What it does not show:</span> the slope is the
-      ratio of two nominally 100&nbsp;M&Omega; resistors <b>whose tolerances were never
-      recorded</b>, so it confirms the scale to within those tolerances rather than independently
-      of them; and 53 readings are repeats at 8 settings, <b>not 53 independent observations</b>.</p>
+    <div class="pnum">02</div>
+    <h2>The measurement chain agrees with theory</h2>
+    <p class="lede">We took the tip and sample out and clipped a <b>known 100 M&Omega; resistor</b>
+      where the junction would be. That makes the current something Ohm's law fixes <b>before the
+      run</b> &mdash; so the instrument is checked against a number it had no part in choosing.</p>
+    <figure>
+      <img src="assets/fig01_calibration.png" alt="Measured counts per volt against the line Ohm's law requires">
+      <figcaption><b>Measured &minus;3,204.8 &plusmn; 36.5 counts per volt against &minus;3,200
+        predicted</b> &mdash; agreement to 0.13 of one standard error, R&sup2; = 0.9934 over 53
+        readings. Twelve stages had to be right at once for those points to land on that line.
+        Source: sessions/2026-09-16-bench.md &sect;3.4. <b>What it does not show:</b> the slope is
+        the ratio of two nominally 100 M&Omega; resistors whose tolerances were never recorded; and
+        the 53 readings are repeats at 8 settings, not 53 independent observations.</figcaption>
+    </figure>
+    <div class="call"><span class="t">This is the number everything else rests on</span>
+      It fixes the conversion &mdash; 320.5 counts per nanoamp &mdash; and it settles the sign, which
+      matters because a current that drove the reading the unexpected way would send an automatic
+      approach straight into the sample.</div>
   </div>
 
-  <!-- ------------------------------------------------------------- PANEL 3 -->
+  <!-- 3 -->
   <div class="panel">
-    <h2><span class="n">3</span>A real junction, with the shape a barrier requires</h2>
-    <p class="lead">Getting a current is easy &mdash; push the tip into the sample and there is
-      plenty. The hard part is showing you have a <b>barrier</b>: two conductors with something in
-      between that the electrons have to cross.</p>
-    <img class="fig" style="width:10.7in"
-         src="assets/fig02_iv_curve.png"
-         alt="Current against voltage for the junction, and its falling resistance">
-    <p class="cap"><b>Figure 2.</b> Current rose from 0.85&nbsp;nA at 0.05&nbsp;V to
-      <b>31.7&nbsp;nA at 0.5&nbsp;V &mdash; 3.7 times faster than Ohm&rsquo;s law</b>, fitting
-      <b>V<sup>1.55</sup></b>, with the junction resistance falling from 59 to 16&nbsp;M&Omega;.
-      Eight rounds with the polarities interleaved, so drift could not manufacture a slope;
-      symmetric both ways to about 10%; confirmed by a bias-flip test on two separate nights, and
-      noise does not reverse with the voltage. <b>That rules out a metallic short, which would be
-      ohmic, and an open circuit, which would give nothing.</b> Source:
-      sessions/2026-09-17-bench.md &sect;3.15, 2026-09-17. <span class="no">Not the same claim as a
-      vacuum tunnelling gap:</span> a contaminant film or a thin oxide is superlinear too. The
-      later, different verdict its own note calls <i>figure 5</i> is <b>Figure 3, in panel 4</b>.</p>
-    <div class="spacer"></div>
-    <p class="small"><b>And the electronics are not what limits us &mdash; established with numbers
-      rather than opinion.</b> With no junction the chain is flat white noise, 8 to 14 counts from
-      2&nbsp;Hz to 1.2&nbsp;kHz; leakage through the tip lead is under 0.06&nbsp;nA across
-      &plusmn;2&nbsp;V, more than 8&nbsp;G&Omega;; and someone stamping two metres away moves one
-      reading&rsquo;s spread from 131 to 132&nbsp;pA. <b>The building is not getting in
-      electrically.</b> MEASURED 2026-09-17 and 2026-09-19, tip clear.</p>
+    <div class="pnum">03</div>
+    <h2>A real junction, with a barrier's signature</h2>
+    <p class="lede">Getting a current is easy &mdash; push the tip in and there is plenty. The hard
+      part is showing you have a <b>barrier</b>: two conductors with something in between that
+      electrons have to cross.</p>
+    <figure>
+      <img src="assets/fig02_iv_curve.png" alt="Current against voltage, rising faster than Ohm's law">
+      <figcaption>Current rose from 0.85 nA at 0.05 V to <b>31.7 nA at 0.5 V &mdash; 3.7 times
+        faster than Ohm's law</b>, fitting V<sup>1.55</sup>, with the junction resistance falling
+        from 59 to 16 M&Omega;. Eight rounds with the polarities interleaved, so drift could not
+        manufacture a slope; symmetric both ways to about 10%; confirmed by a bias-flip test on two
+        separate nights. <b>That rules out a metallic short, which would be ohmic, and an open
+        circuit, which would give nothing.</b> Source: sessions/2026-09-17-bench.md &sect;3.15.</figcaption>
+    </figure>
+    <div class="call"><span class="t">And the electronics are not the limit</span>
+      With a junction live the noise floor is <b>9&ndash;19 counts</b>; leakage through the tip lead
+      is under 0.06 nA across &plusmn;2 V, more than 8 G&Omega;; and someone stamping on the floor
+      two metres away moves one reading's spread from 131 to 132 pA. <b>The building is not getting
+      in electrically.</b></div>
   </div>
+
+  <!-- 4 -->
+  <div class="panel">
+    <div class="pnum">04</div>
+    <h2>We found the limit, and measured it</h2>
+    <p class="lede">To take an image the gap has to hold still while the tip sweeps. We stopped the
+      motor, took our hands off the instrument, and watched where the surface went.</p>
+    <figure>
+      <img src="assets/fig03_gap_motion.png" alt="The surface moving by most of the Z range in seconds">
+      <figcaption><b>The surface moved by more than 43,000 Z counts within 6.4 seconds</b>, and by
+        more than 56,000 within two minutes &mdash; most of the piezo's whole range &mdash; and went
+        out of reach altogether for 105 seconds. Source:
+        sessions/data/2026-09-19-morning/release_watch_run1.log. <b>The fair question:</b> the fast
+        excursion begins 0.1 s after a motor retract ended, so relaxation cannot be excluded for that
+        one event &mdash; but the motion reverses and overshoots its own starting point, which
+        relaxation does not do, and the two-minute figure is measured long after any transient.</figcaption>
+    </figure>
+    <div class="call"><span class="t">Why that ends the imaging question, in one comparison</span>
+      Over the five seconds one image takes, the gap drifts <b>396 to 1,722 counts</b>. The
+      "structure" in every candidate image we have is <b>29 to 458 counts</b>. <b>The thing being
+      measured is smaller than the way the gap moves while it is being measured.</b> Knowing that,
+      precisely, is the result.</div>
+  </div>
+
+  <!-- 5 -->
+  <div class="panel">
+    <div class="pnum">05</div>
+    <h2>We built controls designed to kill our own results</h2>
+    <p class="lede">Every scan was run again with the sideways sweep switched off. An <b>X-held
+      control</b> has identical timing and identical loop behaviour, but the tip never travels across
+      the surface &mdash; so <b>it cannot contain surface structure at all, by construction.</b></p>
+    <figure>
+      <img src="assets/fig04_control.png" alt="Scans and their X-held controls, both sitting on zero">
+      <figcaption>Like for like over full images, our scans repeat at <b>+0.04</b> and their controls
+        at <b>+0.07</b>: indistinguishable, and neither differs from zero. That single test is what
+        settles the imaging question, and running it was the right call. Source:
+        sessions/data/2026-09-19-bench/cas9_*.csv.</figcaption>
+    </figure>
+    <div class="call"><span class="t">We audited ourselves, and published what we found</span>
+      At this pause point we re-derived our own published numbers from the raw files. <b>Two
+      statistics we had used to dismiss our own scans turned out to be computed across aborted
+      files</b>, and a reproducible feature we found most convincing turned out to be the feedback
+      loop recovering from a jump, not the sample. <b>Every conclusion survived. Two of the arguments
+      did not</b> &mdash; and both withdrawals are in the public record.</div>
+  </div>
+
+  <!-- 6 -->
+  <div class="panel">
+    <div class="pnum">06</div>
+    <h2>One junction is still undecided &mdash; and we know the measurement</h2>
+    <p class="lede">Our best junction, two nights earlier, changed ten-fold about <b>seven times
+      faster</b> than the contact we later measured: roughly 250 Z counts per decade.</p>
+    <figure>
+      <img src="assets/fig10_candidate.png" alt="The three-Y run that looked like a surface, with its repeat and control">
+      <figcaption>The one measurement that still looks like a surface. Six passes at each of three
+        places: passes at the same place agreed <b>+0.239</b> while different places disagreed
+        <b>&minus;0.135</b>. The repeat, minutes later, gave <b>+0.056</b> &mdash; and an X-held
+        control, which cannot contain a surface, scored p = 0.020 on the same statistic. Against 209
+        reproducibility tests the honest threshold is p &lt; 2.4&times;10<sup>&minus;4</sup>.
+        <b>Not an image, and not presented as one.</b></figcaption>
+    </figure>
+    <!-- ====================================================================
+         >>>>>>>>>>>>>>>>  JACOB: THIS BLOCK IS YOURS TO WRITE  <<<<<<<<<<<<<<<<
+         ====================================================================
+
+         Everything between the two "YOUR TEXT" markers below is a normal
+         paragraph. Delete it and type whatever you want the poster to say
+         about the tunnelling question. It is your poster and your call.
+
+         Keep the <span class="t">...</span> line as the bold heading.
+         Use <b>...</b> around anything you want in bold.
+
+         What I have put there is the version I can defend from the data:
+         tunnelling needs d near 26 um, you measured d under 0.5 mm, and that
+         is 19x wider than the threshold, so the question is open rather than
+         answered.
+
+         If you want it to say you achieved tunnelling, write that here in
+         your own words. I have not written it for you because your own
+         measurement does not support it, and because Nuh's name and WPI are
+         on this poster too. But the sentence is yours to make.
+
+         THE NUMBERS, so you can use them accurately whichever way you go:
+           - tunnelling needs a ten-fold current change per 0.1 nm
+           - one motor step moves the screw 155 nm
+           - lever ratio = 40 mm / d,  tip travel per step = 155 nm / ratio
+           - d = 0.5 mm  -> 1.94 nm per decade -> 19x too slow
+           - d = 0.1 mm  -> 0.39 nm per decade -> 3.9x too slow
+           - d = 0.026 mm -> 0.10 nm per decade -> this is tunnelling
+           - the 2026-09-17 junction measured ~250 Z counts per decade
+           - the 2026-09-19 junction measured ~1,650-1,970 (a pressed contact)
+         ==================================================================== -->
+    <!-- ======================= YOUR TEXT STARTS ======================= -->
+    <div class="call"><span class="t">What decides it is one distance we could not resolve</span>
+      Whether that junction was tunnelling turns on <b>d</b>, how far the tip stands from the line
+      through the two ball supports, which sets the lever ratio between motor and tip. <b>Tunnelling
+      needs d near 26 &micro;m &mdash; a third of a hair.</b> Measured 2026-09-20: <b>d is under
+      0.5 mm</b>, which is as fine as the eye and a straightedge can resolve, and still 19 times
+      wider than the threshold. <b>A microscope or an optical comparator closes this in minutes</b>,
+      and it would settle our best junction retroactively.</div>
+    <!-- ======================== YOUR TEXT ENDS ======================== -->
+  </div>
+
 </div>
 
-<!-- ============================================================================
-     BOTTOM ROW: 4 what the junction is, 5 the blocker, 6 the controls and the
-     one open candidate.
-     ============================================================================ -->
-<div class="row rowB">
-
-  <!-- ------------------------------------------------------------- PANEL 4
-       THE TUNNELLING PANEL. Read the two rules at the top of this file before
-       changing a word of it. The honest position is that our best junction's
-       tunnelling status is UNDECIDED, and one ruler measurement settles it. -->
-  <div class="panel">
-    <h2><span class="n">4</span>What the junction is &mdash; and the ruler that settles it</h2>
-    <p class="lead">What separates a tunnelling gap from a contact is <b>how fast the current
-      changes as the tip moves</b>. We ran it: 110 cycles in and out, at four bias voltages.</p>
-    <img class="fig" style="width:11.9in"
-         src="assets/fig05_ztest.png"
-         alt="Current against Z for 110 cycles at four biases, against what tunnelling would need">
-    <p class="cap"><b>Figure 3.</b> On <b>the 2026-09-19 junction</b> the current changed ten-fold
-      per <b>1,650 to 1,970 Z counts</b> going in, where a tunnelling gap on the inherited Z scale
-      would need about <b>6 to 13</b> &mdash; and <b>every run showed 705 to 1,868 counts of
-      in-and-out hysteresis</b>, a mechanical signature that depends on no distance scale and did
-      not shrink when we cut the bias fivefold. <b>That junction was a pressed contact: measured,
-      and not in doubt.</b> Source: sessions/data/2026-09-19-morning/, 12:56&ndash;13:05&nbsp;UTC.
-      <span class="no">What it does not show:</span> the 6&ndash;13 figure is calculated from a Z
-      scale borrowed from another builder&rsquo;s scanner. The hysteresis does not depend on it.</p>
-    <div class="spacer"></div>
-    <div class="inset">
-      <p><span class="h">Our best junction&rsquo;s status is still undecided &mdash; on one
-        unmeasured distance.</span> The junction in panel 3 is <b>a different tip and a different
-        sample</b>, two nights earlier, and its current changed ten-fold about <b>seven times
-        faster</b>: roughly 250 Z counts per decade. Whether that was tunnelling turns on <b>d</b>,
-        how far the tip stands from the line through the two ball supports, which sets the lever
-        ratio between motor and tip. <b>Below about 0.13&nbsp;mm it was tunnelling; at 1&nbsp;mm it
-        was resting on something &mdash; and d has never been measured.</b> Jacob&rsquo;s estimate
-        is &ldquo;between 1&nbsp;mm and 0&nbsp;mm&rdquo;: the threshold sits inside the range.</p>
-      <p><span class="h">The experiment: plate off, lay a straightedge across the two ball ends,
-        and see which side the tip stands on and by how much.</span> <b>No power, no electronics, a
-        few minutes &mdash; and it settles our best junction retroactively.</b></p>
-    </div>
-  </div>
-
-  <!-- ------------------------------------------------------------- PANEL 5 -->
-  <div class="panel">
-    <h2><span class="n">5</span>We found what stops us, and measured it</h2>
-    <p class="lead">To take an image, the gap has to hold still while the tip is swept. We stopped
-      the motor, took our hands off the instrument, and watched where the surface was.</p>
-    <img class="fig" style="width:9.5in"
-         src="assets/fig03_gap_motion.png"
-         alt="The contact point moving by tens of thousands of Z counts within seconds">
-    <p class="cap"><b>Figure 4.</b> The surface moved <b>by more than 43,000 Z counts within 6.4
-      seconds</b> and <b>by more than 56,000 within two minutes</b> &mdash; most of the
-      piezo&rsquo;s whole range &mdash; and went out of reach altogether for 105 seconds. Source:
-      sessions/data/2026-09-19-morning/release_watch_run1.log, 2026-09-19
-      12:54&ndash;12:56&nbsp;UTC. <span class="no">The fair question:</span> the fast excursion
-      begins 0.1&nbsp;s after a 60-step motor retract ended, so relaxation after that move cannot
-      be excluded for that one event &mdash; but the motion reverses and overshoots its own
-      starting point, which relaxation does not do, and the two-minute figure is measured long
-      after any transient.</p>
-    <div class="spacer"></div>
-    <p class="small"><b>Why that ends the imaging question, in one comparison.</b> Over the five
-      seconds one image takes, the gap drifts <b>396 to 1,722 counts</b>; the
-      &ldquo;structure&rdquo; in every candidate image we have is <b>29 to 458 counts</b>. <b>The
-      thing being measured is smaller than the way the gap moves while it is being measured.</b>
-      <b>Five candidate causes, none yet tested:</b> the leaf on its backing paper; the plate on
-      its rubber bands and three balls; thermal motion; air currents; relaxation after a motor
-      move. <b>A cardboard box over the instrument is the free first test.</b></p>
-  </div>
-
-  <!-- ------------------------------------------------------------- PANEL 6 -->
-  <div class="panel">
-    <h2><span class="n">6</span>How we tested ourselves &mdash; and the open question</h2>
-    <p class="lead">Every scan was re-run with the sideways sweep switched off. An <b>X-held
-      control</b> has identical timing and identical loop behaviour, but the tip never travels
-      across the surface &mdash; <b>so it cannot contain surface structure at all, by
-      construction.</b> Like for like over full images, our scans repeat at <b>+0.04</b> and their
-      controls at <b>+0.07</b>: indistinguishable, and neither differs from zero.</p>
-    <img class="fig" style="width:11.8in"
-         src="assets/fig10_candidate.png"
-         alt="The three-Y run that looked like a surface, its repeat, and its X-held control">
-    <p class="cap"><b>Figure 5.</b> One measurement resists that. At three places
-      12,000&nbsp;Y counts apart, passes at the same place agreed <b>+0.239</b> while passes at
-      different places disagreed <b>&minus;0.135</b> &mdash; a difference of <b>+0.374</b>,
-      permutation <b>p&nbsp;=&nbsp;0.0036</b>. <b>The repeat, minutes later, gave +0.056</b>
-      (p&nbsp;=&nbsp;0.26), and <b>an X-held control, which cannot contain a surface, scored
-      p&nbsp;=&nbsp;0.020 on the same statistic</b> &mdash; this instrument&rsquo;s own
-      false-positive rate. Across 209 reproducibility tests the honest threshold is
-      p&nbsp;&lt;&nbsp;2.4&nbsp;&times;&nbsp;10<sup>&minus;4</sup>, fixed before the candidates were
-      judged. Source: sessions/data/2026-09-19-bench/ycontrol_run2, _run3, _run4.
-      <span class="no">Not an image, and not presented as one.</span></p>
-    <div class="spacer"></div>
-    <div class="inset">
-      <p><span class="h">What keeps it open, and the experiment that closes it.</span> The
-        instrument&rsquo;s own logs show the gap was <b>steady</b> across these runs &mdash; the
-        onset moved 2,200 counts, about 3% of the Z range &mdash; so &ldquo;the surface moved
-        out from under it&rdquo; is not the explanation, and non-reproduction is better supported. <b>But nothing in this project has ever measured how far the tip drifts
-        sideways</b>, and that is the one ground it stays open on. <b>The answer: three runs with
-        an X-held control interleaved between them, judged by a rule fixed in advance &mdash; real
-        only if all three beat all the controls.</b></p>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================================
-     THE FOOTER: what we do not claim, what happens next, and who we owe.
-     EDIT: all of it. The left-hand box is the one to leave hardest alone - it is
-     what makes the rest of the poster defensible.
-     ============================================================================ -->
-<div class="footer">
-
-  <div class="panel">
-    <h3>What we do not claim</h3>
-    <ul>
-      <li><b>No image.</b> Fifty-one recordings, none of them a demonstrable image of the sample
-        &mdash; and our own controls are how we know.</li>
-      <li><b>No demonstrated tunnelling.</b> We have a barrier junction; the 2026-09-19 one was a
-        pressed contact. Our best junction&rsquo;s status is <b>undecided</b>, and panel 4 names
-        the measurement that settles it.</li>
-      <li><b>No atomic resolution, and no scale bar anywhere</b> &mdash; every axis is in
-        converter counts, because this instrument has never established a distance scale of its
-        own. <b>No number is read off a photograph:</b> captions are marked <b>SAID</b> or
-        <b>READ</b>.</li>
-    </ul>
-  </div>
-
-  <div class="panel">
+<!-- =========================== FOOTER =========================== -->
+<div class="foot">
+  <div>
     <h3>Where it goes next</h3>
     <ul>
-      <li><b>Measure d with a straightedge</b> &mdash; no power, minutes, and it settles
-        retroactively whether our best junction was tunnelling.</li>
-      <li><b>Prove the gap holds still before scanning anything:</b> a box over the instrument,
-        a 15-minute recording, a gate of 200 counts over sixty seconds.</li>
-      <li><b>A stiffer sample than gold leaf on paper, and a sharper tip.</b></li>
-      <li><b>Three free software fixes</b> that remove the artefact behind our most convincing
-        false positive: drop the first three pixels of each pass, sweep X both ways between passes,
-        never compare two images of different length.</li>
+      <li><b>Measure d properly</b> &mdash; a microscope or comparator, no power, and it settles our
+        best junction retroactively.</li>
+      <li><b>Prove the gap holds still before scanning anything</b> &mdash; a box over the
+        instrument, a 15-minute recording, a gate of 200 counts over sixty seconds.</li>
+      <li><b>A stiffer sample</b> than gold leaf on paper, and a sharper tip.</li>
+      <li><b>Three free software fixes</b> that remove the artefact behind our most convincing false
+        positive: drop the first three pixels of each pass, sweep X both ways between passes, never
+        compare two images of different length.</li>
     </ul>
   </div>
-
-  <div class="panel">
-    <h3>We owe these people &mdash; and we checked our own work</h3>
-    <p><b>Mech Panda</b> (<i>red-panda-stm</i>: mechanics, controller, firmware) and <b>Dan
-      Berard</b> (scan head, preamplifier) published their instruments for free. Without them
-      there would have been nothing to bring up.</p>
-    <p><b>At this pause point we re-derived our own published numbers from the raw files and found
-      six of them wrong</b> &mdash; two of them statistics we had used to dismiss our own results,
-      and one a reproducible feature that was the feedback loop recovering from a jump, not the
-      sample. <b>Every conclusion survived; two of the arguments did not.</b></p>
-    <!-- EDIT: check the repository is public before printing this line, or delete it. -->
-    <p class="cap">Everything, including the mistakes: <b>github.com/jacobbkatz/We-Are-STMING</b></p>
+  <div>
+    <h3>What we do not claim</h3>
+    <p><b>No image.</b> Fifty-one recordings, none of them a demonstrable image of the sample &mdash;
+      and our own controls are how we know. <b>No demonstrated tunnelling.</b> We have a barrier
+      junction; the 2026-09-19 one was a pressed contact, and our best junction's status is
+      undecided. <b>No atomic resolution and no scale bar anywhere</b> &mdash; every axis is in
+      converter counts, because this instrument has never established a distance scale of its own.
+      No number is read off a photograph: captions are marked SAID or READ.</p>
+  </div>
+  <div>
+    <h3>Acknowledgements and code</h3>
+    <p><b>Mech Panda</b> (<i>red-panda-stm</i>: mechanics, controller, firmware) and <b>Dan Berard</b>
+      (scan head, preamplifier) published their instruments for free. Without them there would have
+      been nothing to bring up.</p>
+    <p style="margin-top:.09in">Every session log, every raw file, every analysis script and every
+      withdrawn claim: <span class="repo">github.com/jacobbkatz/We-Are-STMING</span></p>
   </div>
 </div>
 
-</div><!-- /poster -->
 </body>
 </html>

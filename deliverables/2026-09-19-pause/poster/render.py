@@ -63,21 +63,38 @@ def main():
                                 device_scale_factor=1)
         page.goto("file://" + HTML)
         page.wait_for_load_state("networkidle")
-        # Wait for the fonts and every image, so nothing is rendered half-loaded.
-        page.evaluate("document.fonts.ready")
+
+        # Wait until the typeface AND every picture are really in place. Without
+        # this the page is sometimes measured and printed half-loaded, which comes
+        # out as missing pictures and text in the wrong font - it has happened.
+        page.wait_for_function("document.fonts.status === 'loaded'", timeout=60000)
         page.wait_for_function(
-            "Array.from(document.images).every(i => i.complete && i.naturalWidth > 0)")
-        page.wait_for_timeout(600)
+            "Array.from(document.images).every(i => i.complete && i.naturalWidth > 0)",
+            timeout=60000)
+        page.evaluate("""() => Promise.all(
+            Array.from(document.images).map(i => i.decode().catch(() => null)))""")
+        # Every picture must also have been given a size on the page, and the
+        # layout has to stop changing between two looks 400 ms apart.
+        last = None
+        for _ in range(12):
+            page.wait_for_timeout(400)
+            now = page.evaluate("""() => Array.from(document.images)
+                .map(i => Math.round(i.getBoundingClientRect().height)).join(',')""")
+            if now == last and "0" not in now.split(","):
+                break
+            last = now
+        else:
+            print("WARNING: the page never settled - check the preview carefully")
 
         # Report anything that did not fit, so a layout problem is caught here rather
         # than at the printer. A panel hides whatever will not fit inside it, which is
         # what stops one panel printing on top of the next - but it means a sentence
         # can be cut off in silence. This check finds that: every number should be 0.
         over = page.evaluate("""() => {
-            const p = document.querySelector('.poster');
+            const p = document.body;
             const out = {page: [p.scrollWidth - p.clientWidth, p.scrollHeight - p.clientHeight],
                          panels: []};
-            document.querySelectorAll('.panel, .conditions, .titleblock, .teamshot')
+            document.querySelectorAll('.panel, .hero, .numbers, .ctx, .call, .foot')
               .forEach(el => {
                 const over = el.scrollHeight - el.clientHeight;
                 if (over > 1) {
