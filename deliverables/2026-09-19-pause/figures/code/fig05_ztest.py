@@ -135,7 +135,7 @@ def main():
 
     S.set_theme("light")
     fig, (ax, axb) = S.plt.subplots(1, 2, figsize=(11.2, 6.6), width_ratios=[1.12, 1.0])
-    fig.subplots_adjust(top=0.755, bottom=0.265, left=0.070, right=0.985, wspace=0.30)
+    fig.subplots_adjust(top=0.755, bottom=0.292, left=0.070, right=0.985, wspace=0.30)
 
     c_in, c_out = S.series(0), S.series(1)
 

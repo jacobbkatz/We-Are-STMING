@@ -1,7 +1,7 @@
 <title>We Are STMing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,500;1,6..72,400&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Inter:wght@400;500;600&amp;display=swap">
 <style>
   :root{
     --ground:#FCFCFB; --raise:#FFFFFF;
@@ -83,12 +83,14 @@
 
   /* ---------- figures ---------- */
   figure{ margin:clamp(26px,4vw,44px) 0; }
-  figure a{ display:block; }
+  figure > a{ display:block; }
   figure img{ width:100%; height:auto; display:block; border:1px solid var(--line); border-radius:2px; }
   figcaption{ font-size:var(--s1); line-height:1.55; color:var(--muted); margin-top:.75em; max-width:44em; }
   figcaption b{ color:var(--ink2); font-weight:600; }
   .photo img{ border-radius:2px; }
-  .duo{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .duo{ display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; }
+  .duo .side{ display:flex; flex-direction:column; }
+  .duo .side .measure{ margin-top:1.6em; max-width:none; }
   @media (max-width:640px){ .duo{ grid-template-columns:1fr; } }
 
   /* ---------- measured values ---------- */
@@ -114,7 +116,13 @@
   @media (max-width:520px){ .item{ grid-template-columns:1fr; gap:.3em; } }
 
   /* ---------- signal chain diagram ---------- */
-  .chain{ margin-block:clamp(26px,4vw,40px); overflow-x:auto; }
+  .chain{ margin-block:clamp(26px,4vw,40px); }
+  .chain .scroller{ overflow-x:auto;
+    background:
+      linear-gradient(to right, var(--ground), rgba(252,252,251,0)) left / 26px 100% no-repeat local,
+      linear-gradient(to left,  var(--ground), rgba(252,252,251,0)) right / 26px 100% no-repeat local,
+      radial-gradient(farthest-side at 0 50%, rgba(22,25,27,.13), rgba(22,25,27,0)) left / 11px 100% no-repeat scroll,
+      radial-gradient(farthest-side at 100% 50%, rgba(22,25,27,.13), rgba(22,25,27,0)) right / 11px 100% no-repeat scroll; }
   .chain svg{ min-width:660px; width:100%; height:auto; display:block; color:var(--ink2); }
   .chain .bx{ fill:var(--raise); stroke:currentColor; stroke-width:1.1; }
   .chain .lbl{ fill:var(--ink); font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600; }
@@ -123,6 +131,7 @@
   .chain .ret{ stroke:var(--goldmark); stroke-width:1.6; fill:none; }
   .chain .alb{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:11px; text-anchor:middle; }
   .chain .rlb{ fill:var(--gold); font-family:'Inter',sans-serif; font-size:11px; text-anchor:middle; font-weight:600; }
+  .chain .re{ text-anchor:end; }
 
   /* ---------- deliverables ---------- */
   .group{ margin-top:2.3em; }
@@ -132,9 +141,83 @@
   .rows li span{ display:block; color:var(--muted); font-size:var(--s1); margin-top:.15em; }
   .grid13{ display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px; margin-top:1.6em; }
   .grid13 a{ text-decoration:none; display:block; }
-  .grid13 img{ width:100%; height:auto; display:block; border:1px solid var(--line); border-radius:2px; }
+  .grid13 img{ width:100%; height:auto; aspect-ratio:16/10; object-fit:contain; display:block;
+               background:var(--raise); border:1px solid var(--line); border-radius:2px; }
   .grid13 span{ display:block; font-size:var(--s1); color:var(--ink2); margin-top:.5em; line-height:1.45; }
   .grid13 a:hover img{ border-color:var(--goldmark); }
+
+
+  /* ---------- motion ----------
+     Everything is visible with no JavaScript and with reduced motion. The script
+     only hides things that are BELOW the fold at load, so the first frame a
+     reader (or a link preview) sees is always complete. */
+  .rv{ opacity:0; transform:translateY(14px); }
+  .rv-in{ opacity:1; transform:none;
+          transition:opacity .62s cubic-bezier(.22,.61,.36,1),
+                     transform .62s cubic-bezier(.22,.61,.36,1); }
+  @media (prefers-reduced-motion: reduce){
+    .rv,.rv-in{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .trace .tr{ animation:none !important; }
+  }
+  .photo img{ transition:transform 1.1s cubic-bezier(.22,.61,.36,1); will-change:transform; }
+  .photo{ overflow:hidden; border-radius:2px; }
+  .photo:hover img{ transform:scale(1.022); }
+  .grid13 img{ transition:transform .4s ease, border-color .2s ease; }
+  .grid13 a:hover img{ transform:translateY(-3px); }
+  /* One moment, once, when the diagram is reached: the command travels out hop by
+     hop, then the current it produced comes back along the gold path. That is what
+     the caption says happens, so the drawing says it too. */
+  .chain .ret{ stroke-dasharray:1; stroke-dashoffset:0; }
+  .chain.drawing .ret{ stroke-dashoffset:1; }
+  .chain.drawn .ret{ stroke-dashoffset:0;
+                     transition:stroke-dashoffset 1.5s cubic-bezier(.4,.5,.3,1) .62s; }
+  .chain .hop{ opacity:1; }
+  .chain.drawing .hop{ opacity:0; transform:translateX(-9px); }
+  .chain.drawn .hop{ opacity:1; transform:none;
+                     transition:opacity .34s ease-out, transform .34s cubic-bezier(.22,.61,.36,1); }
+  .chain.drawn .h2{ transition-delay:.17s; }
+  .chain.drawn .h3{ transition-delay:.34s; }
+  @media (prefers-reduced-motion: reduce){
+    .chain.drawing .ret,.chain.drawn .ret{ stroke-dashoffset:0 !important; transition:none !important; }
+    .chain.drawing .hop,.chain.drawn .hop{ opacity:1 !important; transform:none !important;
+                                           transition:none !important; }
+  }
+
+  /* how far through a long page the reader is */
+  .prog{ position:fixed; inset:0 auto auto 0; height:2px; width:0; z-index:9;
+         background:var(--goldmark); opacity:.85; pointer-events:none; }
+
+  /* ---------- contents ---------- */
+  .toc{ columns:2; column-gap:2.4em;
+        margin-block:clamp(30px,5vw,46px); border-top:1px solid var(--line); }
+  .toc a{ display:block; padding:.62em 0; border-bottom:1px solid var(--hair);
+          font-size:var(--s2); color:var(--ink2); text-decoration:none;
+          break-inside:avoid; }
+  .toc a:hover{ color:var(--gold); }
+  @media (max-width:640px){ .toc{ columns:1; } }
+
+  /* ---------- people ---------- */
+  .band{ margin-block:clamp(30px,5vw,50px); }
+  .band img{ width:100%; height:auto; display:block; }
+  .trio{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:720px){ .trio{ grid-template-columns:1fr; } }
+  .cap{ font-size:var(--s1); color:var(--muted); line-height:1.5; margin-top:.6em; }
+  .cap b{ color:var(--ink2); font-weight:600; }
+
+  /* ---------- the workflow tally ---------- */
+  .tally{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+          gap:0 1.6em; border-top:1px solid var(--line); margin-block:2em; }
+  .tally > div{ padding-block:1.05em 1.2em; border-bottom:1px solid var(--hair); }
+  .tally .t{ font-family:'Newsreader',Georgia,serif; font-size:var(--s5); line-height:1;
+             color:var(--ink); font-variant-numeric:tabular-nums; }
+  .tally .l{ font-size:var(--s1); color:var(--muted); margin-top:.35em; line-height:1.45; }
+
+  /* ---------- closing ---------- */
+  .close{ background:var(--goldwash); border-left:2px solid var(--goldmark);
+          padding:clamp(20px,3vw,30px) clamp(18px,3vw,30px); margin-block:clamp(40px,6vw,64px); }
+  .close h2{ margin-top:0; }
+  .close p{ max-width:36em; }
+  .close p:last-child{ margin-bottom:0; }
 
   footer{ border-top:1px solid var(--line); margin-top:clamp(56px,8vw,96px);
           padding-block:2.6em 3.4em; font-size:var(--s2); color:var(--ink2); }
@@ -162,12 +245,47 @@
   <p class="attrib">Neither of us had written code before, or really soldered. We are both first-year students. Everything below was measured on a wooden bench on a concrete floor, in a basement of a house where people were walking around.</p>
 </div>
 
-<section>
+<nav class="toc" aria-label="Contents">
+  <a href="#start">What we did not know when we started</a>
+  <a href="#instrument">What the instrument is</a>
+  <a href="#measured">What we measured</a>
+  <a href="#tunnelling">Did we detect tunnelling?</a>
+  <a href="#stopped">What stopped us</a>
+  <a href="#controls">How we knew when we were fooling ourselves</a>
+  <a href="#workflow">The second instrument</a>
+  <a href="#poster">The poster</a>
+  <a href="#figures">Every figure</a>
+  <a href="#writing">Everything we wrote</a>
+  <a href="#next">Where it goes next</a>
+</nav>
+
+<section id="start">
+  <figure class="photo band" data-rv><img src="img/team.jpg" width="1200" height="1600" alt="Nuh on the left and Jacob on the right, standing at the bench with the assembled instrument behind them." loading="lazy">
+    <p class="cap"><b>Nuh Shaheer, left. Jacob Katz, right.</b> The morning of the last bench session, before the instrument came apart to be moved.</p>
+  </figure>
+
+  <h2>What we did not know when we started</h2>
+  <p class="lede">Almost all of it. Neither of us had written a program. Neither of us had really soldered anything before this — it was the first time either of us had touched an iron for something that had to work.</p>
+  <p class="measure">So the first weeks were not measurement, they were learning what the parts were: what a transimpedance amplifier does, why the tip has to be sharp to a single atom, why a converter that reads a voltage cannot simply be pointed at a current. <strong>Eleven weeks of that before the first board was ordered</strong>, and eight weeks of building after it.</p>
+  <p class="measure">Some of it had to be made rather than bought. Tungsten tips are etched, not machined, so we built an etcher: a bench supply, sodium hydroxide, and a wire lowered into it, run outdoors in gloves because the chemistry is not gentle.</p>
+
+  <div class="trio" data-rv>
+    <figure class="photo" data-rv><img src="img/soldering.jpg" width="1200" height="1600" alt="Nuh soldering at the bench in early August, with parts laid out around him." loading="lazy">
+      <p class="cap"><b>Nuh, 1 August.</b> Early electronics, before anything was mounted. Neither of us had soldered before this.</p></figure>
+    <figure class="photo" data-rv><img src="img/etching.jpg" width="1200" height="1600" alt="The tip etching setup outdoors: a bench supply with leads into a beaker, a lab stand, flasks, and a bottle of sodium hydroxide." loading="lazy">
+      <p class="cap"><b>Jacob etching tips, 9 August.</b> A bench supply through sodium hydroxide, outdoors, in gloves. Tungsten tips are etched, not bought.</p></figure>
+    <figure class="photo" data-rv><img src="img/module.jpg" width="1200" height="1600" alt="Jacob holding the complete scanning module in two hands, the copper-taped preamplifier box visible in the middle." loading="lazy">
+      <p class="cap"><b>Jacob, holding the whole scanning module.</b> The copper box is the amplifier, mounted as close to the tip as it fits.</p></figure>
+  </div>
+</section>
+
+<section id="instrument">
   <h2>What the instrument is</h2>
   <p class="lede">A scanning tunnelling microscope reads a surface by measuring a current that flows between a sharp metal tip and the sample without the two ever touching. The current is about a billionth of an amp, and it changes tenfold for every tenth of a nanometre the gap changes.</p>
   <p class="measure">That sensitivity is the whole instrument and the whole problem. It is what lets an STM resolve single atoms, and it is why the gap has to be held still to a fraction of the width of one.</p>
-  <figure class="chain">
-<svg viewBox="0 0 860 300" role="img" aria-label="The signal chain: a typed command travels from the console through the Teensy and the controller board's converters to the piezo in the scan head; the tunnelling current returns through the preamplifier and the analogue-to-digital converter back to the Teensy.">
+  <figure class="chain" data-chain data-rv>
+<div class="scroller">
+<svg viewBox="0 0 860 228" role="img" aria-label="The signal chain: a typed command travels from the console through the Teensy and the controller board's converters to the piezo in the scan head; the tunnelling current returns through the preamplifier and the analogue-to-digital converter back to the Teensy.">
   <rect class="bx" x="8"   y="40" width="176" height="62" rx="2"/>
   <text class="lbl" x="96" y="66" text-anchor="middle">you type</text>
   <text class="sub" x="96" y="85" text-anchor="middle">DACZ 50000</text>
@@ -180,24 +298,30 @@
   <rect class="bx" x="668" y="40" width="176" height="62" rx="2"/>
   <text class="lbl" x="756" y="66" text-anchor="middle">scan head</text>
   <text class="sub" x="756" y="85" text-anchor="middle">piezo disc, tungsten tip</text>
-  <path class="arw" d="M184 71 H222" marker-end="url(#a)"/>
-  <text class="alb" x="203" y="32">USB</text>
-  <path class="arw" d="M404 71 H442" marker-end="url(#a)"/>
-  <text class="alb" x="423" y="32">26-way</text>
-  <text class="alb" x="423" y="46">ribbon</text>
-  <path class="arw" d="M624 71 H662" marker-end="url(#a)"/>
-  <text class="alb" x="643" y="32">DSUB1</text>
-  <path class="ret" d="M756 102 V150" marker-end="url(#g)"/>
-  <text class="rlb" x="756" y="127" dx="58">about one nanoamp</text>
+  <g class="hop h1">
+    <path class="arw" d="M184 71 H222" marker-end="url(#a)"/>
+    <text class="alb" x="203" y="32">USB</text>
+  </g>
+  <g class="hop h2">
+    <path class="arw" d="M404 71 H442" marker-end="url(#a)"/>
+    <text class="alb" x="423" y="32">26-way</text>
+    <text class="alb" x="423" y="46">ribbon</text>
+  </g>
+  <g class="hop h3">
+    <path class="arw" d="M624 71 H662" marker-end="url(#a)"/>
+    <text class="alb" x="643" y="32">DSUB1</text>
+  </g>
+  <path class="ret" pathLength="1" d="M756 102 V150" marker-end="url(#g)"/>
+  <text class="rlb re" x="744" y="131">about one nanoamp</text>
   <rect class="bx" x="668" y="150" width="176" height="62" rx="2"/>
   <text class="lbl" x="756" y="176" text-anchor="middle">preamplifier</text>
   <text class="sub" x="756" y="195" text-anchor="middle">OPA627, 100 megohm</text>
   <rect class="bx" x="448" y="150" width="176" height="62" rx="2"/>
   <text class="lbl" x="536" y="176" text-anchor="middle">converter</text>
   <text class="sub" x="536" y="195" text-anchor="middle">LTC2326-16</text>
-  <path class="ret" d="M662 181 H630" marker-end="url(#g)"/>
-  <text class="rlb" x="646" y="140">DSUB2</text>
-  <path class="ret" d="M442 181 H316 V108" marker-end="url(#g)"/>
+  <path class="ret" pathLength="1" d="M662 181 H630" marker-end="url(#g)"/>
+  <text class="rlb" x="646" y="204">DSUB2</text>
+  <path class="ret" pathLength="1" d="M442 181 H316 V108" marker-end="url(#g)"/>
   <text class="rlb" x="379" y="205">SPI at 1 MHz</text>
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -206,146 +330,162 @@
       <path d="M0 0 L10 5 L0 10 z" fill="var(--goldmark)"/></marker>
   </defs>
 </svg>
+</div>
 <figcaption>A typed command reaches the piezo in four hops. The current it produces comes back along the gold path, through an amplifier mounted as close to the tip as it physically fits. <b>The whole loop is what had to be proved before any of it could be trusted.</b></figcaption>
 </figure>
   <div class="duo">
-    <figure class="photo"><img src="img/instrument.jpg" alt="The assembled instrument on a wooden bench: a printed frame, three springs holding a suspended platform, and the scan head on a copper ground plane." loading="lazy"></figure>
-    <figure class="photo"><img src="img/room.jpg" alt="The basement room: concrete floor, wooden bench, an electrical panel on the wall and cardboard boxes stacked beside it." loading="lazy"></figure>
+    <figure class="photo" data-rv><img src="img/instrument.jpg" width="1285" height="1501" alt="The assembled instrument on a wooden bench: a printed frame, three springs holding a suspended platform, and the scan head on a copper ground plane." loading="lazy">
+      <p class="cap"><b>The whole instrument, about a foot tall.</b> The printed frame carries a platform on three springs; the scan head sits on top of it under copper tape. The cardboard tubes are paper coin wrappers, damping the springs.</p></figure>
+    <div class="side">
+      <figure class="photo" data-rv><img src="img/room.jpg" width="1500" height="1032" alt="The basement room: concrete floor, wooden bench, an electrical panel on the wall and cardboard boxes stacked beside it." loading="lazy">
+        <p class="cap"><b>Where the work happened.</b> A basement utility room, a few metres from a wall-mounted electrical panel and a standby-generator transfer switch. That is context for the noise problem, not a measurement of it.</p></figure>
+      <p class="measure" data-rv>We designed it, ordered the boards, printed the frame, wrote the firmware, and brought up every stage on its own before trusting the next. The mechanics, controller and firmware follow Mech Panda&rsquo;s open <em>red-panda-stm</em>; the scan head and preamplifier follow Dan Berard&rsquo;s home-built STM. The electronics bring-up, the software, the calibration and the controls are ours.</p>
+    </div>
   </div>
-  <p class="measure">We designed it, ordered the boards, printed the frame, wrote the firmware, and brought up every stage on its own before trusting the next. The mechanics, controller and firmware follow Mech Panda&rsquo;s open <em>red-panda-stm</em>; the scan head and preamplifier follow Dan Berard&rsquo;s home-built STM. The electronics bring-up, the software, the calibration and the controls are ours.</p>
 </section>
 
-<section>
+<section id="measured">
   <h2>What we measured</h2>
   <p class="lede">Before believing anything the instrument said about a surface, we made it measure something whose answer we already knew.</p>
 
   <div class="vals">
-    <div class="val"><div class="v">0.13&thinsp;&sigma;</div><div class="k">Agreement with theory</div>
+    <div class="val" data-rv><div class="v">0.13&thinsp;&sigma;</div><div class="k">Agreement with theory</div>
       <div class="d">Measured gain against what Ohm&rsquo;s law required, worked out before the run. 53 readings.</div></div>
-    <div class="val"><div class="v">4 pA</div><div class="k">The amplifier&rsquo;s own input current</div>
+    <div class="val" data-rv><div class="v">4 pA</div><div class="k">The amplifier&rsquo;s own input current</div>
       <div class="d">Against the nanoamp it has to find, which is 250 times larger.</div></div>
-    <div class="val"><div class="v">16&ndash;59 M&Omega;</div><div class="k">A junction, made and swept</div>
+    <div class="val" data-rv><div class="v">16&ndash;59 M&Omega;</div><div class="k">A junction, made and swept</div>
       <div class="d">Resistance falls as the voltage rises. Not a short circuit, not an open one.</div></div>
-    <div class="val"><div class="v">9&ndash;19</div><div class="k">Counts of noise, junction live</div>
+    <div class="val" data-rv><div class="v">9&ndash;19</div><div class="k">Counts of noise, junction live</div>
       <div class="d">Our electronics are not what limits us, and we have the number.</div></div>
   </div>
 
-  <figure>
-    <a href="img/fig01.jpg"><img src="img/fig01.jpg" alt="Measured converter reading against bias voltage across a known 100 megohm resistor, with the residuals below: 53 points sitting on the line Ohm's law requires." loading="lazy"></a>
+  <figure data-rv>
+    <a href="img/fig01.jpg"><img src="img/fig01.jpg" width="1500" height="1058" alt="Measured converter reading against bias voltage across a known 100 megohm resistor, with the residuals below: 53 points sitting on the line Ohm's law requires." loading="lazy"></a>
     <figcaption>We took the tip and sample out, clipped a known 100 megohm resistor where the junction goes, and swept it. The chain reported <b>&minus;3,204.8 &plusmn; 36.5 counts per volt</b> against the <b>&minus;3,200</b> Ohm&rsquo;s law requires, over 53 readings. <b>That is the number every other measurement on this page rests on.</b></figcaption>
   </figure>
 
-  <figure>
-    <a href="img/fig02.jpg"><img src="img/fig02.jpg" alt="Current against voltage for the tip-and-sample junction, climbing faster than the straight line of Ohm's law, with junction resistance falling from 59 to 16 megohms." loading="lazy"></a>
+  <figure data-rv>
+    <a href="img/fig02.jpg"><img src="img/fig02.jpg" width="1500" height="786" alt="Current against voltage for the tip-and-sample junction, climbing faster than the straight line of Ohm's law, with junction resistance falling from 59 to 16 megohms." loading="lazy"></a>
     <figcaption>Then a real tip-and-sample junction on gold. The current climbs far faster than the voltage does, which rules out a metallic short; it is symmetric in both bias directions, which rules out a one-way contact; and the resistance falls from <b>59 to 16 megohms</b> across a tenfold voltage range. <b>What that shape means is a barrier &mdash; two conductors with something in between that electrons have to cross.</b></figcaption>
   </figure>
 </section>
 
-<section>
+<section id="tunnelling">
   <h2>Did we detect tunnelling?</h2>
   <p class="lede">Yes. The argument is short, and every step of it is measured rather than assumed.</p>
   <p class="measure">A tip cannot travel from not-touching to touching without passing through the separations where quantum tunnelling is the only thing that carries electrons across. We had a voltage applied and the amplifier recording the entire way. <strong>Across 109 separate approaches we took 60,928 readings inside exactly that range.</strong></p>
   <p class="measure">The only way out of that argument would be a metal-to-metal bridge forming before the tip ever got close &mdash; and our own data closes it. The current climbs faster than the voltage, the junction never fell below about 5 megohms even with the amplifier saturated, and 109 of 110 approaches came on as a gradual ramp rather than the step a bridge would make.</p>
 
-  <figure>
-    <a href="img/fig13.jpg"><img src="img/fig13.jpg" alt="Left: how far one motor step moves the tip, against the width of the window where tunnelling is visible. Right: one measured approach crossing that window in 2,636 counts, beside the 10 to 22 counts a vacuum gap would take." loading="lazy"></a>
+  <figure data-rv>
+    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="698" alt="Left: how far one motor step moves the tip, against the width of the window where tunnelling is visible. Right: one measured approach crossing that window in 2,636 counts, beside the 10 to 22 counts a vacuum gap would take." loading="lazy"></a>
     <figcaption>Could we have blinked and missed it? Not on the piezo. There is a narrow shelf of gap width where a tunnelling current is large enough to see and small enough not to saturate the amplifier. <b>The coarse motor jumps clean over that shelf in a single step</b> &mdash; eleven times its whole width &mdash; but the piezo steps four counts at a time and reads 227 times a second, and <b>it spent 60,928 readings inside it</b>. <b>What we never did is hold it.</b> A gap would have crossed that shelf in 10 to 22 counts. The nearest we came was about 1,500.</figcaption>
   </figure>
 
   <p class="measure">So the honest sentence has two halves and only the second one fails. <strong>Electrons tunnelled, and our amplifier measured them.</strong> What we have not done is hold that gap open and steady enough to drag a tip across a surface and build a picture &mdash; and that is the thing an STM has to do.</p>
 </section>
 
-<section>
+<section id="stopped">
   <h2>What stopped us</h2>
   <p class="lede">Ranked by how much each one actually blocked an image, not by how much time went into it. None of the five is electronic.</p>
 
   <div class="rank">
-    <div class="item"><div class="n num">1</div><div>
+    <div class="item" data-rv><div class="n num">1</div><div>
       <h3>The gap will not hold still</h3>
       <p>With the motor stopped and nobody touching the instrument, the surface moves by <strong>more than 43,000 converter counts in 6.4 seconds</strong> &mdash; most of the piezo&rsquo;s entire range. An image needs it inside a few hundred counts for a minute. <strong>This is the blocker, and the motion is far too slow to be vibration</strong>, so a better suspension is the wrong fix.</p>
       <div class="fix"><b>Possible fix.</b> Put a box over it and record for fifteen minutes before touching anything. The cause is unknown among seven candidates, and the two cheapest to eliminate cost nothing to test: room air, and two unclamped cables running from the suspended platform to the fixed bench.</div>
     </div></div>
 
-    <div class="item"><div class="n num">2</div><div>
+    <div class="item" data-rv><div class="n num">2</div><div>
       <h3>The sample is soft</h3>
       <p>Gold leaf resting on its backing paper &mdash; fifty to a hundred micrometres of compressible cellulose directly under the surface we were trying to hold still to a fraction of a nanometre &mdash; with the plate held on by two twisted rubber bands. It moved when Jacob blew on it.</p>
       <div class="fix"><b>Possible fix.</b> Bond the gold to a rigid substrate with no paper under it, and clamp the plate mechanically instead of with rubber bands.</div>
     </div></div>
 
-    <div class="item"><div class="n num">3</div><div>
+    <div class="item" data-rv><div class="n num">3</div><div>
       <h3>Every tip was a placeholder</h3>
       <p>A tunnelling current should come from a single atom. Ours came from blunt tips, and one of them turned out to be bent and touching with its side. A blunt tip presents many atoms at once, which is exactly what turns a gap into a pressed contact.</p>
       <div class="fix"><b>Possible fix.</b> Etch a sharp tip with the setup we already own and have already used.</div>
     </div></div>
 
-    <div class="item"><div class="n num">4</div><div>
+    <div class="item" data-rv><div class="n num">4</div><div>
       <h3>No distance scale of our own</h3>
       <p>We never established how far the tip moves per converter count on our own hardware. The consequence is the sharpest thing on this list: for a while <strong>every scan covered about 0.6 nanometres of sample &mdash; smaller than a single atom</strong> &mdash; and nobody could have known.</p>
       <div class="fix"><b>Possible fix.</b> Measure one distance inside the scan head under a jeweller&rsquo;s loupe. Minutes, no power, and it fixes the nanometre scale for every measurement this instrument will ever make.</div>
     </div></div>
 
-    <div class="item"><div class="n num">5</div><div>
+    <div class="item" data-rv><div class="n num">5</div><div>
       <h3>The approach cannot park in the window</h3>
       <p>One step of the coarse motor moves the tip at least eleven times the width of the window where tunnelling is visible. There is no motor position inside it. That is not a fault, it is why the piezo exists &mdash; but the handover from one to the other never worked.</p>
       <div class="fix"><b>Possible fix.</b> Settle the sign of the tunnelling current so the automatic approach is safe to run, then hand the last stage from the motor to the piezo.</div>
     </div></div>
   </div>
 
-  <figure>
-    <a href="img/fig03.jpg"><img src="img/fig03.jpg" alt="The surface position against time with the motor off and nobody touching the instrument: it moves more than 43,000 counts within 6.4 seconds and more than 56,000 within two minutes." loading="lazy"></a>
+  <figure data-rv>
+    <a href="img/fig03.jpg"><img src="img/fig03.jpg" width="1500" height="1046" alt="The surface position against time with the motor off and nobody touching the instrument: it moves more than 43,000 counts within 6.4 seconds and more than 56,000 within two minutes." loading="lazy"></a>
     <figcaption>The measurement behind the first row. <b>The thing we are trying to measure is smaller than the way the gap moves while we are measuring it.</b> Knowing that precisely, rather than guessing at it, is the result.</figcaption>
   </figure>
 </section>
 
-<section>
+<section id="controls">
   <h2>How we knew when we were fooling ourselves</h2>
   <p class="lede">After every scan we ran the same scan again with the sideways sweep switched off.</p>
   <p class="measure">That control has identical timing and identical feedback behaviour, but the tip never travels across the surface, so <strong>it cannot contain surface structure at all</strong>. Anything appearing in both is the instrument, not the sample. Our scans repeated no better than those controls did, and that single test is what settles the imaging question.</p>
-  <figure>
-    <a href="img/fig04.jpg"><img src="img/fig04.jpg" alt="Two scans beside their sideways-sweep-disabled controls, with the repeatability of each plotted on a common axis: both sit on zero and neither differs from the other." loading="lazy"></a>
+  <figure data-rv>
+    <a href="img/fig04.jpg"><img src="img/fig04.jpg" width="1500" height="859" alt="Two scans beside their sideways-sweep-disabled controls, with the repeatability of each plotted on a common axis: both sit on zero and neither differs from the other." loading="lazy"></a>
     <figcaption>Like for like over full images, our scans repeat at <b>+0.04</b> and their controls at <b>+0.07</b>. Indistinguishable, and neither differs from zero. <b>It is also why we never fooled ourselves.</b></figcaption>
   </figure>
   <p class="measure">We went back over our own published numbers at the end and found two of them had been computed across files that stopped early. We withdrew both. The conclusion survived on other evidence, and the withdrawn claims are still in the record beside what replaced them.</p>
 </section>
 
-<section>
+<section id="workflow">
   <h2>The second instrument</h2>
   <p class="lede">Neither of us writes code. So the other thing we built was the framework that does, and that catches it when it is wrong.</p>
   <p class="measure">Two people, two computers, days apart. The failure that kills a project like this is not a hard experiment &mdash; it is a number corrected in one document and left standing in the eleven others that quote it. That is not hypothetical: one day two constants changed, both were already written into more than a dozen documents, and correcting every copy anyone could think of still left stale values in six files.</p>
-  <p class="measure">So every number in the project now lives in exactly one place, carries a tag recording how it is known, and is checked by a program rather than by memory: a <strong>575-line operating protocol</strong>, a <strong>164-row register</strong> holding every value with its provenance and date, <strong>27 append-only session logs</strong>, and a <strong>565-line checker</strong> that runs seven classes of test at the start of every session and blocks a commit that fails.</p>
+  <p class="measure">So every number in the project now lives in exactly one place, carries a tag recording how it is known, and is checked by a program rather than by memory.</p>
+
+  <div class="tally" data-rv>
+    <div><div class="t num">575</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
+    <div><div class="t num">164</div><div class="l">rows in the register: every value, its provenance, its date</div></div>
+    <div><div class="t num">27</div><div class="l">session logs, append-only, never rewritten</div></div>
+    <div><div class="t num">565</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
+  </div>
+
+  <figure class="photo band" data-rv><img src="img/laptop.jpg" width="1200" height="1600" alt="Jacob and Nuh at the bench with a laptop, a working session open on the screen." loading="lazy">
+    <p class="cap">A session in progress. <b>The model does the writing and the arithmetic; the framework is what catches it.</b></p>
+  </figure>
   <p class="measure"><strong>What proves it works is the retractions.</strong> The checks and verification passes forced this project to withdraw its own published claims &mdash; a statistical result computed across truncated files, a reproducible feature that turned out to be the feedback loop rather than the sample, a detector&rsquo;s full-scale voltage recorded backwards in a live reference, and eleven wrong numbers in a single commit caught before the second push.</p>
   <p class="measure">An AI that writes confident prose is not hard to get. One that produces a retraction is, and that is the part we built. We did not train a model; the model is off the shelf. The discipline around it is ours.</p>
 </section>
 
-<section>
+<section id="poster">
   <h2>The poster</h2>
-  <figure>
-    <a href="https://drive.google.com/file/d/1MoSLyNovIRjsCd7feqWDtkj48C91wZUA/view"><img src="img/poster.jpg" alt="The research poster: seven panels covering the build, the calibration, the junction, the limit, the controls, the undecided junction, and the workflow." loading="lazy"></a>
+  <figure data-rv>
+    <a href="https://drive.google.com/file/d/1MoSLyNovIRjsCd7feqWDtkj48C91wZUA/view"><img src="img/poster.jpg" width="1800" height="1350" alt="The research poster: seven panels covering the build, the calibration, the junction, the limit, the controls, the undecided junction, and the workflow." loading="lazy"></a>
     <figcaption>Forty-eight by thirty-six inches. <a href="https://drive.google.com/file/d/1MoSLyNovIRjsCd7feqWDtkj48C91wZUA/view">Open the print file</a>, or read <a href="https://docs.google.com/document/d/1g7_9QSFmusXeYeFyfknpLyufYXengNEakGYpBflJYvU/edit">the speaker script</a> and <a href="https://docs.google.com/document/d/1RADFrvVwFRQhFxcq_QQwnunfPm4atYvDhER1L1WYR7I/edit">the questions people ask</a>.</figcaption>
   </figure>
 </section>
 
-<section>
+<section id="figures">
   <h2>Every figure</h2>
   <p class="lede">Each one is regenerable from the raw files by a script of the same name.</p>
   <div class="grid13">
-    <a href="img/fig01.jpg"><img src="img/fig01.jpg" alt="" loading="lazy"><span>The chain agrees with theory to 0.13 sigma</span></a>
-    <a href="img/fig02.jpg"><img src="img/fig02.jpg" alt="" loading="lazy"><span>A real junction, behaving like a barrier</span></a>
-    <a href="img/fig03.jpg"><img src="img/fig03.jpg" alt="" loading="lazy"><span>The gap does not hold still</span></a>
-    <a href="img/fig04.jpg"><img src="img/fig04.jpg" alt="" loading="lazy"><span>The control that stopped us fooling ourselves</span></a>
-    <a href="img/fig05.jpg"><img src="img/fig05.jpg" alt="" loading="lazy"><span>What the junction actually is, over 110 cycles</span></a>
-    <a href="img/fig06.jpg"><img src="img/fig06.jpg" alt="" loading="lazy"><span>The noise floor, and what does not move it</span></a>
-    <a href="img/fig07.jpg"><img src="img/fig07.jpg" alt="" loading="lazy"><span>The signal chain, end to end</span></a>
-    <a href="img/fig08.jpg"><img src="img/fig08.jpg" alt="" loading="lazy"><span>The scale of the problem</span></a>
-    <a href="img/fig09.jpg"><img src="img/fig09.jpg" alt="" loading="lazy"><span>The build, session by session</span></a>
-    <a href="img/fig10.jpg"><img src="img/fig10.jpg" alt="" loading="lazy"><span>Push in against pull out</span></a>
-    <a href="img/fig11.jpg"><img src="img/fig11.jpg" alt="" loading="lazy"><span>A vacuum gap has no memory. Ours did</span></a>
-    <a href="img/fig12.jpg"><img src="img/fig12.jpg" alt="" loading="lazy"><span>What one unmeasured distance decides</span></a>
-    <a href="img/fig13.jpg"><img src="img/fig13.jpg" alt="" loading="lazy"><span>Could we have missed it?</span></a>
+    <a href="img/fig01.jpg"><img src="img/fig01.jpg" width="1500" height="1058" alt="" loading="lazy"><span>The chain agrees with theory to 0.13 sigma</span></a>
+    <a href="img/fig02.jpg"><img src="img/fig02.jpg" width="1500" height="786" alt="" loading="lazy"><span>A real junction, behaving like a barrier</span></a>
+    <a href="img/fig03.jpg"><img src="img/fig03.jpg" width="1500" height="1046" alt="" loading="lazy"><span>The gap does not hold still</span></a>
+    <a href="img/fig04.jpg"><img src="img/fig04.jpg" width="1500" height="859" alt="" loading="lazy"><span>The control that stopped us fooling ourselves</span></a>
+    <a href="img/fig05.jpg"><img src="img/fig05.jpg" width="1500" height="724" alt="" loading="lazy"><span>What the junction actually is, over 110 cycles</span></a>
+    <a href="img/fig06.jpg"><img src="img/fig06.jpg" width="1500" height="844" alt="" loading="lazy"><span>The noise floor, and what does not move it</span></a>
+    <a href="img/fig07.jpg"><img src="img/fig07.jpg" width="1500" height="774" alt="" loading="lazy"><span>The signal chain, end to end</span></a>
+    <a href="img/fig08.jpg"><img src="img/fig08.jpg" width="1500" height="978" alt="" loading="lazy"><span>The scale of the problem</span></a>
+    <a href="img/fig09.jpg"><img src="img/fig09.jpg" width="1500" height="1021" alt="" loading="lazy"><span>The build, session by session</span></a>
+    <a href="img/fig10.jpg"><img src="img/fig10.jpg" width="1500" height="670" alt="" loading="lazy"><span>Push in against pull out</span></a>
+    <a href="img/fig11.jpg"><img src="img/fig11.jpg" width="1500" height="686" alt="" loading="lazy"><span>A vacuum gap has no memory. Ours did</span></a>
+    <a href="img/fig12.jpg"><img src="img/fig12.jpg" width="1500" height="626" alt="" loading="lazy"><span>What one unmeasured distance decides</span></a>
+    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="698" alt="" loading="lazy"><span>Could we have missed it?</span></a>
   </div>
 </section>
 
-<section>
+<section id="writing">
   <h2>Everything we wrote</h2>
   <p class="lede">All of it is editable. The repository is the source of truth; if the two ever differ, the repository is right.</p>
 
@@ -401,18 +541,121 @@
   </div>
 </section>
 
-<section>
+<section id="next">
   <h2>Where it goes next</h2>
   <p class="measure">The instrument is in pieces, moved between two houses while one of us started college. When it goes back together, the first thing is a measurement that needs no power and takes minutes: <strong>how far the tip sits from the line through the two ball supports.</strong> It sets the nanometre scale for everything the instrument will ever measure, and it settles our best junction retroactively.</p>
   <p class="measure">Then the free test for what moves the gap &mdash; a box over the instrument and a fifteen-minute recording &mdash; then a rigid sample and a sharp tip. <strong>None of the five things in our way needs a purchase, and none needs a laboratory.</strong></p>
-  <figure class="photo"><img src="img/teardown.jpg" alt="The suspended platform lifted off the frame and held in one hand, with the scan head, motor and preamplifier still mounted on it." loading="lazy">
+  <figure class="photo" data-rv><img src="img/teardown.jpg" width="1500" height="1098" alt="The suspended platform lifted off the frame and held in one hand, with the scan head, motor and preamplifier still mounted on it." loading="lazy">
     <figcaption>The platform off the frame on the morning it came apart to be moved.</figcaption></figure>
 </section>
 
+<div class="close" data-rv>
+  <h2>If you are reading this</h2>
+  <p>We are two first-year students who wanted to see single atoms and got most of the way to the
+  instrument that can. It is in pieces right now, in a different house from where it was built,
+  while one of us starts college.</p>
+  <p><strong>The part we would most like help with is not money or parts.</strong> It is the thing
+  in the first row of what stopped us: something on that bench moves the gap by most of the
+  scanner&rsquo;s range within seconds, and we have seven candidates and no way to rank them. If
+  you have ever chased mechanical drift at this scale, we would like to hear how you found it.</p>
+  <p>Everything is public, including the two results we withdrew:
+  <a href="https://github.com/jacobbkatz/We-Are-STMING">github.com/jacobbkatz/We-Are-STMING</a>.
+  The quickest way to reach us is to
+  <a href="https://github.com/jacobbkatz/We-Are-STMING/issues/new">open an issue there</a> &mdash;
+  it comes straight to both of us.</p>
+</div>
+
 <footer>
   <p><strong>Eleven weeks of planning and design, eight weeks of building.</strong> First power-on 29 August 2026; last bench session 19 September 2026. Twenty-seven session logs, 163 raw data files and 92 photographs of our own hardware.</p>
-  <p>Everything is public, including the results we later withdrew: <a href="https://github.com/jacobbkatz/We-Are-STMING">github.com/jacobbkatz/We-Are-STMING</a></p>
   <p><strong>Mech Panda</strong> and <strong>Dan Berard</strong> published their instruments for free. Without them there would have been nothing to bring up.</p>
 </footer>
 
 </div>
+
+<script>
+(function () {
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var els = Array.prototype.slice.call(document.querySelectorAll("[data-rv]"));
+  var chain = document.querySelector("[data-chain]");
+
+  // A hairline at the top edge showing how far through the page the reader is. The
+  // page is long and there is otherwise no way to tell how much of it is left. It
+  // answers the reader's own scrolling and nothing else, so it runs either way.
+  function progress() {
+    var bar = document.createElement("div");
+    bar.className = "prog";
+    document.body.appendChild(bar);
+    var ticking = false;
+    function paint() {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (h > 0 ? Math.min(1, window.scrollY / h) * 100 : 0) + "%";
+      ticking = false;
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; window.requestAnimationFrame(paint); }
+    }, { passive: true });
+    window.addEventListener("resize", paint, { passive: true });
+    paint();
+  }
+  progress();
+
+  if (reduce || !("IntersectionObserver" in window)) { return; }   // everything stays visible
+
+  // Only hide what is already below the fold. The first frame a reader or a link
+  // preview sees must be complete, so anything on screen at load is left alone.
+  var fold = window.innerHeight * 0.92;
+  var pending = els.filter(function (el) { return el.getBoundingClientRect().top > fold; });
+  pending.forEach(function (el) {
+    el.classList.add("rv");
+    // Siblings in a group come in one after another, so a ranked list reads as ranked.
+    var sibs = el.parentNode ? Array.prototype.filter.call(el.parentNode.children,
+                 function (c) { return c.hasAttribute && c.hasAttribute("data-rv"); }) : [el];
+    var i = sibs.indexOf(el);
+    if (sibs.length > 1 && i > 0) { el.style.transitionDelay = Math.min(i * 90, 450) + "ms"; }
+  });
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) { return; }
+      e.target.classList.add("rv-in");
+      e.target.classList.remove("rv");
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: "0px 0px -7% 0px", threshold: 0.04 });
+  pending.forEach(function (el) { io.observe(el); });
+
+  // The counted things in the workflow tally count up when they are reached. They
+  // are counts, so counting is what the motion says.
+  var nums = Array.prototype.slice.call(document.querySelectorAll(".tally .num"));
+  var no = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) { return; }
+      no.unobserve(e.target);
+      var el = e.target, end = parseInt(el.textContent, 10);
+      if (!isFinite(end)) { return; }
+      var t0 = null, dur = 760;
+      (function step(t) {
+        if (t0 === null) { t0 = t; }
+        var k = Math.min(1, (t - t0) / dur);
+        el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) { requestAnimationFrame(step); }
+      })(performance.now());
+    });
+  }, { threshold: 0.6 });
+  nums.forEach(function (el) { no.observe(el); });
+
+  // The gold return path draws itself once, when the diagram is reached.
+  if (chain && chain.getBoundingClientRect().top > fold) {
+    chain.classList.add("drawing");
+    var co = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) { return; }
+        chain.classList.add("drawn");
+        co.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -18% 0px", threshold: 0.2 });
+    co.observe(chain);
+  }
+})();
+</script>

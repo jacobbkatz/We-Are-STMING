@@ -73,9 +73,9 @@ def in_cycles(path):
 
 def main():
     S.set_theme("light")
-    fig, (axL, axR) = S.make_fig(width=11.6, height=6.9, ncols=2,
+    fig, (axL, axR) = S.make_fig(width=11.6, height=7.6, ncols=2,
                                  gridspec_kw=dict(width_ratios=[1.0, 1.25]))
-    fig.subplots_adjust(top=0.735, bottom=0.290, left=0.105, right=0.980, wspace=0.30)
+    fig.subplots_adjust(top=0.760, bottom=0.330, left=0.105, right=0.980, wspace=0.30)
 
     # ---------------------------------------------------------------- LEFT
     steps = [("d = 1.00 mm\nthe design value", 1.000),

@@ -55,8 +55,8 @@ def main():
     print("measured / ohmic at the top of the sweep = %.2fx" % (I[-1] / ohmic_at_max))
 
     S.set_theme("light")
-    fig, (ax, ax2) = S.plt.subplots(1, 2, figsize=(10.4, 6.0), width_ratios=[1.22, 1.0])
-    fig.subplots_adjust(top=0.745, bottom=0.225, left=0.070, right=0.985, wspace=0.24)
+    fig, (ax, ax2) = S.plt.subplots(1, 2, figsize=(10.4, 6.6), width_ratios=[1.22, 1.0])
+    fig.subplots_adjust(top=0.768, bottom=0.275, left=0.070, right=0.985, wspace=0.24)
 
     c_meas, c_ohm, c_rej = S.series(0), S.series(1), S.C["muted"]
     grid_v = [0.005 * k for k in range(101)]               # 0 to 0.50 V
