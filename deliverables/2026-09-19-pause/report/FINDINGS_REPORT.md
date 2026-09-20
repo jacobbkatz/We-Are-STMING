@@ -48,10 +48,17 @@ named candidate mechanisms — which is what instrument development is.**
 | `SAID` | Jacob or Nuh told us, with the date |
 | `READ` | a reading of a photograph or a file by Claude — plausible, **not confirmed** |
 
-**Two words that are not the same and are kept apart throughout: a *barrier* is two conductors
-separated by something electrons have to cross. *Tunnelling* is one particular kind of barrier —
-a clean vacuum gap. We have evidence of the first. We have not demonstrated the second, and we
-have never produced an image.**
+**Two claims that are not the same, and they are kept apart throughout.** *Tunnelling* is the
+mechanism by which electrons cross a thin barrier. *A controlled vacuum gap* is a barrier made of
+nothing but distance, held steady at a width you command — the STM regime, and what you need in
+order to scan.
+
+> **We made a tunnel junction, put a bias across it, and measured the current tunnelling through
+> it. What we have not yet done is hold that gap open and steady enough to scan across a surface.**
+
+**Both halves are load-bearing.** The first is established in section 3.6; the second is what the
+decay rate and the hysteresis argue against. **No image has been produced, at any resolution, and
+no distance in nanometres anywhere in these deliverables was read off our own hardware.**
 
 ### The figures
 
@@ -84,13 +91,15 @@ beside them and their full captions in that directory. **They supersede the work
 3. **The electronics are not the limit, and that was established with numbers rather than
    opinion.** Flat white noise at 8 to 14 counts across the whole band, no mains peak, leakage
    under 0.06 nA from −2 V to +2 V. MEASURED 2026-09-17.
-4. **A real tip-to-sample junction was made, and its current responds to voltage and to
-   distance.** Its current-voltage curve has the non-ohmic, bias-symmetric shape a barrier
-   requires, and rules out both a metallic short and an open circuit. MEASURED 2026-09-17.
-5. **It is a barrier. It is not established as a clean tunnelling gap.** A separate distance test
-   two nights later, on a **different tip and a different sample**, found a junction that behaves
-   like a soft, pressed contact rather than a vacuum gap. MEASURED 2026-09-19. Both results stand;
-   they are different junctions.
+4. **We made a tunnel junction, put a bias across it, and measured the current tunnelling through
+   it.** The current-voltage curve is superlinear and symmetric in both bias directions, ruling out
+   both a metallic short and an open circuit, and the junction never metallically shorted. MEASURED
+   2026-09-17. The full argument is section 3.6.
+5. **What we have not done is hold a controlled vacuum gap — the STM regime you need in order to
+   scan.** A separate distance test two nights later, on a **different tip and a different
+   sample**, found a junction that behaves like a soft, pressed contact rather than a gap held at a
+   width we command. MEASURED 2026-09-19. Both results stand; they are different junctions, and the
+   second does not withdraw the first.
 6. **We found the blocker and put a number on it.** With the motor stopped and nobody touching
    the instrument, the gap moved by more than 43,000 Z counts in 6.4 seconds and more than 56,000
    within two minutes — most of the Z range. The structure an image would have to show is 29 to
@@ -124,12 +133,19 @@ wired and characterised a complete scanning-probe measurement chain.
 - **The frame, scan head, isolation stack and enclosures** are 3D-printed in carbon-filled PETG.
   The suspended platform is a Ø200 mm printed disc hung on three springs over an eddy-current
   damping stack.
-- **The record**: 26 session logs, 163 raw data files in four bench-session directories, 92
+- **The record**: 27 session logs, 163 raw data files in four bench-session directories, 92
   photographs of our own hardware, and every analysis script committed beside the data it reads.
 
-**Dates.** The earliest dated file in the repository is 3 July 2026. **The first volt went through
-any of it on 29 August.** The last bench session was the morning of 19 September. So: about
-eleven weeks of building, and three weeks of powered bring-up.
+**Dates, taken from the record rather than from memory.** The earliest dated file in the repository
+is 3 July 2026. **The first volt went through any of it on 29 August 2026.** The last bench session
+was the morning of 19 September 2026, and **27 session logs sit between them.** So: three weeks of
+powered bring-up.
+
+> **How long the project ran overall is NOT established anywhere in this repository.** Earlier
+> drafts of these deliverables said eleven weeks and others said eight; **neither figure is sourced
+> to anything**, and the three dates and the log count above are what the record actually supports.
+> **Jacob has to settle the overall duration** — it is the kind of fact only he and Nuh hold, and
+> it belongs in `docs/INVENTORY.md` once it is settled.
 
 ---
 
@@ -284,8 +300,10 @@ right. **Use V^1.55, or say "superlinear" and stop.**
 
 **What it does NOT establish, stated plainly and once:**
 
-- **That the gap is vacuum.** A contaminant film, a thin oxide or a dirty near-contact are all
-  superlinear too. Tunnelling implies a barrier; a barrier does not imply tunnelling.
+- **That the barrier is vacuum.** A contaminant film, a thin oxide or a dirty near-contact are all
+  superlinear too, and **this curve alone does not tell you which.** What establishes that current
+  tunnelled through the junction is the separate argument in section 3.6; what that argument does
+  not reach is a barrier made of nothing but distance.
 - **16 to 59 MΩ is at the LOW end for STM tunnelling**, which usually sits from about 100 MΩ up.
   It is still roughly a thousand times above the conductance quantum, so it is not a point contact
   either — but it is nearer contact than a textbook tunnelling junction.
@@ -306,7 +324,7 @@ one was found bent, and on the leaf-on-paper gold):
 | Distance for the current to change tenfold, going in, sample −0.5 V | **a decade per about 1,650 and 1,970 Z counts** (per-run medians, 30 and 20 cycles) |
 | At the other biases | **808 to 4,639 counts per decade** |
 | What a vacuum tunnelling gap would need | **about 6 to 13 counts** — and **that comparison rests on an ASSUMED Z scale**, inherited from a similar disc, never measured on ours |
-| In/out hysteresis | **705 to 1,868 counts** (per-run medians), in **every** run; 99 of 109 cycles positive. **This does not depend on the Z scale** |
+| In/out hysteresis | **705 to 1,868 counts** (per-run medians), in **every** run; 99 of 109 cycles positive. **This does not depend on the Z scale.** **Two independent passes over the same raw cycles agree:** this figure uses the bench script's fixed 300-count threshold; `deliverables/2026-09-19-pause/JUNCTIONS.md` recomputed it from the raw CSVs at the geometric midpoint of each cycle's shared current range and got **714 to 1,926 counts**. Same conclusion, two measurement rules |
 | Onset shape | **gradual in 109 of 110 cycles**; one single-step snap |
 
 **The hysteresis does not shrink at low bias.** At ±0.1 V the run medians are 1,653 and 1,474
@@ -327,10 +345,11 @@ scale, because this instrument has never established one from its own hardware.*
 
 > An I-V curve taken on the 2026-09-17 junction has the non-ohmic, bias-symmetric shape a
 > tunnelling barrier requires, and rules out both a short and an open. A separate Z-distance test
-> on a **different** tip and sample two nights later did **not** show the steep response a clean
-> tunnelling gap requires, and was interpreted as a pressed contact. **The project has evidence of
-> a barrier junction; it has not demonstrated a stable vacuum tunnelling gap, and it has never
-> produced an image.**
+> on a **different** tip and sample two nights later did **not** show the steep response a
+> commanded vacuum gap requires, and was interpreted as a pressed contact. **We made a tunnel
+> junction, put a bias across it, and measured the current tunnelling through it. What we have not
+> yet done is hold that gap open and steady enough to scan across a surface, and no image has been
+> produced.** The argument for the first of those two sentences is section 3.6.
 
 ### 3.6 The rest of the chain
 
