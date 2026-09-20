@@ -144,7 +144,7 @@ html,body{ margin:0; padding:0; background:#5c5c5c; }
 .poster{
   width:48in; height:36in;
   box-sizing:border-box;
-  padding:0.62in 0.72in;
+  padding:0.55in 0.72in;
   background:var(--surface);
   color:var(--ink);
   font-family:"Inter", sans-serif;
@@ -200,16 +200,16 @@ b,strong{ font-weight:600; }
   font-size:18.5pt; font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
   color:var(--blue-t); margin:0 0 0.08in 0;
 }
-h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; }
+h1{ font-size:58pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; }
 .subtitle{
-  font-size:28pt; font-weight:500; line-height:1.21; color:var(--ink2);
+  font-size:26pt; font-weight:500; line-height:1.21; color:var(--ink2);
   margin:0.12in 0 0 0;
 }
 .authors{ font-size:25pt; font-weight:600; line-height:1.26; margin:0.11in 0 0 0; }
 .authors span{ font-weight:400; color:var(--ink2); }
 .meta{ font-size:16.5pt; color:var(--muted); margin:0.07in 0 0 0; line-height:1.28; }
 
-.teamshot{ flex:0 0 5.50in; display:flex; flex-direction:column; overflow:hidden; }
+.teamshot{ flex:0 0 4.80in; display:flex; flex-direction:column; overflow:hidden; }
 .teamshot img{ width:100%; display:block; border-radius:0.06in; }
 .teamshot .cap{ font-size:14.5pt !important; padding-top:0.06in; }
 
@@ -225,7 +225,7 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
 .conditions .why{ color:var(--ink2); }
 
 /* ========================================================= 2. THE NUMBERS STRIP */
-.tiles{ display:flex; gap:0.19in; height:1.78in; }
+.tiles{ display:flex; gap:0.19in; height:1.60in; }
 .tile{
   flex:1 1 0; background:var(--plane); border:0.012in solid var(--rule);
   border-radius:0.09in; padding:0.13in 0.15in; box-sizing:border-box; overflow:hidden;
@@ -240,16 +240,16 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
 .row .panel{ flex:1 1 0; min-width:0; }
 /* The two rows of panels. If a panel says it is too tall, either shorten its
    words or add to the row height here - but the page must still add up. */
-.rowA{ height:12.40in; }
-.rowB{ height:12.95in; }
+.rowA{ height:12.28in; }
+.rowB{ height:13.00in; }
 
 /* Two photographs side by side inside one panel. One is portrait and one is
    landscape, so instead of setting their widths, their HEIGHT is capped and each is
-   centred in its half. Change 4.5in to make both photographs bigger or smaller. */
+   centred in its half. Change 4.9in to make both photographs bigger or smaller. */
 .photorow{ display:flex; gap:0.20in; align-items:flex-start; }
 .photorow > div{ flex:1 1 0; min-width:0; }
 .photorow img{ display:block; margin:0 auto; border-radius:0.05in;
-               max-height:4.5in; max-width:100%; width:auto; }
+               max-height:4.9in; max-width:100%; width:auto; }
 .photorow .cap{ font-size:15pt !important; line-height:1.24 !important; padding-top:0.06in; }
 
 /* a quiet inset box - used for "the experiment that settles it" */
@@ -264,7 +264,8 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
 .footer{ display:flex; gap:0.28in; flex:1 1 auto; min-height:0; }
 .footer .panel{ flex:1 1 0; padding:0.15in 0.22in 0.10in 0.22in; }
 .footer h3{ font-size:23pt; font-weight:700; margin:0 0 0.06in 0; }
-.footer p, .footer li{ font-size:18pt !important; line-height:1.25 !important; }
+.footer p, .footer li{ font-size:18pt !important; line-height:1.25 !important;
+                       margin-bottom:0.05in; }
 .footer ul{ padding-left:0.24in; margin-bottom:0; }
 .footer li{ margin-bottom:0.035in; }
 </style>
@@ -288,9 +289,7 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
       mechanical &mdash; and we measured it rather than guessing.</b></p>
     <p class="authors">Jacob Katz <span>&mdash; University of California San Diego</span>
       &nbsp;&nbsp;&middot;&nbsp;&nbsp; Nuh Shaheer <span>&mdash; Worcester Polytechnic Institute</span></p>
-    <p class="meta">Self-directed work: no faculty advisor, no grant and no laboratory. Mechanics,
-      controller board and firmware follow Mech Panda&rsquo;s open-source <i>red-panda-stm</i>; the
-      scan head and transimpedance preamplifier follow Dan Berard&rsquo;s home-built STM. First
+    <p class="meta">Self-directed work: no faculty advisor, no grant, no laboratory. First
       power-on 29 August 2026, last bench session 19 September 2026. 27 session logs, 160+ raw data
       files, 92 photographs of our own hardware and every analysis script are in the repository
       &mdash; including the results we withdrew.</p>
@@ -417,7 +416,7 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
       it. That makes the current something Ohm&rsquo;s law fixes <b>before the run</b> &mdash; so
       the instrument is checked against a number it had no part in choosing.</p>
     <!-- EDIT: to make this picture bigger or smaller, change the width below. -->
-    <img class="fig" style="width:10.5in"
+    <img class="fig" style="width:11.1in"
          src="assets/fig01_calibration.png"
          alt="Measured converter counts against bias voltage, lying on the line Ohm's law predicts">
     <div class="spacer"></div>
@@ -439,7 +438,7 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
     <p class="lead">Getting a current is easy &mdash; push the tip into the sample and there is
       plenty. The hard part is showing you have a <b>barrier</b>: two conductors with something in
       between that the electrons have to cross.</p>
-    <img class="fig" style="width:11.3in"
+    <img class="fig" style="width:10.7in"
          src="assets/fig02_iv_curve.png"
          alt="Current against voltage for the junction, and its falling resistance">
     <p class="cap"><b>Figure 2.</b> Current rose from 0.85&nbsp;nA at 0.05&nbsp;V to
@@ -450,13 +449,14 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
       noise does not reverse with the voltage. <b>That rules out a metallic short, which would be
       ohmic, and an open circuit, which would give nothing.</b> Source:
       sessions/2026-09-17-bench.md &sect;3.15, 2026-09-17. <span class="no">Not the same claim as a
-      vacuum tunnelling gap:</span> a contaminant film or a thin oxide is superlinear too.</p>
+      vacuum tunnelling gap:</span> a contaminant film or a thin oxide is superlinear too. The
+      later, different verdict its own note calls <i>figure 5</i> is <b>Figure 3, in panel 4</b>.</p>
     <div class="spacer"></div>
     <p class="small"><b>And the electronics are not what limits us &mdash; established with numbers
-      rather than opinion.</b> With no junction the chain is flat white noise at 8 to 14 counts
-      from 2&nbsp;Hz to 1.2&nbsp;kHz; leakage through the tip lead is under 0.06&nbsp;nA from
-      &minus;2&nbsp;V to +2&nbsp;V, more than 8&nbsp;G&Omega;; and someone stamping two metres away
-      moves one reading&rsquo;s spread from 131 to 132&nbsp;pA. <b>The building is not getting in
+      rather than opinion.</b> With no junction the chain is flat white noise, 8 to 14 counts from
+      2&nbsp;Hz to 1.2&nbsp;kHz; leakage through the tip lead is under 0.06&nbsp;nA across
+      &plusmn;2&nbsp;V, more than 8&nbsp;G&Omega;; and someone stamping two metres away moves one
+      reading&rsquo;s spread from 131 to 132&nbsp;pA. <b>The building is not getting in
       electrically.</b> MEASURED 2026-09-17 and 2026-09-19, tip clear.</p>
   </div>
 </div>
@@ -475,7 +475,7 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
     <h2><span class="n">4</span>What the junction is &mdash; and the ruler that settles it</h2>
     <p class="lead">What separates a tunnelling gap from a contact is <b>how fast the current
       changes as the tip moves</b>. We ran it: 110 cycles in and out, at four bias voltages.</p>
-    <img class="fig" style="width:11.4in"
+    <img class="fig" style="width:11.9in"
          src="assets/fig05_ztest.png"
          alt="Current against Z for 110 cycles at four biases, against what tunnelling would need">
     <p class="cap"><b>Figure 3.</b> On <b>the 2026-09-19 junction</b> the current changed ten-fold
@@ -496,9 +496,9 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
         ratio between motor and tip. <b>Below about 0.13&nbsp;mm it was tunnelling; at 1&nbsp;mm it
         was resting on something &mdash; and d has never been measured.</b> Jacob&rsquo;s estimate
         is &ldquo;between 1&nbsp;mm and 0&nbsp;mm&rdquo;: the threshold sits inside the range.</p>
-      <p><span class="h">The experiment: take the plate off, lay a straightedge across the two ball
-        ends, and see which side the tip stands on and by how much.</span> <b>No power, no
-        electronics, a few minutes &mdash; and it settles our best junction retroactively.</b></p>
+      <p><span class="h">The experiment: plate off, lay a straightedge across the two ball ends,
+        and see which side the tip stands on and by how much.</span> <b>No power, no electronics, a
+        few minutes &mdash; and it settles our best junction retroactively.</b></p>
     </div>
   </div>
 
@@ -537,26 +537,25 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
       across the surface &mdash; <b>so it cannot contain surface structure at all, by
       construction.</b> Like for like over full images, our scans repeat at <b>+0.04</b> and their
       controls at <b>+0.07</b>: indistinguishable, and neither differs from zero.</p>
-    <img class="fig" style="width:12.0in"
+    <img class="fig" style="width:11.8in"
          src="assets/fig10_candidate.png"
          alt="The three-Y run that looked like a surface, its repeat, and its X-held control">
-    <p class="cap"><b>Figure 5.</b> One measurement resists that. Holding the tip at three places
+    <p class="cap"><b>Figure 5.</b> One measurement resists that. At three places
       12,000&nbsp;Y counts apart, passes at the same place agreed <b>+0.239</b> while passes at
       different places disagreed <b>&minus;0.135</b> &mdash; a difference of <b>+0.374</b>,
       permutation <b>p&nbsp;=&nbsp;0.0036</b>. <b>The repeat, minutes later, gave +0.056</b>
       (p&nbsp;=&nbsp;0.26), and <b>an X-held control, which cannot contain a surface, scored
       p&nbsp;=&nbsp;0.020 on the same statistic</b> &mdash; this instrument&rsquo;s own
       false-positive rate. Across 209 reproducibility tests the honest threshold is
-      p&nbsp;&lt;&nbsp;2.4&nbsp;&times;&nbsp;10<sup>&minus;4</sup>, fixed before the candidates
-      were judged. Source: sessions/data/2026-09-19-bench/ycontrol_run2, _run3, _run4.
-      <span class="no">This is not an image, and we do not present it as one.</span></p>
+      p&nbsp;&lt;&nbsp;2.4&nbsp;&times;&nbsp;10<sup>&minus;4</sup>, fixed before the candidates were
+      judged. Source: sessions/data/2026-09-19-bench/ycontrol_run2, _run3, _run4.
+      <span class="no">Not an image, and not presented as one.</span></p>
     <div class="spacer"></div>
     <div class="inset">
       <p><span class="h">What keeps it open, and the experiment that closes it.</span> The
         instrument&rsquo;s own logs show the gap was <b>steady</b> across these runs &mdash; the
-        onset moved 2,200 counts, about 3% of the Z range &mdash; so &ldquo;the surface moved out
-        from under it&rdquo; is not the explanation, and genuine non-reproduction is better
-        supported. <b>But nothing in this project has ever measured how far the tip drifts
+        onset moved 2,200 counts, about 3% of the Z range &mdash; so &ldquo;the surface moved
+        out from under it&rdquo; is not the explanation, and non-reproduction is better supported. <b>But nothing in this project has ever measured how far the tip drifts
         sideways</b>, and that is the one ground it stays open on. <b>The answer: three runs with
         an X-held control interleaved between them, judged by a rule fixed in advance &mdash; real
         only if all three beat all the controls.</b></p>
@@ -574,14 +573,14 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
   <div class="panel">
     <h3>What we do not claim</h3>
     <ul>
-      <li><b>No image.</b> Fifty-one recordings, no demonstrable image of the sample &mdash; and we
-        know that from our own controls, not from nothing turning up.</li>
-      <li><b>No demonstrated tunnelling.</b> We have a barrier junction; the 2026-09-19 junction
-        was a pressed contact, measured. Our best junction&rsquo;s status is <b>undecided</b>, and
-        panel 4 names the measurement that settles it.</li>
+      <li><b>No image.</b> Fifty-one recordings, none of them a demonstrable image of the sample
+        &mdash; and our own controls are how we know.</li>
+      <li><b>No demonstrated tunnelling.</b> We have a barrier junction; the 2026-09-19 one was a
+        pressed contact. Our best junction&rsquo;s status is <b>undecided</b>, and panel 4 names
+        the measurement that settles it.</li>
       <li><b>No atomic resolution, and no scale bar anywhere</b> &mdash; every axis is in
         converter counts, because this instrument has never established a distance scale of its
-        own. <b>No number is taken off a photograph:</b> every caption is marked <b>SAID</b> or
+        own. <b>No number is read off a photograph:</b> captions are marked <b>SAID</b> or
         <b>READ</b>.</li>
     </ul>
   </div>
@@ -589,27 +588,28 @@ h1{ font-size:63pt; font-weight:700; line-height:1.01; letter-spacing:-0.022em; 
   <div class="panel">
     <h3>Where it goes next</h3>
     <ul>
-      <li><b>Measure d with a straightedge</b> &mdash; no power, a few minutes, and it settles
+      <li><b>Measure d with a straightedge</b> &mdash; no power, minutes, and it settles
         retroactively whether our best junction was tunnelling.</li>
-      <li><b>Prove the gap holds still before scanning anything:</b> a box over the instrument, a
-        15-minute stillness recording, a gate of 200 counts over sixty seconds.</li>
+      <li><b>Prove the gap holds still before scanning anything:</b> a box over the instrument,
+        a 15-minute recording, a gate of 200 counts over sixty seconds.</li>
       <li><b>A stiffer sample than gold leaf on paper, and a sharper tip.</b></li>
-      <li><b>Three software fixes that cost nothing</b>, removing the artefact behind our most
-        convincing false positive: drop the first three pixels of each pass, sweep X back and forth
-        between passes, and refuse to compare two images of different length.</li>
+      <li><b>Three free software fixes</b> that remove the artefact behind our most convincing
+        false positive: drop the first three pixels of each pass, sweep X both ways between passes,
+        never compare two images of different length.</li>
     </ul>
   </div>
 
   <div class="panel">
     <h3>We owe these people &mdash; and we checked our own work</h3>
     <p><b>Mech Panda</b> (<i>red-panda-stm</i>: mechanics, controller, firmware) and <b>Dan
-      Berard</b> (scan head, transimpedance preamplifier) published their instruments for free.
-      Without them there would have been nothing to bring up.</p>
+      Berard</b> (scan head, preamplifier) published their instruments for free. Without them
+      there would have been nothing to bring up.</p>
     <p><b>At this pause point we re-derived our own published numbers from the raw files and found
-      six of them wrong</b> &mdash; including two statistics we had used to dismiss our own
-      results, and a reproducible feature that turned out to be the feedback loop recovering from a
-      jump rather than the sample. <b>Every conclusion survived; two of the arguments for them did
-      not.</b> All of it is in the repository, beside the data.</p>
+      six of them wrong</b> &mdash; two of them statistics we had used to dismiss our own results,
+      and one a reproducible feature that was the feedback loop recovering from a jump, not the
+      sample. <b>Every conclusion survived; two of the arguments did not.</b></p>
+    <!-- EDIT: check the repository is public before printing this line, or delete it. -->
+    <p class="cap">Everything, including the mistakes: <b>github.com/jacobbkatz/We-Are-STMING</b></p>
   </div>
 </div>
 
