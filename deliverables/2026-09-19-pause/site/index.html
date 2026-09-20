@@ -143,6 +143,8 @@
   .footgrid li{ margin-bottom:.5em; }
   .footgrid a{ text-decoration:none; color:var(--ink2); }
   .footgrid a:hover{ color:var(--gold); text-decoration:underline; }
+  @media (hover:none){ .footgrid a{ text-decoration:underline;
+                                    text-decoration-color:var(--line); } }
   .footgrid .mail{ color:var(--ink); text-decoration:underline;
                    text-decoration-color:var(--goldmark); text-underline-offset:3px; }
   .colophon{ border-top:1px solid var(--hair); padding-top:1.6em; font-size:var(--s1);
