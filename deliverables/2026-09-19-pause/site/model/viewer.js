@@ -114,36 +114,38 @@
 
   /* ------------------------------------------------------------- the scene */
   var GROUPS = {
-    "scan-head":  { label: "The scan head",  tint: [0.83,0.66,0.31] },
-    "isolation":  { label: "The frame and suspension", tint: [0.42,0.47,0.50] },
-    "enclosures": { label: "The shielded boxes", tint: [0.30,0.55,0.52] }
+    "scan-head": { label: "The scan head",  tint: [0.83,0.66,0.31] },
+    "isolation": { label: "The frame and suspension", tint: [0.42,0.47,0.50] }
   };
   var parts = [], radius = 1, centre = [0,0,0];
   var az = 0.58, el = 0.52, dist = 1, hover = -1, sel = -1;
-  var groupOn = { "scan-head": true, "isolation": true, "enclosures": true };
+  var groupOn = { "scan-head": true, "isolation": true };
 
   function layout(meta) {
-    var order = { "scan-head": 0, "isolation": 1, "enclosures": 2 };
+    var order = { "scan-head": 0, "isolation": 1 };
     meta.sort(function (a, b) {
       if (order[a.group] !== order[b.group]) { return order[a.group] - order[b.group]; }
       return (b.size[0] * b.size[2]) - (a.size[0] * a.size[2]);
     });
-    var cell = 0, tallest = 0;
-    meta.forEach(function (m) {
-      cell = Math.max(cell, m.size[0], m.size[2]);
-      tallest = Math.max(tallest, m.size[1]);
-    });
-    cell *= 1.22;
-    var cols = 6, rows = Math.ceil(meta.length / cols);
+    var cell = 0;
+    meta.forEach(function (m) { cell = Math.max(cell, m.size[0], m.size[2]); });
+    cell *= 1.18;
+    var cols = Math.min(4, meta.length), rows = Math.ceil(meta.length / cols);
+    var lo = [1e9, 0, 1e9], hi = [-1e9, 0, -1e9];
     meta.forEach(function (m, i) {
       var cx = i % cols, cz = Math.floor(i / cols);
-      m.pos = [(cx - (cols - 1) / 2) * cell,
-               m.size[1] / 2,
-               (cz - (rows - 1) / 2) * cell];
+      m.pos = [(cx - (cols - 1) / 2) * cell, m.size[1] / 2, (cz - (rows - 1) / 2) * cell];
+      lo[0] = Math.min(lo[0], m.pos[0] - m.size[0] / 2);
+      hi[0] = Math.max(hi[0], m.pos[0] + m.size[0] / 2);
+      lo[2] = Math.min(lo[2], m.pos[2] - m.size[2] / 2);
+      hi[2] = Math.max(hi[2], m.pos[2] + m.size[2] / 2);
+      hi[1] = Math.max(hi[1], m.size[1]);
     });
-    centre = [0, tallest * 0.28, 0];
-    radius = Math.max(cols, rows) * cell * 0.5;
-    dist = radius * 2.05;
+    // Frame what is actually there, not the nominal grid: one large part next to a
+    // small one makes the grid much wider than the parts fill.
+    centre = [(lo[0] + hi[0]) / 2, hi[1] * 0.3, (lo[2] + hi[2]) / 2];
+    radius = 0.5 * Math.max(hi[0] - lo[0], hi[2] - lo[2], hi[1]);
+    dist = radius * 2.6;
   }
 
   function upload(meta, buf) {
@@ -335,7 +337,7 @@
   var reset = document.getElementById("viewreset");
   if (reset) {
     reset.addEventListener("click", function () {
-      az = 0.58; el = 0.52; dist = radius * 2.05; sel = -1; show(-1); invalidate();
+      az = 0.58; el = 0.52; dist = radius * 2.6; sel = -1; show(-1); invalidate();
     });
   }
   window.addEventListener("resize", invalidate, { passive: true });

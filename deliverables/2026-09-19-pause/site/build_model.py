@@ -3,9 +3,9 @@
 
     python3 deliverables/2026-09-19-pause/site/build_model.py
 
-WHAT IT DOES, in plain language. `CAD/prints/` holds the 23 STL files we actually
-printed the instrument from. This reads every one of them, shrinks the numbers so
-they fit in a file small enough to publish, and writes them out as one file,
+WHAT IT DOES, in plain language. This reads the STL files for the twelve parts the
+instrument was actually printed from, shrinks the numbers so they fit in a file
+small enough to publish, and writes them out as one file,
 `model/parts.json`, with the geometry base64'd inside it. The page then draws them
 in 3D and lets you spin them round and click one for its real measurements.
 
@@ -13,7 +13,13 @@ WHY ONE FILE. The publishing host serves a fixed list of file types and a raw `.
 is not one of them, so the vertices ride inside the JSON instead of beside it. It
 costs a third more bytes and saves a round trip.
 
-WHAT IT IS AND IS NOT. **Every shape here is the real printed part.** The POSITIONS
+WHICH PARTS. Only the twelve that appear in CAD/prints/print-plates/, which are the
+plates the instrument was printed from. The enclosures in CAD/prints/enclosures/
+belong to the upstream distribution and are not on any plate, so they are not shown:
+the shield cover there is Mech Panda's, and on our instrument the shielding is
+copper tape.
+
+WHAT IT IS AND IS NOT. **Every shape here is a real printed part.** The POSITIONS
 are not: the STL files are laid out for a printer, not for an assembly, and this
 repository does not contain the assembly transforms. So the parts are arranged in
 groups, deliberately spread out, and the page says so. Nothing here is a claim about
@@ -37,9 +43,16 @@ PRINTS = os.path.join(ROOT, "CAD", "prints")
 OUT = os.path.join(HERE, "model")
 
 # Descriptions come from CAD/prints/README.md and docs/. Nothing here is invented.
+# WHICH PARTS THESE ARE, and how we know. CAD/prints/print-plates/ holds the 3MF
+# plates the instrument was actually printed from, and the object list inside them
+# is the evidence: twelve distinct parts across five plates. The enclosures in
+# CAD/prints/enclosures/ are the upstream distribution's and are NOT on any plate,
+# so they are not here - Jacob, 2026-09-20: the shield cover in particular is Mech
+# Panda's, not what is on our instrument, where the shielding is copper tape.
+# Descriptions come from CAD/prints/README.md and docs/. Nothing here is invented.
 PARTS = [
     ("scan-head", "BasePlate.stl", "Base plate",
-     "The floor of the scan head. Everything else in the head is referenced to it, "
+     "The floor of the scan head. Everything else in the head is positioned from it, "
      "and it sits on the copper-covered plate you can see in the photographs."),
     ("scan-head", "PiezoPlate.stl", "Piezo plate",
      "Carries the piezo disc that moves the tip. Every scan on this page was made by "
@@ -48,48 +61,29 @@ PARTS = [
      "Holds the sample in front of the tip. On ours it was held on by two twisted "
      "rubber bands, which is the second row of what stopped us."),
     ("scan-head", "MotorSupport.stl", "Motor support",
-     "Holds the 28BYJ-48 stepper that drives the coarse approach through a fine screw."),
+     "Holds the stepper motor that drives the coarse approach through a fine screw."),
     ("scan-head", "ThreadAdaptor.stl", "Thread adaptor",
-     "Couples the stepper shaft to the fine screw. One turn of that screw is "
-     "0.31750 mm, and one motor step is 1/2048 of a turn."),
+     "Couples the motor shaft to the fine screw. One turn of that screw is "
+     "0.3175 mm, and one motor step is one 2,048th of a turn."),
     ("scan-head", "box_mount.stl", "Shield frame",
-     "The frame the shield cover drops onto, 142 x 128 mm, the same footprint as the cover."),
+     "The frame a shield sits on, 142 by 128 mm. On our instrument the shielding "
+     "itself is copper tape rather than a printed cover."),
 
     ("isolation", "new_body.stl", "Frame body",
      "The printed lower frame the whole instrument stands on."),
     ("isolation", "new_topframe.stl", "Top plate",
      "The plate at the top of the threaded columns. The suspension springs hang from it."),
     ("isolation", "Platform.stl", "Suspended platform",
-     "The circular platform the scan head rides on, hanging on three springs. "
-     "This is the part whose stillness the whole measurement depends on."),
+     "The round platform the scan head rides on, hanging on three springs. This is "
+     "the part whose stillness the whole measurement depends on."),
     ("isolation", "Spring_hangers_and_extentions.stl", "Spring hangers",
-     "The hangers and extensions the springs attach through."),
+     "The hangers and extensions the springs attach through. Ten were printed."),
     ("isolation", "coin_weights.stl", "Coin weight holders",
-     "Added mass for the platform. On the real instrument these were replaced by "
-     "three paper quarter wrappers, which is one of the seven suspects for the drift."),
+     "Added mass for the platform. Three were printed. On the real instrument they "
+     "were replaced by three paper quarter wrappers, which is one of the seven "
+     "suspects for the drift."),
     ("isolation", "magnet_mount.stl", "Magnet mount",
      "Holds the eddy-current damping magnets under the platform."),
-
-    ("enclosures", "6_shield_cover.stl", "Scan head shield",
-     "142 x 128 x 112 mm. Drops over the whole scanning module and is copper taped, "
-     "grounded at one point."),
-    ("enclosures", "5_intermediate_baseplate.stl", "Intermediate base plate",
-     "130 x 100 x 5 mm, fitting the 131 x 101 mm opening in the shield frame."),
-    ("enclosures", "1_preamp_box_base.stl", "Preamplifier box",
-     "35 x 29 x 21 mm, around one small PCB. The board inside is 20.6 x 15.2 mm. "
-     "This is the box mounted as close to the tip as it physically fits."),
-    ("enclosures", "1_preamp_box_lid.stl", "Preamplifier box lid", "Its lid."),
-    ("enclosures", "1_preamp_box_base_v2_screwmount.stl", "Preamplifier box, screw mount",
-     "A second version of the preamplifier box with a screw mount."),
-    ("enclosures", "2_controller_box_base.stl", "Controller box",
-     "129 x 114 x 40 mm, around the controller PCB with its four converters."),
-    ("enclosures", "2_controller_box_lid.stl", "Controller box lid", "Its lid."),
-    ("enclosures", "3_teensy_protoboard_box_base.stl", "Teensy box",
-     "90 x 110 x 42 mm, around the Teensy 4.1 and its protoboard."),
-    ("enclosures", "3_teensy_protoboard_box_lid.stl", "Teensy box lid", "Its lid."),
-    ("enclosures", "4_scanhead_box_base.stl", "Scan head box (not used)",
-     "130 x 134 x 88 mm. The alternative enclosure we did not use."),
-    ("enclosures", "4_scanhead_box_lid.stl", "Scan head box lid (not used)", "Its lid."),
 ]
 
 

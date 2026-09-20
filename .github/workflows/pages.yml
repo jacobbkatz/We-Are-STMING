@@ -1,0 +1,72 @@
+# Publish the project website at https://jacobbkatz.github.io/We-Are-STMING/
+#
+# TO TURN IT ON, once: repository Settings -> Pages -> "Build and deployment" ->
+# Source -> "GitHub Actions". Nothing else. After that every push to main rebuilds
+# and republishes the site within a couple of minutes.
+#
+# The site's images and 3D model are not committed - they are rebuilt here from the
+# figures, photographs and STL files that are, which is why this installs Pillow
+# and numpy and runs the two build scripts before uploading.
+name: Website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'deliverables/2026-09-19-pause/site/**'
+      - 'deliverables/2026-09-19-pause/figures/png/**'
+      - 'deliverables/2026-09-19-pause/photos/prepared/**'
+      - 'deliverables/2026-09-19-pause/poster/poster_preview.png'
+      - 'Images/ours/**'
+      - 'CAD/prints/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --quiet pillow numpy
+      - name: Build the images and the 3D model
+        run: |
+          python3 deliverables/2026-09-19-pause/site/build_assets.py
+          python3 deliverables/2026-09-19-pause/site/build_model.py
+      - name: Check nothing is missing
+        run: |
+          cd deliverables/2026-09-19-pause/site
+          python3 - <<'PY'
+          import os, re, sys
+          page = open("index.html", encoding="utf-8").read()
+          want = sorted(set(re.findall(r'(?:src|href)="((?:img|model)/[^"]+)"', page)))
+          missing = [w for w in want if not os.path.exists(w)]
+          if missing:
+              sys.exit("the page asks for files the build did not produce: %s" % missing)
+          print("%d local files, all present" % len(want))
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: deliverables/2026-09-19-pause/site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
