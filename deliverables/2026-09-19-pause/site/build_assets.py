@@ -41,6 +41,7 @@ PHOTOS = {
     "instrument": "photos/prepared/04_instrument_full_height.jpg",
     "room":       "photos/prepared/15_workshop_room.jpg",
     "teardown":   "photos/prepared/12_teardown_platform_off_frame.jpg",
+    "wiring":     "photos/prepared/16_scan_module_wiring.jpg",
 }
 
 # Frames showing Jacob or Nuh. These come straight from Images/ours/ rather than

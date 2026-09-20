@@ -280,6 +280,21 @@
   figure > a{ display:block; }
   figure img{ width:100%; height:auto; display:block; border:1px solid var(--line); border-radius:2px; }
   figcaption{ font-size:var(--s1); line-height:1.55; color:var(--muted); margin-top:.75em; max-width:42em; }
+  /* Charts on a narrow screen. A chart drawn 1,700 px wide, squeezed into a 350 px
+     phone column, renders its 12 pt labels at about 4 px: a grey smear, measured on a
+     real render, not guessed. Below 760 px the chart keeps a readable width and the
+     frame scrolls sideways instead, and it still opens full size on a tap. */
+  .figswipe{ display:none; font-size:var(--s0); color:var(--gold); margin-top:.5em; }
+  @media (max-width:760px){
+    figure > a:has(> img[src^="img/fig"]),
+    figure > a:has(> img[src="img/wiring.jpg"]){
+      overflow-x:auto; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
+      border:1px solid var(--line); border-radius:2px; background:var(--raise); }
+    figure > a > img[src^="img/fig"],
+    figure > a > img[src="img/wiring.jpg"]{
+      width:780px; max-width:none; height:auto; border:0; }
+    .figswipe{ display:block; }
+  }
   figcaption b{ color:var(--ink2); font-weight:600; }
   .photo img{ border-radius:2px; }
   .duo{ display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; }
@@ -636,6 +651,10 @@
     </div>
   </div>
 
+  <figure class="photo" data-rv><a href="img/wiring.jpg"><img src="img/wiring.jpg" width="1500" height="1309" alt="The scanning module held in one hand, with four wire bundles labelled: preamp cables leaving to the left, motor wires going to the driver board beside the stepper, piezo wires crossing the copper base plate, and the bias wire dropping off the platform on its own." loading="lazy"></a>
+    <figcaption><b>Four bundles leave the scanning module, and every one of them matters.</b> The <b>preamp cables</b> carry power to the amplifier and the measurement back out. The <b>motor wires</b> drive the coarse approach. The <b>piezo wires</b> move the tip. The <b>bias wire</b> puts the voltage on the sample. Which bundle is which is Jacob&rsquo;s identification, not something read off the colours &mdash; the same colour means different things on the two cables, and the four wires at the piezo itself are bare enamelled copper with no colour code at all.</figcaption>
+  </figure>
+
   <h3>The printed parts, in three dimensions</h3>
   <p class="measure">We printed twelve parts. These are those twelve, drawn from the same files that
   drove the printer. <strong>Drag to turn the model round, scroll to zoom, and click any part to
@@ -696,12 +715,12 @@
   </div>
 
   <figure data-rv>
-    <a href="img/fig01.jpg"><img src="img/fig01.jpg" width="1500" height="1058" alt="Measured converter reading against bias voltage across a known 100 megohm resistor, with the residuals below: 53 points sitting on the line Ohm's law requires." loading="lazy"></a>
+    <a href="img/fig01.jpg"><img src="img/fig01.jpg" width="1500" height="1319" alt="Measured converter reading against bias voltage across a known 100 megohm resistor, with the residuals below: 53 points sitting on the line Ohm's law requires." loading="lazy"></a>
     <figcaption>We took the tip and sample out, clipped a known 100 megohm resistor where the junction goes, and swept it. The chain reported <b>&minus;3,204.8 &plusmn; 36.5 counts per volt</b> against the <b>&minus;3,200</b> Ohm&rsquo;s law requires, over 53 readings. <b>That is the number every other measurement on this page rests on.</b></figcaption>
   </figure>
 
   <figure data-rv>
-    <a href="img/fig02.jpg"><img src="img/fig02.jpg" width="1500" height="786" alt="Current against voltage for the tip-and-sample junction, climbing faster than the straight line of Ohm's law, with junction resistance falling from 59 to 16 megohms." loading="lazy"></a>
+    <a href="img/fig02.jpg"><img src="img/fig02.jpg" width="1500" height="827" alt="Current against voltage for the tip-and-sample junction, climbing faster than the straight line of Ohm's law, with junction resistance falling from 59 to 16 megohms." loading="lazy"></a>
     <figcaption>Then a real tip-and-sample junction on gold. The current climbs far faster than the voltage does, which rules out a metallic short; it is symmetric in both bias directions, which rules out a one-way contact; and the resistance falls from <b>59 to 16 megohms</b> across a tenfold voltage range. <b>What that shape means is a barrier &mdash; two conductors with something in between that electrons have to cross.</b></figcaption>
   </figure>
 </section>
@@ -720,7 +739,7 @@
   </ul>
 
   <figure data-rv>
-    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="1115" alt="Left: how far one motor step moves the tip, against the width of the window where tunnelling is visible. Right: one measured approach crossing that window in 2,636 counts, beside the 10 to 22 counts a vacuum gap would take." loading="lazy"></a>
+    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="980" alt="Left: how far one motor step moves the tip, against the width of the window where tunnelling is visible. Right: one measured approach crossing that window in 2,636 counts, beside the 10 to 22 counts a vacuum gap would take." loading="lazy"></a>
     <figcaption>Could we have blinked and missed it? Not on the piezo. There is a narrow shelf of gap width where a tunnelling current is large enough to see and small enough not to saturate the amplifier. <b>The coarse motor jumps clean over that shelf in a single step</b> &mdash; eleven times its whole width &mdash; but the piezo steps four counts at a time and reads 227 times a second, and <b>it spent 60,928 readings inside it</b>. <b>What we never did is hold it.</b> A gap would have crossed that shelf in 10 to 22 counts. The nearest we came was about 1,500.</figcaption>
   </figure>
 
@@ -768,7 +787,7 @@
   </div>
 
   <figure data-rv>
-    <a href="img/fig03.jpg"><img src="img/fig03.jpg" width="1500" height="1046" alt="The surface position against time with the motor off and nobody touching the instrument: it moves more than 43,000 counts within 6.4 seconds and more than 56,000 within two minutes." loading="lazy"></a>
+    <a href="img/fig03.jpg"><img src="img/fig03.jpg" width="1500" height="1352" alt="The surface position against time with the motor off and nobody touching the instrument: it moves more than 43,000 counts within 6.4 seconds and more than 56,000 within two minutes." loading="lazy"></a>
     <figcaption>The measurement behind the first row. <b>The thing we are trying to measure is smaller than the way the gap moves while we are measuring it.</b> Knowing that precisely, rather than guessing at it, is the result.</figcaption>
   </figure>
   <p class="measure"><strong>This is the row we would most like help with.</strong> If you have
@@ -781,7 +800,7 @@
   <p class="lede">After every scan we ran the same scan again with the sideways sweep switched off.</p>
   <p class="measure">That control has identical timing and identical feedback behavior, but the tip never travels across the surface, so <strong>it cannot contain surface structure at all</strong>. Anything appearing in both is the instrument, not the sample. Our scans repeated no better than those controls did, and that single test is what settles the imaging question.</p>
   <figure data-rv>
-    <a href="img/fig04.jpg"><img src="img/fig04.jpg" width="1500" height="859" alt="Two scans beside their sideways-sweep-disabled controls, with the repeatability of each plotted on a common axis: both sit on zero and neither differs from the other." loading="lazy"></a>
+    <a href="img/fig04.jpg"><img src="img/fig04.jpg" width="1500" height="1169" alt="Two scans beside their sideways-sweep-disabled controls, with the repeatability of each plotted on a common axis: both sit on zero and neither differs from the other." loading="lazy"></a>
     <figcaption>Like for like over full images, our scans repeat at <b>+0.04</b> and their controls at <b>+0.07</b>. Indistinguishable, and neither differs from zero. <b>It is also why we never fooled ourselves.</b></figcaption>
   </figure>
   <p class="measure">We went back over our own published numbers at the end and found two of them had been computed across files that stopped early. We withdrew both. The conclusion survived on other evidence, and the withdrawn claims are still in the record beside what replaced them.</p>
@@ -1025,19 +1044,19 @@
 
   <h3>Every figure</h3>
   <div class="grid13">
-    <a href="img/fig01.jpg"><img src="img/fig01.jpg" width="1500" height="1058" alt="" loading="lazy"><span>The chain agrees with theory to 0.13 sigma</span></a>
-    <a href="img/fig02.jpg"><img src="img/fig02.jpg" width="1500" height="786" alt="" loading="lazy"><span>A real junction, behaving like a barrier</span></a>
-    <a href="img/fig03.jpg"><img src="img/fig03.jpg" width="1500" height="1046" alt="" loading="lazy"><span>The gap does not hold still</span></a>
-    <a href="img/fig04.jpg"><img src="img/fig04.jpg" width="1500" height="859" alt="" loading="lazy"><span>The control that stopped us fooling ourselves</span></a>
-    <a href="img/fig05.jpg"><img src="img/fig05.jpg" width="1500" height="724" alt="" loading="lazy"><span>What the junction actually is, over 110 cycles</span></a>
-    <a href="img/fig06.jpg"><img src="img/fig06.jpg" width="1500" height="844" alt="" loading="lazy"><span>The noise floor, and what does not move it</span></a>
-    <a href="img/fig07.jpg"><img src="img/fig07.jpg" width="1500" height="774" alt="" loading="lazy"><span>The signal chain, end to end</span></a>
-    <a href="img/fig08.jpg"><img src="img/fig08.jpg" width="1500" height="978" alt="" loading="lazy"><span>The scale of the problem</span></a>
-    <a href="img/fig09.jpg"><img src="img/fig09.jpg" width="1500" height="1021" alt="" loading="lazy"><span>The build, session by session</span></a>
-    <a href="img/fig10.jpg"><img src="img/fig10.jpg" width="1500" height="670" alt="" loading="lazy"><span>Push in against pull out</span></a>
-    <a href="img/fig11.jpg"><img src="img/fig11.jpg" width="1500" height="686" alt="" loading="lazy"><span>A vacuum gap has no memory. Ours did</span></a>
-    <a href="img/fig12.jpg"><img src="img/fig12.jpg" width="1500" height="626" alt="" loading="lazy"><span>What one unmeasured distance decides</span></a>
-    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="1115" alt="" loading="lazy"><span>Could we have missed it?</span></a>
+    <a href="img/fig01.jpg"><img src="img/fig01.jpg" width="1500" height="1319" alt="" loading="lazy"><span>The chain agrees with theory to 0.13 sigma</span></a>
+    <a href="img/fig02.jpg"><img src="img/fig02.jpg" width="1500" height="827" alt="" loading="lazy"><span>A real junction, behaving like a barrier</span></a>
+    <a href="img/fig03.jpg"><img src="img/fig03.jpg" width="1500" height="1352" alt="" loading="lazy"><span>The gap does not hold still</span></a>
+    <a href="img/fig04.jpg"><img src="img/fig04.jpg" width="1500" height="1169" alt="" loading="lazy"><span>The control that stopped us fooling ourselves</span></a>
+    <a href="img/fig05.jpg"><img src="img/fig05.jpg" width="1500" height="1287" alt="" loading="lazy"><span>What the junction actually is, over 110 cycles</span></a>
+    <a href="img/fig06.jpg"><img src="img/fig06.jpg" width="1500" height="816" alt="" loading="lazy"><span>The noise floor, and what does not move it</span></a>
+    <a href="img/fig07.jpg"><img src="img/fig07.jpg" width="1500" height="1717" alt="" loading="lazy"><span>The signal chain, end to end</span></a>
+    <a href="img/fig08.jpg"><img src="img/fig08.jpg" width="1500" height="919" alt="" loading="lazy"><span>The scale of the problem</span></a>
+    <a href="img/fig09.jpg"><img src="img/fig09.jpg" width="1500" height="1886" alt="" loading="lazy"><span>The build, session by session</span></a>
+    <a href="img/fig10.jpg"><img src="img/fig10.jpg" width="1500" height="1040" alt="" loading="lazy"><span>Push in against pull out</span></a>
+    <a href="img/fig11.jpg"><img src="img/fig11.jpg" width="1500" height="1515" alt="" loading="lazy"><span>A vacuum gap has no memory. Ours did</span></a>
+    <a href="img/fig12.jpg"><img src="img/fig12.jpg" width="1500" height="1162" alt="" loading="lazy"><span>What one unmeasured distance decides</span></a>
+    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="980" alt="" loading="lazy"><span>Could we have missed it?</span></a>
   </div>
 
   <h3>Every document</h3>
@@ -1190,6 +1209,20 @@
       if (window.innerWidth > 1090) { setOpen(false); }
     }, { passive: true });
   }
+
+  // Tell a phone reader that a wide chart can be swiped or opened. Added here rather
+  // than typed into fourteen captions, and hidden by CSS on a screen wide enough not
+  // to need it.
+  Array.prototype.forEach.call(
+    document.querySelectorAll('figure > a > img[src^="img/fig"], figure > a > img[src="img/wiring.jpg"]'),
+    function(img){
+      var fc = img.closest('figure').querySelector('figcaption');
+      if(!fc) return;
+      var s = document.createElement('span');
+      s.className = 'figswipe';
+      s.textContent = 'Swipe the chart sideways to read it, or tap to open it full size.';
+      fc.insertBefore(s, fc.firstChild);
+    });
 
   // Hash links only: a mailto passed to querySelector throws and kills everything below.
   var navA = Array.prototype.slice.call(document.querySelectorAll('#navlinks a[href^="#"]'));

@@ -43,7 +43,7 @@ STEPS = [
 
 def main():
     S.set_theme("light")
-    fig, ax = S.make_fig(width=8.8, height=5.9)
+    fig, ax = S.make_fig(width=10.6, height=6.7)
     fig.subplots_adjust(top=0.790, bottom=0.315, left=0.225, right=0.985)
 
     ys = list(range(len(STEPS)))[::-1]
@@ -64,7 +64,7 @@ def main():
     ax.set_yticks(ys)
     ax.set_yticklabels(["Z +400  (toward the sample)", "Z +200  (toward)",
                         "Z −200  (away)", "Z −400  (away)"])
-    ax.set_xlim(-2.15, 2.75)
+    ax.set_xlim(-2.60, 4.25)
     ax.set_xticks([-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5])
     ax.set_ylim(-0.75, 3.75)
     S.tidy(ax, xlabel="Change in current, in decades   (one decade = ten times more current)",
@@ -72,9 +72,11 @@ def main():
 
     # The two halves of the result, said inside the plot rather than in a caption.
     ax.axhspan(1.52, 3.75, color=S.C["band"], zorder=0)
-    S.note(ax, 2.68, 3.30, "PUSHING IN\nbarely moved the current.\nAbout a quarter of the\npush reached the junction.",
+    # Anchored to the right of the bars, in a column the axis is widened to make.
+    # At the 2026-09-20 type scale the old column was sixteen characters across.
+    S.note(ax, 4.18, 3.55, "PUSHING IN\nbarely moved the current.\nAbout a quarter of the\npush reached the junction.",
            ha="right", va="top", fontweight=S.W_EMPH, color=S.word(1))
-    S.note(ax, 2.68, 1.28, "PULLING AWAY\nbehaved much more like a gap —\nand at the larger step gave 3.1x\nmore than the same push did.",
+    S.note(ax, 4.18, 1.35, "PULLING AWAY\nbehaved much more like a gap —\nand at the larger step gave 3.1x\nmore than the same push did.",
            ha="right", va="top", fontweight=S.W_EMPH, color=S.word(0))
 
     S.titles_keyed(

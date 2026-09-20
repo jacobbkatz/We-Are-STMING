@@ -52,62 +52,89 @@ STAGES = [
 
 def main():
     S.set_theme("light")
-    fig = S.plt.figure(figsize=(13.4, 6.6))
+    # THREE ACROSS, TWO DOWN. Six boxes in a row made the figure twice as wide as it
+    # was tall, so a browser column scaled it to about a third and a phone to a tenth -
+    # the text inside was 4 px. Wrapping the chain halves the width and the whole thing
+    # reads at twice the size for the same number of pixels.
+    fig = S.plt.figure(figsize=(10.4, 12.0))
     ax = fig.add_axes([0.0, 0.0, 1.0, 1.0])
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
     ax.axis("off")
 
-    n = len(STAGES)
+    ncol = 3
     left, right = 3.0, 97.0
-    gapw = 2.0
-    boxw = (right - left - gapw * (n - 1)) / n
-    ytop, ybot = 80.0, 42.0
+    gapw = 4.0
+    boxw = (right - left - gapw * (ncol - 1)) / ncol
+    ROWS = [(84.0, 62.0), (54.0, 32.0)]        # (top, bottom) of each row of boxes
     c_meas = S.series(0)
     c_ds = S.C["muted"]
 
+    def box_x(i):
+        return left + (i % ncol) * (boxw + gapw)
+
     for i, (head, does, num, prov) in enumerate(STAGES):
-        x = left + i * (boxw + gapw)
+        ytop, ybot = ROWS[i // ncol]
+        x = box_x(i)
         measured = prov.startswith("DS + MEAS") or prov.startswith("MEASURED")
         edge = c_meas if measured else c_ds
         ax.add_patch(FancyBboxPatch(
             (x, ybot), boxw, ytop - ybot,
-            boxstyle="round,pad=0,rounding_size=1.4",
+            boxstyle="round,pad=0,rounding_size=1.0",
             facecolor=S.C["surface"], edgecolor=edge, linewidth=1.6, zorder=3))
         ax.add_patch(FancyBboxPatch(
-            (x, ytop - 1.0), boxw, 1.0,
-            boxstyle="round,pad=0,rounding_size=0.45",
+            (x, ytop - 0.8), boxw, 0.8,
+            boxstyle="round,pad=0,rounding_size=0.3",
             facecolor=edge, edgecolor="none", zorder=4))
 
         cx = x + boxw / 2.0
-        ax.text(cx, ytop - 4.2, head, ha="center", va="top",
+        ax.text(cx, ytop - 2.5, head, ha="center", va="top",
                 fontsize=S.TYPE["label"], fontweight=S.W_TITLE, color=S.C["ink"])
-        ax.text(cx, ytop - 11.0, does, ha="center", va="top",
-                fontsize=S.TYPE["annot"], color=S.C["ink2"], linespacing=1.8)
-        ax.plot([x + 2.5, x + boxw - 2.5], [ybot + 13.5, ybot + 13.5], "-",
+        ax.text(cx, ytop - 7.0, does, ha="center", va="top",
+                fontsize=S.TYPE["annot"], color=S.C["ink2"], linespacing=1.55)
+        ax.plot([x + 2.5, x + boxw - 2.5], [ybot + 9.0, ybot + 9.0], "-",
                 color=S.C["grid"], lw=1.0, zorder=4)
-        ax.text(cx, ybot + 8.4, num, ha="center", va="center",
+        ax.text(cx, ybot + 5.6, num, ha="center", va="center",
                 fontsize=S.TYPE["annot"], fontweight=S.W_EMPH,
-                color=c_meas if measured else S.C["ink"], linespacing=1.9)
-        ax.text(cx, ybot + 2.4, prov, ha="center", va="center",
+                color=c_meas if measured else S.C["ink"], linespacing=1.6)
+        ax.text(cx, ybot + 1.3, prov, ha="center", va="center",
                 fontsize=S.TYPE["small"], color=S.C["muted"])
 
-        if i < n - 1:
+        if i % ncol < ncol - 1 and i < len(STAGES) - 1:
             xa = x + boxw
             ax.add_patch(FancyArrowPatch(
-                (xa + 0.25, (ytop + ybot) / 2.0), (xa + gapw - 0.25, (ytop + ybot) / 2.0),
+                (xa + 0.5, (ytop + ybot) / 2.0), (xa + gapw - 0.5, (ytop + ybot) / 2.0),
                 arrowstyle="-|>", mutation_scale=15, linewidth=1.8,
                 color=S.C["axis"], zorder=5))
 
+    # The wrap: out of the last box on row one, round the end, into the first on row two.
+    r0t, r0b = ROWS[0]
+    r1t, r1b = ROWS[1]
+    mid = (r0t + r0b) / 2.0
+    xend = box_x(ncol - 1) + boxw
+    ybar = (r0b + r1t) / 2.0
+    ax.plot([xend + 0.5, xend + 2.0], [mid, mid], "-", color=S.C["axis"], lw=1.8,
+            zorder=5, solid_capstyle="round")
+    ax.plot([xend + 2.0, xend + 2.0], [mid, ybar], "-", color=S.C["axis"], lw=1.8,
+            zorder=5, solid_capstyle="round")
+    ax.plot([xend + 2.0, left - 2.0], [ybar, ybar], "-", color=S.C["axis"], lw=1.8,
+            zorder=5, solid_capstyle="round")
+    ax.plot([left - 2.0, left - 2.0], [ybar, (r1t + r1b) / 2.0], "-",
+            color=S.C["axis"], lw=1.8, zorder=5, solid_capstyle="round")
+    ax.add_patch(FancyArrowPatch(
+        (left - 2.0, (r1t + r1b) / 2.0), (left - 0.5, (r1t + r1b) / 2.0),
+        arrowstyle="-|>", mutation_scale=15, linewidth=1.8,
+        color=S.C["axis"], zorder=5))
+
     # ---- the worked example ----------------------------------------------------------
     ax.add_patch(FancyBboxPatch(
-        (left, 17.0), right - left, 17.0,
+        (left, 14.0), right - left, 20.0,
         boxstyle="round,pad=0,rounding_size=1.4",
         facecolor=S.C["band"], edgecolor="none", zorder=2))
-    ax.text(left + 2.6, 29.7, "Follow one nanoamp through it",
+    ax.text(left + 2.6, 31.0, "Follow one nanoamp through it",
             ha="left", va="center", fontsize=S.TYPE["label"], fontweight=S.W_TITLE,
             color=S.C["ink"])
-    ax.text(left + 2.6, 22.3,
+    ax.text(left + 2.6, 20.5,
             "1 nanoamp at the tip   \u2192   0.1 volts out of the amplifier   \u2192   "
             "320 counts on the laptop.\n"
             "One count is 3.125 picoamps, and the largest current the chain can report "
@@ -115,10 +142,10 @@ def main():
             ha="left", va="center", fontsize=S.TYPE["annot"], color=S.C["ink2"],
             linespacing=2.1)
 
-    ax.text(right - 2.6, 29.7, "blue = measured on this instrument",
+    ax.text(right - 2.6, 31.0, "blue = measured on this instrument",
             ha="right", va="center", fontsize=S.TYPE["annot"], fontweight=S.W_EMPH,
             color=S.word(0))
-    ax.text(right - 2.6, 24.4, "grey = from a datasheet, or arithmetic on one",
+    ax.text(right - 2.6, 27.0, "grey = from a datasheet, or arithmetic on one",
             ha="right", va="center", fontsize=S.TYPE["annot"], color=S.C["ink2"])
 
     S.titles_keyed(

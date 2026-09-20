@@ -106,14 +106,14 @@ def typical_cycle(path):
 
 def main():
     S.set_theme("light")
-    fig, axes = S.make_fig(width=10.6, height=7.9, nrows=2, ncols=2)
-    fig.subplots_adjust(top=0.775, bottom=0.290, left=0.072, right=0.985,
-                        wspace=0.20, hspace=0.62)
+    fig, axes = S.make_fig(width=10.6, height=8.7, nrows=2, ncols=2)
+    fig.subplots_adjust(top=0.790, bottom=0.265, left=0.072, right=0.985,
+                        wspace=0.30, hspace=0.72)
 
     in_c, out_c = S.series(0), S.series(1)      # blue in, orange out
     summary = []
 
-    for ax, (label, fname) in zip(axes.ravel(), RUNS):
+    for i, (ax, (label, fname)) in enumerate(zip(axes.ravel(), RUNS)):
         ph, w, lvl, med, n, cnum = typical_cycle(S.data_path(SESSION, fname))
         summary.append((label, med, n))
         ins, outs = ph["in"], ph["out"]
@@ -142,11 +142,13 @@ def main():
         ax.yaxis.set_minor_formatter(NullFormatter())
         ax.set_yticks([0.1, 1, 10])
         ax.set_yticklabels(["0.1", "1", "10"])
-        ax.set_title("%s   —   loop median %s counts over %d cycles"
+        ax.set_title("%s   —   median loop %s counts (%d cycles)"
                      % (label, format(int(round(med)), ","), n))
         S.tidy(ax, grid="both")
         S.thousands(ax, "x")
-        ax.set_xlabel("Z, in DAC counts", labelpad=6)
+        # Bottom row only: a label under every panel collided with the row below.
+        if i >= 2:
+            ax.set_xlabel("Z, in DAC counts", labelpad=6)
         ax.set_ylabel("current, nA", labelpad=6)
 
     S.titles_keyed(

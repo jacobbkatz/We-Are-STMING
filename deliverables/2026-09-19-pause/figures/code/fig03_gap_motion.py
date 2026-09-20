@@ -99,8 +99,8 @@ def main():
               % (a, b, b - a, round((b - a) / PERIOD)))
 
     S.set_theme("light")
-    fig, (ax, axz) = S.plt.subplots(1, 2, figsize=(10.6, 7.6), width_ratios=[2.75, 1.15])
-    fig.subplots_adjust(top=0.800, bottom=0.300, left=0.086, right=0.985, wspace=0.28)
+    fig, (ax, axz) = S.plt.subplots(1, 2, figsize=(10.6, 8.4), width_ratios=[2.75, 1.15])
+    fig.subplots_adjust(top=0.775, bottom=0.255, left=0.086, right=0.985, wspace=0.28)
 
     c = S.series(0)          # blue   - a contact was found
     c_far = S.series(1)      # orange - nothing found anywhere in the sweep
@@ -115,7 +115,7 @@ def main():
         ax.annotate("", xy=(a, 65700), xytext=(a, SWEEP_TOP + 700),
                     arrowprops=dict(arrowstyle="-|>", color=c_far, lw=1.8,
                                     shrinkA=0, shrinkB=0), zorder=5)
-    S.note(ax, 16, SWEEP_TOP - 2600,
+    S.note(ax, 16, SWEEP_TOP - 3100,
            "%.0f seconds out of reach — about %d sweeps, none of which found it"
            % (spans[0][1] - spans[0][0], round((spans[0][1] - spans[0][0]) / PERIOD)),
            ha="left", va="top", fontsize=S.TYPE["small"])
@@ -155,13 +155,13 @@ def main():
                   % (round(Z_FULL / zoom_top / 100) * 100))
     axz.annotate("", xy=(0.32, TUNNEL_HI + 0.5), xytext=(0.32, 19.6),
                  arrowprops=dict(arrowstyle="-|>", color=S.C["ink2"], lw=1.5), zorder=5)
-    S.key(axz, 0.06, 33.5,
+    S.key(axz, 0.06, 39.0,
           "%d–13 counts. A real tunnelling\ncurrent changes ten-fold\nacross this whole band."
-          % TUNNEL_LO, ha="left", va="bottom")
-    S.note(axz, 0.06, 20.5,
+          % TUNNEL_LO, ha="left", va="bottom", linespacing=1.45)
+    S.note(axz, 0.06, 21.0,
            "Calculated from a Z scale borrowed\nfrom another builder's scanner —\n"
            "never measured on ours.",
-           ha="left", va="bottom", fontsize=S.TYPE["small"])
+           ha="left", va="bottom", fontsize=S.TYPE["small"], linespacing=1.45)
 
     S.titles_keyed(
         fig,

@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import glob
 import os
+import re
 
 import matplotlib
 
@@ -83,7 +84,13 @@ def assert_font_loaded() -> None:
 assert_font_loaded()
 
 # Four sizes. Nothing else.
-TYPE = dict(title=13.5, label=10.5, annot=9.5, small=8.5, hero=32)
+#
+# Raised about a quarter on 2026-09-20. A figure 10 in wide renders at 1140 CSS px in
+# the website's column and at 350 px on a phone, so every point of type is scaled by
+# 1.55 on a laptop and by 0.48 on a phone. At the old 8.5 pt the footer came out at
+# 4 px on a phone - a grey smear, measured, not guessed. These sizes plus the shorter
+# footers and the scrollable figure frame in the site are what make it legible.
+TYPE = dict(title=17.0, label=13.0, annot=12.0, small=11.0, hero=38)
 # Three weights. Hierarchy lives here, not in the sizes.
 W_TITLE, W_EMPH, W_BODY = 600, 500, 400
 
@@ -283,10 +290,148 @@ def titles_keyed(fig, title, subtitle, props, x=0.012, y=0.982, gap=0.050):
 
 
 def footer(fig, text, y=0.010, x=0.012):
-    """Provenance line: source file, measurement date, and what the figure is not."""
-    fig.text(x, y, text, ha="left", va="bottom",
-             fontsize=TYPE["small"], fontweight=W_BODY, color=C["muted"],
-             linespacing=1.6)
+    """Provenance line: source file, measurement date, and what the figure is not.
+
+    The text object is kept on the figure so `save()` can measure it and lift the axes
+    clear of it. Before that, every script carried a hand-tuned `subplots_adjust(bottom=)`
+    that was only correct for one type scale and one wording - raising the type a quarter
+    on 2026-09-20 ran five footers straight through their own x-axis label.
+    """
+    t = fig.text(x, y, text, ha="left", va="bottom",
+                 fontsize=TYPE["small"], fontweight=W_BODY, color=C["muted"],
+                 linespacing=1.6)
+    fig._stm_footer = t
+    return t
+
+
+def _add_paper(fig, inches):
+    """Make the figure taller, keeping every axes the same physical size.
+
+    The first version of this compressed the axes instead, and on fig12 it squeezed a
+    chart into a tenth of its height to make room for a nine-line footer. Squeezing the
+    picture to fit the caption is the wrong way round: the picture is the figure. Extra
+    paper at the bottom costs nothing, because a browser scales an image by its WIDTH.
+    """
+    h = fig.get_figheight()
+    keep = [(ax, ax.get_position()) for ax in fig.axes]
+    fixed = [(ax, (h - p.y1 * h, p.height * h, p.x0, p.width)) for ax, p in keep]
+    new_h = h + inches
+    fig.set_figheight(new_h)
+    for ax, (from_top, height_in, x0, width) in fixed:
+        y1 = (new_h - from_top) / new_h
+        y0 = y1 - height_in / new_h
+        ax.set_position([x0, y0, width, y1 - y0])
+
+
+# A block starts at the beginning, or after a sentence end, and is either "Source:" or a
+# shouted label. Anchoring on the sentence end is what stops the split landing inside the
+# label itself - a bare lookahead matches at every word of "WHAT THIS DOES NOT SHOW:".
+_BLOCK = re.compile(r"(?:^|(?<=[.\u2014] ))(?=(?:Source:|[A-Z][A-Z0-9\u2019' -]{6,}:))")
+
+
+def _paragraphs(text):
+    """Split a footer into its labelled blocks.
+
+    The line breaks authors typed are soft - they fall mid-sentence - so they are
+    thrown away and the text re-wrapped. What must survive is the block structure:
+    `Source:` and shouted labels like `WHAT THIS DOES NOT SHOW:` start a new line.
+    """
+    flat = " ".join(text.split())
+    parts = [p.strip() for p in _BLOCK.split(flat) if p.strip()]
+    return parts or [flat]
+
+
+def _content_right(fig, r, skip):
+    """Rightmost pixel of everything on the figure except `skip`."""
+    xs = []
+    for ax in fig.axes:
+        bb = ax.get_tightbbox(r)
+        if bb is not None:
+            xs.append(bb.x1)
+    for t in fig.texts:
+        if t is skip:
+            continue
+        try:
+            xs.append(t.get_window_extent(r).x1)
+        except Exception:                                  # noqa: BLE001
+            pass
+    return max(xs) if xs else fig.bbox.width
+
+
+def narrow_footer(fig, floor=0.55):
+    """Re-wrap the footer to the width of everything else on the figure.
+
+    WHY THIS MATTERS MORE THAN IT LOOKS. `save()` writes with `bbox_inches="tight"`,
+    so the widest single element sets the width of the exported image - and that was
+    always the footer, running a third wider than the chart. The browser then scales
+    the whole image down to the column, shrinking the CHART to pay for the footer's
+    long lines. Wrapping the footer to the chart's own width makes the exported image
+    narrower, so the chart lands on screen about half as large again. Measured on
+    fig01: 2,178 px wide before, 1,432 px after, same chart.
+    """
+    t = getattr(fig, "_stm_footer", None)
+    if t is None:
+        return
+    fig.canvas.draw()
+    r = fig.canvas.get_renderer()
+    want = max(_content_right(fig, r, t) - t.get_window_extent(r).x0,
+               fig.bbox.width * floor)
+    if t.get_window_extent(r).width <= want:
+        return
+    probe = fig.text(0.0, -1.0, "", fontsize=t.get_fontsize(),
+                     fontweight=t.get_fontweight(), figure=fig)
+
+    def width_of(txt):
+        probe.set_text(txt)
+        return probe.get_window_extent(r).width
+
+    lines = []
+    for para in _paragraphs(t.get_text()):
+        cur = ""
+        for word in para.split():
+            trial = (cur + " " + word).strip()
+            if not cur or width_of(trial) <= want:
+                cur = trial
+            else:
+                lines.append(cur)
+                cur = word
+        if cur:
+            lines.append(cur)
+    probe.remove()
+    t.set_text("\n".join(lines))
+
+
+def fit_footer(fig, gap_in=0.16, rounds=4):
+    """Make room under the axes for the footer. Measured, not guessed.
+
+    Asks the renderer where the footer really ends and where the axes really begin -
+    tight bounding boxes, so x-axis labels and tick labels count - and adds paper at
+    the bottom of the figure if the two meet. Iterates because adding paper changes
+    the figure fractions everything else is expressed in.
+    """
+    t = getattr(fig, "_stm_footer", None)
+    if t is None:
+        return 0.0
+    # A figure whose single axes fills the canvas is a DRAWING, not a plot: its content
+    # is hand-placed in data units and its author has already left room under it.
+    if fig.axes and all(ax.get_position().height > 0.97 and ax.get_position().width > 0.97
+                        for ax in fig.axes):
+        return 0.0
+    added = 0.0
+    for _ in range(rounds):
+        fig.canvas.draw()
+        r = fig.canvas.get_renderer()
+        top = t.get_window_extent(r).y1
+        lows = [ax.get_tightbbox(r).y0 for ax in fig.axes
+                if ax.get_tightbbox(r) is not None]
+        if not lows:
+            return added
+        deficit = (top + gap_in * fig.dpi) - min(lows)
+        if deficit <= 1.0:
+            return added
+        _add_paper(fig, deficit / fig.dpi)
+        added += deficit / fig.dpi
+    return added
 
 
 def note(ax, x, y, text, **kw):
@@ -355,6 +500,8 @@ def save(fig, name, pad=0.32):
     """
     os.makedirs(PNG, exist_ok=True)
     os.makedirs(PRINT, exist_ok=True)
+    narrow_footer(fig)
+    fit_footer(fig)
     out = []
     for path, dpi in ((os.path.join(PNG, name + ".png"), 150),
                       (os.path.join(PRINT, name + ".png"), 300),

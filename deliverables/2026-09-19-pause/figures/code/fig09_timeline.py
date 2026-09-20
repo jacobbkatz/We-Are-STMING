@@ -80,8 +80,11 @@ def main():
         return (d - lo).days / float(span)
 
     S.set_theme("light")
-    fig = S.plt.figure(figsize=(12.6, 9.6))
-    ax = fig.add_axes([0.030, 0.185, 0.955, 0.655])
+    # Narrower and much taller: a browser scales an image by its width, so 12.6 in of
+    # paper made 12 pt text land at 6 px on a laptop. Nine milestones need the height.
+    fig = S.plt.figure(figsize=(10.6, 15.0))
+    AXH = 0.630
+    ax = fig.add_axes([0.030, 0.265, 0.955, AXH])
     ax.axis("off")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
@@ -91,9 +94,12 @@ def main():
     # top, then the headline, then the file it is recorded in.
     n = len(MILESTONES)
     xspine, xtext = 0.115, 0.140
-    top = 0.975
-    rowh = (top - 0.030) / n
-    lh = 0.0315          # one line of body text, in axes units at this figure size
+    top = 0.958
+    rowh = (top - 0.022) / n
+    # One line of body text in axes units, DERIVED from the type size rather than
+    # typed in: the hand-tuned 0.0315 was right for one type scale only, and when the
+    # scale went up on 2026-09-20 every headline landed on its own source line.
+    lh = S.TYPE["annot"] * 1.6 / (fig.get_figheight() * 72.0 * AXH)
     for k, (datestr, head, src, _lvl) in enumerate(MILESTONES):
         y = top - rowh * k
         big = head.startswith("THE WHOLE CHAIN") or head.startswith("A REAL TIP")
@@ -108,11 +114,11 @@ def main():
         nlines = head.count("\n") + 1
         (S.key if big else S.note)(ax, xtext, y + lh * 0.42, head,
                                    ha="left", va="top")
-        S.note(ax, xtext, y + lh * 0.42 - lh * nlines - 0.006, src, ha="left", va="top",
+        S.note(ax, xtext, y + lh * 0.42 - lh * nlines - 0.012, src, ha="left", va="top",
                fontsize=S.TYPE["small"], color=S.C["muted"])
 
     # ---- the true date axis, with one bar per logged session -------------------------
-    axs = fig.add_axes([0.150, 0.112, 0.470, 0.024])
+    axs = fig.add_axes([0.120, 0.160, 0.520, 0.014])
     axs.set_xlim(x(lo), x(hi))
     axs.set_ylim(0, 3.4)
     axs.axis("off")
@@ -129,13 +135,13 @@ def main():
         axs.text(x(d), -0.45, d.strftime("%d %b"), ha="center", va="top",
                  fontsize=S.TYPE["small"], color=S.C["muted"])
         d += dt.timedelta(days=7)
-    fig.text(0.665, 0.122,
+    fig.text(0.030, 0.244,
              "Each bar is one logged work session: %d of them across %d days, %s to %s.\n"
              "Parts were being ordered well before that \u2014 the suspension springs are "
              "on an order dated 2026-06-21."
              % (len(sess), len(days), days[0].strftime("%d %b"),
                 days[-1].strftime("%d %b %Y")),
-             ha="left", va="center", fontsize=S.TYPE["small"], color=S.C["ink2"],
+             ha="left", va="top", fontsize=S.TYPE["small"], color=S.C["ink2"],
              linespacing=1.7)
 
     S.titles_keyed(

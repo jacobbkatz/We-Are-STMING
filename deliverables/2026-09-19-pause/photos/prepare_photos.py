@@ -454,9 +454,46 @@ def p15():
     save(c, "15_workshop_room.jpg")
 
 
+# ------------------------------------------------------------------- 16 wiring
+def p16():
+    """The four wire bundles, named by Jacob.
+
+    Every bundle here is SAID by Jacob, 2026-09-20, pointing at crops of THIS
+    frame. Nothing is read off the colours: docs/WIRING.md warns that the jumper
+    leads at the scan head are different colours from the J1/J2 wiring, and that
+    the four piezo quadrant wires at the tube are bare enamelled copper with no
+    colour code at all. These labels name a bundle and its route, never a pin.
+    """
+    im, src = load("2026-09-19_platform_lifted_off_1.jpg", "IMG_4916")
+    c = fit(im, (0.05, 0.02, 0.85, 0.95), 1500)
+    d = ImageDraw.Draw(c)
+    W, H = c.size
+    arrow(d, (W * 0.15, H * 0.18), (W * 0.34, H * 0.255))
+    label(d, (W * 0.02, H * 0.13), "preamp cables", 32)
+    arrow(d, (W * 0.09, H * 0.545), (W * 0.185, H * 0.475))
+    label(d, (W * 0.02, H * 0.53), "motor wires", 32)
+    arrow(d, (W * 0.50, H * 0.785), (W * 0.46, H * 0.645))
+    label(d, (W * 0.47, H * 0.80), "piezo wires", 32)
+    arrow(d, (W * 0.90, H * 0.865), (W * 0.777, H * 0.793))
+    label(d, (W * 0.98, H * 0.88), "bias wire", 32, anchor="rt")
+    c = caption_bar(c, [
+        "The four wire bundles that leave the scanning module.",
+        "The preamp cables run off to the left. The motor wires go to the small driver board beside the stepper.",
+        "The piezo wires cross the copper base plate past the spring eyebolt. The bias wire is the single lead that",
+        "drops off the platform on its own.",
+        "WHICH BUNDLE IS WHICH IS JACOB'S IDENTIFICATION, SAID 2026-09-20, pointing at crops of this frame. NO",
+        "COLOUR HAS BEEN MAPPED TO A FUNCTION AND NONE SHOULD BE - docs/WIRING.md section 6 warns that the same",
+        "colour means different things on the two cables, and that the four piezo quadrant wires at the tube are",
+        "bare enamelled copper with no colour code. docs/WIRING.md is the pinout reference, not this photograph.",
+        "Source: Images/ours/2026-09-19_platform_lifted_off_1.jpg (IMG_4916, 2026-09-19 10:15:40 camera-local,",
+        "Nuh's camera).",
+    ])
+    save(c, "16_scan_module_wiring.jpg")
+
+
 def main():
     for fn in [p01, p02, p03, p04, p05, p06, p07, p08, p09, p10,
-               p11, p12, p13, p14, p15]:
+               p11, p12, p13, p14, p15, p16]:
         try:
             fn()
         except Exception as exc:                       # noqa: BLE001

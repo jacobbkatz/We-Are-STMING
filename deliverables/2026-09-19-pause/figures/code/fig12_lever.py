@@ -100,7 +100,7 @@ def main():
     ax.minorticks_off()
     S.tidy(ax,
            xlabel="d — how far the tip sits from the pivot line, in mm   (never pinned down closer than this)",
-           ylabel="how far the tip moved per decade of current, in nm",
+           ylabel="how far the tip moved\nper decade of current, in nm",
            grid="both")
 
     S.note(ax, 2.7, 0.078, "a tunnelling gap: one decade per 0.1 nm",

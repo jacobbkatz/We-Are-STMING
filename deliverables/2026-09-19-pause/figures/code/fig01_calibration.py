@@ -70,8 +70,8 @@ def main():
 
     S.set_theme("light")
     fig, (ax, axr) = S.plt.subplots(
-        2, 1, figsize=(8.8, 7.4), height_ratios=[2.5, 1.0], sharex=True)
-    fig.subplots_adjust(top=0.815, bottom=0.200, left=0.108, right=0.852, hspace=0.17)
+        2, 1, figsize=(9.2, 8.4), height_ratios=[2.5, 1.0], sharex=True)
+    fig.subplots_adjust(top=0.815, bottom=0.185, left=0.105, right=0.855, hspace=0.30)
 
     c_meas = S.series(0)     # blue   - what the instrument read
     c_pred = S.series(1)     # orange - what theory required, before the measurement
@@ -98,13 +98,16 @@ def main():
     sec.spines["right"].set_color(S.C["axis"])
 
     # The headline, stated on the chart so it survives being cropped into a slide.
-    ax.text(-1.80, -7950,
+    # Four short lines, not three long ones: at the 2026-09-20 type scale the old
+    # third line made the box wide enough to sit on the −5,000 readings.
+    ax.text(-1.95, -7700,
             "measured   −3,204.8 ± 36.5 counts per volt\n"
             "predicted   −3,200\n"
-            "the two agree to 0.13 of one standard error, R² = 0.9934",
+            "the two agree to 0.13 of one standard error,\n"
+            "R² = 0.9934",
             ha="left", va="center", fontsize=S.TYPE["annot"], fontweight=S.W_EMPH,
-            color=S.C["ink"], linespacing=1.9,
-            bbox=dict(boxstyle="round,pad=0.7", facecolor=S.C["band"], edgecolor="none"))
+            color=S.C["ink"], linespacing=1.7,
+            bbox=dict(boxstyle="round,pad=0.6", facecolor=S.C["band"], edgecolor="none"))
 
     # --- residuals against the PREDICTION, not against the fit -----------------------
     res = [y - PREDICTED_SLOPE * x for x, y in zip(xs, ys)]

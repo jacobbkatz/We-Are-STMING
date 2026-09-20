@@ -134,8 +134,8 @@ def main():
           % (pick["cycle"], run0["file"], pick["cpd_in"], pick["cpd_out"], pick["hyst"]))
 
     S.set_theme("light")
-    fig, (ax, axb) = S.plt.subplots(1, 2, figsize=(11.2, 6.6), width_ratios=[1.12, 1.0])
-    fig.subplots_adjust(top=0.755, bottom=0.292, left=0.070, right=0.985, wspace=0.30)
+    fig, (ax, axb) = S.plt.subplots(1, 2, figsize=(11.0, 9.4), width_ratios=[1.12, 1.0])
+    fig.subplots_adjust(top=0.775, bottom=0.215, left=0.078, right=0.985, wspace=0.34)
 
     c_in, c_out = S.series(0), S.series(1)
 
@@ -149,7 +149,7 @@ def main():
     ax.plot([z for z, _ in zout_pts], [i for _, i in zout_pts], "-", color=c_out, lw=2.0,
             zorder=4)
     ax.set_yscale("log")
-    ax.set_ylim(40, 2600)
+    ax.set_ylim(40, 6200)
     ax.set_yticks([50, 100, 200, 500, 1000, 2000])
     ax.set_yticklabels(["50", "100", "200", "500", "1,000", "2,000"])
 
@@ -183,11 +183,11 @@ def main():
                  "Going in takes %s counts per ten-fold change; coming out, %s."
                  % (format(int(round(pick["cpd_in"])), ","),
                     format(int(round(pick["cpd_out"])), ",")))
-    S.key(ax, zin_pts[-1][0] + padx * 0.14, zin_pts[-1][1] * 0.70, "going in",
+    S.key(ax, zin_pts[-1][0] + padx * 0.14, zin_pts[-1][1] * 0.46, "going in",
           ha="left", va="center", color=S.word(0))
-    S.key(ax, zout_pts[0][0] + padx * 0.14, zout_pts[0][1] * 1.30, "coming out",
+    S.key(ax, zout_pts[0][0] + padx * 0.14, zout_pts[0][1] * 1.45, "coming out",
           ha="left", va="center", color=S.word(1))
-    S.note(ax, z0 - (hi - lo) * 0.03, 2450,
+    S.note(ax, hi + padx * 1.8, 5600,
            "a tunnelling gap would be this steep \u2014\n"
            "the green stripe is only 6\u201313 counts wide",
            ha="right", va="top", color=S.word(2))
@@ -206,7 +206,7 @@ def main():
                  markeredgecolor=S.C["surface"], markeredgewidth=2.0, zorder=5)
     axb.set_xscale("log")
     axb.set_xlim(4, 40000)
-    axb.set_ylim(-1.05, len(summary) - 0.30)
+    axb.set_ylim(-1.15, len(summary) + 0.15)
     axb.set_yticks(ys)
     axb.set_yticklabels(["%s\n%d cycles" % (s["label"], s["cycles"]) for s in summary])
     axb.tick_params(axis="y", length=0)
@@ -220,7 +220,7 @@ def main():
           color=S.word(0))
     S.key(axb, summary[0]["cpd_out"] * 1.05, ys[0] + 0.30, "coming out", ha="left",
           va="bottom", color=S.word(1))
-    S.note(axb, 17, -0.78, "6–13 counts: what tunnelling would need (calculated)",
+    S.note(axb, 17, -0.62, "6–13 counts: what tunnelling would need (calculated)",
            ha="left", va="center", fontsize=S.TYPE["small"], color=S.word(2))
 
     S.titles_keyed(

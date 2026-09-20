@@ -480,3 +480,26 @@ the scan head end of the DSUB1 cable, on the row-of-4 signal wires.
 The four piezo quadrant wires are **identical bare enamelled copper with no colour code.** There
 is no way to recover which quadrant is +X from any file or photo, so label them as you solder. If
 your first image comes out rotated or mirrored, this is why, and it is fixable in software.
+
+---
+
+## 12. The four bundles that leave the scanning module
+
+**SAID by Jacob, 2026-09-20**, pointing at close-ups of
+`Images/ours/2026-09-19_platform_lifted_off_1.jpg` (IMG_4916). Labelled in
+`deliverables/2026-09-19-pause/photos/prepared/16_scan_module_wiring.jpg`.
+
+| Bundle | Where it goes on that frame |
+|---|---|
+| **Preamp cables** | Leave to the left, over the top of the head |
+| **Motor wires** | Into the small driver board beside the stepper |
+| **Piezo wires** | Across the copper base plate, past the spring eyebolt |
+| **Bias wire** | A single lead dropping off the platform on its own |
+
+> **This is a routing note and nothing more. NO COLOUR HERE MAPS TO A FUNCTION OR A PIN.**
+> Section 6 above is the pinout, and it warns that **the same colour means different things on
+> the two cables.** The jumper leads at the scan head are not the J1/J2 wiring. And the four
+> quadrant wires at the piezo itself are **bare enamelled copper with no colour code at all**
+> (section 11), so no photograph can say which is +X.
+>
+> Use it to find a bundle at the bench. Never to decide what to connect.

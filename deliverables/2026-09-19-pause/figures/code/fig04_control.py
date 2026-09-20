@@ -139,9 +139,9 @@ def main():
     vmax = max(float(np.abs(m[2]).max()) for m in maps.values())
 
     S.set_theme("light")
-    fig = S.plt.figure(figsize=(11.6, 7.8))
+    fig = S.plt.figure(figsize=(11.6, 8.8))
     gs = fig.add_gridspec(2, 3, width_ratios=[1.0, 1.0, 1.5], height_ratios=[1.0, 0.052],
-                          left=0.055, right=0.985, top=0.745, bottom=0.300,
+                          left=0.055, right=0.985, top=0.775, bottom=0.285,
                           wspace=0.30, hspace=0.50)
     axa = fig.add_subplot(gs[0, 0])
     axb = fig.add_subplot(gs[0, 1])
@@ -162,7 +162,9 @@ def main():
         ax.set_xticklabels([format(int(X.min()), ","), format(int(X.max()), ",")])
         ax.set_yticklabels([format(int(Y.min()), ","), format(int(Y.max()), ",")])
         ax.set_xlabel("X piezo counts", labelpad=6)
-        ax.set_title("%s\n%s \u00b7 corrugation %.0f counts"
+        # Three short lines, not two long ones: the second ran past its own panel
+        # and into the next panel's title.
+        ax.set_title("%s\n%s\ncorrugation %.0f counts"
                      % (head, sub, stats[name]["corrugation"]))
     axa.set_ylabel("Y piezo counts", labelpad=6)
 
@@ -189,10 +191,10 @@ def main():
         m = sum(vals) / len(vals)
         axc.plot([m, m], [y - 0.17, y + 0.17], "-", color=S.C["ink"], lw=2.4, zorder=6)
         S.key(axc, m, y + 0.22, "mean %+.2f" % m, ha="center", va="bottom")
-        S.key(axc, -0.44, y + 0.50, "%s, %d pairs" % (lab, len(ps)), ha="left",
+        S.key(axc, -0.44, y + 0.62, "%s, %d pairs" % (lab, len(ps)), ha="left",
               va="center")
 
-    axc.set_ylim(-0.55, 1.78)
+    axc.set_ylim(-0.55, 1.90)
     axc.set_xlim(-0.46, 0.46)
     axc.set_yticks([])
     axc.spines["left"].set_visible(False)
