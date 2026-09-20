@@ -123,7 +123,8 @@ nanometres offered as if it were measured, and any number not in `docs/FACTS.md`
 
 ## 6. What Jacob must check before anything is printed
 
-1. **THE PAGE SIZE IS PROVISIONAL.** 48 × 36 in landscape was **not** checked against any UCSD event
+1. ~~**THE PAGE SIZE IS PROVISIONAL.**~~ **CLOSED 2026-09-20: Jacob confirmed it — *"48 x 36 is good"*.** The original note follows.
+   **THE PAGE SIZE WAS PROVISIONAL.** 48 × 36 in landscape was **not** checked against any UCSD event
    specification. **No event spec exists anywhere in the project files and none was invented.** The
    size, the orientation and any required template have to come from the event.
 2. **Is the repository public?** The poster and the Q&A both print

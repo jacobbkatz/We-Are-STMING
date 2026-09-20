@@ -1,6 +1,7 @@
 # Questions you will be asked, and honest answers
 
-**For Jacob and Nuh, 2026-09-19.** Written against the poster's six panels:
+**For Jacob and Nuh, 2026-09-20.** Written against the poster's six panels and the full-width band
+below them:
 
 | | |
 |---|---|
@@ -9,18 +10,24 @@
 | **03** | A real junction, with a barrier's signature |
 | **04** | We found the limit, and measured it |
 | **05** | We built controls designed to kill our own results |
-| **06** | One junction is still undecided - and we know the measurement |
+| **06** | We detected tunnelling - and we know what stopped us holding it |
+| **07** | The second instrument: the system that runs the science |
 
 **Every answer here traces to `docs/FACTS.md`, to
 `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md`, or to the session log named beside it.** The
 source is given so you can check it, and so you can say where it came from if somebody pushes.
 
-**Two rules that cover everything below.**
+**Three rules that cover everything below.**
 
-1. **Never claim tunnelling, and never claim an image.** Not as a slip, not as a "well, basically".
-   The honest answers here are stronger, and they survive the follow-up question. An overclaim does
-   not, and it would take the calibration, the noise work and the controls down with it.
-2. **"We have not measured that" is a complete answer.** It is a normal sentence at a research
+1. **Say what we did, and say it plainly: we detected tunnelling.** The claim is supported and the
+   poster carries it. **What stays out is a held vacuum gap, an image, atomic resolution, and any
+   distance in nanometres from our own hardware.** Those four are the overclaims that would collapse
+   under a follow-up and take the calibration, the noise work and the controls down with them.
+   **Detecting tunnelling is not one of them.**
+2. **Do not staple a hedge to the end of a result.** Say the result, stop, and give the limitation
+   its own sentence when its own sentence is due. Every number in this document is measured, and a
+   measurement stated flatly sounds more certain than one apologised for.
+3. **"We have not measured that" is a complete answer.** It is a normal sentence at a research
    event and everybody there says it about something. **What is not acceptable is inventing a
    number on your feet** - section 5 lists the questions where that is the temptation.
 
@@ -28,50 +35,95 @@ source is given so you can check it, and so you can say where it came from if so
 
 ## 1. The hard ones, from people who know what an STM is
 
+### "So did you achieve tunnelling or not?"
+
+**This is now the first thing anybody will ask, and the answer is one sentence. It is Jacob's own
+wording and it is the sentence to say out loud:**
+
+> ## **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
+
+**Say it exactly like that and then stop.** Both halves are true, they arrive in one breath, and the
+second half is the honest one - which is what stops the follow-up from being an ambush.
+
+**If they want more, expand it in this order and no other.**
+
+> **We detected tunnelling.** A tip cannot go from not touching to touching without passing through
+> the separations where the only mechanism carrying electrons is quantum tunnelling. We had a bias
+> applied and the amplifier recording the whole way down - **60,928 readings inside that current
+> range, across 109 approaches.** And it was a barrier rather than a strand of metal: the current is
+> **superlinear and symmetric**, the junction resistance **never fell below about 5 MOhm even when
+> the amplifier saturated**, and **109 of 110 onsets were gradual.** A metallic bridge is ohmic and
+> forms as a step. **So: a tunnel junction, biased, with the current tunnelling through it
+> measured.**
+>
+> **We could not maintain tunnelling range.** That is the regime you need in order to scan, and it
+> is the half our data does not support. With the motor stopped and nobody touching the instrument
+> the gap moves **at least 43,000 Z counts in 6.4 seconds** and **at least 56,000 over about two
+> minutes**. An image needs it inside a few hundred counts for a minute.
+>
+> **And one measurement would settle our best junction retroactively.** For the 2026-09-17 junction
+> to have been a vacuum gap, the tip would have to sit within **26 micrometres** of the pivot line.
+> Jacob measured that distance as well as a straightedge and an eye can: **under 0.5 mm.** The 26
+> micrometres is inside that, in the bottom 5% of it, **so the bound narrows the question without
+> closing it** - and nothing by eye ever will. A jeweller's loupe or a USB microscope closes it in
+> minutes, with the power off, and the same measurement gives us our first height scale.
+
+**Four things stay out of every version of this answer**, and none of them is needed to make it
+strong: that we held a controlled vacuum gap; that we produced an image; atomic resolution; any
+distance in nanometres taken from our own hardware.
+
+**If they push: "but is tunnelling through a contaminant film really tunnelling?"** - *"Yes. A
+metal-insulator-metal tunnel junction is a real tunnel junction and that is a real measurement of a
+real effect. What it is not is STM tunnelling, because the barrier is set by whatever is stuck to
+the surface rather than by a gap you command - so you cannot hold it, cannot sweep it, and cannot
+image with it. That distinction is the whole of panel 06."*
+
+**Source:** `FRAMING.md`, Jacob's wording, `SAID` 2026-09-20; `LEAD_VERIFICATION.md` V13;
+`sessions/2026-09-17-bench.md` 3.27 for the 5 MOhm floor; `docs/FACTS.md` for `d` and the gap
+motion.
+
 ### "How did the current change with distance?"
 
 **This is the question. It decides whether they believe the rest of the poster. Panel 06.**
 
 > On the junction we tested on 19 September, it took about **1,650 to 1,970 Z counts** for the
-> current to change ten-fold. A tunnelling gap, on the Z scale we inherited, would need about
-> **6 to 13**. **So that one was a pressed contact, and we say so on the poster.** Every run also
-> showed **705 to 1,868 counts of hysteresis** between going in and coming out - the current
+> current to change ten-fold. **Holding a vacuum gap**, on the Z scale we inherited, would need
+> about **6 to 13**. **So that one was a pressed contact, and we say so on the poster.** Every run
+> also showed **705 to 1,868 counts of hysteresis** between going in and coming out - the current
 > lingers on the way out - which is mechanical, and which does not depend on any distance scale.
 >
 > Our best junction, two nights earlier, was about **seven times steeper**: roughly 250 counts per
-> decade. **Whether that one was a vacuum gap is still undecided, and panel 06 is about exactly
-> that.**
+> decade. **Whether that one was a held vacuum gap is what the 26 micrometres decides**, and panel
+> 06 is about exactly that.
 
-**Source:** `docs/FACTS.md`, "the junction and the gap"; `LEAD_VERIFICATION.md` V10-V12;
+**Source:** `docs/FACTS.md`, "the junction and the gap"; `LEAD_VERIFICATION.md` V10-V13;
 `sessions/2026-09-19-morning.md` 3.10-3.11.
 
-### "So were you tunnelling, or not?"
+**Note the wording.** This answer is about **holding** a gap, which is the thing we could not do.
+**It is not about whether tunnelling occurred**, which is the question above and which we answer
+yes to. Running the two together is the mistake this project made in its own documents for two
+days.
 
-**Do not answer yes. Do not answer no either - the honest answer is the interesting one, and it is
-what panel 06 says.**
+### "Where does the 26 micrometres come from?"
 
-> **On 19 September, no: that junction was a pressed contact, measured.** Our best junction, on the
-> 17th, was a real barrier, and we wanted it to be tunnelling - so we worked out what that would
-> require instead of guessing.
->
 > One motor step moves the fine screw **155 nm**. A vacuum gap changes the current ten-fold per
-> **0.1 nm**, and that junction changed by about a decade per motor step. **So the lever ratio
+> **0.1 nm**, and our best junction changed by about a decade per motor step. **So the lever ratio
 > between the motor and the tip would have to be about 1,550, which puts the tip within about
 > 26 micrometres of the line joining the two ball supports.** At the 1 mm the design puts it at, we
-> are **39 times too slow**.
+> are **39 times too slow** - so if the tip is anywhere but the very bottom of the range, that
+> junction was a tip pressing through a thin film rather than a gap held open.
 >
-> **Jacob measured that distance as well as a straightedge and an eye can: under half a
-> millimetre.** That does not resolve 26 micrometres, so **we cannot say, and we do not.** What
-> closes it is an eyepiece or an optical comparator, with the power off, in minutes - and the same
-> measurement gives us our first height scale.
+> **We have it bounded at under 0.5 mm, and 26 micrometres is inside that.** A straightedge cannot
+> resolve it; an eyepiece or an optical comparator can, in minutes, with the power off.
 
-**Source:** `LEAD_VERIFICATION.md` V11 and V12; `sessions/2026-09-17-bench.md` 3.19, which called
-the 26 um requirement *"possible but implausibly exact"* on the night; **`docs/FACTS.md` lists `d`
-itself as CONTESTED - do not use.**
+**Source:** `LEAD_VERIFICATION.md` V11 to V13; `sessions/2026-09-17-bench.md` 3.19, which called
+the 26 um requirement *"possible but implausibly exact"* on the night; **`docs/FACTS.md` is the
+canonical home for `d`: under 0.5 mm, `SAID` 2026-09-20, never resolved any finer.**
 
-**If they push: "but what do you think?"** - *"The arithmetic does not favour it. At anything but
-the very bottom of the range we could measure, it is a tip pressing through a thin film. We would
-rather say that than claim something we cannot defend."*
+**If they push: "but what do you think?"** - *"The arithmetic does not favour a held gap. At
+anything but the very bottom of the range we could measure, it is a tip pressing through a thin
+film - which is still a tunnel junction, and still not something you can scan with. We would rather
+say that than claim something we cannot defend."*
 
 ### "Isn't 26 micrometres a strange threshold? Where does 0.13 mm come from?"
 
@@ -136,7 +188,7 @@ verification entry of our own.
 > On its own it would be. But we ran **209 reproducibility tests** across this data, and at that
 > many, a one-in-twenty threshold throws up about ten apparent findings from nothing at all. **So
 > the honest threshold is about p < 2.4 x 10^-4** - and we fixed that before we judged the
-> candidates, not after. Our best run falls a factor of fourteen short of it.
+> candidates, not after. Our best run falls a factor of fifteen short of it.
 >
 > And the part that settles it for us: **an X-held control, which cannot contain a surface because
 > the tip never moved sideways, scored p = 0.020 on the same statistic.** That is this instrument's
@@ -260,8 +312,8 @@ to you" and take their email.
 | **0.13 sigma** | Measured gain against what Ohm's law required, worked out before the run: -3,204.8 +/- 36.5 counts per volt against -3,200 predicted, R-squared 0.9934. Panel 02. |
 | **4 pA** | The amplifier's own input current, measured on the repaired board on 15 September - about 250 times smaller than the 1 nA signal it has to find. |
 | **16-59 megohms** | The junction's resistance across our I-V sweep. It falls as the voltage rises, which is the point: a resistor would not. |
-| **9-19 counts** | The noise with a junction live, 19 September. With the tip clear it is 8 to 14. |
-| **8 weeks** | Boards ordered to a working junction. First power-on 29 August, last bench session 19 September. |
+| **9-19 counts** | The **standard deviation of the reading** with a junction live and X held, 19 September. **The tip-clear standard deviation the same day was 40 to 42 counts.** Do not quote the 8-to-14 figure here - that one is the **spectral** noise density with no junction, from 2 Hz to 1.2 kHz, and it measures a different thing. |
+| **60,928** | Readings taken inside the current range where tunnelling has to appear, across 109 separate approaches, with the bias on the whole way. It is the count behind "we detected tunnelling". |
 | **43,000 counts in 6.4 s** | How far the surface moved with the motor stopped and nobody touching the instrument. It then went out of reach for 105 seconds. Panel 04. |
 | **+0.04 against +0.07** | How well our scans repeat, against how well a control with nothing in it repeats. Panel 05. |
 

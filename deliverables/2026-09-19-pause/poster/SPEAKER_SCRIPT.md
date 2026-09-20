@@ -239,15 +239,19 @@ claiming a held vacuum gap or an image** - and neither is on the poster.
 
 | If they ask | Say |
 |---|---|
-| **"How long did this take?"** | About eight weeks from ordering boards to a working junction. First power-on was 29 August; the last bench session was 19 September. |
+| **"How long did this take?"** | **"Eleven weeks of planning and design, then eight weeks of building."** First power-on was 29 August; the last bench session was 19 September. **Say which phase each number is** - and do not add them together, because nobody has. |
 | **"What is yours and what is copied?"** | The mechanics, the controller board and the firmware follow Mech Panda's open-source `red-panda-stm`; the scan head and the preamplifier follow Dan Berard's home-built STM. **The electronics bring-up, the software, the calibration and the controls are ours.** **Say this without being asked** - it costs nothing and it is the right thing to do. |
 | **"Who is supervising you?"** | Nobody. Self-directed: no faculty advisor, no grant, no lab. |
-| **"Can I see the data?"** | All of it is in the repository, including the results we withdrew. |
+| **"Can I see the data?"** | **"Yes - it is all public."** `github.com/jacobbkatz/We-Are-STMING`, which is printed on the poster. Every session log, every raw data file, every analysis script, **and every claim we withdrew.** |
+| **Panel 07, "did an AI do this?"** | **"Yes, and that is the point of the panel."** Neither of us writes code, so we built the framework the model works inside: one canonical register for every number, a tag on each saying how it is known, session logs that are never rewritten, and a checker that runs seven tests at every session start and blocks a failing commit. **"We did not train it. The model is off the shelf; the discipline is ours."** |
 | **Anything you do not know** | "We have not measured that", and then where the answer would come from. Never fill the gap on your feet. |
 
 ---
 
-## Two sentences worth memorising word for word
+## Three sentences worth memorising word for word
+
+**The result, in Jacob's own words, and this is the one to lead with:** *"We detected tunnelling,
+but weren't able to maintain tunnelling range for long enough to get an image."*
 
 **The claim:** *"Every subsystem a tunnelling microscope needs is built, working and calibrated.
 What is left is mechanical - and we measured it."*

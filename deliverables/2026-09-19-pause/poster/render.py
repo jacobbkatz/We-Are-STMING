@@ -17,8 +17,9 @@ package `playwright` and then run `python3 -m playwright install chromium`, and 
 script will find the browser on its own.
 
 PAGE SIZE. The size is read out of poster.html itself (the `@page` rule), so there is
-only one place to change it. **That size, 48 x 36 in, is PROVISIONAL and was never
-checked against an event specification - see the note at the top of poster.html.**
+only one place to change it. **48 x 36 in landscape, confirmed by Jacob on 2026-09-20.**
+It was carried as provisional until then because no event specification exists anywhere
+in the project files and none was invented.
 """
 from __future__ import annotations
 

@@ -25,9 +25,9 @@ Dear [name],
 
 [One line on how you know each other, and what they last heard about this.]
 
-Over the past eleven weeks Nuh Shaheer and I — **two first-year students with no coding experience
-and very little electronics experience** — have built a scanning tunnelling microscope from
-3D-printed parts. **This project was the first real soldering either of us has done**, and it was
+Over eleven weeks of planning and design and eight weeks of building, Nuh Shaheer and I — **two
+first-year students with no coding experience and very little electronics experience** — have built
+a scanning tunnelling microscope from 3D-printed parts. **This project was the first real soldering either of us has done**, and it was
 built and run **in a basement in a house people live in**, with people moving around and no control
 over the air or the temperature: a wooden bench on a concrete floor, a few metres from the breaker
 panel. **It is not a clean room and it never was.** The mechanics, firmware and controller board
@@ -50,10 +50,17 @@ getting in electrically.
 We have made a real tip-to-sample junction: current rising from 0.85 nA at 0.05 V to 31.7 nA at
 0.5 V, superlinear as V^1.55, resistance falling from 59 to 16 MΩ, symmetric in both polarities to
 about 10%, taken as eight rounds with the polarities interleaved and confirmed by a bias-flip test
-on two separate nights. **That is a barrier: not a metallic short and not an open circuit. We are
-not claiming tunnelling, and we have not produced an image** — a later distance test gave a decade
-of current per about 1,650 Z counts where tunnelling needs roughly ten, with mechanical hysteresis
-in every run, which we read as a pressed contact.
+on two separate nights. That is a barrier: not a metallic short and not an open circuit.
+
+**We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an
+image.** The tip cannot go from not-touching to touching without passing through the separations
+where tunnelling is what carries the electrons, and the bias was applied with the amplifier
+recording the whole way — 60,928 readings inside that current range, across 109 approaches; the I-V
+above is superlinear and symmetric and the junction never metallically shorted, so what conducted
+was a barrier and not a metallic bridge. **What we could not do is hold it there.** A later
+distance test, on a different tip and a different sample, gave a decade of current per about 1,650
+Z counts where a held vacuum gap needs roughly ten, with mechanical hysteresis in every run, which
+we read as a pressed contact. **We have not produced an image.**
 
 **What stops us is mechanical, and we measured it rather than guessing.** With the motor stopped
 and nobody touching the instrument, the gap moved by more than 43,000 Z counts in 6.4 seconds and
@@ -66,6 +73,16 @@ and the scans never beat their controls.
 clean-room instrument, and a gap moving on this timescale is precisely the class of problem those
 rooms exist to remove. **The limitation is the expected outcome of the environment — measured,
 quantified in the instrument's own units, and traced to five named candidate mechanisms.**
+
+One more thing that is as much a result as the instrument. **Neither of us writes code, so the
+second thing we built was the system that does**: a 575-line operating protocol for the AI model we
+work through, one canonical register holding every number in the project with its provenance and
+its date, 27 append-only session logs, and a 565-line checker that runs seven classes of test at
+every session start and blocks a commit that fails. **The point of it is not that the model writes
+well — it is that the model gets caught**: those checks made us withdraw a statistic computed
+across truncated files, a reproducibility figure that turned out to be our own feedback loop rather
+than the sample, and a detector's full-scale voltage we had recorded backwards in our own reference
+document — and every retraction is still in the record beside the claim it replaced.
 
 Work is paused: the instrument is disassembled and moved, and [reason and timescale]. When it comes
 back: prove the gap holds still before scanning anything, move to a rigid sample and a sharper tip,
