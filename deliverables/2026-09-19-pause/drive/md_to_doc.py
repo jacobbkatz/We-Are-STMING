@@ -19,8 +19,9 @@ does a callout anyway. Nothing about the words changes: this is typesetting, not
 editing.
 
 FONTS. Newsreader for headings and Inter for text, both Google fonts, so Docs has
-them. If a reader's Docs is missing one it falls back to Georgia or Arial and the
-document still reads.
+them. Each is named on its own with no fallback list: given a list, Google's
+importer sometimes takes the second name instead of the first, and three documents
+came out in Georgia and Arial before this was found.
 """
 from __future__ import annotations
 
@@ -32,9 +33,9 @@ import sys
 INK, INK2, MUTED = "#16191B", "#474F54", "#6A7278"
 LINE, HAIR = "#E2E4E3", "#EDEFEE"
 GOLD, GOLDMARK, GOLDWASH = "#8A6D22", "#C9A24B", "#FBF6E7"
-SERIF = "Newsreader, Georgia, serif"
-SANS = "Inter, Arial, sans-serif"
-MONO = "Roboto Mono, Consolas, monospace"
+SERIF = "Newsreader"
+SANS = "Inter"
+MONO = "Roboto Mono"
 
 BODY = ("font-family:%s;font-size:10.5pt;line-height:1.5;color:%s;"
         "margin:0 0 9pt 0;" % (SANS, INK))
