@@ -251,8 +251,13 @@ def main() -> None:
     total = 0
     for f in sorted(os.listdir(os.path.join(PAUSE, "figures/png"))):
         if f.endswith(".png"):
-            total += shrink(os.path.join(PAUSE, "figures/png", f),
-                            os.path.join(OUT, f[:5] + ".jpg"), 1500, 90)
+            src = os.path.join(PAUSE, "figures/png", f)
+            total += shrink(src, os.path.join(OUT, f[:5] + ".jpg"), 1500, 90)
+            # The gallery at the foot of the page shows these at about 210 px wide. It
+            # was loading the full-size files to do it - 2.86 MB for thirteen thumbnails.
+            # 460 px covers the widest the grid ever gets on a 2x screen; the full file is
+            # still one click away behind the link.
+            total += shrink(src, os.path.join(OUT, f[:5] + "-thumb.jpg"), 460, 78)
     for name, rel in PHOTOS.items():
         total += shrink(os.path.join(PAUSE, rel), os.path.join(OUT, name + ".jpg"),
                         1500, 82, crop_bar=True)
