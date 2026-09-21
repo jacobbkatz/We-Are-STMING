@@ -81,8 +81,8 @@ def amp_spectrum(ts, vs):
 
 
 def white_floor(sd, n):
-    """Expected amplitude per line for white noise of this sd, same normalisation."""
-    # For a Hann-windowed rfft normalised by 2/sum(w), white noise of standard deviation
+    """Expected amplitude per line for white noise of this sd, same normalization."""
+    # For a Hann-windowed rfft normalized by 2/sum(w), white noise of standard deviation
     # sd gives a mean line amplitude of about sd * sqrt(2 * 1.5 / n) * sqrt(pi/2).
     # Rather than rely on that algebra, the figure is taken from a synthetic run below.
     rng = np.random.default_rng(7)
@@ -257,7 +257,7 @@ def main():
     ax.set_yticklabels(labs, fontsize=7.5)
     ax.set_xlabel("ADCR standard deviation (counts)   [%.1f counts = 1 nA]" % COUNTS_PER_NA)
     ax.set_title("The published ADC scatter, session by session\n"
-                 "grey: tip clear   purple: a junction present - NOT the same measurement")
+                 "gray: tip clear   purple: a junction present - NOT the same measurement")
     ax.set_xlim(0, max(sds) * 1.18)
     save(fig, "fig11_noise_by_session.png")
     plt.close(fig)

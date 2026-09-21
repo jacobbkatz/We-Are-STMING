@@ -130,7 +130,7 @@ def main():
     print("  PROVES (measured): the current follows the sign of the sample voltage, is")
     print("  superlinear, and is asymmetric above about 0.6 V. That is a junction, not a")
     print("  leak, and not an amplifier offset.")
-    print("  DOES NOT PROVE: tunnelling through vacuum. A tip resting on the gold through")
+    print("  DOES NOT PROVE: tunneling through vacuum. A tip resting on the gold through")
     print("  a thin oxide or contamination film gives the same superlinear, asymmetric")
     print("  shape. A new tungsten tip carries an oxide unless it is etched. The session")
     print("  log says this in the same paragraph as the measurement, and the Z tests of")

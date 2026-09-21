@@ -73,26 +73,26 @@ that.
 
 ---
 
-## 4. The tunnelling position changed twice under me — what the two documents now say
+## 4. The tunneling position changed twice under me — what the two documents now say
 
 **My brief said to present the 2026-09-17 junction as UNDECIDED on a threshold of `d` below about
 0.13 mm. That threshold is wrong, and both documents were rewritten.**
 
 | When | What the record said |
 |---|---|
-| My brief, from V10 | Undecided; below ~0.13 mm it was tunnelling; one straightedge settles it |
-| **V11** | **0.13 mm conflates two criteria.** On the decay criterion the tip must be within **26 µm**: one motor step is 155 nm of screw, tunnelling needs 0.1 nm per decade, so the lever ratio must be ~1,550. At 1 mm it is **39× too slow**; at 0.13 mm, still 5× too slow. 0.13 mm is the **wobble** criterion, a different question |
+| My brief, from V10 | Undecided; below ~0.13 mm it was tunneling; one straightedge settles it |
+| **V11** | **0.13 mm conflates two criteria.** On the decay criterion the tip must be within **26 µm**: one motor step is 155 nm of screw, tunneling needs 0.1 nm per decade, so the lever ratio must be ~1,550. At 1 mm it is **39× too slow**; at 0.13 mm, still 5× too slow. 0.13 mm is the **wobble** criterion, a different question |
 | **V12**, and the lead's message | **`d` is still UNKNOWN** and is marked **CONTESTED — do not use** in `docs/FACTS.md`. Jacob reported it is **under 0.5 mm**, which is as fine as a straightedge and an eye resolve, and **could not resolve 26 µm** |
 
 **So both documents now carry this, and keep panel 06 deliberately undecided:**
 
 > The 2026-09-19 junction was a pressed contact, measured. Our best junction, on the 17th, was a
 > real barrier; for it to have been a vacuum gap the tip would have to sit within about **26 µm** of
-> the pivot line. **We measured that distance to under half a millimetre and cannot resolve
+> the pivot line. **We measured that distance to under half a millimeter and cannot resolve
 > 26 µm — so we do not say.** An eyepiece or an optical comparator closes it in minutes, with the
 > power off, and the same measurement gives the instrument its first height scale.
 
-**Neither document claims tunnelling, and neither dismisses it.** Both say in a marked block that
+**Neither document claims tunneling, and neither dismisses it.** Both say in a marked block that
 **if the poster's wording differs from theirs, the poster wins**, and point at V11, V12 and the
 CONTESTED row in `docs/FACTS.md`.
 
@@ -103,20 +103,20 @@ CONTESTED row in `docs/FACTS.md`.
 **`SPEAKER_SCRIPT.md`** — opens on the conditions, in Jacob's own terms: two undergraduates,
 neither writes code, first soldering either of them has done, a basement in a lived-in house with
 people moving and no control of the air. **Then straight into what works**, panel by panel, and the
-limitation once, as a measurement, in panel 04. It ends with the two sentences worth memorising.
+limitation once, as a measurement, in panel 04. It ends with the two sentences worth memorizing.
 **Stage directions name what to point at as well as the panel number**, so a renumbered poster does
 not invalidate it.
 
 **`QUESTIONS_AND_ANSWERS.md`** — five hard questions from somebody who knows what an STM is, ten
 common ones, a table mapping each headline number on the poster to a defensible sentence, and
 **seven questions whose answer is genuinely not in the repository**: the total cost, the scan area
-in nanometres, the resolution, the nm-per-Z-count, the scan speed for imaging, the shield
+in nanometers, the resolution, the nm-per-Z-count, the scan speed for imaging, the shield
 continuity, and what is actually moving the gap. **For every one of those the instruction is to say
 "we have not measured that"**, with a note that the cost figure belongs in `docs/INVENTORY.md` if
 Jacob knows it.
 
-**Both refuse, explicitly:** any claim of tunnelling, any claim of an image, any distance in
-nanometres offered as if it were measured, and any number not in `docs/FACTS.md` or
+**Both refuse, explicitly:** any claim of tunneling, any claim of an image, any distance in
+nanometers offered as if it were measured, and any number not in `docs/FACTS.md` or
 `LEAD_VERIFICATION.md`.
 
 ---

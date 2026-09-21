@@ -82,7 +82,7 @@ says what that was. **UNKNOWN.**
 | ADC scatter, tip clear | 341-350 counts - about eight times the night before and the night after; cause never found |
 | Z direction in force | HIGH toward the sample (inherited from 2026-09-17, same tip) |
 | Tools | scratch scripts in scripts/, hardcoded to COM3 and Jacob's Desktop |
-| **Read this before using the data** | the fast-tracker files (ft_*, lash_*) locate SNAP-IN events, not a tunnelling onset: the same onsets appeared with the bias at 0 V |
+| **Read this before using the data** | the fast-tracker files (ft_*, lash_*) locate SNAP-IN events, not a tunneling onset: the same onsets appeared with the bias at 0 V |
 
 ### `2026-09-19-bench` - 81 files
 
@@ -176,7 +176,7 @@ rows plus the raw column lists and the distinct values found in each setting col
 | `approach4_unknown_tool_bias.log` | 31 | direction-finding with the tool setting the bias: reported HIGH | set by the tool | midscale | direction-finding mode | sessions/2026-09-19-bench.md 3.9, 7 |
 | `approach5_unknown.log` | 32 | a further direction-finding approach: contact ALREADY PRESENT at midscale after 2 motor steps, 32,767 counts against a baseline of 73, so the direction could not be told and the run stopped | 38229 = sample -0.50 V - the log prints it in its own banner | parks at 32768 for every motor step, searching toward 10000 and toward 50000 | direction-finding mode, motor step -1 per cycle, up to 700 steps; baseline 73 counts, noise 170 counts RMS, threshold 1,500 counts | NOT NAMED IN ANY SESSION LOG OR IN THE DATA README. Everything above is read from the log file itself, which prints its own settings |
 | `approach_big.log` | 42 | 5-step motor approach: hard contact at midscale after 60 steps | set by the tool | midscale | --motor-step 5 | sessions/2026-09-19-bench.md 3.13 |
-| `approach_known1.log` | 26 | --z-retracted low approach: tunnelling at Z 45,200 after 0 steps | set by the tool | low = retracted for this tip | known-direction mode | sessions/data/2026-09-19-bench/README.md |
+| `approach_known1.log` | 26 | --z-retracted low approach: tunneling at Z 45,200 after 0 steps | set by the tool | low = retracted for this tip | known-direction mode | sessions/data/2026-09-19-bench/README.md |
 | `approach_newtip.log` | 118 | 1-step motor approach with the new tip, 78 steps, nothing (stopped) | set by the tool (fixed after the 0 V error) | 10000 retracted | --motor-step 1 | sessions/2026-09-19-bench.md 3.13 |
 | `backoff2_0919.log` | 42 | 80 further retract steps, still not clear | 38229 = sample -0.5 V | 0, then swept | columns t, tag, z, bias, value | sessions/2026-09-19-bench.md 3.7 |
 | `bigswing_run1.csv` | 180 | Z +-2000/+-8000/+-20000 and X +-5000/+-15000 toggles at 02:51; the junction faded during it | 38229 = sample -0.5 V | toggled about the touch point | columns t (unix), axis (Z/X), amp, i_minus, i_plus | sessions/2026-09-19-bench.md 3.12 |
@@ -312,7 +312,7 @@ log states. **Using any of them as a result would contradict the record.**
 
 | File | Why it is excluded |
 |---|---|
-| `2026-09-19-bench/approach1_zero_bias.log` | the session log records it as CLAUDE'S ERROR: with the sample at 0 V the threshold could only trip on metal contact, so this cannot show a tunnelling onset |
+| `2026-09-19-bench/approach1_zero_bias.log` | the session log records it as CLAUDE'S ERROR: with the sample at 0 V the threshold could only trip on metal contact, so this cannot show a tunneling onset |
 | `2026-09-19-bench/approach2_unknown_zero_bias.log` | 0 V bias: only metal contact could trip it |
 | `2026-09-19-bench/approach4_unknown_tool_bias.log` | INVALID: the hit was midscale itself, so the tool reported a direction from no evidence. The tool was fixed afterwards |
 | `2026-09-19-bench/cas8_chmap_t1_scan_1789789628.csv` | SATURATED: every pixel is at the ADC rail (32,767). The data README calls these saturated and they carry no information about the surface |
@@ -345,10 +345,10 @@ log states. **Using any of them as a result would contradict the record.**
 | `2026-09-17-bench/line_repeated_wide.csv` | TWO things. (1) same byte-identical fwd/back defect as diag_line_repeated.csv. (2) its 636-count reproducible profile, carried as UNDETERMINED since 2026-09-17, is CLOSED: it is the feedback loop recovering from the 30,000-count X flyback between passes on a surface tilted at -0.105 Z counts per X count, which predicts a 3,144-count Z error at every pass start. Dropping two pixels of twenty-one takes the consecutive-pass correlation from +0.65 to +0.05. Found by subagent 2 at this pause point |
 | `2026-09-17-bench/line_three_y_positions.csv` | the CORRECTION in 3.25 records that this control was run at the WRONG WIDTH (+-8000 against the wide scans' +-15000) and so had no power to discriminate. The +-15000 version of the same test WAS run and is scan_wide_25nm_1/2.csv in this directory - found 2026-09-19, and those two files had been missing from this directory's README table |
 | `2026-09-18-bench/char1.csv` | every value is 32,767 - the ADC rail. It records a railed contact, not a measurement of current |
-| `2026-09-18-bench/ft_long1.json` | THE DATA README'S OWN CAVEAT: these record where the current first passed 1,000 counts on a fast climb, and the same onsets appeared with the bias at 0 V. They locate SNAP-IN events, not a tunnelling onset. Their wobble statistics, spectrum and X/Y numbers are PROVISIONAL |
-| `2026-09-18-bench/ft_long1.log` | THE DATA README'S OWN CAVEAT: these record where the current first passed 1,000 counts on a fast climb, and the same onsets appeared with the bias at 0 V. They locate SNAP-IN events, not a tunnelling onset. Their wobble statistics, spectrum and X/Y numbers are PROVISIONAL |
-| `2026-09-18-bench/ft_run1.json` | THE DATA README'S OWN CAVEAT: these record where the current first passed 1,000 counts on a fast climb, and the same onsets appeared with the bias at 0 V. They locate SNAP-IN events, not a tunnelling onset. Their wobble statistics, spectrum and X/Y numbers are PROVISIONAL |
-| `2026-09-18-bench/ft_run1.log` | THE DATA README'S OWN CAVEAT: these record where the current first passed 1,000 counts on a fast climb, and the same onsets appeared with the bias at 0 V. They locate SNAP-IN events, not a tunnelling onset. Their wobble statistics, spectrum and X/Y numbers are PROVISIONAL |
+| `2026-09-18-bench/ft_long1.json` | THE DATA README'S OWN CAVEAT: these record where the current first passed 1,000 counts on a fast climb, and the same onsets appeared with the bias at 0 V. They locate SNAP-IN events, not a tunneling onset. Their wobble statistics, spectrum and X/Y numbers are PROVISIONAL |
+| `2026-09-18-bench/ft_long1.log` | THE DATA README'S OWN CAVEAT: these record where the current first passed 1,000 counts on a fast climb, and the same onsets appeared with the bias at 0 V. They locate SNAP-IN events, not a tunneling onset. Their wobble statistics, spectrum and X/Y numbers are PROVISIONAL |
+| `2026-09-18-bench/ft_run1.json` | THE DATA README'S OWN CAVEAT: these record where the current first passed 1,000 counts on a fast climb, and the same onsets appeared with the bias at 0 V. They locate SNAP-IN events, not a tunneling onset. Their wobble statistics, spectrum and X/Y numbers are PROVISIONAL |
+| `2026-09-18-bench/ft_run1.log` | THE DATA README'S OWN CAVEAT: these record where the current first passed 1,000 counts on a fast climb, and the same onsets appeared with the bias at 0 V. They locate SNAP-IN events, not a tunneling onset. Their wobble statistics, spectrum and X/Y numbers are PROVISIONAL |
 | `2026-09-18-bench/lash_run1.log` | same fast-tracker caveat; and the run was stopped by hand so the log is the only record |
 | `2026-09-18-bench/zcal3_run1.csv` | holds only the slope scans, not the full sweeps; the session log's table is the fuller record |
 | `2026-09-19-bench/approach3_unknown.log` | its baseline was already 6,087 counts, so the direction it reported is not trustworthy |
@@ -443,7 +443,7 @@ and both `.json` files load. What there is instead is files that are *short beca
 | `2026-09-17-bench` | **0** | **No scripts were kept for this session.** The scans came from `Code/pc/stm_feedback_scan.py` and from scratch variants of it that no longer exist. The diagnostic that stored the forward pass twice is one of those, and cannot now be inspected |
 | `2026-09-18-bench` | 25 | Hardcode `COM3` and Jacob's Desktop path; **3** are `*_test.py` simulated-junction tests (`characterize_test.py`, `zcal3_test.py`, `fasttrack_test.py`), so 22 driving scripts share 3 tests |
 | `2026-09-19-bench` | 37 | Same; **8** are `*_test.py` simulated-junction tests (`catch_and_scan_test.py`, `creeptrack_test.py`, `lift_test.py`, `live_backoff_test.py`, `live_touch_test.py`, `live_touch2_test.py`, `onset0_test.py`, `scan2_test.py`) |
-| `2026-09-19-morning` | 20 | a different pattern: the test is INSIDE the script. 14 carry a working `--test` self-test on simulated junctions; **six do not** (`live_backoff_z0.py`, `zjump.py`, `where.py`, `passive_z0.py`, `touchtest.py`, `final.py`). All twenty refuse options they do not recognise |
+| `2026-09-19-morning` | 20 | a different pattern: the test is INSIDE the script. 14 carry a working `--test` self-test on simulated junctions; **six do not** (`live_backoff_z0.py`, `zjump.py`, `where.py`, `passive_z0.py`, `touchtest.py`, `final.py`). All twenty refuse options they do not recognize |
 
 **`scripts/final.py` was never run** - Jacob powered down first - so there is no tip-clear baseline
 and no parked state recorded for the shutdown (`sessions/data/2026-09-19-morning/README.md`).

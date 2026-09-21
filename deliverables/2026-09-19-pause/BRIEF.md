@@ -12,7 +12,7 @@ finished, honest deliverables.** When the work is done this directory is the del
 
 ## 1. What the project is, and where it actually stands
 
-Jacob Katz and Nuh Shaheer — **neither of them writes code** — have built a scanning tunnelling
+Jacob Katz and Nuh Shaheer — **neither of them writes code** — have built a scanning tunneling
 microscope from 3D-printed parts, following **Mech Panda's `red-panda-stm`** for the mechanics,
 firmware and controller board and **Dan Berard's home-built STM** for the scan head and the
 transimpedance preamplifier. Work ran roughly 2026-07-25 to 2026-09-19.
@@ -30,10 +30,10 @@ single result. A **real tip-to-gold junction has been made** and its current res
 image has been produced.** Feedback scans are matched by their own X-held controls, so nothing in
 them is established as surface structure. The **blocker is mechanical**: as of 2026-09-19 morning
 the gap moves by most of the Z range within seconds to minutes with the motor and hands still, the
-junction snaps in rather than opening a clean tunnelling gap (per-run medians of ~1,650–1,970 Z
-counts per decade of current where tunnelling would be ~6–13), and in/out hysteresis of
+junction snaps in rather than opening a clean tunneling gap (per-run medians of ~1,650–1,970 Z
+counts per decade of current where tunneling would be ~6–13), and in/out hysteresis of
 705–1,868 counts appears in every run. The interpretation on record is **"a soft, pressed, sticky
-contact"**, not a tunnelling gap — and it is marked as interpretation, not proof.
+contact"**, not a tunneling gap — and it is marked as interpretation, not proof.
 
 **No agent may upgrade any of that.** If your work changes one of these statements, say so
 explicitly in your handoff and show the evidence; do not quietly restate it differently.
@@ -69,7 +69,7 @@ gates the commit through `.githooks/pre-commit`. If you break it, fix it or say 
 | Every constant, with provenance and a RETIRED list | `docs/FACTS.md` |
 | Every open question / UNKNOWN / VERIFY | `docs/OPEN_QUESTIONS.md` |
 | What to do next at the bench | `docs/NEXT_SESSION_PLAN.md` |
-| Pinouts, cable colours, LEDs, power tree | `docs/WIRING.md` |
+| Pinouts, cable colors, LEDs, power tree | `docs/WIRING.md` |
 | Every firmware command, what blocks, what replies | `docs/COMMANDS.md` |
 | Part specs, design cross-checked against datasheets | `docs/COMPONENTS.md` |
 | Cross-subsystem layer, value chains, conflict register §11 | `docs/ENGINEERING_REFERENCE.md` |
@@ -84,7 +84,7 @@ gates the commit through `.githooks/pre-commit`. If you break it, fix it or say 
 | File | What it is |
 |---|---|
 | `docs/showcase.html` | For a reader judging the work in five minutes. Leads with what the instrument demonstrably does. Published at <https://claude.ai/artifact/GzwmmzMEgVPsFke5iHWYpD> |
-| `docs/progress.html` | Public explainer: what an STM is, how tunnelling works, where the build reached |
+| `docs/progress.html` | Public explainer: what an STM is, how tunneling works, where the build reached |
 | `docs/bench_2026-09-17_review.html` | "The First Junction" — the 2026-09-17 session reviewed |
 | `docs/bench_card_2026-09-19.html` | Ten bench steps in order. Superseded by the move; keep for the record |
 | `docs/gold_leaf_procedure.html`, `docs/preamp_*.html` | Procedure cards from the preamp work |

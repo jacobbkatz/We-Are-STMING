@@ -47,7 +47,7 @@ full-resolution crops were made to settle specific questions.
 
 | The 2026-09-18 23:13 session wrote | Verdict against the frames |
 |---|---|
-| *"the gold window is not all gold, bare copper tape exposed to its left"* | **CONFIRMED.** `2026-09-18_sample_plate_gold_window_1.jpg` (`IMG_8619`) at full resolution: a bright, smooth, flat gold patch covers roughly the centre and centre-right of the opening; the rest is a distinctly pinker, crinkled copper foil, exposed **to the gold's left and below it**. The two materials are unambiguously different in hue at full resolution. Prepared as `prepared/01_sample_plate_gold_window.jpg` |
+| *"the gold window is not all gold, bare copper tape exposed to its left"* | **CONFIRMED.** `2026-09-18_sample_plate_gold_window_1.jpg` (`IMG_8619`) at full resolution: a bright, smooth, flat gold patch covers roughly the center and center-right of the opening; the rest is a distinctly pinker, crinkled copper foil, exposed **to the gold's left and below it**. The two materials are unambiguously different in hue at full resolution. Prepared as `prepared/01_sample_plate_gold_window.jpg` |
 | *"the suspended platform may be resting on the damping stack on top of the tower … no daylight visible between them"* | **NOT SUPPORTED.** `2026-09-18_platform_and_damping_stack_2.jpg` (`IMG_8624`) at full resolution shows **three** layers, not two: the black platform, **a separate bright disc fixed under it**, and **a ring of flat dark cylinders standing on the tower**. Background light **is** visible between the disc and the cylinder tops in places. Prepared as `prepared/02_platform_damping_gap.jpg` |
 
 **Jacob's correction stands and the frames agree with it** (*"its not sitting on the tower is just
@@ -78,9 +78,9 @@ enough to count coins and none should be used to.**
 | **The multimeter, model legible: `FNIRSI DST-201`.** `docs/INVENTORY.md` had "multimeter" with no model. **This one has teeth** — `STATUS.md` safety rule 12 turns on what the meter's top resistance range actually is, and until now nobody could look it up | `IMG_8641` | `READ` |
 | **The preamplifier as built on 2026-09-06**, silkscreen legible (`JP1 R1 C1 C2 C3 IC1`, the same designators as `docs/WIRING.md` §10), with an axial leaded part mounted in the air on bent leads. **This is the OLD board, before the 2026-09-15 rebuild** | `IMG_4851`, `IMG_4852` | `READ` |
 | **The tip-etching setup, in use** — a capability the repository had no record of. Now `SAID` by Jacob and already in `docs/INVENTORY.md` by the lead | `IMG_4713`, `IMG_4714` | `SAID` |
-| **The room**: a wooden bench on a concrete floor in a basement utility room, a few metres from a breaker panel and a standby-generator transfer switch | `IMG_8631`, `IMG_4919` | `READ` |
+| **The room**: a wooden bench on a concrete floor in a basement utility room, a few meters from a breaker panel and a standby-generator transfer switch | `IMG_8631`, `IMG_4919` | `READ` |
 | **The preamp box open**, showing a small green board and a bright metal post standing on it | `IMG_4906`, `IMG_4907` | `READ` |
-| **The alligator clips Jacob bought on 2026-09-16, never itemised**: a retail card reading "…gator Clips", "NON-IN[SULATED]", "4" | `IMG_8642` | `READ` |
+| **The alligator clips Jacob bought on 2026-09-16, never itemized**: a retail card reading "…gator Clips", "NON-IN[SULATED]", "4" | `IMG_8642` | `READ` |
 | **99% IPA is Signature Care 473 mL; the water is CVS Health DISTILLED, 1 US gallon.** `docs/INVENTORY.md` says "deionised / distilled"; the label says distilled | `IMG_8645`, `IMG_8646` | `READ` |
 
 ### 3.4 The identity cross-check, and the caveat you asked for
@@ -91,7 +91,7 @@ enough to count coins and none should be used to.**
 frames is visibly the same person as in `2026-08-01_nuh_soldering.jpg` — same full dark beard, same
 white-and-maroon jersey — which Jacob identified as Nuh on 2026-09-18. **No disagreement to report.**
 
-> **The caveat, stated loudly because it is the one place I exercised judgement.** Jacob gave two
+> **The caveat, stated loudly because it is the one place I exercised judgment.** Jacob gave two
 > discriminators. **In these frames the beard is unambiguous and the skin tone is not** — the
 > clean-shaven person is olive/tan rather than obviously "white". **I used the beard.** A second,
 > independent check agrees: the clean-shaven person wears a UC San Diego Tritons sweatshirt
@@ -111,7 +111,7 @@ frames are hands only), who took any photograph, and who performed any step show
 ### 3.5 Frames with faces, and what is permitted
 
 Jacob has confirmed a team photograph **may** go on the poster. **That covers the poster.** Anything
-else is his call, not ours. The frames containing a recognisable face are:
+else is his call, not ours. The frames containing a recognizable face are:
 
 `IMG_8633`, `IMG_8634`, `IMG_8635`, `IMG_8636`, `IMG_8637`, `IMG_8638`, `IMG_8639`, `IMG_8640`
 (Jacob's batch, filed as `2026-09-19_team_at_bench_*`, `_bench_selfie_*`, `_team_selfie_*`), and
@@ -168,17 +168,17 @@ edit — flagging it for the lead.
   platform-gap measurement in §3.1.
 - **No connection read off `IMG_4838`** (the Teensy carrier wiring side) or `IMG_4904`, and the
   prepared caption says so on the image.
-- **No value read off the preamp resistor's colour bands**, and no capacitor polarity read off
+- **No value read off the preamp resistor's color bands**, and no capacitor polarity read off
   `IMG_4851`, although the parts are visible. **`STATUS.md` fault 1d (how JLCPCB's C1/C2 polarity
   question was answered) is exactly the kind of thing a photograph looks like it could settle and
-  cannot** — the relevant board is the old one, it has been reworked since, and a moulded marking
+  cannot** — the relevant board is the old one, it has been reworked since, and a molded marking
   under warm light at an angle is not a polarity determination. **It is a lead for someone with the
   board in hand, not an answer.**
 - **No supply topology read off `IMG_4899`/`IMG_4900`**, though a perfboard and a copper-tape splice
   bridging the two supplies are plainly visible. `docs/WIRING.md` §7 requires ±18 V; how these two
   are joined is not something to take off a photograph.
 - **No electrolyte, voltage or electrode read off the etching frames.** The bottle's label is
-  legible and I recorded that a bottle so labelled is in the frame; **that is an object, not a
+  legible and I recorded that a bottle so labeled is in the frame; **that is an object, not a
   statement about the cell.** Jacob's own words are what the caption rests on.
 
 ### 5.3 Left undone
@@ -218,7 +218,7 @@ edit — flagging it for the lead.
    junction?**
 7. **The alligator clips bought on 2026-09-16 — is it 4, non-insulated?** *(Read off the retail card
    in `IMG_8642`.)*
-8. **The water is CVS Health DISTILLED water, not deionised. Is distilled what you want for the
+8. **The water is CVS Health DISTILLED water, not deionized. Is distilled what you want for the
    input-node rinse, or was DI intended?**
 9. **Is `2026-09-17_sample_plate_rebuilt.jpg` the plate the inventory calls "rebuilt 2026-09-17"?**
    *(Open since 2026-09-18; still unanswered.)*

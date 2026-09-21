@@ -114,7 +114,7 @@ def image_to_image(group, res, drop_first=0, full_only=True):
 
     full_only=True therefore DROPS any file with fewer than the modal number of forward
     lines for its group before pairing, so every correlation is over complete images.
-    full_only=False reproduces the published, truncating behaviour for comparison.
+    full_only=False reproduces the published, truncating behavior for comparison.
 
     Returns (correlations, notes) where notes names any pair that was dropped or truncated.
     """
@@ -457,7 +457,7 @@ def main():
         cons = [pearson(detrend(a), detrend(b)) for a, b in zip(passes, passes[1:])]
         cons = [c for c in cons if c is not None]
         print("\n  %-32s %s" % (name, what))
-        print("    %d rows, %d used (forward only where labelled), %d X points; labels %s"
+        print("    %d rows, %d used (forward only where labeled), %d X points; labels %s"
               % (len(allp), len(passes), len(xs), sorted(set(labels))))
         print("    consecutive-pass r: mean %+.3f over %d pairs"
               % (st.mean(cons) if cons else float("nan"), len(cons)))
@@ -648,7 +648,7 @@ def main():
     save(fig, "fig18_truncation_class.png")
     plt.close(fig)
 
-    # side-by-side images: one cas9 scan and its control, ON ONE SHARED COLOUR SCALE,
+    # side-by-side images: one cas9 scan and its control, ON ONE SHARED COLOR SCALE,
     # because separate scales would make two different things look alike or unalike for
     # no physical reason.
     panels = [("cas9_scan0.csv", "a feedback scan (X moving)"),

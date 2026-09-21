@@ -127,7 +127,7 @@ opened are 01, 02, 03, 04, 05, 06, 07, 08, 09 and 12, plus
 
 | Slot | What is wanted | Why it is empty |
 |---|---|---|
-| **TODO-PHOTO A** | **The DSUB2 splice at the preamp end**, showing the five-way row | No frame in either new batch shows it. **A caption must not quote colours read off the frame** — the preamp's own lead colours are not the J1/J2 colours |
+| **TODO-PHOTO A** | **The DSUB2 splice at the preamp end**, showing the five-way row | No frame in either new batch shows it. **A caption must not quote colors read off the frame** — the preamp's own lead colors are not the J1/J2 colors |
 | **TODO-PHOTO B** | **The tip, close enough to judge sharpness** | The nearest frames are the 2026-09-16 tip-protrusion pair, and that tip has been replaced twice since |
 
 **Two further gaps that are not photographs and cannot be closed here:** how the instrument was
@@ -159,7 +159,7 @@ in commits `0b1ea09` and `4d416b9`. `INCONSISTENCIES.md` item C6 keeps the recor
 demonstrates: **a checker that fires on correct lines gets switched off.**
 
 The third was in the manual's own text: a `safety rule 2` citation sharing no wording with the
-rule it cited. Reworded to name the sign of the tunnelling current.
+rule it cited. Reworded to name the sign of the tunneling current.
 
 ### Things the manual states as open because they genuinely are
 

@@ -100,7 +100,7 @@ Stage 5 body — explicitly kept as current — depends on section 5's claim.
 commented correctly as ±3 V on line 522 and which has been measured at ±3 V. **Bits that are
 identical cannot give different ranges.**
 
-`CLAUDE.md` already names these exact lines. **The behaviour is correct; only the comments are
+`CLAUDE.md` already names these exact lines. **The behavior is correct; only the comments are
 wrong** — but they are the first thing a reader looking at the firmware sees, and this figure is
 one of the retired values `docs/FACTS.md` tracks.
 
@@ -235,7 +235,7 @@ correct and useful.
 > `The preamplifier is currently the blocker and is being rebuilt.`
 
 **The preamplifier was fixed on 2026-09-15 and has been in service since 2026-09-16 at about 4 pA.**
-The blocker is mechanical: the gap does not hold still and the junction is not a clean tunnelling
+The blocker is mechanical: the gap does not hold still and the junction is not a clean tunneling
 gap.
 
 **This is the repository's front page**, and `README.md` itself says to read `STATUS.md` instead
@@ -326,7 +326,7 @@ from a far more aggressive stimulus.
 **The rule is right. The number is not.** `docs/COMMANDS.md` states it without the caveat.
 
 **Recommended fix:** keep the instruction and replace the figure with "a person nearby injects
-enough current into a 100 MOhm input node to swamp a tunnelling signal; the old 20 to 50 nA figure
+enough current into a 100 MOhm input node to swamp a tunneling signal; the old 20 to 50 nA figure
 is not established, see `STATUS.md` safety rule 9."
 
 ---
@@ -440,7 +440,7 @@ Recorded so that nobody spends time re-checking these.
 
 | | |
 |---|---|
-| **The DSUB1 and DSUB2 colour tables** | `docs/WIRING.md`, `docs/START_HERE_gotchas.md` and `docs/ENGINEERING_REFERENCE.md` agree pin for pin, including that orange is −15 V on DSUB2 and plain ground on DSUB1 |
+| **The DSUB1 and DSUB2 color tables** | `docs/WIRING.md`, `docs/START_HERE_gotchas.md` and `docs/ENGINEERING_REFERENCE.md` agree pin for pin, including that orange is −15 V on DSUB2 and plain ground on DSUB1 |
 | **The H1 ribbon pinout** | `docs/WIRING.md` and `docs/COMPONENTS.md` agree, including pins 24 and 26 unconnected and pin 6 being the read-enable |
 | **The Teensy pin assignments** | `docs/WIRING.md` matches `Code/teensy/src/stm_firmware.hpp` exactly, including the deliberate pin 8 = Z, pin 9 = Y ordering |
 | **The motor wiring** | `docs/WIRING.md`, `docs/START_HERE_gotchas.md` and `CAD/prints/README.md` agree, and the firmware's `EfficientStepper(steps, IN1, IN3, IN2, IN4)` confirms the software swap |

@@ -26,7 +26,7 @@ treating them as if they were.
 |---|---|
 | **The measurement chain is calibrated and the number is exactly right** | **MEASURED.** −3,205 ± 37 counts per volt against −3,200 predicted from a 100 MΩ resistor: **0.14 standard errors apart**, R² 0.9934, 53 readings. Reproduced here from the raw readings, digit for digit |
 | **Every published Z-test number reproduces** | **MEASURED.** All 25 figures in `sessions/2026-09-19-morning.md` §3.10–3.11 — counts per decade in and out, hysteresis, watchdog events, drift, for five runs — come back identical from an independent re-implementation |
-| **The junction is not a tunnelling gap** | **MEASURED.** A decade of current takes **808 to 4,639 Z counts going in** across five biases. Vacuum tunnelling on the inherited scale would be **6 to 13**. A factor of 60 to 750 |
+| **The junction is not a tunneling gap** | **MEASURED.** A decade of current takes **808 to 4,639 Z counts going in** across five biases. Vacuum tunneling on the inherited scale would be **6 to 13**. A factor of 60 to 750 |
 | **The hysteresis does not shrink at low bias — it gets slightly larger** | **MEASURED.** Run medians +1,653 and +1,474 counts at ±0.1 V against +1,162, +1,868 and +705 at ±0.5 V. Electrostatic pull-in would scale as V², predicting 25× smaller. **n = 2 and n = 3 independent runs** |
 | **The gap moves by most of the Z range with nothing driving it** | **MEASURED, once.** ≥ 43,000 counts in 6.3 s and back ≥ 56,000 counts over 111 s, motor and hands still. **n = 1 episode, 9 sweeps.** A second, independent record from a different tip and night shows the same size of wander |
 | **Nothing periodic is visible, and nothing can exclude a period** | The only fast record of a live junction is 10.3 s long. The position records are one point per 3 s at best. **The timescale on which the gap actually moves is covered by nothing** |
@@ -134,10 +134,10 @@ live document, and this analysis is not permitted to edit `docs/FACTS.md`.
 +0.5 V.** The count is right, the attribution reads wrong. Session logs are history and are not to
 be rewritten; this is noted so nobody quotes the sentence as written.
 
-### 2.2 This is not a tunnelling gap
+### 2.2 This is not a tunneling gap
 
 **MEASURED.** A decade of current takes **808 to 4,639 Z counts going in**, depending on bias. On
-the inherited Z scale, vacuum tunnelling would take **6 to 13**. That is a factor of **60 to 750**.
+the inherited Z scale, vacuum tunneling would take **6 to 13**. That is a factor of **60 to 750**.
 
 **The comparison depends on an ASSUMED number** — the 0.016 nm per Z count is Berard's calibration
 of a similar piezo disc, not ours, and `docs/OPEN_QUESTIONS.md` records it as unmeasured. So the
@@ -155,7 +155,7 @@ Run medians: **+1,162, +1,653, +1,868, +1,474 and +705 Z counts.** All five posi
 **99 of 109 cycles are positive**.
 
 This does not depend on the Z scale, because it is a difference between two Z codes in the same
-units. **A clean tunnelling gap gives zero.** A contact that sticks and follows the tip back gives
+units. **A clean tunneling gap gives zero.** A contact that sticks and follows the tip back gives
 exactly this sign and this size.
 
 **n = 5 independent runs; the 109 cycles are repeated measurements inside those five.**
@@ -273,7 +273,7 @@ been let go and was clear.
 
 ### 3.4 Is it periodic? Nothing says yes, and nothing can say no
 
-Jacob asked this at the bench on 2026-09-19 — the idea being to synchronise the scanner to the
+Jacob asked this at the bench on 2026-09-19 — the idea being to synchronize the scanner to the
 motion — so it is worth answering carefully.
 
 **The only fast record of a live junction in the repository** is `here_run1.csv`: **35,000 readings
@@ -356,7 +356,7 @@ firmware's averaged read; **320.5 counts is 1 nA**.
 | 2026-09-19 morning 11:22 | 33.5–37.1 | the new blunt tip | clear |
 | 2026-09-19 morning 12:11 | 46.3–46.5 | the new blunt tip | **junction at Z 20,000** |
 
-**Safe to compare:** the five tip-clear rows. 2026-09-18 is about **eight times** its neighbours on
+**Safe to compare:** the five tip-clear rows. 2026-09-18 is about **eight times** its neighbors on
 either side, and the excursion went away. It was ruled out as the operator (identical at 76 cm and
 with the room empty) and showed no decay over 16 minutes. Its cause was never found; the candidates
 left open are the rebuilt holder and the new whole-plate gold.
@@ -403,7 +403,7 @@ I = aV + bV³, which is symmetric by construction, gives R² 0.748 against 0.675
 — the cubic term is worth its degree of freedom (F = 4.3 on 1 and 15) but the fit is mediocre
 *because the curve is not symmetric*.
 
-**WHAT THIS DOES NOT PROVE.** A barrier-shaped I-V is **not** evidence of vacuum tunnelling. A tip
+**WHAT THIS DOES NOT PROVE.** A barrier-shaped I-V is **not** evidence of vacuum tunneling. A tip
 resting on the gold through a thin oxide or contamination film gives the same superlinear,
 asymmetric shape, and a new tungsten tip carries an oxide unless it is etched. The session log says
 this in the same paragraph as the measurement. **The Z tests of the next morning are the
@@ -653,7 +653,7 @@ tip is in or near contact.
   (**Cross-check in the other convention: the Fisher-z mean of the same eleven pairs goes
   +0.647 → +0.048** — the same collapse. This document previously quoted ~~+0.65 to +0.05~~, which
   was the Fisher-z pair rounded, without naming the convention.) The same arithmetic correctly
-  predicts the artefact's
+  predicts the artifact's
   *absence* in the two 2D wide images, which raster without lifting X. That is a falsification with
   a mechanism, not a null.
 - **All six tuned scans of 2026-09-19 morning aborted at a Z clamp**, with 21–64 % of their pixels
@@ -733,9 +733,9 @@ to do at the bench.
 
 ---
 
-## 9. What was analysed, what was excluded, and what could not be done
+## 9. What was analyzed, what was excluded, and what could not be done
 
-### Analysed
+### Analyzed
 
 All **163 raw data files** are inventoried. Of those, these were read and computed on:
 
@@ -774,11 +774,11 @@ CSV, one two-row CSV. All are listed in `DATA_INVENTORY.md` with what each means
 
 ### What could not be done
 
-- **The gap's motion cannot be characterised properly.** The only records at the right timescale
+- **The gap's motion cannot be characterized properly.** The only records at the right timescale
   are nine sweeps in one episode and one onset per Z-test cycle. Four CSVs that would have helped
   were lost.
 - **Periodicity cannot be tested** at the timescale that matters (§3.4).
-- **The Z scale is unmeasured**, so every statement in nanometres is conditional on a number
+- **The Z scale is unmeasured**, so every statement in nanometers is conditional on a number
   inherited from a different piezo disc.
 - **The wide-image saturation figure cannot be checked** — no log was kept for those runs.
 - **Lateral drift has never been measured**, by anything in `sessions/data/`. Every record of the

@@ -3,10 +3,10 @@
 **Status: DRAFT. Nothing here has been sent to anybody, and no email address, affiliation or
 relationship has been assumed.** Jacob said he will write the collaborator emails himself. This
 file gives him **one recipient-neutral note to adapt**, a list of what to attach and why, and
-**the questions he has to answer before any of the three can be personalised.**
+**the questions he has to answer before any of the three can be personalized.**
 
 **Three things this file deliberately does not do:** invent a name, invent a relationship, or
-write three fake personalised emails. Section 3 says why, and section 4 records the one contact the
+write three fake personalized emails. Section 3 says why, and section 4 records the one contact the
 repository does turn out to name.
 
 ---
@@ -18,7 +18,7 @@ repository does turn out to name.
 > places where the note declines to claim something are deliberate.
 >
 > **It is longer than it was.** If it needs to come back down, **cut the AI-workflow paragraph or
-> the calibration detail first** — not the tunnelling paragraph, which is the part a technical
+> the calibration detail first** — not the tunneling paragraph, which is the part a technical
 > reader will answer.
 
 ---
@@ -31,15 +31,15 @@ Dear [name],
 
 Over eleven weeks of planning and design and eight weeks of building, Nuh Shaheer and I — **two
 undergraduates with no coding experience and very little electronics experience** — have built
-a scanning tunnelling microscope from 3D-printed parts. **This project was the first real soldering either of us has done**, and it was
+a scanning tunneling microscope from 3D-printed parts. **This project was the first real soldering either of us has done**, and it was
 built and run **in a basement in a house people live in**, with people moving around and no control
-over the air or the temperature: a wooden bench on a concrete floor, a few metres from the breaker
+over the air or the temperature: a wooden bench on a concrete floor, a few meters from the breaker
 panel. **It is not a clean room and it never was.** The mechanics, firmware and controller board
 follow Mech Panda's open-source `red-panda-stm`; the scan head and transimpedance preamplifier
 follow Dan Berard's home-built STM. Everything else — the electronics bring-up, the software, the
 calibration and the fault isolation — we learned as we went.
 
-**Where it stands: every subsystem a tunnelling microscope needs is built, working and calibrated,
+**Where it stands: every subsystem a tunneling microscope needs is built, working and calibrated,
 and what is left is mechanical.**
 
 The measurement chain is calibrated end to end. With a precision 100 MΩ resistor clipped in where
@@ -56,9 +56,9 @@ We have made a real tip-to-sample junction: current rising from 0.85 nA at 0.05 
 about 10%, taken as eight rounds with the polarities interleaved and confirmed by a bias-flip test
 on two separate nights. That is a barrier: not a metallic short and not an open circuit.
 
-**We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an
+**We detected tunneling, but weren't able to maintain tunneling range for long enough to get an
 image.** The tip cannot go from not-touching to touching without passing through the separations
-where tunnelling is what carries the electrons, and the bias was applied with the amplifier
+where tunneling is what carries the electrons, and the bias was applied with the amplifier
 recording the whole way — 60,928 readings inside that current range, across 109 approaches; the I-V
 above is superlinear and symmetric and the junction never metallically shorted, so what conducted
 was a barrier and not a metallic bridge. **What we could not do is hold it there.** A later
@@ -118,17 +118,17 @@ status report. Drop it in after the paragraphs about the junction:
 > inside the scan head: how far the tip sits from the line joining the two fixed screws, which sets
 > the lever ratio between the coarse screw and the tip. At the design's 1.00 mm the decay is about
 > 39 times too slow for a vacuum gap; at 0.5 mm, 19 times; at 0.13 mm, still 5 times. **Only about
-> 26 micrometres works.** I measured that distance at the bench on 20 September and it is **under
-> 0.5 mm** — which narrows the question without settling it, because 26 micrometres sits inside
+> 26 micrometers works.** I measured that distance at the bench on 20 September and it is **under
+> 0.5 mm** — which narrows the question without settling it, because 26 micrometers sits inside
 > that bound, in the bottom 5% of it. Resolving it needs a loupe or a USB microscope with a scale
-> in the frame rather than the straightedge that gave the half-millimetre bound, and it is the
+> in the frame rather than the straightedge that gave the half-millimeter bound, and it is the
 > first thing we will do when the instrument is rebuilt.
 
 > **What changed on 2026-09-20, recorded because this is the text most likely to reach an
 > outsider.** The paragraph previously said the threshold was "around 0.13 mm", that the distance
 > was "somewhere between 0 and 1 mm", and that "at 0.1 to 0.3 mm the same measurement lands near
 > the textbook decade per 0.1 nm". **All three were wrong.** The decay threshold is about **26
-> micrometres**; **0.13 mm is a different criterion** — whether the gap wobbles too much to hold at
+> micrometers**; **0.13 mm is a different criterion** — whether the gap wobbles too much to hold at
 > all — and on the decay test it is still 5 times too slow; and 0.1 to 0.3 mm does **not** land
 > near the textbook figure, being 3.9 to 12 times too slow. **Jacob measured the distance at the
 > bench on 2026-09-20 and it is under 0.5 mm** (`docs/FACTS.md`). The **250 Z counts per decade is
@@ -144,9 +144,9 @@ about that lever ratio, and may simply tell you.
 
 **Do not soften it into "we think we saw a gap", and do not harden it either.** The whole value of
 the paragraph is that it is undecided and that the deciding measurement is named.
-`docs/OPEN_QUESTIONS.md` puts it as *"this one distance decides whether we are tunnelling or
+`docs/OPEN_QUESTIONS.md` puts it as *"this one distance decides whether we are tunneling or
 pressing through a soft contact."* **Note what is and is not open here.** That we detected
-tunnelling is settled and is stated in the note above; **what this paragraph leaves open is whether
+tunneling is settled and is stated in the note above; **what this paragraph leaves open is whether
 that particular junction was a gap we were holding rather than a film we were pressing into** —
 which is a question about the 2026-09-17 junction, not about the project's headline claim.
 
@@ -162,7 +162,7 @@ paths are in this repository.
 | **1** | `deliverables/2026-09-19-pause/figures/png/fig01_calibration.png` | **The credibility figure.** The line is not fitted — it is what Ohm's law requires, worked out before the measurement. One glance says the chain works |
 | **2** | `deliverables/2026-09-19-pause/figures/png/fig03_gap_motion.png` | **The ask, in one picture.** It is the measured blocker, and it is what any advice would be about |
 | **3** | `deliverables/2026-09-19-pause/photos/prepared/04_instrument_full_height.jpg` | **What it physically is.** The best overview of the assembled instrument, with four parts named |
-| **4** | `deliverables/2026-09-19-pause/figures/png/fig02_iv_curve.png` | **The junction.** Send it if the reader is technical; **the figure carries its own caveat that a barrier is not a tunnelling gap**, which is exactly the caveat you want them to read in your words rather than infer |
+| **4** | `deliverables/2026-09-19-pause/figures/png/fig02_iv_curve.png` | **The junction.** Send it if the reader is technical; **the figure carries its own caveat that a barrier is not a tunneling gap**, which is exactly the caveat you want them to read in your words rather than infer |
 | 5 | `deliverables/2026-09-19-pause/figures/png/fig04_control.png` | **The method.** If the reader is an experimentalist, this is the one that will earn their respect: the control that killed our own result |
 | 6 | `deliverables/2026-09-19-pause/photos/prepared/13_poster_module_portrait.jpg` | **The human frame** — Jacob holding the complete scanning module. Good for a reader who is not going to read the numbers. **Contains a face; publication of a team photograph was confirmed for the poster, so extending it to an email is Jacob's call** |
 
@@ -171,7 +171,7 @@ paths are in this repository.
 - `figures/png/fig06_noise.png` — the noise floor, still against stamping. Useful only if the
   conversation is about vibration or grounding.
 - `photos/prepared/01_sample_plate_gold_window.jpg` — the sample as the tip actually sees it.
-  **It shows honestly that the window is not all gold**, which is a point in your favour with
+  **It shows honestly that the window is not all gold**, which is a point in your favor with
   anyone who has mounted a sample.
 
 **Do not attach:** anything from `analysis/plots/`, which predates the corrections; any scan image,
@@ -234,9 +234,9 @@ the name goes into any email.**
 
 1. **"We produced an image" and "we maintained tunnelling range" are both unsupported.**
    **"We detected tunnelling" is supported and the draft now says it** — corrected 2026-09-20; the
-   earlier wording here said not to claim tunnelling at all, and that was wrong in the direction of
+   earlier wording here said not to claim tunneling at all, and that was wrong in the direction of
    caution (`deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13). **Use Jacob's sentence
-   whole, both halves in one breath:** *"We detected tunnelling, but weren't able to maintain
+   whole, both halves in one breath:** *"We detected tunneling, but weren't able to maintain
    tunnelling range for long enough to get an image."* **The first person to ask a hard question
    will be someone who knows what an STM is**, and their question will be *how did the current vary
    with distance?* — which the second half of that sentence answers before it is asked.

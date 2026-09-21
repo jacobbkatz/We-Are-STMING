@@ -551,9 +551,9 @@
   <h1>We built a scanning tunneling microscope in a basement</h1>
 
   <div class="claim">
-    <p><strong>We detected tunneling.</strong> Electrons crossed a gap about a nanometer wide,
-    with nothing touching, and an amplifier we built measured them. <strong>What we could not do
-    was hold that gap still long enough to take a picture.</strong></p>
+    <p><strong>We detected tunneling.</strong> Electrons crossed a gap that nothing was
+    touching, and an amplifier we built measured them. <strong>What we could not do was hold that
+    gap still long enough to take a picture.</strong></p>
     <p class="attrib">A scanning tunneling microscope reads a surface by measuring a current a
     billionth of an amp flowing across a gap that nothing is touching. We built one over a summer
     on a wooden bench on a concrete floor, between our first and second years of university.
@@ -579,7 +579,7 @@
 
   <div class="tracewrap">
     <p class="axlab">current, nanoamps</p>
-    <svg class="trace" viewBox="0 0 1000 262" role="img" aria-label="A measured approach: the current climbs from the noise floor of about 0.05 nanoamps to 3.2 nanoamps as the tip moves 1,920 converter counts closer to the gold.">
+    <svg class="trace" viewBox="0 0 1000 262" role="img" aria-label="A measured approach: the current climbs out of the noise to 3.2 nanoamps as the tip moves 1,920 converter counts closer to the gold.">
       <line x1="52.0" y1="209.2" x2="976.0" y2="209.2" class="gl"/><text x="43.0" y="213.2" class="gt">0.1</text><line x1="52.0" y1="77.1" x2="976.0" y2="77.1" class="gl"/><text x="43.0" y="81.1" class="gt">1</text><line x1="52.0" y1="37.3" x2="976.0" y2="37.3" class="gl"/><text x="43.0" y="41.3" class="gt">2</text><polyline class="tr" pathLength="1" points="52.0,123.7 61.6,124.8 71.2,142.5 80.9,144.6 90.5,128.7 100.1,156.3 109.8,112.5 119.4,118.6 129.0,136.2 138.6,148.6 148.2,141.4 157.9,160.6 167.5,135.7 177.1,140.2 186.8,142.0 196.4,129.1 206.0,135.8 215.6,137.7 225.2,123.5 234.9,117.4 244.5,118.0 254.1,133.6 263.8,132.3 273.4,119.7 283.0,164.9 292.6,142.2 302.2,129.9 311.9,122.4 321.5,133.5 331.1,133.8 340.8,136.3 350.4,138.1 360.0,117.4 369.6,138.2 379.2,141.1 388.9,131.1 398.5,136.9 408.1,123.9 417.8,138.6 427.4,119.9 437.0,106.9 446.6,89.3 456.2,113.2 465.9,106.5 475.5,120.4 485.1,122.2 494.8,119.5 504.4,116.9 514.0,127.1 523.6,120.3 533.2,116.9 542.9,121.2 552.5,105.9 562.1,102.6 571.8,109.5 581.4,94.9 591.0,102.1 600.6,98.3 610.2,93.1 619.9,91.7 629.5,90.9 639.1,85.7 648.8,90.2 658.4,89.4 668.0,88.9 677.6,87.5 687.2,90.3 696.9,84.0 706.5,83.4 716.1,78.6 725.8,93.7 735.4,83.9 745.0,80.6 754.6,84.7 764.2,77.3 773.9,76.2 783.5,77.1 793.1,69.3 802.8,50.1 812.4,70.5 822.0,65.3 831.6,65.9 841.2,59.5 850.9,59.3 860.5,64.2 870.1,83.2 879.8,74.0 889.4,85.7 899.0,67.6 908.6,44.1 918.2,62.3 927.9,26.8 937.5,31.8 947.1,32.0 956.8,27.6 966.4,22.9 976.0,14.0"/>
     </svg>
     <p class="axlab axfoot">tip moving toward the gold, 1,920 converter counts</p>
@@ -604,7 +604,7 @@
       atomic-resolution images</div></div>
     <div class="r ours"><div class="a">$64</div>
       <div class="w"><b>our controller board</b>, five of them for $321.44 from JLCPCB. It is the
-      one cost in this project with an order record behind it; we never totaled the rest.</div></div>
+      largest cost in this project with an order record behind it; we never totaled the rest.</div></div>
   </div>
   <p class="tracenote">The three commercial figures come from a laboratory-equipment supplier&rsquo;s
   published breakdown, read in September 2026 &mdash;
@@ -631,7 +631,7 @@
 
   <div class="subsys" data-rv>
     <div class="ss ok"><div class="sn">Command and firmware</div><div class="sv">Works</div>
-      <div class="se">Eighteen four-character commands over USB, driving four 16-bit converters, a 16-bit detector and a stepper motor from one microcontroller. <b>Two faults that would have crashed a tip were found by reading our own firmware, before a tip was ever fitted</b>, then fixed and bench-tested: engaging the feedback loop now leaves the scanner where it was, where the old code slammed it to midscale.</div></div>
+      <div class="se">Eighteen four-character commands over USB, driving four 16-bit converters, a 16-bit detector and a stepper motor from one microcontroller. <b>Two faults that would have crashed a tip were found by reading the firmware before a tip was ever fitted</b> &mdash; both inherited from upstream &mdash; then fixed and bench-tested: engaging the feedback loop now leaves the scanner where it was, where the old code slammed it to midscale.</div></div>
     <div class="ss ok"><div class="sn">Bias on the sample</div><div class="sv">Works</div>
       <div class="se">A commanded zero puts <b>+3.000 V</b> on the sample, and the chain returned <b>&minus;9,586 counts</b> against the &minus;9,600 that voltage predicts.</div></div>
     <div class="ss ok"><div class="sn">The preamplifier</div><div class="sv">Works</div>
@@ -641,17 +641,17 @@
     <div class="ss part"><div class="sn">Fine positioning in Z</div><div class="sv">No distance scale</div>
       <div class="se">Stepping the piezo by &plusmn;2,000 counts moved the current by <b>6,305 &plusmn; 1,484 counts &mdash; 4.2 standard errors from nothing</b>, so the scanner demonstrably controls the gap. <b>How far 2,000 counts is, in nanometers, we have never measured on our own hardware.</b></div></div>
     <div class="ss part"><div class="sn">Fine positioning in X and Y</div><div class="sv">No distance scale</div>
-      <div class="se">The scanned surface tilts <b>0.105 Z counts for every X count</b>, so the 30,000-count jump back at the start of each pass leaves 3,144 counts of height for the loop to recover; about 2,470 showed up. <b>The control runs with X held still show none of it</b>, which is what says the sideways motion is real. Its size in nanometers is unmeasured too.</div></div>
+      <div class="se">The scanned surface tilts <b>0.105 Z counts for every X count</b>, so the 30,000-count jump back at the start of each pass leaves 3,144 counts of height for the loop to recover; about 2,470 showed up. The same arithmetic predicts the effect should be <b>absent</b> from the runs that do not fly back that way, and in both of those it was. Its size in nanometers is unmeasured too.</div></div>
     <div class="ss part"><div class="sn">The feedback loop</div><div class="sv">Closes, never held</div>
       <div class="se">It settles rather than running away, and holds the current to about <b>0.06 of a decade at 2,000 pixels per second</b>, with 5, 15 and 250 corrections per pixel all agreeing. <b>Every image tuned for the 19 September junction still aborted at a clamp.</b></div></div>
     <div class="ss part"><div class="sn">Coarse approach</div><div class="sv">Finds the surface, cannot stop</div>
-      <div class="se">The motor found the sample twice, after <b>200 and 180 steps</b> in chunks of twenty. But one step moves the tip <b>at least eleven times the width of the window</b> where a tunneling current is visible, so there is no motor position inside it. That is why the piezo exists; the handover between them never worked.</div></div>
+      <div class="se">The motor found the sample twice, after <b>200 and 180 steps</b> in chunks of twenty. Both times it went into contact within thirty seconds. <b>It cannot stop inside the window</b> where a tunneling current is visible: single steps were seen to shift the surface by <b>14,000 to 29,000 scanner counts</b> when they moved it at all, while runs of twenty to forty steps did nothing. That is what the piezo is for; the handover between them never worked.</div></div>
     <div class="ss part"><div class="sn">The sample</div><div class="sv">Real gold, badly mounted</div>
-      <div class="se">It is gold &mdash; flame-tested on a 2 mm scrap. Directly underneath it sit <b>fifty to a hundred micrometers of backing paper</b>, and the plate is held down by two twisted rubber bands.</div></div>
+      <div class="se">It is gold &mdash; flame-tested on a 2 mm scrap. Directly underneath it sit <b>fifty to a hundred micrometers of backing paper</b>, and the plate is held down by twisted rubber bands.</div></div>
     <div class="ss no"><div class="sn">The tip</div><div class="sv">Never sharpened</div>
-      <div class="se"><b>Every tip ever fitted was a blunt cut placeholder</b>, and one turned out to be bent and touching with its side. We built an etcher for sharp tungsten tips and ran it; our own inventory records it as unknown whether any tip that came off it reached the instrument.</div></div>
+      <div class="se"><b>Every tip ever fitted was a blunt cut placeholder</b>, and one turned out to be bent and touching with its side. We built a setup for etching sharp tungsten tips; our own inventory records it as unknown whether it was ever used successfully, or whether any tip off it reached the instrument.</div></div>
     <div class="ss no"><div class="sn">Vibration isolation</div><div class="sv">Never tested</div>
-      <div class="se">Three springs and coin-wrapper dampers. <b>The only measurement we took was with the tip clear of the surface</b>, which tests electrical pickup and not mechanical isolation. The suspension&rsquo;s resonant frequency is unknown. It is also not what stopped us &mdash; <a href="#stopped">the motion that did is far too slow to be vibration</a>.</div></div>
+      <div class="se">Three springs loaded with coin mass, and eddy damping from magnets over an aluminum plate. <b>The only measurement we took was with the tip clear of the surface</b>, which tests electrical pickup and not mechanical isolation. The suspension&rsquo;s resonant frequency is unknown. It is also not what stopped us &mdash; <a href="#stopped">the motion that did is far too slow to be vibration</a>.</div></div>
     <div class="ss no"><div class="sn">A repeatable image</div><div class="sv">No</div>
       <div class="se">Our scans repeat at <b>+0.04</b>. The control runs, which cannot contain a surface at all, repeat at <b>+0.07</b>. Indistinguishable, and neither differs from zero.</div></div>
   </div>
@@ -779,7 +779,7 @@
   <text class="rlb re" x="744" y="131">about one nanoamp</text>
   <rect class="bx" x="668" y="150" width="176" height="62" rx="2"/>
   <text class="lbl" x="756" y="176" text-anchor="middle">preamplifier</text>
-  <text class="sub" x="756" y="195" text-anchor="middle">OPA627, 100 megohm</text>
+  <text class="sub" x="756" y="195" text-anchor="middle">100 megohm feedback</text>
   <rect class="bx" x="448" y="150" width="176" height="62" rx="2"/>
   <text class="lbl" x="536" y="176" text-anchor="middle">converter</text>
   <text class="sub" x="536" y="195" text-anchor="middle">LTC2326-16</text>
@@ -799,7 +799,7 @@
 </figure>
   <div class="duo">
     <figure class="photo" data-rv><img src="img/instrument.jpg" width="1285" height="1501" alt="The assembled instrument on a wooden bench: a printed frame, three springs holding a suspended platform, and the scan head on a copper ground plane." loading="lazy">
-      <p class="cap"><b>The whole instrument, about a foot tall.</b> The printed frame carries a platform on three springs; the scan head sits on top of it under copper tape. The cardboard tubes are paper coin wrappers, damping the springs.</p></figure>
+      <p class="cap"><b>The whole instrument, about a foot tall.</b> The printed frame carries a platform on three springs; the scan head sits on top of it under copper tape. The cardboard tubes are paper coin wrappers holding quarters &mdash; mass, added to push the springs past their initial tension.</p></figure>
     <div class="side">
       <figure class="photo" data-rv><img src="img/room.jpg" width="1500" height="1032" alt="The basement room: concrete floor, wooden bench, an electrical panel on the wall and cardboard boxes stacked beside it." loading="lazy">
         <p class="cap"><b>Where the work happened.</b> A basement utility room, a few meters from a wall-mounted electrical panel and a standby-generator transfer switch. That is context for the noise problem, not a measurement of it.</p></figure>
@@ -843,8 +843,9 @@
     <p class="vstat"><b>Only what we printed is here.</b> Twelve of these are on our own print
     plates. The other eight are the enclosures &mdash; the shield cover, the preamplifier box, and
     the boxes for the controller and the Teensy &mdash; which are not on a plate file but are in the
-    photographs above, wrapped in copper tape. One printable part in the upstream design is
-    deliberately missing: a second scan-head box that will not fit inside the shield cover.</p>
+    photographs above, wrapped in copper tape. Two printable parts are deliberately
+    missing: a second scan-head box that will not fit inside the shield cover, and a revised
+    preamplifier box whose mounting boss lands on the hole the input standoff needs.</p>
   </div>
 </section>
 
@@ -919,7 +920,7 @@
   </ul>
 
   <figure data-rv>
-    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="1319" alt="One measured approach, its current climbing across the shaded band where a tunneling current is visible. It takes 2,636 Z counts to cross that band; a clean vacuum gap would cross it in 10 to 22." loading="lazy"></a>
+    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="1213" alt="One measured approach, its current climbing across the shaded band where a tunneling current is visible. It takes 2,636 Z counts to cross that band; a clean vacuum gap would cross it in 10 to 22." loading="lazy"></a>
     <figcaption>One approach, drawn from the raw file. The shaded band is the window where a
     tunneling current is large enough to see and small enough not to saturate the amplifier, and
     the tip crosses it every time. <b>What we never did is stop inside it.</b> A gap you can
@@ -960,25 +961,25 @@
 
     <div class="item" data-rv><div class="n num">2</div><div>
       <h3>The sample is soft</h3>
-      <p>Gold leaf resting on its backing paper &mdash; fifty to a hundred micrometers of compressible cellulose directly under the surface we were trying to hold still to a fraction of a nanometer &mdash; with the plate held on by two twisted rubber bands. It moved when Jacob blew on it.</p>
+      <p>Gold leaf resting on its backing paper &mdash; fifty to a hundred micrometers of compressible cellulose directly under the surface we were trying to hold still to a fraction of a nanometer &mdash; with the plate held on by twisted rubber bands. It moved when Jacob blew on it.</p>
       <div class="fix"><b>Possible fix.</b> Bond the gold to a rigid substrate with no paper under it, and clamp the plate mechanically instead of with rubber bands.</div>
     </div></div>
 
     <div class="item" data-rv><div class="n num">3</div><div>
       <h3>Every tip was a placeholder</h3>
       <p>A tunneling current should come from a single atom. Ours came from blunt tips, and one of them turned out to be bent and touching with its side. A blunt tip presents many atoms at once, which is exactly what turns a gap into a pressed contact.</p>
-      <div class="fix"><b>Possible fix.</b> Etch a sharp tip with the setup we already own and have already used.</div>
+      <div class="fix"><b>Possible fix.</b> Etch a sharp tip with the setup we already own &mdash; and record the result, which our inventory says nobody has.</div>
     </div></div>
 
     <div class="item" data-rv><div class="n num">4</div><div>
       <h3>No distance scale of our own</h3>
-      <p>We never established how far the tip moves per converter count on our own hardware. The consequence is the sharpest thing on this list: for a while <strong>every scan covered about a nanometer of sample, a few atoms across</strong> &mdash; far too small to show a surface, and nobody could have known. That figure rests on a scale this instrument has never established, which is the row you are reading.</p>
+      <p>We never established how far the tip moves per converter count on our own hardware. The consequence is the sharpest thing on this list: for a while <strong>scans were covering about &plusmn;0.6 nanometers of sample &mdash; smaller than a single atom</strong>, far too small to show a surface, and nobody could have known. That figure rests on a scale this instrument has never established, which is the row you are reading.</p>
       <div class="fix"><b>Possible fix.</b> Measure one distance inside the scan head under a jeweler&rsquo;s loupe. Minutes, no power, and it fixes the nanometer scale for every measurement this instrument will ever make.</div>
     </div></div>
 
     <div class="item" data-rv><div class="n num">5</div><div>
       <h3>The approach cannot park in the window</h3>
-      <p>One step of the coarse motor moves the tip at least eleven times the width of the window where tunneling is visible. There is no motor position inside it. That is not a fault, it is why the piezo exists &mdash; but the handover from one to the other never worked.</p>
+      <p>Single motor steps were seen to shift the surface by <strong>14,000 to 29,000 scanner counts</strong> when they moved it at all, while runs of twenty to forty steps did nothing at all. The window where a tunneling current is visible is a few hundred counts wide. <strong>The motor cannot stop inside it</strong> &mdash; which is not a fault, it is why the piezo exists &mdash; but the handover from one to the other never worked.</p>
       <div class="fix"><b>Possible fix.</b> Settle the sign of the tunneling current so the automatic approach is safe to run, then hand the last stage from the motor to the piezo.</div>
     </div></div>
   </div>
@@ -1049,7 +1050,7 @@
     <div data-rv><h4>The shared spine</h4><div class="f">git &middot; GitHub</div>
       <p>Two people, two computers, often days apart. Every session starts by pulling and ends by
       pushing, and a start-up hook does the pull, runs the checker and prints what changed since
-      last time. <strong><span data-repo-count="commits">263</span> commits.</strong> Neither of us has ever had to ask the other what
+      last time. <strong><span data-repo-count="commits">264</span> commits.</strong> Neither of us has ever had to ask the other what
       state the project was in.</p></div>
     <div data-rv><h4>The review pass</h4><div class="f">LEAD_VERIFICATION.md</div>
       <p>Every claim re-derived independently from the raw files before it was allowed into
@@ -1080,7 +1081,7 @@
   <div class="tally" data-rv>
     <div><div class="t num" data-repo-count="claude-lines">575</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
     <div><div class="t num" data-repo-count="facts-rows">157</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
-    <div><div class="t num" data-repo-count="commits">263</div><div class="l">commits, across two computers and two people</div></div>
+    <div><div class="t num" data-repo-count="commits">264</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num" data-repo-count="checker-lines">598</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
 
@@ -1112,11 +1113,11 @@
     <a href="img/fig06.jpg"><img src="img/fig06.jpg" width="1500" height="816" alt="" loading="lazy"><span>The noise floor, and what does not move it</span></a>
     <a href="img/fig07.jpg"><img src="img/fig07.jpg" width="1500" height="1717" alt="" loading="lazy"><span>The signal chain, end to end</span></a>
     <a href="img/fig08.jpg"><img src="img/fig08.jpg" width="1500" height="919" alt="" loading="lazy"><span>The scale of the problem</span></a>
-    <a href="img/fig09.jpg"><img src="img/fig09.jpg" width="1500" height="1886" alt="" loading="lazy"><span>The build, session by session</span></a>
+    <a href="img/fig09.jpg"><img src="img/fig09.jpg" width="1500" height="1885" alt="" loading="lazy"><span>The build, session by session</span></a>
     <a href="img/fig10.jpg"><img src="img/fig10.jpg" width="1500" height="1040" alt="" loading="lazy"><span>Push in against pull out</span></a>
     <a href="img/fig11.jpg"><img src="img/fig11.jpg" width="1500" height="1515" alt="" loading="lazy"><span>A vacuum gap has no memory. Ours did</span></a>
     <a href="img/fig12.jpg"><img src="img/fig12.jpg" width="1500" height="1167" alt="" loading="lazy"><span>What one unmeasured distance decides</span></a>
-    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="1319" alt="" loading="lazy"><span>Inside the window, but never parked in it</span></a>
+    <a href="img/fig13.jpg"><img src="img/fig13.jpg" width="1500" height="1213" alt="" loading="lazy"><span>Inside the window, but never parked in it</span></a>
   </div>
 
   <h3>Every document</h3>
@@ -1186,17 +1187,16 @@
       instrument actually did, which is the only reason the record has two hands in it.</p>
       <p>He works in SOLIDWORKS and Fusion 360, which is the half of this instrument that is
       plastic and screws rather than volts. Away from it he is an undergraduate researcher in
-      WPI&rsquo;s Fang Research Group on laser powder bed fusion and pore formation, and he spent a
-      summer as an <strong>AI and robotics software engineering intern</strong> building a ROS 2
-      model of a seven-axis robot arm from SolidWorks assemblies.</p>
-      <p>He also co-founded <strong>Laces Up</strong>, a fiscally sponsored non-profit that
-      collects, cleans and redistributes shoes, now in its fourth year, and has taught STEM to more
-      than twenty students between five and sixteen.</p>
+      WPI&rsquo;s Fang Research Group on laser powder bed fusion and pore formation, and he has worked
+      as an <strong>AI and robotics software engineering intern</strong>, building a ROS 2 model of
+      a seven-axis robot arm from SolidWorks assemblies.</p>
+      <p>He is also co-founder and program director of <strong>Laces Up</strong>, a fiscally
+      sponsored non-profit, since 2023.</p>
       <ul class="did">
         <li><b>The first soldering either of us had done</b> that had to work &mdash; the early
         electronics, 1 August, before anything was mounted.</li>
-        <li><b>Ran bench sessions alone</b> while Jacob was abroad, including the one where the
-        preamplifier was first brought up.</li>
+        <li><b>Ran bench sessions alone</b> off a written procedure, and reported what the
+        instrument did rather than what the procedure expected.</li>
         <li><b>Found an error in a written bench procedure before running it</b> &mdash; it said to
         take a measurement with the preamplifier powered when it had to be unpowered.</li>
         <li><b>Proposed the rule the project now runs on:</b> a photograph is not a measurement of
@@ -1222,15 +1222,16 @@
       this page was built with no laboratory, no advisor and no funding; the two are connected only
       by the person.</p>
       <ul class="did">
-        <li><b>Built the tip etcher</b> &mdash; a bench supply through sodium hydroxide, run
-        outdoors in gloves, because tungsten tips are etched rather than bought.</li>
+        <li><b>Identified the tip-etching setup</b> in photographs nobody had catalogued &mdash;
+        a bench supply through sodium hydroxide, run outdoors in gloves. Until he did, the
+        repository had no record that we can etch a tip at all.</li>
         <li><b>Wrote the sentence this project stands on.</b> The claim at the top of this page is
-        his, word for word.</li>
+        his; the claim at the top of this page is our expansion of it.</li>
         <li><b>Corrected the central result.</b> He argued that tunneling had been detected
         against a confident and repeated position from the model that it had not, and he was right.
         The argument and the reversal are in the verification log, unedited.</li>
         <li><b>Settled a part that four written sources had got wrong</b> by picking it up and
-        offering it to the hole. Two of the four were in this repository.</li>
+        offering it to the hole. One of the four was a file in this repository.</li>
       </ul>
       <a class="li" href="https://www.linkedin.com/in/jacob-katz-8a25492b9">LinkedIn</a>
     </div>
@@ -1248,10 +1249,10 @@
       an amplifier like ours does, why the tip has to end in one atom, and why a chip that reads a
       voltage cannot simply be pointed at a current.</p>
       <p>Some of it had to be made rather than bought. Tungsten tips are etched, not machined, so we
-      built an etcher: a bench supply, sodium hydroxide, and a wire lowered into it, run outdoors in
-      gloves because the chemistry is not gentle.</p>
+      put together a setup for it: a bench supply, sodium hydroxide, and a wire lowered into it,
+      outdoors and in gloves, because the chemistry is not gentle.</p>
       <figure class="photo" data-rv><img src="img/etching.jpg" width="1200" height="1600" alt="The tip etching setup outdoors: a bench supply with leads into a beaker, a lab stand, flasks, and a bottle of sodium hydroxide." loading="lazy">
-        <p class="cap"><b>Etching tips, 9 August.</b> A bench supply through sodium hydroxide, outdoors, in gloves.</p></figure>
+        <p class="cap"><b>The tip-etching setup, photographed 9 August.</b> A bench supply through sodium hydroxide, outdoors, in gloves. Whether a tip that came off it was ever fitted is not in our records.</p></figure>
 
       <p>What is unusual about this project is not the physics, which is forty years old. It is
       that everything that did not work is written down beside everything that did.</p>
@@ -1263,8 +1264,8 @@
       </figure>
       <ul class="conditions">
         <li><b>Self-directed.</b> No faculty advisor, no grant, no laboratory.</li>
-        <li><b>Eleven weeks</b> of planning and design before the first board was ordered.</li>
-        <li><b>Eight weeks</b> of building after it.</li>
+        <li><b>Eleven weeks</b> of planning and design, and <b>eight weeks</b> of building.
+        Where one ended and the other began, we never wrote down.</li>
         <li><b><span data-repo-count="session-logs" data-format="words">Twenty-eight</span></b> working sessions, each one logged and never rewritten.</li>
         <li><b><span data-repo-count="data-files">163</span> raw data files</b> and <b><span data-repo-count="photographs">92</span> photographs</b> of our own hardware, all public.</li>
       </ul>
@@ -1275,7 +1276,7 @@
     <div class="tl" data-rv><div class="d">21 June 2026</div>
       <div class="w">First parts ordered. The suspension springs, from the order record.</div></div>
     <div class="tl" data-rv><div class="d">29 August</div>
-      <div class="w">First power-on. Eleven weeks of design behind it.</div></div>
+      <div class="w">First power-on, after eleven weeks of planning and design.</div></div>
     <div class="tl" data-rv><div class="d">16&ndash;17 September</div>
       <div class="w">The measurement chain calibrated against a known resistor, and the first real junction swept.</div></div>
     <div class="tl" data-rv><div class="d">19 September</div>

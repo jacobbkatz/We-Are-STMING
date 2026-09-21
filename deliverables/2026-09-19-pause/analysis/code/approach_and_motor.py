@@ -120,7 +120,7 @@ def main():
     print("  CAVEAT THE DATA README ATTACHES TO THIS FILE: the fast tracker records where")
     print("  the current first passed 1,000 counts on a fast climb, and the same 'onsets'")
     print("  appeared with the bias at 0 V. So these locate SNAP-IN events, not a")
-    print("  tunnelling onset, and every statistic from them is provisional.")
+    print("  tunneling onset, and every statistic from them is provisional.")
 
     section("4. THE 2026-09-19 MORNING APPROACHES")
     for name, what in (("fastwood_1789819103.csv", "650 single steps, 1,000-count sweep"),
@@ -196,7 +196,7 @@ def main():
     # ------------------------------------------------------------ figures
     section("7. FIGURES")
     # Plot CHRONOLOGICALLY, not by motor position: the run walked in and then back out
-    # several times, so joining points by position would draw a zigzag that is an artefact
+    # several times, so joining points by position would draw a zigzag that is an artifact
     # of the ordering rather than anything the instrument did.
     fig, ax = plt.subplots(figsize=(7.6, 3.8))
     idx = list(range(len(med)))
@@ -217,7 +217,7 @@ def main():
     ax.set_ylabel("fast-tracker median onset (Z counts)")
     ax.set_title("A single motor step does nothing, until one does everything\n"
                  "2026-09-18 bench, lash_run1.log - these locate SNAP-IN events, "
-                 "not a tunnelling onset")
+                 "not a tunneling onset")
     ax.legend(loc="upper right", ncol=3)
     save(fig, "fig16_motor_steps.png")
     plt.close(fig)

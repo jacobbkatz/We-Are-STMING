@@ -65,7 +65,7 @@ def main():
     print()
     print("  The sweep ran in 1,000-count Z steps (a default-argument bug, morning log")
     print("  section 8), so every onset is a multiple of 1,000 and every rate below is")
-    print("  quantised at that resolution. 'FAR' is a LOWER BOUND, not a position.")
+    print("  quantized at that resolution. 'FAR' is a LOWER BOUND, not a position.")
     print()
     t0, z0 = found[0]
     t1, z1 = found[1]
@@ -264,7 +264,7 @@ def main():
     ax.set_ylabel("Z DAC code at which the current appeared")
     ax.set_title("The gap will not hold still\n"
                  "2026-09-19 morning 12:54-12:56, only the piezo moving; "
-                 "onsets quantised to 1,000 counts")
+                 "onsets quantized to 1,000 counts")
     ax.annotate(">= 43,000 counts\nin 6.3 s", xy=(6.4, Z_MAX_SWEEP), xytext=(14, 50000),
                 fontsize=8, arrowprops=dict(arrowstyle="->", lw=1.0))
     ax.annotate("back within reach\n111 s later", xy=(111, 6000), xytext=(60, 20000),

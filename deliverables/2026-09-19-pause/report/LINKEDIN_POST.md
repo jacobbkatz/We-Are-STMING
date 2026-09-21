@@ -7,7 +7,7 @@
 
 > ### **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
 
-**Nothing here claims an image, atomic resolution, or any distance in nanometres off our own
+**Nothing here claims an image, atomic resolution, or any distance in nanometers off our own
 hardware**, and the one genuinely open question is stated as open.
 
 **Pick one, edit freely, post whichever sounds like you.** Suggested image: the photograph of you
@@ -19,7 +19,7 @@ instrument than with a face.
 
 ## Draft A — the main one, ~270 words
 
-> Two of us built a scanning tunnelling microscope in a basement. Eleven weeks of planning and
+> Two of us built a scanning tunneling microscope in a basement. Eleven weeks of planning and
 > design, eight weeks of building.
 >
 > Neither of us had written code before. Neither of us had really soldered before. We are both
@@ -33,7 +33,7 @@ instrument than with a face.
 > in both bias directions, and falls from 59 MΩ to 16 MΩ as the voltage rises. That rules out both a
 > short circuit and an open one.
 >
-> We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an
+> We detected tunneling, but weren't able to maintain tunneling range for long enough to get an
 > image. What stops us is mechanical: with the motor off and nobody touching it, the gap moves by
 > most of the piezo's range within seconds. We measured that, which is the part I am proudest of —
 > we know exactly what is in the way.
@@ -51,13 +51,13 @@ instrument than with a face.
 
 ## Draft B — shorter, ~170 words, for a busier feed
 
-> This summer two undergraduates built a scanning tunnelling microscope in a basement. Neither
+> This summer two undergraduates built a scanning tunneling microscope in a basement. Neither
 > of us had coded or really soldered before.
 >
 > The electronics work. We proved the whole measurement chain against a known resistor and it agreed
 > with theory to 0.13 of a standard error. We made a real junction on gold leaf with a
-> current–voltage curve that rules out both a short and an open circuit. We detected tunnelling,
-> but weren't able to maintain tunnelling range for long enough to get an image.
+> current–voltage curve that rules out both a short and an open circuit. We detected tunneling,
+> but weren't able to maintain tunneling range for long enough to get an image.
 >
 > With the motor off and nobody touching it, the gap moves by most of the piezo's range in seconds
 > — and measuring that, rather than guessing at it, is the result.
@@ -72,7 +72,7 @@ instrument than with a face.
 
 ## Draft C — leads on the methods, for a technical audience
 
-> We built a scanning tunnelling microscope in a basement and did not get an image. Here is the part
+> We built a scanning tunneling microscope in a basement and did not get an image. Here is the part
 > worth sharing.
 >
 > After every scan we ran the same scan again with the lateral sweep switched off. That control
@@ -91,7 +91,7 @@ instrument than with a face.
 > confident prose is easy to get. An AI workflow that produces a retraction is the part we had to
 > build.
 >
-> We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an
+> We detected tunneling, but weren't able to maintain tunneling range for long enough to get an
 > image. Two undergraduates, no prior coding or soldering. The blocker is mechanical and we
 > measured it: the gap moves by most of the piezo's range in seconds with nothing touching the
 > instrument.
@@ -108,7 +108,7 @@ people.** It makes the framework the subject and the instrument the evidence.
 > Neither of us writes code. So the second thing we built was the system that does.
 >
 > Two undergraduates, eleven weeks of planning and design and eight weeks of building, a
-> scanning tunnelling microscope on a wooden bench in a basement. The code, the analysis and most of
+> scanning tunneling microscope on a wooden bench in a basement. The code, the analysis and most of
 > the documentation came from an AI model working inside a framework we built for it: a 575-line
 > operating protocol, one canonical register holding every number in the project with its provenance
 > and its date, 27 append-only session logs, and a 565-line checker that runs seven classes of
@@ -126,7 +126,7 @@ people.** It makes the framework the subject and the instrument the evidence.
 > We did not train a model. The model is off the shelf. The discipline is ours.
 >
 > The instrument works too. The measurement chain agrees with theory to 0.13 of a standard error,
-> and we detected tunnelling — we just weren't able to maintain tunnelling range for long enough to
+> and we detected tunneling — we just weren't able to maintain tunneling range for long enough to
 > get an image. That second half is measured, not guessed, and it is why this post has no
 > micrograph in it.
 >
@@ -145,7 +145,7 @@ people.** It makes the framework the subject and the instrument the evidence.
 |---|---|
 | "We maintained tunnelling range" / "we held a vacuum gap" / "we were in the tunnelling regime" | **Not established**, and it is the honest half of Jacob's own sentence. The 2026-09-19 junction was a pressed contact — a decade of current per ~1,650 Z counts where a held vacuum gap needs ~6-13, with mechanical hysteresis in every run |
 | "We imaged atoms" or anything implying an image | **No image has ever been produced** |
-| A distance in nanometres | This instrument has **never established a distance scale from its own hardware**. The nm-per-count figure in circulation is inherited from another builder's scanner |
+| A distance in nanometers | This instrument has **never established a distance scale from its own hardware**. The nm-per-count figure in circulation is inherited from another builder's scanner |
 | "We failed" | The limitation is measured and located. That is a result, not a failure |
 
 ## The one thing you COULD add, if you want the honest cliffhanger
@@ -155,13 +155,13 @@ unresolved rather than rhetorical:
 
 > One junction we made in September is still undecided. Whether it was a gap we were holding open
 > or a tip pressing into a film turns on a single distance inside the scan head, about a fortieth of
-> a millimetre, that we have bounded but not yet resolved — and it needs a microscope, not
+> a millimeter, that we have bounded but not yet resolved — and it needs a microscope, not
 > electronics. It is the first thing we will do when the instrument is reassembled.
 
 **This is accurate, with one correction made after the first draft.** `docs/OPEN_QUESTIONS.md`:
 *"this one distance decides whether we are tunnelling or pressing through a soft contact."*
 
-**The threshold is about 26 micrometres, not the 0.13 mm this file first said.** 0.13 mm is a
+**The threshold is about 26 micrometers, not the 0.13 mm this file first said.** 0.13 mm is a
 different test — whether the gap wobbles too much to hold at all, not how fast the current decays.
 On the decay test 0.13 mm is still five times too slow. **Jacob measured the distance at the bench
 on 2026-09-20 and it is under 0.5 mm**, which narrows the question without settling it: 26 um sits

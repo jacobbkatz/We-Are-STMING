@@ -10,7 +10,7 @@ the claims. Every number in it is counted from the repository, and the counting 
 
 > **Neither of us writes code. So the second thing we built was the system that does.**
 >
-> This instrument was designed, assembled, characterised and documented by two undergraduates
+> This instrument was designed, assembled, characterized and documented by two undergraduates
 > directing an AI model, working inside a framework we built for it: **a 575-line operating
 > protocol, a single canonical register holding every number in the project with its provenance and
 > its date, 27 append-only session logs, and a 565-line checker that runs seven classes of
@@ -51,7 +51,7 @@ been written into more than a dozen documents, and correcting every copy anyone 
 | **The checker** (`Code/pc/check_facts.py`) | Seven classes of automated test, run at session start and before every commit | **565 lines** |
 | **The session record** (`sessions/`) | One append-only log per working session. Past measurements are never rewritten | **27 logs** |
 | **The reference set** (`docs/`) | Wiring, commands, components, open questions, engineering cross-references, an index of what is inside every binary and archive | **18 documents** |
-| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyse its output and measure the printed parts straight out of the CAD meshes | **15 tools** |
+| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyze its output and measure the printed parts straight out of the CAD meshes | **15 tools** |
 | **The session hook** (`.claude/session-start.sh`) | Runs automatically: syncs both computers, reports the state, names every session log carrying the newest date, and runs the checker | — |
 
 ### The seven checks

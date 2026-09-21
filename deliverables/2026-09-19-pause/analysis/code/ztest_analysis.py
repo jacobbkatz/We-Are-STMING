@@ -327,7 +327,7 @@ def main():
     for i, hys in enumerate(data, start=1):
         xs = [i + (j % 7 - 3) * 0.035 for j in range(len(hys))]
         ax.scatter(xs, hys, s=9, color=TOL["black"], alpha=0.5, zorder=3)
-    ax.axhline(0, color=TOL["red"], lw=1.2, ls="--", label="zero: a clean tunnelling gap")
+    ax.axhline(0, color=TOL["red"], lw=1.2, ls="--", label="zero: a clean tunneling gap")
     ax.set_xticklabels(labels, fontsize=7.5)
     ax.set_ylabel("in/out hysteresis (Z counts)")
     ax.set_title("The current persists further out than it began in, at every bias\n"
@@ -337,7 +337,7 @@ def main():
     plt.close(fig)
 
     # fig05: counts per decade by bias, in and out. Log scale, because the point is a
-    # factor of a hundred or more against the tunnelling expectation.
+    # factor of a hundred or more against the tunneling expectation.
     fig, ax = plt.subplots(figsize=(6.8, 4.2))
     order = ["-0.1 V", "+0.1 V", "-0.5 V (run 1, 30 cycles)",
              "-0.5 V (repeat, 20 cycles)", "+0.5 V"]
@@ -354,7 +354,7 @@ def main():
     for x, v in zip(xs, outs):
         ax.text(x + w / 2, v * 1.08, "%.0f" % v, ha="center", fontsize=7.5)
     ax.axhspan(6, 13, color=TOL["green"], alpha=0.35, zorder=1)
-    ax.text(len(order) - 0.45, 9, "vacuum tunnelling would be 6-13 counts\n"
+    ax.text(len(order) - 0.45, 9, "vacuum tunneling would be 6-13 counts\n"
             "(inherited Z scale, itself unmeasured)",
             fontsize=7.5, color=TOL["green"], ha="right", va="center")
     ax.set_ylim(4, 40000)

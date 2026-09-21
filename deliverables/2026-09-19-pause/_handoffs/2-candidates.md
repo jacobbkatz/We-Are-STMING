@@ -206,7 +206,7 @@ counts.** Against an image taking ~5 s and a corrugation of **29–458 counts** 
 Split-half coherence, peaks kept only if present in both halves within a factor of 2.5:
 `here_run1.csv` (junction, 46,328 samples at 3,448 Hz) **none**; `touchrec_run1.csv` **none**;
 `still.csv` (tip clear, control) one line at 63.6 Hz; `stamp.csv` **none**. Confirms and extends
-`sessions/2026-09-19-morning.md` §6. **Nothing for a scanner to synchronise to.**
+`sessions/2026-09-19-morning.md` §6. **Nothing for a scanner to synchronize to.**
 
 ### F9. Chance accounting
 **201 reproducibility tests** counted; Bonferroni 5% is **p < 2.5 × 10⁻⁴** (~3.7σ); ~10 p < 0.05
@@ -229,12 +229,12 @@ keeping open**, which is the direction a check should be allowed to run.
 
 
 `code/05_direction_asymmetry.py` originally concluded that the 636-count profile is a
-forward-direction artefact because it matches the forward mean shape of the 2D images (+0.760) and
+forward-direction artifact because it matches the forward mean shape of the 2D images (+0.760) and
 not the backward (−0.265). **That argument was unsound and I wrote it before checking.**
 `code/08_lag_fairness.py`, written to check it, found the backward match reaches **+0.848 at a
 shift of +4 pixels** — higher than the forward match — which is exactly what a real feature looks
 like through a trace/retrace offset. `code/09_lag_aware.py` then put a null under the lag search
-and found that **the best-of-13-lags correlation is +0.51 ± 0.15 for phase-randomised noise**, so
+and found that **the best-of-13-lags correlation is +0.51 ± 0.15 for phase-randomized noise**, so
 neither number is far from chance and the lag test settles nothing either way.
 
 **Both scripts' printed conclusions have been corrected in place and now point at each other.**
@@ -254,16 +254,16 @@ The candidate is closed by F1, not by the direction argument.
 2. **The place test's power is limited** (F2): ±0.47 at 2σ. A weak genuine surface signal is not
    excluded by it.
 3. **The mechanism of the wide images' mirrored signal is unidentified.** Loop hunting, X-piezo
-   coupling into Z, and **the tip ploughing a compliant sample** are all consistent. The third
+   coupling into Z, and **the tip plowing a compliant sample** are all consistent. The third
    would be a real measurement of the gold's compliance. `VERDICT.md` §5 gives the two-speed
    experiment that separates all three.
 4. **Pixel timing for the wide images is inherited, not measured.** 10.8 ms/pixel comes from the
    same night's `cas9` scans; no timing was logged for `img_*`. The "~4–5 Hz" rests on it; the
    **periodicity in pixels does not**, and that is what the argument uses.
 5. **The Z scale is inherited.** Every number here is in Z DAC counts and scale-free. I made no
-   conversion to nanometres.
-6. **Left undone:** I did not analyse `bigswing_run1.csv`, `lockin_run1.csv`, `slowscan_run1.csv`,
-   `zdir*_run1.csv`, `lift_run1.csv` or `onset0_run1.csv` — they are Z/bias characterisation, not
+   conversion to nanometers.
+6. **Left undone:** I did not analyze `bigswing_run1.csv`, `lockin_run1.csv`, `slowscan_run1.csv`,
+   `zdir*_run1.csv`, `lift_run1.csv` or `onset0_run1.csv` — they are Z/bias characterization, not
    candidate images, and Subagent 1 owns the data inventory.
 
 ---

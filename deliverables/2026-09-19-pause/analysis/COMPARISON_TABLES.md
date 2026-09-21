@@ -243,7 +243,7 @@ comparable with each other.
 | +0.1 V | 20 | 4,639 | 12,595 | **+1,474** | 0 | +7 |
 | −0.5 V (repeat) | 20 | 1,967 | 3,834 | **+705** | 0 | +83 |
 
-For comparison, tunnelling through vacuum on the inherited — and **unmeasured** — Z scale would be
+For comparison, tunneling through vacuum on the inherited — and **unmeasured** — Z scale would be
 **6–13 counts per decade** (`docs/FACTS.md`, "Tunnelling for comparison"). The hysteresis result
 does not depend on that scale; the counts-per-decade comparison does.
 
@@ -320,7 +320,7 @@ The brief flagged four of these. These are all of them found in the raw record. 
 10. **`stm_approach.py` set no bias until 2026-09-19**, and two 2026-09-19 approaches ran at 0 V,
     where only metal contact could trip the threshold.
 11. **The 2026-09-19 morning approach sweeps ran in 1,000-count Z steps, not 250**, so every onset
-    they record is a multiple of 1,000 and every rate derived from them is quantised.
+    they record is a multiple of 1,000 and every rate derived from them is quantized.
 12. **Two 2026-09-17 line files store the forward pass twice**, so no trace-versus-retrace figure
     from them means anything.
 13. **`line_repeated_wide.csv` flies X back 30,000 counts between passes and the 2D wide images do

@@ -168,8 +168,8 @@ def detrend(vals):
 
 # ---------------------------------------------------------------- plotting style
 #
-# Colourblind-safe: Paul Tol's bright qualitative set, which is distinguishable under
-# deuteranopia, protanopia and tritanopia and stays legible in greyscale order.
+# Colorblind-safe: Paul Tol's bright qualitative set, which is distinguishable under
+# deuteranopia, protanopia and tritanopia and stays legible in grayscale order.
 
 TOL = dict(blue="#4477AA", cyan="#66CCEE", green="#228833", yellow="#CCBB44",
            red="#EE6677", purple="#AA3377", grey="#BBBBBB", black="#000000")

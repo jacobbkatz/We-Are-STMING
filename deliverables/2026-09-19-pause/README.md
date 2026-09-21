@@ -140,7 +140,7 @@ table** — blank header rows, bold showing as literal `\*\*text\*\*`, backslash
 **All three were wrong, and all three were wrong the same way.**
 
 **They were reading the Drive connector's `read_file_content`, which renders a Doc back as
-markdown and escapes asterisks as part of its own serialisation.** What they saw was the reading
+markdown and escapes asterisks as part of its own serialization.** What they saw was the reading
 tool's output, not the document.
 
 **How it was settled**, in case anyone needs to check this again:

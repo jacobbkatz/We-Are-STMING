@@ -20,12 +20,12 @@ tools can build, verify, and understand end to end.
 
 **Paused, mid-build, with the instrument in pieces after a house move.**
 
-Every subsystem a tunnelling microscope needs is built, working and calibrated. The measurement
+Every subsystem a tunneling microscope needs is built, working and calibrated. The measurement
 chain was checked end to end against a known resistor and agrees with Ohm's law to 0.13 of one
 standard error. A real tip-and-sample junction was made and swept, and it behaves like a barrier
 rather than a short.
 
-**We detected tunnelling. What we could not do is hold the gap steady long enough to take an
+**We detected tunneling. What we could not do is hold the gap steady long enough to take an
 image** — with the motor off and nobody touching it, the surface moves by most of the scanner's
 range within seconds. That measurement, and the five things that stood in the way, are written up
 in full, along with the two results we published and later withdrew.
@@ -67,7 +67,7 @@ connector is a power input rather than an output.
 | System | Details |
 |---|---|
 | Frame | 3D-printed in PETG-CF for stiffness and dimensional stability. PA-CF was tried first for its lower thermal expansion but proved too difficult to print reliably at these tolerances. **Not PLA** — it creeps, and that shows up directly as drift |
-| Vibration isolation | Platform suspended on tension springs, with eddy-current damping — an aluminium plate moving through fixed magnets, no contact |
+| Vibration isolation | Platform suspended on tension springs, with eddy-current damping — an aluminum plate moving through fixed magnets, no contact |
 | Coarse approach | 28BYJ-48 stepper motor through a ULN2003 driver board, wired directly to the Teensy |
 | Scanner | Piezoelectric disc actuator with a cut tungsten tip, 0.25 mm wire cut at 45°. Roughly 680 nm of Z travel and 500 nm in X/Y, inferred from Berard's calibration of a similar disc |
 | Coarse approach step | About **7.8 nm** per motor step — 1/4"-80 screw, 2048 steps/rev, ~20x lever reduction. Lever ratio still to be verified on our geometry |
@@ -114,7 +114,7 @@ logs exist so that the newest correction always wins.
 
 This build follows the philosophy of both source projects: get real atomic-resolution imaging out
 of a machine built primarily from a 3D printer, off-the-shelf electronics, and hand soldering,
-without requiring a machine shop or specialised fabrication.
+without requiring a machine shop or specialized fabrication.
 
 Everything here is documented so someone with no prior STM, electronics, or soldering background
 can follow it — including the reasoning behind each part choice, not just the instructions. Where
@@ -146,7 +146,7 @@ building, please open an issue — closing those gaps is most of what this proje
 
 ---
 
-## Licence
+## License
 
 **Copyright (c) 2026 Jacob Katz and Nuh Shaheer. All rights reserved.**
 See [`LICENSE`](LICENSE).

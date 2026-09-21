@@ -54,7 +54,7 @@ line to change.**
 | 12 | The firmware's `TONE` comment says to sweep near 8.6 kHz | **Retired advice.** That is a free-air figure for a disc that is not ours | `docs/COMMANDS.md` |
 | 13 | `docs/WIRING.md` describes the fitted piezo as an 18 mm buzzer disc | **The fitted part is a Jessinie `91410_30_JE`**, and the 18 mm figure has no provenance | `docs/INVENTORY.md`, `SAID` 2026-09-17 |
 | 14 | `docs/BOM.md` says the Keystone 11301 is specified but not owned | **Two were received 2026-09-14 and one is in the instrument** | `docs/INVENTORY.md`, order screen seen |
-| 15 | Every deliverable said **"we have not demonstrated tunnelling"** | **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."** Two claims were being run together, and only the second one fails. **A tunnel junction was made, biased, and the current through it measured** — 60,928 readings inside that current range across 109 approaches, a superlinear symmetric I-V, and a junction that never metallically shorted. **What is not established is holding a controlled vacuum gap**, and no image, no atomic resolution and no distance in nanometres from our own hardware are claimed anywhere | `FRAMING.md`, Jacob's own wording, 2026-09-20; `LEAD_VERIFICATION.md` V13 |
+| 15 | Every deliverable said **"we have not demonstrated tunnelling"** | **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."** Two claims were being run together, and only the second one fails. **A tunnel junction was made, biased, and the current through it measured** — 60,928 readings inside that current range across 109 approaches, a superlinear symmetric I-V, and a junction that never metallically shorted. **What is not established is holding a controlled vacuum gap**, and no image, no atomic resolution and no distance in nanometers from our own hardware are claimed anywhere | `FRAMING.md`, Jacob's own wording, 2026-09-20; `LEAD_VERIFICATION.md` V13 |
 | 16 | The manual's own section 12.3 listed **"The shields — printed, wrapped, grounded and metered end to end"** under *do not spend bench time re-proving them* | **The shields have never been metered end to end.** The row is withdrawn and the check is owed at reassembly. **This was the manual's own defect, not an inherited one**, and it was the worst kind: a wrong row under a heading telling a reader to skip the check | `INCONSISTENCIES.md` item B8; this manual's own section 11 step 19 and section 3.9 |
 
 ---
@@ -68,7 +68,7 @@ carries forward unchanged, with their hedges intact.**
 |---|---|
 | **No image has been produced** | Unchanged. Every feedback scan is matched or beaten by its own X-held control |
 | **"A soft, pressed, sticky contact"** | Kept as **interpretation, not proof.** The contact potential between tungsten and gold is unmeasured, so electrostatics is not excluded |
-| **The Z scale in nanometres** | Kept as **inherited and unmeasured.** The "about 6 to 13 counts per decade for tunnelling" comparison depends on it; the hysteresis result does not |
+| **The Z scale in nanometers** | Kept as **inherited and unmeasured.** The "about 6 to 13 counts per decade for tunnelling" comparison depends on it; the hysteresis result does not |
 | **The trace/retrace anti-correlation** | Kept as **the loop hunting, with X motion the likely but unproven cause** — the correction made on 2026-09-19 morning, not the earlier "loop lag" |
 | **The claim that an X-held control swung Z by 28,000 counts** | Kept **withdrawn and corrected.** That swing was the tool. The gold's own motion was measured separately the next morning and that measurement stands |
 | **Safety rule 6, parking Z at midscale before the motor moves** | Kept as **a live disagreement.** Every motor move on 2026-09-19 parked Z at the retracted end instead. **That is Jacob and Nuh's to amend or keep, not ours** |
@@ -97,7 +97,7 @@ explicitly because an operator would otherwise assume they are known.
 ## 5. What was preserved because it was hard-won
 
 **The brief asked that useful detail not be thrown away to make things tidy.** These are the
-passages carried into the manual in full rather than summarised, with a note on why each earned its
+passages carried into the manual in full rather than summarized, with a note on why each earned its
 place.
 
 | Preserved | Why |
@@ -153,7 +153,7 @@ exit code. It was run after each section was written, and it caught three things
    > event, and three rows of the command table, where the phrase is the name of a supply mode and
    > is correct. **A defect is a class, not an instance** — `CLAUDE.md` section 7.
 2. A `safety rule 2` citation that shared no wording with the rule. **Reworded to name the sign of
-   the tunnelling current**, which is what that rule is about.
+   the tunneling current**, which is what that rule is about.
 3. A hit in another agent's file, where the retired `800 counts` matched inside "1,800 counts per
    decade". **Same class as item 1**, and also fixed at the source by the lead, in commit `4d416b9`.
 

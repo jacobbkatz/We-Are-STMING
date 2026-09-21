@@ -5,7 +5,7 @@ report agent of the pause-point work. **Every number here carries where it came 
 sure it is.**
 
 > **The one-sentence version, and it is what the evidence says:**
-> **Every subsystem a tunnelling microscope needs is built, working and calibrated. What is left
+> **Every subsystem a tunneling microscope needs is built, working and calibrated. What is left
 > is mechanical — and we measured it rather than guessed at it.**
 
 **`STATUS.md` is the live technical record. This report has no independent authority over it.**
@@ -27,7 +27,7 @@ and it is not a disclaimer. **It is the measure of the achievement, and it is pa
 | **A basement in a lived-in house** | Not a lab and not a clean room |
 | **People moving around, and the air uncontrolled** | No temperature control, no air control, and no isolation from the building beyond what they built themselves |
 
-**Corroborated by the photographs:** a wooden bench standing on a concrete floor, a few metres from
+**Corroborated by the photographs:** a wooden bench standing on a concrete floor, a few meters from
 a breaker panel and a standby-generator transfer switch
 (`deliverables/2026-09-19-pause/photos/MECHANICAL_OBSERVATIONS.md` §6).
 
@@ -48,7 +48,7 @@ named candidate mechanisms — which is what instrument development is.**
 | `SAID` | Jacob or Nuh told us, with the date |
 | `READ` | a reading of a photograph or a file by Claude — plausible, **not confirmed** |
 
-**Two claims that are not the same, and they are kept apart throughout.** *Tunnelling* is the
+**Two claims that are not the same, and they are kept apart throughout.** *Tunneling* is the
 mechanism by which electrons cross a thin barrier. *A controlled vacuum gap* is a barrier made of
 nothing but distance, held steady at a width you command — the STM regime, and what you need in
 order to scan.
@@ -59,7 +59,7 @@ order to scan.
 
 **Both halves are load-bearing.** The first is established in section 3.6; the second is what the
 decay rate and the hysteresis argue against. **No image has been produced, at any resolution, and
-no distance in nanometres anywhere in these deliverables was read off our own hardware.**
+no distance in nanometers anywhere in these deliverables was read off our own hardware.**
 
 ### The figures
 
@@ -70,7 +70,7 @@ beside them and their full captions in that directory. **They supersede the work
 | | |
 |---|---|
 | `fig01_calibration.png` | the measurement chain against Ohm's law |
-| `fig02_iv_curve.png` | the 2026-09-17 junction's current against voltage, at V^1.55, with the barrier-is-not-a-tunnelling-gap caveat on the figure itself |
+| `fig02_iv_curve.png` | the 2026-09-17 junction's current against voltage, at V^1.55, with the barrier-is-not-a-tunneling-gap caveat on the figure itself |
 | `fig03_gap_motion.png` | the blocker, measured |
 | `fig04_control.png` | the control, and what it settled |
 | `fig05_ztest.png` | the distance test, 110 cycles at four biases — **no distance scale, because we have never established one** |
@@ -86,16 +86,16 @@ beside them and their full captions in that directory. **They supersede the work
 1. **The whole measurement chain works end to end and agrees with theory to 0.13 of a standard
    error.** A known resistance in place of the tip gave −3,205 ± 37 counts per volt against
    −3,200 predicted before the measurement was taken. MEASURED 2026-09-16.
-2. **The amplifier resolves picoamps.** About 4 pA of its own input current, against a tunnelling
+2. **The amplifier resolves picoamps.** About 4 pA of its own input current, against a tunneling
    signal of about 1 nA — roughly 250 times smaller than the thing it has to find. MEASURED
    2026-09-15.
 3. **The electronics are not the limit, and that was established with numbers rather than
    opinion.** Flat white noise at 8 to 14 counts across the whole band, no mains peak, leakage
    under 0.06 nA from −2 V to +2 V. MEASURED 2026-09-17.
-4. **We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get
+4. **We detected tunneling, but weren't able to maintain tunneling range for long enough to get
    an image.** The current-voltage curve is superlinear and symmetric in both bias directions,
    ruling out both a metallic short and an open circuit; the junction never metallically shorted;
-   and **60,928 readings were taken inside the current range where tunnelling has to appear, across
+   and **60,928 readings were taken inside the current range where tunneling has to appear, across
    109 approaches.** MEASURED 2026-09-17 and 2026-09-19. The full argument is section 3.6.
 5. **Holding that range is the part that did not work.** A distance test on a **different tip and a
    different sample** found a junction that behaves like a soft, pressed contact rather than a gap
@@ -118,7 +118,7 @@ beside them and their full captions in that directory. **They supersede the work
 ## 2. What was built
 
 There was no kit. Two people who do not write code designed, ordered, printed, assembled,
-wired and characterised a complete scanning-probe measurement chain.
+wired and characterized a complete scanning-probe measurement chain.
 
 - **Mechanics, firmware and controller board** follow Mech Panda's open-source `red-panda-stm`.
   **The scan head, tip preparation and the transimpedance preamplifier** follow Dan Berard's
@@ -239,7 +239,7 @@ the mechanics.
 | | |
 |---|---|
 | Reading scatter, room still | **41.8 counts** (about 131 pA) |
-| Reading scatter, someone stamping on the floor about two metres away | **42.3 counts** |
+| Reading scatter, someone stamping on the floor about two meters away | **42.3 counts** |
 | What is left in the spectrum | **sharp lines at 60 Hz and its odd harmonics** — 5.2, 2.9 and 2.6 counts per root hertz at 60, 180 and 300 Hz still; 6.0, 2.5 and 2.5 while stamping |
 | With a junction and X held (three-Y control, same night) | **9 to 19 counts** |
 
@@ -301,13 +301,13 @@ right. **Use V^1.55, or say "superlinear" and stop.**
 
 - **That the barrier is vacuum.** A contaminant film, a thin oxide or a dirty near-contact are all
   superlinear too, and **this curve alone does not tell you which.** What establishes that current
-  tunnelled through the junction is the separate argument in section 3.6; what that argument does
+  tunneled through the junction is the separate argument in section 3.6; what that argument does
   not reach is a barrier made of nothing but distance.
-- **16 to 59 MΩ is at the LOW end for STM tunnelling**, which usually sits from about 100 MΩ up.
+- **16 to 59 MΩ is at the LOW end for STM tunneling**, which usually sits from about 100 MΩ up.
   It is still roughly a thousand times above the conductance quantum, so it is not a point contact
-  either — but it is nearer contact than a textbook tunnelling junction.
+  either — but it is nearer contact than a textbook tunneling junction.
 - **At these biases an ideal vacuum junction should be closer to ohmic than this.** Measured
-  superlinearity of V^1.55 is stronger than the near-linear behaviour a clean vacuum barrier gives
+  superlinearity of V^1.55 is stronger than the near-linear behavior a clean vacuum barrier gives
   well below the barrier height, which points at a barrier that is not clean vacuum.
 
 **Figure:** `deliverables/2026-09-19-pause/figures/png/fig02_iv_curve.png`.
@@ -322,7 +322,7 @@ one was found bent, and on the leaf-on-paper gold):
 |---|---|
 | Distance for the current to change tenfold, going in, sample −0.5 V | **a decade per about 1,650 and 1,970 Z counts** (per-run medians, 30 and 20 cycles) |
 | At the other biases | **808 to 4,639 counts per decade** |
-| What a vacuum tunnelling gap would need | **about 6 to 13 counts** — and **that comparison rests on an ASSUMED Z scale**, inherited from a similar disc, never measured on ours |
+| What a vacuum tunneling gap would need | **about 6 to 13 counts** — and **that comparison rests on an ASSUMED Z scale**, inherited from a similar disc, never measured on ours |
 | In/out hysteresis | **705 to 1,868 counts** (per-run medians), in **every** run; 99 of 109 cycles positive. **This does not depend on the Z scale.** **Two independent passes over the same raw cycles agree:** this figure uses the bench script's fixed 300-count threshold; `deliverables/2026-09-19-pause/JUNCTIONS.md` recomputed it from the raw CSVs at the geometric midpoint of each cycle's shared current range and got **714 to 1,926 counts**. Same conclusion, two measurement rules |
 | Onset shape | **gradual in 109 of 110 cycles**; one single-step snap |
 
@@ -343,13 +343,13 @@ scale, because this instrument has never established one from its own hardware.*
 **So the honest statement, which is the one to use everywhere:**
 
 > An I-V curve taken on the 2026-09-17 junction has the non-ohmic, bias-symmetric shape a
-> tunnelling barrier requires, and rules out both a short and an open. A separate Z-distance test
+> tunneling barrier requires, and rules out both a short and an open. A separate Z-distance test
 > on a **different** tip and sample two nights later did **not** show the steep response a
 > commanded vacuum gap requires, and was interpreted as a pressed contact. **We detected
 > tunnelling, but weren't able to maintain tunnelling range for long enough to get an image.** The
 > argument for the first half of that sentence is section 3.6; this measurement is the second half.
 
-### 3.6 We measured tunnelling current. What we did not do is hold a vacuum gap
+### 3.6 We measured tunneling current. What we did not do is hold a vacuum gap
 
 **Earlier drafts of this report said "we have not demonstrated tunnelling". That was wrong, in the
 direction of caution** — it ran two different claims together, and only one of them is unsupported.
@@ -365,18 +365,18 @@ wording was what was wrong (`deliverables/2026-09-19-pause/LEAD_VERIFICATION.md`
 1. **On every approach the tip starts far from the sample with no measurable current and ends in
    contact with a saturating one.** MEASURED — 109 approaches in the Z test alone.
 2. **Between those two states the separation passes through every intermediate value**, including
-   the 0.3 to 2 nm range where tunnelling is the conduction mechanism. The tip does not teleport.
-3. **In that range, with a bias applied, quantum tunnelling is what carries the electrons across.**
+   the 0.3 to 2 nm range where tunneling is the conduction mechanism. The tip does not teleport.
+3. **In that range, with a bias applied, quantum tunneling is what carries the electrons across.**
    At about 0.5 V across about 1 nm the field is roughly 5x10^8 V/m — below Fowler-Nordheim field
    emission — and thermionic emission over a work-function barrier is negligible at room
-   temperature. **Direct tunnelling is what is left.**
+   temperature. **Direct tunneling is what is left.**
 4. **The bias was applied and the amplifier was recording throughout.** MEASURED — **60,928
-   readings taken inside the current range where tunnelling has to appear, across those 109
+   readings taken inside the current range where tunneling has to appear, across those 109
    approaches.**
-5. **So tunnelling current flowed through our junction and our amplifier recorded it.**
+5. **So tunneling current flowed through our junction and our amplifier recorded it.**
 
 **The one way out of step 3 is a metallic bridge** — a whisker or contaminant strand shorting tip
-to sample before the tunnelling separation is reached, so that what is measured is ohmic conduction
+to sample before the tunneling separation is reached, so that what is measured is ohmic conduction
 through metal. **Three of our own measurements close that off:**
 
 - **The I-V curve is superlinear and symmetric, not ohmic**: 0.85 nA at 0.05 V to 31.7 nA at 0.5 V,
@@ -392,27 +392,27 @@ barrier made of nothing but distance, held steady at a width we command. **That 
 it is what you need in order to image, and it is what the decay rate in section 3.5 and the
 hysteresis argue against.**
 
-**The distinction is not a hedge.** Tunnelling through a pressed contaminant or oxide film is still
-quantum tunnelling — a metal-insulator-metal tunnel junction is exactly that, and it is a real
-measurement of a real effect. **It is not STM tunnelling**, because the barrier is then set by
+**The distinction is not a hedge.** Tunneling through a pressed contaminant or oxide film is still
+quantum tunneling — a metal-insulator-metal tunnel junction is exactly that, and it is a real
+measurement of a real effect. **It is not STM tunneling**, because the barrier is then set by
 whatever is stuck to the surface rather than by a gap you command, so you cannot hold it, cannot
 sweep it, and cannot image with it.
 
 **The second half of Jacob's sentence is the honest one, and it is measured.** With the motor
 stopped and nobody touching the instrument the gap moves by **more than 43,000 Z counts in 6.4
 seconds** and **more than 56,000 over about two minutes** (section 5). An image needs it to stay
-inside a few hundred counts for a minute. **That is what "weren't able to maintain tunnelling range
+inside a few hundred counts for a minute. **That is what "weren't able to maintain tunneling range
 for long enough" means in the instrument's own units.**
 
 **One measurement would settle the 2026-09-17 junction retroactively**, and it needs no
-electronics: `d`, how far the tip sits from the pivot line, to about **26 micrometres**. Jacob
+electronics: `d`, how far the tip sits from the pivot line, to about **26 micrometers**. Jacob
 bounded it at the bench on 2026-09-20 to **under 0.5 mm**; 26 um sits inside that bound, in its
 bottom 5%, so the bound narrows the question without closing it. A loupe or a USB microscope with a
 scale in the frame closes it in minutes. Full working in
 `deliverables/2026-09-19-pause/JUNCTIONS.md` and `LEAD_VERIFICATION.md` V11-V13.
 
 **Still false, and stated here so that it is not inferred from the above:** no image, no atomic
-resolution, and no distance in nanometres in these deliverables read off our own hardware.
+resolution, and no distance in nanometers in these deliverables read off our own hardware.
 
 ### 3.7 The rest of the chain
 
@@ -435,7 +435,7 @@ resolution, and no distance in nanometres in these deliverables read off our own
 **The reason nobody in this project has fooled themselves is that every imaging claim was run
 against a control designed to kill it.**
 
-**What an X-held control is.** Re-run a scan with identical timing, identical loop behaviour and
+**What an X-held control is.** Re-run a scan with identical timing, identical loop behavior and
 identical numbers of points — but **X never moves**. The tip does not travel across the surface.
 **A control therefore contains no sample structure at all, by construction.** Anything that turns
 up in both a scan and its control is the instrument talking to itself.
@@ -462,7 +462,7 @@ deviations. **Nothing in this body
 of data reaches it as evidence of a surface** — and the threshold was computed before the
 candidates were judged.
 
-**Two traps this project found and then generalised:**
+**Two traps this project found and then generalized:**
 
 1. **The first-line trap.** A promising agreement of +0.75 between two images was the feedback
    loop's settling transient on the first line of each — the same *procedure*, not the same
@@ -531,7 +531,7 @@ offset of about ten pixels — a signal roughly periodic over one pass and mirro
 scan directions. **The X-held controls, identical timing, show nothing of the kind at any offset.**
 So **X motion is required to produce it**, which upgrades "X motion is the likely but unproven
 cause" to a control-backed statement. **It is not an image**: a surface gives the same height at
-the same place whichever way the tip is travelling. Three explanations are consistent with it and
+the same place whichever way the tip is traveling. Three explanations are consistent with it and
 none has been tested — the loop hunting, the X drive coupling into Z, or **the tip dragging a
 compliant sample**, which would be the first direct measurement of the gold leaf's softness.
 
@@ -561,7 +561,7 @@ eliminated, with the measurement that eliminated it:
 | The sample-plate magnets making the noise | **Eliminated by arithmetic** | A vibrating input loop in that gradient gives about 0.0063 pA against a 1,000 pA signal |
 | Building vibration arriving **electrically** | **Eliminated, cleanly** | Still 41.8 counts against stamping 42.3, spectra lying on top of each other, 2026-09-19. **A real negative result: footsteps are not coming in through the mains, the cabling or the ground** |
 | Building vibration **moving the gap** | **Untested** | The same pair had the tip clear, so there was **no junction** for vibration to act on. **The test that would answer it needs a junction and has not been run** |
-| A periodic disturbance a scanner could be synchronised to | **None found, and none excluded** | No coherent spectral line in four long fixed-point records; the one line found, 63.6 Hz, is in a tip-clear control and is electrical. **The timescale on which the gap actually moves is covered by no record we have** |
+| A periodic disturbance a scanner could be synchronized to | **None found, and none excluded** | No coherent spectral line in four long fixed-point records; the one line found, 63.6 Hz, is in a tip-clear control and is electrical. **The timescale on which the gap actually moves is covered by no record we have** |
 | The reproducible 636-count profile — the project's best candidate image | **Closed, with a mechanism** | See section 7 |
 
 ---
@@ -609,7 +609,7 @@ priority list in `PAUSE_POINT_HANDOFF.md`.
 
 **Open since 2026-09-17 as UNDETERMINED**: twelve passes of one line at ±15,000 X gave a
 reproducible 636-count profile — consecutive-pass agreement about +0.5 to +0.65, split-half +0.92,
-and p < 2 × 10⁻⁴ against phase-randomised surrogates. **All of that is true. It is genuinely
+and p < 2 × 10⁻⁴ against phase-randomized surrogates. **All of that is true. It is genuinely
 reproducible and it is not noise. It is also not the sample.**
 
 **The arithmetic:**
@@ -631,7 +631,7 @@ and right about both absences. That is a falsification, not a null.**
 **And the check already existed in this repository, one level up.** The 2026-09-17 session killed
 an agreement of +0.75 by dropping the first *line* of an image. **Nobody had applied it to the
 first *pixels* of a line.** The credit belongs to whoever wrote that section; what was missing was
-one step of generalisation.
+one step of generalization.
 
 ### 7.3 The "3.9 sigma" on the three-Y result was overstated — in both directions
 
@@ -735,7 +735,7 @@ been written into more than a dozen documents, and correcting every copy anyone 
 | **The checker** (`Code/pc/check_facts.py`) | Seven classes of automated test, run at session start and before every commit | **565 lines** |
 | **The session record** (`sessions/`) | One append-only log per working session. Past measurements are never rewritten | **27 logs** |
 | **The reference set** (`docs/`) | Wiring, commands, components, open questions, engineering cross-references, an index of what is inside every binary and archive | **18 documents** |
-| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyse its output and measure the printed parts straight out of the CAD meshes | **15 tools** |
+| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyze its output and measure the printed parts straight out of the CAD meshes | **15 tools** |
 | **The session hook** (`.claude/session-start.sh`) | Runs automatically: syncs both computers, reports the state, names every session log carrying the newest date, and runs the checker | — |
 
 ### 8.3 The seven checks
@@ -782,7 +782,7 @@ is now in the protocol.
 
 **Four of those five were the model's own errors, found by the framework the model was made to work
 inside.** The fifth was found by Jacob, against a confident and wrong statement from the model.
-**The corrected tunnelling wording in section 3.6 is a sixth, and also his.**
+**The corrected tunneling wording in section 3.6 is a sixth, and also his.**
 
 ### 8.6 The honest boundary
 
@@ -815,13 +815,13 @@ of the ones that matter most to the science, not a second list.
    on its rubber bands and three ball contacts; thermal motion of the printed parts; air currents;
    and post-move mechanical relaxation. **A cardboard box over the instrument is the free first
    test.**
-2. **The Z scale in nanometres is ASSUMED, not measured.** Every distance statement in counts is
-   scale-free and safe; every statement in nanometres inherits a figure from a similar disc. **The
+2. **The Z scale in nanometers is ASSUMED, not measured.** Every distance statement in counts is
+   scale-free and safe; every statement in nanometers inherits a figure from a similar disc. **The
    hysteresis result does not depend on it. The "counts per decade" comparison does.**
 3. **The tip-to-pivot-line distance**, which sets the lever ratio and therefore the Z scale. **It
    is no longer unmeasured: Jacob bounded it at the bench on 2026-09-20 to under 0.5 mm**, and the
    row is now in [`docs/FACTS.md`](../../../docs/FACTS.md) with its provenance. **The bound does
-   not settle the question**, because the **26 micrometres** that would make the 2026-09-17
+   not settle the question**, because the **26 micrometers** that would make the 2026-09-17
    junction a commanded vacuum gap sits inside it, in its bottom 5%. **Resolving that needs a
    loupe, a USB microscope with a scale in the frame, or an optical comparator** — a straightedge
    and an eye are what produced the 0.5 mm bound and they cannot go finer. **It cannot be measured
@@ -858,7 +858,7 @@ procedure remains [`docs/NEXT_SESSION_PLAN.md`](../../../docs/NEXT_SESSION_PLAN.
 
 In one paragraph: **reassemble and re-verify before any power; then prove the gap holds still, for
 free, before spending any effort on imaging.** Three software fixes cost nothing and can be done
-while the instrument is still in its box — they remove the artefact that produced this project's
+while the instrument is still in its box — they remove the artifact that produced this project's
 most convincing false positive. **Everything else waits on the gap holding still, because every
 imaging statistic is currently dominated by the gap moving more than the signal.**
 
@@ -873,7 +873,7 @@ imaging statistic is currently dominated by the gap moving more than the signal.
 
 **Corrected 2026-09-20, and the correction is Jacob's.** Earlier drafts of this report led with
 *"the one claim that cannot be made is we detected tunnelling current"*. **That was wrong in the
-direction of caution.** It ran two different claims together — detecting tunnelling, and holding a
+direction of caution.** It ran two different claims together — detecting tunneling, and holding a
 commanded vacuum gap — and only the second is unsupported
 (`deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13, and section 3.6 above).
 
@@ -881,7 +881,7 @@ commanded vacuum gap — and only the second is unsupported
 
 | Claim | Standing |
 |---|---|
-| **We detected tunnelling: we made a tunnel junction, put a bias across it, and measured the current tunnelling through it** | **TRUE.** The tip must pass through the tunnelling separations on every approach; bias was applied and the amplifier recording throughout, for **60,928 readings inside that current range across 109 approaches**; the I-V is superlinear and symmetric and the junction never metallically shorted, so what conducted was a barrier and not a metallic bridge. Section 3.6 |
+| **We detected tunneling: we made a tunnel junction, put a bias across it, and measured the current tunneling through it** | **TRUE.** The tip must pass through the tunneling separations on every approach; bias was applied and the amplifier recording throughout, for **60,928 readings inside that current range across 109 approaches**; the I-V is superlinear and symmetric and the junction never metallically shorted, so what conducted was a barrier and not a metallic bridge. Section 3.6 |
 | **The instrument measures currents of about one nanoamp, proved against a known resistor to 0.13 of a standard error** | **TRUE.** Section 3.1 |
 | **We made a real tip-and-sample junction and measured its I-V: non-ohmic, bias-symmetric, resistance falling from 59 to 16 MΩ, ruling out both a short and an open circuit** | **TRUE.** Section 3.4 |
 | **The junction's current responds to the tip's height and to the bias, and reverses with it** | **TRUE.** Sections 3.4 and 3.5 |
@@ -891,15 +891,15 @@ commanded vacuum gap — and only the second is unsupported
 
 | Claim | Standing |
 |---|---|
-| **That we maintained tunnelling range — held a controlled vacuum gap, the STM regime** | **NOT ESTABLISHED, and this is the honest half of Jacob's sentence.** The distance dependence was far shallower than a commanded gap requires — a decade per about 1,650 to 1,970 Z counts where a vacuum gap on the inherited scale needs about 6 to 13 — and **705 to 1,868 counts of in/out hysteresis appeared in every run**, a mechanical signature that does not depend on the Z scale at all |
+| **That we maintained tunneling range — held a controlled vacuum gap, the STM regime** | **NOT ESTABLISHED, and this is the honest half of Jacob's sentence.** The distance dependence was far shallower than a commanded gap requires — a decade per about 1,650 to 1,970 Z counts where a vacuum gap on the inherited scale needs about 6 to 13 — and **705 to 1,868 counts of in/out hysteresis appeared in every run**, a mechanical signature that does not depend on the Z scale at all |
 | **An image** | **FALSE.** Fifty-one recordings, no demonstrable image of the sample, and we know that from our own controls |
 | **Atomic resolution** | **FALSE.** No image has been produced, at any resolution |
-| **Any distance in nanometres off our own hardware** | **FALSE.** No scale bar appears anywhere in these deliverables, because no image in this project has a known scale |
+| **Any distance in nanometers off our own hardware** | **FALSE.** No scale bar appears anywhere in these deliverables, because no image in this project has a known scale |
 | **Any number taken off a photograph** | **FALSE.** Every photographic caption here is marked `SAID` or `READ`, and no dimension has been measured from any frame |
 
-**Why the distinction is not a hedge.** Tunnelling through a pressed contaminant or oxide film is
-still quantum tunnelling — a metal-insulator-metal tunnel junction is exactly that. **It is not STM
-tunnelling**, because the barrier is then set by whatever is stuck to the surface rather than by a
+**Why the distinction is not a hedge.** Tunneling through a pressed contaminant or oxide film is
+still quantum tunneling — a metal-insulator-metal tunnel junction is exactly that. **It is not STM
+tunneling**, because the barrier is then set by whatever is stuck to the surface rather than by a
 gap you command, so you cannot hold it, sweep it, or image with it. **That is precisely what the
 second half of Jacob's sentence says**, which is why the sentence is the one to use.
 
@@ -907,5 +907,5 @@ second half of Jacob's sentence says**, which is why the sentence is the one to 
 the current vary with distance?"* The answer — **a decade per about 1,650 to 1,970 Z counts, where
 a held vacuum gap needs a few, which is how we know we were pressing rather than hovering** — shows
 a team that measured the right thing and understood it. **And one measurement settles the
-2026-09-17 junction retroactively:** `d`, to about 26 micrometres, bounded at the bench on
+2026-09-17 junction retroactively:** `d`, to about 26 micrometers, bounded at the bench on
 2026-09-20 to under 0.5 mm and not yet resolved finer. A loupe closes it.

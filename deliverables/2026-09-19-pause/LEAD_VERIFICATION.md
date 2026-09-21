@@ -90,7 +90,7 @@ downstream may reach into it for "V²", and the poster and report must use **V^1
 
 ---
 
-## V3. Does the I-V curve establish a tunnelling gap? **It establishes a barrier. That is not the same claim**
+## V3. Does the I-V curve establish a tunneling gap? **It establishes a barrier. That is not the same claim**
 
 This is the conclusion most likely to be overstated on a poster, so it gets stated carefully.
 
@@ -106,10 +106,10 @@ This is the conclusion most likely to be overstated on a poster, so it gets stat
 
 - **That the gap is vacuum.** A barrier can be a contaminant film, a thin oxide, or a dirty
   near-contact, and all of those are superlinear too. "A barrier junction is what tunnelling is",
-  as the session log puts it, is a step too far: tunnelling implies a barrier, not the reverse.
-- **16 to 59 MΩ is at the LOW end for STM tunnelling**, which usually sits from about 100 MΩ up.
+  as the session log puts it, is a step too far: tunneling implies a barrier, not the reverse.
+- **16 to 59 MΩ is at the LOW end for STM tunneling**, which usually sits from about 100 MΩ up.
   It is still roughly a thousand times above the conductance quantum, so it is not a point contact
-  either — but it is nearer contact than a textbook tunnelling junction.
+  either — but it is nearer contact than a textbook tunneling junction.
 - **At these biases an ideal vacuum junction should be closer to ohmic than this.** Simmons' model
   gives I proportional to V plus a small cubic term for V well below the barrier height. Measured
   superlinearity of V^1.55 is stronger than that, which points at a barrier that is not clean
@@ -120,7 +120,7 @@ This is the conclusion most likely to be overstated on a poster, so it gets stat
 **`docs/showcase.html` answers "Is there really a quantum junction at the tip?" with "Yes".** That
 was written from the **2026-09-17 junction**. The **2026-09-19 morning Z test concluded the
 opposite** — *"not a clean tunnelling gap"*, a decade of current per ~1,650 to 1,970 Z counts where
-tunnelling would need ~6 to 13, with the interpretation *"a soft, pressed, sticky contact"*.
+tunneling would need ~6 to 13, with the interpretation *"a soft, pressed, sticky contact"*.
 
 **These are not a contradiction, and neither supersedes the other, because they are different
 junctions.** Different tip (the 2026-09-19 tip was fitted at ~03:00 that morning, after the previous
@@ -129,18 +129,18 @@ one was found bent), different sample (the leaf-on-paper gold), different night.
 
 **So the honest statement, which is what the deliverables must carry:**
 
-> An I-V curve taken on the 2026-09-17 junction has the non-ohmic, bias-symmetric shape a tunnelling
+> An I-V curve taken on the 2026-09-17 junction has the non-ohmic, bias-symmetric shape a tunneling
 > barrier requires, and rules out both a short and an open. A separate Z-distance test on a
 > **different** tip and sample two nights later did **not** show the steep exponential a clean
-> tunnelling gap requires, and was interpreted as a pressed contact. **The project has evidence of a
-> barrier junction; it has not demonstrated a stable vacuum tunnelling gap, and it has never
+> tunneling gap requires, and was interpreted as a pressed contact. **The project has evidence of a
+> barrier junction; it has not demonstrated a stable vacuum tunneling gap, and it has never
 > produced an image.**
 
 > **PARTLY SUPERSEDED 2026-09-20 BY V13.** The sentence above draws the line in the wrong place.
-> **It is correct that no stable vacuum tunnelling gap was demonstrated and no image produced.**
-> It is wrong to read it as meaning tunnelling did not occur or was not measured — V13 establishes
-> that it did and was. The canonical wording is Jacob's: *"We detected tunnelling, but weren't able
-> to maintain tunnelling range for long enough to get an image."*
+> **It is correct that no stable vacuum tunneling gap was demonstrated and no image produced.**
+> It is wrong to read it as meaning tunneling did not occur or was not measured — V13 establishes
+> that it did and was. The canonical wording is Jacob's: *"We detected tunneling, but weren't able
+> to maintain tunneling range for long enough to get an image."*
 
 ~~**Nothing in the deliverables may say "tunnelling achieved" or "atomic resolution".**~~
 **CORRECTED 2026-09-20 BY V13.** *"Atomic resolution"* stays banned — none was achieved.
@@ -330,7 +330,7 @@ lower bound: the onset was outside the sweep, not measured.
 
 **Resolution is 1,000 counts, not 250.** `fastwood.sweep` bound its step as a default argument, so
 every onset in these files is a multiple of 1,000. **Irrelevant at this size** — 43,000 against a
-1,000-count quantisation — but it would matter for any fine claim from the same files.
+1,000-count quantization — but it would matter for any fine claim from the same files.
 
 ### The caveat that is NOT in the record
 
@@ -471,7 +471,7 @@ That is a falsification, not a null.
 **And the check already existed in the repository one level up.** `sessions/2026-09-17-bench.md`
 §3.22 killed a correlation of +0.75 by dropping the first *line* of an image. **Nobody applied the
 same idea to the first *pixels* of a line.** The credit belongs to whoever wrote §3.22; what was
-missing was one step of generalisation.
+missing was one step of generalization.
 
 ### The consequence for the bench, which is cheap and concrete
 
@@ -479,7 +479,7 @@ missing was one step of generalisation.
 is lost — **and scan X boustrophedon between passes as well as within a line**, which the 2D images
 already do and which is why they have no transient. Both are small changes to
 `Code/pc/stm_y_control.py` and `Code/pc/stm_feedback_scan.py`, and between them they remove the
-artefact that produced this project's most convincing false positive.
+artifact that produced this project's most convincing false positive.
 
 ---
 
@@ -591,11 +591,11 @@ supports; "a couple of minutes" was an inference I should have marked as one.**
 
 ---
 
-## V10. **I WAS WRONG, AND JACOB CAUGHT IT.** Tunnelling is NOT excluded for the 2026-09-17 junction
+## V10. **I WAS WRONG, AND JACOB CAUGHT IT.** Tunneling is NOT excluded for the 2026-09-17 junction
 
 **I told Jacob that "we detected tunnelling current" is contradicted by his own data, and cited the
-Z test: a decade per ~1,650 Z counts where tunnelling needs ~6-13. He replied that the project had
-told them there was tunnelling in at least one case, and asked me to find it. He was right and I
+Z test: a decade per ~1,650 Z counts where tunneling needs ~6-13. He replied that the project had
+told them there was tunneling in at least one case, and asked me to find it. He was right and I
 was wrong.**
 
 **I made exactly the error I wrote V3 to warn against: I applied evidence from one junction to a
@@ -622,20 +622,20 @@ distance `d` from the pivot line, which it calls *"the most valuable unmeasured 
 instrument"*:
 
 > At the design's 1.00 mm the ratio is 40 [...] and the measured current decay of a decade per 200 Z
-> counts works out at a decade per 3 nm, **thirty times too slow for vacuum tunnelling**. At
+> counts works out at a decade per 3 nm, **thirty times too slow for vacuum tunneling**. At
 > 0.1-0.3 mm the ratio is 130-400 and the same measurement **lands near the textbook decade per
-> 0.1 nm**. **So this one distance decides whether we are tunnelling or pressing through a soft
+> 0.1 nm**. **So this one distance decides whether we are tunneling or pressing through a soft
 > contact.**
 
 **`sessions/2026-09-17-bench.md` §3.19**, stated carefully at the time:
 
-> For this junction to be vacuum tunnelling the lever ratio would have to be about **1,550** — the
+> For this junction to be vacuum tunneling the lever ratio would have to be about **1,550** — the
 > tip within **26 um** of the pivot line. **That is possible but implausibly exact.** The
 > alternative fits everything measured [...] **Neither is proven. The straightedge measurement
 > decides it.**
 
 **`docs/NEXT_SESSION_PLAN.md`** puts a number on the threshold: **`d` under about 0.13 mm and
-2026-09-17 was tunnelling; at `d` = 1 mm the tip was resting on something.**
+2026-09-17 was tunneling; at `d` = 1 mm the tip was resting on something.**
 
 **And `d` has never been measured.** `SAID`, Jacob, 2026-09-18: *"its between 1mm and 0mm its really
 hard to measure"*, later *"1ish mm"*. **The threshold sits inside the range.** Three attempts to get
@@ -646,17 +646,17 @@ trying again.
 
 > **The 2026-09-19 junction was a pressed contact — measured, and not in doubt.**
 >
-> **Whether the 2026-09-17 junction was tunnelling is an OPEN QUESTION that this project has never
+> **Whether the 2026-09-17 junction was tunneling is an OPEN QUESTION that this project has never
 > closed, and it turns on a single unmeasured distance.** The instrument's own record identifies the
 > measurement, states the threshold, and says it needs no electronics: **lay a straightedge across
 > the two ball ends, with the plate off, and see which side of it the tip stands on and by how
-> much.** Below about **0.13 mm**, the 2026-09-17 measurement is tunnelling.
+> much.** Below about **0.13 mm**, the 2026-09-17 measurement is tunneling.
 
 > **SUPERSEDED 2026-09-20 BY V13, and by Jacob again. The sentence below is wrong.** "We have not
-> demonstrated tunnelling" conflates two claims — that tunnelling occurred, and that we held a
+> demonstrated tunneling" conflates two claims — that tunneling occurred, and that we held a
 > vacuum gap — and only the second fails. **Read V13 before acting on anything in this paragraph.**
-> The canonical wording is now Jacob's: *"We detected tunnelling, but weren't able to maintain
-> tunnelling range for long enough to get an image."*
+> The canonical wording is now Jacob's: *"We detected tunneling, but weren't able to maintain
+> tunneling range for long enough to get an image."*
 
 ~~**"We have not demonstrated tunnelling" remains true and must stay.**~~ **"Our data rule it out" is FALSE
 and I should not have said it.** The distinction is the difference between an honest limitation and
@@ -666,7 +666,7 @@ claim.
 ### What this changes downstream
 
 - **`FRAMING.md`'s say/do-not-say table is corrected.** "We were in the tunnelling regime" stays out
-  as a *claim*; "whether our best junction was tunnelling is undecided, and one ruler measurement
+  as a *claim*; "whether our best junction was tunneling is undecided, and one ruler measurement
   decides it" goes in as a *result*, because it is one.
 - **This is a better poster panel than either overclaiming or dismissing.** A team that can name the
   single measurement standing between them and the answer is showing they understand their
@@ -679,7 +679,7 @@ because he remembered the record better than my reading of it.**
 
 ---
 
-## V11. **The case for tunnelling is WEAKER than the repository's own optimistic passages say — and my V10 repeated their error**
+## V11. **The case for tunneling is WEAKER than the repository's own optimistic passages say — and my V10 repeated their error**
 
 **Jacob asked me to write "we achieved tunnelling" and to elaborate on it. Before writing anything I
 re-derived the requirement from first principles. It goes the other way, and it also corrects V10.**
@@ -703,7 +703,7 @@ step. So one motor step changed the current roughly tenfold.**
 
 ### What the tip actually moves, at each candidate `d`
 
-| `d` | Lever ratio | nm per decade | How far from tunnelling |
+| `d` | Lever ratio | nm per decade | How far from tunneling |
 |---|---|---|---|
 | **1.00 mm** (design) | 40 | 3.88 | **39x too slow** |
 | 0.30 mm | 133 | 1.16 | **12x too slow** |
@@ -715,14 +715,14 @@ step. So one motor step changed the current roughly tenfold.**
 
 1. **`docs/OPEN_QUESTIONS.md`** says *"At 0.1-0.3 mm the ratio is 130-400 and the same measurement
    **lands near the textbook decade per 0.1 nm**."* **It does not.** At 0.1 mm it is 3.9x too slow;
-   at 0.3 mm, 12x. **That sentence overstates the case for tunnelling by roughly four to twelve
+   at 0.3 mm, 12x. **That sentence overstates the case for tunneling by roughly four to twelve
    times.**
 2. **`docs/NEXT_SESSION_PLAN.md`** says *"d under about 0.13 mm and 2026-09-17 was tunnelling"*.
    **On the decay criterion it was not — 0.13 mm is still 5x too slow.** The 0.13 mm figure is a
    **different** criterion, about whether the height wobble is small enough to hold a gap at all.
    **Both criteria have to be met; the decay one is far stricter, and the two were conflated.**
 3. **My own V10 repeated the plan's 0.13 mm uncritically** and told Jacob that below it the
-   measurement "is tunnelling". **That was wrong in his favour, which is still wrong.**
+   measurement "is tunnelling". **That was wrong in his favor, which is still wrong.**
 
 **`sessions/2026-09-17-bench.md` §3.19 had it right all along**, and is the only passage in the
 repository that does: *"the lever ratio would have to be about 1,550 — the tip within 26 um of the
@@ -732,17 +732,17 @@ pivot line. That is possible but implausibly exact."*
 
 > **The arithmetic in this section is right and stands. The question it answers is the wrong one.**
 > What it actually establishes is that **we cannot claim to have HELD a vacuum gap** — the lever
-> would have to put the tip within 26 um of the pivot line. **Whether tunnelling occurred is a
+> would have to put the tip within 26 um of the pivot line. **Whether tunneling occurred is a
 > different question, and V13 answers it yes.** Read the "No" below as "no, not a held gap".
 
 
 **No, and this pass makes the answer firmer rather than softer.** It would require the tip to sit
-within **26 micrometres** of the pivot line — a 2.6% sliver at the very bottom of the 0-1 mm range
+within **26 micrometers** of the pivot line — a 2.6% sliver at the very bottom of the 0-1 mm range
 Jacob measured by eye, on a hand-built holder soldered to a superglued stake. **Nothing was built to
 that tolerance and nothing has measured it.**
 
 **What remains true, and is still worth a panel:** the 2026-09-17 junction is a real barrier
-junction whose tunnelling status is **not settled by the data that exist** — but the honest reading
+junction whose tunneling status is **not settled by the data that exist** — but the honest reading
 of the decay arithmetic is that **a pressed contact through a thin film is much the better
 explanation**, exactly as §3.19 concluded on the night. **The straightedge measurement is still
 worth doing**, because it converts an argument into a number, and because `d` sets the Z scale for
@@ -750,13 +750,13 @@ every future measurement. **It is no longer fair to present it as a coin-flip.**
 
 ---
 
-## V12. **SETTLED AT THE BENCH: `d` is about 1.000 mm. The 2026-09-17 junction was NOT tunnelling — and the Z scale is now ours**
+## V12. **SETTLED AT THE BENCH: `d` is about 1.000 mm. The 2026-09-17 junction was NOT tunneling — and the Z scale is now ours**
 
 **Jacob went and measured it, 2026-09-19, minutes after V11:** *"i just measured it, it's smack dab
 in the middle"*.
 
 **MY READING, stated explicitly because everything below depends on it:** the tip sits at the
-**centre of the piezo disc**, which `docs/FACTS.md` fixes at **1.000 mm** from the pivot line
+**center of the piezo disc**, which `docs/FACTS.md` fixes at **1.000 mm** from the pivot line
 (MESH, from `PiezoPlate.stl`). **Consistent with his own `SAID` of 2026-09-18** — *"tip sits roughly
 in the middle"*. **If that reading is wrong, every line below changes and it must be said.**
 
@@ -769,12 +769,12 @@ in the middle"*. **If that reading is wrong, every line below changes and it mus
 | **1. Motor calibration** | ~250 Z counts per decade AND ~250 per motor step, so one step ≈ one decade | **3.88 nm per decade — 39x too slow** |
 | **2. Piezo Z scale**, avoiding the SUSPECT motor-step figure entirely | 125-433 counts/decade (the four measured runs) at the inherited 0.016 nm/count | **2.0 to 6.9 nm per decade — 20 to 69x too slow** |
 
-**Tunnelling needs 0.1 nm per decade. Both routes miss it by more than an order of magnitude, and
+**Tunneling needs 0.1 nm per decade. Both routes miss it by more than an order of magnitude, and
 route 2 does not depend on the one figure marked suspect.** The requirement from V11 was **d ≈ 26
 um**; the measurement is **1.000 mm**, about **38 times larger**.
 
 > **THE QUESTION IS CLOSED. The 2026-09-17 junction was a tip pressing through a thin film —
-> contamination or oxide — not a vacuum tunnelling gap.** Exactly as
+> contamination or oxide — not a vacuum tunneling gap.** Exactly as
 > `sessions/2026-09-17-bench.md` §3.19 concluded on the night, against a repository that then spent
 > two days quietly overstating the alternative.
 
@@ -793,7 +793,7 @@ geometry, his was an optical calibration of a piezo.
 
 **Caveat that travels with it:** the derivation divides by ~250 Z counts per motor step, which has
 been **SUSPECT since 2026-09-18** because that staircase ran inside the backlash. **So call it the
-first own-hardware estimate, not a calibration.** It does not affect the tunnelling conclusion,
+first own-hardware estimate, not a calibration.** It does not affect the tunneling conclusion,
 which route 2 reaches without it.
 
 ### What this does to the deliverables
@@ -801,12 +801,12 @@ which route 2 reaches without it.
 - **The "undecided junction" panel becomes a SETTLED one**, and it is a better panel: an open
   question, a named deciding measurement, the measurement taken, the answer. **That is a complete
   scientific episode in four steps**, and it happened in a basement in about an hour.
-- **The Z scale stops being inherited.** Any figure quoting nanometres can now cite our own geometry
+- **The Z scale stops being inherited.** Any figure quoting nanometers can now cite our own geometry
   with the caveat above.
-- ~~**Nothing claims tunnelling.**~~ **SUPERSEDED 2026-09-20 BY V13: the deliverables now DO claim
-  tunnelling, and correctly.** V11's arithmetic and V12's measurement agree against a **held
+- ~~**Nothing claims tunneling.**~~ **SUPERSEDED 2026-09-20 BY V13: the deliverables now DO claim
+  tunneling, and correctly.** V11's arithmetic and V12's measurement agree against a **held
   vacuum gap**, which is what they were actually testing. **They say nothing about whether
-  tunnelling occurred.** V12's own premise — that `d` is 1.000 mm — was also withdrawn the same
+  tunneling occurred.** V12's own premise — that `d` is 1.000 mm — was also withdrawn the same
   day; `docs/FACTS.md` now carries `d` as bounded under 0.5 mm and unresolved.
 
 **Credit: Jacob asked for the number, was told it was 26 um, went and measured 1.000 mm, and closed
@@ -814,14 +814,14 @@ his own question in the direction he did not want.** That is the whole method wo
 
 ---
 
-## V13. **JACOB IS RIGHT, AND THE DELIVERABLES HAVE BEEN UNDERSTATING THIS.** We measured tunnelling current. What we have not done is hold a vacuum gap
+## V13. **JACOB IS RIGHT, AND THE DELIVERABLES HAVE BEEN UNDERSTATING THIS.** We measured tunneling current. What we have not done is hold a vacuum gap
 
 **Jacob, 2026-09-20:** *"we know that at some point the tip was nanometers away due to physical
 principles, at the same time we know current was flowing due to the behavior of an electron we can
 guarantee that at least some of it was tunneling."*
 
 **That argument is sound. I checked every step of it and it holds.** I have been writing "we have
-not demonstrated tunnelling" across every deliverable, and **that sentence conflates two different
+not demonstrated tunneling" across every deliverable, and **that sentence conflates two different
 claims**, only one of which our data fails.
 
 ### The argument, step by step, with what backs each step
@@ -830,15 +830,15 @@ claims**, only one of which our data fails.
 |---|---|
 | 1. The tip began far from the sample with **no measurable current** and ended in contact with a **saturating** one | Measured, on every approach. 109 of them in the Z test alone |
 | 2. Between those two states the separation passed continuously through **every intermediate value**, including 0.3 to 2 nm | Continuity. The tip does not teleport |
-| 3. In that range, with a bias applied, **the mechanism that carries electrons across the gap is quantum tunnelling** | Standard physics. At ~0.5 V across ~1 nm the field is ~5x10^8 V/m — below Fowler-Nordheim field emission, and thermionic emission over a work-function barrier is negligible at room temperature. **Direct tunnelling is what is left** |
-| 4. Bias was applied and the amplifier was recording **throughout** | Measured. `fig13` counts it: **60,928 readings taken inside the current range where tunnelling has to appear, across 109 approaches** |
-| 5. **Therefore tunnelling current flowed through our junction and our amplifier recorded it** | Follows from 1-4 |
+| 3. In that range, with a bias applied, **the mechanism that carries electrons across the gap is quantum tunneling** | Standard physics. At ~0.5 V across ~1 nm the field is ~5x10^8 V/m — below Fowler-Nordheim field emission, and thermionic emission over a work-function barrier is negligible at room temperature. **Direct tunneling is what is left** |
+| 4. Bias was applied and the amplifier was recording **throughout** | Measured. `fig13` counts it: **60,928 readings taken inside the current range where tunneling has to appear, across 109 approaches** |
+| 5. **Therefore tunneling current flowed through our junction and our amplifier recorded it** | Follows from 1-4 |
 
 ### The one loophole, and our own data closes it
 
 **The escape from step 3 is a metallic bridge** — a whisker or contaminant strand shorting tip to
-sample before the tunnelling separation is reached. Then the measured current is ohmic conduction
-through metal and the tunnelling channel, though open, carries a negligible share.
+sample before the tunneling separation is reached. Then the measured current is ohmic conduction
+through metal and the tunneling channel, though open, carries a negligible share.
 
 **Three measurements say that is not what we had:**
 
@@ -851,7 +851,7 @@ through metal and the tunnelling channel, though open, carries a negligible shar
 3. **109 of 110 onsets were gradual.** A metallic bridge forming is a step. A barrier being
    approached is a ramp.
 
-**So: a barrier junction, conducting by tunnelling. That is what a tunnel junction is.**
+**So: a barrier junction, conducting by tunneling. That is what a tunnel junction is.**
 
 ### What this does and does not license
 
@@ -864,20 +864,20 @@ through metal and the tunnelling channel, though open, carries a negligible shar
 
 ### Why the distinction is not a hedge
 
-**Tunnelling through a pressed contaminant or oxide film is still quantum tunnelling** — that is
+**Tunneling through a pressed contaminant or oxide film is still quantum tunneling** — that is
 exactly what a metal-insulator-metal tunnel junction is, and it is a real measurement of a real
-effect. **It is not STM tunnelling**, because the barrier is set by whatever is stuck to the
+effect. **It is not STM tunneling**, because the barrier is set by whatever is stuck to the
 surface rather than by a gap you command, so you cannot hold it, cannot sweep it, and cannot image
 with it.
 
 **Both halves are worth saying out loud:**
 
-> **We built a tunnel junction, put a bias across it, and measured the current tunnelling through
+> **We built a tunnel junction, put a bias across it, and measured the current tunneling through
 > it. What we have not yet done is hold that gap open and steady enough to scan across a surface.**
 
 **That sentence is accurate, it is a genuine result, and it is what the poster, the report, the
 manual and the LinkedIn drafts should carry.** The previous wording — "we have not demonstrated
-tunnelling" — was **wrong in the direction of caution**, which V10 already established is still
+tunneling" — was **wrong in the direction of caution**, which V10 already established is still
 wrong.
 
 ### What changes downstream
@@ -887,7 +887,7 @@ wrong.
   must make that distinction explicit rather than banning the word.
 - **`JUNCTIONS.md`**, the poster panel 06, `report/LINKEDIN_POST.md` and the Q&A all need the
   corrected pair of sentences.
-- **`fig13` stands as drawn.** Its own footer already says it cannot prove no tunnelling occurred
+- **`fig13` stands as drawn.** Its own footer already says it cannot prove no tunneling occurred
   and that the tip must pass through the regime on every approach. **What it measures is whether we
   ever held the gap, and that answer is unchanged.**
 

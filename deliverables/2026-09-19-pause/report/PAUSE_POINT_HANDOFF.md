@@ -17,7 +17,7 @@ issues no new bench procedure.
 **`SAID`, Jacob, 2026-09-19, corrected by him 2026-09-20.** **Two undergraduates, in their second year as of September 2026 — first-year students during the year that ended before the build. No coding experience. Very little
 electronics experience — this project was their first real soldering. Built in a basement in a
 lived-in house, with people moving around and no control of the air or the temperature.** The
-photographs corroborate it: a wooden bench standing on a concrete floor, a few metres from a
+photographs corroborate it: a wooden bench standing on a concrete floor, a few meters from a
 breaker panel and a standby-generator transfer switch.
 
 **This matters operationally, not just biographically.** An STM is normally a clean-room
@@ -66,7 +66,7 @@ frequently over the next few months."*
   person at the bench not being the person who last touched it.
 
 **What the photographs show, all `READ` and all from the morning of 2026-09-19** (camera-local
-times; the teardown frames are from Nuh's camera, 10:05 to 10:16, and are catalogued in
+times; the teardown frames are from Nuh's camera, 10:05 to 10:16, and are cataloged in
 `deliverables/2026-09-19-pause/photos/IMAGE_INVENTORY.md` §C3):
 
 - Jumper leads unplugged and held; supply leads pulled; the electronics boxes open on the bench.
@@ -103,7 +103,7 @@ records physical reality, and facts that stay in a conversation are lost.
 5. Did anything get dropped, crushed or bent?
 6. Is the bench, the room and the mains supply the same as before, or is this a different place?
    **The room matters**: the last one was a basement utility room, a wooden bench on a concrete
-   floor, a few metres from a breaker panel.
+   floor, a few meters from a breaker panel.
 
 ---
 
@@ -120,7 +120,7 @@ records physical reality, and facts that stay in a conversation are lost.
 | **Tools that worked on hardware** | The live back-off beeper, the chunked motor approach, and the Z test |
 | **Tools that did NOT** | The tuned feedback loop never held on hardware on 2026-09-19 — every tuned image aborted at a clamp |
 | **Two tip-destroying firmware faults** | Found and fixed, and each was tested by deliberately reproducing it first |
-| **A tunnel junction, with tunnelling current measured through it** | **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."** `SAID` Jacob 2026-09-20, and it is the project's headline claim. Backing: the tip passes through the tunnelling separations on every approach, bias was on and the amplifier recording throughout — **60,928 readings inside that current range across 109 approaches** — and the I-V is superlinear and symmetric with no metallic short. **What is NOT established is maintaining that range**, which is the second half of the sentence and the whole of the work below. Findings report §3.6 and `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13 |
+| **A tunnel junction, with tunneling current measured through it** | **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."** `SAID` Jacob 2026-09-20, and it is the project's headline claim. Backing: the tip passes through the tunneling separations on every approach, bias was on and the amplifier recording throughout — **60,928 readings inside that current range across 109 approaches** — and the I-V is superlinear and symmetric with no metallic short. **What is NOT established is maintaining that range**, which is the second half of the sentence and the whole of the work below. Findings report §3.6 and `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13 |
 
 ---
 
@@ -135,9 +135,9 @@ does not restate the list. The four open questions that shape the plan below:
 1. **What moves the gap.** Five candidates, none tested: the leaf on its backing paper; the plate
    on its rubber bands and three ball contacts; thermal motion of the printed parts; air currents;
    and post-move mechanical relaxation.
-2. **The Z scale in nanometres**, which is inherited from another scanner and has never been
+2. **The Z scale in nanometers**, which is inherited from another scanner and has never been
    measured on ours. **`d`, the distance that sets it, was bounded at the bench on 2026-09-20 to
-   under 0.5 mm** (`docs/FACTS.md`). **That bound does not settle it**: the 26 micrometres that
+   under 0.5 mm** (`docs/FACTS.md`). **That bound does not settle it**: the 26 micrometers that
    would make the 2026-09-17 junction a commanded vacuum gap sits inside it, in its bottom 5%.
 3. **Whether one three-Y measurement that looked like topography was real.** It cannot be settled
    with the data that exist.
@@ -158,7 +158,7 @@ comes before the risky step it protects, and that ordering is deliberate.**
    find the Teensy by its USB vendor ID, or promote the scripts first. **On Windows type `py`, not
    `python`**: `python` and `python3` are Microsoft Store placeholders on Jacob's machine.
 2. **Rewire from `docs/WIRING.md`, not from memory and not from photographs**, and **verify
-   unpowered** with the plan's "unplug the DB9 and beep it" method. **Read its colour trap section
+   unpowered** with the plan's "unplug the DB9 and beep it" method. **Read its color trap section
    first.**
 3. **Bring up from cold** with `docs/soft_launch_test_procedure.md` stages 0 to 6 and
    `docs/DAC_BOOT_STATE.md`. **Supplies first, then USB.**
@@ -186,7 +186,7 @@ is the only citable one:
 - **A multimeter cannot clear a suspect leakage path in this project.** "OL" only proves more than
   about 60 MΩ, and the range that matters starts there.
 - **No preamp measurement is valid while anyone is leaning over the board**, or within about a
-  metre of it. **The old figure for how much a body injects is not established; the rule stands.**
+  meter of it. **The old figure for how much a body injects is not established; the rule stands.**
 - **A decision is owed on where to park Z before the motor moves.** The standing rule says
   midscale; every motor move on 2026-09-19 parked at the retracted end instead. **That is Jacob and
   Nuh's to amend or keep, not ours** — but it should be settled before the next motor move rather
@@ -208,7 +208,7 @@ which the inventory questions in §1.3 get answered and written down.
 ### P1 — Three software fixes that cost nothing and can be done NOW, with the instrument still in its box
 
 **These need no hardware.** They can be done on any computer, during the pause, by whoever has
-time. **Between them they remove the artefact that produced this project's most convincing false
+time. **Between them they remove the artifact that produced this project's most convincing false
 positive.**
 
 1. **Discard the first three pixels of every pass, in the tool** — `--skip-lead 3` in
@@ -243,10 +243,10 @@ positive.**
    **It is no longer unmeasured.** Jacob bounded it at the bench on **2026-09-20 to under 0.5 mm**
    — plate off, straightedge across the two side-by-side ball ends — and the row is in
    `docs/FACTS.md` with its provenance. **What is still needed is a finer measurement:** a
-   jeweller's loupe, a USB microscope with a scale in the frame, or an optical comparator.
+   jeweler's loupe, a USB microscope with a scale in the frame, or an optical comparator.
    Photograph the tip against the straightedge with something of known size beside it; the ball end
    itself is a known diameter.
-   **Why:** it sets the lever ratio and therefore **the Z scale in nanometres**, which is currently
+   **Why:** it sets the lever ratio and therefore **the Z scale in nanometers**, which is currently
    inherited from a different scanner and never measured on ours. **It also settles the 2026-09-17
    junction retroactively.** The arithmetic, which corrects what this file said before:
 
@@ -260,7 +260,7 @@ positive.**
    **This file previously said that at 0.1 to 0.3 mm the measurement "lands near the textbook
    figure". It does not** — at 0.1 mm it is 3.9x too slow and at 0.3 mm 12x — **and 0.13 mm is a
    different criterion entirely**, about whether the gap wobbles too much to hold, not how fast the
-   current decays. **Only about 26 micrometres satisfies the decay test**, and that sits inside the
+   current decays. **Only about 26 micrometers satisfies the decay test**, and that sits inside the
    measured bound, in its bottom 5%, which is why the junction is still open rather than closed in
    either direction. Full working in
    `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V11-V13 and
@@ -327,7 +327,7 @@ single run, so a value measured an hour earlier is not the value.
 > - **The interleaved control is the point.** An X-held run, which cannot contain a surface, scored
 >   p = 0.020 on this exact statistic on 2026-09-19. **A positive cannot be read until a control has
 >   been run in the same conditions.**
-> - **Analyse with the permutation test, not the printed sigma.** The code is in
+> - **Analyze with the permutation test, not the printed sigma.** The code is in
 >   `deliverables/2026-09-19-pause/candidates/code/07_chance.py`.
 > - **Decision rule, fixed in advance and written down before the first run: the effect is real
 >   only if all three real runs beat all interleaved controls.** One positive out of three is what
@@ -404,7 +404,7 @@ correcting every copy anyone could think of **still left stale values in six fil
 | **The checker** (`Code/pc/check_facts.py`) | Seven classes of automated test, run at session start and before every commit | **565 lines** |
 | **The session record** (`sessions/`) | One append-only log per working session. Past measurements are never rewritten | **27 logs** |
 | **The reference set** (`docs/`) | Wiring, commands, components, open questions, engineering cross-references, an index of what is inside every binary and archive | **18 documents** |
-| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyse its output and measure the printed parts straight out of the CAD meshes | **15 tools** |
+| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyze its output and measure the printed parts straight out of the CAD meshes | **15 tools** |
 | **The session hook** (`.claude/session-start.sh`) | Runs automatically: syncs both computers, reports the state, names every session log carrying the newest date, and runs the checker | — |
 
 ### 7.3 The seven checks
@@ -480,16 +480,16 @@ cat .githooks/pre-commit                 # what blocks a failing commit
 | **Every canonical number, with provenance and a retired list** | `docs/FACTS.md` |
 | **Every open question** | `docs/OPEN_QUESTIONS.md` |
 | **What is physically in the room** | `docs/INVENTORY.md` — **not `docs/BOM.md`, which is a specification** |
-| **Pinouts, colours, LEDs, the power tree** | `docs/WIRING.md` |
+| **Pinouts, colors, LEDs, the power tree** | `docs/WIRING.md` |
 | **Every firmware command** | `docs/COMMANDS.md` |
 | **The consolidated manual, written at this pause point** | `deliverables/2026-09-19-pause/manual/MANUAL.md` |
 | **The plain-language findings report** | `deliverables/2026-09-19-pause/report/FINDINGS_REPORT.md` |
 | **The five blockers, ranked, with a cost-to-fix table** | `deliverables/2026-09-19-pause/WHAT_HELD_US_BACK.md` |
 | **Every junction we made, and what each one showed** | `deliverables/2026-09-19-pause/JUNCTIONS.md` |
-| **The wording to use on the tunnelling question** | `deliverables/2026-09-19-pause/FRAMING.md`, the canonical sentence at the top |
+| **The wording to use on the tunneling question** | `deliverables/2026-09-19-pause/FRAMING.md`, the canonical sentence at the top |
 | **The framework the model works inside** | `CLAUDE.md`, `docs/FACTS.md`, `Code/pc/check_facts.py` — section 7 above |
 | **The full data re-derivation** | `deliverables/2026-09-19-pause/analysis/` |
 | **The imaging verdict and the candidate gallery** | `deliverables/2026-09-19-pause/candidates/` |
-| **All 92 photographs, catalogued and marked** | `deliverables/2026-09-19-pause/photos/IMAGE_INVENTORY.md` |
+| **All 92 photographs, cataloged and marked** | `deliverables/2026-09-19-pause/photos/IMAGE_INVENTORY.md` |
 | **The six finished figures** | `deliverables/2026-09-19-pause/figures/png/` |
 | **Raw bench data, read-only** | `sessions/data/<session>/`, each with its own README |

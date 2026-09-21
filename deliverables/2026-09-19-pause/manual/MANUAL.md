@@ -1,6 +1,6 @@
 # The We-Are-STMING instrument manual
 
-**A single consolidated operating manual for the 3D-printed scanning tunnelling microscope built
+**A single consolidated operating manual for the 3D-printed scanning tunneling microscope built
 by Jacob Katz and Nuh Shaheer.**
 
 **Written 2026-09-19**, at the pause point, for two people who do not write code, who will come
@@ -20,7 +20,7 @@ and this file is the one to fix.**
 | Where the build actually is, the open faults, and the **numbered safety rules** | `STATUS.md` |
 | The canonical value of any number | `docs/FACTS.md` |
 | What to do next at the bench | `docs/NEXT_SESSION_PLAN.md` |
-| Verified pinouts and cable colours | `docs/WIRING.md` |
+| Verified pinouts and cable colors | `docs/WIRING.md` |
 | Every firmware command in detail | `docs/COMMANDS.md` |
 | What is physically in the room | `docs/INVENTORY.md` |
 | Every open question, UNKNOWN and VERIFY | `docs/OPEN_QUESTIONS.md` |
@@ -37,7 +37,7 @@ never cite a number against it.
   wrong number costs hardware here.
 
 **A photograph is not a measurement of our hardware.** Nothing in this manual takes a dimension,
-a part marking or a colour off a photograph.
+a part marking or a color off a photograph.
 
 **How these rules are enforced, rather than merely stated, is section 1.4.** It describes the
 framework the project runs inside — the single canonical register of numbers, the provenance tags
@@ -57,7 +57,7 @@ how much to trust the rest of this document.**
 6. [Operation: every command](#6-operation-every-command)
 7. [Data collection](#7-data-collection)
 8. [Analysis](#8-analysis)
-9. [File organisation: which document owns what](#9-file-organisation-which-document-owns-what)
+9. [File organization: which document owns what](#9-file-organization-which-document-owns-what)
 10. [Troubleshooting](#10-troubleshooting)
 11. [How to resume the project after the move](#11-how-to-resume-the-project-after-the-move)
 12. [What is still unknown, and what is untested](#12-what-is-still-unknown-and-what-is-untested)
@@ -70,7 +70,7 @@ how much to trust the rest of this document.**
 
 ## 1.1 In one paragraph
 
-A scanning tunnelling microscope holds a sharp metal tip about a nanometre above a conducting
+A scanning tunneling microscope holds a sharp metal tip about a nanometer above a conducting
 surface, puts a small voltage between them, and measures the tiny current that quantum-mechanically
 tunnels across the gap. That current changes about tenfold for every 0.1 nm of gap change, which is
 what makes the instrument sensitive enough to see atoms. **Ours is built from 3D-printed parts**,
@@ -81,14 +81,14 @@ following **Mech Panda's `red-panda-stm`** for the mechanics, firmware and contr
 
 > ## **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
 
-**Both halves are separately supported, and the order matters.** We detected tunnelling: the tip
-cannot go from not touching to touching without passing through the separations where tunnelling is
+**Both halves are separately supported, and the order matters.** We detected tunneling: the tip
+cannot go from not touching to touching without passing through the separations where tunneling is
 the only thing carrying electrons, and the bias was on with the amplifier recording the whole way —
 **60,928 readings inside that current range, across 109 approaches**. We could not maintain
-tunnelling range: with the motor stopped and nobody touching the instrument the gap moves **at
+tunneling range: with the motor stopped and nobody touching the instrument the gap moves **at
 least 43,000 Z counts in 6.4 s** and **at least 56,000 over about two minutes**, where an image
 needs it inside a few hundred counts for a minute. **And one measurement would settle our best
-junction retroactively** — `d`, the tip's distance from the pivot line, resolved to 26 micrometres
+junction retroactively** — `d`, the tip's distance from the pivot line, resolved to 26 micrometers
 rather than bounded under 0.5 mm. It needs a loupe and no power.
 [`../FRAMING.md`](../FRAMING.md); [`../LEAD_VERIFICATION.md`](../LEAD_VERIFICATION.md) V13.
 
@@ -99,29 +99,29 @@ rather than bounded under 0.5 mm. It needs a loupe and no power.
   the project's strongest single result.
 - **A real tip-to-gold junction has been made**, repeatedly, and its current responds to Z and to
   the sign of the bias.
-- **That junction was a tunnel junction, and the current tunnelling through it was measured.** The
+- **That junction was a tunnel junction, and the current tunneling through it was measured.** The
   tip starts with no measurable current and ends in saturating contact, so on every approach the
-  separation passes through the range where tunnelling is the only mechanism that carries
+  separation passes through the range where tunneling is the only mechanism that carries
   electrons; the bias was on and the amplifier recording throughout, **60,928 readings inside that
   current range across 109 approaches**. The junction never metallically shorted — resistance never
   fell below about 5 MOhm even at saturation — the I-V is superlinear and symmetric, and 109 of 110
-  onsets were gradual. **So it was a barrier, conducting by tunnelling, and not a metallic bridge.**
+  onsets were gradual. **So it was a barrier, conducting by tunneling, and not a metallic bridge.**
 - **The electronics are quiet enough.** Tip clear, the reading's standard deviation was 40–42
-  counts on 2026-09-19; with a junction and X held it was 9–19 counts. A tunnelling current is
+  counts on 2026-09-19; with a junction and X held it was 9–19 counts. A tunneling current is
   about 1 nA, which is about 320 counts.
 
 **What it has not done:**
 
 - **No image has been produced.** Every feedback scan is matched or beaten by its own X-held
   control, so nothing in them is established as surface structure. No atomic resolution, and no
-  distance in nanometres from our own hardware.
+  distance in nanometers from our own hardware.
 - **No controlled vacuum gap has been held** — the STM regime you need in order to scan. That is a
   different claim from the bullet above, and it is the one our data does not support: on 2026-09-19
-  the current changed by a factor of ten per roughly 1,650–1,970 Z counts going in, where tunnelling
+  the current changed by a factor of ten per roughly 1,650–1,970 Z counts going in, where tunneling
   on the inherited (and unmeasured) Z scale would be about 6–13 counts, and every run showed
   705–1,868 counts of in/out hysteresis. The interpretation on record is **"a soft, pressed, sticky
-  contact"** — marked as interpretation, not proof. **Tunnelling through a pressed film is still
-  tunnelling; it is not a gap you can command, sweep and image with.**
+  contact"** — marked as interpretation, not proof. **Tunneling through a pressed film is still
+  tunneling; it is not a gap you can command, sweep and image with.**
 - **The gap does not hold still.** With the motor and hands still, it moved by most of the Z range
   within seconds to minutes. **What moves it is UNKNOWN**; `STATUS.md` carries **seven untested
   candidates** — the gold leaf on its backing paper, the sample plate on its rubber bands and ball
@@ -146,7 +146,7 @@ manual, because it tells you where not to spend time.
 
 A printed tower — `new_body` at the bottom, `new_topframe` at the top, joined by **three M8
 threaded rods** — carries a **Ø200 mm printed platform disc** hanging on **three extension
-springs**. Under the platform sits an **aluminium plate moving between fixed magnets**: eddy-current
+springs**. Under the platform sits an **aluminum plate moving between fixed magnets**: eddy-current
 damping, with no contact.
 
 The springs are identified from Jacob's own order record: **FOCMKEAS, 304 stainless, wire
@@ -163,7 +163,7 @@ no headroom to correct another sag. **Do not add more mass.**
 
 > **Two things about this subsystem are still UNKNOWN and one of them decides whether it works at
 > all:** the platform-to-tower clearance has never been measured (Jacob: *"its not sitting on the
-> tower is just about its a perfect fit"*), and the damping gap between the aluminium plate and the
+> tower is just about its a perfect fit"*), and the damping gap between the aluminum plate and the
 > magnets has never been measured. Reaching the calculated 2 Hz needs room below the platform to
 > droop into, and nobody knows how much room there is.
 
@@ -178,16 +178,16 @@ Three printed plates bolted to a base:
   those three screws by **rubber bands**.
 
 **The lever.** Two of the three screws sit side by side, 35.000 mm apart, and act as the pivot
-line. The third screw, 40.000 mm away, is the one the motor turns. **The piezo pocket centre sits
+line. The third screw, 40.000 mm away, is the one the motor turns. **The piezo pocket center sits
 1.000 mm from the pivot line, on the motor screw's side** (measured from the mesh). So turning the
 motor screw moves the sample under the tip in the same direction, about 40 times less.
 
 > **The lever ratio is the most valuable unmeasured number in the instrument.** The design geometry
-> gives 40, but that assumes the tip sits at the disc centre. **The current bound is `d` under
+> gives 40, but that assumes the tip sits at the disc center. **The current bound is `d` under
 > 0.5 mm** — `SAID`, Jacob, at the bench on 2026-09-20, *"I obviously can't measure 26 micrometers
 > but it's less than 0.5 mm"*, superseding his 2026-09-18 estimate of *"between 1mm and 0mm its
 > really hard to measure"*. **A straightedge takes it no further; an eyepiece or an optical
-> comparator does.** It decides the Z scale in nanometres, and therefore whether the measured
+> comparator does.** It decides the Z scale in nanometers, and therefore whether the measured
 > current-versus-Z slope is a held gap or a press. **`docs/FACTS.md` is the canonical home for it**;
 > see also `docs/OPEN_QUESTIONS.md`.
 
@@ -198,7 +198,7 @@ A **28BYJ-48 geared stepper** through a **ULN2003 driver module**, wired **direc
 turns the rear 1/4"-80 screw through a printed `ThreadAdaptor` and `MotorSupport`.
 
 2048 steps per revolution, 0.3175 mm of screw travel per turn, so **155 nm per step at the screw**
-and, divided by the lever, a few nanometres at the tip. **Direction: negative `MTMV` approaches,
+and, divided by the lever, a few nanometers at the tip. **Direction: negative `MTMV` approaches,
 positive retracts** — settled at the bench 2026-09-17 and confirmed by every motor approach since
 that found the gold.
 
@@ -215,10 +215,10 @@ it with **−(Z ± X)** and **−(Z ± Y)**, so one disc does all three axes.
 
 > **Nothing about our own scanner's displacement has ever been measured.** The figures of about
 > 34 nm/V in Z and 83 nm/V in X and Y come from **Berard's calibration of a different disc** and
-> are marked INFER in `docs/FACTS.md`. **Our disc is not his disc.** Every nanometre figure for
+> are marked INFER in `docs/FACTS.md`. **Our disc is not his disc.** Every nanometer figure for
 > this instrument should be read as unsupported until our own scanner is calibrated.
 
-**The four quadrant wires are identical bare enamelled copper with no colour code.** There is no
+**The four quadrant wires are identical bare enameled copper with no color code.** There is no
 way to recover which quadrant is +X from any file or photograph. If the first image comes out
 rotated or mirrored, that is why, and it is fixed in software.
 
@@ -235,14 +235,14 @@ every time it is touched:
    OPEN against the brass piezo electrode. A bridge there is a shunt straight across the amplifier
    input.
 2. **What the "metal stake" is made of has never been written down.** If it is ferromagnetic, the
-   four magnets sitting a millimetre or two behind the sample exert a pull that rises steeply as
+   four magnets sitting a millimeter or two behind the sample exert a pull that rises steeply as
    the gap closes — a second snap mechanism. **A spare magnet held near it settles this in ten
    seconds.**
 
 ### The sample
 
 **Real gold leaf** — flame-tested (`SAID` 2026-09-17, Jacob) — about 100 nm thick, mounted on the
-`SamplePlate`. The plate's face is covered in aluminium tape with a square window cut in it; the
+`SamplePlate`. The plate's face is covered in aluminum tape with a square window cut in it; the
 gold assembly sits in that window and is joined to the bias wire.
 
 **The four disc magnets in the sample plate do nothing useful now.** They were put there to hold a
@@ -255,7 +255,7 @@ and that is untested.**
 ### The preamplifier
 
 An **OPA627 transimpedance amplifier with a 100 MOhm feedback resistor**, on a 20.625 x 15.23 mm
-board, in a small printed box wrapped in copper tape and grounded, mounted at the centre of the
+board, in a small printed box wrapped in copper tape and grounded, mounted at the center of the
 scanning module — right next to the tip, which is the whole point. **It converts tip current to
 voltage: 1 nA becomes 0.1 V.**
 
@@ -316,7 +316,7 @@ flowing into the tip reads negative. `BIAS` codes above 32768 put a negative vol
 this manual.**
 
 **Neither of us writes code. So the second thing we built was the system that does.** This
-instrument was designed, assembled, characterised and documented by two undergraduates
+instrument was designed, assembled, characterized and documented by two undergraduates
 directing an AI model, working inside a framework we built for it. **The model is off the shelf. The
 framework is ours.**
 
@@ -340,7 +340,7 @@ left stale values in six files.**
 | **The checker** (`Code/pc/check_facts.py`) | Seven classes of automated test, run at session start and before every commit | **565 lines** |
 | **The session record** (`sessions/`) | One append-only log per working session. Past measurements are never rewritten | **27 logs** |
 | **The reference set** (`docs/`) | Wiring, commands, components, open questions, engineering cross-references, and an index of what is inside every binary and archive | **18 documents** |
-| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyse its output, and measure the printed parts straight out of the CAD meshes | **15 tools** |
+| **The bench tools** (`Code/pc/`) | Python programs that talk to the instrument, analyze its output, and measure the printed parts straight out of the CAD meshes | **15 tools** |
 | **The session hook** (`.claude/session-start.sh`) | Runs automatically: syncs both computers, reports the state, names every session log carrying the newest date, and runs the checker | — |
 
 ### The seven checks
@@ -444,7 +444,7 @@ hardware.
 | Era | What it was | What to know |
 |---|---|---|
 | 2026-09-16 to 2026-09-18 | The original placeholder: *"horribly probably extremly blunt and bent downwards"*, sticking out about 1.8 cm from the plate face | Every 2026-09-17 and 2026-09-18 measurement is this tip |
-| Early 2026-09-19 | *"a lot shorter and a lot thinner"* | **It was BENT.** It explains that session's chattering contact and Z-proof behaviour |
+| Early 2026-09-19 | *"a lot shorter and a lot thinner"* | **It was BENT.** It explains that session's chattering contact and Z-proof behavior |
 | **From ~03:00 UTC 2026-09-19** | **The tip fitted when the instrument was packed.** *"new tip its gonna be very blunt but that what we have for today"* | **With this tip, HIGH Z extends toward the sample** — measured at a clean touch, +6,305 +/− 1,484 counts over +/−2,000 Z, 4.2 sigma, and the feedback loop held with that sign for eight runs |
 | | | **It was then pressed into the gold with Z fully retracted for about 9, about 35, under 3.4 and about 5 minutes on 2026-09-19 morning.** Expect it blunter still. **Replace it before the next imaging attempt** |
 
@@ -464,7 +464,7 @@ the results.**
 | Build | Method | What happened |
 |---|---|---|
 | 2026-09-16, attempt 1 | Not recorded | **Removed.** It was never reported at the time and only came to light on 2026-09-18 |
-| 2026-09-17 | Leaf pressed onto **copper tape with the adhesive under it**, in a window cut in aluminium tape | **It held.** It did not move when blown on. That night gave an eight-round I-V curve, a 90-pass drift series and four scans |
+| 2026-09-17 | Leaf pressed onto **copper tape with the adhesive under it**, in a window cut in aluminum tape | **It held.** It did not move when blown on. That night gave an eight-round I-V curve, a 90-pass drift series and four scans |
 | 2026-09-18 | A second sheet laid over the **whole plate face** | **It was loose** — *"it was moveing a bit if i blew on it"*. This is the leading explanation for everything erratic that night: an unadhered 100 nm sheet weighs about 0.019 Pa, and the bias pulls on it at about 1.1 Pa across a 1 micron gap, rising as one over gap squared. That is a pull-in instability, which is a snap |
 | **2026-09-19, the one that was fitted** | **A copper/paper/gold/copper sandwich.** Copper tape sticky side up; the gold, still on its backing paper, laid onto that adhesive; a second copper tape pressed sticky-side-down onto the gold and stuck to the first; the whole thing onto a rolled copper ring on the plate | **Continuity gold to the orange bias wire: good** (`SAID`). **The second tape touches only the EDGE of the leaf, so the tip lands on gold** (`SAID`, Jacob: *"more like one strip of copper touches the side of the gold so framed a tiny section of it"*) |
 
@@ -474,7 +474,7 @@ the results.**
    the electrostatic pull rises as one over gap squared. If the snap comes back, anchoring more of
    the perimeter is the next move.
 2. **The backing paper is still in the stack, directly under the gold** — roughly 50 to 100 microns
-   of compressible cellulose immediately beneath a surface that needs sub-nanometre stability.
+   of compressible cellulose immediately beneath a surface that needs sub-nanometer stability.
    **Jacob's own fallback removes it:** *"just putting the gold straight onto the sticky side of the
    copper."*
 
@@ -523,14 +523,14 @@ faults were fixed in it, both of which used to be tip hazards:
 > copy so that the bench does not need two documents open. **If they differ, `docs/WIRING.md` wins
 > and this file is the one to fix.**
 
-> ## Use these colours. Do not read colours off a photograph
+> ## Use these colors. Do not read colors off a photograph
 >
-> Jacob and Nuh prefer wire colours to pin numbers and translate them to their own jumper leads
-> themselves. **The colours below are the J1 / J2 cable colours from `docs/WIRING.md`.**
+> Jacob and Nuh prefer wire colors to pin numbers and translate them to their own jumper leads
+> themselves. **The colors below are the J1 / J2 cable colors from `docs/WIRING.md`.**
 >
-> **The jumper leads at the preamp board end are different colours from these.** Quoting a colour
+> **The jumper leads at the preamp board end are different colors from these.** Quoting a color
 > read off a photograph of the bench is exactly what would cause a mistake. Say "the DSUB2 −15 V
-> wire" using the documented colour and let them translate.
+> wire" using the documented color and let them translate.
 
 ## 3.1 Connector names — read this first
 
@@ -606,7 +606,7 @@ prove the wiring at the plug first.** Measured supply currents after a park on 2
 **The rule that avoids counting pins: on H1 the odd pins are all ground and the even pins are
 signals.**
 
-**Pin 6 does get connected.** It is labelled ADC_SDI, which sounds like a data input a read-only
+**Pin 6 does get connected.** It is labeled ADC_SDI, which sounds like a data input a read-only
 converter would not need. On this chip it is RDL, a read-enable — effectively the chip select. It
 was left disconnected at first and that was a mistake.
 
@@ -619,31 +619,31 @@ Y. That is correct. Do not fix it.**
 
 ## 3.4 DSUB1 — the scan head cable
 
-| Colour | DB9 pin | Function |
+| Color | DB9 pin | Function |
 |---|---|---|
 | Black, Brown, Red, Orange, Yellow | 1–5 | AGND |
 | **Green** | 6 | **Z−Y** |
 | **Blue** | 7 | **Z+Y** |
-| **Grey** | 8 | **Z−X** |
+| **Gray** | 8 | **Z−X** |
 | **White** | 9 | **Z+X** |
 
 **Row rule: on DSUB1 the row of five is all ground and the row of four carries signal.**
 
 ## 3.5 DSUB2 — the preamplifier cable
 
-| Colour | DB9 pin | Function |
+| Color | DB9 pin | Function |
 |---|---|---|
 | **Black** | 1 | **BIAS**, out to the sample holder |
 | **Brown** | 2 | **PREAMP−**, the ADC's negative reference |
 | **Red** | 3 | **PREAMP+**, the signal |
 | **Orange** | 4 | **−15 V** |
 | **Yellow** | 5 | **+15 V** |
-| Green, Blue, Grey, White | 6–9 | AGND |
+| Green, Blue, Gray, White | 6–9 | AGND |
 
 **Row rule: on DSUB2 it is the opposite way round — the row of five carries signal and the row of
 four is all ground.**
 
-> **The same colour means different things on the two cables.** Orange is −15 V on the preamp cable
+> **The same color means different things on the two cables.** Orange is −15 V on the preamp cable
 > and plain ground on the scan head cable. **Check which cable you are holding.**
 
 ### Why brown must land on the preamplifier's own ground
@@ -678,13 +678,13 @@ output**, whichever way round the board sits.
 pin 4 has no copper on it at all. At the DSUB2 splice, **green (AGND) and brown (`PREAMP−`) both
 join that ground lead.**
 
-**The board's own jumper-lead colours, recorded at the bench 2026-09-14** — these are NOT the
-J1/J2 colours and are only for the preamp board's own leads:
+**The board's own jumper-lead colors, recorded at the bench 2026-09-14** — these are NOT the
+J1/J2 colors and are only for the preamp board's own leads:
 
-| Hole | Function | Lead colour |
+| Hole | Function | Lead color |
 |---|---|---|
 | 1 | GND | **white** |
-| 2 | +15 V | **grey** |
+| 2 | +15 V | **gray** |
 | 3 | OUT | **orange** |
 | 4 | — | **empty** |
 | 5 | −15 V | **tan** |
@@ -702,9 +702,9 @@ J1/J2 colours and are only for the preamp board's own leads:
 That is roughly 68 mA into an output stage that limits in the tens of mA, and **it would very
 likely destroy IC1.**
 
-**Go by function, never by colour, on this splice.** The verified mapping, made and checked on
-2026-09-15: **white to brown AND green, grey to yellow, orange to RED, tan to ORANGE.** The splice
-row as built, left to right, is: nothing, white, orange, tan, grey — which is BIAS, `PREAMP−`,
+**Go by function, never by color, on this splice.** The verified mapping, made and checked on
+2026-09-15: **white to brown AND green, gray to yellow, orange to RED, tan to ORANGE.** The splice
+row as built, left to right, is: nothing, white, orange, tan, gray — which is BIAS, `PREAMP−`,
 `PREAMP+`, −15 V, +15 V.
 
 > **An expected reading written for that check was wrong, and a correct splice looked like a
@@ -725,7 +725,7 @@ motor buzzes instead of turning.**
 **The motor driver does not go through the ribbon.** There is no motor circuitry anywhere on the
 controller PCB.
 
-**Powering the driver.** The Teensy pin labelled 5V is VIN and sits near 5 V when USB-powered, so
+**Powering the driver.** The Teensy pin labeled 5V is VIN and sits near 5 V when USB-powered, so
 the driver can run off it — which is what Mech Panda appears to do. The catch is that the motor's
 current spikes then ride on the same rail as the microcontroller and can reset it mid-scan. **A
 separate 5 V supply avoids that.**
@@ -742,18 +742,18 @@ separate 5 V supply avoids that.**
 5. **Then meter it** — every point on the shield must beep to the ground wire: near the wire, the
    far corner, and across every seam. **A shield you have not metered is not a shield you can
    reason about.**
-6. **Never put copper and aluminium in contact** anywhere in the assembly.
+6. **Never put copper and aluminum in contact** anywhere in the assembly.
 
-**Why not aluminium:** it cannot be soldered because of its oxide, its adhesive usually does not
+**Why not aluminum:** it cannot be soldered because of its oxide, its adhesive usually does not
 conduct so overlapping strips may not connect to each other at all, and against copper in humid
-air it forms a galvanic cell — a few hundred millivolts of DC sitting on your shield, millimetres
+air it forms a galvanic cell — a few hundred millivolts of DC sitting on your shield, millimeters
 from a 100 MOhm input. **On 2026-09-06 the preamp box was found wrapped in both and metered as
 discontinuous and only partly grounded.** It was stripped and rebuilt in copper with soldered
 seams.
 
-**Two places on the instrument are aluminium by Jacob's decision, and that is recorded rather than
-argued with:** the motor mount extenders (aluminium with copper over it — the one place the
-galvanic rule still applies, slow-acting, watch it) and the piezo holding block (aluminium only,
+**Two places on the instrument are aluminum by Jacob's decision, and that is recorded rather than
+argued with:** the motor mount extenders (aluminum with copper over it — the one place the
+galvanic rule still applies, slow-acting, watch it) and the piezo holding block (aluminum only,
 which matches Mech Panda's build). **Neither is the scan head shield cover.**
 
 **Where the ground bonds land:** both shields go to what Jacob calls "universal ground", which is
@@ -882,7 +882,7 @@ follows is the summary and the difference between what the card says and what is
 
 ### The gate that comes first
 
-**The gold must be electrically joined to the bias wire, or no tunnelling current can exist at
+**The gold must be electrically joined to the bias wire, or no tunneling current can exist at
 all.** The weak link is the copper tape's adhesive.
 
 **Ours conducts** — `SAID` 2026-09-17, Jacob: *"the glue is conductive"*, checked on a scrap of
@@ -912,7 +912,7 @@ tear it. Cut it inside a paper sandwich, or stick it to oversized copper tape fi
 result down.
 
 **You are not short of gold.** Four one-inch squares cut into roughly a hundred usable 5 mm pieces,
-and the scanner's whole range is about half a micrometre — a 5 mm piece is ten thousand times wider
+and the scanner's whole range is about half a micrometer — a 5 mm piece is ten thousand times wider
 than anything the tip will ever look at.
 
 ### The method actually fitted, 2026-09-19
@@ -970,7 +970,7 @@ is no other retention.
 
 **Then close the gap by hand**, which is the step that decides whether a motor approach can find
 anything at all. The motor's whole reach at the tip is only about ±75 microns, **so the sample has
-to be set by hand to within about a tenth of a millimetre before any motor approach.**
+to be set by hand to within about a tenth of a millimeter before any motor approach.**
 
 **Two documented ways to do it. They differ and both are on record:**
 
@@ -990,9 +990,9 @@ been promoted into `Code/pc/`. See section 11.
 ## 4.5 Figures for this section
 
 > ### Figure 4.1 — `01_sample_plate_gold_window.jpg`
-> **The window in the sample plate is NOT all gold.** Aluminium tape over the plate face
+> **The window in the sample plate is NOT all gold.** Aluminum tape over the plate face
 > (`SAID`), a square window framed in dark tape, and inside it **a bright smooth gold patch over
-> roughly the centre and right of the opening with duller crinkled copper tape exposed to its left
+> roughly the center and right of the opening with duller crinkled copper tape exposed to its left
 > and below** (`READ`). The orange bias wire enters under the tape at the top.
 >
 > **This is what the manual means by "the tip lands on gold only if it lands on the gold part."**
@@ -1011,7 +1011,7 @@ been promoted into `Code/pc/`. See section 11.
 
 > ### Figure 4.3 — `Images/ours/2026-09-18_scanhead_face_1.jpg`
 > **The scan head face, straight on.** The piezo disc recessed in its bore with a small soldered
-> structure at the disc centre, the fine tip lead crossing the face from above, and **three
+> structure at the disc center, the fine tip lead crossing the face from above, and **three
 > ball-end screws** — one top, one bottom and one at the right. `Images/ours/README.md` records
 > Jacob's confirmation that **the top and bottom balls are the side-by-side pivot pair and the
 > motor screw is the one on the right**, so the pivot line runs vertically in this view.
@@ -1024,7 +1024,7 @@ been promoted into `Code/pc/`. See section 11.
 **Still wanted, and not available:**
 
 > **TODO-PHOTO A — the DSUB2 splice at the preamp end**, showing the five-way row. No frame in
-> either new batch shows it. **Any caption must not quote colours read off the frame** — see the
+> either new batch shows it. **Any caption must not quote colors read off the frame** — see the
 > rule at the top of section 3.
 
 > **TODO-PHOTO B — the tip itself, close enough to judge sharpness.** The closest existing frames
@@ -1042,7 +1042,7 @@ been promoted into `Code/pc/`. See section 11.
 |---|---|---|
 | **Tip out, or the sample well clear** | **The DACs power up at zero scale, not at 0 V.** The instant the analog rails come up, Z sits at one extreme of its range with no command from you. **This is a Stage 3 precaution, not a Stage 5 one** | — |
 | **Tip holder to the brass piezo electrode** | `STATUS.md` safety rule 7 — a bridge there shunts the amplifier input | **OPEN** |
-| **Gold to the sample-plate bias wire** | If the gold is not on the bias, no tunnelling current can exist | **Beeps** |
+| **Gold to the sample-plate bias wire** | If the gold is not on the bias, no tunneling current can exist | **Beeps** |
 | **Gold to the tip holder** | If it beeps, the tip is already touching the sample | **Silent** |
 | **Nothing is touching the suspended platform** | A cable, rod or tie across the suspension is a rigid bypass and no spring change works around it. **Check every wire has slack**: the coax to the preamp, the loom, the stepper leads | Only wires, all slack |
 | **The plate sits on all three balls, and the motor-screw ball touches it** | On 2026-09-17 the motor screw was found turning in free space | — |
@@ -1223,7 +1223,7 @@ go dark between moves. **That is correct, not a fault.** `MTMV 0` just makes sur
 > scale, and also zeroes the bias, the step counter and every setpoint. **Re-park Z at 32768 after
 > either.** `STATUS.md` safety rule 6.
 
-> **`RSET` does not de-energise the motor.** It only zeroes the step count.
+> **`RSET` does not de-energize the motor.** It only zeroes the step count.
 
 **Prefer `TONE` over `TEST`**, because it parks Z at 0 V instead of leaving it at a rail.
 
@@ -1255,7 +1255,7 @@ Z heights, then prints `D` when it is done.
 | `APRH` | **Do not use it.** `STATUS.md` safety rule 2 |
 
 **Two reasons, both in the source.** `approach()` tests `read_adc() > target`, a **signed**
-comparison, against a baseline that has been negative for most of this project — **so if tunnelling
+comparison, against a baseline that has been negative for most of this project — **so if tunneling
 drives the reading more negative it never triggers and the motor keeps driving the tip into the
 sample.** And the second argument is the step *interval*, not a step count; maximum travel is
 hardcoded at 10000 steps.
@@ -1263,7 +1263,7 @@ hardcoded at 10000 steps.
 **Measured 2026-09-16: a positive sample voltage gives negative counts.** So under positive sample
 bias this failure case is exactly what happens. **Use `Code/pc/stm_approach.py`, which never sends
 `APRH`** and thresholds on absolute deviation from a measured baseline, so it works without knowing
-which way tunnelling moves the reading.
+which way tunneling moves the reading.
 
 ## 6.3 Which commands block, and which reply
 
@@ -1303,15 +1303,15 @@ response from them just burns the timeout.
 | **`DACZ -1`** | **65535** | **+10 V.** You asked for below zero and got the top rail |
 | **`DACZ` with no number** | **0** | **−10 V** |
 
-**From midscale each of those is a jump of roughly 8 to 10 V — hundreds of nanometres, far more
-than a tunnelling gap.** There is no clamp anywhere in the path. **Keep every DAC argument between
+**From midscale each of those is a jump of roughly 8 to 10 V — hundreds of nanometers, far more
+than a tunneling gap.** There is no clamp anywhere in the path. **Keep every DAC argument between
 0 and 65535, and never send a bare `DACZ`, `DACX` or `DACY`.**
 
 ## 6.5 Before every measurement
 
 1. **Look at LED1 to LED4.** If any is lit, the reading is void. Send `RSET`, then re-park Z.
-2. **Nobody within a metre of the preamplifier.** A person nearby injects current into a 100 MOhm
-   input node; a tunnelling current is about 1 nA. **`STATUS.md` safety rule 9 keeps this rule but
+2. **Nobody within a meter of the preamplifier.** A person nearby injects current into a 100 MOhm
+   input node; a tunneling current is about 1 nA. **`STATUS.md` safety rule 9 keeps this rule but
    flags its number as not established**, because the figure came from the old board whose
    reference floated.
 3. **Soldering iron off.** Measured 2026-09-16: a hot iron adds about 17 counts. Small, but real.
@@ -1331,7 +1331,7 @@ PJRC's USB vendor ID, so you never have to name a port. `pyserial` alone is enou
 |---|---|---|
 | **`Code/pc/stm_console.py`** | **Start here.** Sends any firmware command, one-shot or interactive | Prints to the terminal only |
 | **`Code/pc/adc_stats.py`** | Samples the ADC over time and reports mean, standard deviation, minimum, maximum and range. **Reads `GSTS` field 5, a raw single conversion**, on purpose — `ADCR` averages and would hide the isolated bit-flips a marginal SPI link produces | Prints to the terminal |
-| **`Code/pc/stm_noise_spectrum.py`** | Noise spectrum of the ADC, with a comparison against every previous run printed for you. **It only reads** — no Z, no motor, no bias, nothing moves | A CSV of raw samples, so the run can be re-analysed with no instrument |
+| **`Code/pc/stm_noise_spectrum.py`** | Noise spectrum of the ADC, with a comparison against every previous run printed for you. **It only reads** — no Z, no motor, no bias, nothing moves | A CSV of raw samples, so the run can be re-analyzed with no instrument |
 | **`Code/pc/stm_approach.py`** | PC-side coarse approach by the woodpecker method: only the piezo ever closes the gap, and the motor only moves while Z is retracted. **It never sends `APRH`** | A log; CSVs in some modes |
 | **`Code/pc/stm_feedback_scan.py`** | Constant-current imaging with the feedback loop running on this computer. Each pixel records the Z that holds the setpoint current — the height map. **Every line is scanned forward then backward** | A CSV per scan: first column the Y DAC code, header row the X DAC codes, each line appearing twice as `fwd` and `back` |
 | **`Code/pc/stm_y_control.py`** | **The control that decides whether a reproducible profile is the sample or the scanner's own bow.** Runs the same line at three Y positions | A CSV, with the half-width recorded inside it |
@@ -1371,7 +1371,7 @@ without reading them first.**
 - **Say which tip is fitted and when it was fitted**, because the Z direction and every junction
   figure belong to a tip, not to the instrument.
 - **Say how many minutes since power-on** alongside any noise figure.
-- **Note whether anyone was within a metre of the preamplifier.**
+- **Note whether anyone was within a meter of the preamplifier.**
 
 ## 7.3 Three traps that have already cost data
 
@@ -1418,7 +1418,7 @@ record, and all four have changed a conclusion at least once.
 - **Account for multiple comparisons.** If you searched many scans for a feature, say how many, and
   say what that does to the chance of finding one.
 
-## 8.3 Re-analysing without the instrument
+## 8.3 Re-analyzing without the instrument
 
 Both control tools can re-read a file they wrote, with nothing plugged in:
 
@@ -1433,7 +1433,7 @@ py Code/pc/stm_noise_spectrum.py --compare still.csv stamp.csv
 | Page | What it is |
 |---|---|
 | `docs/showcase.html` | For a reader judging the work in five minutes. Leads with what the instrument demonstrably does |
-| `docs/progress.html` | The public explainer: what an STM is, how tunnelling works, where the build reached |
+| `docs/progress.html` | The public explainer: what an STM is, how tunneling works, where the build reached |
 | `docs/bench_2026-09-17_review.html` | Nine figures reading the 2026-09-17 bench data, written for someone who does not read code |
 
 **None of them has independent authority.** Every number on them is cited from `STATUS.md`,
@@ -1442,7 +1442,7 @@ fixed.**
 
 ---
 
-# 9. File organisation: which document owns what
+# 9. File organization: which document owns what
 
 **Every kind of information has exactly one authoritative home.** Writing it anywhere else creates
 a copy that will drift, and this project has lost real time to exactly that.
@@ -1486,7 +1486,7 @@ body, parts of which are known to be wrong.
 | `CLAUDE.md` | The working protocol, read automatically by Claude Code |
 | `docs/START_HERE_gotchas.md` | Things that mislead you. Read before touching hardware |
 | `docs/soft_launch_test_procedure.md` | The staged bring-up, stages 0 to 6. **Partly superseded — it carries a banner saying which parts** |
-| `docs/DAC_BOOT_STATE.md` | DAC power-on behaviour. Read before bringing up the analog side |
+| `docs/DAC_BOOT_STATE.md` | DAC power-on behavior. Read before bringing up the analog side |
 | `docs/UPSTREAM_MECHPANDA.md` | The design we are actually building |
 | `docs/UPSTREAM_BERARD.md` | Reading notes from Dan Berard's build. **Context, not our design** |
 | `docs/OTHER_BUILDERS.md` | What independent DIY STM builders have done. Leads to test, not specifications |
@@ -1534,14 +1534,14 @@ samples, with nothing in between.
 
 **Found by arithmetic, not at the bench.** `Code/pc/stm_approach.py` ships with a default Z step of
 200 counts, which is about 2.08 nm of tip travel per sample point, while the window in which a
-tunnelling current is above the noise floor and below the contact threshold is about 0.21 nm wide.
+tunneling current is above the noise floor and below the contact threshold is about 0.21 nm wide.
 **So the sweep takes about a tenth of a sample inside the window it has to detect** — about one
-approach in ten lands a reading in tunnelling range.
+approach in ten lands a reading in tunneling range.
 
 **The fix is a flag that already exists: `--z-step 5`.** That gives about four samples inside the
 window and costs about 3.3 s per half sweep.
 
-> **One assumption behind this is inferred, not measured** — the nanometres-per-count figure comes
+> **One assumption behind this is inferred, not measured** — the nanometers-per-count figure comes
 > from Berard's disc, not ours. If our scanner is less sensitive the problem shrinks; if it is more
 > sensitive, this is worse than stated.
 
@@ -1582,7 +1582,7 @@ connected. **An upstream conversion defect, not a build fault.**
 |---|---|
 | **`STATUS.md` fault 0 — the measurement chain** | **FIXED 2026-09-16.** `PREAMP−` is grounded at the preamp through the DSUB2 splice, the ADC reads the preamp at about −1.7 counts, and the dummy junction gives 320.5 counts per nA end to end |
 | **`STATUS.md` fault 2 — `CCON` jumping Z to midscale** | **FIXED 2026-09-16, uploaded and bench-tested red then green.** The rule against it is kept anyway |
-| **`STATUS.md` fault 3 — the motor left energised** | **FIXED 2026-09-16, uploaded and bench-tested.** The coils switch off after every move |
+| **`STATUS.md` fault 3 — the motor left energized** | **FIXED 2026-09-16, uploaded and bench-tested.** The coils switch off after every move |
 | **`STATUS.md` fault 5 — one JP1 ground pin open** | **Explained** — it is one of the six points fault 0d covers, not a one-off |
 | **The preamp offset that blocked the project for weeks** | **The board that showed it is retired.** The reading was real as a voltage but was never a valid current, because that board's amplifier reference floated |
 
@@ -1629,7 +1629,7 @@ In the order that has actually mattered:
 
 | Cause | Evidence |
 |---|---|
-| **Someone is near the board** | A person injects current into a 100 MOhm node. Keep everyone a metre away. **The rule stands; its number does not** |
+| **Someone is near the board** | A person injects current into a 100 MOhm node. Keep everyone a meter away. **The rule stands; its number does not** |
 | **A soldering iron is on** | Measured 2026-09-16: about 17 counts. Small but real |
 | **Something was recently soldered or cleaned near the input node** | The leading candidate for two noisy captures on 2026-09-16. **Do not judge noise soon after work at the input node** |
 | **Mechanical, not electrical** | With no junction the electronics are flat white noise at 8 to 14 counts. **With a junction everything extra sits below about 30 Hz, with no peak at 60 or 120 Hz.** That is the instrument moving, not the electronics |
@@ -1639,7 +1639,7 @@ In the order that has actually mattered:
 
 **This is the current blocker and it is not solved.** Measured on the fitted sample: the current
 changes by a factor of ten per roughly 1,650 to 1,970 Z counts going in, against about 6 to 13 for
-tunnelling on the inherited scale, and every run shows 705 to 1,868 counts of in/out hysteresis.
+tunneling on the inherited scale, and every run shows 705 to 1,868 counts of in/out hysteresis.
 
 **Candidates, and none is ruled out:**
 
@@ -1649,7 +1649,7 @@ tunnelling on the inherited scale, and every run shows 705 to 1,868 counts of in
 | The backing paper under the gold | **Untested.** Roughly 50 to 100 microns of compressible cellulose immediately under the measurement surface |
 | A blunt or bent tip | The fitted tip was "very blunt" when new and has since been pressed into the gold four times |
 | The sample plate sticking and slipping on its three ball supports | **Untested.** Magnetic stiction between the plate's four magnets and the steel balls is a concrete mechanism |
-| Magnetic pull on the tip holder's metal stake | **Untested, and a ten-second magnet test settles it.** Tungsten itself is ruled out — it is paramagnetic and very weakly so, and the magnets' field varies over millimetres while the approach happens over microns, so the force is constant across the gap rather than rising |
+| Magnetic pull on the tip holder's metal stake | **Untested, and a ten-second magnet test settles it.** Tungsten itself is ruled out — it is paramagnetic and very weakly so, and the magnets' field varies over millimeters while the approach happens over microns, so the force is constant across the gap rather than rising |
 
 > **This symptom and the one below are two of the five ranked in
 > [`../WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md)**, which puts them in order of how much each
@@ -1684,7 +1684,7 @@ rediscovers it as an objection.
 
 ### Drift that appears minutes into a session
 
-**The prime suspect used to be the motor left energised, heating the scan head. That is fixed** —
+**The prime suspect used to be the motor left energized, heating the scan head. That is fixed** —
 the coils switch off after every move on the current firmware. **If drift appears anyway, confirm
 the driver LEDs really are dark between moves**, and then look at the mechanical candidates above.
 
@@ -1817,7 +1817,7 @@ and continuity check comes before any power**, and the tip goes in last.
 > **The actual clearance is still the unmeasured number that decides what the suspension can do.**
 > Source frame `IMG_8624`, 2026-09-18 19:09:07 camera-local.
 
-13. **Check the eddy-damping gap.** The aluminium plate must sit in the magnet gap without touching.
+13. **Check the eddy-damping gap.** The aluminum plate must sit in the magnet gap without touching.
     **A plate resting on its magnets is not damping; it is a clamp.** The magnet holder's height is
     not adjustable, so the platform is the only way to trim this.
 
@@ -1845,7 +1845,7 @@ and continuity check comes before any power**, and the tip goes in last.
 
 17. **Rewire from `docs/WIRING.md`, not from memory and not from photographs.**
 
-18. **Verify the DB9s by beeping them out with the connectors unplugged.** That needs no colour
+18. **Verify the DB9s by beeping them out with the connectors unplugged.** That needs no color
     table at all and it is the best check available. The procedure is in
     `docs/NEXT_SESSION_PLAN.md`. **Read the orange trap in section 3.6 of this manual first.**
 
@@ -1984,8 +1984,8 @@ tried.
 
 | | Why it matters | What would settle it |
 |---|---|---|
-| **How far the tip is from the line through the two side-by-side ball ends, and on which side** | **The most valuable unmeasured number in the instrument.** It sets the lever ratio and therefore the Z scale in nanometres, and that decides whether the measured current-versus-Z slope is tunnelling or pressing | Plate off, a straightedge laid across the two ball ends, and see which side the tip stands on and by how much. **No electronics needed** |
-| **Our scanner's displacement per volt** | Every nanometre figure for this instrument is inherited from Berard's disc, which is not ours | A real scan calibration, once the gap holds still |
+| **How far the tip is from the line through the two side-by-side ball ends, and on which side** | **The most valuable unmeasured number in the instrument.** It sets the lever ratio and therefore the Z scale in nanometers, and that decides whether the measured current-versus-Z slope is tunneling or pressing | Plate off, a straightedge laid across the two ball ends, and see which side the tip stands on and by how much. **No electronics needed** |
+| **Our scanner's displacement per volt** | Every nanometer figure for this instrument is inherited from Berard's disc, which is not ours | A real scan calibration, once the gap holds still |
 | **What moves the gap** | It is the blocker | The box test, then a rigid sample, then the plate mounting |
 | **The platform-to-tower clearance, and the eddy-damping gap** | They decide whether the suspension can work at all | A ruler, at reassembly |
 | **The suspended mass, and the actual spring resonance** | The isolation figures are calculated, not measured | The bounce test, thirty seconds. Or staged loading with a ruler, which gives the spring rate and the platform mass together |
@@ -1993,7 +1993,7 @@ tried.
 | **Whether the DAC configuration loss recurs mid-session** | If it is startup-only, one `RSET` at the start is enough. If it recurs, LED1 to LED4 must be checked around every single measurement | A controlled test: powered, idle, LEDs watched |
 | **The Keystone 11301's actual through-board diameter** | It decides how the input node should be held permanently | Calipers, which **we do not own** |
 | **Whether the preamp box's support post presses on the underside repair wires** | A 3.6 mm post pressing a hair-thin wire against the board could break it or short it, and it would only be found after the board was screwed down | Offer the board onto the post and look underneath |
-| **Whether the new preamp box's wrap is copper with conductive adhesive** | Aluminium will not do | Look, and meter it |
+| **Whether the new preamp box's wrap is copper with conductive adhesive** | Aluminum will not do | Look, and meter it |
 | **Which parts JLCPCB left off the preamp assembly, beyond the resistor and the standoff** | Decides what has to be hand-fitted on any spare board | The JLCPCB order confirmation email |
 | **What was taken apart in the move, and how it was packed** | Everything in section 11 | Ask, at reassembly, and write it into `docs/INVENTORY.md` |
 
@@ -2010,7 +2010,7 @@ tried.
 | **Two wires on U13 to tie off its floating op-amp channel** | **Untested.** Low risk, no track cutting, not on the critical path |
 | **Removing the 50 mm spring-hanger section to raise the platform** | **Untested, and which sections are currently fitted is UNKNOWN.** It would give about twice the droop room needed |
 | **Fastening the coin mass to the platform instead of standing it in tubes** | **Untested.** A tube that can tip or slide is a stick-slip source on the one stage whose stability is the problem |
-| **Centring the tip on the piezo disc if the holder is ever rebuilt again** | **Untested, and it is free when the holder is open.** It buys maximum Z throw, less X-to-Z coupling, and fixes the lever arm by construction |
+| **Centering the tip on the piezo disc if the holder is ever rebuilt again** | **Untested, and it is free when the holder is open.** It buys maximum Z throw, less X-to-Z coupling, and fixes the lever arm by construction |
 
 ## 12.3 Things that are settled — do not spend bench time re-proving them
 
@@ -2049,7 +2049,7 @@ tried.
 | **The X-held control** | A run with identical timing to a scan, but with X never moving. Anything the control also produces is not surface structure |
 | **Detrending** | Removing the straight-line tilt from a pass before comparing it with another. **Nothing in this project's correlations means anything until it is done** |
 | **The woodpecker approach** | Coarse approach where only the piezo ever closes the gap: retract Z, step the motor, sweep Z looking for current, repeat |
-| **Hand-set** | Closing the gap by turning the fine screws by hand until a meter or a beeper says the tip is touching, then backing off. **The motor's whole reach at the tip is only about ±75 microns, so this has to get within about a tenth of a millimetre** |
+| **Hand-set** | Closing the gap by turning the fine screws by hand until a meter or a beeper says the tip is touching, then backing off. **The motor's whole reach at the tip is only about ±75 microns, so this has to get within about a tenth of a millimeter** |
 | **Backlash** | Lost motion after the motor reverses. **100 to 250 steps here**, measured twice |
 | **The lever** | The three-screw geometry that turns a screw movement into a much smaller sample movement. **Design ratio 40, unmeasured** |
 | **Burnishing** | Pressing and smoothing gold leaf with something soft in small circles until it goes from dull and loose-looking to bright and flat. **That change is how you know it has taken** |
@@ -2089,7 +2089,7 @@ off any of them.**
 
 | Slot | Section | What is wanted | Why no frame exists |
 |---|---|---|---|
-| **TODO-PHOTO A** | 4.5 | **The DSUB2 splice at the preamp end**, showing the five-way row | Nothing in either new batch shows it. **A caption for it must not quote colours read off the frame** — the preamp's own lead colours are not the J1/J2 colours |
+| **TODO-PHOTO A** | 4.5 | **The DSUB2 splice at the preamp end**, showing the five-way row | Nothing in either new batch shows it. **A caption for it must not quote colors read off the frame** — the preamp's own lead colors are not the J1/J2 colors |
 | **TODO-PHOTO B** | 4.5 | **The tip itself, close enough to judge sharpness** | The nearest frames are the 2026-09-16 tip-protrusion pair, and that tip has since been replaced twice |
 
 **Two further things that would be worth having and are not photographs.** `docs/INVENTORY.md` and

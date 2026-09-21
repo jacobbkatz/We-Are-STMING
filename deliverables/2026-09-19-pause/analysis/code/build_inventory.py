@@ -55,7 +55,7 @@ SESSION_META = {
         tool="scratch scripts in scripts/, hardcoded to COM3 and Jacob's Desktop",
         z_direction="HIGH toward the sample (inherited from 2026-09-17, same tip)",
         note="the fast-tracker files (ft_*, lash_*) locate SNAP-IN events, not a "
-             "tunnelling onset: the same onsets appeared with the bias at 0 V"),
+             "tunneling onset: the same onsets appeared with the bias at 0 V"),
     "2026-09-19-bench": dict(
         log="sessions/2026-09-19-bench.md",
         when="evening of 2026-09-18 local, 00:54-04:00 UTC 2026-09-19",
@@ -241,7 +241,7 @@ for n, w in (("ft_run1.log", "the fast tracker, first run"),
         passage="sessions/2026-09-18-bench.md 3.8",
         caveat="THE DATA README'S OWN CAVEAT: these record where the current first passed "
                "1,000 counts on a fast climb, and the same onsets appeared with the bias "
-               "at 0 V. They locate SNAP-IN events, not a tunnelling onset. Their wobble "
+               "at 0 V. They locate SNAP-IN events, not a tunneling onset. Their wobble "
                "statistics, spectrum and X/Y numbers are PROVISIONAL")
 add(S18, "lash_run1.log", "fast-tracker medians after single motor steps",
     bias=SRC % "scripts/lash.py:31 rig.bias(38229)", z="short fast climbs", settings="stopped by hand, so NO CSV was written",
@@ -286,7 +286,7 @@ add(S19B, "approach1_zero_bias.log", "approach at 0 V bias; contact at the first
     produced_by="Code/pc/stm_approach.py", passage="sessions/2026-09-19-bench.md 3.5, 4",
     excluded="the session log records it as CLAUDE'S ERROR: with the sample at 0 V the "
              "threshold could only trip on metal contact, so this cannot show a "
-             "tunnelling onset")
+             "tunneling onset")
 for n, w in (("here_run1.log", "the printed summary of the steady junction"),
              ("here_run1.csv", "the raw points: a 10 s record, the bias flip, an I-V and "
                                "a Z 0-3000 sweep")):
@@ -502,7 +502,7 @@ for n, w in (("ycontrol_run1.csv", "three-Y control, +-3000 Y, scanning"),
         passage="sessions/2026-09-19-bench.md 3.15",
         caveat="15 of the 90 lines across the three +-12000 runs are blind loop ramps "
                "(sessions/2026-09-19-morning.md 6)")
-add(S19B, "approach_known1.log", "--z-retracted low approach: tunnelling at Z 45,200 "
+add(S19B, "approach_known1.log", "--z-retracted low approach: tunneling at Z 45,200 "
     "after 0 steps", bias="set by the tool", z="low = retracted for this tip",
     settings="known-direction mode", produced_by="Code/pc/stm_approach.py",
     passage="sessions/data/2026-09-19-bench/README.md")
@@ -903,7 +903,7 @@ def write_markdown(rows):
     A("| `2026-09-19-morning` | 20 | a different pattern: the test is INSIDE the script. "
       "14 carry a working `--test` self-test on simulated junctions; "
       "**six do not** (`live_backoff_z0.py`, `zjump.py`, `where.py`, `passive_z0.py`, "
-      "`touchtest.py`, `final.py`). All twenty refuse options they do not recognise |")
+      "`touchtest.py`, `final.py`). All twenty refuse options they do not recognize |")
     A("")
     A("**`scripts/final.py` was never run** - Jacob powered down first - so there is no "
       "tip-clear baseline")

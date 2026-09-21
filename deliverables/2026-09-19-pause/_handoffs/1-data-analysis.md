@@ -16,7 +16,7 @@ Nothing outside that directory was modified. `python3 Code/pc/check_facts.py` ex
 `sessions/2026-09-16-bench.md` §3.4 (the calibration table).
 
 **Data:** all **163** raw files in the four `sessions/data/` directories were opened and
-characterised mechanically; **~70** were read in detail and computed on.
+characterized mechanically; **~70** were read in detail and computed on.
 
 **Scripts:** `sessions/data/*/scripts/` (82 files) — `ztest.py`, `chmap.py`, `scan2.py`,
 `analyze_scans.py`, `live_backoff.py`, `live_backoff_z0.py`, `fastwood.py`, `zcal3.py`,
@@ -79,7 +79,7 @@ repository appears in any script; paths are derived from the file's own location
 |---|---|---|
 | Calibration reproduces | `sessions/2026-09-16-bench.md` §3.4 table, 53 readings in 8 steps | slope −3,205.0 ± 36.5 counts/V, R² 0.9934, intercept +58.1, residual sd 320.3; 0.14 s.e. from the −3,200 prediction |
 | Z-test numbers reproduce | `ztest_1789822585.csv` (24,379 rows), `bias_m01V_…` (14,893), `bias_p05V_…` (15,559), `bias_p01V_…` (28,485), `bias_m05V_…` (11,825) | all 25 published figures match exactly |
-| Not a tunnelling gap | same five files, 110 cycles | 808–4,639 counts per decade in, against 6–13 expected |
+| Not a tunneling gap | same five files, 110 cycles | 808–4,639 counts per decade in, against 6–13 expected |
 | Hysteresis in every run | same five files, 109 cycles with a value | medians +705 to +1,868; 99 of 109 cycles positive |
 | Hysteresis does not shrink at ±0.1 V | ±0.1 V: `bias_m01V_…`, `bias_p01V_…` (2 runs, 40 cycles); ±0.5 V: 3 runs, 69 cycles | means 1,564 against 1,245; ratio 1.26 where V² predicts 0.04 |
 | 1 of 110 onsets was a one-step snap | `ztest_1789822585.csv`, cycle 1 at t 9.28 s | Z 41,260 → 41,264, 10.4 → 9,116 counts |
@@ -198,13 +198,13 @@ not where a reader would look:
 ## 8. Uncertainties and blockers
 
 1. **The gap's motion is one episode.** `release_watch_run1.log` is nine sweeps, n = 1
-   for the recession and n = 1 for the return, quantised to 1,000 Z counts by a
+   for the recession and n = 1 for the return, quantized to 1,000 Z counts by a
    default-argument bug. Do not quote it as a repeatable rate.
 2. **Periodicity cannot be tested at the timescale that matters.** The fastest junction
    record is 10.3 s (lowest resolved frequency ≈ 0.1 Hz); the gap moves over tens of
    seconds to minutes. Nothing here can find or exclude a period. Four CSVs that would
    have helped were lost.
-3. **The Z scale is inherited and unmeasured.** Every nanometre statement is conditional
+3. **The Z scale is inherited and unmeasured.** Every nanometer statement is conditional
    on 0.016 nm per count, from Berard's disc. **The hysteresis result does not depend on
    it; the counts-per-decade comparison does.**
 4. **The tungsten-gold contact potential is unmeasured**, so §2.4 of `FINDINGS.md` cannot
@@ -257,10 +257,10 @@ should be read:
   numbers were not extracted into a table; the session logs already carry the ones that
   matter.
 - The eight 2026-09-18 `console_outputs.md` static scans and Z probes were not
-  re-analysed (they are transcriptions, not machine-readable).
-- `ft_run1.json` and `ft_long1.json` (1,900 and 30 entries) were characterised but their
+  re-analyzed (they are transcriptions, not machine-readable).
+- `ft_run1.json` and `ft_long1.json` (1,900 and 30 entries) were characterized but their
   wobble spectra were not recomputed, because the data README marks every statistic from
-  them as provisional — they locate snap-in events, not tunnelling onsets.
-- No attempt was made to re-analyse the 2026-09-17 `line_three_y_positions.csv` as a
+  them as provisional — they locate snap-in events, not tunneling onsets.
+- No attempt was made to re-analyze the 2026-09-17 `line_three_y_positions.csv` as a
   discriminating control: the 2026-09-17 log's own correction records that it was run at
   ±8,000 X against the wide scans' ±15,000 and had no power to discriminate.
