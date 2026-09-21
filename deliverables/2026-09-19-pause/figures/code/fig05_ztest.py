@@ -3,7 +3,7 @@
     python3 deliverables/2026-09-19-pause/figures/code/fig05_ztest.py
 
 WHAT THE TEST DOES. At a fixed X and Y, walk Z toward the sample 4 counts at a time until
-the current reaches 1,000 counts, then walk it back out. Repeat. A tunnelling gap and a
+the current reaches 1,000 counts, then walk it back out. Repeat. A tunneling gap and a
 pressed contact answer this completely differently, and the answer is a number: how many
 Z counts it takes for the current to change ten-fold.
 
@@ -16,10 +16,10 @@ log10|I| against Z over 100 <= |I| <= 1,000 counts, in and out separately; hyste
 the Z where the current first passed 300 counts going in, minus where it last fell below
 300 coming out). The medians reproduce the session log exactly.
 
-THE COMPARISON, and its limit. A tunnelling current changes ten-fold per 1-2 Angstrom.
+THE COMPARISON, and its limit. A tunneling current changes ten-fold per 1-2 Angstrom.
 At the Z scale this project inherited from Dan Berard's scanner - 0.016 nm per count,
 which has NEVER been measured on our hardware - that is 6-13 counts. It is drawn as a
-calculated band and labelled as one. The HYSTERESIS result does not depend on that scale
+calculated band and labeled as one. The HYSTERESIS result does not depend on that scale
 at all: it is a difference in Z counts, measured directly.
 
 NO DISTANCE SCALE APPEARS ON THIS FIGURE, because this instrument has never established
@@ -118,6 +118,19 @@ def main():
     print("hysteresis range across runs: %.0f to %.0f counts"
           % (min(s["hyst"] for s in summary), max(s["hyst"] for s in summary)))
 
+    # The per-cycle GOING-IN spread, recomputed rather than quoted.
+    #
+    # The footer used to say "233 to 22,990". docs/FACTS.md retires that minimum:
+    # "per-cycle values across all runs ~~233~~ 208.3 to 22,990 - the minimum
+    # corrected 2026-09-19 ... the true minimum is cycle 1 of
+    # bias_m05V_1789822770.csv". This pass reproduces 208.3 from that exact cycle
+    # independently. sessions/2026-09-19-morning.md still reads 233 and stays that
+    # way: a session log is history (CLAUDE.md section 3bb rule 4).
+    pc_in = [c["cpd_in"] for s in summary for c in s["cyc"] if c["cpd_in"] is not None]
+    pc_lo, pc_hi = min(pc_in), max(pc_in)
+    print("per-cycle counts-per-decade going in, all runs: %.1f to %.1f (n=%d)"
+          % (pc_lo, pc_hi, len(pc_in)))
+
     # The cycle shown in panel A is chosen by a rule, not by taste: the one whose three
     # numbers sit closest to its run's medians, summed as relative deviations.
     run0 = summary[0]
@@ -158,7 +171,7 @@ def main():
     padx = 0.10 * (hi - lo)
     ax.set_xlim(lo - padx, hi + padx * 1.9)
 
-    # What a tunnelling gap would require, drawn from the same starting point.
+    # What a tunneling gap would require, drawn from the same starting point.
     z0 = pick["zin"] if pick["zin"] is not None else (lo + hi) / 2
     ends = (40, 2600)
     for cpd in (TUNNEL_LO, TUNNEL_HI):
@@ -179,7 +192,10 @@ def main():
     S.tidy(ax, xlabel="Z piezo counts (higher is toward the sample)",
            ylabel="Current at the tip (ADC counts, log scale)", grid="both")
     S.thousands(ax, "x")
-    ax.set_title("One cycle, chosen as the one closest to the run's median slope.\n"
+    # "closest to its run's medians", not "median slope": the rule sums three
+    # relative deviations - in, out and hysteresis - so the drawn cycle need not be
+    # the closest on slope alone, and here it is not (2,555 against a median 1,650).
+    ax.set_title("One cycle, chosen as the one closest to its run's medians.\n"
                  "Going in takes %s counts per ten-fold change; coming out, %s."
                  % (format(int(round(pick["cpd_in"])), ","),
                     format(int(round(pick["cpd_out"])), ",")))
@@ -187,12 +203,20 @@ def main():
           ha="left", va="center", color=S.word(0))
     S.key(ax, zout_pts[0][0] + padx * 0.14, zout_pts[0][1] * 1.45, "coming out",
           ha="left", va="center", color=S.word(1))
+    # The green stripe is CALCULATED from an inherited Z scale, never measured here.
+    # Panel B's label already said so; this one did not, and the two sit on the same
+    # sheet. A reader should not have to cross the figure to learn a band's provenance.
+    # TWO LINES, NOT THREE. The green stripe is drawn from y = 40 to y = 2,600, and
+    # at this type size a third line hangs down to about y = 2,100 - so the last
+    # line sat ON the stripe and the word under it was unreadable. check_layout.py
+    # cannot catch that: the stripe is a patch, not text.
     S.note(ax, hi + padx * 1.8, 5600,
-           "a tunnelling gap would be this steep \u2014\n"
-           "the green stripe is only 6\u201313 counts wide",
+           "a tunneling gap would be this steep \u2014 the green stripe\n"
+           "is only %d\u2013%d counts wide (calculated, not measured here)"
+           % (TUNNEL_LO, TUNNEL_HI),
            ha="right", va="top", color=S.word(2))
 
-    # ---- panel B: counts per decade, every run, against the tunnelling band ----------
+    # ---- panel B: counts per decade, every run, against the tunneling band ----------
     ys = list(range(len(summary)))[::-1]
     axb.axvspan(TUNNEL_LO, TUNNEL_HI, color=S.series(2), alpha=0.28, zorder=1)
     axb.axvline(TUNNEL_LO, color=S.series(2), lw=2.0, zorder=2)
@@ -214,22 +238,27 @@ def main():
     axb.set_xticks([10, 100, 1000, 10000])
     axb.set_xticklabels(["10", "100", "1,000", "10,000"])
     S.tidy(axb, xlabel="Z counts needed for the current to change ten-fold", grid="x")
-    axb.set_title("Every run, both directions, against what tunnelling would need.\n"
+    axb.set_title("Every run, both directions, against what tunneling would need.\n"
                   "The gap is a factor of about a hundred to a thousand.")
-    S.key(axb, summary[0]["cpd_in"], ys[0] + 0.30, "going in", ha="center", va="bottom",
-          color=S.word(0))
-    S.key(axb, summary[0]["cpd_out"] * 1.05, ys[0] + 0.30, "coming out", ha="left",
+    # Stacked, not side by side. Placed on one line the two ran together into
+    # "going in coming out" and read as a single phrase - the first row's two dots
+    # are close on a log axis, so there was never room for both at that height.
+    S.key(axb, summary[0]["cpd_in"] * 0.92, ys[0] + 0.62, "going in", ha="right",
+          va="bottom", color=S.word(0))
+    S.key(axb, summary[0]["cpd_out"] * 1.12, ys[0] + 0.22, "coming out", ha="left",
           va="bottom", color=S.word(1))
-    S.note(axb, 17, -0.62, "6–13 counts: what tunnelling would need (calculated)",
+    S.note(axb, 17, -0.62, "6–13 counts: what tunneling would need (calculated)",
            ha="left", va="center", fontsize=S.TYPE["small"], color=S.word(2))
 
     S.titles_keyed(
         fig,
-        "We measured what the junction is: a pressed contact, not a tunnelling gap",
-        "It takes between 800 and 4,600 Z counts to change the current ten-fold <going in>, where a tunnelling gap "
+        "We measured what the junction is: a pressed contact, not a tunneling gap",
+        "It takes between %s and %s Z counts to change the current ten-fold <going in>, where a tunneling gap "
         "would need about ten.\n<Coming back out> it is shallower still, and the current lingers hundreds to "
         "thousands of counts further out than it appeared — the junction sticks.\nThe same answer came from "
-        "110 cycles at four different bias voltages.",
+        "%d cycles at four different bias voltages."
+        % (format(int(round(min(s["cpd_in"] for s in summary), -2)), ","),
+           format(int(round(max(s["cpd_in"] for s in summary), -2)), ","), total),
         [{"color": S.word(0), "fontweight": S.W_EMPH},
          {"color": S.word(1), "fontweight": S.W_EMPH}])
 
@@ -242,9 +271,10 @@ def main():
              "the sample was the 2026-09-19 leaf-on-paper gold.\n"
              "WHAT THIS DOES NOT SHOW: the 6–13 count comparison is CALCULATED from a Z scale inherited from "
              "another builder's scanner and never measured on ours, so the size of the gap between measured and "
-             "tunnelling depends on it. The hysteresis\nresult does not — it is a difference in Z counts, "
+             "tunneling depends on it. The hysteresis\nresult does not — it is a difference in Z counts, "
              "measured directly. The slope is not constant: within the first run the per-cycle value fell from "
-             "about 2,090 to about 380, and per-cycle values across all runs span 233 to 22,990.\n"
+             "about 2,090 to about 380, and per-cycle values across all runs span %s to %s.\n"
+             % (format(int(round(pc_lo)), ","), format(int(round(pc_hi)), ",")) +
              "\"A soft, pressed, sticky contact\" is the interpretation on record, and it is an interpretation, "
              "not a proof. For this tip and this sample only. No distance scale appears here, because this "
              "instrument has never established one.")

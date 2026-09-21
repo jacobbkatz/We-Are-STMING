@@ -12,13 +12,13 @@ who stops and wants the whole thing, and **a twenty-second version** for somebod
 | **03** | A real junction, with a barrier's signature |
 | **04** | We found the limit, and measured it |
 | **05** | We built controls designed to kill our own results |
-| **06** | We detected tunnelling - and we know what stopped us holding it |
+| **06** | We detected tunneling - and we know what stopped us holding it |
 | **07** | The second instrument: the system that runs the science |
 
 **The one sentence to have ready before anything else**, because it is the first thing anyone will
 ask and it is Jacob's own wording:
 
-> ## **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
+> ## **"We detected tunneling, but weren't able to maintain tunneling range for long enough to get an image."**
 
 **Say it exactly like that.** Both halves are true, they are in one breath, and the second half is
 the honest one - which is what stops the follow-up question from being an ambush.
@@ -49,7 +49,7 @@ it**, and everything on this poster is measured.
 
 [Stand beside panel 01, the photographs.]
 
-**"We built a scanning tunnelling microscope. Nuh and I are both in our second year - neither of us
+**"We built a scanning tunneling microscope. Nuh and I are both in our second year - neither of us
 writes code, and before this project neither of us had really soldered anything. We built it in my
 basement, on a wooden bench, in a house where people are walking around and nobody controls the
 air. Not a lab, not a clean room. That matters, and I will come back to it.**
@@ -59,7 +59,7 @@ brought every stage up on its own before trusting the next one."**
 
 [Panel 02, the straight line.]
 
-**"A tunnelling microscope holds a sharp tip about a nanometre above a surface and measures the
+**"A tunneling microscope holds a sharp tip about a nanometer above a surface and measures the
 current that crosses the gap - around a billionth of an amp. So the first question is whether you
 can measure a billionth of an amp at all.**
 
@@ -78,13 +78,13 @@ we reverse the voltage, on two separate nights. So there is a barrier there: som
 electrons have to cross.**
 
 **And the electronics are not what limits us. With a junction live the noise is nine to nineteen
-counts, and somebody stamping on the floor two metres away changes a reading by one picoamp in a
+counts, and somebody stamping on the floor two meters away changes a reading by one picoamp in a
 hundred and thirty. The building is not getting in electrically - we proved that with numbers."**
 
 [Panel 04, the big chart of the gap moving.]
 
 **"What we do not have is an image. The good part is that we know exactly why, and this is my
-favourite measurement on the poster.**
+favorite measurement on the poster.**
 
 **We stopped the motor, took our hands off the instrument, and just watched where the surface was.
 It moved more than forty-three thousand counts in six seconds - most of the range of the piezo -
@@ -119,16 +119,16 @@ the imaging question, and running it was the right call."**
 
 [Panel 06, the three little line charts.]
 
-**"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an
+**"We detected tunneling, but weren't able to maintain tunneling range for long enough to get an
 image.**
 
 **Here is why both halves of that are true. A tip cannot go from not touching to touching without
-passing through the separations where the only thing carrying electrons is tunnelling. We had a
+passing through the separations where the only thing carrying electrons is tunneling. We had a
 bias on and the amplifier recording the whole way down - sixty thousand nine hundred and
 twenty-eight readings inside that current range, across a hundred and nine approaches. And the
 current is superlinear and symmetric, and the junction never metallically shorted, so what we were
 conducting through was a barrier and not a strand of metal. That is a tunnel junction, and we
-measured the current tunnelling through it.**
+measured the current tunneling through it.**
 
 **What we could not do is hold that gap open and steady enough to scan across a surface. That is
 the panel to my left - the gap moves by most of our range in seconds.**
@@ -136,8 +136,8 @@ the panel to my left - the gap moves by most of our range in seconds.**
 **One measurement would settle our best junction retroactively, and it is not electronics. The
 lever between the motor and the tip would have to put the tip within twenty-six microns of the
 pivot line. Jacob measured that distance as well as anyone can with a straightedge: under half a
-millimetre. Twenty-six microns is inside that, in the bottom five per cent of it - so the bound
-narrows the question without closing it, and nothing by eye ever will. A jeweller's loupe or a USB
+millimeter. Twenty-six microns is inside that, in the bottom five per cent of it - so the bound
+narrows the question without closing it, and nothing by eye ever will. A jeweler's loupe or a USB
 microscope closes it in minutes, with the power off, and the same measurement gives us our first
 height scale.**
 
@@ -180,17 +180,17 @@ not train a model - the model is off the shelf. The discipline around it is ours
 
 [Close, stepping back to the whole poster.]
 
-**"So: every subsystem a tunnelling microscope needs is built, working and calibrated. What is left
+**"So: every subsystem a tunneling microscope needs is built, working and calibrated. What is left
 is mechanical - and we measured it rather than guessing at it."**
 
 ---
 
 ## The twenty-second version
 
-**"We built a scanning tunnelling microscope in my basement - two undergraduates, no coding
+**"We built a scanning tunneling microscope in my basement - two undergraduates, no coding
 experience, and the first soldering either of us has done. The electronics are finished and
 calibrated: we measure about a billionth of an amp, and the whole chain agrees with Ohm's law to a
-tenth of a standard error. We detected tunnelling, but weren't able to maintain tunnelling range
+tenth of a standard error. We detected tunneling, but weren't able to maintain tunneling range
 for long enough to get an image - because the gap moves more than the signal does, and we measured
 exactly how much. That is the part we are fixing."**
 
@@ -198,22 +198,22 @@ exactly how much. That is the part we are fixing."**
 
 ## If they only ask one question, it will be this one
 
-**"So did you achieve tunnelling, or not?"** It is the first thing anybody will ask, and panel 06
+**"So did you achieve tunneling, or not?"** It is the first thing anybody will ask, and panel 06
 answers it. **Say Jacob's sentence, exactly:**
 
-**"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an
+**"We detected tunneling, but weren't able to maintain tunneling range for long enough to get an
 image."**
 
 **Then stop.** If they want more, expand it in this order and no other - the detection, the failure
 to maintain, and then the one measurement that would settle it:
 
 **"The tip cannot get from not touching to touching without passing through the separations where
-tunnelling is the only thing carrying electrons, and we had the bias on and the amplifier recording
+tunneling is the only thing carrying electrons, and we had the bias on and the amplifier recording
 the whole way down. Sixty thousand readings inside that range. The current is superlinear and
 symmetric and the junction never metallically shorted, so it was a barrier, not a strand of metal.
 What we could not do is hold that range - the gap moves by most of our travel in seconds. And one
 measurement settles our best junction retroactively: the tip would have to sit within twenty-six
-microns of the pivot line, and we have it bounded at under half a millimetre. A loupe closes that
+microns of the pivot line, and we have it bounded at under half a millimeter. A loupe closes that
 in minutes, with the power off."**
 
 **The related question, from somebody who knows the field, is "how did the current change as you
@@ -229,7 +229,7 @@ arithmetic, and let it go where it went. **The only thing that would collapse un
 claiming a held vacuum gap or an image** - and neither is on the poster.
 
 > **The poster wins over this page.** `docs/FACTS.md` is the canonical home for `d`: **under
-> 0.5 mm, `SAID` 2026-09-20, never resolved any finer.** The arithmetic behind the 26 micrometres
+> 0.5 mm, `SAID` 2026-09-20, never resolved any finer.** The arithmetic behind the 26 micrometers
 > is in `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V11 to V13, and the wording of the
 > claim is settled in `FRAMING.md`.
 
@@ -250,10 +250,10 @@ claiming a held vacuum gap or an image** - and neither is on the poster.
 
 ## Three sentences worth memorising word for word
 
-**The result, in Jacob's own words, and this is the one to lead with:** *"We detected tunnelling,
-but weren't able to maintain tunnelling range for long enough to get an image."*
+**The result, in Jacob's own words, and this is the one to lead with:** *"We detected tunneling,
+but weren't able to maintain tunneling range for long enough to get an image."*
 
-**The claim:** *"Every subsystem a tunnelling microscope needs is built, working and calibrated.
+**The claim:** *"Every subsystem a tunneling microscope needs is built, working and calibrated.
 What is left is mechanical - and we measured it."*
 
 **The limit:** *"The thing we are trying to measure is smaller than the way the gap moves while we

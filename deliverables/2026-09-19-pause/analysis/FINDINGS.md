@@ -60,7 +60,7 @@ log's, which checks the conversion too. Both checks pass.
 
 **MEASURED / DERIVED: the slope against theory.** One volt across 100 MΩ is 10 nA; at the
 converter's 0.3125 mV per count through a 100 MΩ feedback resistor that is 3,200 counts, negative
-by the measured sign convention (`docs/FACTS.md`). Measured over predicted is **1.0016**, and the
+by the measured sign convention (`docs/FACTS.md`). Measured over predicted is **1.0015** (1.0016 came from the slope already rounded to −3,205), and the
 difference is **0.14 standard errors**. `docs/showcase.html` says "0.13 sigma" — the same figure,
 truncated rather than rounded; the exact value is 0.137.
 

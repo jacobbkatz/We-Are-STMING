@@ -3,7 +3,7 @@
     python3 deliverables/2026-09-19-pause/figures/code/fig10_push_pull.py
 
 WHY THIS TEST MATTERS MORE THAN THE OTHERS. Nearly every argument about whether this
-instrument was tunnelling runs through a distance we have never measured - how far the
+instrument was tunneling runs through a distance we have never measured - how far the
 tip moves per Z count. This one does not. It compares the junction against ITSELF: move
 Z a fixed amount toward the sample, then the same amount away, and ask whether the
 current answers the same way both times.
@@ -41,7 +41,25 @@ STEPS = [
 ]
 
 
+def pct(meas, pred):
+    """The fraction that arrived, as the whole number the bar labels print.
+
+    ONE FUNCTION, SO THE SUBTITLE AND THE BARS CANNOT DISAGREE. Until 2026-09-21
+    the subtitle read "23-28%" and "40-71%" as typed-in text while the bars printed
+    22%, 27%, 40% and 71% from the same four rows - visibly contradicting each other
+    on one sheet. The two pushes land on exactly 22.5% and 27.5%, so the direction a
+    half rounds decides the digit, and only a shared function keeps them together.
+    """
+    return int("%.0f" % (abs(meas / pred) * 100.0))
+
+
 def main():
+    pushes = [pct(m, p) for _s, p, m in STEPS if _s > 0]
+    pulls = [pct(m, p) for _s, p, m in STEPS if _s < 0]
+    for step, pred, meas in STEPS:
+        print("  Z %+5d  predicted %+.2f  measured %+.2f  -> %d%% arrived"
+              % (step, pred, meas, pct(meas, pred)))
+
     S.set_theme("light")
     fig, ax = S.make_fig(width=10.6, height=6.7)
     fig.subplots_adjust(top=0.790, bottom=0.315, left=0.225, right=0.985)
@@ -54,10 +72,9 @@ def main():
         ax.barh(y + h * 0.58, pred, height=h, color=pred_c, alpha=0.30,
                 edgecolor=pred_c, linewidth=1.0, zorder=3)
         ax.barh(y - h * 0.58, meas, height=h, color=meas_c, zorder=4)
-        frac = abs(meas / pred)
         right = meas > 0
         S.key(ax, meas + (0.08 if right else -0.08), y - h * 0.58,
-              "%.0f%% of it arrived" % (frac * 100),
+              "%d%% of it arrived" % pct(meas, pred),
               ha="left" if right else "right", va="center")
 
     ax.axvline(0, color=S.C["axis"], linewidth=1.0, zorder=2)
@@ -74,17 +91,25 @@ def main():
     ax.axhspan(1.52, 3.75, color=S.C["band"], zorder=0)
     # Anchored to the right of the bars, in a column the axis is widened to make.
     # At the 2026-09-20 type scale the old column was sixteen characters across.
+    # IN INK, NOT IN A SERIES COLOR. These two blocks label the two HALVES of the
+    # chart, not a series, and the subtitle has already spent orange on "what we
+    # measured" and magenta on "what a tunneling gap predicts". Setting this block
+    # orange made orange mean two things on one figure, and the blue of the other
+    # block keyed a series that is not drawn here at all. stmstyle.note's own rule:
+    # "an annotation in ink, never in a series color".
     S.note(ax, 4.18, 3.55, "PUSHING IN\nbarely moved the current.\nAbout a quarter of the\npush reached the junction.",
-           ha="right", va="top", fontweight=S.W_EMPH, color=S.word(1))
-    S.note(ax, 4.18, 1.35, "PULLING AWAY\nbehaved much more like a gap —\nand at the larger step gave 3.1x\nmore than the same push did.",
-           ha="right", va="top", fontweight=S.W_EMPH, color=S.word(0))
+           ha="right", va="top", fontweight=S.W_EMPH, color=S.C["ink"])
+    S.note(ax, 4.18, 1.35, "PULLING AWAY\nbehaved much more like a gap —\nand at the larger step gave %.1fx\nmore than the same push did."
+           % abs(STEPS[3][2] / STEPS[0][2]),
+           ha="right", va="top", fontweight=S.W_EMPH, color=S.C["ink"])
 
     S.titles_keyed(
         fig,
         "A vacuum gap answers the same way in both directions. Ours did not.",
-        "Same junction, same minute: <what a tunnelling gap predicts> against <what we measured>.\n"
-        "Pushing in returned 23-28% of the predicted change; pulling away returned 40-71%. A vacuum gap\n"
-        "cannot tell the two apart, whatever the distance scale is. A surface being squashed can.",
+        "Same junction, same minute: <what a tunneling gap predicts> against <what we measured>.\n"
+        "Pushing in returned %d-%d%% of the predicted change; pulling away returned %d-%d%%. A vacuum gap\n"
+        "cannot tell the two apart, whatever the distance scale is. A surface being squashed can."
+        % (min(pushes), max(pushes), min(pulls), max(pulls)),
         [{"color": S.word(4), "fontweight": S.W_EMPH},
          {"color": S.word(1), "fontweight": S.W_EMPH}])
 
@@ -96,7 +121,7 @@ def main():
              "AND ITS RAW OUTPUT WAS NEVER SAVED,\nso unlike every other figure in this set it cannot be "
              "recomputed from a file in sessions/data/. It is reproduced here exactly as the log records it.\n"
              "WHAT THIS DOES NOT SHOW: it does not measure a distance, and it does not need one - that is the "
-             "point of it. It does not rule out a tunnelling gap being shorted intermittently by something "
+             "point of it. It does not rule out a tunneling gap being shorted intermittently by something "
              "softer; it rules out a clean vacuum gap.")
 
     S.save(fig, "fig10_push_pull")

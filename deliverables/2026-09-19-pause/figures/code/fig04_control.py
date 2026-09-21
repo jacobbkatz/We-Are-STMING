@@ -200,7 +200,7 @@ def main():
     axc.spines["left"].set_visible(False)
     S.tidy(axc, xlabel="How well one image repeats the next (correlation)", grid="x")
     axc.set_title("Both groups sit on zero. Bars are \u00b11 standard error per pair;\n"
-                  "the grey stripe is one standard error either side of zero.")
+                  "the gray stripe is one standard error either side of zero.")
     S.note(axc, 0.0, -0.40, "0 = no repeatability at all", ha="center", va="center",
            fontsize=S.TYPE["small"])
 
@@ -222,7 +222,7 @@ def main():
              "line (LEAD_VERIFICATION.md V4). Only\nfull 231-point images are used here, and this script refuses "
              "to correlate two images of different length. The honest comparison is +0.04 against +0.07.\n"
              "NEITHER PANEL IS AN IMAGE OF A SURFACE. They are the Z code the feedback loop asked for at each "
-             "point, with each line's tilt removed; the colour map is Crameri's vik, centred on zero, and "
+             "point, with each line's tilt removed; the color map is Crameri's vik, centered on zero, and "
              "nothing is interpolated or smoothed.\nAxes are in DAC counts because this instrument has never "
              "established a distance scale from its own hardware. WHAT THIS DOES NOT SHOW: with 3 and 2 pairs, "
              "neither mean is distinguishable from zero or from the other —\nthe comparison was never "

@@ -83,6 +83,41 @@ def detrend(a):
     return a - (m * t + c)
 
 
+def clear_the_header(fig, gap_in=0.22):
+    """Drop the three panels until the title block stops running through them.
+
+    THE SAME PROBLEM `stmstyle.fit_footer` SOLVES, at the other end of the figure.
+    The title and subtitle are placed as fractions of the figure height, and the axes
+    start at another fraction (`top=` in the subplots_adjust below). Both were tuned by
+    hand against one type size. When the figure set's type went up about a quarter on
+    2026-09-20 for poster legibility, the subtitle's second line grew down into the
+    three panel titles - "RUN 2 - the one that looked like a surface" and its
+    neighbors - and printed straight through them.
+
+    So this asks the renderer where the title block really ends and where the panels
+    really begin (tight boxes, so each panel's own title counts), and slides every
+    panel down far enough to leave `gap_in` inches of clear paper between them.
+    `fit_footer`, called afterwards, then adds paper at the bottom for the footer, so
+    nothing is squeezed. There is no number here to re-tune next time.
+    """
+    foot = getattr(fig, "_stm_footer", None)
+    fig.canvas.draw()
+    r = fig.canvas.get_renderer()
+    header = [t.get_window_extent(r).y0 for t in fig.texts if t is not foot]
+    panels = [ax.get_tightbbox(r).y1 for ax in fig.axes
+              if ax.get_tightbbox(r) is not None]
+    if not header or not panels:
+        return 0.0
+    overlap = max(panels) - (min(header) - gap_in * fig.dpi)
+    if overlap <= 1.0:
+        return 0.0
+    drop = overlap / fig.bbox.height          # pixels -> figure fraction
+    for ax in fig.axes:
+        p = ax.get_position()
+        ax.set_position([p.x0, p.y0 - drop, p.width, p.height])
+    return overlap / fig.dpi
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     fig, axes = S.plt.subplots(1, 3, figsize=(13.6, 5.9))
@@ -104,6 +139,12 @@ def main():
         ax.set_title(head + "\n" + stat, fontsize=S.TYPE["annot"],
                      fontweight=S.W_EMPH, linespacing=1.6)
         ax.set_xlabel("X piezo counts")
+        # FOUR TICKS AT MOST, not six. Three panels share a 13.6 in figure, so each
+        # x axis is about 4.3 in wide. At the type size the figure set moved to on
+        # 2026-09-20 six labels of the form "20,000" touch each other and read as one
+        # run of digits. Thinning the ticks is the fix that keeps the labels in full;
+        # shrinking the type back would undo the legibility the raise was for.
+        ax.xaxis.set_major_locator(S.plt.MaxNLocator(nbins=4, steps=[1, 2, 5, 10]))
         ax.xaxis.set_major_formatter(
             S.plt.FuncFormatter(lambda v, _: format(int(v), ",")))
     axes[0].set_ylabel("Z counts, each pass detrended")
@@ -137,8 +178,31 @@ def main():
              y=0.008)
 
     fig.subplots_adjust(left=0.058, right=0.995, top=0.700, bottom=0.320, wspace=0.18)
+
+    # MEASURE THE FOOTER, DO NOT GUESS AT IT. `bottom=0.320` above only leaves enough
+    # room under the axes for one particular type size, and on 2026-09-20 the figure
+    # set's type was raised about a quarter for poster legibility. Re-running this
+    # script after that put six lines of footer straight through the x-axis tick
+    # labels and the words "X piezo counts" on all three panels.
+    #
+    # These are the figure set's own two helpers, the same pair `stmstyle.save()`
+    # calls for every other figure, so this figure now behaves like the rest:
+    #   narrow_footer  re-wraps the footer to the width of the chart, so the chart is
+    #                  not shrunk to pay for the footer's long lines;
+    #   fit_footer     asks the renderer where the footer really ends and where the
+    #                  axes really begin, and adds paper at the bottom if they meet.
+    # Nothing is hand-tuned, so the next type change cannot break it again.
+    moved = clear_the_header(fig)
+    if moved:
+        print("  dropped the panels %.2f in to clear the title block" % moved)
+    S.narrow_footer(fig)
+    S.fit_footer(fig)
+
     for path, dpi in ((os.path.join(OUT, "fig10_candidate.png"), 300),):
-        fig.savefig(path, dpi=dpi, facecolor=S.C["surface"])
+        # Same write settings as stmstyle.save(), so this figure sits on the poster
+        # at the same scale and with the same margin as fig01-fig09 beside it.
+        fig.savefig(path, dpi=dpi, facecolor=S.C["surface"],
+                    bbox_inches="tight", pad_inches=0.32)
         im_w = fig.get_size_inches()[0]
         print("  wrote %s  (%.1f in wide at 300 dpi)" % (os.path.relpath(path, REPO), im_w))
     S.plt.close(fig)

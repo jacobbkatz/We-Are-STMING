@@ -59,14 +59,29 @@ def ols(xs, ys):
                 r2=1.0 - sse / sst, n=n, sd=math.sqrt(s2))
 
 
+def agreement(f):
+    """How far the fitted slope sits from the prediction, two ways.
+
+    BOTH NUMBERS ARE COMPUTED FROM THE FIT, never typed in. Until 2026-09-21 the
+    title carried a hard-coded "0.16%" beside a hard-coded "-3,204.8", and the two
+    did not agree: 4.7965 / 3200 is 0.1499%, which rounds to 0.15. The 0.16 came
+    from rounding the slope to -3,205 FIRST (docs/FACTS.md quotes it that way, to
+    four figures) and then dividing: 5 / 3200 = 0.156%. Rounding an intermediate
+    and then dividing is what produced a figure the chart's own numbers refute.
+    """
+    d = abs(f["slope"] - PREDICTED_SLOPE)
+    return d / abs(PREDICTED_SLOPE) * 100.0, d / f["se_slope"]
+
+
 def main():
     xs = [v for v, rs in READINGS for _ in rs]
     ys = [float(r) for _, rs in READINGS for r in rs]
     f = ols(xs, ys)
-    sigma = abs(f["slope"] - PREDICTED_SLOPE) / f["se_slope"]
+    pct, sigma = agreement(f)
     print("n=%d  slope=%.1f +/- %.1f  intercept=%+.1f +/- %.1f  R2=%.4f  sd=%.0f  "
-          "agreement=%.2f sigma" % (f["n"], f["slope"], f["se_slope"], f["intercept"],
-                                    f["se_intercept"], f["r2"], f["sd"], sigma))
+          "agreement=%.2f sigma = %.4f%% of the prediction"
+          % (f["n"], f["slope"], f["se_slope"], f["intercept"],
+             f["se_intercept"], f["r2"], f["sd"], sigma, pct))
 
     S.set_theme("light")
     fig, (ax, axr) = S.plt.subplots(
@@ -100,11 +115,16 @@ def main():
     # The headline, stated on the chart so it survives being cropped into a slide.
     # Four short lines, not three long ones: at the 2026-09-20 type scale the old
     # third line made the box wide enough to sit on the −5,000 readings.
+    # EVERY FIGURE IN THIS BOX IS COMPUTED FROM THE FIT ABOVE. It used to be a
+    # typed-in string sitting beside a computed one, which is exactly how the
+    # title's 0.16% drifted away from the 0.15% these numbers give.
     ax.text(-1.95, -7700,
-            "measured   −3,204.8 ± 36.5 counts per volt\n"
-            "predicted   −3,200\n"
-            "the two agree to 0.13 of one standard error,\n"
-            "R² = 0.9934",
+            ("measured   %s ± %.1f counts per volt\n"
+             "predicted   %s\n"
+             "the two agree to %.2f of one standard error,\n"
+             "R² = %.4f")
+            % (format(f["slope"], ",.1f").replace("-", "−"), f["se_slope"],
+               format(PREDICTED_SLOPE, ",.0f").replace("-", "−"), sigma, f["r2"]),
             ha="left", va="center", fontsize=S.TYPE["annot"], fontweight=S.W_EMPH,
             color=S.C["ink"], linespacing=1.7,
             bbox=dict(boxstyle="round,pad=0.6", facecolor=S.C["band"], edgecolor="none"))
@@ -131,12 +151,13 @@ def main():
     axr.set_title(axr.get_title(loc="left"), loc="left", fontsize=S.TYPE["small"],
                   color=S.C["muted"], fontweight=S.W_BODY, pad=6)
 
-    # The key is the subtitle: the words are coloured, so there is no legend box to
+    # The key is the subtitle: the words are colored, so there is no legend box to
     # collide with the data.
     S.titles_keyed(
         fig,
-        "The whole measurement chain works end to end — and agrees with theory to 0.16%",
-        "A known 100 MΩ resistor stood in for the tunnelling junction. <The 53 readings> landed on "
+        "The whole measurement chain works end to end — and agrees with theory to %.2f%%"
+        % pct,
+        "A known 100 MΩ resistor stood in for the tunneling junction. <The 53 readings> landed on "
         "<the line Ohm's law requires>,\nwhich was worked out before the bench run and is not fitted to "
         "anything.",
         [{"color": S.word(0), "fontweight": S.W_EMPH},

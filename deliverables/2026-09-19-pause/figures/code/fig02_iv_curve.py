@@ -61,7 +61,7 @@ def main():
     c_meas, c_ohm, c_rej = S.series(0), S.series(1), S.C["muted"]
     grid_v = [0.005 * k for k in range(101)]               # 0 to 0.50 V
 
-    # --- the rejected model, in the de-emphasis grey ---------------------------------
+    # --- the rejected model, in the de-emphasis gray ---------------------------------
     ax.plot(grid_v, [I[0] * (v / V[0]) ** 2 for v in grid_v], "-", color=c_rej, lw=1.8,
             zorder=2)
     # --- the reference model: an ordinary resistor of the low-bias resistance ---------
@@ -117,10 +117,10 @@ def main():
              "Source: sessions/2026-09-17-bench.md section 3.15, round 7 of 8 (no CSV exists for this sweep). "
              "Measured 2026-09-17 from about 19:54:51 UTC, on the 2026-09-17 tip and sample.\n"
              "WHAT THIS SHOWS AND WHAT IT DOES NOT. A barrier conducting at these resistances is conducting "
-             "by tunnelling, and that much is a claim this figure supports. What it does NOT show is a "
-             "vacuum tunnelling gap — a\ncontaminant film, a thin oxide or a dirty near-contact are all "
-             "superlinear too, and tunnelling through a pressed film is still tunnelling but is not a gap "
-             "you can command, sweep and image with. 16–59 MΩ sits at the low end of the range\ntunnelling "
+             "by tunneling, and that much is a claim this figure supports. What it does NOT show is a "
+             "vacuum tunneling gap — a\ncontaminant film, a thin oxide or a dirty near-contact are all "
+             "superlinear too, and tunneling through a pressed film is still tunneling but is not a gap "
+             "you can command, sweep and image with. 16–59 MΩ sits at the low end of the range\ntunneling "
              "occupies, which usually starts above 100 MΩ. A different tip and sample two nights later gave "
              "a different verdict (figure 5). The session log's \"roughly V²\" reading is wrong; the refit "
              "is V^%.2f." % n_exp)

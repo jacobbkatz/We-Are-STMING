@@ -16,7 +16,7 @@ WHAT THIS DOES, in plain language
    photos/prepared/MANIFEST.md explicitly invites this:
    "If your layout has its own caption style, crop the bar off."
 
-   NOTHING ELSE IS DONE TO ANY PHOTOGRAPH. No retouching, no colour change,
+   NOTHING ELSE IS DONE TO ANY PHOTOGRAPH. No retouching, no color change,
    no compositing, no scaling up. The yellow annotation arrows and labels
    that the photos agent drew are left exactly as they are.
 
@@ -74,9 +74,9 @@ FIGURE_FILES = [
 def bar_top(path):
     """Row index where the black caption bar starts, or None if there is none.
 
-    The bar's top 26 rows are pure BAR colour with no text on them, so we look
-    for the highest run of at least 18 rows that are ~100% bar colour and have
-    nothing but bar below them. Matching the exact colour, rather than just
+    The bar's top 26 rows are pure BAR color with no text on them, so we look
+    for the highest run of at least 18 rows that are ~100% bar color and have
+    nothing but bar below them. Matching the exact color, rather than just
     "dark", is what makes this work on the photographs that are themselves dark.
     """
     a = np.asarray(Image.open(path).convert("RGB")).astype(int)

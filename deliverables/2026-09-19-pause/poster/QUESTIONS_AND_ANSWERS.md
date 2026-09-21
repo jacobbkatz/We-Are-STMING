@@ -10,7 +10,7 @@ below them:
 | **03** | A real junction, with a barrier's signature |
 | **04** | We found the limit, and measured it |
 | **05** | We built controls designed to kill our own results |
-| **06** | We detected tunnelling - and we know what stopped us holding it |
+| **06** | We detected tunneling - and we know what stopped us holding it |
 | **07** | The second instrument: the system that runs the science |
 
 **Every answer here traces to `docs/FACTS.md`, to
@@ -19,14 +19,14 @@ source is given so you can check it, and so you can say where it came from if so
 
 **Three rules that cover everything below.**
 
-1. **Say what we did, and say it plainly: we detected tunnelling.** The claim is supported and the
+1. **Say what we did, and say it plainly: we detected tunneling.** The claim is supported and the
    poster carries it. **What stays out is a held vacuum gap, an image, atomic resolution, and any
-   distance in nanometres from our own hardware.** Those four are the overclaims that would collapse
+   distance in nanometers from our own hardware.** Those four are the overclaims that would collapse
    under a follow-up and take the calibration, the noise work and the controls down with them.
-   **Detecting tunnelling is not one of them.**
+   **Detecting tunneling is not one of them.**
 2. **Do not staple a hedge to the end of a result.** Say the result, stop, and give the limitation
    its own sentence when its own sentence is due. Every number in this document is measured, and a
-   measurement stated flatly sounds more certain than one apologised for.
+   measurement stated flatly sounds more certain than one apologized for.
 3. **"We have not measured that" is a complete answer.** It is a normal sentence at a research
    event and everybody there says it about something. **What is not acceptable is inventing a
    number on your feet** - section 4 lists the questions where that is the temptation.
@@ -35,46 +35,46 @@ source is given so you can check it, and so you can say where it came from if so
 
 ## 1. The hard ones, from people who know what an STM is
 
-### "So did you achieve tunnelling or not?"
+### "So did you achieve tunneling or not?"
 
 **This is now the first thing anybody will ask, and the answer is one sentence. It is Jacob's own
 wording and it is the sentence to say out loud:**
 
-> ## **"We detected tunnelling, but weren't able to maintain tunnelling range for long enough to get an image."**
+> ## **"We detected tunneling, but weren't able to maintain tunneling range for long enough to get an image."**
 
 **Say it exactly like that and then stop.** Both halves are true, they arrive in one breath, and the
 second half is the honest one - which is what stops the follow-up from being an ambush.
 
 **If they want more, expand it in this order and no other.**
 
-> **We detected tunnelling.** A tip cannot go from not touching to touching without passing through
-> the separations where the only mechanism carrying electrons is quantum tunnelling. We had a bias
+> **We detected tunneling.** A tip cannot go from not touching to touching without passing through
+> the separations where the only mechanism carrying electrons is quantum tunneling. We had a bias
 > applied and the amplifier recording the whole way down - **60,928 readings inside that current
 > range, across 109 approaches.** And it was a barrier rather than a strand of metal: the current is
 > **superlinear and symmetric**, the junction resistance **never fell below about 5 MOhm even when
 > the amplifier saturated**, and **109 of 110 onsets were gradual.** A metallic bridge is ohmic and
-> forms as a step. **So: a tunnel junction, biased, with the current tunnelling through it
+> forms as a step. **So: a tunnel junction, biased, with the current tunneling through it
 > measured.**
 >
-> **We could not maintain tunnelling range.** That is the regime you need in order to scan, and it
+> **We could not maintain tunneling range.** That is the regime you need in order to scan, and it
 > is the half our data does not support. With the motor stopped and nobody touching the instrument
 > the gap moves **at least 43,000 Z counts in 6.4 seconds** and **at least 56,000 over about two
 > minutes**. An image needs it inside a few hundred counts for a minute.
 >
 > **And one measurement would settle our best junction retroactively.** For the 2026-09-17 junction
-> to have been a vacuum gap, the tip would have to sit within **26 micrometres** of the pivot line.
+> to have been a vacuum gap, the tip would have to sit within **26 micrometers** of the pivot line.
 > Jacob measured that distance as well as a straightedge and an eye can: **under 0.5 mm.** The 26
-> micrometres is inside that, in the bottom 5% of it, **so the bound narrows the question without
-> closing it** - and nothing by eye ever will. A jeweller's loupe or a USB microscope closes it in
+> micrometers is inside that, in the bottom 5% of it, **so the bound narrows the question without
+> closing it** - and nothing by eye ever will. A jeweler's loupe or a USB microscope closes it in
 > minutes, with the power off, and the same measurement gives us our first height scale.
 
 **Four things stay out of every version of this answer**, and none of them is needed to make it
 strong: that we held a controlled vacuum gap; that we produced an image; atomic resolution; any
-distance in nanometres taken from our own hardware.
+distance in nanometers taken from our own hardware.
 
-**If they push: "but is tunnelling through a contaminant film really tunnelling?"** - *"Yes. A
+**If they push: "but is tunneling through a contaminant film really tunneling?"** - *"Yes. A
 metal-insulator-metal tunnel junction is a real tunnel junction and that is a real measurement of a
-real effect. What it is not is STM tunnelling, because the barrier is set by whatever is stuck to
+real effect. What it is not is STM tunneling, because the barrier is set by whatever is stuck to
 the surface rather than by a gap you command - so you cannot hold it, cannot sweep it, and cannot
 image with it. That distinction is the whole of panel 06."*
 
@@ -93,44 +93,44 @@ motion.
 > lingers on the way out - which is mechanical, and which does not depend on any distance scale.
 >
 > Our best junction, two nights earlier, was about **seven times steeper**: roughly 250 counts per
-> decade. **Whether that one was a held vacuum gap is what the 26 micrometres decides**, and panel
+> decade. **Whether that one was a held vacuum gap is what the 26 micrometers decides**, and panel
 > 06 is about exactly that.
 
 **Source:** `docs/FACTS.md`, "the junction and the gap"; `LEAD_VERIFICATION.md` V10-V13;
 `sessions/2026-09-19-morning.md` 3.10-3.11.
 
 **Note the wording.** This answer is about **holding** a gap, which is the thing we could not do.
-**It is not about whether tunnelling occurred**, which is the question above and which we answer
+**It is not about whether tunneling occurred**, which is the question above and which we answer
 yes to. Running the two together is the mistake this project made in its own documents for two
 days.
 
-### "Where does the 26 micrometres come from?"
+### "Where does the 26 micrometers come from?"
 
 > One motor step moves the fine screw **155 nm**. A vacuum gap changes the current ten-fold per
 > **0.1 nm**, and our best junction changed by about a decade per motor step. **So the lever ratio
 > between the motor and the tip would have to be about 1,550, which puts the tip within about
-> 26 micrometres of the line joining the two ball supports.** At the 1 mm the design puts it at, we
+> 26 micrometers of the line joining the two ball supports.** At the 1 mm the design puts it at, we
 > are **39 times too slow** - so if the tip is anywhere but the very bottom of the range, that
 > junction was a tip pressing through a thin film rather than a gap held open.
 >
-> **We have it bounded at under 0.5 mm, and 26 micrometres is inside that.** A straightedge cannot
+> **We have it bounded at under 0.5 mm, and 26 micrometers is inside that.** A straightedge cannot
 > resolve it; an eyepiece or an optical comparator can, in minutes, with the power off.
 
 **Source:** `LEAD_VERIFICATION.md` V11 to V13; `sessions/2026-09-17-bench.md` 3.19, which called
 the 26 um requirement *"possible but implausibly exact"* on the night; **`docs/FACTS.md` is the
 canonical home for `d`: under 0.5 mm, `SAID` 2026-09-20, never resolved any finer.**
 
-**If they push: "but what do you think?"** - *"The arithmetic does not favour a held gap. At
+**If they push: "but what do you think?"** - *"The arithmetic does not favor a held gap. At
 anything but the very bottom of the range we could measure, it is a tip pressing through a thin
 film - which is still a tunnel junction, and still not something you can scan with. We would rather
 say that than claim something we cannot defend."*
 
-### "Isn't 26 micrometres a strange threshold? Where does 0.13 mm come from?"
+### "Isn't 26 micrometers a strange threshold? Where does 0.13 mm come from?"
 
 **Somebody who has read the repository may ask this. There are two different criteria and they got
 conflated for two days.**
 
-> **26 micrometres is the decay criterion** - what it takes for one motor step to move the tip
+> **26 micrometers is the decay criterion** - what it takes for one motor step to move the tip
 > 0.1 nm. **0.13 mm is a different one**: whether the height wobble is small enough to hold a gap
 > at all. **Both have to be met, and the decay one is far stricter.** We had them mixed up in our
 > own notes and caught it during a self-audit.
@@ -138,11 +138,11 @@ conflated for two days.**
 **Source:** `LEAD_VERIFICATION.md` V11, which corrects `docs/NEXT_SESSION_PLAN.md` and an earlier
 verification entry of our own.
 
-### "Sixteen to fifty-nine megohms is low for a tunnelling junction."
+### "Sixteen to fifty-nine megohms is low for a tunneling junction."
 
 **Yes, and they are right. Do not argue.**
 
-> It is at the low end - tunnelling junctions usually start around a hundred megohms and go up.
+> It is at the low end - tunneling junctions usually start around a hundred megohms and go up.
 > It is still about a thousand times above the conductance quantum, so it is not a point contact
 > either. **What panel 03 claims is a barrier, not a vacuum gap**, and we are careful about the
 > difference.
@@ -153,10 +153,10 @@ verification entry of our own.
 
 > **Yes, and it probably was.** A contaminant film, a thin oxide or a dirty near-contact are all
 > superlinear too, and the decay rate points that way. **But that is still a tunnel junction** - a
-> metal-insulator-metal barrier with electrons tunnelling across it is exactly what those words
+> metal-insulator-metal barrier with electrons tunneling across it is exactly what those words
 > mean, and it is a real measurement of a real effect. **What it is not is a gap we command**,
 > because the barrier is set by whatever is stuck to the surface rather than by the piezo. That is
-> why we say we detected tunnelling and do not say we held tunnelling range.
+> why we say we detected tunneling and do not say we held tunneling range.
 
 **Source:** `LEAD_VERIFICATION.md` V13, "Why the distinction is not a hedge".
 
@@ -208,7 +208,7 @@ verification entry of our own.
 
 **Do not get defensive. The true answer is better.**
 
-> **It is a working scanning-probe measurement chain that has detected tunnelling and has not yet
+> **It is a working scanning-probe measurement chain that has detected tunneling and has not yet
 > imaged.** Every subsystem is built, working and calibrated: the converters, the amplifier, the
 > current measurement, the coarse approach, the feedback loop and the analysis. **What is missing
 > is mechanical stability, and we measured it rather than guessing.** Knowing precisely what stops
@@ -218,9 +218,9 @@ verification entry of our own.
 
 ## 2. The common ones
 
-### "What actually is a scanning tunnelling microscope?"
+### "What actually is a scanning tunneling microscope?"
 
-> You hold a sharp metal tip about a nanometre above a conducting surface - close enough that
+> You hold a sharp metal tip about a nanometer above a conducting surface - close enough that
 > electrons cross the gap without the two touching - and you measure that current, which is around
 > a billionth of an amp. The current changes enormously with distance, so if you sweep the tip
 > across and keep the current constant, the height you needed is a map of the surface. That is how
@@ -275,7 +275,7 @@ verification entry of our own.
 > white at **8 to 14 counts** from 2 Hz to 1.2 kHz. Taken as a **standard deviation** of the
 > reading, it was **40 to 42 counts with the tip clear** on 19 September, and **9 to 19 counts with
 > a junction live and X held.** Leakage through the tip lead and holder is under 0.06 nA across
-> plus and minus 2 V, which is more than 8 gigohms. And **somebody stamping on the floor two metres
+> plus and minus 2 V, which is more than 8 gigohms. And **somebody stamping on the floor two meters
 > away moves a single reading's spread from 131 to 132 picoamps** - so the building is not getting
 > in electrically either.
 
@@ -304,7 +304,7 @@ were. **All five are mechanical.**
 > resolve it - which settles panel 06 and gives us a height scale. **Prove the gap holds still
 > before scanning anything**: a box over it, a fifteen-minute recording, and a gate of about 200
 > counts over sixty seconds. **A stiffer sample than gold leaf on paper, and a sharper tip.** And
-> three software fixes that cost nothing and remove the artefact behind our most convincing false
+> three software fixes that cost nothing and remove the artifact behind our most convincing false
 > positive.
 
 **Ranked, costed and written out in [`../WHAT_HELD_US_BACK.md`](../WHAT_HELD_US_BACK.md).** If
@@ -332,8 +332,8 @@ framework is a result in its own right and the panel says so.
 > **Yes, and the panel is about that.** Neither of us writes code. An AI model did the writing, the
 > analysis scripts and the firmware work, and we directed it - but the thing we actually built is
 > the framework it works inside: **a 575-line operating protocol it has to read first, one
-> canonical register holding every number in the project with its provenance and its date, 27
-> append-only session logs, and a 565-line checker that runs seven classes of test at the start of
+> canonical register holding every number in the project with its provenance and its date, 29
+> append-only session logs, and a 598-line checker that runs seven classes of test at the start of
 > every session and blocks a commit that fails.**
 >
 > **The point is not that the model writes well. It is that the model gets caught.** Everything on
@@ -384,11 +384,11 @@ for panel 07 and gives the commands to re-count every figure in it.
 | **4 pA** | The amplifier's own input current, measured on the repaired board on 15 September - about 250 times smaller than the 1 nA signal it has to find. |
 | **16-59 megohms** | The junction's resistance across our I-V sweep. It falls as the voltage rises, which is the point: a resistor would not. |
 | **9-19 counts** | The **standard deviation of the reading** with a junction live and X held, 19 September. **The tip-clear standard deviation the same day was 40 to 42 counts.** Do not quote the 8-to-14 figure here - that one is the **spectral** noise density with no junction, from 2 Hz to 1.2 kHz, and it measures a different thing. |
-| **60,928** | Readings taken inside the current range where tunnelling has to appear, across 109 separate approaches, with the bias on the whole way. It is the count behind "we detected tunnelling". |
+| **60,928** | Readings taken inside the current range where tunneling has to appear, across 109 separate approaches, with the bias on the whole way. It is the count behind "we detected tunneling". |
 | **43,000 counts in 6.4 s** | How far the surface moved with the motor stopped and nobody touching the instrument. It then went out of reach for 105 seconds. Panel 04. |
 | **+0.04 against +0.07** | How well our scans repeat, against how well a control with nothing in it repeats. Panel 05. |
 | **Eleven weeks and eight weeks**, in the line under the title | **Eleven weeks of planning and design, eight weeks of building.** `SAID` by Jacob, 2026-09-20. **Always say which phase a figure belongs to, and do not add them together** - no combined total has ever been stated, so a total would be something you made up on the day. |
-| **575 lines, 157 numbers, 565 lines, 27 logs**, in panel 07 | The operating protocol the model reads first; the register holding every number in the project; the checker that runs seven tests at every session start; the append-only session logs. **All four are counted from the repository and the panel prints the commands to re-count them.** |
+| **575 lines, 157 numbers, 598 lines, 29 logs**, in panel 07 | The operating protocol the model reads first; the register holding every number in the project; the checker that runs seven tests at every session start; the append-only session logs. **None of these four was typed onto the poster.** Every number in that panel is counted out of the repository by `deliverables/2026-09-19-pause/poster/stamp_counts.py` and written into the poster each time it is rendered, so the poster cannot state a count the repository does not have. Run that script to see them re-counted in front of you. |
 
 ---
 
@@ -398,8 +398,8 @@ for panel 07 and gives the commands to re-count every figure in it.
 
 | Question | What to say |
 |---|---|
-| **"What did it cost?"** | **We have never totalled it.** `docs/BOM.md` lists every part, but no total is recorded anywhere, so any number said on the day would be invented. Say: *"I have never added it up - the full parts list is in the repository."* **If Jacob knows the figure, write it into `docs/INVENTORY.md` and then it can be quoted.** |
-| **"How big an area can you scan?"** | In counts only: the wide runs on the poster sweep 15,000 counts either side of centre, the close ones 1,500. **In nanometres we cannot say**, for the same reason there is no scale bar. |
+| **"What did it cost?"** | **We have never totaled it.** `docs/BOM.md` lists every part, but no total is recorded anywhere, so any number said on the day would be invented. Say: *"I have never added it up - the full parts list is in the repository."* **If Jacob knows the figure, write it into `docs/INVENTORY.md` and then it can be quoted.** |
+| **"How big an area can you scan?"** | In counts only: the wide runs on the poster sweep 15,000 counts either side of center, the close ones 1,500. **In nanometers we cannot say**, for the same reason there is no scale bar. |
 | **"What is your resolution?"** | **We have not established one, and it has to be that way** - resolution is a distance, and we have no measured distance scale. What we can quote is current: one converter count is 3.125 picoamps. |
 | **"How far does one Z count move the tip?"** | **Unknown for this instrument.** The 0.016 nm per count in circulation is inherited from another builder's scanner. **Our own geometry now caps it at under about 0.0078 nm per count** - from `d` under 0.5 mm - **which is at least a factor of two below the inherited figure, so the two do not agree.** And that ceiling divides by a counts-per-motor-step figure our own record marks SUSPECT. **So: a bound, not a calibration.** Measuring `d` with a loupe is what turns it into one. |
 | **"How fast can it scan?"** | The loop holds current to about 0.06 of a decade at 2,000 pixels per second, measured 17 September. **Whether that is fast enough for an image is not known**, because the gap moves first. |

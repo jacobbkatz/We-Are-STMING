@@ -30,9 +30,9 @@ default argument, so the 250-count step the script asked for never took effect
 (`sessions/data/2026-09-19-morning/README.md`). The motion is far larger than the step, so
 the conclusion does not depend on it, but no onset here is better than +/-1,000 counts.
 
-THE COMPARISON SCALE is `docs/FACTS.md`, "Tunnelling for comparison: a decade per ~6-13 Z
+THE COMPARISON SCALE is `docs/FACTS.md`, "Tunneling for comparison: a decade per ~6-13 Z
 counts" - CALCULATED from a Z scale inherited from Dan Berard's scanner, never measured on
-ours. It is drawn as a calculated band and labelled as one. No distance scale appears on
+ours. It is drawn as a calculated band and labeled as one. No distance scale appears on
 this figure, because this instrument has never established one from its own hardware.
 """
 from __future__ import annotations
@@ -115,8 +115,13 @@ def main():
         ax.annotate("", xy=(a, 65700), xytext=(a, SWEEP_TOP + 700),
                     arrowprops=dict(arrowstyle="-|>", color=c_far, lw=1.8,
                                     shrinkA=0, shrinkB=0), zorder=5)
+    # WRAPPED ONTO TWO LINES, 2026-09-21. On one line this ran from t = 16 s to
+    # t = 138 s at a height of 54,000-59,000 counts, and the double-headed arrow at
+    # t = 105 s spans 6,000-62,000 - so the arrow went straight through the words
+    # "none of which found it". check_layout.py did not see it: it compares text
+    # against text, and an arrow is not text.
     S.note(ax, 16, SWEEP_TOP - 3100,
-           "%.0f seconds out of reach — about %d sweeps, none of which found it"
+           "%.0f seconds out of reach —\nabout %d sweeps, none of which found it"
            % (spans[0][1] - spans[0][0], round((spans[0][1] - spans[0][0]) / PERIOD)),
            ha="left", va="top", fontsize=S.TYPE["small"])
 
@@ -156,7 +161,7 @@ def main():
     axz.annotate("", xy=(0.32, TUNNEL_HI + 0.5), xytext=(0.32, 19.6),
                  arrowprops=dict(arrowstyle="-|>", color=S.C["ink2"], lw=1.5), zorder=5)
     S.key(axz, 0.06, 39.0,
-          "%d–13 counts. A real tunnelling\ncurrent changes ten-fold\nacross this whole band."
+          "%d–13 counts. A real tunneling\ncurrent changes ten-fold\nacross this whole band."
           % TUNNEL_LO, ha="left", va="bottom", linespacing=1.45)
     S.note(axz, 0.06, 21.0,
            "Calculated from a Z scale borrowed\nfrom another builder's scanner —\n"

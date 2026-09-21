@@ -11,8 +11,8 @@ was stuck to something, and letting go took distance.
 
 WHY THIS IS THE STRONGEST EVIDENCE WE HAVE. The width of the loop is a difference between
 two Z numbers measured minutes apart on the same axis. It does not use the counts-to-
-nanometres scale, which this instrument has never measured. Every other argument about
-tunnelling here does. If the loop is real, the junction is not a clean vacuum gap, and no
+nanometers scale, which this instrument has never measured. Every other argument about
+tunneling here does. If the loop is real, the junction is not a clean vacuum gap, and no
 future calibration can rescue it.
 
 SOURCE. `sessions/data/2026-09-19-morning/bias_m01V_/m05V_/p01V_/p05V_1789822770.csv`,
@@ -25,6 +25,15 @@ WHAT IS PLOTTED. One cycle per bias - the cycle whose loop width is closest to t
 median, so the picture is typical rather than flattering or damning. The current is shown
 as a magnitude because positive sample bias gives negative ADC counts on this instrument
 (STATUS.md safety rule 2).
+
+A TRANSCRIPTION CORRECTED, 2026-09-21. The footer read "10 of 109 cycles at +0.5 V were
+negative", which is what `sessions/2026-09-19-morning.md` section 3.11 line 183 says. The
+clause is misplaced in the log: recomputing every cycle with the bench script's own rule
+gives 10 negatives out of 109 cycles ACROSS ALL FIVE RUNS (3 in the 30-cycle ztest, 0 at
+-0.1 V, 1 at +0.5 V, 4 at +0.1 V, 2 at -0.5 V). At +0.5 V alone it is 1 of 20, not 10.
+`docs/FACTS.md` carries only the -4,690 to +5,230 spread and makes no +0.5 V claim, so
+nothing canonical had to change; the session log is history and keeps its wording
+(CLAUDE.md section 3bb rule 4).
 """
 from __future__ import annotations
 
@@ -130,7 +139,7 @@ def main():
                     arrowprops=dict(arrowstyle="<|-|>", color=S.C["ink"],
                                     linewidth=1.2, shrinkA=0, shrinkB=0,
                                     mutation_scale=9), zorder=6)
-        # A surface-coloured box behind the label: in the +0.1 V panel the out-branch
+        # A surface-colored box behind the label: in the +0.1 V panel the out-branch
         # runs straight through where the number sits, and an unbacked label is unreadable.
         S.key(ax, (zi + zo) / 2, y * 1.7, format(int(round(w)), ",") + " counts",
               ha="center", va="bottom", fontsize=S.TYPE["annot"], zorder=7,
@@ -154,7 +163,7 @@ def main():
     S.titles_keyed(
         fig,
         "A vacuum gap has no memory. Ours took hundreds of counts to let go.",
-        "Walk the tip <in> until the current arrives, then walk it back <out>. A tunnelling gap retraces its own curve\n"
+        "Walk the tip <in> until the current arrives, then walk it back <out>. A tunneling gap retraces its own curve\n"
         "exactly. At all four biases ours did not: coming out it held the current for 714 to 1,926 extra Z counts.\n"
         "Gap drift would do this too, so we measured it - it accounts for at most a fifth. No distance scale is needed.",
         [{"color": S.word(0), "fontweight": S.W_EMPH},
@@ -179,9 +188,9 @@ def main():
              "most about 120. The loop survives it either way.\n"
              "WHAT THIS DOES NOT SHOW: it does not identify what was sticking. Adhesion, a squashed contaminant "
              "film and piezo creep all produce a loop, and this figure cannot separate them - only rule out a "
-             "clean vacuum gap. Per-cycle values scatter widely\n(-4,690 to +5,230 across all runs, and 10 of 109 "
-             "cycles at +0.5 V were negative); it is the medians that are consistent. For this tip and this "
-             "sample only.")
+             "clean vacuum gap. Per-cycle values scatter widely\n(-4,690 to +5,230 across all runs, and 10 of the "
+             "109 cycles ACROSS ALL FOUR BIASES were negative); it is the medians that are consistent. For this "
+             "tip and this sample only.")
 
     S.save(fig, "fig11_hysteresis")
     for label, med, n in summary:

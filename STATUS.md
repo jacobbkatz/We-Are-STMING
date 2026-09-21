@@ -1,7 +1,22 @@
 # Current status
 
-**Last updated:** 2026-09-20 — **no bench work since 2026-09-19 morning. The instrument is still disassembled and moved; the next session still starts with REASSEMBLY** (`docs/NEXT_SESSION_PLAN.md`, and note the new STEP A). **WHAT CHANGED IS WHAT THIS PROJECT CLAIMS: we detected tunnelling. What we could not do is hold the range.** Read the block immediately below before anything else, then the 2026-09-19 morning block, which still stands.
-**Updated by:** Claude, 2026-09-20, in a deliverables session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.** Every number below that is new is a re-derivation from raw files already in `sessions/data/`, computed without importing the bench scripts.
+**Last updated:** 2026-09-21 — **no bench work since 2026-09-19 morning. The instrument is still disassembled and moved; the next session still starts with REASSEMBLY** (`docs/NEXT_SESSION_PLAN.md`, and note the new STEP A). **WHAT CHANGED ON 2026-09-21 IS THE RECORD, NOT THE INSTRUMENT**: an audit of the public website found twenty-one claims that did not survive a check against this repository, and two of them are bench-relevant — see the block immediately below. The 2026-09-20 block after it still stands, including the central claim.
+**Updated by:** Claude, 2026-09-21, in a website session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.**
+
+# 2026-09-21 — TWO THINGS THE RECORD HAD BACKWARDS, AND BOTH REACH THE BENCH
+
+**Nothing powered, nothing touched.** A website session. Full account in
+`sessions/2026-09-21.md`. Two findings bear on what happens at the bench:
+
+| | |
+|---|---|
+| **THE MOTOR-STEP BOUND HAS BEEN WRITTEN BACKWARDS** | Several places, including the public page and **`sessions/2026-09-20.md` §3.3**, say one motor step moves the tip *"at least 1.94 nm"*. **`docs/FACTS.md` is the register and says UNDER 1.94 nm** — a ceiling, from a lever ratio of **OVER 80**. Smaller `d` gives a larger ratio and a **smaller** step. **Read every "at least 1.94 nm" in this repository as "at most".** The conclusion that the motor cannot park in the window is unaffected: it rests on the observation that single steps shifted the surface **14,000 to 29,000 Z counts when they shifted it at all**, while runs of 20 to 40 steps did nothing |
+| **THE COIN WRAPPERS ARE MASS, NOT DAMPING** | The website called them *"damping the springs"*. `docs/INVENTORY.md`: **3 paper coin-wrapper rolls, 18 quarters each, plus 10 nickels** — added to push the springs past their initial tension. **The damping is eddy-current**, from the magnets and the aluminium plate (`docs/INVENTORY.md`, isolation stage, `SAID` Jacob 2026-09-19). **This matters because the coin mass is candidate 6 of 7 for the gap motion** — it stands tall and unrestrained. Do not count it as part of the isolation when ranking candidates |
+| **A ROUNDING ERROR THAT HAD PROPAGATED** | Two figures and two deliverables said the measurement chain agrees with theory **to 0.16%**. The arithmetic gives **0.15%**: 0.16% came from a ratio computed on the slope **already rounded** to −3,205 (3205/3200 = 1.0016), where the unrounded −3,204.796 gives 1.0015. **`LEAD_VERIFICATION.md`'s own re-derivation table already said 1.0015 sixteen lines above the prose that still said 0.16%.** Fixed in all four. **The 0.13 sigma figure was never affected and is unchanged** |
+| **`docs/FACTS.md` NO LONGER CARRIES A SESSION-LOG COUNT** | It said 27 when there were 28. A number in the register that counts the directory beside it goes stale the minute anyone writes a log — the same argument that moved the register's own row count into a program on 2026-09-20. It now names the rule and the program |
+| **WHAT DID NOT CHANGE** | **No measurement, no safety rule, no fault, no stage verdict.** The instrument is where 2026-09-19 left it |
+
+---
 
 # 2026-09-20 — THE CENTRAL CLAIM WAS CORRECTED. READ THIS FIRST
 

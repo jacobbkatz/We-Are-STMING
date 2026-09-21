@@ -27,6 +27,11 @@ import stmstyle as S  # noqa: E402
 
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch  # noqa: E402
 
+# The agreement figure quoted in the subtitle is figure 1's, so it is IMPORTED from
+# figure 1 rather than retyped here. Both used to carry a hand-typed "0.16%"; the
+# arithmetic gives 0.15%, and one of the two would always have been fixed alone.
+import fig01_calibration as F1  # noqa: E402
+
 # (heading, what it does, the number that matters, provenance tag)
 STAGES = [
     ("Bias DAC",
@@ -51,6 +56,13 @@ STAGES = [
 
 
 def main():
+    # Recomputed from figure 1's own readings and its own fit, so the two figures
+    # cannot disagree about a number they both quote.
+    xs = [v for v, rs in F1.READINGS for _ in rs]
+    ys = [float(r) for _, rs in F1.READINGS for r in rs]
+    agreed_pct, _sigma = F1.agreement(F1.ols(xs, ys))
+    print("  agreement with Ohm's law, imported from figure 1: %.4f%%" % agreed_pct)
+
     S.set_theme("light")
     # THREE ACROSS, TWO DOWN. Six boxes in a row made the figure twice as wide as it
     # was tall, so a browser column scaled it to about a third and a phone to a tenth -
@@ -128,13 +140,17 @@ def main():
 
     # ---- the worked example ----------------------------------------------------------
     ax.add_patch(FancyBboxPatch(
-        (left, 14.0), right - left, 20.0,
+        # y 12 to 30, not 14 to 34. The box row above ends at y = 32, so the old
+        # band overlapped it by two units and its heading sat about two points
+        # under the "The preamplifier" border - close enough that the heading read
+        # as part of that box rather than of the worked example.
+        (left, 12.0), right - left, 18.0,
         boxstyle="round,pad=0,rounding_size=1.4",
         facecolor=S.C["band"], edgecolor="none", zorder=2))
-    ax.text(left + 2.6, 31.0, "Follow one nanoamp through it",
+    ax.text(left + 2.6, 27.4, "Follow one nanoamp through it",
             ha="left", va="center", fontsize=S.TYPE["label"], fontweight=S.W_TITLE,
             color=S.C["ink"])
-    ax.text(left + 2.6, 20.5,
+    ax.text(left + 2.6, 17.6,
             "1 nanoamp at the tip   \u2192   0.1 volts out of the amplifier   \u2192   "
             "320 counts on the laptop.\n"
             "One count is 3.125 picoamps, and the largest current the chain can report "
@@ -142,17 +158,17 @@ def main():
             ha="left", va="center", fontsize=S.TYPE["annot"], color=S.C["ink2"],
             linespacing=2.1)
 
-    ax.text(right - 2.6, 31.0, "blue = measured on this instrument",
+    ax.text(right - 2.6, 27.4, "blue = measured on this instrument",
             ha="right", va="center", fontsize=S.TYPE["annot"], fontweight=S.W_EMPH,
             color=S.word(0))
-    ax.text(right - 2.6, 27.0, "grey = from a datasheet, or arithmetic on one",
+    ax.text(right - 2.6, 23.4, "gray = from a datasheet, or arithmetic on one",
             ha="right", va="center", fontsize=S.TYPE["annot"], color=S.C["ink2"])
 
     S.titles_keyed(
         fig,
         "How the instrument turns a gap into a number",
-        "Six stages. <The last one was measured end to end> against what Ohm's law requires, and agreed to 0.16% "
-        "(figure 1);\nthe rest come from the parts' own datasheets and the arithmetic on them.",
+        "Six stages. <The last one was measured end to end> against what Ohm's law requires, and agreed to %.2f%% "
+        "(figure 1);\nthe rest come from the parts' own datasheets and the arithmetic on them." % agreed_pct,
         [{"color": S.word(0), "fontweight": S.W_EMPH}])
 
     S.footer(fig, y=0.010, text=
@@ -160,9 +176,9 @@ def main():
              "explanation; that file remains the only register of constants in this project.\n"
              "NO DISTANCE SCALE APPEARS ANYWHERE ON THIS FIGURE. The gap is drawn as a gap and never given a "
              "size, because this instrument has never established a distance scale from its own hardware — "
-             "the nanometres-per-count figure\nin circulation is inherited from another builder's scanner. "
-             "\"About 1 nA is what we are after\" is the target a tunnelling junction would give, not a "
-             "measurement of one: this project has never demonstrated a stable tunnelling gap.")
+             "the nanometers-per-count figure\nin circulation is inherited from another builder's scanner. "
+             "\"About 1 nA is what we are after\" is the target a tunneling junction would give, not a "
+             "measurement of one: this project has never demonstrated a stable tunneling gap.")
 
     S.save(fig, "fig07_signal_chain")
 

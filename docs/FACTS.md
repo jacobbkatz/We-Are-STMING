@@ -30,7 +30,7 @@ survived in a dozen files.**
 | **Building** | **8 weeks** | **SAID 2026-09-20** |
 | First power-on | **29 August 2026** | LOG, `sessions/` |
 | Last bench session before the move | **19 September 2026** | LOG, `sessions/2026-09-19-morning.md` |
-| Session logs | **28** | counted 2026-09-21, by the rule `Code/pc/count_facts.py` and `build_assets.py` share: files in `sessions/` matching `YYYY-MM-DD*.md`. **Was 27**, counted before `sessions/2026-09-20.md` existed |
+| Session logs | **counted by `Code/pc/count_facts.py`'s rule, not written here** | the rule is: files in `sessions/` matching `YYYY-MM-DD*.md`. ~~27~~ ~~28~~ **A number here counts the directory this file lives beside, so writing a session log makes it stale the same minute** — which is exactly why the register's own row count was moved into a program on 2026-09-20. The website stamps it from disk at build time; quote it with the date you ran the count |
 | Repository | **PUBLIC** — `github.com/jacobbkatz/We-Are-STMING` | **SAID 2026-09-20** |
 | **Jacob and Nuh's year at university** | **Going into their SECOND year as of September 2026.** The build ran over the summer between the first year and the second. **"Two first-year students" is retired from every live document** — it was true of the year that ended before the build and reads as present tense | **SAID Jacob, 2026-09-20**, correcting his own 2026-09-19 statement |
 

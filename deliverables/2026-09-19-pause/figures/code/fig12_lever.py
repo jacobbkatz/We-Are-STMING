@@ -3,7 +3,7 @@
     python3 deliverables/2026-09-19-pause/figures/code/fig12_lever.py
 
 THE MEASUREMENT BEING EXPLAINED. On 2026-09-17, in the settled state, one step of the
-coarse motor changed the tunnelling current by roughly ten times
+coarse motor changed the tunneling current by roughly ten times
 (`sessions/2026-09-17-bench.md` sections 3.14 and 3.19: about 250 Z counts per decade and
 about 250 Z counts per motor step, so one step is about one decade).
 
@@ -19,7 +19,7 @@ EVERY INPUT IS OURS AND IS MEASURED, EXCEPT `d`.
   fine screw pitch      0.31750 mm/turn      docs/FACTS.md
   motor steps per turn  2,048                28BYJ-48 through its gearbox
   pivot line to screw   40 mm                MESH, PiezoPlate.stl, Y 135.28 against 95.28
-  one decade of tunnelling current per 0.1 nm    textbook, not ours
+  one decade of tunneling current per 0.1 nm    textbook, not ours
 
 THIS CHART DOES NOT USE THE INHERITED PIEZO SCALE. The 0.016 nm per Z count that appears
 elsewhere in this project came from another builder's scanner and has never been measured
@@ -43,7 +43,7 @@ PITCH_MM = 0.31750          # mm per turn of the fine screw, docs/FACTS.md
 STEPS_PER_TURN = 2048       # 28BYJ-48 through its gearbox
 ARM_MM = 40.0               # pivot line to motor screw, MESH from PiezoPlate.stl
 NM_PER_STEP = PITCH_MM / STEPS_PER_TURN * 1e6          # 155.0 nm
-TUNNEL_NM = 0.1             # one decade of tunnelling current per 0.1 nm
+TUNNEL_NM = 0.1             # one decade of tunneling current per 0.1 nm
 
 
 def nm_per_decade(d_mm):
@@ -55,12 +55,25 @@ D_CROSS = TUNNEL_NM * ARM_MM / NM_PER_STEP             # 0.0258 mm = 26 um
 
 # (d in mm, label, horizontal align, vertical align, x multiplier, y multiplier).
 # The offsets are hand-set: every automatic placement put one of these through the
-# tunnelling line or through the curve.
+# tunneling line or through the curve.
 MARKS = [
     (1.000, "1.00 mm\nthe design value", "left", "top", 1.16, 0.80),
     (0.500, "0.50 mm\nJacob's bench limit,\n2026-09-20", "right", "top", 0.88, 0.72),
     (0.130, "0.13 mm\nthe figure the plan quoted —\nit is a different test", "right", "bottom", 0.82, 1.55),
-    (D_CROSS, "0.026 mm\nthe only value that works", "right", "bottom", 0.80, 1.50),
+    # MOVED 2026-09-21, from ha="right" mx=0.80 to below-right of its own dot.
+    #
+    # Right-aligned at d = 0.021 this 24-character line ran off the LEFT of the
+    # axes, and its bbox is opaque surface, so it painted out the "0.3" y-tick
+    # entirely and the middle of the y-axis label - which then read "per de___
+    # current, in nm" on every rendered copy. check_layout.py cannot see this by
+    # design: it skips any pair where either text carries a background box, which
+    # is right almost always and exactly wrong when the box leaves the axes.
+    #
+    # The placement below is the one the search found clear on all four tests at
+    # once: inside the axes, off the orange curve, off the "0.13 mm" label, and
+    # off the y-axis furniture. Pulling it merely UP hit the "0.13 mm" block
+    # instead, which is why it sits low and to the right rather than high.
+    (D_CROSS, "0.026 mm\nthe only value that works", "left", "bottom", 1.15, 0.30),
 ]
 
 
@@ -72,7 +85,7 @@ def main():
     d = np.logspace(np.log10(0.008), np.log10(3.0), 400)
     y = nm_per_decade(d)
 
-    # The tunnelling requirement, as a line rather than a region: it is a sharp number.
+    # The tunneling requirement, as a line rather than a region: it is a sharp number.
     ax.axhline(TUNNEL_NM, color=S.series(2), linewidth=2.0, zorder=4)
     ax.fill_between(d, 1e-3, TUNNEL_NM, color=S.series(2), alpha=0.10, zorder=1)
 
@@ -85,9 +98,16 @@ def main():
         yv = float(nm_per_decade(dm))
         hit = dm == D_CROSS
         S.dot(ax, dm, yv, S.series(2) if hit else S.series(1), size=9, z=6)
+        # NO OPAQUE BOX ON THE CROSSING LABEL. Every other mark needs one, because
+        # it sits over the curve or the shaded region. This one sits in clear space
+        # inside the pale tunneling band, and an opaque box there punched a visible
+        # gap in the green tunneling line - the one element the whole figure turns
+        # on. Dropping the box also hands this label back to check_layout.py, which
+        # skips any text that carries one.
         S.key(ax, dm * mx, yv * my, label, ha=ha, va=va, zorder=7,
               color=S.word(2) if hit else S.C["ink"],
-              bbox=dict(facecolor=S.C["surface"], edgecolor="none", pad=1.8))
+              bbox=None if hit else dict(facecolor=S.C["surface"], edgecolor="none",
+                                         pad=1.8))
 
     ax.set_xscale("log")
     ax.set_yscale("log")
@@ -103,7 +123,7 @@ def main():
            ylabel="how far the tip moved\nper decade of current, in nm",
            grid="both")
 
-    S.note(ax, 2.7, 0.078, "a tunnelling gap: one decade per 0.1 nm",
+    S.note(ax, 2.7, 0.078, "a tunneling gap: one decade per 0.1 nm",
            ha="right", va="top", color=S.word(2), fontweight=S.W_EMPH)
     S.note(ax, 0.52, 14.0,
            "excluded at the bench,\n2026-09-20: d is under 0.5 mm",
@@ -112,10 +132,10 @@ def main():
 
     S.titles_keyed(
         fig,
-        "Our best junction needs the tip within 26 micrometres of the pivot to have been tunnelling.",
+        "Our best junction needs the tip within 26 micrometers of the pivot to have been tunneling.",
         "On 2026-09-17 one motor step changed the current ten-fold. The screw moves 155 nm per step, so how far\n"
         "<the tip actually moved> depends entirely on the lever - and that on one distance, d, nobody has measured.\n"
-        "It has to land on <the tunnelling line> for our best junction to have been a vacuum gap.",
+        "It has to land on <the tunneling line> for our best junction to have been a vacuum gap.",
         [{"color": S.word(1), "fontweight": S.W_EMPH},
          {"color": S.word(2), "fontweight": S.W_EMPH}])
 

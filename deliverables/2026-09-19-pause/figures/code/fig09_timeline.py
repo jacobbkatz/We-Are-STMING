@@ -10,7 +10,7 @@ work sessions logged. Two logs on the same date are two sessions and both count
 EACH MILESTONE NAMES ITS SOURCE in the list below. Nothing here is a new claim: every one
 is already in `docs/FACTS.md`, `STATUS.md` or the session log for that day.
 
-WHAT IS DELIBERATELY NOT ON IT. There is no milestone for "tunnelling achieved" or "first
+WHAT IS DELIBERATELY NOT ON IT. There is no milestone for "tunneling achieved" or "first
 image", because neither happened. The last marker is the instrument being packed up, and
 that is the honest end of the line.
 """
@@ -57,7 +57,16 @@ MILESTONES = [
 
 
 def session_dates():
-    """Every dated session log in sessions/, as (date, filename)."""
+    """Every dated session log in sessions/, as (date, filename).
+
+    COUNTED, NOT QUOTED - and as of 2026-09-21 the count and docs/FACTS.md differ.
+    FACTS.md carries "Session logs | 27 | counted". The repository holds 28: the row
+    was written in commit 0352b3d, and sessions/2026-09-20.md was added afterwards in
+    944ca7d, which is not an ancestor of it. So 27 was right when written and is now
+    stale by one. This figure keeps counting rather than quoting, because a figure
+    that reads the repository cannot go stale; FACTS.md is the file that needs the
+    update, and that is outside this directory's scope. Reported, not silently fixed.
+    """
     out = []
     for p in sorted(glob.glob(os.path.join(SESSIONS_DIR, "*.md"))):
         m = re.match(r"^(\d{4})-(\d{2})-(\d{2})", os.path.basename(p))
@@ -146,8 +155,13 @@ def main():
 
     S.titles_keyed(
         fig,
-        "Eleven weeks: what was established, and when",
-        "Two people who do not write code designed, ordered, assembled and characterised a working scanning-probe "
+        # "Eleven weeks" alone was wrong twice over, and docs/FACTS.md says so in
+        # terms: eleven weeks is PLANNING AND DESIGN, eight weeks is BUILDING, and
+        # "Do not write a single combined figure; no total has been stated." A bare
+        # "Eleven weeks" over a chart whose own axis runs 31 Aug to 20 Sep - three
+        # weeks - reads as the duration of everything drawn below it.
+        "Eleven weeks of planning and design, eight of building: what was established",
+        "Two people who do not write code designed, ordered, assembled and characterized a working scanning-probe "
         "measurement chain.\n<The calibration> and <the first junction> are the two results the rest of this set "
         "rests on; both came in the last four days of work.",
         [{"color": S.word(0), "fontweight": S.W_EMPH},
@@ -158,7 +172,7 @@ def main():
              "name begins with a date contributes one, so the row is exactly the set of logged sessions. Two logs "
              "on one date are two sessions.\nEach milestone names the file that records it; none of them is a new "
              "claim. The 2026-06-21 spring order is from docs/INVENTORY.md, an order record.\n"
-             "WHAT IS DELIBERATELY ABSENT: there is no milestone for tunnelling achieved or for a first image, "
+             "WHAT IS DELIBERATELY ABSENT: there is no milestone for tunneling achieved or for a first image, "
              "because neither happened. The last marker is the instrument being packed up, and that is the "
              "honest end of the line.")
 

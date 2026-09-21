@@ -38,7 +38,7 @@ from matplotlib.transforms import Bbox                       # noqa: E402
 import stmstyle as S                                         # noqa: E402
 
 TOL = 0.06          # fraction of the smaller box that may overlap before it is a fault
-TICK_TOL = 0.25     # neighbouring ticks on one axis: their boxes carry the line gap too
+TICK_TOL = 0.25     # neighboring ticks on one axis: their boxes carry the line gap too
 
 FIGURES = ["fig01_calibration", "fig02_iv_curve", "fig03_gap_motion", "fig04_control",
            "fig05_ztest", "fig06_noise", "fig07_signal_chain", "fig08_scale",
@@ -127,7 +127,7 @@ def collisions(fig):
             if ov is None or ov.width <= 0 or ov.height <= 0:
                 continue
             small = min(a.width * a.height, b.width * b.height)
-            # Neighbouring ticks on one axis crowd rather than collide: a wider
+            # Neighboring ticks on one axis crowd rather than collide: a wider
             # tolerance, because their boxes carry the line gap as well as the glyphs.
             tol = TICK_TOL if (ka == "tick" and kb == "tick") else TOL
             if ov.width * ov.height > tol * small:

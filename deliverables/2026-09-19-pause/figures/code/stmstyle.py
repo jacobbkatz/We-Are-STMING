@@ -1,14 +1,14 @@
 """The shared visual system for the 2026-09-19 pause-point presentation figures.
 
 Every figure in `deliverables/2026-09-19-pause/figures/` imports this module and nothing
-else for its look. One place to change typeface, colour, grid weight and export sizes, so
+else for its look. One place to change typeface, color, grid weight and export sizes, so
 all the figures read as coming from one instrument.
 
 TYPEFACE. Inter, committed to `../fonts/` under the SIL Open Font License. It is loaded
 from a path relative to this module, so it works on any machine that has the repository -
 nothing has to be installed. Inter was drawn for screens and for small sizes, its figures
 are even-width so columns of numbers line up, and it stays legible on a poster read from
-two metres. matplotlib's DejaVu Sans default is what makes a chart look like a lab report,
+two meters. matplotlib's DejaVu Sans default is what makes a chart look like a lab report,
 and `assert_font_loaded()` below fails loudly rather than falling back to it silently.
 
 HIERARCHY IS WEIGHT, NOT SIZE. Four sizes in the whole system - 13.5 / 10.5 / 9.5 / 8.5 -
@@ -20,7 +20,7 @@ re-checked here with that skill's own validator; the results are in `../STYLE.md
 add a hue by eye: run the validator.
 
 NOTHING IN THIS FILE IS A PROJECT CONSTANT. Every measured number lives in
-`docs/FACTS.md` or in the raw file the figure cites. This module knows colour and type.
+`docs/FACTS.md` or in the raw file the figure cites. This module knows color and type.
 
 Run any figure script from the repository root, e.g.
 
@@ -88,7 +88,7 @@ assert_font_loaded()
 # Raised about a quarter on 2026-09-20. A figure 10 in wide renders at 1140 CSS px in
 # the website's column and at 350 px on a phone, so every point of type is scaled by
 # 1.55 on a laptop and by 0.48 on a phone. At the old 8.5 pt the footer came out at
-# 4 px on a phone - a grey smear, measured, not guessed. These sizes plus the shorter
+# 4 px on a phone - a gray smear, measured, not guessed. These sizes plus the shorter
 # footers and the scrollable figure frame in the site are what make it legible.
 TYPE = dict(title=17.0, label=13.0, annot=12.0, small=11.0, hero=38)
 # Three weights. Hierarchy lives here, not in the sizes.
@@ -131,16 +131,16 @@ DARK = dict(
 )
 
 # Status palette - fixed, never themed, never used for "series 4".
-# Always shipped with a word beside it, never colour alone.
+# Always shipped with a word beside it, never color alone.
 STATUS = dict(good="#0ca30c", warning="#fab219", serious="#ec835a", critical="#d03b3b")
 
-# ---------------------------------------------------------------- coloured words
+# ---------------------------------------------------------------- colored words
 #
-# These figures name their series by colouring the word in the subtitle instead of
+# These figures name their series by coloring the word in the subtitle instead of
 # carrying a legend box. A legend box costs space, sits inside the plot, and collides
-# with the data; a coloured word is read at poster distance.
+# with the data; a colored word is read at poster distance.
 #
-# A MARK COLOUR IS NOT A TEXT COLOUR. On the light surface the series hues run 2.7-4.3:1
+# A MARK COLOR IS NOT A TEXT COLOR. On the light surface the series hues run 2.7-4.3:1
 # against the surface - fine for a 2px line, below the 4.5:1 WCAG needs for body text.
 # So each slot has a DARKER TEXT STEP of the same hue, used only for words, while the
 # mark keeps the validated series hue. Measured contrast against the surface, computed
@@ -172,7 +172,7 @@ def series(i: int) -> str:
 def word(i: int) -> str:
     """The TEXT step of slot i - darker (or, in dark mode, lighter) than the mark.
 
-    Use this and only this for a coloured word. Never set text in `series(i)`.
+    Use this and only this for a colored word. Never set text in `series(i)`.
     """
     return C["word"][i]
 
@@ -268,7 +268,7 @@ def titles(fig, title, subtitle=None, x=0.012, y=0.982, gap=0.050):
 
 
 def titles_keyed(fig, title, subtitle, props, x=0.012, y=0.982, gap=0.050):
-    """Title plus a subtitle whose <marked> words are coloured to name the series.
+    """Title plus a subtitle whose <marked> words are colored to name the series.
 
     This replaces the legend box. Identity is carried by the words the reader is already
     reading, which is the biggest legibility win at poster distance - and it removes the
@@ -276,7 +276,7 @@ def titles_keyed(fig, title, subtitle, props, x=0.012, y=0.982, gap=0.050):
 
     `props` is one dict per <marked> span, in order, e.g.
         [{"color": S.word(0), "fontweight": S.W_EMPH}, ...]
-    Colour a word only with `word(i)`, never with `series(i)`: see the note on the text
+    Color a word only with `word(i)`, never with `series(i)`: see the note on the text
     steps above.
     """
     from highlight_text import fig_text
@@ -330,7 +330,7 @@ _BLOCK = re.compile(r"(?:^|(?<=[.\u2014] ))(?=(?:Source:|[A-Z][A-Z0-9\u2019' -]{
 
 
 def _paragraphs(text):
-    """Split a footer into its labelled blocks.
+    """Split a footer into its labeled blocks.
 
     The line breaks authors typed are soft - they fall mid-sentence - so they are
     thrown away and the text re-wrapped. What must survive is the block structure:
@@ -435,7 +435,7 @@ def fit_footer(fig, gap_in=0.16, rounds=4):
 
 
 def note(ax, x, y, text, **kw):
-    """An annotation in ink, never in a series colour, Regular unless told otherwise."""
+    """An annotation in ink, never in a series color, Regular unless told otherwise."""
     kw.setdefault("fontsize", TYPE["annot"])
     kw.setdefault("color", C["ink2"])
     kw.setdefault("fontweight", W_BODY)

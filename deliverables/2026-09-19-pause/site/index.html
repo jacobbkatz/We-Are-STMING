@@ -629,7 +629,7 @@
 
   <div class="tracewrap">
     <p class="axlab">current, nanoamps</p>
-    <svg class="trace" viewBox="0 0 1000 262" role="img" aria-label="A measured approach: the current climbs out of the noise to 3.2 nanoamps as the tip moves 1,920 converter counts closer to the gold.">
+    <svg class="trace" viewBox="0 0 1000 262" role="img" aria-label="A measured approach: the current climbs from the noise floor of about 0.05 nanoamps to 3.2 nanoamps as the tip moves 1,920 converter counts closer to the gold.">
       <line x1="52.0" y1="209.2" x2="976.0" y2="209.2" class="gl"/><text x="43.0" y="213.2" class="gt">0.1</text><line x1="52.0" y1="77.1" x2="976.0" y2="77.1" class="gl"/><text x="43.0" y="81.1" class="gt">1</text><line x1="52.0" y1="37.3" x2="976.0" y2="37.3" class="gl"/><text x="43.0" y="41.3" class="gt">2</text><polyline class="tr" pathLength="1" points="52.0,123.7 61.6,124.8 71.2,142.5 80.9,144.6 90.5,128.7 100.1,156.3 109.8,112.5 119.4,118.6 129.0,136.2 138.6,148.6 148.2,141.4 157.9,160.6 167.5,135.7 177.1,140.2 186.8,142.0 196.4,129.1 206.0,135.8 215.6,137.7 225.2,123.5 234.9,117.4 244.5,118.0 254.1,133.6 263.8,132.3 273.4,119.7 283.0,164.9 292.6,142.2 302.2,129.9 311.9,122.4 321.5,133.5 331.1,133.8 340.8,136.3 350.4,138.1 360.0,117.4 369.6,138.2 379.2,141.1 388.9,131.1 398.5,136.9 408.1,123.9 417.8,138.6 427.4,119.9 437.0,106.9 446.6,89.3 456.2,113.2 465.9,106.5 475.5,120.4 485.1,122.2 494.8,119.5 504.4,116.9 514.0,127.1 523.6,120.3 533.2,116.9 542.9,121.2 552.5,105.9 562.1,102.6 571.8,109.5 581.4,94.9 591.0,102.1 600.6,98.3 610.2,93.1 619.9,91.7 629.5,90.9 639.1,85.7 648.8,90.2 658.4,89.4 668.0,88.9 677.6,87.5 687.2,90.3 696.9,84.0 706.5,83.4 716.1,78.6 725.8,93.7 735.4,83.9 745.0,80.6 754.6,84.7 764.2,77.3 773.9,76.2 783.5,77.1 793.1,69.3 802.8,50.1 812.4,70.5 822.0,65.3 831.6,65.9 841.2,59.5 850.9,59.3 860.5,64.2 870.1,83.2 879.8,74.0 889.4,85.7 899.0,67.6 908.6,44.1 918.2,62.3 927.9,26.8 937.5,31.8 947.1,32.0 956.8,27.6 966.4,22.9 976.0,14.0"/>
     </svg>
     <p class="axlab axfoot">tip moving toward the gold, 1,920 converter counts</p>
@@ -1100,13 +1100,13 @@
       citations that no longer point at the rule they name. It runs at every session start and a
       Git hook blocks the commit when it fails.</p></div>
     <div data-rv><h4>The logbook</h4><div class="f">sessions/</div>
-      <p>One append-only log per working session, <span data-repo-count="session-logs">28</span> of them, each with what was measured, what was
+      <p>One append-only log per working session, <span data-repo-count="session-logs">29</span> of them, each with what was measured, what was
       ruled out and what went wrong. Past readings are never edited. When a later session corrects
       an earlier one, the correction is written beside it, not over it.</p></div>
     <div data-rv><h4>The shared spine</h4><div class="f">git &middot; GitHub</div>
       <p>Two people, two computers, often days apart. Every session starts by pulling and ends by
       pushing, and a start-up hook does the pull, runs the checker and prints what changed since
-      last time. <strong><span data-repo-count="commits">266</span> commits.</strong> Neither of us has ever had to ask the other what
+      last time. <strong><span data-repo-count="commits">267</span> commits.</strong> Neither of us has ever had to ask the other what
       state the project was in.</p></div>
     <div data-rv><h4>The review pass</h4><div class="f">LEAD_VERIFICATION.md</div>
       <p>Every claim re-derived independently from the raw files before it was allowed into
@@ -1137,7 +1137,7 @@
   <div class="tally" data-rv>
     <div><div class="t num" data-repo-count="claude-lines">575</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
     <div><div class="t num" data-repo-count="facts-rows">157</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
-    <div><div class="t num" data-repo-count="commits">266</div><div class="l">commits, across two computers and two people</div></div>
+    <div><div class="t num" data-repo-count="commits">267</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num" data-repo-count="checker-lines">598</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
 
@@ -1322,7 +1322,7 @@
         <li><b>Self-directed.</b> No faculty advisor, no grant, no laboratory.</li>
         <li><b>Eleven weeks</b> of planning and design, and <b>eight weeks</b> of building.
         Where one ended and the other began, we never wrote down.</li>
-        <li><b><span data-repo-count="session-logs" data-format="words">Twenty-eight</span></b> working sessions, each one logged and never rewritten.</li>
+        <li><b><span data-repo-count="session-logs" data-format="words">Twenty-nine</span></b> working sessions, each one logged and never rewritten.</li>
         <li><b><span data-repo-count="data-files">163</span> raw data files</b> and <b><span data-repo-count="photographs">92</span> photographs</b> of our own hardware, all public.</li>
       </ul>
     </div>
@@ -1404,7 +1404,7 @@
 
   <div class="colophon">
     <p><strong>Eleven weeks of planning and design, eight weeks of building.</strong> First power-on
-    29 August 2026; last bench session 19 September 2026. <span data-repo-count="session-logs" data-format="words">Twenty-eight</span> session logs, <span data-repo-count="data-files">163</span> raw data
+    29 August 2026; last bench session 19 September 2026. <span data-repo-count="session-logs" data-format="words">Twenty-nine</span> session logs, <span data-repo-count="data-files">163</span> raw data
     files and <span data-repo-count="photographs">92</span> photographs of our own hardware.</p>
     <p><strong>Mech Panda</strong> and <strong>Dan Berard</strong> published their instruments for
     free. Without them there would have been nothing to bring up.</p>

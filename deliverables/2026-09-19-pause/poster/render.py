@@ -11,6 +11,13 @@ thing so you can look at it without opening a PDF reader.
   poster.pdf          -> send this to the printer. 48 x 36 inches, landscape.
   poster_preview.png  -> open this to check the layout. Same thing, as a picture.
 
+BEFORE IT RENDERS it runs `stamp_counts.py`, which re-counts the eight numbers the
+poster states about this repository - session logs, lines of protocol, rows in the
+register and so on - and writes the answers into poster.html. Those numbers change
+whenever anybody works on the project, and three of them had gone stale by the time
+anyone looked. This is what stops a printed poster stating a count the repository
+does not have. It prints what it re-counted, so you can see it happen.
+
 IF IT FAILS. The usual cause is that the browser is not where this script expects it:
 it looks at /opt/pw-browsers/chromium. On a different machine, install the Python
 package `playwright` and then run `python3 -m playwright install chromium`, and this
@@ -25,10 +32,12 @@ from __future__ import annotations
 
 import os
 import re
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HTML = os.path.join(HERE, "poster.html")
+STAMP = os.path.join(HERE, "stamp_counts.py")
 PDF = os.path.join(HERE, "poster.pdf")
 PNG = os.path.join(HERE, "poster_preview.png")
 
@@ -46,9 +55,26 @@ def page_size_from_html(path):
     return float(m.group(1)), float(m.group(2))
 
 
+def stamp_repository_counts():
+    """Re-count the repository and write the answers into poster.html, first.
+
+    This runs BEFORE the page is opened, so what gets printed is what was counted.
+    If it fails, rendering stops rather than producing a poster with numbers nobody
+    checked - a wrong count on a printed sheet cannot be corrected afterwards.
+    """
+    print("counting the repository (stamp_counts.py):")
+    r = subprocess.run([sys.executable, STAMP], cwd=HERE)
+    if r.returncode != 0:
+        raise SystemExit(
+            "the repository counts could not be written into the poster, so nothing "
+            "has been rendered. The message above says what went wrong. Fix that and "
+            "run this again - poster.pdf is untouched.")
+
+
 def main():
     from playwright.sync_api import sync_playwright
 
+    stamp_repository_counts()
     w_in, h_in = page_size_from_html(HTML)
     # CSS inches are exactly 96 CSS pixels, so this is the pixel size of the page.
     w_px, h_px = int(round(w_in * 96)), int(round(h_in * 96))

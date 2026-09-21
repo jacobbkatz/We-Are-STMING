@@ -145,7 +145,7 @@ def main():
         fig,
         "The amplifier is quiet, and footsteps do not get into it electrically",
         "Ten seconds of readings with the tip clear, <with the room still> and again <with someone stamping on the "
-        "floor about two metres away>.\nThe two are indistinguishable. What noise there is sits on the mains "
+        "floor about two meters away>.\nThe two are indistinguishable. What noise there is sits on the mains "
         "frequency and its harmonics — a wiring problem with known fixes, not a limit of the amplifier.",
         [{"color": S.word(0), "fontweight": S.W_EMPH},
          {"color": S.word(1), "fontweight": S.W_EMPH}])

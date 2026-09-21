@@ -43,7 +43,7 @@ nobody should quote "53 measurements" as 53 independent tests of the chain.
 
 **The slope is the ratio of the feedback resistor to the dummy resistor**, both nominal 100 MΩ,
 divided by the volts per count. **Neither resistor's tolerance is recorded.** So the agreement to
-0.16% confirms the scale *to within those two tolerances* — it is substantially a measurement that
+0.15% confirms the scale *to within those two tolerances* — it is substantially a measurement that
 the two resistors match each other, not an independent confirmation of 320 counts per nA. A pair of
 5% resistors that happen to be cut from the same reel would produce exactly this result.
 
