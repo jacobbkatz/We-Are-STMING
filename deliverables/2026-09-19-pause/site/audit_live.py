@@ -15,6 +15,8 @@ actually does with it, at five widths, in light and dark.
               dead on a real phone and every test still passed.
   errors      uncaught JavaScript, and any request that 4xx/5xx'd
   overflow    sideways scroll at each width
+  navbar      the sticky bar stays one row, and is no taller than the scroll-margin
+              written for it - a wrapped bar swallows every anchor link
   targets     tap targets under 40 px on the phone
   motion      that the reveal animations finish, so nothing stays invisible
 """
@@ -84,6 +86,33 @@ def main() -> int:
                 if loose:
                     note.append("sections outside .page - the parser restructured the "
                                 "document: %s" % loose[:4])
+                # The sticky bar is a fixed-width column whatever the viewport, so a
+                # link added to it overflows its own container at EVERY desktop width and
+                # only becomes visible page scroll over a narrow band. Adding a ninth link
+                # on 2026-09-21 did exactly that. The bar now wraps rather than overflowing,
+                # which protects the page - and hides the mistake, because a two-row bar is
+                # also 25 px taller than the scroll-margin written for it, so every anchor
+                # link lands underneath it. So check the bar is ONE row, or the hamburger.
+                rows = pg.evaluate("""() => {
+                    const nl = document.querySelector('.navlinks');
+                    if (!nl || getComputedStyle(nl).display === 'none') { return 0; }
+                    const tops = Array.from(nl.querySelectorAll('a'))
+                        .map(function (a) { return Math.round(a.getBoundingClientRect().top); });
+                    return new Set(tops).size;
+                }""")
+                if rows > 1:
+                    note.append("the nav bar wraps onto %d rows, so anchor links land "
+                                "under it" % rows)
+                bar = pg.evaluate(
+                    "Math.round(document.querySelector('.topnav').getBoundingClientRect().height)")
+                margin = pg.evaluate("""() => {
+                    const s = document.querySelector('section');
+                    return parseFloat(getComputedStyle(s).scrollMarginTop) || 0;
+                }""")
+                if margin < bar:
+                    note.append("scroll-margin-top is %d px but the bar is %d px, so an "
+                                "anchor lands under it" % (margin, bar))
+
                 lay = pg.evaluate("document.documentElement.clientWidth")
                 if abs(lay - width) > 2:
                     note.append("lays out at %d px, not %d" % (lay, width))

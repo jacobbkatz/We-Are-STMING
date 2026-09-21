@@ -7,7 +7,7 @@ WHY THIS EXISTS. index.html is 1,300 lines of hand-written markup carrying about
 sixty links, two dozen images and every number this project claims. Reading it end
 to end catches prose mistakes and misses mechanical ones - a heading level skipped,
 an anchor pointing at an id that was renamed, an image whose stated size stopped
-matching the file, a colour pair that fails contrast in dark mode only. Those are a
+matching the file, a color pair that fails contrast in dark mode only. Those are a
 CLASS of defect, so they get a program rather than another read-through.
 
 WHAT IT CHECKS, all without a browser:
@@ -15,7 +15,7 @@ WHAT IT CHECKS, all without a browser:
   links        every href="#id" resolves, and no id is defined twice
   files        every local src/href exists on disk
   sizes        every <img> width/height matches the real pixel size of the file
-  alt          every <img> has alt text, or is labelled by a sibling in its link
+  alt          every <img> has alt text, or is labeled by a sibling in its link
   headings     no level is skipped (h2 -> h4), exactly one h1
   contrast     every foreground/background token pair meets WCAG AA, light AND dark
   document     lang, title, viewport, description present and sane
@@ -23,6 +23,8 @@ WHAT IT CHECKS, all without a browser:
   duplicates   no paragraph appears twice (the usual scar of a bad copy-paste)
   counts       every number the page states about THIS repository is current
                (except the commit count, which the build stamps - see the note there)
+  spelling     no British spelling survives - including the inflections a bulk
+               substitution of the base word leaves behind
 
 The browser-side checks - console errors, 404s, sideways scroll, tap targets - need
 Playwright and live in `audit_live.py` beside this file.
@@ -55,8 +57,8 @@ def srgb_to_lin(c: float) -> float:
     return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
 
 
-def luminance(hex_colour: str) -> float:
-    h = hex_colour.lstrip("#")
+def luminance(hex_color: str) -> float:
+    h = hex_color.lstrip("#")
     if len(h) == 3:
         h = "".join(ch * 2 for ch in h)
     r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
@@ -122,7 +124,7 @@ def check_images(page, fail):
 
 
 def check_alt_text(page, fail):
-    """Every image is either described, or labelled by text inside its own link."""
+    """Every image is either described, or labeled by text inside its own link."""
     for m in re.finditer(r"<img\b([^>]*)>", page):
         a = attrs_of(m.group(1))
         if a.get("alt", "").strip():
@@ -272,6 +274,41 @@ def check_repo_counts(page, fail):
                            "(run build_assets.py)" % (key, body, want))
 
 
+# The page is written in US English. A bulk substitution catches the common word and
+# misses its inflections: converting "tunnelling" on 2026-09-21 left "tunnelled" standing
+# in the central claim of the tunnelling section, and "grey" in a comment. That is a CLASS
+# of mistake - one rule, applied to a word list that was not complete - so it gets a list
+# and a test rather than another read-through.
+BRITISH = [
+    (r"tunnell(ing|ed|er)", "tunnel + one l: tunneling, tunneled"),
+    (r"colou(r|rs|red|ring)\\b", "color"),
+    (r"(la|mode|trave|cance|signa|tota|enamè?e?|enamel)lled", "one l before -ed"),
+    (r"analogue", "analog"),
+    (r"\bcentre(d|s)?\b", "center"),
+    (r"\b(nano|micro|milli|kilo)?metres?\b", "meter"),
+    (r"\bgrey\b", "gray"),
+    (r"behaviour", "behavior"),
+    (r"neighbour", "neighbor"),
+    (r"jeweller", "jeweler"),
+    (r"artefact", "artifact"),
+    (r"aluminium", "aluminum"),
+    (r"\bwhilst\b", "while"),
+    (r"\bamongst\b", "among"),
+    (r"\b(recogni|organi|emphasi|analy)s(e|ed|es|ing)\b", "-ize / -yze"),
+    (r"\bdefence\b", "defense"),
+    (r"\bmodelling\b", "modeling"),
+]
+
+
+def check_spelling(page, fail):
+    for pattern, want in BRITISH:
+        for m in re.finditer(pattern, page, re.I):
+            line = page.count("\n", 0, m.start()) + 1
+            around = page[max(0, m.start() - 46):m.end() + 46].replace("\n", " ")
+            fail("spelling", 'line %d: "%s" is British, use %s  ...%s...'
+                 % (line, m.group(0), want, around.strip()))
+
+
 def main() -> int:
     page = open(PAGE, encoding="utf-8").read()
     problems = []
@@ -289,9 +326,10 @@ def main() -> int:
     check_figures(page, fail)
     check_duplicates(page, fail)
     check_repo_counts(page, fail)
+    check_spelling(page, fail)
 
     areas = ["links", "files", "sizes", "alt", "headings", "contrast",
-             "document", "figures", "duplicates", "counts"]
+             "document", "figures", "duplicates", "counts", "spelling"]
     for area in areas:
         hits = [m for a, m in problems if a == area]
         if hits:
