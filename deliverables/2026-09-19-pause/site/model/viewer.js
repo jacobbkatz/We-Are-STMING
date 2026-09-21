@@ -113,10 +113,21 @@
   }
 
   /* ------------------------------------------------------------- the scene */
+  /* The tints live in CSS so they follow the theme. They used to be hard-coded here,
+     which meant the model kept its light-mode colours on the dark ground: 81% of its
+     pixels fell below 3:1 against the background and the frame group all but vanished.
+     A colour the page paints belongs in a token, even when a shader is what paints it. */
+  function tintOf(name, fallback) {
+    var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    var m = /^#([0-9a-f]{6})$/i.exec(v);
+    if (!m) { return fallback; }
+    var h = parseInt(m[1], 16);
+    return [((h >> 16) & 255) / 255, ((h >> 8) & 255) / 255, (h & 255) / 255];
+  }
   var GROUPS = {
-    "scan-head": { label: "The scan head",  tint: [0.83,0.66,0.31] },
-    "isolation": { label: "The frame and suspension", tint: [0.42,0.47,0.50] },
-    "enclosures": { label: "The boxes and the shield", tint: [0.30,0.55,0.52] }
+    "scan-head": { label: "The scan head",  tint: [0.83,0.66,0.31], css: "--m-scan" },
+    "isolation": { label: "The frame and suspension", tint: [0.42,0.47,0.50], css: "--m-frame" },
+    "enclosures": { label: "The boxes and the shield", tint: [0.30,0.55,0.52], css: "--m-box" }
   };
   var parts = [], radius = 1, centre = [0,0,0];
   var az = 0.58, el = 0.52, dist = 1, hover = -1, sel = -1;
@@ -277,13 +288,30 @@
     return id > 0 ? id - 1 : -1;
   }
 
+  function readTints() {
+    Object.keys(GROUPS).forEach(function (g) {
+      GROUPS[g].tint = tintOf(GROUPS[g].css, GROUPS[g].tint);
+    });
+  }
+  readTints();
+  if (window.matchMedia) {
+    var dm = window.matchMedia("(prefers-color-scheme: dark)");
+    var onTheme = function () { readTints(); invalidate(); };
+    if (dm.addEventListener) { dm.addEventListener("change", onTheme); }
+    else if (dm.addListener) { dm.addListener(onTheme); }
+  }
+
   /* ---------------------------------------------------------------- panel */
+  var HINT = '<p class="hint">Drag to turn it round, and click or tap any part for its real ' +
+             'measurements. With the model focused, the arrow keys turn it, plus and minus ' +
+             'zoom, and Enter steps through the parts.</p>';
   function show(i) {
     if (!panel) { return; }
     if (i < 0) {
-      panel.innerHTML = '<p class="hint">Drag to turn it round, scroll to zoom, and click any part for its real measurements.</p>';
+      if (panel.dataset.state !== "hint") { panel.innerHTML = HINT; panel.dataset.state = "hint"; }
       return;
     }
+    panel.dataset.state = "part";
     var m = parts[i];
     panel.innerHTML =
       '<h4>' + m.name + '</h4>' +
@@ -337,9 +365,32 @@
     else if (e.key === "ArrowDown")  { el = Math.max(-1.35, el - step); }
     else if (e.key === "+" || e.key === "=") { dist = Math.max(radius * 1.1, dist * 0.88); }
     else if (e.key === "-")  { dist = Math.min(radius * 7, dist * 1.12); }
+    else if (e.key === "Enter" || e.key === " ") { step_selection(e.shiftKey ? -1 : 1); }
+    else if (e.key === "Escape") { sel = -1; show(-1); }
     else { return; }
     e.preventDefault(); invalidate();
   });
+
+  /* Walk to the next part whose group is switched on. Bounded by the part count, so a
+     legend with every group hidden cannot spin here. */
+  function step_selection(dir) {
+    var i = sel;
+    for (var k = 0; k < parts.length; k++) {
+      i = (i + dir + parts.length) % parts.length;
+      if (groupOn[parts[i].group]) { sel = i; show(sel); return; }
+    }
+    sel = -1; show(-1);
+  }
+
+  function zoom(f) {
+    dist = Math.max(radius * 1.1, Math.min(radius * 7, dist * f));
+    invalidate();
+  }
+  var zi = document.getElementById("zoomin"), zo = document.getElementById("zoomout");
+  /* There is no wheel event on a touchscreen and touch-action gives vertical gestures to
+     the page, so the wheel handler alone left phones with no way to zoom at all. */
+  if (zi) { zi.addEventListener("click", function () { zoom(0.85); }); }
+  if (zo) { zo.addEventListener("click", function () { zoom(1.18); }); }
 
   host.querySelectorAll("[data-group]").forEach(function (b) {
     b.addEventListener("click", function () {

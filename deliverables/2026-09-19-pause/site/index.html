@@ -8,6 +8,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<noscript><style>
+  /* The menu is opened by script. Without it, show the links and hide the button that
+     cannot work, rather than leaving a phone with no navigation at all. */
+  @media (max-width:1090px){
+    .navlinks{ display:flex !important; position:static !important; }
+    .navtoggle{ display:none !important; }
+  }
+  #viewstatus{ visibility:hidden; }   /* it would say "Loading the parts..." for ever */
+</style></noscript>
 <style>
   :root{
     --ground:#FCFCFB; --raise:#FFFFFF;
@@ -15,6 +24,7 @@
     --line:#E2E4E3; --hair:#EDEFEE;
     --gold:#8A6D22; --goldmark:#C9A24B; --goldwash:#FBF6E7;
     --verified:#0F766E; --verwash:#EAF5F3;
+    --m-scan:#D4A84F; --m-frame:#6B787F; --m-box:#4C8C85;
     --s1:12.8px; --s2:16px; --s3:20px; --s4:25px; --s5:31.25px; --s6:39px; --s7:48.8px; --s8:61px;
   }
   @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
@@ -23,6 +33,7 @@
     --line:#2A2D2F; --hair:#232628;
     --gold:#D8B457; --goldmark:#D8B457; --goldwash:#241F12;
     --verified:#4FB9A8; --verwash:#14221F;
+    --m-scan:#E3BE6A; --m-frame:#9AA7AE; --m-box:#63B3A9;
   }}
   :root[data-theme="dark"]{
     --ground:#141618; --raise:#1B1E20;
@@ -30,6 +41,7 @@
     --line:#2A2D2F; --hair:#232628;
     --gold:#D8B457; --goldmark:#D8B457; --goldwash:#241F12;
     --verified:#4FB9A8; --verwash:#14221F;
+    --m-scan:#E3BE6A; --m-frame:#9AA7AE; --m-box:#63B3A9;
   }
   *{ box-sizing:border-box; }
   body{
@@ -66,16 +78,16 @@
   /* ---------- the explainer ---------- */
   .gap{ margin-block:clamp(26px,4vw,42px); }
   .gap .scroller{ overflow-x:auto; }
-  .gap svg{ min-width:640px; width:100%; height:auto; display:block; }
+  .gap svg{ min-width:860px; width:100%; height:auto; display:block; }  /* = viewBox width */
   .gap .sol{ fill:none; stroke:var(--ink2); stroke-width:1.2; }
   .gap .tipf{ fill:var(--hair); stroke:var(--ink2); stroke-width:1.2; }
   .gap .atom{ fill:var(--raise); stroke:var(--ink2); stroke-width:1.1; }
   .gap .hot{ fill:var(--goldwash); stroke:var(--goldmark); stroke-width:1.2; }
   .gap .flow{ stroke:var(--goldmark); stroke-width:1.5; fill:none; stroke-dasharray:3 3.5; }
   .gap .dim{ stroke:var(--gold); stroke-width:1; fill:none; }
-  .gap .lbl{ fill:var(--ink); font-family:'Inter',sans-serif; font-size:13px; font-weight:600; }
-  .gap .sub{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:11.5px; }
-  .gap .glb{ fill:var(--gold); font-family:'Inter',sans-serif; font-size:11.5px; font-weight:600; }
+  .gap .lbl{ fill:var(--ink); font-family:'Inter',sans-serif; font-size:14px; font-weight:600; }
+  .gap .sub{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:12.5px; }
+  .gap .glb{ fill:var(--gold); font-family:'Inter',sans-serif; font-size:12.5px; font-weight:600; }
   .gap .ax{ stroke:var(--line); stroke-width:1; fill:none; }
   .gap .dim{ stroke:var(--gold); stroke-width:1; fill:none; }
   .gap .curve{ fill:none; stroke:var(--goldmark); stroke-width:2; stroke-linecap:round; }
@@ -148,7 +160,7 @@
   .who .did li{ padding-block:.7em; border-bottom:1px solid var(--hair);
                 font-size:var(--s1); color:var(--ink2); line-height:1.55; }
   .who .did b{ color:var(--ink); font-weight:600; }
-  .who .li{ display:inline-block; margin-top:1em; font-size:var(--s1); }
+  .who .li{ padding-block:.4em; display:inline-block; margin-top:1em; font-size:var(--s1); }
   .who .aside{ font-size:var(--s1); color:var(--muted); border-left:2px solid var(--line);
                padding-left:.85em; line-height:1.55; }
 
@@ -163,6 +175,11 @@
   @media (max-width:820px){ .stage{ aspect-ratio:4/3; } }
   .stage canvas{ width:100%; height:100%; display:block; touch-action:pan-y; cursor:grab; }
   .stage canvas:focus-visible{ outline:2px solid var(--gold); outline-offset:-2px; }
+  .zoomers{ position:absolute; right:10px; bottom:10px; display:flex; gap:6px; }
+  .zoomers button{ width:44px; height:44px; font:inherit; font-size:20px; line-height:1;
+                   cursor:pointer; color:var(--ink); background:var(--raise);
+                   border:1px solid var(--line); border-radius:2px; }
+  .zoomers button:hover{ border-color:var(--goldmark); }
   .viewer.failed .stage{ display:none; }
   .side{ display:flex; flex-direction:column; gap:12px; }
   .keys{ display:flex; flex-wrap:wrap; gap:7px; }
@@ -173,6 +190,22 @@
   .keys button:hover{ border-color:var(--goldmark); color:var(--ink); }
   /* A thumb is not a mouse pointer. 36 px clears WCAG's 24 px minimum but is tight
      to hit while holding a phone, so on a coarse pointer every control gets 44. */
+  @media print{
+    .topnav, .prog, .keys, .figswipe, .actions, .skip, .zoomers{ display:none; }
+    :root{ --ground:#fff; --raise:#fff; --ink:#000; --ink2:#333; --muted:#555;
+           --line:#bbb; --hair:#ddd; --gold:#6b5418; --goldmark:#8a6d22; --goldwash:#fff;
+           --verified:#0a5a53; --verwash:#fff; }
+    body{ background:#fff; color:#000; }
+    .page{ max-width:none; padding-inline:0; }
+    section{ margin-block:1.2em; }
+    h1,h2,h3{ break-after:avoid; }
+    figure,.item,.val,.ss,.tl,.price .r,.sys > div{ break-inside:avoid; }
+    .heroshot img,.photo img{ max-height:11cm; width:auto; }
+    /* On paper a link is a dead end unless it says where it goes. */
+    main a[href^="http"]::after{ content:" (" attr(href) ")"; font-size:.82em; color:#555;
+                                 word-break:break-all; }
+  }
+
   @media (pointer:coarse){
     .keys button{ min-height:44px; padding-inline:.95em; }
     .topnav .in a, .topnav .in strong{ min-height:44px; display:inline-flex; align-items:center; }
@@ -198,15 +231,22 @@
   /* ---------- the bar that stays ---------- */
   .topnav{ position:sticky; top:0; z-index:20; background:var(--ground);
            border-bottom:1px solid var(--line); }
-  .topnav .in{ max-width:1320px; margin:0 auto; padding:0 20px;
+  .topnav .in{ max-width:1020px; margin:0 auto; padding:0 20px;
                display:flex; align-items:center; gap:18px; min-height:56px; }
   .topnav .brand{ font-family:'Newsreader',Georgia,serif; font-size:var(--s3);
                   letter-spacing:-0.012em; text-decoration:none; color:var(--ink);
                   white-space:nowrap; margin-right:auto; }
   .topnav .brand:hover{ color:var(--gold); }
-  .navlinks{ display:flex; flex-wrap:wrap; min-width:0; gap:4px 18px; align-items:center; }
+  .navlinks{ display:flex; flex-wrap:wrap; min-width:0; gap:4px 18px; align-items:center;
+             order:2; }
+  .topnav .navtoggle{ order:3; }
+  /* Focus lands here first, so it has to be visible the moment it is focused. */
+  .skip{ position:absolute; left:-9999px; top:0; }
+  .skip:focus{ position:fixed; left:16px; top:8px; z-index:30; background:var(--raise);
+               color:var(--ink); padding:11px 15px; border:1px solid var(--gold);
+               border-radius:2px; text-decoration:none; font-size:var(--s2); }
   .navlinks .menu-mail{ display:none; }
-  .navlinks a{ font-size:15px; color:var(--ink2); text-decoration:none; white-space:nowrap;
+  .navlinks a{ font-size:14px; color:var(--ink2); text-decoration:none; white-space:nowrap;
                padding-block:6px; border-bottom:2px solid transparent; }
   .navlinks a:hover{ color:var(--ink); border-bottom-color:var(--goldmark); }
   .navlinks a[aria-current="true"]{ color:var(--ink); border-bottom-color:var(--goldmark); }
@@ -319,7 +359,7 @@
   .tracewrap{ margin:clamp(30px,5vw,54px) 0 0; }
   svg.trace{ width:100%; height:auto; display:block; }
   .trace .gl{ stroke:var(--line); stroke-width:1; }
-  .trace .gt{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:12px; text-anchor:end; }
+  .trace .gt{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:12.5px; text-anchor:end; }
   .trace .tr{ fill:none; stroke:var(--goldmark); stroke-width:2; stroke-linejoin:round; stroke-linecap:round;
               stroke-dasharray:1; stroke-dashoffset:0; }
   @media (prefers-reduced-motion: no-preference){
@@ -330,11 +370,20 @@
   .axfoot{ margin:.55em 0 0 13%; }
   @media (max-width:760px){ .axlab{ margin-left:0; } .axfoot{ margin-left:0; } }
   @media (max-width:760px){
-    /* These scale with the drawing, so they are set larger to match on a phone. */
-    .trace .gt{ font-size:27px; }
+    /* These scale with the drawing, so they are set larger to match on a phone.
+       The size a reader sees is the declared size TIMES the viewBox scale - measured,
+       not computed: .trace is drawn 1000 wide into about 320 px, a scale of 0.32, so
+       27 px landed at 8.6. 38 px lands at 12.2, which is the floor worth reading. */
     .trace .tr{ stroke-width:4.5; }
     .trace .gl{ stroke-width:2; }
   }
+  /* The ladder. See the note above: the rendered size is the declared size times the
+     viewBox scale, and the hero chart has to fit rather than scroll, so its scale is not
+     fixed. Each step is sized so the band's narrow end still clears 12 px. */
+  @media (max-width:1019px){ .trace .gt{ font-size:16.5px; } }
+  @media (max-width:780px){  .trace .gt{ font-size:23px; } }
+  @media (max-width:560px){  .trace .gt{ font-size:34px; } }
+  @media (max-width:400px){  .trace .gt{ font-size:43px; } }
   .tracenote{ font-size:var(--s1); color:var(--muted); line-height:1.5; margin-top:.7em; max-width:42em; }
 
   /* ---------- the claim ---------- */
@@ -424,14 +473,14 @@
         radial-gradient(farthest-side at 0 50%, rgba(22,25,27,.14), rgba(22,25,27,0)) left / 12px 100% no-repeat scroll,
         radial-gradient(farthest-side at 100% 50%, rgba(22,25,27,.14), rgba(22,25,27,0)) right / 12px 100% no-repeat scroll; }
   }
-  .chain svg{ min-width:660px; width:100%; height:auto; display:block; color:var(--ink2); }
+  .chain svg{ min-width:860px; width:100%; height:auto; display:block; color:var(--ink2); }  /* = viewBox */
   .chain .bx{ fill:var(--raise); stroke:currentColor; stroke-width:1.1; }
-  .chain .lbl{ fill:var(--ink); font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600; }
-  .chain .sub{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:11.5px; }
+  .chain .lbl{ fill:var(--ink); font-family:'Inter',sans-serif; font-size:14px; font-weight:600; }
+  .chain .sub{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:12.5px; }
   .chain .arw{ stroke:currentColor; stroke-width:1.1; fill:none; }
   .chain .ret{ stroke:var(--goldmark); stroke-width:1.6; fill:none; }
-  .chain .alb{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:11px; text-anchor:middle; }
-  .chain .rlb{ fill:var(--gold); font-family:'Inter',sans-serif; font-size:11px; text-anchor:middle; font-weight:600; }
+  .chain .alb{ fill:var(--muted); font-family:'Inter',sans-serif; font-size:12.5px; text-anchor:middle; }
+  .chain .rlb{ fill:var(--gold); font-family:'Inter',sans-serif; font-size:12.5px; text-anchor:middle; font-weight:600; }
   .chain .re{ text-anchor:end; }
 
   /* ---------- deliverables ---------- */
@@ -527,9 +576,12 @@
 </style>
 </head>
 <body>
+<a class="skip" href="#content">Skip to the main content</a>
 <nav class="topnav" aria-label="Primary">
   <div class="in">
     <a class="brand" href="#top">We Are STMing</a>
+    <button class="navtoggle" id="navtoggle" type="button"
+            aria-expanded="false" aria-controls="navlinks">Sections</button>
     <div class="navlinks" id="navlinks">
       <a href="#didit">Did it work?</a>
       <a href="#what">What an STM is</a>
@@ -540,8 +592,6 @@
       <a href="#record">The record</a>
       <a href="#about">About</a>
     </div>
-    <button class="navtoggle" id="navtoggle" type="button"
-            aria-expanded="false" aria-controls="navlinks">Sections</button>
   </div>
 </nav>
 
@@ -587,6 +637,7 @@
   </div>
 </header>
 
+<main id="content">
 <section class="pricelead" aria-label="What a commercial instrument costs">
   <h2>A commercial one starts at fifty thousand dollars.</h2>
   <p class="measure">This is not usually a thing people build. You buy it, and what you are mostly
@@ -815,19 +866,24 @@
   <p class="measure">We printed twenty parts: the scan head, the frame and suspension it hangs in,
   and the boxes and the shield cover that go around them. These are those twenty, drawn from the
   same files that drove the printer. <strong>Drag to turn the model round, scroll to zoom, and
-  click any part to see what it is and how big it is.</strong></p>
+  click any part to see what it is and how big it is. On a phone, drag to turn it and use the
+  plus and minus buttons to zoom.</strong></p>
 
   <div class="modelwrap">
     <div class="viewer" id="viewer">
       <div class="stage">
-        <canvas tabindex="0" role="img"
-                aria-label="A three-dimensional view of the twenty printed parts of the instrument, in three groups: the scan head, the frame and suspension, and the boxes and shield cover. Drag to rotate, click a part for its details."></canvas>
+        <canvas tabindex="0" role="application" aria-roledescription="3-D part viewer"
+                aria-label="A three-dimensional view of the twenty printed parts of the instrument, in three groups: the scan head, the frame and suspension, and the boxes and shield cover. Arrow keys turn it, plus and minus zoom, Enter steps through the parts one at a time, Escape clears the selection."></canvas>
+        <div class="zoomers">
+          <button type="button" id="zoomin" aria-label="Zoom in">&plus;</button>
+          <button type="button" id="zoomout" aria-label="Zoom out">&minus;</button>
+        </div>
       </div>
       <div class="side">
         <div class="keys">
-          <button type="button" data-group="scan-head" aria-pressed="true"><i class="k1"></i>Scan head</button>
-          <button type="button" data-group="isolation" aria-pressed="true"><i class="k2"></i>Frame</button>
-          <button type="button" data-group="enclosures" aria-pressed="true"><i class="k3"></i>Boxes</button>
+          <button type="button" data-group="scan-head" aria-pressed="true"><i class="k1" aria-hidden="true"></i>Scan head</button>
+          <button type="button" data-group="isolation" aria-pressed="true"><i class="k2" aria-hidden="true"></i>Frame</button>
+          <button type="button" data-group="enclosures" aria-pressed="true"><i class="k3" aria-hidden="true"></i>Boxes</button>
           <button type="button" id="viewreset">Reset view</button>
         </div>
         <div class="info" id="partinfo" aria-live="polite">
@@ -835,7 +891,7 @@
         </div>
       </div>
     </div>
-    <p class="vstat" id="viewstatus">Loading the parts&hellip;</p>
+    <p class="vstat" id="viewstatus" role="status">Loading the parts&hellip;</p>
     <p class="vstat"><b>Every shape and size here is real</b>, read from the file that drove the
     printer. <b>The positions are not.</b> Print files are laid out for a print bed, and we do not
     have the file that says where each part sits on the finished instrument. For how it goes
@@ -1203,7 +1259,7 @@
         our hardware, so ask whose board it is before reading anything off it. It is in the
         operating protocol because he wrote it down.</li>
       </ul>
-      <a class="li" href="https://www.linkedin.com/in/nuh-shaheer-73436a269">LinkedIn</a>
+      <a class="li" href="https://www.linkedin.com/in/nuh-shaheer-73436a269" aria-label="Nuh Shaheer on LinkedIn">LinkedIn</a>
     </div>
 
     <div class="who" data-rv>
@@ -1233,7 +1289,7 @@
         <li><b>Settled a part that four written sources had got wrong</b> by picking it up and
         offering it to the hole. One of the four was a file in this repository.</li>
       </ul>
-      <a class="li" href="https://www.linkedin.com/in/jacob-katz-8a25492b9">LinkedIn</a>
+      <a class="li" href="https://www.linkedin.com/in/jacob-katz-8a25492b9" aria-label="Jacob Katz on LinkedIn">LinkedIn</a>
     </div>
   </div>
 
@@ -1312,6 +1368,7 @@
   </div>
   <p class="mailplain">Or write to <a href="mailto:jacob@quis.com?subject=We%20Are%20STMing">jacob@quis.com</a>.</p>
 </div>
+</main>
 
 <footer>
   <div class="footgrid">

@@ -18,6 +18,7 @@ actually does with it, at five widths, in light and dark.
   navbar      the sticky bar stays one row, and is no taller than the scroll-margin
               written for it - a wrapped bar swallows every anchor link
   targets     tap targets under 40 px on the phone
+  svgtype     no SVG label renders under 12 px once the viewBox scale is applied
   motion      that the reveal animations finish, so nothing stays invisible
 """
 from __future__ import annotations
@@ -156,6 +157,33 @@ def main() -> int:
                 if hidden:
                     note.append("%d revealed blocks never became visible" % hidden)
                 if mobile:
+                    # An SVG label's real size is its declared font-size TIMES the viewBox
+                    # scale, so getComputedStyle alone reads it wrong. Both wide diagrams
+                    # carried a min-width under their 860-wide viewBox and were scaled DOWN
+                    # inside their own scrollers: every label landed at 8.4-10.4 px on a
+                    # phone and no checker here could see it.
+                    tiny = pg.evaluate("""() => {
+                        const bad = [];
+                        document.querySelectorAll('svg').forEach(function (svg) {
+                          const vb = svg.viewBox && svg.viewBox.baseVal.width;
+                          if (!vb) { return; }
+                          const scale = svg.getBoundingClientRect().width / vb;
+                          if (!scale) { return; }
+                          svg.querySelectorAll('text').forEach(function (t) {
+                            if (!t.textContent.trim()) { return; }
+                            const px = parseFloat(getComputedStyle(t).fontSize) * scale;
+                            if (px < 12) {
+                              bad.push(t.textContent.trim().slice(0, 22) + ' @ ' +
+                                       px.toFixed(1) + 'px');
+                            }
+                          });
+                        });
+                        return Array.from(new Set(bad));
+                    }""")
+                    if tiny:
+                        note.append("%d SVG label(s) render under 12 px: %s"
+                                    % (len(tiny), tiny[:3]))
+
                     # WCAG 2.2 SC 2.5.8 wants 24x24 CSS px for a control. A link
                     # sitting inside a sentence is explicitly exempt, so prose links
                     # are not counted - only things that are controls in their own
