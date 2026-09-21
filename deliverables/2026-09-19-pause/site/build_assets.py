@@ -142,6 +142,62 @@ def stamp_sizes() -> None:
           if changed else "  every image tag already carries its true size")
 
 
+# The width each photograph is actually DRAWN at, measured in a browser at 390 px and at
+# 1280 px on 2026-09-21 - not guessed from the CSS. A browser picks from srcset using
+# these, so a wrong number here silently downloads the wrong file. Re-measure if the
+# layout changes; audit_live.py prints them.
+DRAWN = {
+    "hero":       (350, 406), "instrument": (350, 481), "room":     (350, 481),
+    "wiring":     (390, 980), "laptop":     (350, 980), "teardown": (350, 980),
+    "poster":     (350, 980), "nuh":        (350, 472), "module":   (350, 472),
+    "etching":    (350, 492), "team":       (350, 446),
+}
+
+
+def stamp_srcset() -> None:
+    """Offer a narrow copy of each photograph, and say how wide it will be drawn.
+
+    WHY. Every photograph was served at its full width whatever the screen. Measured on
+    2026-09-21: the page draws them between 406 and 980 px on a laptop and 350 px on a
+    phone, against files 1,200 to 1,800 px wide - so an ordinary-density laptop was
+    downloading two to three times the pixels it could show, 3.7 MB of it across the page.
+
+    The browser can only choose correctly if it is told BOTH what copies exist (srcset)
+    and how wide the picture will be drawn (sizes). Given only srcset it assumes full
+    viewport width and picks the big one every time, which is the common way this goes
+    wrong and looks like it is working.
+    """
+    path = os.path.join(HERE, "index.html")
+    page = open(path, encoding="utf-8").read()
+    changed = 0
+
+    def fix(m):
+        nonlocal changed
+        tag, rel = m.group(0), m.group(1)
+        name = os.path.basename(rel)[:-4]
+        if name not in DRAWN or not os.path.exists(os.path.join(OUT, name + "-800.jpg")):
+            return tag
+        full_w = Image.open(os.path.join(HERE, rel)).size[0]
+        phone, desk = DRAWN[name]
+        # Three candidates, not two. With only 800 and the full file, a 2x laptop
+        # wanting 944 px and a 3x phone wanting 1,050 both jumped straight to the
+        # 1,400-1,800 px original - correct, but a long way past what they could show.
+        srcset = "img/%s-800.jpg 800w, img/%s-1100.jpg 1100w, %s %dw" % (name, name, rel, full_w)
+        sizes = "(max-width: 760px) %dpx, %dpx" % (phone, desk)
+        clean = re.sub(r'\s(?:srcset|sizes)="[^"]*"', "", tag)
+        want = clean.replace('src="%s"' % rel,
+                             'src="%s" srcset="%s" sizes="%s"' % (rel, srcset, sizes))
+        if want != tag:
+            changed += 1
+        return want
+
+    out = IMG_TAG.sub(fix, page)
+    if changed:
+        open(path, "w", encoding="utf-8").write(out)
+    print("  stamped srcset/sizes on %d photograph(s)" % changed
+          if changed else "  every photograph already offers a narrow copy")
+
+
 # ---------------------------------------------------------------- repository counts
 #
 # Seven numbers on the page describe THE REPOSITORY ITSELF - how many lines of protocol,
@@ -259,13 +315,21 @@ def main() -> None:
             # still one click away behind the link.
             total += shrink(src, os.path.join(OUT, f[:5] + "-thumb.jpg"), 460, 78)
     for name, rel in PHOTOS.items():
-        total += shrink(os.path.join(PAUSE, rel), os.path.join(OUT, name + ".jpg"),
-                        1500, 82, crop_bar=True)
+        src = os.path.join(PAUSE, rel)
+        total += shrink(src, os.path.join(OUT, name + ".jpg"), 1500, 82, crop_bar=True)
+        total += shrink(src, os.path.join(OUT, name + "-1100.jpg"), 1100, 81, crop_bar=True)
+        total += shrink(src, os.path.join(OUT, name + "-800.jpg"), 800, 80, crop_bar=True)
     for name, rel in PEOPLE.items():
-        total += shrink(os.path.join(IMAGES_OURS, rel), os.path.join(OUT, name + ".jpg"), 1400, 82)
+        src = os.path.join(IMAGES_OURS, rel)
+        total += shrink(src, os.path.join(OUT, name + ".jpg"), 1400, 82)
+        total += shrink(src, os.path.join(OUT, name + "-1100.jpg"), 1100, 81)
+        total += shrink(src, os.path.join(OUT, name + "-800.jpg"), 800, 80)
     total += shrink(os.path.join(PAUSE, POSTER), os.path.join(OUT, "poster.jpg"), 1800, 82)
+    total += shrink(os.path.join(PAUSE, POSTER), os.path.join(OUT, "poster-1100.jpg"), 1100, 81)
+    total += shrink(os.path.join(PAUSE, POSTER), os.path.join(OUT, "poster-800.jpg"), 800, 80)
 
     stamp_sizes()
+    stamp_srcset()
     stamp_repo_counts()
 
     # A bar here would print the same words twice. Checked by switching the crop

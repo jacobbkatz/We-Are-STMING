@@ -607,7 +607,7 @@
     <span class="built">Built June to September 2026. Last bench session 19 September 2026.</span></div>
 
   <figure class="heroshot" data-rv>
-    <img src="img/hero.jpg" width="1200" height="1600" alt="The assembled microscope on a wooden bench: a printed frame about a foot tall, a platform hanging on three springs, and the copper-taped scan head on top of it." loading="eager" decoding="async">
+    <img src="img/hero.jpg" srcset="img/hero-800.jpg 800w, img/hero-1100.jpg 1100w, img/hero.jpg 1200w" sizes="(max-width: 760px) 350px, 406px" width="1200" height="1600" alt="The assembled microscope on a wooden bench: a printed frame about a foot tall, a platform hanging on three springs, and the copper-taped scan head on top of it." loading="eager" decoding="async">
     <p>The instrument, about a foot tall. Printed frame, a platform on three springs, the scan head under copper tape.</p>
   </figure>
 
@@ -787,16 +787,16 @@
 <figcaption>A typed command reaches the piezo in four hops. The current it produces comes back along the gold path, through an amplifier mounted as close to the tip as it physically fits. <b>The whole loop is what had to be proved before any of it could be trusted.</b></figcaption>
 </figure>
   <div class="duo">
-    <figure class="photo" data-rv><img src="img/instrument.jpg" width="1285" height="1501" alt="The assembled instrument on a wooden bench: a printed frame, three springs holding a suspended platform, and the scan head on a copper ground plane." loading="lazy">
+    <figure class="photo" data-rv><img src="img/instrument.jpg" srcset="img/instrument-800.jpg 800w, img/instrument-1100.jpg 1100w, img/instrument.jpg 1285w" sizes="(max-width: 760px) 350px, 481px" width="1285" height="1501" alt="The assembled instrument on a wooden bench: a printed frame, three springs holding a suspended platform, and the scan head on a copper ground plane." loading="lazy">
       <p class="cap"><b>The whole instrument, about a foot tall.</b> The printed frame carries a platform on three springs; the scan head sits on top of it under copper tape. The cardboard tubes are paper coin wrappers holding quarters &mdash; mass, added to push the springs past their initial tension.</p></figure>
     <div class="side">
-      <figure class="photo" data-rv><img src="img/room.jpg" width="1500" height="1032" alt="The basement room: concrete floor, wooden bench, an electrical panel on the wall and cardboard boxes stacked beside it." loading="lazy">
+      <figure class="photo" data-rv><img src="img/room.jpg" srcset="img/room-800.jpg 800w, img/room-1100.jpg 1100w, img/room.jpg 1500w" sizes="(max-width: 760px) 350px, 481px" width="1500" height="1032" alt="The basement room: concrete floor, wooden bench, an electrical panel on the wall and cardboard boxes stacked beside it." loading="lazy">
         <p class="cap"><b>Where the work happened.</b> A basement utility room, a few meters from a wall-mounted electrical panel and a standby-generator transfer switch. That is context for the noise problem, not a measurement of it.</p></figure>
       <p class="measure" data-rv>We ordered the boards, printed the frame, adapted the firmware, and brought up every stage on its own before trusting the next. The mechanics, controller and firmware follow Mech Panda&rsquo;s open <em>red-panda-stm</em>; the scan head and preamplifier follow Dan Berard&rsquo;s home-built STM. The electronics bring-up, the software, the calibration and the controls are ours.</p>
     </div>
   </div>
 
-  <figure class="photo" data-rv><a href="img/wiring.jpg" aria-label="Open the full-size image: the scanning module held in one hand, with four wire bundles labeled: preamp cables leaving to the left, motor wires"><img src="img/wiring.jpg" width="1500" height="1309" alt="The scanning module held in one hand, with four wire bundles labeled: preamp cables leaving to the left, motor wires going to the driver board beside the stepper, piezo wires crossing the copper base plate, and the bias wire dropping off the platform on its own." loading="lazy"></a>
+  <figure class="photo" data-rv><a href="img/wiring.jpg" aria-label="Open the full-size image: the scanning module held in one hand, with four wire bundles labeled: preamp cables leaving to the left, motor wires"><img src="img/wiring.jpg" srcset="img/wiring-800.jpg 800w, img/wiring-1100.jpg 1100w, img/wiring.jpg 1500w" sizes="(max-width: 760px) 390px, 980px" width="1500" height="1309" alt="The scanning module held in one hand, with four wire bundles labeled: preamp cables leaving to the left, motor wires going to the driver board beside the stepper, piezo wires crossing the copper base plate, and the bias wire dropping off the platform on its own." loading="lazy"></a>
     <figcaption><b>Four bundles leave the scanning module, and every one of them matters.</b> The <b>preamp cables</b> carry power to the amplifier and the measurement back out. The <b>motor wires</b> drive the coarse approach. The <b>piezo wires</b> move the tip. The <b>bias wire</b> puts the voltage on the sample. Which bundle is which is Jacob&rsquo;s identification, not something read off the colors &mdash; the same color means different things on the two cables, and the four wires at the piezo itself are bare enameled copper with no color code at all.</figcaption>
   </figure>
 
@@ -1061,7 +1061,7 @@
     <div data-rv><h4>The shared spine</h4><div class="f">git &middot; GitHub</div>
       <p>Two people, two computers, often days apart. Every session starts by pulling and ends by
       pushing, and a start-up hook does the pull, runs the checker and prints what changed since
-      last time. <strong><span data-repo-count="commits">267</span> commits.</strong> Neither of us has ever had to ask the other what
+      last time. <strong><span data-repo-count="commits">273</span> commits.</strong> Neither of us has ever had to ask the other what
       state the project was in.</p></div>
     <div data-rv><h4>The review pass</h4><div class="f">LEAD_VERIFICATION.md</div>
       <p>Every claim re-derived independently from the raw files before it was allowed into
@@ -1069,7 +1069,7 @@
       back. That document is on this page, unedited.</p></div>
   </div>
 
-  <figure class="photo band" data-rv><img src="img/laptop.jpg" width="1200" height="1600" alt="Jacob and Nuh at the bench with a laptop, a working session open on the screen." loading="lazy">
+  <figure class="photo band" data-rv><img src="img/laptop.jpg" srcset="img/laptop-800.jpg 800w, img/laptop-1100.jpg 1100w, img/laptop.jpg 1200w" sizes="(max-width: 760px) 350px, 980px" width="1200" height="1600" alt="Jacob and Nuh at the bench with a laptop, a working session open on the screen." loading="lazy">
     <p class="cap">A session in progress. <b>The model does the writing and the arithmetic; the
     framework is what catches it.</b></p>
   </figure>
@@ -1092,7 +1092,7 @@
   <div class="tally" data-rv>
     <div><div class="t num" data-repo-count="claude-lines">575</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
     <div><div class="t num" data-repo-count="facts-rows">157</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
-    <div><div class="t num" data-repo-count="commits">267</div><div class="l">commits, across two computers and two people</div></div>
+    <div><div class="t num" data-repo-count="commits">273</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num" data-repo-count="checker-lines">598</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
 
@@ -1110,7 +1110,7 @@
 
   <h3>The poster</h3>
   <figure data-rv>
-    <a href="https://drive.google.com/file/d/1MoSLyNovIRjsCd7feqWDtkj48C91wZUA/view"><img src="img/poster.jpg" width="1800" height="1350" alt="The research poster: seven panels covering the build, the calibration, the junction, the limit, the controls, the undecided junction, and the workflow." loading="lazy"></a>
+    <a href="https://drive.google.com/file/d/1MoSLyNovIRjsCd7feqWDtkj48C91wZUA/view"><img src="img/poster.jpg" srcset="img/poster-800.jpg 800w, img/poster-1100.jpg 1100w, img/poster.jpg 1800w" sizes="(max-width: 760px) 350px, 980px" width="1800" height="1350" alt="The research poster: seven panels covering the build, the calibration, the junction, the limit, the controls, the undecided junction, and the workflow." loading="lazy"></a>
     <figcaption>Forty-eight by thirty-six inches. <a href="https://drive.google.com/file/d/1MoSLyNovIRjsCd7feqWDtkj48C91wZUA/view">Open the print file</a>, or read <a href="https://docs.google.com/document/d/1g7_9QSFmusXeYeFyfknpLyufYXengNEakGYpBflJYvU/edit">the speaker script</a> and <a href="https://docs.google.com/document/d/1RADFrvVwFRQhFxcq_QQwnunfPm4atYvDhER1L1WYR7I/edit">the questions people ask</a>.</figcaption>
   </figure>
 
@@ -1190,7 +1190,7 @@
   <h2>About us</h2>
   <div class="pair" data-rv>
     <div class="who n" data-rv>
-      <figure class="photo"><img src="img/nuh.jpg" width="1400" height="1050" alt="Nuh at the bench in late August, facing the camera, with the assembled rig and the laptop in front of him." loading="lazy"></figure>
+      <figure class="photo"><img src="img/nuh.jpg" srcset="img/nuh-800.jpg 800w, img/nuh-1100.jpg 1100w, img/nuh.jpg 1400w" sizes="(max-width: 760px) 350px, 472px" width="1400" height="1050" alt="Nuh at the bench in late August, facing the camera, with the assembled rig and the laptop in front of him." loading="lazy"></figure>
       <h3>Nuh Shaheer</h3>
       <p class="at">Mechanical engineering, Worcester Polytechnic Institute &mdash; second year</p>
       <p>Nuh had the hardware for most of the build, and the instrument lived at his bench. When
@@ -1219,7 +1219,7 @@
     </div>
 
     <div class="who" data-rv>
-      <figure class="photo"><img src="img/module.jpg" width="1200" height="1600" alt="Jacob holding the complete scanning module in two hands, the copper-taped preamplifier box visible in the middle." loading="lazy"></figure>
+      <figure class="photo"><img src="img/module.jpg" srcset="img/module-800.jpg 800w, img/module-1100.jpg 1100w, img/module.jpg 1200w" sizes="(max-width: 760px) 350px, 472px" width="1200" height="1600" alt="Jacob holding the complete scanning module in two hands, the copper-taped preamplifier box visible in the middle." loading="lazy"></figure>
       <h3>Jacob Katz</h3>
       <p class="at">Nanoengineering BS/MS, University of California San Diego &mdash; second year</p>
       <p>Jacob drove the measurement side and the framing: what the project would claim, what it
@@ -1265,7 +1265,7 @@
       <p>Some of it had to be made rather than bought. Tungsten tips are etched, not machined, so we
       put together a setup for it: a bench supply, sodium hydroxide, and a wire lowered into it,
       outdoors and in gloves, because the chemistry is not gentle.</p>
-      <figure class="photo" data-rv><img src="img/etching.jpg" width="1200" height="1600" alt="The tip etching setup outdoors: a bench supply with leads into a beaker, a lab stand, flasks, and a bottle of sodium hydroxide." loading="lazy">
+      <figure class="photo" data-rv><img src="img/etching.jpg" srcset="img/etching-800.jpg 800w, img/etching-1100.jpg 1100w, img/etching.jpg 1200w" sizes="(max-width: 760px) 350px, 492px" width="1200" height="1600" alt="The tip etching setup outdoors: a bench supply with leads into a beaker, a lab stand, flasks, and a bottle of sodium hydroxide." loading="lazy">
         <p class="cap"><b>The tip-etching setup, photographed 9 August.</b> A bench supply through sodium hydroxide, outdoors, in gloves. Every tip we ever fitted came off this setup &mdash; but the voltage was set by hand and chosen fresh each run, so no two tips were made the same way.</p></figure>
 
       <p>What is unusual about this project is not the physics, which is forty years old. It is
@@ -1273,7 +1273,7 @@
     </div>
 
     <div>
-      <figure class="photo" data-rv><img src="img/team.jpg" width="1200" height="1600" alt="Nuh on the left and Jacob on the right, standing at the bench with the assembled instrument behind them." loading="lazy">
+      <figure class="photo" data-rv><img src="img/team.jpg" srcset="img/team-800.jpg 800w, img/team-1100.jpg 1100w, img/team.jpg 1200w" sizes="(max-width: 760px) 350px, 446px" width="1200" height="1600" alt="Nuh on the left and Jacob on the right, standing at the bench with the assembled instrument behind them." loading="lazy">
         <p class="cap"><b>Nuh Shaheer, left. Jacob Katz, right.</b> The morning of the last bench session, before the instrument came apart to be moved.</p>
       </figure>
       <ul class="conditions">
@@ -1304,7 +1304,7 @@
   <h2>Where it goes next</h2>
   <p class="measure">The instrument is in pieces, moved between two houses at the end of the summer. When it goes back together, the first thing is a measurement that needs no power and takes minutes: <strong>how far the tip sits from the line through the two ball supports.</strong> It sets the nanometer scale for everything the instrument will ever measure, and it settles our best junction retroactively.</p>
   <p class="measure">Then the free test for what moves the gap &mdash; a box over the instrument and a fifteen-minute recording &mdash; then a rigid sample and a sharp tip. <strong>None of the five things in our way needs a purchase, and none needs a laboratory.</strong></p>
-  <figure class="photo" data-rv><img src="img/teardown.jpg" width="1500" height="1098" alt="The suspended platform lifted off the frame and held in one hand, with the scan head, motor and preamplifier still mounted on it." loading="lazy">
+  <figure class="photo" data-rv><img src="img/teardown.jpg" srcset="img/teardown-800.jpg 800w, img/teardown-1100.jpg 1100w, img/teardown.jpg 1500w" sizes="(max-width: 760px) 350px, 980px" width="1500" height="1098" alt="The suspended platform lifted off the frame and held in one hand, with the scan head, motor and preamplifier still mounted on it." loading="lazy">
     <figcaption>The platform off the frame on the morning it came apart to be moved.</figcaption></figure>
 </section>
 
