@@ -69,7 +69,7 @@ connector is a power input rather than an output.
 | Frame | 3D-printed in PETG-CF for stiffness and dimensional stability. PA-CF was tried first for its lower thermal expansion but proved too difficult to print reliably at these tolerances. **Not PLA** — it creeps, and that shows up directly as drift |
 | Vibration isolation | Platform suspended on tension springs, with eddy-current damping — an aluminum plate moving through fixed magnets, no contact |
 | Coarse approach | 28BYJ-48 stepper motor through a ULN2003 driver board, wired directly to the Teensy |
-| Scanner | Piezoelectric disc actuator with a cut tungsten tip, 0.25 mm wire cut at 45°. Roughly 680 nm of Z travel and 500 nm in X/Y, inferred from Berard's calibration of a similar disc |
+| Scanner | Piezoelectric disc actuator with an **etched** tungsten tip &mdash; a bench supply through sodium hydroxide. (~~a cut tungsten tip, 0.25 mm wire cut at 45°~~ **corrected 2026-09-21: `SAID` Jacob, the tips were etched throughout, never cut**.) Roughly 680 nm of Z travel and 500 nm in X/Y, inferred from Berard's calibration of a similar disc |
 | Coarse approach step | About **7.8 nm** per motor step — 1/4"-80 screw, 2048 steps/rev, ~20x lever reduction. Lever ratio still to be verified on our geometry |
 | Sample | Gold foil, mounted on a magnetic disc with a conductive path to the bias magnet |
 | Preamplifier | OPA627-based transimpedance amplifier with a 100 MΩ feedback resistor, mounted close to the tip to preserve the picoamp-level tunneling signal |

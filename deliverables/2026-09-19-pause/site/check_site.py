@@ -25,6 +25,8 @@ WHAT IT CHECKS, all without a browser:
                (except the commit count, which the build stamps - see the note there)
   spelling     no British spelling survives - including the inflections a bulk
                substitution of the base word leaves behind
+  claims       a short list of statements this repository DISPROVES, each of which was
+               on the page at some point and each refuted by a named file
 
 The browser-side checks - console errors, 404s, sideways scroll, tap targets - need
 Playwright and live in `audit_live.py` beside this file.
@@ -309,6 +311,48 @@ def check_spelling(page, fail):
                  % (line, m.group(0), want, around.strip()))
 
 
+# Claims this repository disproves. Each one was actually on the page at some point, and
+# each is refuted by a named file. This list is short on purpose: it is not a fact checker,
+# it is a memory of specific mistakes that have already been made once.
+#
+# It exists because a correction script that printed two successful substitutions crashed
+# before writing the file, and both were silently lost - the commit that claimed to fix
+# them shipped without them. A printed success is not a saved one.
+REFUTED = [
+    ("wrote the firmware",
+     "the firmware is Mech Panda's - README.md line 10, and Code/teensy/src/main.cpp still "
+     "carries his typo 'Serial Commnications'. We adapted it"),
+    ("every line of code here was written by Claude",
+     "same: the firmware came from red-panda-stm"),
+    ("at least eleven times the width of the window",
+     "docs/FACTS.md: tip travel per motor step is UNDER 1.94 nm, so eleven times is the "
+     "ceiling, not the floor"),
+    ("coin-wrapper dampers",
+     "docs/INVENTORY.md records the wrappers as MASS; the damping is eddy-current"),
+    ("damping the springs",
+     "same - and STATUS.md lists that coin mass as candidate 6 of 7 for the drift"),
+    ("0.16%",
+     "the arithmetic gives 0.15%; 0.16% came from a ratio computed on an already-rounded slope"),
+    # NOT a bare "word for word": the page legitimately uses it to introduce Jacob's own
+    # sentence, printed verbatim right after it. What was wrong was claiming the HERO is
+    # his words. So match the claim, not the phrase - a checker that cries wolf on correct
+    # text is one people switch off.
+    ("top of this page is his, word for word",
+     "the hero is our expansion of Jacob's sentence, not a quotation of it. FRAMING.md "
+     "asks for his sentence verbatim where one line is needed, which is a different place"),
+]
+
+
+def check_refuted_claims(page, fail):
+    low = page.lower()
+    for phrase, why in REFUTED:
+        i = low.find(phrase.lower())
+        if i < 0:
+            continue
+        line = page.count("\n", 0, i) + 1
+        fail("claims", 'line %d: "%s" - %s' % (line, phrase, why))
+
+
 def main() -> int:
     page = open(PAGE, encoding="utf-8").read()
     problems = []
@@ -327,9 +371,10 @@ def main() -> int:
     check_duplicates(page, fail)
     check_repo_counts(page, fail)
     check_spelling(page, fail)
+    check_refuted_claims(page, fail)
 
     areas = ["links", "files", "sizes", "alt", "headings", "contrast",
-             "document", "figures", "duplicates", "counts", "spelling"]
+             "document", "figures", "duplicates", "counts", "spelling", "claims"]
     for area in areas:
         hits = [m for a, m in problems if a == area]
         if hits:

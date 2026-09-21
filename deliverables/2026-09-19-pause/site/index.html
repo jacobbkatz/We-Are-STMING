@@ -106,21 +106,6 @@
   @media (max-width:560px){ .price .r{ grid-template-columns:1fr; } }
 
 
-  /* ---------- did it work: the instrument, subsystem by subsystem ----------
-     Three verdicts, and the WORD carries the verdict, not the color: a reader who
-     cannot see the color difference still reads "Works" and "Not demonstrated". */
-  .verdict{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
-            gap:0 clamp(14px,2.4vw,30px); border-top:1px solid var(--line);
-            margin-block:1.7em 2.1em; max-width:44em; }
-  .verdict > div{ padding-block:.95em 1.05em; border-bottom:1px solid var(--hair); }
-  .verdict .c{ font-family:'Newsreader',Georgia,serif; font-size:var(--s6); line-height:1;
-               font-variant-numeric:tabular-nums; }
-  .verdict .l{ font-size:var(--s1); color:var(--ink2); margin-top:.42em; line-height:1.45; }
-  .verdict .ok .c{ color:var(--verified); }
-  .verdict .part .c{ color:var(--gold); }
-  .verdict .no .c{ color:var(--muted); }
-  @media (max-width:520px){ .verdict{ grid-template-columns:1fr; } }
-
   .subsys{ border-top:1px solid var(--line); margin-block:2em; }
   .ss{ display:grid; grid-template-columns:minmax(0,12.5em) 9.5em minmax(0,1fr);
        gap:.2em clamp(16px,2vw,28px); padding-block:1em 1.05em;
@@ -583,7 +568,6 @@
     <button class="navtoggle" id="navtoggle" type="button"
             aria-expanded="false" aria-controls="navlinks">Sections</button>
     <div class="navlinks" id="navlinks">
-      <a href="#didit">Did it work?</a>
       <a href="#what">What an STM is</a>
       <a href="#instrument">What we built</a>
       <a href="#measured">Evidence</a>
@@ -609,8 +593,8 @@
     on a wooden bench on a concrete floor, between our first and second years of university.
     <strong>No laboratory, no faculty advisor, no grant</strong>, and neither of us had written a
     program or soldered anything that had to work. Every number here can be recomputed from the
-    raw files, and <a href="#didit">what each part of the instrument actually did</a> is set out
-    one row at a time.</p>
+    raw files, and <a href="#stopped">what we could not do</a> is set out as plainly as what we
+    could.</p>
   </div>
 
   <div class="actions">
@@ -666,52 +650,6 @@
   what stopped us.</p>
 </section>
 
-<section id="didit">
-  <h2>Did it work?</h2>
-  <p class="lede">A scanning tunneling microscope is a dozen machines that all have to work at
-  once. Ours is twelve, and the answer is different for each one.</p>
-
-  <div class="verdict" data-rv>
-    <div class="ok"><div class="c num">4</div>
-      <div class="l">finished and verified against a measurement</div></div>
-    <div class="part"><div class="c num">5</div>
-      <div class="l">working, but never calibrated or never made to hold</div></div>
-    <div class="no"><div class="c num">3</div>
-      <div class="l">never demonstrated at all</div></div>
-  </div>
-
-  <div class="subsys" data-rv>
-    <div class="ss ok"><div class="sn">Command and firmware</div><div class="sv">Works</div>
-      <div class="se">Eighteen four-character commands over USB, driving four 16-bit converters, a 16-bit detector and a stepper motor from one microcontroller. <b>Two faults that would have crashed a tip were found by reading the firmware before a tip was ever fitted</b> &mdash; both inherited from upstream &mdash; then fixed and bench-tested: engaging the feedback loop now leaves the scanner where it was, where the old code slammed it to midscale.</div></div>
-    <div class="ss ok"><div class="sn">Bias on the sample</div><div class="sv">Works</div>
-      <div class="se">A commanded zero puts <b>+3.000 V</b> on the sample, and the chain returned <b>&minus;9,586 counts</b> against the &minus;9,600 that voltage predicts.</div></div>
-    <div class="ss ok"><div class="sn">The preamplifier</div><div class="sv">Works</div>
-      <div class="se">Boxed, on its screws, at &plusmn;15 V, it invents <b>4 picoamps</b> of current of its own &mdash; a tunneling current is 250 times that. Getting there meant finding that the boards we had made came back <b>with no ground pour on them</b>, so the amplifier&rsquo;s non-inverting input was floating on both copies.</div></div>
-    <div class="ss ok"><div class="sn">The measurement chain, end to end</div><div class="sv">Works</div>
-      <div class="se">Tip holder to a number on the screen, measured against a resistor whose value we already knew: <b>0.13 of one standard error</b> from what Ohm&rsquo;s law requires. <a href="#measured">The measurement is below.</a></div></div>
-    <div class="ss part"><div class="sn">Fine positioning in Z</div><div class="sv">No distance scale</div>
-      <div class="se">Stepping the piezo by &plusmn;2,000 counts moved the current by <b>6,305 &plusmn; 1,484 counts &mdash; 4.2 standard errors from nothing</b>, so the scanner demonstrably controls the gap. <b>How far 2,000 counts is, in nanometers, we have never measured on our own hardware.</b></div></div>
-    <div class="ss part"><div class="sn">Fine positioning in X and Y</div><div class="sv">No distance scale</div>
-      <div class="se">The scanned surface tilts <b>0.105 Z counts for every X count</b>, so the 30,000-count jump back at the start of each pass leaves 3,144 counts of height for the loop to recover; about 2,470 showed up. The same arithmetic predicts the effect should be <b>absent</b> from the runs that do not fly back that way, and in both of those it was. Its size in nanometers is unmeasured too.</div></div>
-    <div class="ss part"><div class="sn">The feedback loop</div><div class="sv">Closes, never held</div>
-      <div class="se">It settles rather than running away, and holds the current to about <b>0.06 of a decade at 2,000 pixels per second</b>, with 5, 15 and 250 corrections per pixel all agreeing. <b>Every image tuned for the 19 September junction still aborted at a clamp.</b></div></div>
-    <div class="ss part"><div class="sn">Coarse approach</div><div class="sv">Finds the surface, cannot stop</div>
-      <div class="se">The motor found the sample twice, after <b>200 and 180 steps</b> in chunks of twenty. Both times it went into contact within thirty seconds. <b>It cannot stop inside the window</b> where a tunneling current is visible: single steps were seen to shift the surface by <b>14,000 to 29,000 scanner counts</b> when they moved it at all, while runs of twenty to forty steps did nothing. That is what the piezo is for; the handover between them never worked.</div></div>
-    <div class="ss part"><div class="sn">The sample</div><div class="sv">Real gold, badly mounted</div>
-      <div class="se">It is gold &mdash; flame-tested on a 2 mm scrap. Directly underneath it sit <b>fifty to a hundred micrometers of backing paper</b>, and the plate is held down by twisted rubber bands.</div></div>
-    <div class="ss no"><div class="sn">The tip</div><div class="sv">Never sharpened</div>
-      <div class="se"><b>Every tip ever fitted was a blunt cut placeholder</b>, and one turned out to be bent and touching with its side. We built a setup for etching sharp tungsten tips; our own inventory records it as unknown whether it was ever used successfully, or whether any tip off it reached the instrument.</div></div>
-    <div class="ss no"><div class="sn">Vibration isolation</div><div class="sv">Never tested</div>
-      <div class="se">Three springs loaded with coin mass, and eddy damping from magnets over an aluminum plate. <b>The only measurement we took was with the tip clear of the surface</b>, which tests electrical pickup and not mechanical isolation. The suspension&rsquo;s resonant frequency is unknown. It is also not what stopped us &mdash; <a href="#stopped">the motion that did is far too slow to be vibration</a>.</div></div>
-    <div class="ss no"><div class="sn">A repeatable image</div><div class="sv">No</div>
-      <div class="se">Our scans repeat at <b>+0.04</b>. The control runs, which cannot contain a surface at all, repeat at <b>+0.07</b>. Indistinguishable, and neither differs from zero.</div></div>
-  </div>
-
-  <p class="measure">Nothing in the first four rows is in our way. <strong>What is in our way is
-  in the last three, and all of it is mechanical.</strong> That is worth knowing precisely: it
-  means the electronics we designed, built and brought up are done, and the work left is a rigid
-  sample, a sharp tip, and finding out what moves the gap.</p>
-</section>
 
 <section id="what">
   <h2>What a scanning tunneling microscope is</h2>
@@ -854,7 +792,7 @@
     <div class="side">
       <figure class="photo" data-rv><img src="img/room.jpg" width="1500" height="1032" alt="The basement room: concrete floor, wooden bench, an electrical panel on the wall and cardboard boxes stacked beside it." loading="lazy">
         <p class="cap"><b>Where the work happened.</b> A basement utility room, a few meters from a wall-mounted electrical panel and a standby-generator transfer switch. That is context for the noise problem, not a measurement of it.</p></figure>
-      <p class="measure" data-rv>We designed it, ordered the boards, printed the frame, wrote the firmware, and brought up every stage on its own before trusting the next. The mechanics, controller and firmware follow Mech Panda&rsquo;s open <em>red-panda-stm</em>; the scan head and preamplifier follow Dan Berard&rsquo;s home-built STM. The electronics bring-up, the software, the calibration and the controls are ours.</p>
+      <p class="measure" data-rv>We ordered the boards, printed the frame, adapted the firmware, and brought up every stage on its own before trusting the next. The mechanics, controller and firmware follow Mech Panda&rsquo;s open <em>red-panda-stm</em>; the scan head and preamplifier follow Dan Berard&rsquo;s home-built STM. The electronics bring-up, the software, the calibration and the controls are ours.</p>
     </div>
   </div>
 
@@ -1022,9 +960,9 @@
     </div></div>
 
     <div class="item" data-rv><div class="n num">3</div><div>
-      <h3>Every tip was a placeholder</h3>
-      <p>A tunneling current should come from a single atom. Ours came from blunt tips, and one of them turned out to be bent and touching with its side. A blunt tip presents many atoms at once, which is exactly what turns a gap into a pressed contact.</p>
-      <div class="fix"><b>Possible fix.</b> Etch a sharp tip with the setup we already own &mdash; and record the result, which our inventory says nobody has.</div>
+      <h3>The instrument blunts its own tips</h3>
+      <p>A tunneling current should come from a single atom, so we etched our tips rather than cutting them &mdash; tungsten wire into sodium hydroxide, outdoors, in gloves. <strong>Then the instrument flattened them.</strong> Because it snaps into contact instead of opening a gap, every approach that overshoots presses the tip into the gold: the last one fitted was driven in four separate times in one morning, twice for more than half an hour. <strong>A blunted tip presents many atoms at once, which is exactly what turns a gap back into a pressed contact &mdash; so this row feeds the row above it.</strong></p>
+      <div class="fix"><b>Possible fix.</b> Break the loop at the approach, not at the tip: a fresh tip is cheap, but it stays sharp only if the tip stops being driven into the sample. Meanwhile write down the etch recipe &mdash; the concentration, the voltage and the counter-electrode are nowhere in our records.</div>
     </div></div>
 
     <div class="item" data-rv><div class="n num">4</div><div>
@@ -1064,10 +1002,11 @@
 
 <section id="workflow">
   <h2>The second instrument</h2>
-  <p class="lede">Every line of code here was written by Claude &mdash; the firmware, the
-  analysis, the figures, the documents. <strong>Every measurement in it was taken by hand, at a
-  bench, by us.</strong> The interesting part is neither of those. It is what had to be built in
-  between, so that the two could be trusted together.</p>
+  <p class="lede">Neither of us writes code. Claude wrote everything here that is ours &mdash;
+  the analysis, the figures, the documents, and our changes to Mech Panda&rsquo;s firmware.
+  <strong>Every measurement in it was taken by hand, at a bench, by us.</strong> The interesting
+  part is neither of those. It is what had to be built in between, so that the two could be
+  trusted together.</p>
 
   <p class="measure">That arrangement has an obvious problem. A model will write you a confident
   paragraph about a measurement it half-remembers, and it reads exactly like the paragraphs that
@@ -1385,7 +1324,6 @@
     <div>
       <h2>The work</h2>
       <ul>
-        <li><a href="#didit">Did it work?</a></li>
         <li><a href="#what">What a scanning tunneling microscope is</a></li>
         <li><a href="#instrument">What we built</a></li>
         <li><a href="#measured">What we measured</a></li>
