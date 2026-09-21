@@ -1,7 +1,7 @@
 # Current status
 
 **Last updated:** 2026-09-21 — **no bench work since 2026-09-19 morning. The instrument is still disassembled and moved; the next session still starts with REASSEMBLY** (`docs/NEXT_SESSION_PLAN.md`, and note the new STEP A). **WHAT CHANGED ON 2026-09-21 IS THE RECORD, NOT THE INSTRUMENT**: an audit of the public website found twenty-one claims that did not survive a check against this repository, and two of them are bench-relevant — see the block immediately below. The 2026-09-20 block after it still stands, including the central claim.
-**Updated by:** Claude, 2026-09-21, in a website session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.**
+**Updated by:** Claude, 2026-09-21, in a website session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.** **The public website is at `0b1bca3` and Jacob has called it final for now** — deployment confirmed from the Actions API, not from fetching the page, because this container's network policy blocks `github.io`. **Two bench-relevant facts came out of it and are in the block below: the etch was never a controlled process, and the sample-plate band count is settled.**
 
 # 2026-09-21 — TWO THINGS THE RECORD HAD BACKWARDS, AND BOTH REACH THE BENCH
 
