@@ -148,13 +148,26 @@ gap holds still with the box and not without, that is the answer, and it cost no
 > room, and let it sit for a few hours before the recording starts.** A box that has just been put on is
 > still coming to equilibrium and will drift on its own.
 >
-> **(b) LOG THE TEMPERATURE BESIDE THE Z TRACE.** **We do not know that we own anything that can** — there is
-> no thermometer in `docs/INVENTORY.md` and no temperature row in `docs/FACTS.md`, so **this project has
-> never recorded the room temperature next to a measurement.** What is needed is something resolving about
-> **0.01 to 0.1 K that logs unattended**, not a thermometer read by eye. **Ask Jacob or Nuh before assuming
-> either way** (`CLAUDE.md` §3d). **Without a temperature trace the box test can only say "better" or "no
-> better"; with one it says WHY**, because a Z excursion that tracks a temperature ramp is a different
-> finding from one that does not.
+> **(b) LOG THE TEMPERATURE BESIDE THE Z TRACE — AND THIS NEEDS A PURCHASE.** **`SAID` Jacob, 2026-09-22:
+> *"no we dont have any temp monitoring"*.** **So this project has never recorded the room temperature next
+> to a measurement and currently cannot.** **Without a temperature trace the box test can only say "better"
+> or "no better"; with one it says WHY**, because a Z excursion that tracks a temperature ramp is a
+> different finding from one that does not — and Zahl's instruction was to *monitor* temperature, not just
+> to reduce it.
+>
+> **WHAT TO BUY.** Something that **resolves about 0.01 to 0.1 K**, **logs unattended** to a file or a phone
+> so nobody has to sit and read it, and **runs standalone on its own battery or USB power, with no
+> electrical connection to the instrument.** A data-logging thermometer or a small USB temperature logger
+> both do this. **Resolution matters more than absolute accuracy here** — we need to see a 0.05 K ramp, not
+> to know the room is 21.3 °C rather than 21.5 °C.
+>
+> **AND ONE THING NOT TO DO WITHOUT TESTING IT FIRST.** Hanging a digital sensor off the Teensy so the
+> temperature lands in the same CSV as Z is the obvious idea and it is genuinely tempting — same timebase,
+> no second clock to align. **But a sensor's data line toggling near the preamp is a noise-injection path
+> into a 100 MOhm input node**, which is the exact place this project lost two weeks. **If it is ever tried,
+> it needs a control first: `ADCR` noise with the sensor powered and again with it unplugged, tip clear,
+> nobody within a metre.** **Buy the standalone logger first; it answers the question with no risk to the
+> measurement chain.**
 >
 > **(c) THE BOX SEPARATES TWO THINGS AT ONCE AND THAT IS A FEATURE.** A box stops draughts *and* slows
 > temperature change. **If it helps, the follow-up is to keep the box and add the thermometer**, then see
