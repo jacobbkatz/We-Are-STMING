@@ -418,6 +418,7 @@ it anywhere else creates a copy that will drift.
 | **Part specs and datasheet facts** | **`docs/COMPONENTS.md`** | — |
 | **What is inside a zip, PDF or mesh** | **`docs/INDEX.md`** | — |
 | **What we physically own** | **`docs/INVENTORY.md`** | `docs/BOM.md` is a specification, never an inventory |
+| **Who we have asked for help, and what is still pending** | **`docs/OUTREACH.md`** | **Read it before drafting any letter to an outside expert.** Their technical advice goes to its own home — a candidate to `docs/OPEN_QUESTIONS.md`, a number to `docs/FACTS.md`, a bench step to `docs/NEXT_SESSION_PLAN.md` |
 
 **`python3 Code/pc/check_facts.py` enforces the first row and checks for broken links and
 archived documents cited as current. It runs automatically at session start.**
@@ -438,6 +439,7 @@ archived documents cited as current. It runs automatically at session start.**
 | `docs/INDEX.md` | **What is inside every archive and binary.** Check before deriving anything |
 | `docs/OPEN_QUESTIONS.md` | Every UNKNOWN and VERIFY in the project, in one place |
 | **`docs/INVENTORY.md`** | **What is physically in the room**, with provenance — order numbers, photos, bench observations. **Not the BOM.** The BOM says what was specified; this says what arrived. **Never infer what we own from a design file** — see section 3d |
+| **`docs/OUTREACH.md`** | **Who we have asked for help, when, and what they said.** **Created 2026-09-22 after a session drafted a reply that had already been sent an hour earlier.** Outreach lives in Jacob's and Nuh's email, which is the §3d failure mode exactly. **Read it before writing to anyone outside the project** |
 | `docs/UPSTREAM_MECHPANDA.md` | **The design we are actually building.** Schematic-derived facts, what differs from upstream, and the ADC reference answer |
 | `docs/UPSTREAM_BERARD.md` | Reading notes from Dan Berard's build. **Context, not our design** — ours is Mech Panda's apart from the preamp. Says which of his numbers apply to us and which do not |
 | `docs/OTHER_BUILDERS.md` | What independent DIY STM builders have done. Leads to test, not specifications |

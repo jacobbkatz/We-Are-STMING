@@ -1,6 +1,31 @@
 # Draft reply to Dr. Percy Zahl
 
-**Status: UNSENT. Written 2026-09-22 by Claude, for Jacob to cut and send under his own name.**
+> # SUPERSEDED 2026-09-22. DO NOT SEND THIS.
+>
+> **Jacob sent his own reply at 16:52 UTC on 2026-09-22, about an hour before this draft was
+> written.** It was shorter and it covered the same ground: piezo creep taken seriously, the
+> questionable materials named (printed scanning plate, gold on backing paper, rubber-band
+> retention, the mechanically loaded coarse approach), the electrical chain reported stable, and a
+> plan to enclose, monitor temperature, thermalize for hours and isolate one variable at a time.
+> **`docs/OUTREACH.md` is the record.**
+>
+> **This draft was written without checking whether a reply had already gone out, because nothing
+> in this repository recorded outreach. `docs/OUTREACH.md` exists so that cannot happen again.**
+>
+> **TWO THINGS IN HERE WERE NOT SENT AND ARE STILL WORTH ASKING**, if there is a next exchange:
+>
+> 1. **With a disc scanner and no position sensor, is there any practical way to separate the
+>    scanner's own creep from real motion of the gap?** Everything we can think of uses the piezo
+>    to measure the piezo.
+> 2. **Given the tip-sample loop is mostly printed plastic, is that disqualifying for holding a
+>    junction, or is it a thermal design problem that can be engineered around?**
+>
+> **And one courtesy that has not been done:** the public page now names him and describes his
+> advice (paraphrased, not quoted). **He has not been told.** It went live after his reply.
+>
+> **The source table at the bottom is still good** and every figure in it was checked.
+
+**Status: SUPERSEDED. Written 2026-09-22 by Claude; Jacob's own reply had already gone out.**
 
 **Read this section before sending.**
 
