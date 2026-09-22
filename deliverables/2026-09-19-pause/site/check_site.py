@@ -374,6 +374,22 @@ def check_candidate_count(page, fail):
              'register; say "a list of candidates" instead' % (line, m.group(0)))
 
 
+# The outside adviser is NOT to be named on this public page. Jacob's instruction, 2026-09-22,
+# after the name went live for about an hour. He is a named person in docs/OUTREACH.md, which is
+# where follow-ups are tracked - but the page refers to him only as a physicist at Brookhaven.
+# This is a person's privacy, not a style rule: it does not get relaxed for a nicer sentence.
+UNNAMED_ADVISER = re.compile(r"\b(Percy|Zahl|pzahl)\b", re.I)
+
+
+def check_adviser_unnamed(page, fail):
+    for m in UNNAMED_ADVISER.finditer(page):
+        line = page.count("\n", 0, m.start()) + 1
+        fail("claims",
+             'line %d: "%s" - the outside adviser is not named on this page. Jacob\'s instruction, '
+             "2026-09-22. Refer to him as a physicist at Brookhaven National Laboratory. "
+             "docs/OUTREACH.md is where he is named" % (line, m.group(0)))
+
+
 def main() -> int:
     page = open(PAGE, encoding="utf-8").read()
     problems = []
@@ -394,6 +410,7 @@ def main() -> int:
     check_spelling(page, fail)
     check_refuted_claims(page, fail)
     check_candidate_count(page, fail)
+    check_adviser_unnamed(page, fail)
 
     areas = ["links", "files", "sizes", "alt", "headings", "contrast",
              "document", "figures", "duplicates", "counts", "spelling", "claims"]

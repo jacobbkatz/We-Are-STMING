@@ -1042,7 +1042,7 @@
 
   <div class="sys" data-rv>
     <div data-rv><h4>The protocol</h4><div class="f">CLAUDE.md</div>
-      <p><span data-repo-count="claude-lines">575</span> lines the model reads before anything else: how to start a session, which document
+      <p><span data-repo-count="claude-lines">577</span> lines the model reads before anything else: how to start a session, which document
       wins when two disagree, and the hardware rules that cost money to break. It is written in
       plain language because it is also how we tell it what we have learned.</p></div>
     <div data-rv><h4>The register</h4><div class="f">docs/FACTS.md</div>
@@ -1061,7 +1061,7 @@
     <div data-rv><h4>The shared spine</h4><div class="f">git &middot; GitHub</div>
       <p>Two people, two computers, often days apart. Every session starts by pulling and ends by
       pushing, and a start-up hook does the pull, runs the checker and prints what changed since
-      last time. <strong><span data-repo-count="commits">277</span> commits.</strong> Neither of us has ever had to ask the other what
+      last time. <strong><span data-repo-count="commits">279</span> commits.</strong> Neither of us has ever had to ask the other what
       state the project was in.</p></div>
     <div data-rv><h4>The review pass</h4><div class="f">LEAD_VERIFICATION.md</div>
       <p>Every claim re-derived independently from the raw files before it was allowed into
@@ -1090,9 +1090,9 @@
   said where a number lives, and a program that checked.</p>
 
   <div class="tally" data-rv>
-    <div><div class="t num" data-repo-count="claude-lines">575</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
+    <div><div class="t num" data-repo-count="claude-lines">577</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
     <div><div class="t num" data-repo-count="facts-rows">157</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
-    <div><div class="t num" data-repo-count="commits">277</div><div class="l">commits, across two computers and two people</div></div>
+    <div><div class="t num" data-repo-count="commits">279</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num" data-repo-count="checker-lines">598</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
 
@@ -1319,12 +1319,13 @@
   within seconds, and we have a list of candidates and no way to rank them. <strong>If you have ever
   chased mechanical drift at this scale, we would like to hear how you found it.</strong></p>
 
-  <!-- Dr. Zahl's advice below is PARAPHRASED and his email is NOT quoted. It was private
-       correspondence. Do not add verbatim quotes without asking him first. He is already
-       acknowledged in README.md for advising on isolation earlier in the build. -->
-  <p><strong>Somebody already did, and it changed our list.</strong> We sent this page to Dr. Percy
-  Zahl at Brookhaven National Laboratory, who had advised us on isolation earlier in the build. He
-  told us to stop treating the drift as one problem: monitor the room temperature properly, put the
+  <!-- DELIBERATELY UNNAMED, at Jacob's instruction, 2026-09-22. The adviser is a named person in
+       docs/OUTREACH.md, which is where follow-ups are tracked; he is NOT to be identified on this
+       public page. His advice is PARAPHRASED and his email is not quoted anywhere. Do not add his
+       name, his institution's department, or a verbatim quote. -->
+  <p><strong>Somebody already did, and it changed our list.</strong> We sent this page to a
+  physicist at Brookhaven National Laboratory who had advised us on isolation earlier in the build.
+  He told us to stop treating the drift as one problem: monitor the room temperature properly, put the
   instrument in an enclosure and let it come to equilibrium over hours rather than minutes, look for
   materials with very different expansion coefficients in the loop between tip and sample &mdash; and
   read up on <strong>piezo creep</strong>.</p>
