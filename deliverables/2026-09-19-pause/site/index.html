@@ -1005,6 +1005,23 @@
     <a href="img/fig04.jpg" aria-label="Open the full-size image: two scans beside their sideways-sweep-disabled controls, with the repeatability of each plotted on a common axis:"><img src="img/fig04.jpg" width="1500" height="1169" alt="Two scans beside their sideways-sweep-disabled controls, with the repeatability of each plotted on a common axis: both sit on zero and neither differs from the other." loading="lazy"></a>
     <figcaption>Like for like over full images, our scans repeat at <b>+0.04</b> and their controls at <b>+0.07</b>. Indistinguishable, and neither differs from zero. <b>It is also why we never fooled ourselves.</b></figcaption>
   </figure>
+  <h3>What a rejected candidate actually looks like</h3>
+  <p class="measure">The strongest candidate the project ever produced: twelve passes of one line,
+  and a profile that survived every statistical test we could throw at it.
+  <strong>It is still not the sample.</strong></p>
+
+  <figure data-rv>
+    <a href="img/candidateA.jpg" aria-label="Open the full-size image: six panels analyzing the 636-count profile, from the raw passes through the split-half test to the polynomial fit that fails to explain it"><img src="img/candidateA-thumb.jpg" width="900" height="601" srcset="img/candidateA-thumb.jpg 900w, img/candidateA.jpg 1500w" sizes="(max-width: 760px) 390px, 980px" alt="Six panels analyzing a reproducible 636-count profile: twelve raw passes of one line, the same passes with the tilt removed and their mean, a split-half comparison in which odd and even passes trace the same shape, agreement plotted against separation between passes, and a polynomial fit that accounts for only part of it." loading="lazy"></a>
+    <figcaption><b>Candidate A, 17 September: a 636-count profile that repeats.</b> Odd passes
+    against even passes correlate at <b>+0.923</b>, and against 5,000 phase-randomised surrogates
+    it lands at <b>p &lt; 2&times;10<sup>&minus;4</sup></b>. It is emphatically not noise.
+    <b>It is also not the surface.</b> Look at the raw panel: every pass starts low and climbs about <b>2,470 counts over its first two
+    pixels</b>, because the tool jumps X back 30,000 counts between passes and the feedback loop has
+    to recover &mdash; identically every time, because the jump is identical every time. <b>Drop two pixels of twenty-one and the agreement between consecutive
+    passes falls from +0.647 to +0.048.</b> The same arithmetic then predicts its <em>absence</em>
+    in two other data sets, and both come back absent. That is a falsification, not a null.</figcaption>
+  </figure>
+
   <p class="measure">Two numbers we first published here were computed across files that stopped
   early. <b>We withdrew both</b>, and the conclusion held on the rest.
   <a href="#record">Every candidate and its verdict is in the record.</a></p>
@@ -1117,7 +1134,7 @@
       beside the original, never over it.</b></p></div>
     <div data-rv><h4>The shared spine</h4><div class="f">git &middot; GitHub</div>
       <p>Two people, two computers, often days apart. A start-up hook pulls, runs the checker
-      and prints what changed. <strong><span data-repo-count="commits">281</span> commits</strong>,
+      and prints what changed. <strong><span data-repo-count="commits">282</span> commits</strong>,
       and neither of us has had to ask the other what state the project was in.</p></div>
     <div data-rv><h4>The review pass</h4><div class="f">LEAD_VERIFICATION.md</div>
       <p>Every public claim re-derived independently from the raw files &mdash; including three
@@ -1147,7 +1164,7 @@
   <div class="tally" data-rv>
     <div><div class="t num" data-repo-count="claude-lines">577</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
     <div><div class="t num" data-repo-count="facts-rows">157</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
-    <div><div class="t num" data-repo-count="commits">281</div><div class="l">commits, across two computers and two people</div></div>
+    <div><div class="t num" data-repo-count="commits">282</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num" data-repo-count="checker-lines">598</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
 
@@ -1285,7 +1302,10 @@
 <section id="next">
   <h2>Where it goes next</h2>
   <p class="measure">The instrument is in pieces, moved between two houses at the end of the summer. When it goes back together, the first thing is a measurement that needs no power and takes minutes: <strong>how far the tip sits from the line through the two ball supports.</strong> It sets the nanometer scale for everything the instrument will ever measure, and it settles our best junction retroactively.</p>
-  <p class="measure">Then the test for what moves the gap &mdash; a box over the instrument, left to come to equilibrium for hours, and a recording with the room temperature logged beside it &mdash; then a rigid sample and a sharp tip. <strong>None of the five things in our way needs a laboratory, and none of the fixes needs a purchase. The one thing we have to buy is a thermometer that can log on its own, to diagnose the first one.</strong></p>
+  <p class="measure">Then the test for what moves the gap &mdash; a box over the instrument, hours
+  to come to equilibrium, and a recording with the room temperature logged beside it &mdash; then a
+  rigid sample and a sharp tip. <strong>None of the five needs a laboratory and none of the fixes
+  needs a purchase; the one thing we have to buy is a thermometer that logs on its own.</strong></p>
   <figure class="photo" data-rv><img src="img/teardown.jpg" srcset="img/teardown-800.jpg 800w, img/teardown-1100.jpg 1100w, img/teardown.jpg 1500w" sizes="(max-width: 760px) 350px, 980px" width="1500" height="1098" alt="The suspended platform lifted off the frame and held in one hand, with the scan head, motor and preamplifier still mounted on it." loading="lazy">
     <figcaption>The platform off the frame on the morning it came apart to be moved.</figcaption></figure>
 </section>
@@ -1298,7 +1318,7 @@
   <h3>The poster</h3>
   <figure data-rv>
     <a href="https://drive.google.com/file/d/1MoSLyNovIRjsCd7feqWDtkj48C91wZUA/view"><img src="img/poster.jpg" srcset="img/poster-800.jpg 800w, img/poster-1100.jpg 1100w, img/poster.jpg 1800w" sizes="(max-width: 760px) 350px, 980px" width="1800" height="1350" alt="The research poster: seven panels covering the build, the calibration, the junction, the limit, the controls, the undecided junction, and the workflow." loading="lazy"></a>
-    <figcaption>Forty-eight by thirty-six inches. <a href="https://drive.google.com/file/d/1MoSLyNovIRjsCd7feqWDtkj48C91wZUA/view">Open the print file</a>, or read <a href="https://docs.google.com/document/d/1g7_9QSFmusXeYeFyfknpLyufYXengNEakGYpBflJYvU/edit">the speaker script</a> and <a href="https://docs.google.com/document/d/1RADFrvVwFRQhFxcq_QQwnunfPm4atYvDhER1L1WYR7I/edit">the questions people ask</a>.</figcaption>
+    <figcaption>Forty-eight by thirty-six inches. <a href="https://drive.google.com/file/d/1MoSLyNovIRjsCd7feqWDtkj48C91wZUA/view">The print file</a>, <a href="https://docs.google.com/document/d/1g7_9QSFmusXeYeFyfknpLyufYXengNEakGYpBflJYvU/edit">the speaker script</a>, and <a href="https://docs.google.com/document/d/1RADFrvVwFRQhFxcq_QQwnunfPm4atYvDhER1L1WYR7I/edit">the questions people ask</a>.</figcaption>
   </figure>
 
   <h3>Every figure</h3>
@@ -1319,8 +1339,8 @@
   </div>
 
   <h3>Every document</h3>
-  <p class="measure">All of it is editable. The repository is the source of truth; if the two ever
-  differ, the repository is right.</p>
+  <p class="measure">The repository is the source of truth; if the two ever differ, the repository
+  is right.</p>
   <div class="group">
     <h4>Start here</h4>
     <ul class="rows">

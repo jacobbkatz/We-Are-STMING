@@ -40,6 +40,10 @@ OUT = os.path.join(HERE, "img")
 REPO = os.path.abspath(os.path.join(PAUSE, "..", ".."))
 
 # Page name -> where the original lives. Only what index.html actually references.
+CANDIDATES = {
+    "candidateA": "candidates/gallery/01_candidateA_wide_profile.png",
+}
+
 PHOTOS = {
     "instrument": "photos/prepared/04_instrument_full_height.jpg",
     "room":       "photos/prepared/15_workshop_room.jpg",
@@ -314,6 +318,13 @@ def main() -> None:
             # 460 px covers the widest the grid ever gets on a 2x screen; the full file is
             # still one click away behind the link.
             total += shrink(src, os.path.join(OUT, f[:5] + "-thumb.jpg"), 460, 78)
+    # The candidate scan shown in the imaging section. It is a gallery analysis figure
+    # rather than one of the thirteen page figures, so it is copied by name, but it
+    # regenerates from the same committed source as everything else.
+    for name, rel in CANDIDATES.items():
+        src = os.path.join(PAUSE, rel)
+        total += shrink(src, os.path.join(OUT, name + ".jpg"), 1500, 88)
+        total += shrink(src, os.path.join(OUT, name + "-thumb.jpg"), 900, 82)
     for name, rel in PHOTOS.items():
         src = os.path.join(PAUSE, rel)
         total += shrink(src, os.path.join(OUT, name + ".jpg"), 1500, 82, crop_bar=True)
