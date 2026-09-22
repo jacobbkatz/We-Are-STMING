@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-22 — **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **WHAT CHANGED ON 2026-09-22 IS STEP 1 AND ONE NEW STEP 5b, BOTH FROM AN OUTSIDE READING.** Dr. Percy Zahl (Brookhaven, CFN), who advised on isolation earlier in the project, replied to Jacob's 2026-09-20 update. **Nothing powered, nothing touched, no measurement taken** — this was a correspondence session; full account in `sessions/2026-09-22.md`. **(1) STEP 1, the box test, now runs for HOURS rather than 15 minutes and asks for a temperature log beside the Z trace** — his first instruction was to monitor temperature precisely, enclose, and thermalize, and this project has never recorded the room temperature next to a measurement. **(2) NEW STEP 5b: a three-amplitude Z sweep**, which settles whether the in/out hysteresis is the junction or the scanner. **(3) PIEZO CREEP is back on the candidate list**, which had dropped it, and it matters doubly because the piezo is also the ruler. **The 2026-09-21 header follows and still stands.** (a) **The motor-step bound reads UNDER 1.94 nm**, a ceiling from a lever ratio of OVER 80; read any "at least 1.94 nm" as "at most", and note the conclusion that the motor cannot park in the window now rests on the bench observation, not the arithmetic. (b) **The coin wrappers are MASS, not damping** (`docs/INVENTORY.md`); the damping is eddy-current, and that coin mass is a drift candidate, not part of the isolation. **The 2026-09-20 header still stands too:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which puts one measurement at the front of this plan. See STEP A immediately below.
+**Last updated:** 2026-09-22 — **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **WHAT CHANGED ON 2026-09-22 CAME ENTIRELY FROM ONE OUTSIDE CORRESPONDENT: STEP 1, A NEW STEP 2b, AND A NEW STEP 5b.** **STEP 2b IS THE BIG ONE** — a materials ruling that puts three of our loop's materials (printed plastic, rubber bands, backing paper) on a do-not-use list, and offers a design principle nothing here had considered: **make the loop symmetric and thermal expansion cancels.** Dr. Percy Zahl (Brookhaven, CFN), who advised on isolation earlier in the project, replied to Jacob's 2026-09-20 update. **Nothing powered, nothing touched, no measurement taken** — this was a correspondence session; full account in `sessions/2026-09-22.md`. **(1) STEP 1, the box test, now runs for HOURS rather than 15 minutes and asks for a temperature log beside the Z trace** — his first instruction was to monitor temperature precisely, enclose, and thermalize, and this project has never recorded the room temperature next to a measurement. **(2) NEW STEP 5b: a three-amplitude Z sweep**, which settles whether the in/out hysteresis is the junction or the scanner. **(3) PIEZO CREEP is back on the candidate list**, which had dropped it, and it matters doubly because the piezo is also the ruler. **The 2026-09-21 header follows and still stands.** (a) **The motor-step bound reads UNDER 1.94 nm**, a ceiling from a lever ratio of OVER 80; read any "at least 1.94 nm" as "at most", and note the conclusion that the motor cannot park in the window now rests on the bench observation, not the arithmetic. (b) **The coin wrappers are MASS, not damping** (`docs/INVENTORY.md`); the damping is eddy-current, and that coin mass is a drift candidate, not part of the isolation. **The 2026-09-20 header still stands too:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which puts one measurement at the front of this plan. See STEP A immediately below.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -185,6 +185,13 @@ gap holds still with the box and not without, that is the answer, and it cost no
 > table before this number decides anything** — on the Keystone standoff this project took three
 > web-sourced answers and all three were wrong (`CLAUDE.md` §7).
 
+> **STEP 1 CAVEAT ADDED 2026-09-22, and it changes what a PASS means.** The Brookhaven adviser's second
+> reply names **humidity** as the mechanism for paper: it *goes crazy* with changing humidity. **A box
+> controls temperature and draughts. It does not control humidity**, and paper tracks room humidity over
+> hours, slowly, reversing. **So a box test that comes back clean does NOT clear the backing paper.** If
+> the box helps and drift remains, **remove the paper before concluding anything else** (STEP 2 below).
+> `docs/OUTREACH.md`.
+
 **2. A stiffer sample.** The gold leaf on its backing paper, anchored at one edge, is one of the candidates.
 In order of preference:
 - **a rigid gold surface** — anything gold-plated and flat that does not bend: a gold-plated PCB pad (ENIG
@@ -194,6 +201,41 @@ In order of preference:
   after step 1**;
 - **the leaf bonded all round with conductive adhesive under it and NO paper** — the 2026-09-17 patch on
   copper tape held; on 2026-09-19 the leaf would not transfer by pressure (`docs/INVENTORY.md`).
+
+**2b. THE MATERIALS RULING — added 2026-09-22, and it is the strongest outside steer this project has had.**
+
+**The Brookhaven adviser, asked what to look at, did not rank our candidates. He ruled out materials.**
+Paraphrased, full record in `docs/OUTREACH.md`:
+
+- **No plastics of any kind, no rubber of any kind, no paper.** *Squishy* materials flow under pressure
+  essentially forever and keep changing dimensions at this scale; paper additionally tracks humidity.
+- **Use metals** — steel, stainless, aluminium, copper, brass — with **aluminium noted for its fairly high
+  expansion coefficient**. For insulation: **ceramic, alumina, glass, sapphire, granite, quartz or mica**.
+- **A screw drive is fine if every thread in the path is steel or brass, and if it is spring pre-loaded to
+  kill backlash.** **Steel balls at any pivot.**
+- **DESIGN THE LOOP SYMMETRIC AND THERMAL EXPANSION CANCELS.** With tip and sample dead centre, a symmetric
+  frame has **zero XY thermal drift**; in Z only the *difference* between frame, piezo, tip-wire length and
+  sample thickness remains.
+- **Applies to the mechanical loop only** — tip-wire mounting point through to the sample. Nothing outside it.
+
+**WHAT THIS MEANS FOR US, stated plainly because it disagrees with the plan above.** Our loop contains
+**printed PETG-CF plates, rubber bands and backing paper** — all three on his no list, and all three sitting
+in `STATUS.md` as drift candidates to be *tested*. **He is saying the test is not worth running because the
+answer is known.**
+
+**Do not throw out the cheap tests — they are still how we learn how much each one contributed here, which
+he has no way to know for our build.** But **reorder**:
+
+1. **The paper is now the cheapest removal, not the third test.** Bond the gold to a rigid conductive
+   substrate with nothing compressible under it.
+2. **The rubber-band retention is a known-bad mounting, not a suspect.** Replace it with a mechanical
+   clamp or screw-down against the three ball contacts.
+   **No cyanoacrylate: `STATUS.md` safety rule 5 forbids it near the preamp or in the same enclosure,
+   ever**, and the preamp sits at the scan head. **Use a mechanical fastener, not adhesive.**
+3. **The printed plates are the expensive one and the one to think hardest about before acting**, because
+   replacing them is a redesign rather than a fix. **The symmetry point is the cheap half of it**: a
+   symmetric layout cancels expansion without changing material at all, and nothing here has ever
+   considered it.
 
 **3. A sharper tip.** The current one was "very blunt" when fitted and was pressed into the gold with Z fully
 retracted for ~9, ~35, ≤ 3.4 and ~5 minutes on 2026-09-19. Re-check `STATUS.md` safety rule 7 after fitting,
