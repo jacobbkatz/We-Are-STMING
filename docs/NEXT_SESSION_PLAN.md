@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-21 — **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below. NOTHING IN THE BENCH PROCEDURE BELOW HAS CHANGED.** 2026-09-21 was a website session: nothing powered, nothing touched, no measurement taken. **Two things in it bear on the bench.** (1) **The motor-step bound has been written backwards in several places, including `sessions/2026-09-20.md` §3.3.** `docs/FACTS.md` is the register and says tip travel per motor step is **UNDER 1.94 nm** — a ceiling, from a lever ratio of **OVER 80**. Smaller `d` means a *smaller* step. Read any "at least 1.94 nm" in this repository as "at most". (2) **The coin wrappers on the platform are MASS, not damping** (`docs/INVENTORY.md`); the damping is eddy-current, from magnets over an aluminium plate, and `STATUS.md` lists that coin mass as **candidate 6 of 7** for the gap motion. Do not treat it as part of the isolation when ranking the drift candidates in STEP 1. **The 2026-09-20 header follows and still stands:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which promotes one measurement to the front of this plan. See STEP A immediately below.
+**Last updated:** 2026-09-22 — **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **WHAT CHANGED ON 2026-09-22 IS STEP 1 AND ONE NEW STEP 5b, BOTH FROM AN OUTSIDE READING.** Dr. Percy Zahl (Brookhaven, CFN), who advised on isolation earlier in the project, replied to Jacob's 2026-09-20 update. **Nothing powered, nothing touched, no measurement taken** — this was a correspondence session; full account in `sessions/2026-09-22.md`. **(1) STEP 1, the box test, now runs for HOURS rather than 15 minutes and asks for a temperature log beside the Z trace** — his first instruction was to monitor temperature precisely, enclose, and thermalize, and this project has never recorded the room temperature next to a measurement. **(2) NEW STEP 5b: a three-amplitude Z sweep**, which settles whether the in/out hysteresis is the junction or the scanner. **(3) PIEZO CREEP is back on the candidate list**, which had dropped it, and it matters doubly because the piezo is also the ruler. **The 2026-09-21 header follows and still stands.** (a) **The motor-step bound reads UNDER 1.94 nm**, a ceiling from a lever ratio of OVER 80; read any "at least 1.94 nm" as "at most", and note the conclusion that the motor cannot park in the window now rests on the bench observation, not the arithmetic. (b) **The coin wrappers are MASS, not damping** (`docs/INVENTORY.md`); the damping is eddy-current, and that coin mass is a drift candidate, not part of the isolation. **The 2026-09-20 header still stands too:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which puts one measurement at the front of this plan. See STEP A immediately below.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -108,8 +108,14 @@ to code 0, which is the retracted end **only while HIGH Z extends toward the sam
 3. **The coarse approach has not produced a usable gap**: after every Z-0 back-off the gold was out of reach at
    the first check; neither 20-step motor find held.
 
-**What moves the gold is UNKNOWN. Four untested candidates, not ranked:** the leaf on its paper; the plate on
-its rubber bands and ball contacts; thermal motion of the printed head; **air currents**.
+**What moves the gold is UNKNOWN. `STATUS.md` is the canonical list and it now runs to EIGHT, not ranked:**
+the leaf on its paper; the plate on its rubber bands and ball contacts; thermal motion of the printed head;
+**air currents**; the undressed cables; the coin mass; the spring-hook-in-eyebolt joints; and, **added
+2026-09-22 from Dr. Percy Zahl's reply, PIEZO CREEP** — which had been on the 2026-09-17 list and fell off
+when the list was rewritten. **It deserves its place because the piezo is also the RULER**: the 43,000
+counts is the Z position at which a current threshold is crossed during a piezo sweep, so a scanner whose
+displacement-per-count is drifting would give this reading with a perfectly still gap.
+`docs/OPEN_QUESTIONS.md`.
 
 ## BEFORE ANY OF THE 2026-09-19-MORNING SCRIPTS
 
@@ -129,9 +135,42 @@ next motor move.**
 
 ## Do these, in this order
 
-**1. The free test first: is it air?** Put a cardboard box over the whole instrument **standing on the
-bench, not on the platform**, and leave the room. Then steps 4-5 with the box on. **If the gap holds still
-with the box and not without, that is the answer, and it cost nothing.**
+**1. The free test first: is it air, or is it temperature?** Put a cardboard box over the whole instrument
+**standing on the bench, not on the platform**, and leave the room. Then steps 4-5 with the box on. **If the
+gap holds still with the box and not without, that is the answer, and it cost nothing.**
+
+> **REWRITTEN 2026-09-22 after Dr. Percy Zahl's reply** (Brookhaven, CFN — he advised on isolation earlier in
+> the project and Jacob sent him an update on 2026-09-20). **His first instruction was not about air:**
+> *"Monitor environment temperature precisly, put it in a enclosure to reduce temperature drift and let it
+> thermalize for a few hours."* **Three changes to this step follow from it:**
+>
+> **(a) THERMALIZE FOR HOURS, NOT MINUTES.** This step used to be a 15-minute recording. **Box it, leave the
+> room, and let it sit for a few hours before the recording starts.** A box that has just been put on is
+> still coming to equilibrium and will drift on its own.
+>
+> **(b) LOG THE TEMPERATURE BESIDE THE Z TRACE.** **We do not know that we own anything that can** — there is
+> no thermometer in `docs/INVENTORY.md` and no temperature row in `docs/FACTS.md`, so **this project has
+> never recorded the room temperature next to a measurement.** What is needed is something resolving about
+> **0.01 to 0.1 K that logs unattended**, not a thermometer read by eye. **Ask Jacob or Nuh before assuming
+> either way** (`CLAUDE.md` §3d). **Without a temperature trace the box test can only say "better" or "no
+> better"; with one it says WHY**, because a Z excursion that tracks a temperature ramp is a different
+> finding from one that does not.
+>
+> **(c) THE BOX SEPARATES TWO THINGS AT ONCE AND THAT IS A FEATURE.** A box stops draughts *and* slows
+> temperature change. **If it helps, the follow-up is to keep the box and add the thermometer**, then see
+> whether what is left tracks temperature.
+>
+> **Why temperature is worth this much attention, and the honest state of the arithmetic:** the tip-sample
+> loop runs tungsten → an unrecorded metal stake → a cyanoacrylate joint → the brass piezo disc → **printed
+> PETG-CF plates** → steel ball screws → the printed sample plate → copper tape → backing paper → gold.
+> **Those materials have very different expansion coefficients and the plastic dominates.** **Our own Z range
+> is under ~0.51 um** (`docs/FACTS.md`), so **every 10 mm of unmatched PETG-CF in the loop uses up the whole
+> Z range for somewhere around half a kelvin to a couple of kelvin.** **THAT BRACKET IS NOT A MEASUREMENT.**
+> Our filament's expansion coefficient is **not in `docs/FACTS.md` and its datasheet could not be fetched**
+> (the container's network policy blocks the manufacturer and the distributor mirrors), and **the length of
+> printed material in the loop has never been measured either.** **Get the manufacturer's own parameter
+> table before this number decides anything** — on the Keystone standoff this project took three
+> web-sourced answers and all three were wrong (`CLAUDE.md` §7).
 
 **2. A stiffer sample.** The gold leaf on its backing paper, anchored at one edge, is one of the candidates.
 In order of preference:
@@ -158,6 +197,15 @@ every 5 s for 15 minutes (`swing_log.py 900 5`). **Pass: the onset stays within 
 Any FAR or PAST sweep voids the run** — on 2026-09-19 it read FAR throughout after a hand-set, which cannot
 tell a still gap beyond reach from a moving one. **If a rigid sample under a box still fails, the plate
 mounting or the head is next**: rubber-band creep, the ball contacts, thermal motion of the printed parts.
+
+**5b. ONE EXTRA Z TEST WHILE YOU ARE THERE, AND IT IS CHEAP — added 2026-09-22.** At one bias, run the same
+in/out Z cycle at **full, half and quarter sweep amplitude**. **What it settles:** whether the 705-1,868
+counts of in/out hysteresis is the junction or **the piezo's own hysteresis**, which this project has never
+considered and which fits one thing the contact reading does not explain — the hysteresis shows **no trend
+with bias**, and a scanner is indifferent to the sample bias. **Piezo hysteresis scales with the size of the
+excursion; contact compliance does not.** **Roughly proportional to amplitude = the scanner. Roughly
+constant = the junction.** It needs only a repeatable contact, not a good gap, so it can be done early.
+`docs/OPEN_QUESTIONS.md`.
 
 **6. Only then, the Z test and a scan with its constant.** A tunnel junction: a decade per tens of counts or
 fewer, little hysteresis, gradual onsets. Put its counts per decade into `COUNTS_PER_DECADE` and scan with

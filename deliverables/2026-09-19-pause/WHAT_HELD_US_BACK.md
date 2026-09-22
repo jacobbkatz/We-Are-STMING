@@ -16,7 +16,7 @@ number traces to `docs/FACTS.md`, a session log, or `LEAD_VERIFICATION.md`.
 | **2** | **Soft sample** — gold leaf on backing paper, held by twisted rubber bands, and it moved when you blew on it | **Bond the gold to a rigid substrate with no paper under it, and clamp the plate mechanically instead of with rubber bands** |
 | **3** | **Blunt tips, one bent** — while the etching setup already exists and has been used | **Etch a sharp tip with the setup you already own** |
 | **4** | **No distance scale of your own** — section 3.25 records scans that covered ±0.6 nm, smaller than a single atom, and nobody could have known | **Measure `d` under a jeweler's loupe or a USB microscope** — minutes, no power, and it fixes the nanometer scale for every measurement this instrument will ever make |
-| **5** | **The approach can't park in the window** — one motor step is at least 1.94 nm against a 0.17 nm window | **Settle the sign of the tunneling current so `APRH` is safe to run, then hand the last stage of the approach from the motor to the piezo** |
+| **5** | **The approach can't park in the window** — single motor steps moved the surface 14,000 to 29,000 Z counts when they moved it at all, against a window about 0.17 nm wide | **Settle the sign of the tunneling current so `APRH` is safe to run, then hand the last stage of the approach from the motor to the piezo** |
 
 **Each fix is one sentence because each is genuinely one action.** None of them needs a purchase and
 none needs a laboratory. The rest of this document is the evidence behind each row.
@@ -153,10 +153,20 @@ a straightedge cannot resolve that. **A jeweler's loupe or a USB microscope clos
 
 **The arithmetic.** The window where a tunneling current is big enough to see and small enough not
 to saturate the amplifier spans about **1.7 decades of current — roughly 0.17 nm of gap.** One step
-of the coarse motor moves the tip **at least 1.94 nm** — that is the figure at the TOP of the
-range `d` has been bounded to, under 0.5 mm; `d` itself is still not resolved, and at the bottom
-of that range the step is smaller. **The motor jumps
-over the entire window in one step. There is no motor position inside it.**
+of the coarse motor moves the tip **UNDER 1.94 nm** — and that is a ceiling, not a value. It is the
+figure at the TOP of the range `d` has been bounded to, under 0.5 mm; smaller `d` gives a larger
+lever ratio and a **smaller** step, and `d` is still not resolved.
+
+> **Corrected 2026-09-21.** This paragraph said *"at least 1.94 nm"* in two places. `docs/FACTS.md`
+> is the register and it says **UNDER**. The bound runs the other way, so **the arithmetic alone no
+> longer shows the motor overshooting the window** — at the bottom of the `d` range a step could in
+> principle be smaller than the window. **The conclusion survives on the bench observation instead,
+> which is stronger than the arithmetic ever was:** on 2026-09-18 **single steps shifted the surface
+> 14,000 to 29,000 Z counts when they shifted it at all, and runs of 20 to 40 steps shifted it not
+> at all** (`sessions/2026-09-18-bench.md` §5). **The stage sticks and slips, so the motor does not
+> act as a ruler at any step size.** `STATUS.md`, 2026-09-21.
+
+**In practice the motor jumps over the entire window, and there is no motor position inside it.**
 
 That is not a fault, it is why the piezo exists — but it means the handover from motor to piezo has
 to work, and it never did:
