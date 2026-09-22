@@ -353,6 +353,27 @@ def check_refuted_claims(page, fail):
         fail("claims", 'line %d: "%s" - %s' % (line, phrase, why))
 
 
+# The number of drift candidates must NOT be written onto the page.
+#
+# It was "seven candidates" and went stale inside 24 hours when an outside reading added
+# piezo creep - the same failure the session-log and commit counts were fixed for on
+# 2026-09-20 by moving them into build_assets.py. Unlike those two, this one cannot be
+# counted mechanically: the list lives in prose in STATUS.md. So the rule is simply not to
+# state it. "a list of candidates" never goes stale.
+CANDIDATE_COUNT = re.compile(
+    r"\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|\d+)\s+"
+    r"(untested\s+|possible\s+|likely\s+)?candidates\b", re.I)
+
+
+def check_candidate_count(page, fail):
+    for m in CANDIDATE_COUNT.finditer(page):
+        line = page.count("\n", 0, m.start()) + 1
+        fail("claims",
+             'line %d: "%s" - do not write the candidate count on the page. It was "seven" '
+             "and went stale in 24 hours when piezo creep was added. STATUS.md is the "
+             'register; say "a list of candidates" instead' % (line, m.group(0)))
+
+
 def main() -> int:
     page = open(PAGE, encoding="utf-8").read()
     problems = []
@@ -372,6 +393,7 @@ def main() -> int:
     check_repo_counts(page, fail)
     check_spelling(page, fail)
     check_refuted_claims(page, fail)
+    check_candidate_count(page, fail)
 
     areas = ["links", "files", "sizes", "alt", "headings", "contrast",
              "document", "figures", "duplicates", "counts", "spelling", "claims"]

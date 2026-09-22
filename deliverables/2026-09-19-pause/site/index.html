@@ -950,7 +950,7 @@
     <div class="item" data-rv><div class="n num">1</div><div>
       <h3>The gap will not hold still</h3>
       <p>With the motor stopped and nobody touching the instrument, the surface moves by <strong>more than 43,000 converter counts in 6.4 seconds</strong> &mdash; most of the piezo&rsquo;s entire range. An image needs it inside a few hundred counts for a minute. <strong>This is the blocker, and the motion is far too slow to be vibration</strong>, so a better suspension is the wrong fix.</p>
-      <div class="fix"><b>Possible fix.</b> Put a box over it and record for fifteen minutes before touching anything. The cause is unknown among seven candidates, and the two cheapest to eliminate cost nothing to test: room air, and two unclamped cables running from the suspended platform to the fixed bench.</div>
+      <div class="fix"><b>Possible fix.</b> Put a box over it, let it come to equilibrium for a few hours, and record with the room temperature logged beside it. The cause is unknown among a list of candidates we cannot rank, and the two cheapest to eliminate cost nothing to test: room air, and two unclamped cables running from the suspended platform to the fixed bench.</div>
     </div></div>
 
     <div class="item" data-rv><div class="n num">2</div><div>
@@ -1055,13 +1055,13 @@
       citations that no longer point at the rule they name. It runs at every session start and a
       Git hook blocks the commit when it fails.</p></div>
     <div data-rv><h4>The logbook</h4><div class="f">sessions/</div>
-      <p>One append-only log per working session, <span data-repo-count="session-logs">29</span> of them, each with what was measured, what was
+      <p>One append-only log per working session, <span data-repo-count="session-logs">30</span> of them, each with what was measured, what was
       ruled out and what went wrong. Past readings are never edited. When a later session corrects
       an earlier one, the correction is written beside it, not over it.</p></div>
     <div data-rv><h4>The shared spine</h4><div class="f">git &middot; GitHub</div>
       <p>Two people, two computers, often days apart. Every session starts by pulling and ends by
       pushing, and a start-up hook does the pull, runs the checker and prints what changed since
-      last time. <strong><span data-repo-count="commits">273</span> commits.</strong> Neither of us has ever had to ask the other what
+      last time. <strong><span data-repo-count="commits">277</span> commits.</strong> Neither of us has ever had to ask the other what
       state the project was in.</p></div>
     <div data-rv><h4>The review pass</h4><div class="f">LEAD_VERIFICATION.md</div>
       <p>Every claim re-derived independently from the raw files before it was allowed into
@@ -1092,7 +1092,7 @@
   <div class="tally" data-rv>
     <div><div class="t num" data-repo-count="claude-lines">575</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
     <div><div class="t num" data-repo-count="facts-rows">157</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
-    <div><div class="t num" data-repo-count="commits">273</div><div class="l">commits, across two computers and two people</div></div>
+    <div><div class="t num" data-repo-count="commits">277</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num" data-repo-count="checker-lines">598</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
 
@@ -1280,7 +1280,7 @@
         <li><b>Self-directed.</b> No faculty advisor, no grant, no laboratory.</li>
         <li><b>Eleven weeks</b> of planning and design, and <b>eight weeks</b> of building.
         Where one ended and the other began, we never wrote down.</li>
-        <li><b><span data-repo-count="session-logs" data-format="words">Twenty-nine</span></b> working sessions, each one logged and never rewritten.</li>
+        <li><b><span data-repo-count="session-logs" data-format="words">Thirty</span></b> working sessions, each one logged and never rewritten.</li>
         <li><b><span data-repo-count="data-files">163</span> raw data files</b> and <b><span data-repo-count="photographs">92</span> photographs</b> of our own hardware, all public.</li>
       </ul>
     </div>
@@ -1303,7 +1303,7 @@
 <section id="next">
   <h2>Where it goes next</h2>
   <p class="measure">The instrument is in pieces, moved between two houses at the end of the summer. When it goes back together, the first thing is a measurement that needs no power and takes minutes: <strong>how far the tip sits from the line through the two ball supports.</strong> It sets the nanometer scale for everything the instrument will ever measure, and it settles our best junction retroactively.</p>
-  <p class="measure">Then the free test for what moves the gap &mdash; a box over the instrument and a fifteen-minute recording &mdash; then a rigid sample and a sharp tip. <strong>None of the five things in our way needs a purchase, and none needs a laboratory.</strong></p>
+  <p class="measure">Then the test for what moves the gap &mdash; a box over the instrument, left to come to equilibrium for hours, and a recording with the room temperature logged beside it &mdash; then a rigid sample and a sharp tip. <strong>None of the five things in our way needs a laboratory, and none of the fixes needs a purchase. The one thing we have to buy is a thermometer that can log on its own, to diagnose the first one.</strong></p>
   <figure class="photo" data-rv><img src="img/teardown.jpg" srcset="img/teardown-800.jpg 800w, img/teardown-1100.jpg 1100w, img/teardown.jpg 1500w" sizes="(max-width: 760px) 350px, 980px" width="1500" height="1098" alt="The suspended platform lifted off the frame and held in one hand, with the scan head, motor and preamplifier still mounted on it." loading="lazy">
     <figcaption>The platform off the frame on the morning it came apart to be moved.</figcaption></figure>
 </section>
@@ -1316,8 +1316,26 @@
   and we are both back at university.</p>
   <p><strong>The part we would most like help with is not money or parts.</strong> It is the first
   row of what stopped us: something on that bench moves the gap by most of the scanner&rsquo;s range
-  within seconds, and we have seven candidates and no way to rank them. <strong>If you have ever
+  within seconds, and we have a list of candidates and no way to rank them. <strong>If you have ever
   chased mechanical drift at this scale, we would like to hear how you found it.</strong></p>
+
+  <!-- Dr. Zahl's advice below is PARAPHRASED and his email is NOT quoted. It was private
+       correspondence. Do not add verbatim quotes without asking him first. He is already
+       acknowledged in README.md for advising on isolation earlier in the build. -->
+  <p><strong>Somebody already did, and it changed our list.</strong> We sent this page to Dr. Percy
+  Zahl at Brookhaven National Laboratory, who had advised us on isolation earlier in the build. He
+  told us to stop treating the drift as one problem: monitor the room temperature properly, put the
+  instrument in an enclosure and let it come to equilibrium over hours rather than minutes, look for
+  materials with very different expansion coefficients in the loop between tip and sample &mdash; and
+  read up on <strong>piezo creep</strong>.</p>
+
+  <p>That last one had been on our list in September and had quietly fallen off it when the list was
+  rewritten, and it matters more than an ordinary suspect, because <strong>the scanner is also our
+  ruler.</strong> What we record as drift is a scanner position, so a scanner that is itself creeping
+  would give us that reading with a gap that never moved. Our own data argues back at part of it
+  &mdash; creep decays in one direction, while our fastest excursion reverses and overshoots where it
+  started &mdash; but an outside reading that puts back something we had dropped is exactly what this
+  section was asking for.</p>
   <p>Corrections are just as welcome. If a number on this page is wrong, tell us and we will change
   it and say who caught it.</p>
   <div class="actions">
@@ -1361,7 +1379,7 @@
 
   <div class="colophon">
     <p><strong>Eleven weeks of planning and design, eight weeks of building.</strong> First power-on
-    29 August 2026; last bench session 19 September 2026. <span data-repo-count="session-logs" data-format="words">Twenty-nine</span> session logs, <span data-repo-count="data-files">163</span> raw data
+    29 August 2026; last bench session 19 September 2026. <span data-repo-count="session-logs" data-format="words">Thirty</span> session logs, <span data-repo-count="data-files">163</span> raw data
     files and <span data-repo-count="photographs">92</span> photographs of our own hardware.</p>
     <p><strong>Mech Panda</strong> and <strong>Dan Berard</strong> published their instruments for
     free. Without them there would have been nothing to bring up.</p>
