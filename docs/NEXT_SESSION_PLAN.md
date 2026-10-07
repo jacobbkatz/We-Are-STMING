@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-09-22 — **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **WHAT CHANGED ON 2026-09-22 CAME ENTIRELY FROM ONE OUTSIDE CORRESPONDENT: STEP 1, A NEW STEP 2b, AND A NEW STEP 5b.** **STEP 2b IS THE BIG ONE** — a materials ruling that puts three of our loop's materials (printed plastic, rubber bands, backing paper) on a do-not-use list, and offers a design principle nothing here had considered: **make the loop symmetric and thermal expansion cancels.** Dr. Percy Zahl (Brookhaven, CFN), who advised on isolation earlier in the project, replied to Jacob's 2026-09-20 update. **Nothing powered, nothing touched, no measurement taken** — this was a correspondence session; full account in `sessions/2026-09-22.md`. **(1) STEP 1, the box test, now runs for HOURS rather than 15 minutes and asks for a temperature log beside the Z trace** — his first instruction was to monitor temperature precisely, enclose, and thermalize, and this project has never recorded the room temperature next to a measurement. **(2) NEW STEP 5b: a three-amplitude Z sweep**, which settles whether the in/out hysteresis is the junction or the scanner. **(3) PIEZO CREEP is back on the candidate list**, which had dropped it, and it matters doubly because the piezo is also the ruler. **The 2026-09-21 header follows and still stands.** (a) **The motor-step bound reads UNDER 1.94 nm**, a ceiling from a lever ratio of OVER 80; read any "at least 1.94 nm" as "at most", and note the conclusion that the motor cannot park in the window now rests on the bench observation, not the arithmetic. (b) **The coin wrappers are MASS, not damping** (`docs/INVENTORY.md`); the damping is eddy-current, and that coin mass is a drift candidate, not part of the isolation. **The 2026-09-20 header still stands too:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which puts one measurement at the front of this plan. See STEP A immediately below.
+**Last updated:** 2026-10-07 — **correspondence only; nothing powered, nothing touched. NEW STEP 2c: an HOPG sample is on its way from Baird Bankovic (Cornell), and his advice on the preamp gives seven more steps: scope the preamp output, keep the current between 100 pA and 1 nA, move to a 1 GOhm feedback resistor with a small capacitor across it, shorten the tip wire, and try the analog side on batteries.** **Check the HOPG's electrical contact before gluing it with ordinary epoxy, which insulates.** Full account in `sessions/2026-10-07.md`. **The 2026-09-22 header follows and still stands.** **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **WHAT CHANGED ON 2026-09-22 CAME ENTIRELY FROM ONE OUTSIDE CORRESPONDENT: STEP 1, A NEW STEP 2b, AND A NEW STEP 5b.** **STEP 2b IS THE BIG ONE** — a materials ruling that puts three of our loop's materials (printed plastic, rubber bands, backing paper) on a do-not-use list, and offers a design principle nothing here had considered: **make the loop symmetric and thermal expansion cancels.** Dr. Percy Zahl (Brookhaven, CFN), who advised on isolation earlier in the project, replied to Jacob's 2026-09-20 update. **Nothing powered, nothing touched, no measurement taken** — this was a correspondence session; full account in `sessions/2026-09-22.md`. **(1) STEP 1, the box test, now runs for HOURS rather than 15 minutes and asks for a temperature log beside the Z trace** — his first instruction was to monitor temperature precisely, enclose, and thermalize, and this project has never recorded the room temperature next to a measurement. **(2) NEW STEP 5b: a three-amplitude Z sweep**, which settles whether the in/out hysteresis is the junction or the scanner. **(3) PIEZO CREEP is back on the candidate list**, which had dropped it, and it matters doubly because the piezo is also the ruler. **The 2026-09-21 header follows and still stands.** (a) **The motor-step bound reads UNDER 1.94 nm**, a ceiling from a lever ratio of OVER 80; read any "at least 1.94 nm" as "at most", and note the conclusion that the motor cannot park in the window now rests on the bench observation, not the arithmetic. (b) **The coin wrappers are MASS, not damping** (`docs/INVENTORY.md`); the damping is eddy-current, and that coin mass is a drift candidate, not part of the isolation. **The 2026-09-20 header still stands too:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which puts one measurement at the front of this plan. See STEP A immediately below.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -197,8 +197,9 @@ In order of preference:
 - **a rigid gold surface** — anything gold-plated and flat that does not bend: a gold-plated PCB pad (ENIG
   finish), a gold-plated connector contact, a SIM-card contact pad. **Check `docs/INVENTORY.md` and ask before
   assuming any of these is in the room** (`CLAUDE.md` §3d);
-- **HOPG** (highly oriented pyrolytic graphite), the standard hobby-STM sample. **A purchase — decide only
-  after step 1**;
+- **HOPG** (highly oriented pyrolytic graphite), the standard hobby-STM sample. ~~**A purchase — decide only
+  after step 1**~~ **NO LONGER A PURCHASE, 2026-10-07: Baird Bankovic is sending a piece. See step 2c (i) for
+  how to mount it, and check its electrical contact first**;
 - **the leaf bonded all round with conductive adhesive under it and NO paper** — the 2026-09-17 patch on
   copper tape held; on 2026-09-19 the leaf would not transfer by pressure (`docs/INVENTORY.md`).
 
@@ -236,6 +237,84 @@ he has no way to know for our build.** But **reorder**:
    replacing them is a redesign rather than a fix. **The symmetry point is the cheap half of it**: a
    symmetric layout cancels expansion without changing material at all, and nothing here has ever
    considered it.
+
+**2c. THE PREAMP AND THE HOPG, FROM BAIRD BANKOVIC — added 2026-10-07.** Baird is a Cornell graduate
+student who has built amplifiers for STMs at 77 K and 1.7 K. He commented on the LinkedIn post and then
+wrote to Jacob by email. Full record in `docs/OUTREACH.md`. **Nothing here has been tried yet.** In order:
+
+**(i) HOPG IS COMING FROM BAIRD. NO PURCHASE NEEDED.** `EMAIL` 2026-10-07: he will send one piece of about
+**5 x 5 x 0.5 mm**. **This replaces the gold leaf in step 2.** It also meets the step 2b ruling: no paper,
+no rubber, nothing soft under the surface. **How to mount it, in his words:** *"use a drop of epoxy to
+mount it onto your sample holder, then use some scotch tape to exfoliate the sample before scanning."*
+Press tape onto the top face and peel it off. That pulls away the top layers and leaves a fresh, flat
+surface. **Do it right before every scanning session**, not once.
+
+> **CHECK BEFORE GLUING, AND THIS IS OUR INFERENCE, NOT HIS ADVICE.** The sample bias has to reach the
+> graphite. **Ordinary epoxy is an insulator**, so a piece glued down with it may sit on the plate with
+> no electrical path to the orange bias wire. In that case no tunnelling current can flow. **Either use
+> conductive (silver) epoxy, or give the HOPG a separate electrical contact**, for example a small metal
+> clip or a dab of conductive paint from its side down to the bias wire. **Beep the top face to the
+> orange bias wire before the plate goes back in**, the same check the gold passed on 2026-09-18. **And
+> mount it on metal, not on the printed plate,** if step 2b's rebuild has happened by then.
+
+**(ii) SCOPE THE PREAMP OUTPUT FIRST.** Baird: *"If you probe the output of the TIA with an
+oscilloscope, the signal should look very clean."* **This project has only ever looked at the preamp
+through the ADC.** One look on a scope shows mains hum, radio pickup or oscillation that the ADC's
+sampling could hide. **Whether we own or can borrow a scope is NOT RECORDED in `docs/INVENTORY.md`.
+Ask.** Tip clear, nobody touching the bench.
+
+**(iii) KEEP THE OPERATING CURRENT BETWEEN 100 pA AND 1 nA.** Baird: on HOPG the usual tunnelling
+current is *"~100pA, up to 1nA"*. **Stay below 1 nA** for ordinary scanning. Higher current means the
+tip is closer, and that is when it crashes or drags the surface. **Our 2026-09-19 arrival threshold was
+300 counts, about 940 pA** (`sessions/2026-09-22.md` §3), right at the top of that range. **The approach
+target should come down.**
+
+**(iv) CHANGE THE FEEDBACK RESISTOR FROM 100 MOhm TO 1 GOhm.** **The reason is (iii).** At 100 MOhm we
+get **320 counts per nA** (`docs/FACTS.md`). So 100 pA is only **32 counts**, and the noise floor is tens
+of counts. `CALC` 2026-10-07: **at 1 GOhm the same 100 pA becomes about 320 counts, and 1 nA is about
+1 V at the output**, well inside the ADC's +/-10.24 V. **Every count-to-current figure in the code and
+in `docs/FACTS.md` changes by 10x when this is done.** Re-run the dummy-resistor check
+(`sessions/2026-09-16-bench.md` §3.4) with a known resistor before trusting any number.
+**How Baird fits it:** he bent the op-amp's inverting-input and output legs up and soldered the 1 GOhm
+**directly across those two pins**. That keeps the feedback loop as small as possible so it picks up less
+noise. **The part and package to buy are an OPEN QUESTION** (`docs/OPEN_QUESTIONS.md` section 2).
+
+**(v) ADD A SMALL CAPACITOR ACROSS THE FEEDBACK RESISTOR, AS A LOW-PASS FILTER.** Baird suggests a
+cutoff of **about 100 Hz**, made by soldering a capacitor right on top of the feedback resistor.
+`CALC` 2026-10-07, from f = 1 / (2 pi R C): **at 1 GOhm, 100 Hz needs about 1.6 pF. At 100 MOhm, about
+16 pF.** **1.6 pF is tiny.** The stray capacitance of the resistor and the board may already be a
+picofarad or so, which would put the cutoff below 100 Hz without any added part. **Measure the
+bandwidth before adding anything.** Baird's own photos show a scope's Bode-plot function used for
+exactly this. **Whether our board already has a feedback capacitor fitted is NOT RECORDED in
+`docs/BOM.md`.** Check before adding one.
+
+**(vi) SHORTEN THE WIRE FROM THE TIP TO THE PREAMP INPUT.** Baird: *"the shorter the wire, the less
+noise pickup you will get."* That wire is the most sensitive node in the instrument. Every centimetre is
+an antenna into 100 MOhm, or into 1 GOhm after (iv). **Its current length is not recorded. Measure it
+and write it down**, then make it as short as the scan head allows.
+
+**(vii) RUN THE ANALOG SIDE ON BATTERIES — WORTH TRYING.** Baird: *"Running all the analog on batteries
+is a fantastically good idea - so much wasted time finding ground loops and noisy power supplies."* His
+own test board runs on two 9 V batteries. **The preamp now runs on +/-15 V from a bench supply**
+(`docs/INVENTORY.md`, JP1 leads). **Two 9 V batteries give +/-9 V. Check that the OPA627's output swing
+on +/-9 V still covers what (iv) needs** — about 1 V for 1 nA, so it should, but verify against the
+datasheet. **Do it as an A/B test:** noise with the bench supply, then noise on batteries, same
+conditions, tip clear.
+
+**(viii) OFFSET VOLTAGE: RECORDED, BUT NOT A PRIORITY FOR US.** Baird warned that the op-amp's input
+offset voltage (Vos) drifts with temperature and can upset readings over the hour a scan takes.
+Datasheet (TI, OPA627), at 25 °C: **OPA627AU, Vos typical +/-280 uV, max +/-500 uV, drift typical
++/-2.5 uV/°C. OPA627BU, +/-25 uV typical, +/-125 uV max, drift +/-0.3 uV/°C typical.** `docs/BOM.md`
+says we have the **AU**, but `sessions/2026-09-21.md` §7 notes **nobody has read the marking on our own
+board. Read it**; a BU would be about ten times better on both counts. `CALC` 2026-10-07: **with the tip clear, the output offset is about Vos, and
+one ADC count is 0.3125 mV. So the whole AU worst case is under 2 counts, and its drift is about
+0.01 count per °C.** That is far below the tens of counts of drift this instrument shows. **So Vos does
+not explain our drift, and it should not move up the list.** **One honest consequence:** the
+**-0.4 mV baseline** in `deliverables/2026-09-19-pause/report/FINDINGS_REPORT.md` is inside the AU's Vos
+spec. So it may be almost all offset voltage and almost no input current. **The "about 4 pA of input
+current" figure is an upper bound, not a measurement.** The report already says part of it is Vos.
+**After (iv), recheck.** A 10x larger feedback resistor does not change the output offset from Vos, but
+it does make the input current 10x more visible.
 
 **3. A sharper tip.** The current one was "very blunt" when fitted and was pressed into the gold with Z fully
 retracted for ~9, ~35, ≤ 3.4 and ~5 minutes on 2026-09-19. Re-check `STATUS.md` safety rule 7 after fitting,
