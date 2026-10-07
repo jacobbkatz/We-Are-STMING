@@ -1,7 +1,22 @@
 # Current status
 
-**Last updated:** 2026-09-22 — **no bench work since 2026-09-19 morning. The instrument is still disassembled and moved; the next session still starts with REASSEMBLY** (`docs/NEXT_SESSION_PLAN.md`, and note STEP A). **WHAT CHANGED ON 2026-09-22 IS THE PLAN, NOT THE INSTRUMENT**: Dr. Percy Zahl replied to Jacob's update, and his reading puts a dropped candidate back on the list and rewrites the first bench step — see the block immediately below. The 2026-09-21 and 2026-09-20 blocks after it both still stand, including the central claim.
-**Updated by:** Claude, 2026-09-22, in a correspondence session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.**
+**Last updated:** 2026-10-07 — **correspondence only; nothing powered or touched. An HOPG sample is on its way from Baird Bankovic (Cornell), and his preamp advice is now step 2c of `docs/NEXT_SESSION_PLAN.md`** — see the 2026-10-07 block below. **The 2026-09-22 line follows and still stands:** **no bench work since 2026-09-19 morning. The instrument is still disassembled and moved; the next session still starts with REASSEMBLY** (`docs/NEXT_SESSION_PLAN.md`, and note STEP A). **WHAT CHANGED ON 2026-09-22 IS THE PLAN, NOT THE INSTRUMENT**: Dr. Percy Zahl replied to Jacob's update, and his reading puts a dropped candidate back on the list and rewrites the first bench step — see the block immediately below. The 2026-09-21 and 2026-09-20 blocks after it both still stand, including the central claim.
+**Updated by:** Claude, 2026-10-07, in a correspondence session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.** Previously: Claude, 2026-09-22, in a correspondence session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.**
+
+# 2026-10-07 — AN HOPG SAMPLE IS COMING, AND A PREAMP CHECKLIST FROM SOMEONE WHO HAS BUILT THEM
+
+**Baird Bankovic**, a Cornell graduate student who has built STM preamps for 77 K and 1.7 K instruments,
+commented on the LinkedIn post and then wrote to Jacob twice. **No stage, fault or safety rule changed.**
+
+- **He is sending a piece of HOPG**, about 5 x 5 x 0.5 mm. **That is the rigid sample step 2 of the plan
+  needed, and it meets the 2026-09-22 materials ruling.** Mount it, then cleave it with tape before each
+  session. **Its electrical contact to the bias wire must be checked: ordinary epoxy insulates.**
+- **His preamp advice is `docs/NEXT_SESSION_PLAN.md` step 2c:** scope the output; run at **100 pA to 1 nA**,
+  not the ~940 pA threshold used on 2026-09-19; move from **100 MOhm to 1 GOhm**, which takes 100 pA from 32
+  counts to about 320; a small capacitor across it for a **~100 Hz** filter; a shorter tip wire; batteries
+  for the analog side.
+- **His offset-voltage warning was checked and does not explain our drift**: under 2 counts worst case for
+  the OPA627AU. Full account in `sessions/2026-10-07.md`; correspondence in `docs/OUTREACH.md`.
 
 # 2026-09-22 — AN OUTSIDE READING: DR. PERCY ZAHL ON THE DRIFT
 
