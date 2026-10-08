@@ -37,6 +37,7 @@ describes: *"Anything that stays in the conversation is lost the moment the cont
 |---|---|---|
 | **Mr. Buckley** `pbuckley@sharonschools.net` and **Mrs. Bhalekar** `ubhalekar@sharonschools.net` | Jacob, **2026-09-21 02:49 UTC**, cc Nuh | **Both replied warmly, 2026-09-22.** **Jacob has said they may share it with their classes** (2026-09-22 16:55) |
 | **Ms. Das** `ndas@sharonschools.net` and **Mr. Tessier** `atessier@sharonschools.net` | **Nuh**, 2026-09-22 16:14 UTC, cc Jacob | No reply yet |
+| **Four Boston TV newsrooms: GBH, WCVB, WHDH, Boston 25** | Jacob, **2026-09-23**, cc Nuh (Boston 25 via its web news-tip form) | **No reply as of 2026-10-08.** A pitch about the build, not a request for advice. Recorded 2026-10-08 so nobody pitches them twice |
 
 ---
 
