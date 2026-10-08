@@ -278,8 +278,8 @@ surface. **Do it right before every scanning session**, not once.
 > no electrical path to the orange bias wire. In that case no tunnelling current can flow. **Either use
 > conductive (silver) epoxy, or give the HOPG a separate electrical contact.** **Dr. Zahl's sketch
 > (step 2b, added 2026-10-08) holds the sample with mechanical clips or a screw-down, which does both
-> jobs at once: a metal clip on the edge holds it and carries the bias.** Otherwise,, for example a small metal
-> clip or a dab of conductive paint from its side down to the bias wire. **Beep the top face to the
+> jobs at once: a metal clip on the edge holds it and carries the bias.** A dab of conductive paint from the graphite's side down to the bias wire
+> also works. **Beep the top face to the
 > orange bias wire before the plate goes back in**, the same check the gold passed on 2026-09-18. **And
 > mount it on metal, not on the printed plate,** if step 2b's rebuild has happened by then.
 
