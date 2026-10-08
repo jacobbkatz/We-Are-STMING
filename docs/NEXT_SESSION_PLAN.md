@@ -1,6 +1,6 @@
 # Next session plan
 
-**Last updated:** 2026-10-08 — **Jacob's Gmail re-checked for STM advice: nothing new since 2026-09-22, but Dr. Zahl's design sketch held five points never written down, now under step 2b. The biggest: real heads build the coarse approach into the scan piezo (slip-stick), which is the answer to our motor-handover blocker, and clamping the sample with a metal clip also gives the HOPG its bias contact.** **The 2026-10-07 line follows and still stands:** **correspondence only; nothing powered, nothing touched. NEW STEP 2c: an HOPG sample is on its way from Baird Bankovic (Cornell), and his advice on the preamp gives seven more steps: scope the preamp output, keep the current between 100 pA and 1 nA, move to a 1 GOhm feedback resistor with a small capacitor across it, shorten the tip wire, and try the analog side on batteries.** **Check the HOPG's electrical contact before gluing it with ordinary epoxy, which insulates.** **Step 2c also records his smaller points: supply filter capacitors at the op-amp, a steady amplifier temperature, re-metering the shield after reassembly, and which parts of his cryogenic builds do not apply to us.** Full account in `sessions/2026-10-07.md`. **The 2026-09-22 header follows and still stands.** **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **WHAT CHANGED ON 2026-09-22 CAME ENTIRELY FROM ONE OUTSIDE CORRESPONDENT: STEP 1, A NEW STEP 2b, AND A NEW STEP 5b.** **STEP 2b IS THE BIG ONE** — a materials ruling that puts three of our loop's materials (printed plastic, rubber bands, backing paper) on a do-not-use list, and offers a design principle nothing here had considered: **make the loop symmetric and thermal expansion cancels.** Dr. Percy Zahl (Brookhaven, CFN), who advised on isolation earlier in the project, replied to Jacob's 2026-09-20 update. **Nothing powered, nothing touched, no measurement taken** — this was a correspondence session; full account in `sessions/2026-09-22.md`. **(1) STEP 1, the box test, now runs for HOURS rather than 15 minutes and asks for a temperature log beside the Z trace** — his first instruction was to monitor temperature precisely, enclose, and thermalize, and this project has never recorded the room temperature next to a measurement. **(2) NEW STEP 5b: a three-amplitude Z sweep**, which settles whether the in/out hysteresis is the junction or the scanner. **(3) PIEZO CREEP is back on the candidate list**, which had dropped it, and it matters doubly because the piezo is also the ruler. **The 2026-09-21 header follows and still stands.** (a) **The motor-step bound reads UNDER 1.94 nm**, a ceiling from a lever ratio of OVER 80; read any "at least 1.94 nm" as "at most", and note the conclusion that the motor cannot park in the window now rests on the bench observation, not the arithmetic. (b) **The coin wrappers are MASS, not damping** (`docs/INVENTORY.md`); the damping is eddy-current, and that coin mass is a drift candidate, not part of the isolation. **The 2026-09-20 header still stands too:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which puts one measurement at the front of this plan. See STEP A immediately below.
+**Last updated:** 2026-10-08 (evening) — **NEW STEP 2d from Baird's third email: stop etching and use cut Pt/Ir tips rinsed in acetone; mount the HOPG with conductive epoxy, ideally on a steel disc held by the plate's existing magnets; approach at 2 V and a ~20 pA setpoint, which needs the 1 GOhm resistor first; first-scan settings for HOPG; and in OUR firmware a larger `Ki` is faster, the opposite of his wording.** **Earlier the same day:** **Jacob's Gmail re-checked for STM advice: nothing new since 2026-09-22, but Dr. Zahl's design sketch held five points never written down, now under step 2b. The biggest: real heads build the coarse approach into the scan piezo (slip-stick), which is the answer to our motor-handover blocker, and clamping the sample with a metal clip also gives the HOPG its bias contact.** **The 2026-10-07 line follows and still stands:** **correspondence only; nothing powered, nothing touched. NEW STEP 2c: an HOPG sample is on its way from Baird Bankovic (Cornell), and his advice on the preamp gives seven more steps: scope the preamp output, keep the current between 100 pA and 1 nA, move to a 1 GOhm feedback resistor with a small capacitor across it, shorten the tip wire, and try the analog side on batteries.** **Check the HOPG's electrical contact before gluing it with ordinary epoxy, which insulates.** **Step 2c also records his smaller points: supply filter capacitors at the op-amp, a steady amplifier temperature, re-metering the shield after reassembly, and which parts of his cryogenic builds do not apply to us.** Full account in `sessions/2026-10-07.md`. **The 2026-09-22 header follows and still stands.** **no bench work since 2026-09-19 morning; the instrument is still disassembled and moved, and the next session still starts with REASSEMBLY, below.** **WHAT CHANGED ON 2026-09-22 CAME ENTIRELY FROM ONE OUTSIDE CORRESPONDENT: STEP 1, A NEW STEP 2b, AND A NEW STEP 5b.** **STEP 2b IS THE BIG ONE** — a materials ruling that puts three of our loop's materials (printed plastic, rubber bands, backing paper) on a do-not-use list, and offers a design principle nothing here had considered: **make the loop symmetric and thermal expansion cancels.** Dr. Percy Zahl (Brookhaven, CFN), who advised on isolation earlier in the project, replied to Jacob's 2026-09-20 update. **Nothing powered, nothing touched, no measurement taken** — this was a correspondence session; full account in `sessions/2026-09-22.md`. **(1) STEP 1, the box test, now runs for HOURS rather than 15 minutes and asks for a temperature log beside the Z trace** — his first instruction was to monitor temperature precisely, enclose, and thermalize, and this project has never recorded the room temperature next to a measurement. **(2) NEW STEP 5b: a three-amplitude Z sweep**, which settles whether the in/out hysteresis is the junction or the scanner. **(3) PIEZO CREEP is back on the candidate list**, which had dropped it, and it matters doubly because the piezo is also the ruler. **The 2026-09-21 header follows and still stands.** (a) **The motor-step bound reads UNDER 1.94 nm**, a ceiling from a lever ratio of OVER 80; read any "at least 1.94 nm" as "at most", and note the conclusion that the motor cannot park in the window now rests on the bench observation, not the arithmetic. (b) **The coin wrappers are MASS, not damping** (`docs/INVENTORY.md`); the damping is eddy-current, and that coin mass is a drift candidate, not part of the isolation. **The 2026-09-20 header still stands too:** the central claim was corrected (we DID detect tunnelling; what we could not do is hold the range — `deliverables/2026-09-19-pause/LEAD_VERIFICATION.md` V13), and **`d` was bounded at under 0.5 mm but not resolved**, which puts one measurement at the front of this plan. See STEP A immediately below.
 
 **This document assumes no memory of any conversation.** Everything needed is here or named by
 file. Read `STATUS.md` first for state; this file is the procedure.
@@ -367,6 +367,74 @@ stainless-steel wiring** on one amplifier was there to thermally isolate it on a
 solders badly and we have no cryogenic stage. **The "trimming" resistor** on that amplifier's
 connector is for nulling its offset; (viii) shows we do not need one. **His Bode plot** (a scope's
 frequency-response function) is the useful part to copy, as the way to measure the bandwidth in (v).
+
+**2d. BAIRD'S THIRD EMAIL: APPROACH, FIRST-SCAN SETTINGS, TIPS — added 2026-10-08.** `EMAIL`, Baird
+Bankovic, 2026-10-07 21:02 ET, answering Jacob's six questions. Pasted into the conversation by Jacob.
+**Nothing here has been tried.** In order of when it matters at the bench:
+
+**(i) TIPS: STOP ETCHING. CUT Pt/Ir AND CLEAN IT.** Baird: for STM in air, *"PtIr is good, and you just
+cut that with plyers at an angle while you pull the wire away"*, and *"tip sharpness was not much of a
+problem - I always seemed to find atomic resolution so long as the tip is clean!"* **Rinse every tip in
+acetone before mounting.** He says etching tungsten *"isn't worth it at the moment"*. **That takes our
+uncontrolled NaOH etch out of the critical path** (`docs/INVENTORY.md`, tip etching row). **A purchase:
+Pt/Ir (90/10 or 80/20) STM wire, about 0.25 mm, and acetone. Neither is recorded in `docs/INVENTORY.md`.
+Ask before buying.** If we ever go back to etching, his repeatable recipe (<10 nm radius) is a video:
+https://youtu.be/jelE-ZIFsOY
+
+**(ii) MOUNT THE HOPG WITH CONDUCTIVE EPOXY.** Baird confirms conductive epoxy, which answers the contact
+question in 2c (i). He adds *"Magnetic sample holders are great."* **Our sample plate already has four
+magnets under it**, put there to hold a magnetic puck the way Mech Panda's HOPG came (`docs/INVENTORY.md`,
+sample-pocket magnets). **So the natural mount is HOPG, conductive-epoxied to a small steel disc, held by
+those magnets, with the bias reaching it through the disc.** That also meets step 2b: metal, no paper, no
+rubber. **Whether the magnets hold firmly enough, and whether they pull on a ferromagnetic tip holder, are
+both untested** (same `docs/INVENTORY.md` row).
+
+**(iii) APPROACH AT 2 V BIAS AND A ~20 pA SETPOINT, JUST ABOVE THE NOISE FLOOR.** Baird: this *"keeps the
+tip from crashing, which can be very confusing to interpret on approach."* **2 V is inside our bias range
+(+/-3 V).** **But 20 pA is BELOW our present noise floor**: at 100 MOhm one count is 3.125 pA, and the
+amplifier wandered by tens of counts (about +/-75 pA) with the tip clear (`sessions/2026-09-22.md` §3).
+**So this setting needs the 1 GOhm change in 2c (iv) first**, which makes one count about 0.31 pA.
+**`STATUS.md` safety rule 2 still stands: positive sample bias gives NEGATIVE counts, and `APRH` must not
+be run.** Set the threshold by magnitude, with the sign handled, in whatever tool does the approach.
+
+**(iv) THE COARSE STEP SHOULD BE 1/10 OF THE PIEZO'S Z RANGE OR LESS.** Baird asked how our coarse
+motion works and suggested a finer-pitch screw (Kozak, an adjuster maker in NJ: https://kozakmicro.com/).
+**Our numbers say pitch is not the problem.** `CALC` from `docs/FACTS.md`: one motor step moves the tip
+**under 1.94 nm** through the lever, and the Z range is **under ~0.51 um**, so a step is **under 0.4%** of
+the range, well inside his 10% rule. **What fails is the stage sticking and then jumping**: single steps
+moved the surface 14,000 to 29,000 Z counts when they moved it at all, and 100 to 250 steps of backlash
+follow a reversal (`deliverables/2026-09-19-pause/manual/MANUAL.md`). **A finer screw does not fix
+stick-slip.** Spring pre-load (step 2b), or the slip-stick piezo drive in Dr. Zahl's sketch, would.
+
+**(v) FIRST HOPG SCAN SETTINGS.** Baird, for HOPG in air:
+- **Bias 1 to 2 V. Current 100 to 1,000 pA**: start low, which is less likely to crash; raise it for
+  better resolution. (Matches 2c (iii).)
+- **Scan size about 100 nm, at about 1 line per second.** A rough image of that area takes about
+  5 minutes; a high-resolution one about 40. **Keep test scans under about 5 minutes**, because of drift.
+- **Then look at single line cuts of both the Z-feedback and the current signals for periodic wiggles.**
+  *"which could be atoms!"* HOPG's lattice repeats every 0.246 nm.
+- **Our XY range may be smaller than 100 nm in practice.** Using Berard's disc figure (~83 nm/V, not
+  ours) at +/-3 V gives roughly 0.5 um full range, so 100 nm should fit. **Unmeasured.**
+
+**(vi) FEEDBACK GAINS: P SMALLER THAN I, AND START WITH THE LOOP SLOW.** Baird's rule: the integral term
+averages, which suits a noisy signal like an STM's. **Land with a slow loop, then speed it up once
+scanning is stable, until just before it oscillates.** **He warns his wording may be flipped for our
+controller, and it IS.** Our firmware computes `iTerm += Ki * error` (`Code/teensy/src/stm_firmware.hpp`,
+`control_current`), so **in our code a LARGER `Ki` is FASTER.** **Translated: land with a small `Ki`,
+raise it once stable, and keep `Kp` smaller than that.** The `CCON` rule in `STATUS.md` still applies.
+
+**(vii) A RIGID GOLD SAMPLE, AND A POSSIBLE CALIBRATION GRATING.** Baird makes gold grids on silicon,
+200 nm thick at **10 um pitch**, and offered off-cuts. His SEM photo shows square openings on a regular
+10 um grid (shared in the conversation; his image, not committed). **Too coarse to calibrate our scanner:
+its whole XY range is roughly 0.5 um (inferred, above), so one grid square is about 20 times bigger than
+a full scan.** **But it is still useful: gold on silicon is the rigid gold surface step 2 lists first**,
+with nothing compressible under it. He may also add a **~1 um pitch test pattern** to wafers he runs next
+week, *"no promises"*. Even that is about twice our range, so a scan might catch one edge, not a full
+period. **For XY calibration the HOPG lattice (0.246 nm) is the better ruler.**
+
+**(viii) THE DRIFT.** Baird thought gap motion within a couple of seconds *"sounds very fast, but if the
+structure is plastic and not much z-travel, then it could be"*. **Consistent with step 2b; nothing new to
+do.** He has not used a disc quadrant scanner, so he cannot say how much piezo creep to expect from one.
 
 **3. A sharper tip.** The current one was "very blunt" when fitted and was pressed into the gold with Z fully
 retracted for ~9, ~35, ≤ 3.4 and ~5 minutes on 2026-09-19. Re-check `STATUS.md` safety rule 7 after fitting,
