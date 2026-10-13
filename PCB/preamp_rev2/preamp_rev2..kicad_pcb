@@ -1752,8 +1752,8 @@
 		(duplicate_pad_numbers_are_jumpers no)
 		(pad "" np_thru_hole circle
 			(at 0 0)
-			(size 2.1082 2.1082)
-			(drill 2.1082)
+			(size 2.184 2.184)
+			(drill 2.184)
 			(layers "*.Cu" "*.Mask")
 			(uuid "69e8ce28-d0c1-43b5-af68-623c35d7cbaa")
 		)

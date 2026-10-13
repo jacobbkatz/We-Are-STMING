@@ -6,7 +6,7 @@ Send these to a board house.
 |---|---|---|
 | `Gerber_PCB1_all_red.zip` | **Controller** | 15 files: copper, silkscreen, mask, paste, outline, drill, plus flying-probe test data |
 | `STM_Preamp_OPA627_Gerbers(1).zip` | **Preamplifier, rev 1** — the boards we own | 11 files. 20.625 × 15.23 mm, 2-layer. **Do not order this one again**: its ground fill is missing (`STATUS.md` fault 0d) and C2 is drawn backwards (fault 1d) |
-| `gerbers_rev2_preamp_nuhshaheer_jacobkatz.zip` | **Preamplifier, rev 2** | **UNTESTED — see below.** 12 files. Same size and holes as rev 1 |
+| `gerbers_rev2_nuhshaheer_jacobkatz_preamp.zip` | **Preamplifier, rev 2** | **UNTESTED — see below.** 12 files. Same size and holes as rev 1 |
 
 ## Preamp rev 2 — NOT TESTED
 
@@ -24,10 +24,11 @@ measured.** It is better than rev 1 **on paper only**. Nothing about it has been
 - **Printed `+` beside C1 and C2's + pads.** Rev 1 printed no polarity mark, which is why JLCPCB asked.
 - **JP1 holes 1 and 4** join the ground fill solidly; ground fill clearance 0.3 mm; edge rule 0.3 mm.
 - **"REV2" and the builders' names** printed on the underside, so it cannot be mistaken for a rev 1.
-- **Standoff hole left at 2.108 mm**, Berard's original. **The Keystone 11301 does NOT fit a 2.108 mm
-  hole** (bench 2026-09-15; Nuh tried again 2026-10-13), so as drawn the standoff would rest on the board,
-  held by the resistor lead, exactly as on the working spare. **Decide before ordering** whether to keep
-  that or redraw the hole (`docs/OPEN_QUESTIONS.md`).
+- **Standoff hole enlarged from 2.108 mm to 2.184 mm** (Nuh, 2026-10-13), because **the Keystone 11301
+  does NOT fit 2.108 mm** (bench 2026-09-15; Nuh tried again 2026-10-13). **2.184 mm is Keystone's
+  recommended hole, taken from a distributor table, and has NEVER been tried against the part.** Test it on
+  the first rev 2 board: if it goes in, good; if not, the standoff rests on the board held by the resistor
+  lead, exactly as on the working spare. Nothing is lost either way.
 
 **What was checked, from the files only** (2026-10-13, Claude, on Nuh's zip as committed):
 
@@ -35,7 +36,7 @@ measured.** It is better than rev 1 **on paper only**. Nothing about it has been
 |---|---|
 | `Code/pc/gerber_netcheck.py` — every net one piece of copper, no shorts | **PASS** |
 | Tantalum polarity, from the pad labels | C1 + on +9V, **C2 + on GND** — both correct |
-| Outline, holes and top copper against rev 1 | **Identical**; the bottom is rev 1's copper plus about 175 mm² of ground fill |
+| Outline, holes and top copper against rev 1 | **Identical**, except the standoff hole (2.108 → 2.184 mm, same position) and the bottom solder-mask opening around it, which grew by the same ring; the bottom is rev 1's copper plus about 175 mm² of ground fill |
 | KiCad design rule check | **0 unconnected.** Remaining warnings are inherited from Berard's layout, plus one: the underside names are 0.6 mm tall, under KiCad's 0.8 mm minimum, the same line width as Berard's own lettering |
 
 **None of that is a test of the board.** It shows the files say what was intended. **Whether the board
