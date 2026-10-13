@@ -6,19 +6,22 @@ Send these to a board house.
 |---|---|---|
 | `Gerber_PCB1_all_red.zip` | **Controller** | 15 files: copper, silkscreen, mask, paste, outline, drill, plus flying-probe test data |
 | `STM_Preamp_OPA627_Gerbers(1).zip` | **Preamplifier, rev 1** — the boards we own | 11 files. 20.625 × 15.23 mm, 2-layer. **Do not order this one again**: its ground fill is missing (`STATUS.md` fault 0d) and C2 is drawn backwards (fault 1d) |
-| `gerbers_rev2_nuhshaheer_jacobkatz_preamp.zip` | **Preamplifier, rev 2** | **UNTESTED — see below.** 12 files. Same size and holes as rev 1 |
+| `gerbers_rev2_nuhshaheer_jacobkatz_preamp.zip` | **Preamplifier, rev 2** | **UNTESTED — see below.** 12 files. Same size and mounting holes as rev 1; standoff hole enlarged |
 
 ## Preamp rev 2 — NOT TESTED
 
 **Designed by Nuh in KiCad 10, 2026-10-12 to 2026-10-13. Not ordered, not built, not powered, not
 measured.** It is better than rev 1 **on paper only**. Nothing about it has been proven on hardware.
 
+**Two improvements, both UNTESTED:** (1) the filled ground fill **should remove the need to scrape vias and hand-wire the underside** — the six hand-wires on the spare become copper; (2) the standoff hole is **enlarged to 2.184 mm**, Keystone's recommended size, so the 11301 may now go in, where it does not fit 2.108 mm. **Neither has been tried on a real board.**
+
 **What it changes from rev 1**, starting from Dan Berard's original Eagle layout:
 
 - **The ground fill on the underside is filled.** Rev 1's files were exported with it empty, so six
   ground points were connected to nothing and had to be scraped and hand-wired on the spare
-  (`STATUS.md` fault 0d). On rev 2 the only hand-wiring should be **the five JP1 wires plus the
-  feedback resistor and tip wire on the PTFE standoff**.
+  (`STATUS.md` fault 0d). **On rev 2 that scraping and underside wiring should no longer be needed** —
+  the only hand-wiring should be **the five JP1 wires plus the feedback resistor and tip wire on the PTFE
+  standoff**. **Expected from the files, not yet tested on a built board.**
 - **C2 is turned round** so its + end is on ground. Berard's design puts it on -15 V, reverse-biasing
   the tantalum (`STATUS.md` fault 1d). The copper is unchanged; only which pad is + changes.
 - **Printed `+` beside C1 and C2's + pads.** Rev 1 printed no polarity mark, which is why JLCPCB asked.

@@ -12,7 +12,7 @@ file. Read `STATUS.md` first for state; this file is the procedure.
 **Nothing in the bench procedure below depends on it.** The instrument still uses the repaired spare.
 Rev 2 is `gerbers/gerbers_rev2_nuhshaheer_jacobkatz_preamp.zip` (project `PCB/preamp_rev2/`, notes
 `gerbers/README.md`): Berard's layout with the ground fill filled and C2 turned round. **Not ordered, not
-built, not powered. Better on paper only.**
+built, not powered. Better on paper only.** **Two improvements, both UNTESTED:** (1) the filled ground fill **should remove the need to scrape vias and hand-wire the underside** — the six hand-wires on the spare become copper; (2) the standoff hole is **enlarged to 2.184 mm**, Keystone's recommended size, so the 11301 may now go in, where it does not fit 2.108 mm. **Neither has been tried on a real board.**
 
 **Before it is ordered:**
 
