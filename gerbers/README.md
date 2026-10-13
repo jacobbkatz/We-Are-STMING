@@ -24,8 +24,10 @@ measured.** It is better than rev 1 **on paper only**. Nothing about it has been
 - **Printed `+` beside C1 and C2's + pads.** Rev 1 printed no polarity mark, which is why JLCPCB asked.
 - **JP1 holes 1 and 4** join the ground fill solidly; ground fill clearance 0.3 mm; edge rule 0.3 mm.
 - **"REV2" and the builders' names** printed on the underside, so it cannot be mistaken for a rev 1.
-- **Standoff hole left at 2.108 mm**, Berard's original. **VERIFY before ordering**: whether our
-  Keystone 11301's pin sits inside that hole on the spare is disputed in the record (`docs/OPEN_QUESTIONS.md`).
+- **Standoff hole left at 2.108 mm**, Berard's original. **The Keystone 11301 does NOT fit a 2.108 mm
+  hole** (bench 2026-09-15; Nuh tried again 2026-10-13), so as drawn the standoff would rest on the board,
+  held by the resistor lead, exactly as on the working spare. **Decide before ordering** whether to keep
+  that or redraw the hole (`docs/OPEN_QUESTIONS.md`).
 
 **What was checked, from the files only** (2026-10-13, Claude, on Nuh's zip as committed):
 

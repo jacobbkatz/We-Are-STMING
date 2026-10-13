@@ -16,11 +16,12 @@ built, not powered. Better on paper only.**
 
 **Before it is ordered:**
 
-1. **The standoff hole.** Rev 2 keeps 2.108 mm because Nuh recalls the 11301 fitting; the 2026-09-15 record
-   says it did not enter (`docs/INVENTORY.md`, DISPUTED). **Settle it by asking Jacob, or, if the preamp box is
-   open during reassembly anyway, by looking at the underside of the spare at the standoff hole with a light:**
-   metal pin visible in the hole = it went in. **Do not press, pull or touch the standoff** — it is the input
-   node, held only by the resistor lead.
+1. **The standoff hole — now a decision, not a check.** ~~Rev 2 keeps 2.108 mm because Nuh recalls the 11301
+   fitting; settle it by asking Jacob or looking under the spare~~ **Withdrawn 2026-10-13: the 11301 does NOT
+   fit 2.108 mm** (bench 2026-09-15; Nuh tried again 2026-10-13; `docs/INVENTORY.md`). Either keep 2.108 mm and
+   fit the standoff resting on the board, held by the resistor lead, as on the working spare; or redraw the
+   hole in KiCad at Keystone's recommended 2.184 mm (a distributor figure, never measured) and re-plot.
+   **Do not drill a rev 1 board.**
 2. Bare boards or JLCPCB assembly. Check JLCPCB's copper-to-edge minimum at upload (JP1 is 0.37 mm in).
 3. **Never order the rev 1 zip again.**
 
