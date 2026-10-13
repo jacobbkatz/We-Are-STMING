@@ -338,6 +338,10 @@ component, pin and net names — so this is the actual netlist, not an inference
 
 ### CORRECTED 2026-09-13: the whole ground pour is missing, not just pin 4
 
+> **Rev 2, 2026-10-13: a fixed board is designed by Nuh but UNTESTED — not ordered, built or powered**
+> (`gerbers/README.md`). On it, both GND holes are real ground and C2 is turned round. **Everything in
+> this section describes rev 1, the boards we own.**
+
 > **Measured on both boards: IC1 pin 3 (+IN) is not connected to JP1 pin 1.** Berard's Eagle board
 > has a bottom-layer `GND` polygon; **the gerbers we fabricated have none.** In those files **only C1 −
 > and JP1 pin 1** are joined by copper. **C2 −, C3 pad 2, C4 pad 2, IC1 pin 3, IC1 pin 8 and JP1 pin

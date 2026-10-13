@@ -1,7 +1,21 @@
 # Current status
 
-**Last updated:** 2026-10-08 — **correspondence only. Baird's third email is now step 2d of `docs/NEXT_SESSION_PLAN.md`: cut Pt/Ir tips instead of etching, conductive-epoxy HOPG on the plate's existing magnets, and approach and scan settings.** **The 2026-10-07 line follows and still stands:** **correspondence only; nothing powered or touched. An HOPG sample is on its way from Baird Bankovic (Cornell), and his preamp advice is now step 2c of `docs/NEXT_SESSION_PLAN.md`** — see the 2026-10-07 block below. **The 2026-09-22 line follows and still stands:** **no bench work since 2026-09-19 morning. The instrument is still disassembled and moved; the next session still starts with REASSEMBLY** (`docs/NEXT_SESSION_PLAN.md`, and note STEP A). **WHAT CHANGED ON 2026-09-22 IS THE PLAN, NOT THE INSTRUMENT**: Dr. Percy Zahl replied to Jacob's update, and his reading puts a dropped candidate back on the list and rewrites the first bench step — see the block immediately below. The 2026-09-21 and 2026-09-20 blocks after it both still stand, including the central claim.
-**Updated by:** Claude, 2026-10-08, correspondence only. Previously: Claude, 2026-10-07, in a correspondence session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.** Previously: Claude, 2026-09-22, in a correspondence session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.**
+**Last updated:** 2026-10-13 — **Nuh designed PREAMP REV 2 in KiCad: Berard's layout with the ground fill filled (no more scraping or underside wires) and C2 turned round. UNTESTED — not ordered, built or powered; better on paper only.** Nothing at the bench; see the 2026-10-13 block below. **The 2026-10-08 line follows and still stands:** **correspondence only. Baird's third email is now step 2d of `docs/NEXT_SESSION_PLAN.md`: cut Pt/Ir tips instead of etching, conductive-epoxy HOPG on the plate's existing magnets, and approach and scan settings.** **The 2026-10-07 line follows and still stands:** **correspondence only; nothing powered or touched. An HOPG sample is on its way from Baird Bankovic (Cornell), and his preamp advice is now step 2c of `docs/NEXT_SESSION_PLAN.md`** — see the 2026-10-07 block below. **The 2026-09-22 line follows and still stands:** **no bench work since 2026-09-19 morning. The instrument is still disassembled and moved; the next session still starts with REASSEMBLY** (`docs/NEXT_SESSION_PLAN.md`, and note STEP A). **WHAT CHANGED ON 2026-09-22 IS THE PLAN, NOT THE INSTRUMENT**: Dr. Percy Zahl replied to Jacob's update, and his reading puts a dropped candidate back on the list and rewrites the first bench step — see the block immediately below. The 2026-09-21 and 2026-09-20 blocks after it both still stand, including the central claim.
+**Updated by:** Claude, 2026-10-13, on Nuh's computer; Nuh did the design, Claude guided and checked the files. **Nothing powered, nothing touched.** Previously: Claude, 2026-10-08, correspondence only. Previously: Claude, 2026-10-07, in a correspondence session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.** Previously: Claude, 2026-09-22, in a correspondence session with Jacob directing. **Nothing powered, nothing touched, no bench measurement taken.**
+
+# 2026-10-13 — PREAMP REV 2 IS DESIGNED, AND IT IS UNTESTED
+
+**Nuh made it in KiCad 10. No stage, fault on the boards we own, or safety rule changed.** Full account in
+`sessions/2026-10-13.md`; the board's notes are `gerbers/README.md`.
+
+| | |
+|---|---|
+| **WHAT IT IS** | `gerbers/gerbers_rev2_preamp_nuhshaheer_jacobkatz.zip`, project in `PCB/preamp_rev2/`. Berard's layout with **the ground fill filled** (fault 0d) and **C2 turned round** (fault 1d), printed `+` marks on C1 and C2, "REV2" and the builders' names on the underside. Same size and holes as rev 1, so the box fits |
+| **UNTESTED** | **Not ordered, not built, not powered, not measured. Better than rev 1 on paper only.** The files were checked — every net one piece of copper, no shorts, both tantalums the right way round, top copper identical to rev 1 — and **none of that is a test of the board** |
+| **WHAT IT SHOULD SAVE** | The six scraped vias and magnet-wire jumpers on the spare become copper. Building it should be **five wires into JP1 plus the resistor and tip wire on the standoff** |
+| **BEFORE ORDERING** | The standoff hole is kept at Berard's 2.108 mm on Nuh's recollection that the 11301 fit — **which the 2026-09-15 record disputes** (`docs/INVENTORY.md`). Look under the spare or ask Jacob. Bare or assembled is undecided. **Never reorder the rev 1 zip** |
+| **A RECORDED HAZARD WAS SMALLER THAN STATED** | C3's ground stub is **~0.24 mm** from JP1 pin 2's +15 V pad, not 0.076 mm (JP1's pad is rounded, not rectangular). The bench already showed no contact on 2026-09-14. `docs/FACTS.md` |
+| **NEW TOOL** | `Code/pc/gerber_netcheck.py` checks gerbers from their copper, not their net labels. It finds rev 1's six dead ground points on its own. **Run it on any gerbers before ordering** |
 
 # 2026-10-07 — AN HOPG SAMPLE IS COMING, AND A PREAMP CHECKLIST FROM SOMEONE WHO HAS BUILT THEM
 
@@ -1850,13 +1864,19 @@ were connected. **An upstream conversion defect, not a build fault.**
 2. **C2, C3 and C4 decoupled nothing** on either board. Only C1 was working.
 3. **The old board's reversed C2 was probably never reverse-biased** — its ground end floats.
    Derived from the copper and the beep test, not measured with power.
-4. **C3's ground-via stub ends 0.076 mm from JP1 pin 2's +15 V pad** on the underside. Untested
-   whether they touch. Check before grounding C3.
+4. **C3's ground-via stub ends about 0.24 mm from JP1 pin 2's +15 V pad** on the underside.
+   **Tested 2026-09-14 on the spare: they do not touch.** *Corrected 2026-10-12: the figure here was
+   computed with JP1's rounded (obround) pad taken as a rectangle* (`docs/FACTS.md`).
 
 **Repair on the spare, in progress.** Short 40 AWG magnet wires from each dead via to JP1 pin 1's
 underside joint. **Done:** IC1 pin 3, C4. **To do:** C2 (via → dot 2's joint), C3 (right half of the
 via only → hole 1). **Not verified yet.** Procedure: `docs/NEXT_SESSION_PLAN.md`. The permanent fix
 is a board reorder with the pour filled.
+
+> **2026-10-13: that reorder is now DESIGNED — preamp rev 2, by Nuh — and UNTESTED** (not ordered, built
+> or powered). Its gerbers have the fill and pass `Code/pc/gerber_netcheck.py`. **This fault still
+> applies in full to both boards we own.** `gerbers/README.md`. How the fill was lost is reproduced:
+> KiCad imports Berard's polygon as an empty zone and its gerber export does not fill zones unless told to.
 
 **0c. RESOLVED 2026-09-07 — the contradiction was a wrong constant, not a mystery.**
 It was recorded as: with 11.9 V on its input the ADC should be pinned at 32767, yet it reads
@@ -2163,6 +2183,10 @@ assembly. It was never disproved; it was removed.
 
 ### 1d. C2 is reverse-connected in the source design — CHECK BEFORE POWERING THE PREAMP
 
+> **2026-10-13: corrected in the preamp rev 2 design files only** — C2's + pad is on GND there, with a
+> printed `+`. Rev 2 is **untested** (`gerbers/README.md`). **Nothing below changes for the boards we own**,
+> and the rev 1 zip still carries the error: never reorder it.
+
 > **UPDATE 2026-09-13, MEASURED on the spare board.** C1's stripe is on its far pad (correct);
 > **C2's stripe was on its far pad — reversed, exactly as designed.** C2 marking `475V` = 4.7 µF,
 > **35 V** (AVX voltage code). **Rotated at the bench with two irons, reusing the original part** (no
@@ -2455,6 +2479,10 @@ over** — it is the measurement reference, and it is repairable without a rebui
 ---
 
 ## Next actions, in order
+
+> **STALE — noted 2026-10-13.** The lists below date from 2026-09-14 and 2026-09-07 and have not been the
+> order of work for a month. **`docs/NEXT_SESSION_PLAN.md` is the order**: STEP A, then reassembly. Kept,
+> not deleted, for their history.
 
 ### Current list, 2026-09-14 — the spare board's ground repair is done
 
@@ -2794,7 +2822,7 @@ here** — it stays recorded in `docs/OPEN_QUESTIONS.md` and in the session log 
 | Question | Why it blocks |
 |---|---|
 | **Is there any real input leakage at all?** New 2026-09-13 | **The top question.** Every reading so far was taken with IC1 +IN floating (fault 0d). Answered by the repaired spare board at 45 minutes, or faster by grounding the old board's pin 3 |
-| **Does C3's ground-via stub touch JP1 pin 2's pad?** New 2026-09-13 | The gerbers put them 0.076 mm apart. C3's ground pad ↔ hole 2 must be silent before C3 is grounded, or +15 V gets shorted to ground |
+| ~~**Does C3's ground-via stub touch JP1 pin 2's pad?**~~ **ANSWERED 2026-09-14 at the bench: no** | Hole 2 to hole 1 silent on the spare with wire 4 fitted. The gap is **about 0.24 mm** — *corrected 2026-10-12 from a figure that took JP1's rounded pad as a rectangle* (`docs/FACTS.md`) |
 | **Is any partial top-side wire left on the spare board?** New 2026-09-13 | Wires 3 and 4 were first attempted on top and abandoned. A loose bare end near R1 or hole 2 is a short |
 | ~~**Where is the break in the `PREAMP−` return — board, cable, or connector?**~~ **ANSWERED 2026-09-13** | On the board: JP1 pin 4 has no copper (fault 0d). Solved on the spare by wiring |
 | ~~**Is the warm-up drift the preamp or the floating reference?**~~ **SUPERSEDED 2026-09-13** | Probably neither: IC1 +IN floats. Re-measure on the repaired spare |

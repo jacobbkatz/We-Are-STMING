@@ -18,3 +18,9 @@ Thumbs.db
 
 # Derived from CAD/prints/ by deliverables/2026-09-19-pause/site/build_model.py
 deliverables/2026-09-19-pause/site/model/parts.json
+
+# KiCad per-user state and automatic backups - per-computer, not shared
+*.kicad_prl
+*-backups/
+fp-info-cache
+*.lck

@@ -453,6 +453,8 @@ archived documents cited as current. It runs automatically at session start.**
 | `Code/pc/` | Python tools that talk to the Teensy over serial |
 | `Code/pc/stl_features.py` | Measures the printed parts straight out of the STL meshes. **Run this instead of guessing a hole size** |
 | `Code/pc/check_facts.py` | Reports anywhere a value `docs/FACTS.md` lists as retired still sits in a live document. **Runs automatically at session start** |
+| `Code/pc/gerber_netcheck.py` | **Checks a board's gerbers for open and shorted nets from the copper itself**, not from the net labels — the labels are what hid the missing ground pour. **Run it on any gerbers before they are ordered.** `--test` proves it fails on rev 1 |
+| `gerbers/gerbers_rev2_preamp_nuhshaheer_jacobkatz.zip` | **Preamp board revision 2, designed by Nuh in KiCad 2026-10-13. UNTESTED: not ordered, not built, not powered — better on paper only.** Ground fill filled, C2 turned round. **Read `gerbers/README.md` before ordering any preamp board** — rev 1 must not be reordered |
 | `CAD/prints/README.md` | Every printed part, measured: sizes, hole grids, **which screw goes where** |
 | `CAD/`, `PCB/`, `gerbers/`, `our_preamp_cad_files/` | Design files |
 
