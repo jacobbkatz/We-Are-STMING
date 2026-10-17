@@ -1118,7 +1118,7 @@
 
   <div class="sys" data-rv>
     <div data-rv><h4>The protocol</h4><div class="f">CLAUDE.md</div>
-      <p><span data-repo-count="claude-lines">577</span> lines read before anything else:
+      <p><span data-repo-count="claude-lines">579</span> lines read before anything else:
       which document wins when two disagree, and the hardware rules that cost money to break.</p></div>
     <div data-rv><h4>The register</h4><div class="f">docs/FACTS.md</div>
       <p>One canonical value per number, each tagged with <b>how it is known &mdash; measured,
@@ -1129,12 +1129,12 @@
       values sitting in live documents, broken references, superseded procedures cited as current,
       safety-rule citations pointing at the wrong rule. A Git hook blocks the commit when it fails.</p></div>
     <div data-rv><h4>The logbook</h4><div class="f">sessions/</div>
-      <p><span data-repo-count="session-logs">30</span> append-only logs, one per working
+      <p><span data-repo-count="session-logs">33</span> append-only logs, one per working
       session: what was measured, what was ruled out, what went wrong. <b>A correction is written
       beside the original, never over it.</b></p></div>
     <div data-rv><h4>The shared spine</h4><div class="f">git &middot; GitHub</div>
       <p>Two people, two computers, often days apart. A start-up hook pulls, runs the checker
-      and prints what changed. <strong><span data-repo-count="commits">282</span> commits</strong>,
+      and prints what changed. <strong><span data-repo-count="commits">293</span> commits</strong>,
       and neither of us has had to ask the other what state the project was in.</p></div>
     <div data-rv><h4>The review pass</h4><div class="f">LEAD_VERIFICATION.md</div>
       <p>Every public claim re-derived independently from the raw files &mdash; including three
@@ -1162,9 +1162,9 @@
   number lives and a program that checked.</p>
 
   <div class="tally" data-rv>
-    <div><div class="t num" data-repo-count="claude-lines">577</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
-    <div><div class="t num" data-repo-count="facts-rows">157</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
-    <div><div class="t num" data-repo-count="commits">282</div><div class="l">commits, across two computers and two people</div></div>
+    <div><div class="t num" data-repo-count="claude-lines">579</div><div class="l">lines of operating protocol, read before anything else happens</div></div>
+    <div><div class="t num" data-repo-count="facts-rows">159</div><div class="l">rows in the register: every value, its provenance, its date, counted by a program</div></div>
+    <div><div class="t num" data-repo-count="commits">293</div><div class="l">commits, across two computers and two people</div></div>
     <div><div class="t num" data-repo-count="checker-lines">598</div><div class="l">lines of checker, seven tests, run at every session start</div></div>
   </div>
 
@@ -1275,11 +1275,11 @@
       <ul class="conditions">
         <li><b>Self-directed, with no formal faculty advisor</b> &mdash; no grant, no laboratory,
         and nobody setting the direction or reviewing the work. We did write to experienced
-        researchers for advice, and one of them changed what we test next; none of them supervised
+        researchers for advice, and two of them changed what we test next; none of them supervised
         the project.</li>
         <li><b>Eleven weeks</b> of planning and design, and <b>eight weeks</b> of building.
         Where one ended and the other began, we never wrote down.</li>
-        <li><b><span data-repo-count="session-logs" data-format="words">Thirty</span></b> working sessions, each one logged and never rewritten.</li>
+        <li><b><span data-repo-count="session-logs" data-format="words">Thirty-three</span></b> working sessions, each one logged and never rewritten.</li>
         <li><b><span data-repo-count="data-files">163</span> raw data files</b> and <b><span data-repo-count="photographs">92</span> photographs</b> of our own hardware, all public.</li>
       </ul>
     </div>
@@ -1301,11 +1301,47 @@
 
 <section id="next">
   <h2>Where it goes next</h2>
-  <p class="measure">The instrument is in pieces, moved between two houses at the end of the summer. When it goes back together, the first thing is a measurement that needs no power and takes minutes: <strong>how far the tip sits from the line through the two ball supports.</strong> It sets the nanometer scale for everything the instrument will ever measure, and it settles our best junction retroactively.</p>
-  <p class="measure">Then the test for what moves the gap &mdash; a box over the instrument, hours
-  to come to equilibrium, and a recording with the room temperature logged beside it &mdash; then a
-  rigid sample and a sharp tip. <strong>None of the five needs a laboratory and none of the fixes
-  needs a purchase; the one thing we have to buy is a thermometer that logs on its own.</strong></p>
+  <!-- Updated 2026-10-17 from docs/NEXT_SESSION_PLAN.md steps 1, 2b, 2c and 2d. Both advisers are
+       DELIBERATELY UNNAMED, as in #about: the Brookhaven physicist at Jacob's instruction of
+       2026-09-22, and the Cornell graduate student by the same convention. Advice is paraphrased,
+       never quoted. -->
+  <p class="measure">The instrument is in pieces, moved between two houses at the end of the summer.
+  Since then two people who build these for a living have read this page and written back: a
+  physicist at Brookhaven, and a graduate student at Cornell who builds the current amplifiers for
+  low-temperature microscopes. <strong>Between them they rewrote the plan.</strong> Nothing below has
+  been tried yet. In order:</p>
+  <ol class="steps">
+    <li><b>Put it back together and measure where the tip sits.</b> The first measurement needs no
+      power and takes minutes: how far the tip sits from the line through the two ball supports. It
+      sets the nanometer scale for everything the instrument will ever measure, and it settles our
+      best junction retroactively.</li>
+    <li><b>Find what moves the gap, one suspect at a time.</b> A box over the instrument, hours rather
+      than minutes to come to equilibrium, and a recording with the room temperature logged beside it.
+      Eliminate the biggest contributor first, and look for materials in the loop between tip and
+      sample that expand at very different rates &mdash; and for piezo creep.</li>
+    <li><b>Make the loop between tip and sample metal, ceramic or glass.</b> No plastic, rubber or
+      paper anywhere in it, because soft materials keep flowing under load and paper swells with the
+      humidity. A symmetric frame, so thermal expansion cancels instead of adding up. The sample
+      clipped or screwed onto a rigid flat surface, a heavier scan head, and a coarse drive that is
+      spring-loaded so it stops sticking and jumping.</li>
+    <li><b>A quieter amplifier.</b> Nuh has redrawn the amplifier board so it no longer needs hand
+      wiring underneath (designed, not yet built or tested). The advice on top of that: a feedback
+      resistor ten times larger, a small capacitor across it to filter out fast noise, the shortest
+      possible wire from the tip, and batteries for the sensitive side.</li>
+    <li><b>A real sample.</b> The Cornell student has sent us a piece of graphite (HOPG), the
+      standard first sample for a new microscope, and offered gold-on-silicon test patterns. It will
+      be glued with conductive epoxy to a small steel disc, held down by magnets already built into
+      our sample plate.</li>
+    <li><b>Simpler tips.</b> Platinum-iridium wire cut at an angle with pliers and cleaned in
+      acetone, instead of etching tungsten. In air, a clean tip matters more than a perfectly sharp
+      one.</li>
+    <li><b>A gentle first landing.</b> Approach at a low current set just above the noise, with the
+      feedback slowed down so the tip does not crash. Then a first scan of about 100 nanometers at
+      roughly a line per second. The graphite&rsquo;s atoms sit 0.246 nanometers apart, which makes
+      it a ruler for the scanner as well as a sample.</li>
+  </ol>
+  <p class="measure"><strong>None of it needs a laboratory.</strong> What we have to buy is short: a
+  thermometer that logs on its own, platinum-iridium wire, conductive epoxy and acetone.</p>
   <figure class="photo" data-rv><img src="img/teardown.jpg" srcset="img/teardown-800.jpg 800w, img/teardown-1100.jpg 1100w, img/teardown.jpg 1500w" sizes="(max-width: 760px) 350px, 980px" width="1500" height="1098" alt="The suspended platform lifted off the frame and held in one hand, with the scan head, motor and preamplifier still mounted on it." loading="lazy">
     <figcaption>The platform off the frame on the morning it came apart to be moved.</figcaption></figure>
 </section>
@@ -1468,7 +1504,7 @@
 
   <div class="colophon">
     <p><strong>Eleven weeks of planning and design, eight weeks of building.</strong> First power-on
-    29 August 2026; last bench session 19 September 2026. <span data-repo-count="session-logs" data-format="words">Thirty</span> session logs, <span data-repo-count="data-files">163</span> raw data
+    29 August 2026; last bench session 19 September 2026. <span data-repo-count="session-logs" data-format="words">Thirty-three</span> session logs, <span data-repo-count="data-files">163</span> raw data
     files and <span data-repo-count="photographs">92</span> photographs of our own hardware.</p>
     <p><strong>Mech Panda</strong> and <strong>Dan Berard</strong> published their instruments for
     free. Without them there would have been nothing to bring up.</p>
