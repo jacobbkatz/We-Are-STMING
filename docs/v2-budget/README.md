@@ -12,13 +12,13 @@ This is the lean purchase list for a second STM, built at UCSD. Its target is at
 - The coarse approach stays a stepper motor turning a fine 1/4-80 screw (Jacob, 21 October). Stick-slip is dropped.
 - Money goes only to what a lab doesn't readily have: the piezo and its driver, the stepper and its driver, batteries and other specialty parts.
 
-**Total: $1,839.77, which is $160.23 under the $2,000 ceiling.** That includes shipping, tariffs, 7.75% tax and a 10% contingency. The 35% tariff on the JLCPCB order is the largest single add-on.
+**Total: $1,787.29, which is $212.71 under the $2,000 ceiling.** That includes shipping, tariffs, 7.75% tax and a 10% contingency. The 35% tariff on the JLCPCB order is the largest single add-on.
 
 The earlier full-build scenario came to $3,006.93, or $2,626.74 after its cuts. It assumed metal, machining, and buying the tips and HOPG.
 
-Of the $1,089.02 in parts:
+Of the $1,054.02 in parts:
 
-- $382.07 is current prices read from vendor or aggregator pages on 21 October.
+- $347.07 is current prices read from vendor or aggregator pages on 21 October.
 - $517.58 is v1 invoice prices, mostly the JLCPCB repeat order and the Thorlabs screws.
 - $189.37 is estimates, mostly the high-voltage driver, which isn't designed yet.
 
@@ -32,15 +32,15 @@ Of the $1,089.02 in parts:
 | 4 Parts bought separately and hand-soldered onto the boards | $132.51 |
 | 5 Power: transformer and batteries | $94.68 |
 | 6 Modules wired in (microcontroller and sensors) | $54.50 |
-| 7 Printed structure, sample plate and isolation | $129.98 |
-| Purchased components | $1,089.02 |
-| Vendor shipping | $214.26 |
+| 7 Printed structure, sample plate and isolation | $94.98 |
+| Purchased components | $1,054.02 |
+| Vendor shipping | $204.26 |
 | Tariffs and import duties | $219.84 |
 | Carrier import fee (PiezoDrive) | $65.00 |
-| Sales and use tax (7.75%) | $84.40 |
-| Subtotal | $1,672.52 |
-| Contingency (10%) | $167.25 |
-| **Total** | **$1,839.77** |
+| Sales and use tax (7.75%) | $81.69 |
+| Subtotal | $1,624.81 |
+| Contingency (10%) | $162.48 |
+| **Total** | **$1,787.29** |
 | Stick-slip approach instead (not chosen, merchandise) | +$115.00 |
 | Commercial PDu150 driver instead of DIY (merchandise) | +$733.80 |
 
@@ -97,7 +97,7 @@ The list is grouped by what each part is for. Section 4 is the parts bought on t
 | ID | Item | Vendor / link | Qty | Extended | Evidence |
 |---|---|---|---|---|---|
 | HV-02 | Transformer for the +/-45-50 V rails | [Jameco](https://www.jameco.com/z/182M18-Hammond-Manufacturing-Toroidal-Transformer-120VA-50Hz-Dual-Secondary-36VCT-3-33A-Series-18V-6-66A-Parallel_2575671.html) | 1 | $67.85 | Estimated |
-| PA-03 | 9 V alkaline batteries, 4-pack (two give +/-9 V; two spares) | [Battery Junction](https://batteryjunction.com/batteries/shop-by-size/9v/energizer-522bp-4) | 1 | $20.85 | Verified - vendor page |
+| PA-03 | 9 V alkaline batteries for the preamp supply (two give +/-9 V; two spares) | [Battery Junction](https://batteryjunction.com/batteries/shop-by-size/9v/energizer-522bp-4) | 1 | $20.85 | Verified - vendor page |
 | PA-04 | 9 V battery holder | [DigiKey](https://octopart.com/part/keystone/1294) | 2 | $5.98 | Verified - aggregator listing |
 
 **6 Modules wired in (microcontroller and sensors)**
@@ -111,12 +111,16 @@ The list is grouped by what each part is for. Section 4 is the parts bought on t
 
 | ID | Item | Vendor / link | Qty | Extended | Evidence |
 |---|---|---|---|---|---|
-| ME-01 | 3D-printing filament for head, sample plate and approach body | [Prusa Research](https://www.prusa3d.com/product/prusament-petg-carbon-fiber-black-1kg/) | 1 | $54.99 | Verified - vendor page |
+| ME-01 | 3D-printing filament for head, sample plate and approach body | [SUNLU](https://store.sunlu.com/products/petg-cfpetg-carbon-fiber-3d-printer-filament-1kg) | 1 | $19.99 | Verified - vendor page |
 | ME-04 | Hardened steel balls for kinematic pivots | [Walmart](https://www.walmart.com/ip/533082272) | 1 | $9.99 | Verified - vendor page |
 | ME-05 | Magnetic stainless sample discs, 12 mm (HOPG carrier) | [Ted Pella](https://www.tedpella.com/AFM_html/AFM.aspx) | 1 | $30.00 | Verified - vendor page |
 | ME-06 | Sorbothane isolation pads, 0.5 in, 50 duro, 6x6 in | [Isolate It](https://www.isolateit.com/products/sorbothane-acoustic-and-vibration-isolation-square-6-x-6-pads) | 1 | $35.00 | Estimated |
 
-**Filament (ME-01).** One 1 kg spool of Prusament PETG-CF is priced at $54.99 from Prusa. MatterHackers lists the same spool at $89.99. Nylon-CF is the alternative, and the material choice is still open.
+**Filament (ME-01).** SUNLU PETG-CF is $19.99 for 1 kg, which is less than v1's only recorded spool (SUNLU Easy PA nylon, $27.99). Carbon fiber is kept because it makes printed parts stiffer and more dimensionally stable than plain PETG.
+
+**Batteries (PA-03).** Any 9 V alkaline works. The preamp op-amp needs only ±4.5 V and draws about 7 mA, so a pair lasts roughly 70 hours. Lithium isn't needed.
+
+**Temperature sensor (PA-05).** The TMP117 reads in 0.0078 °C steps, with ±0.1 °C accuracy. A printed loop moves very roughly 1 nm per thousandth of a degree (an estimate, not measured), so one step is about 10 nm of drift. That is enough to tell whether drift of tens of nm follows temperature, and when the head has settled. No affordable sensor can see the ~0.1 mK that atom-scale drift corresponds to.
 
 **JLCPCB.** These lines use v1's 2026-07-15 invoice prices. JLCPCB only quotes after the gerbers and BOM are uploaded, so the order couldn't be re-quoted. Part prices have moved since then. For example, the LT1469 is now $23.77 and out of stock at LCSC.
 
@@ -127,18 +131,18 @@ The list is grouped by what each part is for. Section 4 is the parts bought on t
 | PiezoDrive | $131.00 | $214.25 |
 | Adafruit | $45.95 | $55.51 |
 | Thorlabs | $26.34 | $43.64 |
-| LCSC | $80.35 | $136.91 |
-| Jameco | $67.85 | $81.11 |
 | JLCPCB | $497.06 | $759.85 |
 | DigiKey | $58.14 | $75.79 |
-| SparkFun | $31.50 | $41.94 |
+| LCSC | $80.35 | $136.91 |
+| Jameco | $67.85 | $81.11 |
 | Battery Junction | $20.85 | $28.47 |
-| Prusa Research | $54.99 | $69.25 |
+| SparkFun | $31.50 | $41.94 |
+| SUNLU | $19.99 | $21.54 |
 | Walmart | $9.99 | $10.76 |
 | Ted Pella | $30.00 | $44.33 |
 | Isolate It | $35.00 | $45.71 |
-| Carrier import processing fee (PiezoDrive) | — | $65.00 |
-| **All orders** | **$1,089.02** | **$1,672.52** |
+| Carrier import fee (PiezoDrive) | — | $65.00 |
+| **All orders** | **$1,054.02** | **$1,624.81** |
 
 ## In-kind and campus (not in the total)
 
@@ -177,6 +181,4 @@ The list is grouped by what each part is for. Section 4 is the parts bought on t
 - **Zahl's advice.** Dr. Zahl advised against plastics in the mechanical loop. The printed structure goes against that, so it is flagged as U4.
 - **Prof. Vasquez's suggestion.** The tube piezo is his suggestion, not a confirmed diagnosis of v1's instability.
 - **What v1 cost.** v1 actually cost $1,375.93 across 47 purchases.
-- **Sites that couldn't be reached:**
-  - DigiKey, Mouser, McMaster and Thorlabs block this environment or didn't load. Their prices come from aggregator listings or v1 receipts.
-  - Amazon product pages didn't load.
+- **Sites that couldn't be reached:** DigiKey, Mouser, McMaster, Thorlabs and Amazon pages didn't load here, so those prices come from aggregator listings or v1 receipts.
