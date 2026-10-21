@@ -12,13 +12,13 @@ This is the lean purchase list for a second STM, built at UCSD. Its target is at
 - The coarse approach stays a stepper motor turning a fine 1/4-80 screw (Jacob, 21 October). Stick-slip is dropped.
 - Money goes only to what a lab doesn't readily have: the piezo and its driver, the stepper and its driver, batteries and other specialty parts.
 
-**Total: $1,867.09, which is $132.91 under the $2,000 ceiling.** That includes shipping, tariffs, 7.75% tax and a 10% contingency. The 35% tariff on the JLCPCB order is the largest single add-on.
+**Total: $1,839.77, which is $160.23 under the $2,000 ceiling.** That includes shipping, tariffs, 7.75% tax and a 10% contingency. The 35% tariff on the JLCPCB order is the largest single add-on.
 
 The earlier full-build scenario came to $3,006.93, or $2,626.74 after its cuts. It assumed metal, machining, and buying the tips and HOPG.
 
-Of the $1,112.07 in parts:
+Of the $1,089.02 in parts:
 
-- $405.12 is current prices read from vendor or aggregator pages on 21 October.
+- $382.07 is current prices read from vendor or aggregator pages on 21 October.
 - $517.58 is v1 invoice prices, mostly the JLCPCB repeat order and the Thorlabs screws.
 - $189.37 is estimates, mostly the high-voltage driver, which isn't designed yet.
 
@@ -30,17 +30,17 @@ Of the $1,112.07 in parts:
 | 2 Coarse approach (stepper on a fine screw) | $49.29 |
 | 3 Circuit boards from JLCPCB (assembled and bare) | $497.06 |
 | 4 Parts bought separately and hand-soldered onto the boards | $132.51 |
-| 5 Power: transformer and batteries | $117.73 |
+| 5 Power: transformer and batteries | $94.68 |
 | 6 Modules wired in (microcontroller and sensors) | $54.50 |
 | 7 Printed structure, sample plate and isolation | $129.98 |
-| Purchased components | $1,112.07 |
+| Purchased components | $1,089.02 |
 | Vendor shipping | $214.26 |
 | Tariffs and import duties | $219.84 |
 | Carrier import fee (PiezoDrive) | $65.00 |
-| Sales and use tax (7.75%) | $86.19 |
-| Subtotal | $1,697.36 |
-| Contingency (10%) | $169.74 |
-| **Total** | **$1,867.09** |
+| Sales and use tax (7.75%) | $84.40 |
+| Subtotal | $1,672.52 |
+| Contingency (10%) | $167.25 |
+| **Total** | **$1,839.77** |
 | Stick-slip approach instead (not chosen, merchandise) | +$115.00 |
 | Commercial PDu150 driver instead of DIY (merchandise) | +$733.80 |
 
@@ -97,7 +97,7 @@ The list is grouped by what each part is for. Section 4 is the parts bought on t
 | ID | Item | Vendor / link | Qty | Extended | Evidence |
 |---|---|---|---|---|---|
 | HV-02 | Transformer for the +/-45-50 V rails | [Jameco](https://www.jameco.com/z/182M18-Hammond-Manufacturing-Toroidal-Transformer-120VA-50Hz-Dual-Secondary-36VCT-3-33A-Series-18V-6-66A-Parallel_2575671.html) | 1 | $67.85 | Estimated |
-| PA-03 | 9 V lithium batteries for the analog supply (two give +/-9 V) | [BatteryMart](https://www.batterymart.com/p-energizer-la522-9volt-lithium-battery.html) | 2 | $43.90 | Verified - vendor page |
+| PA-03 | 9 V alkaline batteries, 4-pack (two give +/-9 V; two spares) | [Battery Junction](https://batteryjunction.com/batteries/shop-by-size/9v/energizer-522bp-4) | 1 | $20.85 | Verified - vendor page |
 | PA-04 | 9 V battery holder | [DigiKey](https://octopart.com/part/keystone/1294) | 2 | $5.98 | Verified - aggregator listing |
 
 **6 Modules wired in (microcontroller and sensors)**
@@ -132,13 +132,13 @@ The list is grouped by what each part is for. Section 4 is the parts bought on t
 | JLCPCB | $497.06 | $759.85 |
 | DigiKey | $58.14 | $75.79 |
 | SparkFun | $31.50 | $41.94 |
-| BatteryMart | $43.90 | $53.30 |
+| Battery Junction | $20.85 | $28.47 |
 | Prusa Research | $54.99 | $69.25 |
 | Walmart | $9.99 | $10.76 |
 | Ted Pella | $30.00 | $44.33 |
 | Isolate It | $35.00 | $45.71 |
 | Carrier import processing fee (PiezoDrive) | — | $65.00 |
-| **All orders** | **$1,112.07** | **$1,697.36** |
+| **All orders** | **$1,089.02** | **$1,672.52** |
 
 ## In-kind and campus (not in the total)
 
