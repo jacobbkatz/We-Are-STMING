@@ -26,6 +26,13 @@ Of the $1,112.07 in parts:
 
 | Line | Amount |
 |---|---|
+| 1 Piezo scanner | $131.00 |
+| 2 Coarse approach (stepper on a fine screw) | $49.29 |
+| 3 Circuit boards from JLCPCB (assembled and bare) | $497.06 |
+| 4 Parts bought separately and hand-soldered onto the boards | $132.51 |
+| 5 Power: transformer and batteries | $117.73 |
+| 6 Modules wired in (microcontroller and sensors) | $54.50 |
+| 7 Printed structure, sample plate and isolation | $129.98 |
 | Purchased components | $1,112.07 |
 | Vendor shipping | $214.26 |
 | Tariffs and import duties | $219.84 |
@@ -44,34 +51,66 @@ Of the $1,112.07 in parts:
 
 ## Purchases, with links
 
-Every line links to where it would be bought. Five lines have no exact product page, for these reasons:
+The list is grouped by what each part is for. Section 4 is the parts bought on their own and soldered onto the boards by hand, such as U21, the 1 GOhm feedback resistor and the piezo-driver op-amps. Every line links to where it would be bought. Five lines have no exact product page, for these reasons:
 
 - **HV-02 transformer:** the link is a price placeholder for the wrong voltage.
 - **HV-03 driver parts:** the circuit isn't drawn yet.
 - **JLCPCB lines:** they link to the ordering site, since a custom PCB has no page until gerbers are uploaded.
 - **PZ-04 Thorlabs screws:** the Thorlabs page didn't load here, so the price is what v1 paid.
 
+**1 Piezo scanner**
+
 | ID | Item | Vendor / link | Qty | Extended | Evidence |
 |---|---|---|---|---|---|
 | PZ-01 | Piezo tube scanner, 30 mm x 6 mm, quartered electrodes | [PiezoDrive](https://www.piezodrive.com/product/tb3006-n-29um-range-piezo-tube-scanner/) | 1 | $131.00 | Verified - vendor page |
+
+**2 Coarse approach (stepper on a fine screw)**
+
+| ID | Item | Vendor / link | Qty | Extended | Evidence |
+|---|---|---|---|---|---|
 | PZ-02 | Coarse-approach stepper motor, NEMA-17, 200 steps/rev | [Adafruit](https://www.adafruit.com/product/324) | 1 | $14.00 | Verified - vendor page |
 | PZ-03 | Stepper driver, microstepping (up to 1/256) | [Adafruit](https://adafruit.com/product/6121) | 1 | $8.95 | Verified - vendor page |
 | PZ-04 | Fine-pitch adjuster screws, 1/4-80 (one motor-driven, two hand-set) | [Thorlabs](https://www.thorlabs.com/thorproduct.cfm?partnumber=FAS200) | 3 | $26.34 | Historical - v1 receipt |
-| HV-01 | High-voltage op-amp, one per channel (5 tube + 1 spare) | [LCSC](https://www.lcsc.com/product-detail/C50636.html) | 6 | $40.35 | Verified - vendor page |
-| HV-02 | Transformer for the +/-45-50 V rails | [Jameco](https://www.jameco.com/z/182M18-Hammond-Manufacturing-Toroidal-Transformer-120VA-50Hz-Dual-Secondary-36VCT-3-33A-Series-18V-6-66A-Parallel_2575671.html) | 1 | $67.85 | Estimated |
-| HV-03 | Rectifier, filter caps, HV regulators, heatsinks, HV connectors | LCSC (no direct link) | 1 | $40.00 | Estimated |
-| HV-04 | HV driver bare PCB (rides the JLCPCB order) | [JLCPCB](https://jlcpcb.com/) | 5 | $10.00 | Estimated |
+
+**3 Circuit boards from JLCPCB (assembled and bare)**
+
+| ID | Item | Vendor / link | Qty | Extended | Evidence |
+|---|---|---|---|---|---|
 | EL-01 | Controller board, fully assembled (v1 design) | [JLCPCB](https://jlcpcb.com/) | 2 | $419.28 | Historical - v1 receipt |
 | EL-02 | Preamp board, fully assembled (rev 2 gerbers) | [JLCPCB](https://jlcpcb.com/) | 2 | $60.34 | Historical - v1 receipt |
 | EL-03 | Bare controller PCBs (as in the v1 order) | [JLCPCB](https://jlcpcb.com/) | 3 | $5.04 | Historical - v1 receipt |
 | EL-04 | Bare preamp PCBs (as in the v1 order) | [JLCPCB](https://jlcpcb.com/) | 3 | $2.40 | Historical - v1 receipt |
-| EL-05 | Dual op-amp U21, bought separately in v1 alongside the JLCPCB order | [DigiKey](https://www.digikey.com/en/products/detail/analog-devices-inc/LT1469IN8-PBF/962892) | 2 | $36.52 | Estimated |
-| EL-06 | Microcontroller | [SparkFun](https://www.sparkfun.com/teensy-4-1.html) | 1 | $31.50 | Verified - vendor page |
+| HV-04 | HV driver bare PCB (rides the JLCPCB order) | [JLCPCB](https://jlcpcb.com/) | 5 | $10.00 | Estimated |
+
+**4 Parts bought separately and hand-soldered onto the boards**
+
+| ID | Item | Vendor / link | Qty | Extended | Evidence |
+|---|---|---|---|---|---|
+| EL-05 | U21 dual op-amp for the controller board (JLCPCB does not supply it) | [DigiKey](https://www.digikey.com/en/products/detail/analog-devices-inc/LT1469IN8-PBF/962892) | 2 | $36.52 | Estimated |
 | PA-01 | 1 GOhm feedback resistor, soldered across the op-amp pins | [DigiKey](https://www.digikey.com/en/products/detail/ohmite/SM104031007FE/824190) | 2 | $11.46 | Verified - aggregator listing |
 | PA-02 | PTFE standoff terminal for the air-wired input node | [DigiKey](https://octopart.com/part/keystone/11301) | 2 | $4.18 | Historical - v1 receipt |
+| HV-01 | High-voltage op-amp for the piezo driver board, one per channel (5 tube + 1 spare) | [LCSC](https://www.lcsc.com/product-detail/C50636.html) | 6 | $40.35 | Verified - vendor page |
+| HV-03 | Piezo driver board parts: rectifier, filter caps, HV regulators, heatsinks, HV connectors | LCSC (no direct link) | 1 | $40.00 | Estimated |
+
+**5 Power: transformer and batteries**
+
+| ID | Item | Vendor / link | Qty | Extended | Evidence |
+|---|---|---|---|---|---|
+| HV-02 | Transformer for the +/-45-50 V rails | [Jameco](https://www.jameco.com/z/182M18-Hammond-Manufacturing-Toroidal-Transformer-120VA-50Hz-Dual-Secondary-36VCT-3-33A-Series-18V-6-66A-Parallel_2575671.html) | 1 | $67.85 | Estimated |
 | PA-03 | 9 V lithium batteries for the analog supply (two give +/-9 V) | [BatteryMart](https://www.batterymart.com/p-energizer-la522-9volt-lithium-battery.html) | 2 | $43.90 | Verified - vendor page |
 | PA-04 | 9 V battery holder | [DigiKey](https://octopart.com/part/keystone/1294) | 2 | $5.98 | Verified - aggregator listing |
+
+**6 Modules wired in (microcontroller and sensors)**
+
+| ID | Item | Vendor / link | Qty | Extended | Evidence |
+|---|---|---|---|---|---|
+| EL-06 | Microcontroller | [SparkFun](https://www.sparkfun.com/teensy-4-1.html) | 1 | $31.50 | Verified - vendor page |
 | PA-05 | Temperature sensor, +/-0.1 C (head and preamp) | [Adafruit](https://adafruit.com/product/4821) | 2 | $23.00 | Verified - vendor page |
+
+**7 Printed structure, sample plate and isolation**
+
+| ID | Item | Vendor / link | Qty | Extended | Evidence |
+|---|---|---|---|---|---|
 | ME-01 | 3D-printing filament for head, sample plate and approach body | [Prusa Research](https://www.prusa3d.com/product/prusament-petg-carbon-fiber-black-1kg/) | 1 | $54.99 | Verified - vendor page |
 | ME-04 | Hardened steel balls for kinematic pivots | [Walmart](https://www.walmart.com/ip/533082272) | 1 | $9.99 | Verified - vendor page |
 | ME-05 | Magnetic stainless sample discs, 12 mm (HOPG carrier) | [Ted Pella](https://www.tedpella.com/AFM_html/AFM.aspx) | 1 | $30.00 | Verified - vendor page |
