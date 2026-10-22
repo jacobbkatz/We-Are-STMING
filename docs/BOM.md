@@ -176,7 +176,7 @@ You'll need:
 
 | Item | Spec | Qty | Status |
 |---|---|---|---|
-| **Fine-adjust screws** | 1/4"-80, **and about 30 mm LONGER than the CAD part** | 3 | **Thread CONFIRMED. Length and part number are NOT ours** — see below |
+| **Fine-adjust screws** | 1/4"-80, **Thorlabs FAS200, 2.00 in long**, 25.4 mm longer than the CAD part | 3 | **CONFIRMED 2026-10-21 from the Thorlabs order confirmation (24 June 2026)** — see below |
 | **Brass inserts** | **McMaster 98625A960**, 0.438" long, for 1/4"-80 | 3 | CONFIRMED from CAD metadata |
 | **Threaded rod** | **M8 x 1.25** | 3 | CONFIRMED from CAD part name |
 | **Spring top caps** | **M20 x 2** thread | 3 | CONFIRMED from CAD part name |
@@ -236,8 +236,9 @@ the method are in `CAD/prints/README.md`.
 >
 > **Neither is measured, and neither blocks anything today.** Recorded so that if drift or vibration
 > turns out to be a problem later, nobody spends a session rediscovering that our screws are not the
-> ones the upstream CAD describes. **The part number still needs finding** — it should be a McMaster
-> 1/4"-80 thumb screw in a longer length.
+> ones the upstream CAD describes. ~~**The part number still needs finding** — it should be a McMaster
+> 1/4"-80 thumb screw in a longer length.~~ **Found 2026-10-21: Thorlabs FAS200, 2.00 in, not McMaster**
+> (Thorlabs order confirmation, 24 June 2026). The true difference is 25.4 mm.
 
 ---
 
@@ -322,7 +323,7 @@ worse than admitting it:
 - Coax versus fine wire for the tip lead. Berard uses 40 AWG wire, we chose coax. Untested either
   way — **but see `docs/UPSTREAM_BERARD.md` §4: our coax only runs 1–2 cm before becoming bare
   copper, so it is buying very little**
-- **The part number for our longer 1/4"-80 fine screws.** The one in the CAD is upstream's
+- ~~**The part number for our longer 1/4"-80 fine screws.**~~ **Answered 2026-10-21: Thorlabs FAS200 (2.00 in), from the order confirmation.** The one in the CAD is upstream's
 - Iron temperature and dwell time for the piezo joints
 
 If you work any of these out while building, please open an issue. Closing those gaps is most of

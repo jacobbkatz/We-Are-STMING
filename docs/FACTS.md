@@ -127,7 +127,7 @@ All from CAD meshes via `Code/pc/stl_features.py` unless noted. Fit error 0.0001
 | Fact | Value | Prov | Date |
 |---|---|---|---|
 | Fine screw thread | **1/4"-80**, 0.31750 mm/turn | DS | — |
-| Fine screw length | **~30 mm longer than the CAD part** | Jacob | 2026-09-07 |
+| Fine screw length | **2.00 in (50.8 mm): Thorlabs FAS200**, 25.4 mm longer than the CAD's 1 in part. Was "~30 mm longer" (Jacob, 2026-09-07) | Thorlabs order confirmation, 2026-06-24 | 2026-10-21 |
 | Motor steps per revolution | **2048** | — | — |
 | Lever ratio | **20, 30 or 40 — unresolved.** CAD geometry suggests 40 | MESH | 2026-09-07 |
 | nm per motor step | **3.88 / 5.17 / 7.75** for ratio 40 / 30 / 20 | CALC | 2026-09-07 |
