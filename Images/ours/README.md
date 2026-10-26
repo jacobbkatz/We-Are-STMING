@@ -328,3 +328,13 @@ the first half of that. They do NOT answer the second — no frame shows anythin
 | `IMG_4615.MOV` | 25,341,025 | Nuh |
 | `IMG_4896.MOV` | 88,596,809 | Nuh |
 | `IMG_7846.MOV` | 23,155,874 | Nuh — **already in our git history** at commit `4819a31`; a previous session watched it (345 frames, no LED lit in any) |
+
+# 2026-10-18 — Baird's gold-grid off-cut, 1 frame
+
+Nuh's phone, sent into the conversation. Resized to 1600 px on the long edge, EXIF stripped. **Our
+sample, not a photo of someone else's hardware** — it is the off-cut Baird Bankovic posted to us
+(`docs/INVENTORY.md`). **No scale object in frame, so no size can be read off it.**
+
+| File | What it shows | Confirmed by |
+|---|---|---|
+| `2026-10-18_baird_au_grid_offcut.jpg` | A square chip in a round clear case on a patterned cloth. **A gold strip along one edge, about a third of the face, with a rainbow sheen**; the rest dark and mirror-like, with marks scratched into it | **Item and label `SAID` Nuh 2026-10-18: "Au Grid - FP182 Offcut 2026-07-24 Baird B".** Everything about the chip's surface is `READ`. **Baird's writeup (`docs/NEXT_SESSION_PLAN.md` step 2e) says the whole top is coated with 20 nm of gold, so the dark area is not bare silicon** |
